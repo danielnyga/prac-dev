@@ -21,82 +21,138 @@
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-# File definition: ##TODO: improve hierarchy/class division
-# Still in an immature prototypical phase, for now comprises the functions
-# that parse the 'DRStemplates.yaml' file, resolves the syntactic context 
-# dependencies defined in such file, and substitutes the variables in the DRS
-# and proceeds in processing it via the DRS>ACE prolog module. 
-
+# File definition: 
+#Main class for PRACverbalization, 
+#resolves the syntactic context dependencies defined in such file, 
+#and substitutes the variables in the DRS and proceeds in processing 
+#it via the DRS>ACE prolog module. 
 
 import re
 import yaml
-from linguistics import *
-#from actioncore.inference import PRACInit
 
-#import roslib
-#roslib.load_manifest('json_prolog')
-#import rospy
-#import json_prolog
-from pyswip import Prolog
+import sys
+import os
+import subprocess
+from os.path import abspath, dirname, join
+
+from actioncore import *
+from linguistics import *
+
+from utils import StopWatch, red, bold
+from utils import bash
+
+import operator
+
+class queryCase(object):
+    def __init__(self, role, queryType, param):
+        self.role = role
+        self.queryType = queryType
+        self.param = []
+        if param is not None:
+            for pm in param:
+                temp = re.findall(r'[a-zA-Z_]+', pm)
+                self.param.append(temp[0]) 
+
+#    need this later
+#    def add(self, role, queryType, parameters):
+#        self.role = role
+#        self.queryType = queryType
+#        self.parameters = parameters
+
+    def printCase(self):
+        pass
+        print "  - Ask for missing role " + "\"" + bash.BOLD + self.role + bash.END + "\"" + "," + " case " + "\"" + bash.BOLD + self.queryType + bash.END + "\"  " +  bash.BOLD + '%s' % ', '.join(map(str, self.param)) + bash.END
 
 class DRStoNL(object):
     def __init__(self,drs):
         self.drs = drs
         self.nl = None
-#        nodeName = 'PRACVerbalizer'
-#        rospy.init_node(nodeName, anonymous=True)
-#        self.prolog = json_prolog.Prolog()
-      
+
     def create(self):
+        ex_path = abspath(join(dirname(__file__), '../linguistics/tools/./drsverb'))
+        args = ex_path +" " + "\"" + self.drs + "\""
+        l = subprocess.check_output(args, stderr=subprocess.STDOUT, shell=True)
+        print bash.RED + l + bash.END
 
-        self.drs = "drs([],[=>(drs([a],[object(a,man,countable,na,eq,1)-1/2]),drs([b,c],[object(b,human,countable,na,eq,1)-1/5,predicate(c,be,a,b)-1/3]))])"
-        prolog = Prolog()
-        prolog.consult('/home/nick/Workspace/PRAC/mturk/edu.tum.cs.prac/src/linguistics/utils/drs_to_coreace.pl')
-        bf = "bigdrs_to_coreace("+ self.drs +",Ace)"
-        print bf
-   
-        #JSon approach not currently working
-#        q = self.prolog.query('[drs_to_coreace].')
-#        c = self.prolog.query("bigdrs_to_coreace("+ self.drs +",Ace)")
-#        for s in c.solutions(): print s
-#        q.finish()
-#        c.finish()
-         
+class PRACVerbalizer(PRACReasoner):
 
-
-#        for result in prolog.query("sendmore(X)"):
-#        r = result["X"]
-#            for i, letter in enumerate(letters):
-#                print letter, "=", r[i]
-
-#        for result in prolog.query(bf):
-#            r = result['Ace']
-#            print r
-
-class PRACVerbalizer(object):
-    
-    def __init__(self, NLISentence):
-#        super(PRACInit, self).__init__('verbalizer')
-        self.nli = NLISentence
+    def __init__(self):
+        super(PRACVerbalizer, self).__init__('verbalizer')
         self.DRSdep = None
-        self.drs = None
+        self.drs = []
+        self.cases = []
+        self.nlitags = NLISentence()
     
+    @PRACPIPE
     def run(self):
+
+        self._understandTargetCase()
+
+        if (self.cases is not None):
+            self._pull_last_syn_features()
+            self._pullDrsCases()
+            print bash.BOLD + "Verbalization: " + bash.END 
+            for query in self.drs:
+                reply = DRStoNL(query)
+                reply.create()
+            print 
+            print
         
-        #LOADING THE YAML-SERIALIZED DRS TEMPLATES
-        #f = open('DRStemplates.yaml')
-        f = open('/home/nick/Workspace/PRAC/mturk/edu.tum.cs.prac/src/linguistics/DRStemplates.yaml')
+#    def _verbManipulation(self, verb_inf_form, man_type):
+#        --passive
+#        --ing form
+
+    def _pullDrsCases(self):
+        f = open(abspath(join(dirname(__file__), '../linguistics/DRStemplates.yaml')))
         dataMap = yaml.load(f)
         f.close()
+        for query in self.cases:
+            dep = dataMap["query_cases"][query.queryType]["dependencies"]
+            self.drs.append(dataMap["query_cases"][query.queryType]["drs"])
+            self.drs[-1] = self._solve_dependencies(dep, query.param, self.drs[-1])
+               
+
+    def _understandTargetCase(self):
+
+        print bash.BOLD + 'Question case evaluation' + bash.END
+        print bash.BOLD + '========================' + bash.END
+        print
+
+        features = self.pracinference.features
+        feature = features.get('missingroles')
         
-        #ACCESSING MEMBERS ##TODO: loading of custom templates
-        dep = dataMap["syntactic_predicates"]["prep_to"]["dependencies"]
-        self.drs = dataMap["syntactic_predicates"]["prep_to"]["drs"]
-        self._solve_dependencies(dep)
-        bfr = DRStoNL(self.drs)
-        bfr.create()
-        
-    def _solve_dependencies(self, dep):
+        global_threshold = 0.2
+        relative_threshold = 0.1
+
+        for role in feature.missingRoles:
+            sortedList = sorted(self.pracinference.role_distribution[role], reverse=True)
+            distribution = sorted([(str(l.params[1]),v) for l, v in self.pracinference.role_distribution[role].iteritems()], key=operator.itemgetter(1), reverse=True)
+            if (distribution[0][1] < global_threshold):
+                self.cases.append(queryCase(role, "impossibility", distribution[0][1]))   
+            if (distribution[0][1] - distribution[1][1] < relative_threshold):
+                param = []
+                param.append(distribution[0][0])
+                param.append(distribution[1][0])
+                self.cases.append(queryCase(role, "two-choices", param))             
+                self.cases.append(queryCase(role, "instrumental", None)) 
+
+        if (self.cases is not None):
+            print bash.BOLD + 'To be asked:' + bash.END
+            for cs in self.cases:
+                cs.printCase()
+        else:
+            print bash.BOLD + "Nothing to be asked." + bash.END 
+        print  
+
+
+    def _pull_last_syn_features(self):
+        features = self.pracinference.features
+        syntags = []
+        syntags.append(features.get('syntax').getEvidence())        
+        for elem in syntags:
+                 self.nlitags.add(elem)        
+
+    def _solve_dependencies(self, dep, param, currentdrs):
         '''
         String parsing operations to retrieve vectors of 
         deps defined in YAML
@@ -105,8 +161,8 @@ class PRACVerbalizer(object):
         subst = []
         look_var  = []
         look_side = []
-        eliminate = []
-        
+        eliminate = []        
+
         look, subst = dep.split(";",1)
         look = look.split(",")
         for i in look:
@@ -121,16 +177,20 @@ class PRACVerbalizer(object):
         #finished string manipulation
         eliminate = subst[:]        
         self.DRSdep = DRSdependency(look_var, look_side, subst)
-        
+
         for i in range(len(self.DRSdep.look_var)):
-	    for j in self.nli.SYNlist:
+            if (self.DRSdep.look_side[i].lower() == "ext"):
+                self.DRSdep.look_subst[i] = param[i]
+
+	    for j in self.nlitags.SYNlist:
 	        if (j.syntype.lower() == self.DRSdep.look_var[i].lower()):
 	            if (self.DRSdep.look_side[i].lower() == "left"):
-		        self.DRSdep.look_subst[i] = j.left
+		        self.DRSdep.look_subst[i] = j.left.lower()
+    
 	            elif (self.DRSdep.look_side[i].lower() == "right"): 
-	                self.DRSdep.look_subst[i] = j.right    
-        
+	                self.DRSdep.look_subst[i] = j.right.lower()    
+                            
         for i in range(len(self.DRSdep.look_subst)):
-            self.drs = self.drs.replace(eliminate[i],self.DRSdep.look_subst[i])
-
+            currentdrs = currentdrs.replace(eliminate[i],self.DRSdep.look_subst[i])
+        return currentdrs
 

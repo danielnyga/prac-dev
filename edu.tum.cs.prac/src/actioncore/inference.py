@@ -27,42 +27,13 @@ from wcsp.converter import WCSPConverter
 from utils import StopWatch, red, bold
 from utils import bash
 from grammar import parsePracFormula
-from actioncore import PRAC
+from actioncore import PRAC, PRACReasoner, PRACPIPE
 from nltk.corpus import wordnet as wn
-from linguistics.verbalizer import PRACVerbalizer
-from linguistics import NLISentence
+#from linguistics.verbalizer import PRACVerbalizer
+#from linguistics import NLISentence
 import re
 import math
 import operator
-
-def PRACPIPE(method):
-    def wrapper(self,*args,**kwargs):
-        method(self,*args,**kwargs)
-        return self
-    return wrapper
-
-class PRACReasoner(object):
-    
-    def __init__(self, name):
-        self.name = name
-    
-    @PRACPIPE
-    def run(self):
-        '''
-        Perform PRAC reasoning using this reasoner. Facts collected so far are stored 
-        in the self.pracinference attribute. 
-        '''    
-        raise NotImplemented()
-    
-#    def _addEvidence(self, e, db, mln):
-#        if type(e) == str:
-#            db.addGroundAtom(e)
-#        else:
-#            mln.addFormula(e, 0, True)
-    
-    def __rshift__(self, other):
-        other.pracinference = self.pracinference
-        return other.run()
 
 class PRACInit(PRACReasoner):
     
@@ -93,6 +64,7 @@ class PRACInit(PRACReasoner):
         feat.append(features.get('syntax'))
         feat.append(features.get('wordsenses'))
         for f in feat:
+#            print "PRINTING F" + f
             f.run(self.pracinference)
 
 #        print 

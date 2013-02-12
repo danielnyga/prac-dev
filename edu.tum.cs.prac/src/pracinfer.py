@@ -26,6 +26,8 @@ import java
 from actioncore import PRAC
 from actioncore.inference import *
 from optparse import OptionParser
+import linguistics
+from linguistics.verbalizer import *
 
 if __name__ == '__main__':
     
@@ -44,7 +46,8 @@ if __name__ == '__main__':
         print 'Running PRAC inference on sentence "%s"' % sentence
         pracinit = PRACInit(sys.argv[1])
         result = PRACResult()
-        pracinit(sentence) >> actionroles >> result 
+        verbalizer = PRACVerbalizer()
+        pracinit(sentence) >> actionroles >> result >> verbalizer
         
 #        prac = PRAC()
 #        

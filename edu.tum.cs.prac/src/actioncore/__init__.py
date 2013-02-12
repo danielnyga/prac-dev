@@ -194,6 +194,38 @@ class ActionCore(object):
             if reduce(lambda x, y: x or y, functional):
                 self.mln.blocks[name] = functional
 
+
+def PRACPIPE(method):
+    def wrapper(self,*args,**kwargs):
+        method(self,*args,**kwargs)
+        return self
+    return wrapper
+
+class PRACReasoner(object):
+    
+    def __init__(self, name):
+        self.name = name
+    
+    @PRACPIPE
+    def run(self):
+        '''
+        Perform PRAC reasoning using this reasoner. Facts collected so far are stored 
+        in the self.pracinference attribute. 
+        '''    
+        raise NotImplemented()
+    
+#    def _addEvidence(self, e, db, mln):
+#        if type(e) == str:
+#            db.addGroundAtom(e)
+#        else:
+#            mln.addFormula(e, 0, True)
+    
+    def __rshift__(self, other):
+        other.pracinference = self.pracinference
+        return other.run()
+
+
+
     
 if __name__ == '__main__':
     prac = PRAC()
@@ -203,3 +235,6 @@ if __name__ == '__main__':
     prac.learn(prac.dbs, action_core)
     prac.write()
 #    print prac.concepts
+
+
+
