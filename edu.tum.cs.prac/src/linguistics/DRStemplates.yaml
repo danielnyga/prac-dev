@@ -61,7 +61,7 @@ query_cases:
         query_case: preposition of instrument
         template: What X1 the X2?
         drs: drs([],[question(drs([A,B,C],[query(A,what)-1/1,object(C,X2,countable,na,eq,1)-1/4,predicate(B,X1,A,C)-1/2]))])
-        dependencies: NSUBJ-left, NSUBJ-right; X1, X2
+        dependencies: DOBJ-left, DOBJ-right, NSUBJ-left, NSUBJ-right; X1, X2, X1, X2
 
 #    instrumental:
 #        query_case: preposition of instrument
