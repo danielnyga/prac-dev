@@ -1,0 +1,90 @@
+// "Fill the cup and the pot with water."
+
+// Fill
+has_pos(Fill31, VB)
+has_sense(Fill31, Sense34)
+action_role(Fill31, ActionVerb)
+
+// the
+has_pos(The2, DT)
+has_sense(The2, NullSense)
+action_role(The2, NULL)
+
+// cup
+has_pos(Cup33, NN)
+has_sense(Cup33, Sense32)
+action_role(Cup33, Goal)
+
+// and 
+
+// the
+has_pos(The5, DT)
+has_sense(The5, NullSense)
+action_role(The5, NULL)
+
+// pot
+has_pos(Pot36, NN)
+has_sense(Pot36, Sense33)
+action_role(Pot36, Goal)
+
+// with
+
+// water
+has_pos(Water38, NN)
+has_sense(Water38, Sense31)
+action_role(Water38, Theme)
+
+root(Root3, Fill31)
+det(Cup33, The2)
+dobj(Fill31, Cup33)
+det(Pot36, The5)
+dobj(Fill31, Pot36)
+conj_and(Cup33, Pot36)
+prep_with(Fill31, Water38)
+
+// class taxonomy
+
+is_a(Sense31, part.n.01)
+is_a(Sense31, nutrient.n.02)
+is_a(Sense31, food.n.01)
+is_a(Sense31, physical_entity.n.01)
+is_a(Sense31, abstraction.n.06)
+is_a(Sense31, water.n.06)
+is_a(Sense31, entity.n.01)
+is_a(Sense31, fluid.n.01)
+is_a(Sense31, relation.n.01)
+is_a(Sense31, matter.n.03)
+is_a(Sense31, liquid.n.01)
+is_a(Sense31, substance.n.01)
+is_a(Sense31, substance.n.07)
+
+is_a(Sense32, tableware.n.01)
+is_a(Sense32, crockery.n.01)
+is_a(Sense32, article.n.02)
+is_a(Sense32, physical_entity.n.01)
+is_a(Sense32, ware.n.01)
+is_a(Sense32, artifact.n.01)
+is_a(Sense32, entity.n.01)
+is_a(Sense32, object.n.01)
+is_a(Sense32, instrumentality.n.03)
+is_a(Sense32, container.n.01)
+is_a(Sense32, cup.n.01)
+is_a(Sense32, whole.n.02)
+
+is_a(Sense33, utensil.n.01)
+is_a(Sense33, physical_entity.n.01)
+is_a(Sense33, implement.n.01)
+is_a(Sense33, pot.n.01)
+is_a(Sense33, kitchen_utensil.n.01)
+is_a(Sense33, artifact.n.01)
+is_a(Sense33, entity.n.01)
+is_a(Sense33, vessel.n.03)
+is_a(Sense33, cooking_utensil.n.01)
+is_a(Sense33, object.n.01)
+is_a(Sense33, instrumentality.n.03)
+is_a(Sense33, container.n.01)
+is_a(Sense33, whole.n.02)
+
+is_a(Sense34, fill.v.01)
+
+is_a(NullSense, NULL)

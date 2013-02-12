@@ -1,0 +1,136 @@
+
+// ----------------------------------------------
+// ---------------Predicates --------------
+// ----------------------------------------------
+isGrounded(word,instance!)
+hasSense(word,sense!)
+hasRole(word, role!)
+coreference(word,word)
+
+isaW(sense,concept)
+isaI(cid,concept)
+isInstanceOf(instance, cid)
+on(instance,instance)
+in(instance,instance)
+
+distance0(word,word)
+distance1(word,word)
+distance2(word,word)
+distance3(word,word)
+fardistance(word,word)
+
+// Stanford parser dependencies
+hasPOS(word,pos!)
+abbrev(word,word)
+acomp(word,word)
+advcl(word,word)
+advmod(word,word)
+agent(word,word)
+amod(word,word)
+appos(word,word)
+attr(word,word)
+aux(word,word)
+auxpass(word,word)
+cc(word,word)
+ccomp(word,word)
+complm(word,word)
+conj(word,word)
+cop(word,word)
+csubj(word,word)
+csubjpass(word,word)
+dep(word,word)
+det(word,word)
+dobj(word,word)
+expl(word,word)
+infmod(word,word)
+iobj(word,word)
+mark(word,word)
+mwe(word,word)
+neg(word,word)
+nn(word,word)
+npadvmod(word,word)
+nsubj(word,word)
+nsubjpass(word,word)
+num(word,word)
+number(word,word)
+parataxis(word,word)
+partmod(word,word)
+pcomp(word,word)
+pobj(word,word)
+poss(word,word)
+possessive(word,word)
+preconj(word,word)
+predet(word,word)
+prep(word,word)
+prepc(word,word)
+prt(word,word)
+punct(word,word)
+purpcl(word,word)
+quantmod(word,word)
+rcmod(word,word)
+ref(word,word)
+rel(word,word)
+//root(root,word)
+tmod(word,word)
+xcomp(word,word)
+xsubj(word,word)
+
+// collapsed dependencies
+prep_to(word,word)
+prep_from(word,word)
+prep_of(word,word)
+prep_with(word,word)
+prep_for(word,word)
+prep_per(word,word)
+prep_on(word,word)
+prep_by(word,word)
+prep_in(word,word)
+prep_into(word,word)
+
+
+conj_and(word,word)
+conj_negcc(word,word)
+conj_or(word,word)
+
+prep_by_means_of(word,word)
+prep_in_accordance_with(word,word)
+prep_in_addition_to(word,word)
+prep_in_case_of(word,word)
+prep_in_front_of(word,word)
+prep_in_lieu_of(word,word)
+prep_in_place_of(word,word)
+prep_in_spite_of(word,word)
+prep_on_account_of(word,word)
+prep_on_behalf_of(word,word)
+prep_on_top_of(word,word)
+prep_with_regard_to(word,word)
+prep_with_respect_to(word,word)
+
+
+0 isGrounded(w,i) ^ hasSense(w,sid) ^ isaW(sid, c) ^ isInstanceOf(i,cid) ^ isaI(cid, c)
+
+/*0 prep_on(w1,w2) ^ hasRole(w1, +r1) ^ hasRole(w2, +r2)
+0 prep_in(w1,w2) ^ hasRole(w1, +r1) ^ hasRole(w2, +r2)
+0 prep_with(w1,w2) ^ hasRole(w1, +r1) ^ hasRole(w2, +r2)*/
+
+0 hasRole(w,+r) ^ isGrounded(w,i) ^isInstanceOf(i,cid) ^ isaI(cid,+c)
+
+0 isGrounded(w1,i1) ^ isGrounded(w2,i2) ^ hasRole(w1,+r1) ^ hasRole(w2,+r2) ^ on(i1,i2)
+
+0 hasSense(w,NULL) ^ isGrounded(w,NULL)
+
+0 hasRole(w1, +r1) ^ hasRole(w2, +r2) ^ coreference(w1,w2) ^ distance0(w1,w2)
+0 hasRole(w1, +r1) ^ hasRole(w2, +r2) ^ coreference(w1,w2) ^ distance1(w1,w2)
+0 hasRole(w1, +r1) ^ hasRole(w2, +r2) ^ coreference(w1,w2) ^ distance2(w1,w2)
+0 coreference(w1,w2) ^ (hasRole(w1, NULL) v hasRole(w2, NULL))
+0 coreference(w1,w2) ^ (w1=w2)
+
+0 coreference(w1,w2) ^ isGrounded(w1, i) ^ isGrounded(w2,i)
+
+0 (isGrounded(w1, NULL) v isGrounded(w2,NULL)) ^ !coreference(w1,w2)
+
+
+
+
+
+

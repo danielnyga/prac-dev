@@ -1,0 +1,18 @@
+// HLN for social networks section in tutorial
+
+// Evidence
+friends(:person, :person)
+
+// Some evidence, some query
+smokes(:person)
+
+// Query
+cancer(:person)
+
+// Rules
+// If you smoke, you get cancer
+- smokes(x) ^ cancer(x)
+
+// People with friends who smoke, also smoke
+// and those with friends who don't smoke, don't smoke
+- friends(x, y) ^ smokes(x) ^ smokes(y)

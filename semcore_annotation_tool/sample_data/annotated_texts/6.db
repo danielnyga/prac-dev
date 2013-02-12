@@ -1,0 +1,251 @@
+
+// Global Dependencies
+
+
+//Pour into a smoothie glass.
+
+
+//Dependencies
+root(Root_0_S_1,Pour_1_S_1)
+prep(Pour_1_S_1,Into_2_S_1)
+det(Glass_5_S_1,A_3_S_1)
+amod(Glass_5_S_1,Smoothie_4_S_1)
+pobj(Into_2_S_1,Glass_5_S_1)
+
+//Pour
+hasPOS(Pour_1_S_1, VB)
+hasSense(Pour_1_S_1, Decant_v_01)
+isa(Pour_1_S_1, Move_v_02)
+isa(Pour_1_S_1, Pour_v_01)
+isa(Pour_1_S_1, Decant_v_01)
+
+//into
+hasPOS(Into_2_S_1, IN)
+
+//a
+hasPOS(A_3_S_1, DT)
+
+//smoothie
+hasPOS(Smoothie_4_S_1, JJ)
+hasSense(Smoothie_4_S_1, Smoothie_n_02)
+isa(Smoothie_4_S_1, Part_n_01)
+isa(Smoothie_4_S_1, Beverage_n_01)
+isa(Smoothie_4_S_1, Food_n_01)
+isa(Smoothie_4_S_1, Physical_entity_n_01)
+isa(Smoothie_4_S_1, Abstraction_n_06)
+isa(Smoothie_4_S_1, Entity_n_01)
+isa(Smoothie_4_S_1, Fluid_n_01)
+isa(Smoothie_4_S_1, Relation_n_01)
+isa(Smoothie_4_S_1, Matter_n_03)
+isa(Smoothie_4_S_1, Liquid_n_01)
+isa(Smoothie_4_S_1, Substance_n_07)
+isa(Smoothie_4_S_1, Substance_n_01)
+isa(Smoothie_4_S_1, Smoothie_n_02)
+
+//glass
+hasPOS(Glass_5_S_1, NN)
+hasSense(Glass_5_S_1, Glass_n_02)
+isa(Glass_5_S_1, Physical_entity_n_01)
+isa(Glass_5_S_1, Artifact_n_01)
+isa(Glass_5_S_1, Entity_n_01)
+isa(Glass_5_S_1, Object_n_01)
+isa(Glass_5_S_1, Instrumentality_n_03)
+isa(Glass_5_S_1, Container_n_01)
+isa(Glass_5_S_1, Whole_n_02)
+isa(Glass_5_S_1, Glass_n_02)
+
+//.
+hasPOS(__6_S_1, __POINT__)
+
+
+//Combine all the ingredients in the blender and blend.
+
+
+//Dependencies
+root(Root_0_S_0,Combine_1_S_0)
+predet(Ingredients_4_S_0,All_2_S_0)
+det(Ingredients_4_S_0,The_3_S_0)
+dobj(Combine_1_S_0,Ingredients_4_S_0)
+prep(Combine_1_S_0,In_5_S_0)
+det(Blender_7_S_0,The_6_S_0)
+pobj(In_5_S_0,Blender_7_S_0)
+cc(Combine_1_S_0,And_8_S_0)
+conj(Combine_1_S_0,Blend_9_S_0)
+
+//Combine
+hasPOS(Combine_1_S_0, VB)
+hasSense(Combine_1_S_0, Compound_v_05)
+isa(Combine_1_S_0, Change_v_01)
+isa(Combine_1_S_0, Mix_v_05)
+isa(Combine_1_S_0, Compound_v_05)
+
+//all
+hasPOS(All_2_S_0, PDT)
+hasSense(All_2_S_0, Wholly_r_01)
+isa(All_2_S_0, Wholly_r_01)
+
+//the
+hasPOS(The_3_S_0, DT)
+
+//ingredients
+hasPOS(Ingredients_4_S_0, NNS)
+hasSense(Ingredients_4_S_0, Ingredient_n_03)
+isa(Ingredients_4_S_0, Physical_entity_n_01)
+isa(Ingredients_4_S_0, Food_n_01)
+isa(Ingredients_4_S_0, Foodstuff_n_02)
+isa(Ingredients_4_S_0, Ingredient_n_03)
+isa(Ingredients_4_S_0, Entity_n_01)
+isa(Ingredients_4_S_0, Matter_n_03)
+isa(Ingredients_4_S_0, Substance_n_07)
+
+//in
+hasPOS(In_5_S_0, IN)
+
+//the
+hasPOS(The_6_S_0, DT)
+
+//blender
+hasPOS(Blender_7_S_0, NN)
+hasSense(Blender_7_S_0, Blender_n_01)
+isa(Blender_7_S_0, Utensil_n_01)
+isa(Blender_7_S_0, Physical_entity_n_01)
+isa(Blender_7_S_0, Blender_n_01)
+isa(Blender_7_S_0, Implement_n_01)
+isa(Blender_7_S_0, Kitchen_utensil_n_01)
+isa(Blender_7_S_0, Artifact_n_01)
+isa(Blender_7_S_0, Entity_n_01)
+isa(Blender_7_S_0, Mixer_n_04)
+isa(Blender_7_S_0, Object_n_01)
+isa(Blender_7_S_0, Instrumentality_n_03)
+isa(Blender_7_S_0, Whole_n_02)
+
+//and
+hasPOS(And_8_S_0, CC)
+
+//blend
+hasPOS(Blend_9_S_0, VB)
+hasSense(Blend_9_S_0, Blend_v_01)
+isa(Blend_9_S_0, Change_v_01)
+isa(Blend_9_S_0, Mix_v_05)
+isa(Blend_9_S_0, Blend_v_01)
+
+//.
+hasPOS(__10_S_0, __POINT__)
+
+
+//Garnish if desired.
+
+
+//Dependencies
+root(Root_0_S_3,Garnish_1_S_3)
+mark(Desired_3_S_3,If_2_S_3)
+advcl(Garnish_1_S_3,Desired_3_S_3)
+
+//Garnish
+hasPOS(Garnish_1_S_3, VB)
+hasSense(Garnish_1_S_3, Trim_v_06)
+isa(Garnish_1_S_3, Change_v_01)
+isa(Garnish_1_S_3, Trim_v_06)
+isa(Garnish_1_S_3, Decorate_v_01)
+
+//if
+hasPOS(If_2_S_3, IN)
+
+//desired
+hasPOS(Desired_3_S_3, VBD)
+hasSense(Desired_3_S_3, Hope_v_01)
+isa(Desired_3_S_3, Wish_v_01)
+isa(Desired_3_S_3, Desire_v_01)
+isa(Desired_3_S_3, Hope_v_01)
+
+//.
+hasPOS(__4_S_3, __POINT__)
+
+
+//Serve.
+
+
+//Dependencies
+root(Root_0_S_2,Serve_1_S_2)
+
+//Serve
+hasPOS(Serve_1_S_2, VB)
+hasSense(Serve_1_S_2, Serve_v_06)
+isa(Serve_1_S_2, Serve_v_06)
+isa(Serve_1_S_2, Transfer_v_05)
+isa(Serve_1_S_2, Provide_v_02)
+isa(Serve_1_S_2, Give_v_03)
+
+//.
+hasPOS(__2_S_2, __POINT__)
+
+
+// Word Similarity
+similar(Into_2_S_1, In_5_S_0)
+similar(__6_S_1, __10_S_0)
+similar(__6_S_1, __4_S_3)
+similar(__6_S_1, __2_S_2)
+similar(The_3_S_0, The_6_S_0)
+similar(In_5_S_0, Into_2_S_1)
+similar(The_6_S_0, The_3_S_0)
+similar(Blender_7_S_0, Blend_9_S_0)
+similar(Blend_9_S_0, Blender_7_S_0)
+similar(__10_S_0, __6_S_1)
+similar(__10_S_0, __4_S_3)
+similar(__10_S_0, __2_S_2)
+similar(__4_S_3, __6_S_1)
+similar(__4_S_3, __10_S_0)
+similar(__4_S_3, __2_S_2)
+similar(__2_S_2, __6_S_1)
+similar(__2_S_2, __10_S_0)
+similar(__2_S_2, __4_S_3)
+
+
+// Phrase Similarity
+
+
+// Phrases in the text
+isPhrase(A_3_S_1,NP_13_S_1)
+isPhrase(Smoothie_4_S_1,NP_13_S_1)
+isPhrase(Glass_5_S_1,NP_13_S_1)
+isPhrase(All_2_S_0,NP_16_S_0)
+isPhrase(The_3_S_0,NP_16_S_0)
+isPhrase(Ingredients_4_S_0,NP_16_S_0)
+isPhrase(The_6_S_0,NP_22_S_0)
+isPhrase(Blender_7_S_0,NP_22_S_0)
+
+//Distance between the elements of the text
+zerodistance(NP_16_S_0,NP_16_S_0)
+zerodistance(NP_16_S_0,NP_22_S_0)
+onedistance(NP_16_S_0,NP_13_S_1)
+zerodistance(NP_22_S_0,NP_16_S_0)
+zerodistance(NP_22_S_0,NP_22_S_0)
+onedistance(NP_22_S_0,NP_13_S_1)
+onedistance(NP_13_S_1,NP_16_S_0)
+onedistance(NP_13_S_1,NP_22_S_0)
+zerodistance(NP_13_S_1,NP_13_S_1)
+
+//Cluster Head Matches
+
+
+//Word inclusion
+
+
+//I-Within-I
+
+iWithini(NP_13_S_1,NP_13_S_1)
+iWithini(NP_16_S_0,NP_16_S_0)
+iWithini(NP_22_S_0,NP_22_S_0)
+
+// Incompatible modifiers
+
+
+// Gender
+
+// Grouded elements in the text:
+
+
+ // KnowRob Object Taxonomie
+
+// Modifiers:
+

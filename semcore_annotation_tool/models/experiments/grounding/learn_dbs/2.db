@@ -1,0 +1,138 @@
+
+// Global Dependencies
+hasRole(PP_18_S_0, Goal)
+hasRole(NP_15_S_0, Item)
+hasRole(VB_14_S_0, PutActionVerb)
+hasRole(NP_20_S_0, NULL)
+hasRole(ADVP_11_S_0, NULL)
+hasRole(VP_13_S_0, NULL)
+//Now put the knive on the table.
+
+
+//Dependencies
+advmod(Put_2_S_0,Now_1_S_0)
+root(Root_0_S_0,Put_2_S_0)
+det(Knive_4_S_0,The_3_S_0)
+dobj(Put_2_S_0,Knive_4_S_0)
+det(Table_7_S_0,The_6_S_0)
+prep_on(Put_2_S_0,Table_7_S_0)
+
+//Now
+hasPOS(Now_1_S_0, RB)
+hasSense(Now_1_S_0, Now_n_01)
+isGrounded(Now_1_S_0, NULL)
+isaW(Now_n_01, Now_n_01)
+isaW(Now_n_01, Time_n_05)
+isaW(Now_n_01, Abstraction_n_06)
+isaW(Now_n_01, Entity_n_01)
+isaW(Now_n_01, Present_n_01)
+isaW(Now_n_01, Attribute_n_02)
+
+//put
+hasPOS(Put_2_S_0, VB)
+hasSense(Put_2_S_0, Put_v_01)
+isGrounded(Put_2_S_0, NULL)
+isaW(Put_v_01, Put_v_01)
+isaW(Put_v_01, Move_v_02)
+isaW(Put_v_01, Put_v_01)
+
+//the
+hasPOS(The_3_S_0, DT)
+hasSense(The_3_S_0, NULL)
+isGrounded(The_3_S_0, NULL)
+
+//knive
+hasPOS(Knive_4_S_0, NN)
+hasSense(Knive_4_S_0, Knife_n_01)
+isGrounded(Knive_4_S_0, KnifeNotOnTable)
+isaW(Knife_n_01, Knife_n_01)
+isaW(Knife_n_01, Tool_n_01)
+isaW(Knife_n_01, Knife_n_01)
+isaW(Knife_n_01, Physical_entity_n_01)
+isaW(Knife_n_01, Implement_n_01)
+isaW(Knife_n_01, Artifact_n_01)
+isaW(Knife_n_01, Entity_n_01)
+isaW(Knife_n_01, Object_n_01)
+isaW(Knife_n_01, Instrumentality_n_03)
+isaW(Knife_n_01, Cutter_n_06)
+isaW(Knife_n_01, Cutting_implement_n_01)
+isaW(Knife_n_01, Whole_n_02)
+isaW(Knife_n_01, Edge_tool_n_01)
+
+//on
+hasPOS(On_5_S_0, IN)
+hasSense(On_5_S_0, NULL)
+isGrounded(On_5_S_0, NULL)
+
+//the
+hasPOS(The_6_S_0, DT)
+hasSense(The_6_S_0, NULL)
+isGrounded(The_6_S_0, NULL)
+
+//table
+hasPOS(Table_7_S_0, NN)
+hasSense(Table_7_S_0, Table_n_02)
+isGrounded(Table_7_S_0, KitchenTable)
+isaW(Table_n_02, Table_n_02)
+isaW(Table_n_02, Physical_entity_n_01)
+isaW(Table_n_02, Artifact_n_01)
+isaW(Table_n_02, Furnishing_n_02)
+isaW(Table_n_02, Entity_n_01)
+isaW(Table_n_02, Object_n_01)
+isaW(Table_n_02, Instrumentality_n_03)
+isaW(Table_n_02, Table_n_02)
+isaW(Table_n_02, Whole_n_02)
+isaW(Table_n_02, Furniture_n_01)
+
+
+// Word Similarity
+similar(The_3_S_0, The_6_S_0)
+similar(The_6_S_0, The_3_S_0)
+
+
+// Phrase Similarity
+
+
+// Phrases in the text
+isPhrase(The_3_S_0,NP_15_S_0)
+isPhrase(Knive_4_S_0,NP_15_S_0)
+isPhrase(The_6_S_0,NP_20_S_0)
+isPhrase(Table_7_S_0,NP_20_S_0)
+isPhrase(Now_1_S_0, ADVP_11_S_0)
+isPhrase(Put_2_S_0, VP_13_S_0)
+isPhrase(Put_2_S_0, VB_14_S_0)
+isPhrase(The_3_S_0, NP_15_S_0)
+isPhrase(The_3_S_0, VP_13_S_0)
+isPhrase(Knive_3_S_0, VP_13_S_0)
+isPhrase(On_5_S_0, PP_18_S_0)
+isPhrase(The_6_S_0, PP_18_S_0)
+isPhrase(Table_7_S_0, PP_18_S_0)
+
+isaI(Table, Table_n_03)
+isaI(Table, Physical_entity_n_01)
+isaI(Table, Artifact_n_01)
+isaI(Table, Furnishing_n_02)
+isaI(Table, Entity_n_01)
+isaI(Table, Object_n_01)
+isaI(Table, Instrumentality_n_03)
+isaI(Table, Table_n_03)
+isaI(Table, Whole_n_02)
+isaI(Table, Furniture_n_01)
+
+isaI(Knife, Knife_n_01)
+isaI(Knife, Tool_n_01)
+isaI(Knife, Knife_n_01)
+isaI(Knife, Physical_entity_n_01)
+isaI(Knife, Implement_n_01)
+isaI(Knife, Artifact_n_01)
+isaI(Knife, Entity_n_01)
+isaI(Knife, Object_n_01)
+isaI(Knife, Instrumentality_n_03)
+isaI(Knife, Cutter_n_06)
+isaI(Knife, Cutting_implement_n_01)
+isaI(Knife, Whole_n_02)
+isaI(Knife, Edge_tool_n_01)
+
+isInstanceOf(KitchenTable, Table)
+isInstanceOf(KnifeNotOnTable, Knife)
+!on(KnifeNotOnTable, KitchenTable)

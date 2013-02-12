@@ -1,0 +1,103 @@
+// "Fill a cup with water from the tap."
+
+// Fill
+has_pos(Fill11, VB)
+has_sense(Fill11, Sense14)
+action_role(Fill11, ActionVerb)
+
+// a
+has_pos(A12, DT)
+has_sense(A12, NullSense)
+action_role(A12, NULL)
+
+// cup
+has_pos(Cup13, NN)
+has_sense(Cup13, Sense12)
+action_role(Cup13, Goal)
+
+// with 
+// has_pos(With14, IN)
+// has_sense(With14, NullSense)
+// action_role(With14, NULL)
+
+// water
+has_pos(Water15, NN)
+has_sense(Water15, Sense11)
+action_role(Water15, Theme)
+
+// from
+// has_pos(From16, IN)
+// has_sense(From16, NullSense)
+// action_role(From16, NULL)
+
+// the
+has_pos(The17, DT)
+has_sense(The17, NullSense)
+action_role(The17, NULL)
+
+// tap
+has_pos(Tap18, NN)
+has_sense(Tap18, Sense13)
+action_role(Tap18, Source)
+
+
+// syntactic structure
+root(Root11,Fill11)
+det(Cup13, A12)
+dobj(Fill11, Cup13)
+prep_with(Fill11, Water15)
+det(Tap18, The17)
+prep_from(Water15, Tap18)
+
+// class taxonomy
+
+// null sense
+is_a(NullSense, NULL)
+
+// water
+is_a(Sense11, part.n.01)
+is_a(Sense11, nutrient.n.02)
+is_a(Sense11, food.n.01)
+is_a(Sense11, physical_entity.n.01)
+is_a(Sense11, abstraction.n.06)
+is_a(Sense11, water.n.06)
+is_a(Sense11, entity.n.01)
+is_a(Sense11, fluid.n.01)
+is_a(Sense11, relation.n.01)
+is_a(Sense11, matter.n.03)
+is_a(Sense11, liquid.n.01)
+is_a(Sense11, substance.n.01)
+is_a(Sense11, substance.n.07)
+
+// cup
+is_a(Sense12, tableware.n.01)
+is_a(Sense12, crockery.n.01)
+is_a(Sense12, article.n.02)
+is_a(Sense12, physical_entity.n.01)
+is_a(Sense12, ware.n.01)
+is_a(Sense12, artifact.n.01)
+is_a(Sense12, entity.n.01)
+is_a(Sense12, object.n.01)
+is_a(Sense12, instrumentality.n.03)
+is_a(Sense12, container.n.01)
+is_a(Sense12, cup.n.01)
+is_a(Sense12, whole.n.02)
+
+// tap
+is_a(Sense13, mechanism.n.05)
+is_a(Sense13, physical_entity.n.01)
+is_a(Sense13, plumbing_fixture.n.01)
+is_a(Sense13, artifact.n.01)
+is_a(Sense13, device.n.01)
+is_a(Sense13, control.n.09)
+is_a(Sense13, entity.n.01)
+is_a(Sense13, faucet.n.01)
+is_a(Sense13, fixture.n.01)
+is_a(Sense13, object.n.01)
+is_a(Sense13, instrumentality.n.03)
+is_a(Sense13, water_faucet.n.01)
+is_a(Sense13, regulator.n.01)
+is_a(Sense13, whole.n.02)
+
+// fill
+is_a(Sense14, fill.v.01)

@@ -1,0 +1,32 @@
+// "Fill a glass with juice."
+
+hasSense(Glass_3, Glass06, S) v hasSense(Glass_3, Glass07, S) v hasSense(Glass_3, Glass08, S) v hasSense(Glass_3, Glass09, S) v hasSense(Glass_3, Glass10, S) v hasSense(Glass_3, Glass11, S) v hasSense(Glass_3, Glass12, S).
+hasSense(Juice_5, Juice01, S) v hasSense(Juice_5, Juice02, S) v hasSense(Juice_5, Juice03, S) v hasSense(Juice_5, Juice04, S).
+hasSense(Fill_1,Fill01,S) v hasSense(Fill_1,Fill02,S) v hasSense(Fill_1,Occupy03,S) v hasSense(Fill_1,Fill04,S) v hasSense(Fill_1,Meet05,S) v hasSense(Fill_1,Fill06,S) v hasSense(Fill_1,Fill_up07,S) v hasSense(Fill_1,Satiate08,S) v hasSense(Fill_1,Fill09,S).
+
+//hasSense(Juice5, Sense1, S) v hasSense(Juice5, Sense2, S).
+//hasSense(Glass_3, Sense3, S) v hasSense(Glass3, Sense4, S).
+//hasSense(Fill1, Sense5, S).
+
+//!hasSense(A_2,s,S).
+
+//isa(Sense5, Filling).
+
+//isa(Sense1, FoodOrDrink).
+//isa(Sense1, Liquid).
+//isa(Sense1, Stuff).
+//isa(Sense1, Thing).
+
+//isa(Sense2, Thing).
+
+//isa(Sense3, DrinkingMug).
+//isa(Sense3, Container).
+//isa(Sense3, Thing).
+
+//isa(Sense4, Device).
+//isa(Sense4, Thing).
+
+
+
+
+

@@ -1,0 +1,22 @@
+// "Fill a glass with juice."
+
+hasSense(Juice5,Sense1,S) v hasSense(Juice5,Sense2,S).
+hasSense(Glass3,Sense3,S) v hasSense(Glass3,Sense4,S).
+hasSense(Fill1,Sense5,S).
+
+isa(Sense5,Filling).
+
+isa(Sense1,FoodOrDrink).
+isa(Sense1,Liquid).
+isa(Sense1,Stuff).
+isa(Sense1,Thing).
+
+isa(Sense2,Thing).
+
+isa(Sense3,DrinkingMug).
+isa(Sense3,Container).
+isa(Sense3,Thing).
+
+isa(Sense4,Device).
+isa(Sense4,Thing).
+

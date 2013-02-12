@@ -1,0 +1,149 @@
+// single_inheritance.mln is empty
+// domain declarations
+//sub_root={A}
+//sub_b={D, E}
+//sub_c={F}
+sub_a={B, C}
+
+
+// domain declarations
+instanceOf(obj_id, concept_id!)
+isa(concept_id, conceptName)
+//Norm_Root(sub_root!)
+//Norm_B(sub_b!)
+Norm_A(sub_a!)
+//Norm_C(sub_c!)
+unknownSubclassOf(concept_id,conceptName)
+
+//Norm_Root(A).
+
+//0.914653 Norm_B(D)
+//-0.380526 Norm_B(E) 
+//13.800230 Norm_C(F) 
+1.098620 Norm_A(B)
+-1.098620 Norm_A(C)
+
+//1.032520 Norm_B(D) ^ Norm_A(B)
+//-0.264498 Norm_B(E) ^ Norm_A(B)
+//13.784485 Norm_B(F) ^ Norm_A(C) 
+//0 instanceOf(oid, cid) ^ isa(cid, A)
+13.131132 instanceOf(oid,cid) ^ (isa(cid,B) v isa(cid,C))
+1.098616  instanceOf(oid, cid) ^ (isa(cid, B) v (!isa(cid,B) ^ !isa(cid,C) ^ isa(cid,A)  ^ Norm_A(B)))
+-1.098616  instanceOf(oid, cid) ^ (isa(cid, C) v (!isa(cid,B) ^ !isa(cid,C) ^ isa(cid,A) ^ Norm_A(C)))
+13.131132  instanceOf(oid, cid) ^ isa(cid, A) 
+
+/*
+1.032520  instanceOf(oid, cid) ^ isa(cid, D) ^ isa(cid, B)
+-0.264498  instanceOf(oid, cid) ^ isa(cid, E) ^ isa(cid, B)
+//13.784485  instanceOf(oid, cid) ^ isa(cid, F) ^ isa(cid, C)
+
+1.657926  instanceOf(oid, cid) ^ isa(cid, B) ^ isa(cid, A)
+-1.098613  instanceOf(oid, cid) ^ isa(cid, C) ^ isa(cid, A)
+0.914653  instanceOf(oid, cid) ^ isa(cid, B) ^ isa(cid, D)
+-0.380526  instanceOf(oid, cid) ^ isa(cid, B) ^ isa(cid, E)
+13.800230  instanceOf(oid, cid) ^ isa(cid, C) ^ isa(cid, F)
+*/
+
+
+//1.032520 instanceOf(oid, cid) ^ ((isa(cid, D) ^ isa(cid, B)) v (!isa(cid, D) ^ !isa(cid, E) ^ isa(cid, B) ^ Norm_B(D)) v (!isa(cid, B) ^ !isa(cid,C) ^ isa(cid, A) ^ Norm_A(B) ^ Norm_B(D)))
+//-0.264498 instanceOf(oid, cid) ^ ((isa(cid, E) ^ isa(cid, B)) v (!isa(cid, D) ^ !isa(cid, E) ^ isa(cid, B) ^ Norm_B(E)) v (!isa(cid, B) ^ !isa(cid,C) ^ isa(cid, A) ^ Norm_A(B) ^ Norm_B(E)))
+//13.784485 instanceOf(oid, cid) ^ ((isa(cid, F) ^ isa(cid, C)) v (!isa(cid, F) ^ isa(cid, C) ^ Norm_C(F)) v (!isa(cid, C) ^ !isa(cid, B) ^ isa(cid, A) ^ Norm_A(C) ^ Norm_C(F)))
+
+//1.098616 instanceOf(oid, cid) ^ ((isa(cid, B) ^ isa(cid,A)) v (!isa(cid,B) ^ !isa(cid,C) ^ isa(cid,A) ^ Norm_A(B)))
+//-1.098616 instanceOf(oid, cid) ^ ((isa(cid, C) ^ isa(cid,A)) v (!isa(cid,B) ^ !isa(cid,C) ^ isa(cid,A) ^ Norm_A(C)))
+
+//13.7 instanceOf(oid, cid) ^ isa(cid, A)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

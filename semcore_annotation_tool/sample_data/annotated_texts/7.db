@@ -1,0 +1,351 @@
+
+// Global Dependencies
+
+
+//Add vanilla and warm water.
+
+
+//Dependencies
+root(Root_0_S_1,Add_1_S_1)
+amod(Water_5_S_1,Vanilla_2_S_1)
+cc(Vanilla_2_S_1,And_3_S_1)
+conj(Vanilla_2_S_1,Warm_4_S_1)
+dobj(Add_1_S_1,Water_5_S_1)
+
+//Add
+hasPOS(Add_1_S_1, VB)
+hasSense(Add_1_S_1, Add_v_01)
+isa(Add_1_S_1, Change_v_02)
+isa(Add_1_S_1, Add_v_01)
+isa(Add_1_S_1, Increase_v_01)
+isa(Add_1_S_1, Change_magnitude_v_01)
+
+//vanilla
+hasPOS(Vanilla_2_S_1, NN)
+hasSense(Vanilla_2_S_1, Vanilla_n_02)
+isa(Vanilla_2_S_1, Physical_entity_n_01)
+isa(Vanilla_2_S_1, Food_n_01)
+isa(Vanilla_2_S_1, Foodstuff_n_02)
+isa(Vanilla_2_S_1, Ingredient_n_03)
+isa(Vanilla_2_S_1, Entity_n_01)
+isa(Vanilla_2_S_1, Flavorer_n_01)
+isa(Vanilla_2_S_1, Matter_n_03)
+isa(Vanilla_2_S_1, Vanilla_n_02)
+isa(Vanilla_2_S_1, Substance_n_07)
+
+//and
+hasPOS(And_3_S_1, CC)
+
+//warm
+hasPOS(Warm_4_S_1, JJ)
+hasSense(Warm_4_S_1, Warm_a_01)
+isa(Warm_4_S_1, Warm_a_01)
+
+//water
+hasPOS(Water_5_S_1, NN)
+hasSense(Water_5_S_1, Water_n_01)
+isa(Water_5_S_1, Part_n_01)
+isa(Water_5_S_1, Material_n_01)
+isa(Water_5_S_1, Chemical_n_01)
+isa(Water_5_S_1, Physical_entity_n_01)
+isa(Water_5_S_1, Abstraction_n_06)
+isa(Water_5_S_1, Water_n_01)
+isa(Water_5_S_1, Compound_n_02)
+isa(Water_5_S_1, Relation_n_01)
+isa(Water_5_S_1, Entity_n_01)
+isa(Water_5_S_1, Fluid_n_02)
+isa(Water_5_S_1, Matter_n_03)
+isa(Water_5_S_1, Binary_compound_n_01)
+isa(Water_5_S_1, Liquid_n_03)
+isa(Water_5_S_1, Substance_n_01)
+
+//.
+hasPOS(__6_S_1, __POINT__)
+
+
+//Add powdered sugar to a bowl.
+
+
+//Dependencies
+root(Root_0_S_0,Add_1_S_0)
+amod(Sugar_3_S_0,Powdered_2_S_0)
+dobj(Add_1_S_0,Sugar_3_S_0)
+prep(Add_1_S_0,To_4_S_0)
+det(Bowl_6_S_0,A_5_S_0)
+pobj(To_4_S_0,Bowl_6_S_0)
+
+//Add
+hasPOS(Add_1_S_0, VB)
+hasSense(Add_1_S_0, Add_v_01)
+isa(Add_1_S_0, Change_v_02)
+isa(Add_1_S_0, Add_v_01)
+isa(Add_1_S_0, Increase_v_01)
+isa(Add_1_S_0, Change_magnitude_v_01)
+
+//powdered
+hasPOS(Powdered_2_S_0, JJ)
+hasSense(Powdered_2_S_0, Powdered_s_01)
+isa(Powdered_2_S_0, Powdered_s_01)
+
+//sugar
+hasPOS(Sugar_3_S_0, NN)
+hasSense(Sugar_3_S_0, Sugar_n_01)
+isa(Sugar_3_S_0, Physical_entity_n_01)
+isa(Sugar_3_S_0, Food_n_01)
+isa(Sugar_3_S_0, Sweetening_n_01)
+isa(Sugar_3_S_0, Foodstuff_n_02)
+isa(Sugar_3_S_0, Ingredient_n_03)
+isa(Sugar_3_S_0, Entity_n_01)
+isa(Sugar_3_S_0, Flavorer_n_01)
+isa(Sugar_3_S_0, Matter_n_03)
+isa(Sugar_3_S_0, Substance_n_07)
+isa(Sugar_3_S_0, Sugar_n_01)
+
+//to
+hasPOS(To_4_S_0, TO)
+
+//a
+hasPOS(A_5_S_0, DT)
+
+//bowl
+hasPOS(Bowl_6_S_0, NN)
+hasSense(Bowl_6_S_0, Bowl_n_01)
+isa(Bowl_6_S_0, Physical_entity_n_01)
+isa(Bowl_6_S_0, Artifact_n_01)
+isa(Bowl_6_S_0, Entity_n_01)
+isa(Bowl_6_S_0, Vessel_n_03)
+isa(Bowl_6_S_0, Bowl_n_01)
+isa(Bowl_6_S_0, Object_n_01)
+isa(Bowl_6_S_0, Instrumentality_n_03)
+isa(Bowl_6_S_0, Container_n_01)
+isa(Bowl_6_S_0, Whole_n_02)
+
+//.
+hasPOS(__7_S_0, __POINT__)
+
+
+//Use to glaze cakes, danishes, pastries.
+
+
+//Dependencies
+root(Root_0_S_3,Use_1_S_3)
+aux(Glaze_3_S_3,To_2_S_3)
+xcomp(Use_1_S_3,Glaze_3_S_3)
+dobj(Glaze_3_S_3,Cakes_4_S_3)
+appos(Cakes_4_S_3,Danishes_6_S_3)
+appos(Danishes_6_S_3,Pastries_8_S_3)
+
+//Use
+hasPOS(Use_1_S_3, VB)
+hasSense(Use_1_S_3, Use_v_01)
+isa(Use_1_S_3, Use_v_01)
+
+//to
+hasPOS(To_2_S_3, TO)
+
+//glaze
+hasPOS(Glaze_3_S_3, VB)
+hasSense(Glaze_3_S_3, Glaze_v_01)
+isa(Glaze_3_S_3, Coat_v_01)
+isa(Glaze_3_S_3, Glaze_v_01)
+isa(Glaze_3_S_3, Cover_v_01)
+
+//cakes
+hasPOS(Cakes_4_S_3, NNS)
+hasSense(Cakes_4_S_3, Cake_n_03)
+isa(Cakes_4_S_3, Food_n_02)
+isa(Cakes_4_S_3, Physical_entity_n_01)
+isa(Cakes_4_S_3, Entity_n_01)
+isa(Cakes_4_S_3, Solid_n_01)
+isa(Cakes_4_S_3, Matter_n_03)
+isa(Cakes_4_S_3, Cake_n_03)
+isa(Cakes_4_S_3, Baked_goods_n_01)
+
+//,
+hasPOS(__5_S_3, __COMMA__)
+
+//danishes
+hasPOS(Danishes_6_S_3, NNS)
+hasSense(Danishes_6_S_3, Danish_n_02)
+isa(Danishes_6_S_3, Danish_n_02)
+isa(Danishes_6_S_3, Food_n_02)
+isa(Danishes_6_S_3, Physical_entity_n_01)
+isa(Danishes_6_S_3, Food_n_01)
+isa(Danishes_6_S_3, Foodstuff_n_02)
+isa(Danishes_6_S_3, Bun_n_01)
+isa(Danishes_6_S_3, Entity_n_01)
+isa(Danishes_6_S_3, Starches_n_01)
+isa(Danishes_6_S_3, Solid_n_01)
+isa(Danishes_6_S_3, Matter_n_03)
+isa(Danishes_6_S_3, Substance_n_07)
+isa(Danishes_6_S_3, Bread_n_01)
+isa(Danishes_6_S_3, Baked_goods_n_01)
+isa(Danishes_6_S_3, Sweet_roll_n_01)
+
+//,
+hasPOS(__7_S_3, __COMMA__)
+
+//pastries
+hasPOS(Pastries_8_S_3, NNS)
+hasSense(Pastries_8_S_3, Pastry_n_02)
+isa(Pastries_8_S_3, Food_n_02)
+isa(Pastries_8_S_3, Physical_entity_n_01)
+isa(Pastries_8_S_3, Pastry_n_02)
+isa(Pastries_8_S_3, Entity_n_01)
+isa(Pastries_8_S_3, Solid_n_01)
+isa(Pastries_8_S_3, Matter_n_03)
+isa(Pastries_8_S_3, Baked_goods_n_01)
+
+//.
+hasPOS(__9_S_3, __POINT__)
+
+
+//Mix until smooth.
+
+
+//Dependencies
+nsubj(Smooth_3_S_2,Mix_1_S_2)
+advmod(Smooth_3_S_2,Until_2_S_2)
+root(Root_0_S_2,Smooth_3_S_2)
+
+//Mix
+hasPOS(Mix_1_S_2, NNP)
+hasSense(Mix_1_S_2, Shuffle_v_03)
+isa(Mix_1_S_2, Shuffle_v_03)
+isa(Mix_1_S_2, Touch_v_01)
+isa(Mix_1_S_2, Handle_v_04)
+isa(Mix_1_S_2, Manipulate_v_02)
+
+//until
+hasPOS(Until_2_S_2, IN)
+
+//smooth
+hasPOS(Smooth_3_S_2, VB)
+hasSense(Smooth_3_S_2, Smooth_a_01)
+isa(Smooth_3_S_2, Smooth_a_01)
+
+//.
+hasPOS(__4_S_2, __POINT__)
+
+
+// Word Similarity
+similar(__6_S_1, __7_S_0)
+similar(__6_S_1, __9_S_3)
+similar(__6_S_1, __4_S_2)
+similar(To_4_S_0, To_2_S_3)
+similar(__7_S_0, __6_S_1)
+similar(__7_S_0, __9_S_3)
+similar(__7_S_0, __4_S_2)
+similar(To_2_S_3, To_4_S_0)
+similar(__5_S_3, __7_S_3)
+similar(__7_S_3, __5_S_3)
+similar(__9_S_3, __6_S_1)
+similar(__9_S_3, __7_S_0)
+similar(__9_S_3, __4_S_2)
+similar(__4_S_2, __6_S_1)
+similar(__4_S_2, __7_S_0)
+similar(__4_S_2, __9_S_3)
+
+
+// Phrase Similarity
+
+
+// Phrases in the text
+isPhrase(Vanilla_2_S_1,NP_11_S_1)
+isPhrase(And_3_S_1,NP_11_S_1)
+isPhrase(Warm_4_S_1,NP_11_S_1)
+isPhrase(Water_5_S_1,NP_11_S_1)
+isPhrase(Powdered_2_S_0,NP_12_S_0)
+isPhrase(Sugar_3_S_0,NP_12_S_0)
+isPhrase(A_5_S_0,NP_17_S_0)
+isPhrase(Bowl_6_S_0,NP_17_S_0)
+isPhrase(Cakes_4_S_3,NP_19_S_3)
+isPhrase(__COMMA___5_S_3,NP_19_S_3)
+isPhrase(Danishes_6_S_3,NP_19_S_3)
+isPhrase(__COMMA___7_S_3,NP_19_S_3)
+isPhrase(Pastries_8_S_3,NP_19_S_3)
+isPhrase(Mix_1_S_2,NP_7_S_2)
+
+//Distance between the elements of the text
+zerodistance(NP_12_S_0,NP_12_S_0)
+zerodistance(NP_12_S_0,NP_17_S_0)
+onedistance(NP_12_S_0,NP_11_S_1)
+twodistance(NP_12_S_0,NP_7_S_2)
+threedistance(NP_12_S_0,NP_19_S_3)
+zerodistance(NP_17_S_0,NP_12_S_0)
+zerodistance(NP_17_S_0,NP_17_S_0)
+onedistance(NP_17_S_0,NP_11_S_1)
+twodistance(NP_17_S_0,NP_7_S_2)
+threedistance(NP_17_S_0,NP_19_S_3)
+onedistance(NP_11_S_1,NP_12_S_0)
+onedistance(NP_11_S_1,NP_17_S_0)
+zerodistance(NP_11_S_1,NP_11_S_1)
+onedistance(NP_11_S_1,NP_7_S_2)
+twodistance(NP_11_S_1,NP_19_S_3)
+twodistance(NP_7_S_2,NP_12_S_0)
+twodistance(NP_7_S_2,NP_17_S_0)
+onedistance(NP_7_S_2,NP_11_S_1)
+zerodistance(NP_7_S_2,NP_7_S_2)
+onedistance(NP_7_S_2,NP_19_S_3)
+threedistance(NP_19_S_3,NP_12_S_0)
+threedistance(NP_19_S_3,NP_17_S_0)
+twodistance(NP_19_S_3,NP_11_S_1)
+onedistance(NP_19_S_3,NP_7_S_2)
+zerodistance(NP_19_S_3,NP_19_S_3)
+
+//Cluster Head Matches
+
+clusterHeadMatch(NP_19_S_3,NP_20_S_3)
+clusterHeadMatch(NP_20_S_3,NP_19_S_3)
+clusterHeadMatch(NP_23_S_3,NP_24_S_3)
+clusterHeadMatch(NP_19_S_3,NP_24_S_3)
+clusterHeadMatch(NP_24_S_3,NP_23_S_3)
+clusterHeadMatch(NP_19_S_3,NP_23_S_3)
+clusterHeadMatch(NP_24_S_3,NP_19_S_3)
+clusterHeadMatch(NP_23_S_3,NP_19_S_3)
+clusterHeadMatch(NP_23_S_3,NP_27_S_3)
+clusterHeadMatch(NP_19_S_3,NP_27_S_3)
+clusterHeadMatch(NP_27_S_3,NP_23_S_3)
+clusterHeadMatch(NP_19_S_3,NP_23_S_3)
+clusterHeadMatch(NP_27_S_3,NP_19_S_3)
+clusterHeadMatch(NP_23_S_3,NP_19_S_3)
+
+//Word inclusion
+
+wordInclusion(NP_20_S_3,NP_19_S_3)
+wordInclusion(NP_23_S_3,NP_19_S_3)
+wordInclusion(NP_24_S_3,NP_19_S_3)
+wordInclusion(NP_24_S_3,NP_23_S_3)
+wordInclusion(NP_27_S_3,NP_19_S_3)
+wordInclusion(NP_27_S_3,NP_23_S_3)
+
+//I-Within-I
+
+iWithini(NP_11_S_1,NP_11_S_1)
+iWithini(NP_12_S_0,NP_12_S_0)
+iWithini(NP_17_S_0,NP_17_S_0)
+iWithini(NP_19_S_3,NP_19_S_3)
+iWithini(NP_20_S_3,NP_20_S_3)
+iWithini(NP_20_S_3,NP_19_S_3)
+iWithini(NP_23_S_3,NP_23_S_3)
+iWithini(NP_23_S_3,NP_19_S_3)
+iWithini(NP_24_S_3,NP_24_S_3)
+iWithini(NP_24_S_3,NP_23_S_3)
+iWithini(NP_24_S_3,NP_19_S_3)
+iWithini(NP_27_S_3,NP_27_S_3)
+iWithini(NP_27_S_3,NP_23_S_3)
+iWithini(NP_27_S_3,NP_19_S_3)
+iWithini(NP_7_S_2,NP_7_S_2)
+
+// Incompatible modifiers
+
+
+// Gender
+
+// Grouded elements in the text:
+
+
+ // KnowRob Object Taxonomie
+
+// Modifiers:
+

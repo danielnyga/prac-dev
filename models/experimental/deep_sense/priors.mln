@@ -1,0 +1,26 @@
+// domain declarations
+
+// predicate declarations
+instanceOf(obj_id, concept_id!)
+isa(concept_id, conceptName)
+
+// formulas
+13.178773   instanceOf(oid, cid) ^ isa(cid, A)
+1.098613    instanceOf(oid, cid) ^ isa(cid, B) ^ isa(cid, A)
+-1.098603   instanceOf(oid, cid) ^ isa(cid, C) ^ isa(cid, A)
+1.032521    instanceOf(oid, cid) ^ isa(cid, D) ^ isa(cid, B)
+-0.264497   instanceOf(oid, cid) ^ isa(cid, E) ^ isa(cid, B)
+13.784476   instanceOf(oid, cid) ^ isa(cid, F) ^ isa(cid, C)
+
+!(instanceOf(oid, cid) ^ isa(cid, D) ^ isa(cid, E)).
+!(instanceOf(oid, cid) ^ isa(cid, E) ^ isa(cid, F)).
+!(instanceOf(oid, cid) ^ isa(cid, D) ^ isa(cid, F)).
+!(instanceOf(oid, cid) ^ isa(cid, D) ^ isa(cid, C)).
+!(instanceOf(oid, cid) ^ isa(cid, E) ^ isa(cid, C)).
+!(instanceOf(oid, cid) ^ isa(cid, F) ^ isa(cid, B)).
+!(instanceOf(oid, cid) ^ isa(cid, B) ^ isa(cid, C)).
+!(instanceOf(oid, cid) ^ isa(cid, A) ^ !isa(cid, B) ^ !isa(cid,C)).
+!(instanceOf(oid, cid) ^ isa(cid, B) ^ !isa(cid, D) ^ !isa(cid,E)).
+!(instanceOf(oid, cid) ^ isa(cid, C) ^ !isa(cid,F)).
+
+

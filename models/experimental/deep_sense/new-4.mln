@@ -1,0 +1,23 @@
+// domain declarations
+
+// domain declarations
+instanceOf(obj_id, concept_id!)
+isa(concept_id, conceptName)
+
+//#fixWeightFreq
+-0.357287  instanceOf(oid, cid) ^ isa(cid, D)
+//#fixWeightFreq
+-0.357287  instanceOf(oid, cid) ^ isa(cid, E)
+//#fixWeightFreq
+0.000000  instanceOf(oid, cid) ^ isa(cid, F)
+//#fixWeightFreq
+1.538407  instanceOf(oid, cid) ^ isa(cid, B)
+//#fixWeightFreq
+0.000000  instanceOf(oid, cid) ^ isa(cid, C)
+
+0  instanceOf(oid, cid) ^ isa(cid, D) ^ isa(cid, B)
+0  instanceOf(oid, cid) ^ isa(cid, E) ^ isa(cid, B)
+0  instanceOf(oid, cid) ^ isa(cid, F) ^ isa(cid, C)
+
+
+

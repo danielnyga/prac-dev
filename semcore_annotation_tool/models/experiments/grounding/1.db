@@ -1,0 +1,112 @@
+//Dependencies
+root(Root_0_S_0,Put_1_S_0)
+det(Cup_3_S_0,The_2_S_0)
+dobj(Put_1_S_0,Cup_3_S_0)
+det(Table_6_S_0,The_5_S_0)
+prep_on(Put_1_S_0,Table_6_S_0)
+
+isaW(NULL,NULL)
+isaI(NULL,NULL)
+//Put
+hasPOS(Put_1_S_0, VB)
+hasSense(Put_1_S_0, Put_v_01)
+isaW(Put_v_01, Put_v_01)
+isaW(Put_v_01, Move_v_02)
+isaW(Put_v_01, Put_v_01)
+
+//the
+hasPOS(The_2_S_0, DT)
+hasSense(The_2_S_0, NULL)
+//cup
+hasPOS(Cup_3_S_0, NN)
+hasSense(Cup_3_S_0, Cup_n_01)
+isaW(Cup_n_01, Cup_n_01)
+isaW(Cup_n_01, Tableware_n_01)
+isaW(Cup_n_01, Crockery_n_01)
+isaW(Cup_n_01, Article_n_02)
+isaW(Cup_n_01, Physical_entity_n_01)
+isaW(Cup_n_01, Ware_n_01)
+isaW(Cup_n_01, Artifact_n_01)
+isaW(Cup_n_01, Entity_n_01)
+isaW(Cup_n_01, Object_n_01)
+isaW(Cup_n_01, Instrumentality_n_03)
+isaW(Cup_n_01, Container_n_01)
+isaW(Cup_n_01, Cup_n_01)
+isaW(Cup_n_01, Whole_n_02)
+
+hasPOS(On_4_S_0, IN)
+hasSense(On_4_S_0, NULL)
+
+hasPOS(The_5_S_0, DT)
+hasSense(The_5_S_0, NULL)
+//table
+hasPOS(Table_6_S_0, NN)
+hasSense(Table_6_S_0, Table_n_03)
+isaW(Table_n_03, Table_n_03)
+isaW(Table_n_03, Physical_entity_n_01)
+isaW(Table_n_03, Artifact_n_01)
+isaW(Table_n_03, Furnishing_n_02)
+isaW(Table_n_03, Entity_n_01)
+isaW(Table_n_03, Object_n_01)
+isaW(Table_n_03, Instrumentality_n_03)
+isaW(Table_n_03, Table_n_03)
+isaW(Table_n_03, Whole_n_02)
+isaW(Table_n_03, Furniture_n_01)
+
+// Phrases in the text
+isPhrase(The_2_S_0,NP_12_S_0)
+isPhrase(Cup_3_S_0,NP_12_S_0)
+isPhrase(The_5_S_0,NP_17_S_0)
+isPhrase(Table_6_S_0,NP_17_S_0)
+isPhrase(Table_6_S_0,PP_15_S_0)
+isPhrase(On_4_S_0,PP_15_S_0)
+isPhrase(Put_1_S_0,VP_10_S_0)
+isPhrase(The_2_S_0,VP_10_S_0)
+isPhrase(Cup_3_S_0,VP_10_S_0)
+isPhrase(On_4_S_0,VP_10_S_0)
+isPhrase(Table_6_S_0,VP_10_S_0)
+isPhrase(The_5_S_0,VP_10_S_0)
+
+//Distance between the elements of the text
+zerodistance(NP_12_S_0,NP_12_S_0)
+zerodistance(NP_12_S_0,NP_17_S_0)
+zerodistance(NP_17_S_0,NP_12_S_0)
+zerodistance(NP_17_S_0,NP_17_S_0)
+
+//  object instances
+isInstanceOf(CupNotOnTable, Cup)
+isInstanceOf(CupOnTable, Cup)
+isInstanceOf(KitchenTable, Table)
+isInstanceOf(NULL,NULL)
+
+on(CupOnTable, KitchenTable)
+
+isaI(Table, Table_n_03)
+isaI(Table, Physical_entity_n_01)
+isaI(Table, Artifact_n_01)
+isaI(Table, Furnishing_n_02)
+isaI(Table, Entity_n_01)
+isaI(Table, Object_n_01)
+isaI(Table, Instrumentality_n_03)
+isaI(Table, Table_n_03)
+isaI(Table, Whole_n_02)
+isaI(Table, Furniture_n_01)
+
+isaI(Cup, Cup_n_01)
+isaI(Cup, Tableware_n_01)
+isaI(Cup, Crockery_n_01)
+isaI(Cup, Article_n_02)
+isaI(Cup, Physical_entity_n_01)
+isaI(Cup, Ware_n_01)
+isaI(Cup, Artifact_n_01)
+isaI(Cup, Entity_n_01)
+isaI(Cup, Object_n_01)
+isaI(Cup, Instrumentality_n_03)
+isaI(Cup, Container_n_01)
+isaI(Cup, Cup_n_01)
+isaI(Cup, Whole_n_02)
+
+iWithini(NP_12_S_0,NP_12_S_0)
+iWithini(NP_17_S_0,NP_17_S_0)
+
+

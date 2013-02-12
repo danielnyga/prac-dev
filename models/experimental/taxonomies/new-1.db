@@ -1,0 +1,18 @@
+instanceOf(ID_D, SD)
+instanceOf(ID_E, SE)
+instanceOf(ID_F, SF)
+
+isa(SD, D)
+isa(SD, B)
+isa(SD, A)
+
+isa(SE, E)
+isa(SE, B)
+isa(SE, A)
+
+isa(SF, F)
+isa(SF, C)
+isa(SF, A)
+
+
+

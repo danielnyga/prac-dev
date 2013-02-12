@@ -1,0 +1,8 @@
+has_role(The,Null)
+has_role(Fill,Actionverb)
+has_role(Bottle,Goal)
+has_role(Tap,Source)
+has_role(Oil,Theme)
+has_role(A,Null)
+end_state(YES)
+in(Oil,Bottle)

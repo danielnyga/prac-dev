@@ -1,0 +1,78 @@
+
+// Global Dependencies
+hasRole(VB_11_S_0, PutActionVerb)
+hasRole(VB_11_S_0, PutActionVerb)
+hasRole(PP_15_S_0, Goal)
+hasRole(NP_12_S_0, Item)
+hasRole(PP_15_S_0, Goal)
+
+//Put the glass on the table.
+
+
+//Dependencies
+root(Root_0_S_0,Put_1_S_0)
+det(Glass_3_S_0,The_2_S_0)
+dobj(Put_1_S_0,Glass_3_S_0)
+det(Table_6_S_0,The_5_S_0)
+prep_on(Put_1_S_0,Table_6_S_0)
+
+//Put
+hasPOS(Put_1_S_0, VB)
+
+//the
+hasPOS(The_2_S_0, DT)
+
+//glass
+hasPOS(Glass_3_S_0, NN)
+
+//on
+hasPOS(On_4_S_0, IN)
+
+//the
+hasPOS(The_5_S_0, DT)
+
+//table
+hasPOS(Table_6_S_0, NN)
+
+
+// Word Similarity
+similar(The_2_S_0, The_5_S_0)
+similar(The_5_S_0, The_2_S_0)
+
+
+// Phrase Similarity
+
+
+// Phrases in the text
+isPhrase(The_2_S_0,NP_12_S_0)
+isPhrase(Glass_3_S_0,NP_12_S_0)
+isPhrase(The_5_S_0,NP_17_S_0)
+isPhrase(Table_6_S_0,NP_17_S_0)
+
+//Distance between the elements of the text
+zerodistance(NP_12_S_0,NP_12_S_0)
+zerodistance(NP_12_S_0,NP_17_S_0)
+zerodistance(NP_17_S_0,NP_12_S_0)
+zerodistance(NP_17_S_0,NP_17_S_0)
+
+//Cluster Head Matches
+
+
+//Word inclusion
+
+
+//I-Within-I
+
+iWithini(NP_12_S_0,NP_12_S_0)
+iWithini(NP_17_S_0,NP_17_S_0)
+
+// Incompatible modifiers
+
+
+// Gender
+
+// Grouded elements in the text:
+
+
+// Modifiers:
+

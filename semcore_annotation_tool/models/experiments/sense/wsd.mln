@@ -1,0 +1,166 @@
+// ----------------------------------------------
+// ---------------Predicates --------------
+// ----------------------------------------------
+// General predicates
+hasSense(word,sense!)
+
+// evidence
+hasPossibleSense(word,sense)
+isPhrase(word,phrase)
+isa(sense,concept)
+inCompatibleModifier(phrase,phrase)
+similar(word,word)
+iWithini(phrase,phrase)
+wordInclusion(phrase,phrase)
+clusterHeadMatch(phrase,phrase)
+phraseSimilarity(phrase,phrase)
+zerodistance(phrase,phrase)
+onedistance(phrase,phrase)
+twodistance(phrase,phrase)
+threedistance(phrase,phrase)
+fourdistance(phrase,phrase)
+fardistance(phrase,phrase)
+MGender(phrase)
+FGender(phrase)
+NGender(phrase)
+PGender(phrase)
+
+// Stanford parser dependencies
+hasPOS(word,pos!)
+abbrev(word,word)
+acomp(word,word)
+advcl(word,word)
+advmod(word,word)
+agent(word,word)
+amod(word,word)
+appos(word,word)
+attr(word,word)
+aux(word,word)
+auxpass(word,word)
+cc(word,word)
+ccomp(word,word)
+complm(word,word)
+conj(word,word)
+cop(word,word)
+csubj(word,word)
+csubjpass(word,word)
+dep(word,word)
+det(word,word)
+dobj(word,word)
+expl(word,word)
+infmod(word,word)
+iobj(word,word)
+mark(word,word)
+mwe(word,word)
+neg(word,word)
+nn(word,word)
+npadvmod(word,word)
+nsubj(word,word)
+nsubjpass(word,word)
+num(word,word)
+number(word,word)
+parataxis(word,word)
+partmod(word,word)
+pcomp(word,word)
+pobj(word,word)
+poss(word,word)
+possessive(word,word)
+preconj(word,word)
+predet(word,word)
+prep(word,word)
+prepc(word,word)
+prt(word,word)
+punct(word,word)
+purpcl(word,word)
+quantmod(word,word)
+rcmod(word,word)
+ref(word,word)
+rel(word,word)
+root(root,word)
+tmod(word,word)
+xcomp(word,word)
+xsubj(word,word)
+
+// collapsed dependencies
+prep_to(word,word)
+prep_from(word,word)
+prep_of(word,word)
+prep_with(word,word)
+prep_for(word,word)
+prep_per(word,word)
+prep_on(word,word)
+prep_by(word,word)
+prep_in(word,word)
+prep_into(word,word)
+
+
+conj_and(word,word)
+conj_negcc(word,word)
+conj_or(word,word)
+
+prep_by_means_of(word,word)
+prep_in_accordance_with(word,word)
+prep_in_addition_to(word,word)
+prep_in_case_of(word,word)
+prep_in_front_of(word,word)
+prep_in_lieu_of(word,word)
+prep_in_place_of(word,word)
+prep_in_spite_of(word,word)
+prep_on_account_of(word,word)
+prep_on_behalf_of(word,word)
+prep_on_top_of(word,word)
+prep_with_regard_to(word,word)
+prep_with_respect_to(word,word)
+
+
+// -----------------------------------------------
+// ---------------- Formulas ---------------------
+// -----------------------------------------------
+
+// Word Sense disambiguation
+
+// -----------------------------------------------
+// ----------------- General ---------------------
+// -----------------------------------------------
+
+// if a sense and POS for a word occur often together, they are likely to be related
+0.0 hasSense(w, s) ^ isa(s,+c) ^ hasPOS(w, +pos)
+
+// if two words have the same sense they should have the same part of speech tag
+0 hasSense(w1, s) ^ hasSense(w2, s) ^ hasPOS(w1,pos) ^ hasPOS(w2,pos) ^ isa(s,c)
+
+// if two words have different part of speech tags, then they are less likely to have the same sense
+//0 hasSense(w1, s1) ^ hasSense(w2, s2) ^ hasPOS(w1,pos1) ^ hasPOS(w2,pos2) ^ !(pos1=pos2) ^ !(s2=s1) ^ isa(s1,c1) ^ isa(s2,c2)
+
+// if two words in a sentence appear often together, they might have an influence on the sense
+//0 zerodistance(p1,p2) ^ isPhrase(w1,p1) ^ isPhrase(w2,p2) ^ hasSense(w1, s1) ^ hasSense(w2,s2) ^ isa(s1,c1) ^ isa(s2,c2)
+
+// if two senses have common predecessors in the wordnet taxonomy then they are likely to occur together in the same text
+//0 hasSense(w1,s1) ^ isa(s1,c)  ^ hasSense(w2,s2) ^ isa(s2,c)
+
+// if two words are similar in writing then they might have the same sense
+//0 similar(w1,w2) ^ hasSense(w1, s1) ^ isa(s1,c)  ^ hasSense(w2, s1) ^ isa(s1,c)
+
+
+// As a hard formula: two phrases that are co-referent cannot have different senses
+// Place formular here
+
+// ----------------------------------------------------
+// -------------------- Verbs ----------------------
+// ----------------------------------------------------
+
+// if two verbs act on the same object they are more likely to have the same sense
+//0 hasSense (w1, s) ^ dobj(w1,w2) ^ hasSense(w3,+s1) ^ dobj(w3,w2) ^ (s1=s)
+
+// if two verbs use the same preposition and are the same verb they are more likely to have the same sense
+//0 hasSense(w1, +s) ^ hasSense(w2, +s1) ^ (s=s1) ^ prep(w1,w3) ^ prep(w2,w3)
+
+// --------------------- Nouns --------------------
+
+
+// ----------------------Adjectives ---------------
+
+
+
+
+

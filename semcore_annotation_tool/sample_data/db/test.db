@@ -1,0 +1,315 @@
+
+
+//Now get a green cup and place it next to the red cup.
+
+
+//Dependencies
+advmod(Get_2_S_1,Now_1_S_1)
+root(Root_0_S_1,Get_2_S_1)
+det(Cup_5_S_1,A_3_S_1)
+amod(Cup_5_S_1,Green_4_S_1)
+dobj(Get_2_S_1,Cup_5_S_1)
+cc(Get_2_S_1,And_6_S_1)
+conj(Get_2_S_1,Place_7_S_1)
+dobj(Place_7_S_1,It_8_S_1)
+advmod(Place_7_S_1,Next_9_S_1)
+prep(Next_9_S_1,To_10_S_1)
+det(Cup_13_S_1,The_11_S_1)
+amod(Cup_13_S_1,Red_12_S_1)
+pobj(To_10_S_1,Cup_13_S_1)
+
+//Now
+hasPOS(Now_1_S_1, RB)
+
+//get
+hasPOS(Get_2_S_1, VB)
+
+//a
+hasPOS(A_3_S_1, DT)
+
+//green
+hasPOS(Green_4_S_1, JJ)
+
+//cup
+hasPOS(Cup_5_S_1, NN)
+
+//and
+hasPOS(And_6_S_1, CC)
+
+//place
+hasPOS(Place_7_S_1, VB)
+
+//it
+hasPOS(It_8_S_1, PRP)
+
+//next
+hasPOS(Next_9_S_1, JJ)
+
+//to
+hasPOS(To_10_S_1, TO)
+
+//the
+hasPOS(The_11_S_1, DT)
+
+//red
+hasPOS(Red_12_S_1, JJ)
+
+//cup
+hasPOS(Cup_13_S_1, NN)
+
+//.
+hasPOS(__14_S_1, SPOINT)
+
+
+//Take the red cup and put it on the table.
+
+
+//Dependencies
+root(Root_0_S_0,Take_1_S_0)
+det(Cup_4_S_0,The_2_S_0)
+amod(Cup_4_S_0,Red_3_S_0)
+dobj(Take_1_S_0,Cup_4_S_0)
+cc(Take_1_S_0,And_5_S_0)
+conj(Take_1_S_0,Put_6_S_0)
+dobj(Put_6_S_0,It_7_S_0)
+prep(Put_6_S_0,On_8_S_0)
+det(Table_10_S_0,The_9_S_0)
+pobj(On_8_S_0,Table_10_S_0)
+
+//Take
+hasPOS(Take_1_S_0, VB)
+
+//the
+hasPOS(The_2_S_0, DT)
+
+//red
+hasPOS(Red_3_S_0, JJ)
+
+//cup
+hasPOS(Cup_4_S_0, NN)
+
+//and
+hasPOS(And_5_S_0, CC)
+
+//put
+hasPOS(Put_6_S_0, VB)
+
+//it
+hasPOS(It_7_S_0, PRP)
+
+//on
+hasPOS(On_8_S_0, IN)
+
+//the
+hasPOS(The_9_S_0, DT)
+
+//table
+hasPOS(Table_10_S_0, NN)
+
+//.
+hasPOS(__11_S_0, SPOINT)
+
+
+//Take both cups and mix the contents.
+
+
+//Dependencies
+root(Root_0_S_2,Take_1_S_2)
+det(Cups_3_S_2,Both_2_S_2)
+dobj(Take_1_S_2,Cups_3_S_2)
+cc(Take_1_S_2,And_4_S_2)
+conj(Take_1_S_2,Mix_5_S_2)
+det(Contents_7_S_2,The_6_S_2)
+dobj(Mix_5_S_2,Contents_7_S_2)
+
+//Take
+hasPOS(Take_1_S_2, VB)
+
+//both
+hasPOS(Both_2_S_2, DT)
+
+//cups
+hasPOS(Cups_3_S_2, NNS)
+
+//and
+hasPOS(And_4_S_2, CC)
+
+//mix
+hasPOS(Mix_5_S_2, VB)
+
+//the
+hasPOS(The_6_S_2, DT)
+
+//contents
+hasPOS(Contents_7_S_2, NNS)
+
+//.
+hasPOS(__8_S_2, SPOINT)
+
+
+// Word Similarity
+similar(Cup_5_S_1, Cup_13_S_1)
+similar(Cup_5_S_1, Cup_4_S_0)
+similar(Cup_5_S_1, Cups_3_S_2)
+similar(And_6_S_1, And_5_S_0)
+similar(And_6_S_1, And_4_S_2)
+similar(It_8_S_1, It_7_S_0)
+similar(The_11_S_1, The_2_S_0)
+similar(The_11_S_1, The_9_S_0)
+similar(The_11_S_1, The_6_S_2)
+similar(Red_12_S_1, Red_3_S_0)
+similar(Cup_13_S_1, Cup_5_S_1)
+similar(Cup_13_S_1, Cup_4_S_0)
+similar(Cup_13_S_1, Cups_3_S_2)
+similar(__14_S_1, __11_S_0)
+similar(__14_S_1, __8_S_2)
+similar(The_2_S_0, The_11_S_1)
+similar(The_2_S_0, The_9_S_0)
+similar(The_2_S_0, The_6_S_2)
+similar(Red_3_S_0, Red_12_S_1)
+similar(Cup_4_S_0, Cup_5_S_1)
+similar(Cup_4_S_0, Cup_13_S_1)
+similar(Cup_4_S_0, Cups_3_S_2)
+similar(And_5_S_0, And_6_S_1)
+similar(And_5_S_0, And_4_S_2)
+similar(It_7_S_0, It_8_S_1)
+similar(The_9_S_0, The_11_S_1)
+similar(The_9_S_0, The_2_S_0)
+similar(The_9_S_0, The_6_S_2)
+similar(__11_S_0, __14_S_1)
+similar(__11_S_0, __8_S_2)
+similar(Cups_3_S_2, Cup_5_S_1)
+similar(Cups_3_S_2, Cup_13_S_1)
+similar(Cups_3_S_2, Cup_4_S_0)
+similar(And_4_S_2, And_6_S_1)
+similar(And_4_S_2, And_5_S_0)
+similar(The_6_S_2, The_11_S_1)
+similar(The_6_S_2, The_2_S_0)
+similar(The_6_S_2, The_9_S_0)
+similar(__8_S_2, __14_S_1)
+similar(__8_S_2, __11_S_0)
+
+
+// Phrase Similarity
+phraseSimilarity(NP_29_S_1,NP_24_S_0)
+phraseSimilarity(NP_35_S_1,NP_17_S_0)
+phraseSimilarity(NP_17_S_0,NP_35_S_1)
+phraseSimilarity(NP_24_S_0,NP_29_S_1)
+
+
+// Phrases in the text
+isPhrase(A_3_S_1,NP_22_S_1)
+isPhrase(Green_4_S_1,NP_22_S_1)
+isPhrase(Cup_5_S_1,NP_22_S_1)
+isPhrase(It_8_S_1,NP_29_S_1)
+isPhrase(The_11_S_1,NP_35_S_1)
+isPhrase(Red_12_S_1,NP_35_S_1)
+isPhrase(Cup_13_S_1,NP_35_S_1)
+isPhrase(The_2_S_0,NP_17_S_0)
+isPhrase(Red_3_S_0,NP_17_S_0)
+isPhrase(Cup_4_S_0,NP_17_S_0)
+isPhrase(It_7_S_0,NP_24_S_0)
+isPhrase(The_9_S_0,NP_28_S_0)
+isPhrase(Table_10_S_0,NP_28_S_0)
+isPhrase(Both_2_S_2,NP_14_S_2)
+isPhrase(Cups_3_S_2,NP_14_S_2)
+isPhrase(The_6_S_2,NP_20_S_2)
+isPhrase(Contents_7_S_2,NP_20_S_2)
+
+//Distance between the elements of the text
+zerodistance(NP_17_S_0,NP_17_S_0)
+zerodistance(NP_17_S_0,NP_24_S_0)
+zerodistance(NP_17_S_0,NP_28_S_0)
+onedistance(NP_17_S_0,NP_22_S_1)
+onedistance(NP_17_S_0,NP_29_S_1)
+onedistance(NP_17_S_0,NP_35_S_1)
+twodistance(NP_17_S_0,NP_14_S_2)
+twodistance(NP_17_S_0,NP_20_S_2)
+zerodistance(NP_24_S_0,NP_17_S_0)
+zerodistance(NP_24_S_0,NP_24_S_0)
+zerodistance(NP_24_S_0,NP_28_S_0)
+onedistance(NP_24_S_0,NP_22_S_1)
+onedistance(NP_24_S_0,NP_29_S_1)
+onedistance(NP_24_S_0,NP_35_S_1)
+twodistance(NP_24_S_0,NP_14_S_2)
+twodistance(NP_24_S_0,NP_20_S_2)
+zerodistance(NP_28_S_0,NP_17_S_0)
+zerodistance(NP_28_S_0,NP_24_S_0)
+zerodistance(NP_28_S_0,NP_28_S_0)
+onedistance(NP_28_S_0,NP_22_S_1)
+onedistance(NP_28_S_0,NP_29_S_1)
+onedistance(NP_28_S_0,NP_35_S_1)
+twodistance(NP_28_S_0,NP_14_S_2)
+twodistance(NP_28_S_0,NP_20_S_2)
+onedistance(NP_22_S_1,NP_17_S_0)
+onedistance(NP_22_S_1,NP_24_S_0)
+onedistance(NP_22_S_1,NP_28_S_0)
+zerodistance(NP_22_S_1,NP_22_S_1)
+zerodistance(NP_22_S_1,NP_29_S_1)
+zerodistance(NP_22_S_1,NP_35_S_1)
+onedistance(NP_22_S_1,NP_14_S_2)
+onedistance(NP_22_S_1,NP_20_S_2)
+onedistance(NP_29_S_1,NP_17_S_0)
+onedistance(NP_29_S_1,NP_24_S_0)
+onedistance(NP_29_S_1,NP_28_S_0)
+zerodistance(NP_29_S_1,NP_22_S_1)
+zerodistance(NP_29_S_1,NP_29_S_1)
+zerodistance(NP_29_S_1,NP_35_S_1)
+onedistance(NP_29_S_1,NP_14_S_2)
+onedistance(NP_29_S_1,NP_20_S_2)
+onedistance(NP_35_S_1,NP_17_S_0)
+onedistance(NP_35_S_1,NP_24_S_0)
+onedistance(NP_35_S_1,NP_28_S_0)
+zerodistance(NP_35_S_1,NP_22_S_1)
+zerodistance(NP_35_S_1,NP_29_S_1)
+zerodistance(NP_35_S_1,NP_35_S_1)
+onedistance(NP_35_S_1,NP_14_S_2)
+onedistance(NP_35_S_1,NP_20_S_2)
+twodistance(NP_14_S_2,NP_17_S_0)
+twodistance(NP_14_S_2,NP_24_S_0)
+twodistance(NP_14_S_2,NP_28_S_0)
+onedistance(NP_14_S_2,NP_22_S_1)
+onedistance(NP_14_S_2,NP_29_S_1)
+onedistance(NP_14_S_2,NP_35_S_1)
+zerodistance(NP_14_S_2,NP_14_S_2)
+zerodistance(NP_14_S_2,NP_20_S_2)
+twodistance(NP_20_S_2,NP_17_S_0)
+twodistance(NP_20_S_2,NP_24_S_0)
+twodistance(NP_20_S_2,NP_28_S_0)
+onedistance(NP_20_S_2,NP_22_S_1)
+onedistance(NP_20_S_2,NP_29_S_1)
+onedistance(NP_20_S_2,NP_35_S_1)
+zerodistance(NP_20_S_2,NP_14_S_2)
+zerodistance(NP_20_S_2,NP_20_S_2)
+
+//Cluster Head Matches
+
+clusterHeadMatch(NP_22_S_1,NP_35_S_1)
+clusterHeadMatch(NP_22_S_1,NP_17_S_0)
+clusterHeadMatch(NP_35_S_1,NP_22_S_1)
+clusterHeadMatch(NP_35_S_1,NP_17_S_0)
+clusterHeadMatch(NP_17_S_0,NP_22_S_1)
+clusterHeadMatch(NP_17_S_0,NP_35_S_1)
+
+//Word inclusion
+
+wordInclusion(NP_35_S_1,NP_17_S_0)
+wordInclusion(NP_17_S_0,NP_35_S_1)
+
+//I-Within-I
+
+iWithini(NP_22_S_1,NP_22_S_1)
+iWithini(NP_29_S_1,NP_29_S_1)
+iWithini(NP_35_S_1,NP_35_S_1)
+iWithini(NP_17_S_0,NP_17_S_0)
+iWithini(NP_24_S_0,NP_24_S_0)
+iWithini(NP_28_S_0,NP_28_S_0)
+iWithini(NP_14_S_2,NP_14_S_2)
+iWithini(NP_20_S_2,NP_20_S_2)
+inCompatibleModifier(NP_22_S_1,NP_35_S_1)
+inCompatibleModifier(NP_22_S_1,NP_17_S_0)
+inCompatibleModifier(NP_35_S_1,NP_22_S_1)
+inCompatibleModifier(NP_17_S_0,NP_22_S_1)
+
+
+// Gender

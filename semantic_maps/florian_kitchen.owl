@@ -1,0 +1,1130 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY knowrob "http://ias.cs.tum.edu/kb/knowrob.owl#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY florian_kitchen "http://de.tum.ias/kr/florian_kitchen.owl#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+]>
+
+
+<rdf:RDF xmlns="http://www.w3.org/2002/07/owl#"
+     xml:base="http://www.w3.org/2002/07/owl"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:florian_kitchen="http://de.tum.ias/kr/florian_kitchen.owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:knowrob="http://ias.cs.tum.edu/kb/knowrob.owl#">
+    <Ontology rdf:about="http://de.tum.ias/kr/florian_kitchen.owl">
+        <imports rdf:resource="http://ias.cs.tum.edu/kb/knowrob.owl"/>
+    </Ontology>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Datatypes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://de.tum.ias/kr/florian_kitchen.owl#AppleJuice -->
+
+    <Class rdf:about="&florian_kitchen;AppleJuice">
+        <rdfs:subClassOf rdf:resource="&knowrob;Juice"/>
+    </Class>
+    
+
+
+    <!-- http://de.tum.ias/kr/florian_kitchen.owl#Blender -->
+
+    <Class rdf:about="&florian_kitchen;Blender">
+        <rdfs:subClassOf rdf:resource="&florian_kitchen;ProcessingVessel"/>
+        <rdfs:subClassOf rdf:resource="&knowrob;ElectricalHouseholdAppliance"/>
+    </Class>
+    
+
+
+    <!-- http://de.tum.ias/kr/florian_kitchen.owl#Chocolate -->
+
+    <Class rdf:about="&florian_kitchen;Chocolate">
+        <rdfs:subClassOf rdf:resource="&florian_kitchen;Sweet"/>
+    </Class>
+    
+
+
+    <!-- http://de.tum.ias/kr/florian_kitchen.owl#CoffeeLiqueur -->
+
+    <Class rdf:about="&florian_kitchen;CoffeeLiqueur">
+        <rdfs:subClassOf rdf:resource="&florian_kitchen;Liqueur-Beverage"/>
+    </Class>
+    
+
+
+    <!-- http://de.tum.ias/kr/florian_kitchen.owl#Cornflakes -->
+
+    <Class rdf:about="&florian_kitchen;Cornflakes">
+        <rdfs:subClassOf rdf:resource="&knowrob;BreakfastCereal"/>
+    </Class>
+    
+
+
+    <!-- http://de.tum.ias/kr/florian_kitchen.owl#FoodProcessor -->
+
+    <Class rdf:about="&florian_kitchen;FoodProcessor">
+        <rdfs:subClassOf rdf:resource="&florian_kitchen;ProcessingVessel"/>
+        <rdfs:subClassOf rdf:resource="&knowrob;ElectricalHouseholdAppliance"/>
+    </Class>
+    
+
+
+    <!-- http://de.tum.ias/kr/florian_kitchen.owl#Gin -->
+
+    <Class rdf:about="&florian_kitchen;Gin">
+        <rdfs:subClassOf rdf:resource="&florian_kitchen;Liqueur-Beverage"/>
+    </Class>
+    
+
+
+    <!-- http://de.tum.ias/kr/florian_kitchen.owl#IceCubes -->
+
+    <Class rdf:about="&florian_kitchen;IceCubes">
+        <rdfs:subClassOf rdf:resource="&knowrob;Frozen"/>
+    </Class>
+    
+
+
+    <!-- http://de.tum.ias/kr/florian_kitchen.owl#JuiceConcentrate -->
+
+    <Class rdf:about="&florian_kitchen;JuiceConcentrate">
+        <rdfs:subClassOf rdf:resource="&knowrob;Drink"/>
+    </Class>
+    
+
+
+    <!-- http://de.tum.ias/kr/florian_kitchen.owl#LemonJuice -->
+
+    <Class rdf:about="&florian_kitchen;LemonJuice">
+        <rdfs:subClassOf rdf:resource="&knowrob;Juice"/>
+    </Class>
+    
+
+
+    <!-- http://de.tum.ias/kr/florian_kitchen.owl#Liqueur-Beverage -->
+
+    <Class rdf:about="&florian_kitchen;Liqueur-Beverage">
+        <rdfs:subClassOf rdf:resource="&knowrob;Drink"/>
+    </Class>
+    
+
+
+    <!-- http://de.tum.ias/kr/florian_kitchen.owl#OrangeJuice -->
+
+    <Class rdf:about="&florian_kitchen;OrangeJuice">
+        <rdfs:subClassOf rdf:resource="&knowrob;Juice"/>
+    </Class>
+    
+
+
+    <!-- http://de.tum.ias/kr/florian_kitchen.owl#ProcessingVessel -->
+
+    <Class rdf:about="&florian_kitchen;ProcessingVessel">
+        <rdfs:subClassOf rdf:resource="&knowrob;FoodVessel"/>
+    </Class>
+    
+
+
+    <!-- http://de.tum.ias/kr/florian_kitchen.owl#Schnapps -->
+
+    <Class rdf:about="&florian_kitchen;Schnapps">
+        <rdfs:subClassOf rdf:resource="&florian_kitchen;Liqueur-Beverage"/>
+    </Class>
+    
+
+
+    <!-- http://de.tum.ias/kr/florian_kitchen.owl#Shaker -->
+
+    <Class rdf:about="&florian_kitchen;Shaker">
+        <rdfs:subClassOf rdf:resource="&knowrob;CookingVessel"/>
+    </Class>
+    
+
+
+    <!-- http://de.tum.ias/kr/florian_kitchen.owl#SoftDrink -->
+
+    <Class rdf:about="&florian_kitchen;SoftDrink">
+        <rdfs:subClassOf rdf:resource="&knowrob;Drink"/>
+    </Class>
+    
+
+
+    <!-- http://de.tum.ias/kr/florian_kitchen.owl#Stirrer -->
+
+    <Class rdf:about="&florian_kitchen;Stirrer">
+        <rdfs:subClassOf rdf:resource="&knowrob;ElectricalHouseholdAppliance"/>
+    </Class>
+    
+
+
+    <!-- http://de.tum.ias/kr/florian_kitchen.owl#Sweet -->
+
+    <Class rdf:about="&florian_kitchen;Sweet">
+        <rdfs:subClassOf rdf:resource="&knowrob;Food"/>
+    </Class>
+    
+
+
+    <!-- http://de.tum.ias/kr/florian_kitchen.owl#Vodka -->
+
+    <Class rdf:about="&florian_kitchen;Vodka">
+        <rdfs:subClassOf rdf:resource="&florian_kitchen;Liqueur-Beverage"/>
+    </Class>
+    
+
+
+    <!-- http://de.tum.ias/kr/florian_kitchen.owl#Whiskey -->
+
+    <Class rdf:about="&florian_kitchen;Whiskey">
+        <rdfs:subClassOf rdf:resource="&florian_kitchen;Liqueur-Beverage"/>
+    </Class>
+    
+
+
+    <!-- http://de.tum.ias/kr/florian_kitchen.owl#Wine -->
+
+    <Class rdf:about="&florian_kitchen;Wine">
+        <rdfs:subClassOf rdf:resource="&florian_kitchen;Liqueur-Beverage"/>
+    </Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#CowsMilk-Product -->
+
+    <rdf:Description rdf:about="&knowrob;CowsMilk-Product">
+        <rdfs:subClassOf rdf:resource="&knowrob;Perishable"/>
+    </rdf:Description>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://de.tum.ias/kr/florian_kitchen.owl#AppleJuice1 -->
+
+    <NamedIndividual rdf:about="&florian_kitchen;AppleJuice1">
+        <rdf:type rdf:resource="&florian_kitchen;AppleJuice"/>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://annotation_tool/cad_models/apple_juice.kmz</knowrob:pathToCadModel>
+        <knowrob:orientation rdf:resource="&florian_kitchen;RotationMatrixOnTable9"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://de.tum.ias/kr/florian_kitchen.owl#Banana1 -->
+
+    <NamedIndividual rdf:about="&florian_kitchen;Banana1">
+        <rdf:type rdf:resource="&knowrob;EdibleFruit"/>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://annotation_tool/cad_models/banana.kmz</knowrob:pathToCadModel>
+        <knowrob:on-Physical rdf:resource="&florian_kitchen;KitchenTable1"/>
+        <knowrob:orientation rdf:resource="&florian_kitchen;RotationMatrixOnTable7"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://de.tum.ias/kr/florian_kitchen.owl#Blender1 -->
+
+    <NamedIndividual rdf:about="&florian_kitchen;Blender1">
+        <rdf:type rdf:resource="&florian_kitchen;FoodProcessor"/>
+        <knowrob:depthOfObject rdf:datatype="&xsd;double">1.0</knowrob:depthOfObject>
+        <knowrob:heightOfObject rdf:datatype="&xsd;double">2.0</knowrob:heightOfObject>
+        <knowrob:widthOfObject rdf:datatype="&xsd;double">2.0</knowrob:widthOfObject>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://annotation_tool/cad_models/mixer.kmz</knowrob:pathToCadModel>
+        <knowrob:on-Physical rdf:resource="&florian_kitchen;KitchenTable1"/>
+        <knowrob:orientation rdf:resource="&florian_kitchen;RotationMatrixOnTable1"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://de.tum.ias/kr/florian_kitchen.owl#ChocolateChips1 -->
+
+    <NamedIndividual rdf:about="&florian_kitchen;ChocolateChips1">
+        <rdf:type rdf:resource="&florian_kitchen;Chocolate"/>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://annotation_tool/cad_models/chocolate_chip.kmz</knowrob:pathToCadModel>
+        <knowrob:orientation rdf:resource="&florian_kitchen;RotationMatrixOnTable8"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://de.tum.ias/kr/florian_kitchen.owl#CocaCola1 -->
+
+    <NamedIndividual rdf:about="&florian_kitchen;CocaCola1">
+        <rdf:type rdf:resource="&florian_kitchen;SoftDrink"/>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://annotation_tool/cad_models/coke.kmz</knowrob:pathToCadModel>
+        <knowrob:orientation rdf:resource="&florian_kitchen;RotationMatrixOnTable4"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://de.tum.ias/kr/florian_kitchen.owl#CocktailGlass1 -->
+
+    <NamedIndividual rdf:about="&florian_kitchen;CocktailGlass1">
+        <rdf:type rdf:resource="&knowrob;DrinkingGlass"/>
+        <knowrob:on-Physical rdf:resource="&florian_kitchen;KitchenTable1"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://de.tum.ias/kr/florian_kitchen.owl#Coffee1 -->
+
+    <NamedIndividual rdf:about="&florian_kitchen;Coffee1">
+        <rdf:type rdf:resource="&knowrob;Coffee-Beverage"/>
+        <knowrob:on-Physical rdf:resource="&florian_kitchen;KitchenTable1"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://de.tum.ias/kr/florian_kitchen.owl#CoffeeLiqueur -->
+
+    <NamedIndividual rdf:about="&florian_kitchen;CoffeeLiqueur">
+        <rdf:type rdf:resource="&knowrob;Coffee-Beverage"/>
+        <knowrob:on-Physical rdf:resource="&florian_kitchen;KitchenTable1"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://de.tum.ias/kr/florian_kitchen.owl#Cornflakes1 -->
+
+    <NamedIndividual rdf:about="&florian_kitchen;Cornflakes1">
+        <rdf:type rdf:resource="&florian_kitchen;Cornflakes"/>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://annotation_tool/cad_models/cornflakes.kmz</knowrob:pathToCadModel>
+        <knowrob:on-Physical rdf:resource="&florian_kitchen;KitchenTable1"/>
+        <knowrob:orientation rdf:resource="&florian_kitchen;RotationMatrixOnTable11"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://de.tum.ias/kr/florian_kitchen.owl#Freezer1 -->
+
+    <NamedIndividual rdf:about="&florian_kitchen;Freezer1">
+        <rdf:type rdf:resource="&knowrob;Refrigerator-Freezer"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://de.tum.ias/kr/florian_kitchen.owl#Gin1 -->
+
+    <NamedIndividual rdf:about="&florian_kitchen;Gin1">
+        <rdf:type rdf:resource="&florian_kitchen;Gin"/>
+        <knowrob:on-Physical rdf:resource="&florian_kitchen;KitchenTable1"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://de.tum.ias/kr/florian_kitchen.owl#GingerAle1 -->
+
+    <NamedIndividual rdf:about="&florian_kitchen;GingerAle1">
+        <rdf:type rdf:resource="&florian_kitchen;SoftDrink"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://de.tum.ias/kr/florian_kitchen.owl#Green1 -->
+
+    <NamedIndividual rdf:about="&florian_kitchen;Green1">
+        <rdf:type rdf:resource="&knowrob;GreenColor"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://de.tum.ias/kr/florian_kitchen.owl#IceCubes1 -->
+
+    <NamedIndividual rdf:about="&florian_kitchen;IceCubes1">
+        <rdf:type rdf:resource="&florian_kitchen;IceCubes"/>
+        <rdf:type rdf:resource="&knowrob;Water"/>
+        <knowrob:on-Physical rdf:resource="&florian_kitchen;KitchenTable1"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://de.tum.ias/kr/florian_kitchen.owl#IceTray1 -->
+
+    <NamedIndividual rdf:about="&florian_kitchen;IceTray1">
+        <rdf:type rdf:resource="&knowrob;Tray"/>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://annotation_tool/cad_models/ice_tray.kmz</knowrob:pathToCadModel>
+        <knowrob:orientation rdf:resource="&florian_kitchen;RotationMatrixOnTable12"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://de.tum.ias/kr/florian_kitchen.owl#KitchenTable1 -->
+
+    <NamedIndividual rdf:about="&florian_kitchen;KitchenTable1">
+        <rdf:type rdf:resource="&knowrob;KitchenTable"/>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://annotation_tool/cad_models/table.kmz</knowrob:pathToCadModel>
+    </NamedIndividual>
+    
+
+
+    <!-- http://de.tum.ias/kr/florian_kitchen.owl#Knife1 -->
+
+    <NamedIndividual rdf:about="&florian_kitchen;Knife1">
+        <rdf:type rdf:resource="&knowrob;CarvingKnife"/>
+        <knowrob:on-Physical rdf:resource="&florian_kitchen;KitchenTable1"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://de.tum.ias/kr/florian_kitchen.owl#LemonJuice1 -->
+
+    <NamedIndividual rdf:about="&florian_kitchen;LemonJuice1">
+        <rdf:type rdf:resource="&florian_kitchen;LemonJuice"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://de.tum.ias/kr/florian_kitchen.owl#MartiniGlass1 -->
+
+    <NamedIndividual rdf:about="&florian_kitchen;MartiniGlass1">
+        <rdf:type rdf:resource="&knowrob;DrinkingGlass"/>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://annotation_tool/cad_models/martini_glass.kmz</knowrob:pathToCadModel>
+        <knowrob:on-Physical rdf:resource="&florian_kitchen;KitchenTable1"/>
+        <knowrob:orientation rdf:resource="&florian_kitchen;RotationMatrixOnTable5"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://de.tum.ias/kr/florian_kitchen.owl#Milk1 -->
+
+    <NamedIndividual rdf:about="&florian_kitchen;Milk1">
+        <rdf:type rdf:resource="&knowrob;Milk"/>
+        <knowrob:on-Physical rdf:resource="&florian_kitchen;KitchenTable1"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://de.tum.ias/kr/florian_kitchen.owl#MixingBowl1 -->
+
+    <NamedIndividual rdf:about="&florian_kitchen;MixingBowl1">
+        <rdf:type rdf:resource="&knowrob;Bowl-Mixing"/>
+        <knowrob:on-Physical rdf:resource="&florian_kitchen;KitchenTable1"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://de.tum.ias/kr/florian_kitchen.owl#Mug1 -->
+
+    <NamedIndividual rdf:about="&florian_kitchen;Mug1">
+        <rdf:type rdf:resource="&knowrob;DrinkingMug"/>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://annotation_tool/cad_models/red_mug.kmz</knowrob:pathToCadModel>
+        <knowrob:on-Physical rdf:resource="&florian_kitchen;KitchenTable1"/>
+        <knowrob:near rdf:resource="&florian_kitchen;Mug2"/>
+        <knowrob:orientation rdf:resource="&florian_kitchen;RotationMatrixOnTable3"/>
+        <knowrob:mainColorOfObject rdf:resource="&florian_kitchen;red1"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://de.tum.ias/kr/florian_kitchen.owl#Mug2 -->
+
+    <NamedIndividual rdf:about="&florian_kitchen;Mug2">
+        <rdf:type rdf:resource="&knowrob;DrinkingMug"/>
+        <knowrob:on-Physical rdf:resource="&florian_kitchen;KitchenTable1"/>
+        <knowrob:near rdf:resource="&florian_kitchen;Mug1"/>
+        <knowrob:mainColorOfObject rdf:resource="&florian_kitchen;yellow1"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://de.tum.ias/kr/florian_kitchen.owl#Mug3 -->
+
+    <NamedIndividual rdf:about="&florian_kitchen;Mug3">
+        <rdf:type rdf:resource="&knowrob;DrinkingMug"/>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://annotation_tool/cad_models/green_mug.kmz</knowrob:pathToCadModel>
+        <knowrob:mainColorOfObject rdf:resource="&florian_kitchen;Green1"/>
+        <knowrob:on-Physical rdf:resource="&florian_kitchen;KitchenTable1"/>
+        <knowrob:near rdf:resource="&florian_kitchen;Mug1"/>
+        <knowrob:near rdf:resource="&florian_kitchen;Mug2"/>
+        <knowrob:orientation rdf:resource="&florian_kitchen;RotationMatrixOnTable3"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://de.tum.ias/kr/florian_kitchen.owl#OrangeJuice1 -->
+
+    <NamedIndividual rdf:about="&florian_kitchen;OrangeJuice1">
+        <rdf:type rdf:resource="&florian_kitchen;OrangeJuice"/>
+        <knowrob:on-Physical rdf:resource="&florian_kitchen;KitchenTable1"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://de.tum.ias/kr/florian_kitchen.owl#OrangeJuiceConcentrate -->
+
+    <NamedIndividual rdf:about="&florian_kitchen;OrangeJuiceConcentrate">
+        <rdf:type rdf:resource="&florian_kitchen;JuiceConcentrate"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://de.tum.ias/kr/florian_kitchen.owl#Plate1 -->
+
+    <NamedIndividual rdf:about="&florian_kitchen;Plate1">
+        <rdf:type rdf:resource="&knowrob;DinnerPlate"/>
+        <knowrob:heightOfObject rdf:datatype="&xsd;double">0.5</knowrob:heightOfObject>
+        <knowrob:depthOfObject rdf:datatype="&xsd;double">1.0</knowrob:depthOfObject>
+        <knowrob:diameterOfObject rdf:datatype="&xsd;double">1.0</knowrob:diameterOfObject>
+        <knowrob:widthOfObject rdf:datatype="&xsd;double">1.0</knowrob:widthOfObject>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://annotation_tool/cad_models/plate.kmz</knowrob:pathToCadModel>
+        <knowrob:on-Physical rdf:resource="&florian_kitchen;KitchenTable1"/>
+        <knowrob:orientation rdf:resource="&florian_kitchen;RotationMatrixOnTable2"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://de.tum.ias/kr/florian_kitchen.owl#PunchBowl1 -->
+
+    <NamedIndividual rdf:about="&florian_kitchen;PunchBowl1">
+        <rdf:type rdf:resource="&knowrob;Bowl-Mixing"/>
+        <rdf:type rdf:resource="&knowrob;Bowl-Serving"/>
+        <knowrob:on-Physical rdf:resource="&florian_kitchen;KitchenTable1"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://de.tum.ias/kr/florian_kitchen.owl#RotationMatrixOnTable1 -->
+
+    <NamedIndividual rdf:about="&florian_kitchen;RotationMatrixOnTable1">
+        <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
+        <knowrob:m03 rdf:datatype="&xsd;double">-3.0
+</knowrob:m03>
+        <knowrob:m30 rdf:datatype="&xsd;double">0.0</knowrob:m30>
+        <knowrob:m01 rdf:datatype="&xsd;double">0.0</knowrob:m01>
+        <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
+        <knowrob:m12 rdf:datatype="&xsd;double">0.0</knowrob:m12>
+        <knowrob:m02 rdf:datatype="&xsd;double">0.0</knowrob:m02>
+        <knowrob:m31 rdf:datatype="&xsd;double">0.0</knowrob:m31>
+        <knowrob:m20 rdf:datatype="&xsd;double">0.0</knowrob:m20>
+        <knowrob:m10 rdf:datatype="&xsd;double">0.0</knowrob:m10>
+        <knowrob:m21 rdf:datatype="&xsd;double">0.0</knowrob:m21>
+        <knowrob:m22 rdf:datatype="&xsd;double">1.0</knowrob:m22>
+        <knowrob:m00 rdf:datatype="&xsd;double">1.0</knowrob:m00>
+        <knowrob:m11 rdf:datatype="&xsd;double">1.0
+</knowrob:m11>
+        <knowrob:m23 rdf:datatype="&xsd;double">1.5</knowrob:m23>
+        <knowrob:m33 rdf:datatype="&xsd;double">1.5</knowrob:m33>
+        <knowrob:m13 rdf:datatype="&xsd;double">3.0</knowrob:m13>
+    </NamedIndividual>
+    
+
+
+    <!-- http://de.tum.ias/kr/florian_kitchen.owl#RotationMatrixOnTable10 -->
+
+    <NamedIndividual rdf:about="&florian_kitchen;RotationMatrixOnTable10">
+        <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
+        <knowrob:m03 rdf:datatype="&xsd;double">-3.1
+</knowrob:m03>
+        <knowrob:m21 rdf:datatype="&xsd;double">0.0</knowrob:m21>
+        <knowrob:m01 rdf:datatype="&xsd;double">0.0</knowrob:m01>
+        <knowrob:m12 rdf:datatype="&xsd;double">0.0</knowrob:m12>
+        <knowrob:m02 rdf:datatype="&xsd;double">0.0</knowrob:m02>
+        <knowrob:m20 rdf:datatype="&xsd;double">0.0</knowrob:m20>
+        <knowrob:m10 rdf:datatype="&xsd;double">0.0</knowrob:m10>
+        <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
+        <knowrob:m30 rdf:datatype="&xsd;double">0.0</knowrob:m30>
+        <knowrob:m31 rdf:datatype="&xsd;double">0.0</knowrob:m31>
+        <knowrob:m00 rdf:datatype="&xsd;double">1.0</knowrob:m00>
+        <knowrob:m22 rdf:datatype="&xsd;double">1.0</knowrob:m22>
+        <knowrob:m11 rdf:datatype="&xsd;double">1.0
+</knowrob:m11>
+        <knowrob:m33 rdf:datatype="&xsd;double">1.5</knowrob:m33>
+        <knowrob:m23 rdf:datatype="&xsd;double">1.5</knowrob:m23>
+        <knowrob:m13 rdf:datatype="&xsd;double">4.5</knowrob:m13>
+    </NamedIndividual>
+    
+
+
+    <!-- http://de.tum.ias/kr/florian_kitchen.owl#RotationMatrixOnTable11 -->
+
+    <NamedIndividual rdf:about="&florian_kitchen;RotationMatrixOnTable11">
+        <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
+        <knowrob:m03 rdf:datatype="&xsd;double">-3.1
+</knowrob:m03>
+        <knowrob:m30 rdf:datatype="&xsd;double">0.0</knowrob:m30>
+        <knowrob:m10 rdf:datatype="&xsd;double">0.0</knowrob:m10>
+        <knowrob:m01 rdf:datatype="&xsd;double">0.0</knowrob:m01>
+        <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
+        <knowrob:m21 rdf:datatype="&xsd;double">0.0</knowrob:m21>
+        <knowrob:m12 rdf:datatype="&xsd;double">0.0</knowrob:m12>
+        <knowrob:m20 rdf:datatype="&xsd;double">0.0</knowrob:m20>
+        <knowrob:m31 rdf:datatype="&xsd;double">0.0</knowrob:m31>
+        <knowrob:m02 rdf:datatype="&xsd;double">0.0</knowrob:m02>
+        <knowrob:m22 rdf:datatype="&xsd;double">1.0</knowrob:m22>
+        <knowrob:m00 rdf:datatype="&xsd;double">1.0</knowrob:m00>
+        <knowrob:m11 rdf:datatype="&xsd;double">1.0
+</knowrob:m11>
+        <knowrob:m23 rdf:datatype="&xsd;double">1.35</knowrob:m23>
+        <knowrob:m33 rdf:datatype="&xsd;double">1.5</knowrob:m33>
+        <knowrob:m13 rdf:datatype="&xsd;double">3.8</knowrob:m13>
+    </NamedIndividual>
+    
+
+
+    <!-- http://de.tum.ias/kr/florian_kitchen.owl#RotationMatrixOnTable12 -->
+
+    <NamedIndividual rdf:about="&florian_kitchen;RotationMatrixOnTable12">
+        <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
+        <knowrob:m03 rdf:datatype="&xsd;double">-3.1
+</knowrob:m03>
+        <knowrob:m10 rdf:datatype="&xsd;double">0.0</knowrob:m10>
+        <knowrob:m31 rdf:datatype="&xsd;double">0.0</knowrob:m31>
+        <knowrob:m30 rdf:datatype="&xsd;double">0.0</knowrob:m30>
+        <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
+        <knowrob:m01 rdf:datatype="&xsd;double">0.0</knowrob:m01>
+        <knowrob:m12 rdf:datatype="&xsd;double">0.0</knowrob:m12>
+        <knowrob:m21 rdf:datatype="&xsd;double">0.0</knowrob:m21>
+        <knowrob:m20 rdf:datatype="&xsd;double">0.0</knowrob:m20>
+        <knowrob:m02 rdf:datatype="&xsd;double">0.0</knowrob:m02>
+        <knowrob:m00 rdf:datatype="&xsd;double">1.0</knowrob:m00>
+        <knowrob:m22 rdf:datatype="&xsd;double">1.0</knowrob:m22>
+        <knowrob:m11 rdf:datatype="&xsd;double">1.0
+</knowrob:m11>
+        <knowrob:m23 rdf:datatype="&xsd;double">1.3</knowrob:m23>
+        <knowrob:m33 rdf:datatype="&xsd;double">1.5</knowrob:m33>
+        <knowrob:m13 rdf:datatype="&xsd;double">3.8</knowrob:m13>
+    </NamedIndividual>
+    
+
+
+    <!-- http://de.tum.ias/kr/florian_kitchen.owl#RotationMatrixOnTable13 -->
+
+    <NamedIndividual rdf:about="&florian_kitchen;RotationMatrixOnTable13">
+        <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
+        <knowrob:m03 rdf:datatype="&xsd;double">-3.1
+</knowrob:m03>
+        <knowrob:m12 rdf:datatype="&xsd;double">0.0</knowrob:m12>
+        <knowrob:m02 rdf:datatype="&xsd;double">0.0</knowrob:m02>
+        <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
+        <knowrob:m10 rdf:datatype="&xsd;double">0.0</knowrob:m10>
+        <knowrob:m31 rdf:datatype="&xsd;double">0.0</knowrob:m31>
+        <knowrob:m01 rdf:datatype="&xsd;double">0.0</knowrob:m01>
+        <knowrob:m30 rdf:datatype="&xsd;double">0.0</knowrob:m30>
+        <knowrob:m21 rdf:datatype="&xsd;double">0.0</knowrob:m21>
+        <knowrob:m20 rdf:datatype="&xsd;double">0.0</knowrob:m20>
+        <knowrob:m22 rdf:datatype="&xsd;double">1.0</knowrob:m22>
+        <knowrob:m00 rdf:datatype="&xsd;double">1.0</knowrob:m00>
+        <knowrob:m11 rdf:datatype="&xsd;double">1.0
+</knowrob:m11>
+        <knowrob:m33 rdf:datatype="&xsd;double">1.5</knowrob:m33>
+        <knowrob:m23 rdf:datatype="&xsd;double">1.5</knowrob:m23>
+        <knowrob:m13 rdf:datatype="&xsd;double">3.8</knowrob:m13>
+    </NamedIndividual>
+    
+
+
+    <!-- http://de.tum.ias/kr/florian_kitchen.owl#RotationMatrixOnTable14 -->
+
+    <NamedIndividual rdf:about="&florian_kitchen;RotationMatrixOnTable14">
+        <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
+        <knowrob:m03 rdf:datatype="&xsd;double">-3.1
+</knowrob:m03>
+        <knowrob:m20 rdf:datatype="&xsd;double">0.0</knowrob:m20>
+        <knowrob:m10 rdf:datatype="&xsd;double">0.0</knowrob:m10>
+        <knowrob:m21 rdf:datatype="&xsd;double">0.0</knowrob:m21>
+        <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
+        <knowrob:m31 rdf:datatype="&xsd;double">0.0</knowrob:m31>
+        <knowrob:m02 rdf:datatype="&xsd;double">0.0</knowrob:m02>
+        <knowrob:m01 rdf:datatype="&xsd;double">0.0</knowrob:m01>
+        <knowrob:m12 rdf:datatype="&xsd;double">0.0</knowrob:m12>
+        <knowrob:m30 rdf:datatype="&xsd;double">0.0</knowrob:m30>
+        <knowrob:m22 rdf:datatype="&xsd;double">1.0</knowrob:m22>
+        <knowrob:m00 rdf:datatype="&xsd;double">1.0</knowrob:m00>
+        <knowrob:m11 rdf:datatype="&xsd;double">1.0
+</knowrob:m11>
+        <knowrob:m33 rdf:datatype="&xsd;double">1.5</knowrob:m33>
+        <knowrob:m23 rdf:datatype="&xsd;double">1.5</knowrob:m23>
+        <knowrob:m13 rdf:datatype="&xsd;double">3.8</knowrob:m13>
+    </NamedIndividual>
+    
+
+
+    <!-- http://de.tum.ias/kr/florian_kitchen.owl#RotationMatrixOnTable15 -->
+
+    <NamedIndividual rdf:about="&florian_kitchen;RotationMatrixOnTable15">
+        <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
+        <knowrob:m03 rdf:datatype="&xsd;double">-3.1
+</knowrob:m03>
+        <knowrob:m30 rdf:datatype="&xsd;double">0.0</knowrob:m30>
+        <knowrob:m02 rdf:datatype="&xsd;double">0.0</knowrob:m02>
+        <knowrob:m01 rdf:datatype="&xsd;double">0.0</knowrob:m01>
+        <knowrob:m12 rdf:datatype="&xsd;double">0.0</knowrob:m12>
+        <knowrob:m20 rdf:datatype="&xsd;double">0.0</knowrob:m20>
+        <knowrob:m21 rdf:datatype="&xsd;double">0.0</knowrob:m21>
+        <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
+        <knowrob:m31 rdf:datatype="&xsd;double">0.0</knowrob:m31>
+        <knowrob:m10 rdf:datatype="&xsd;double">0.0</knowrob:m10>
+        <knowrob:m22 rdf:datatype="&xsd;double">1.0</knowrob:m22>
+        <knowrob:m00 rdf:datatype="&xsd;double">1.0</knowrob:m00>
+        <knowrob:m11 rdf:datatype="&xsd;double">1.0
+</knowrob:m11>
+        <knowrob:m23 rdf:datatype="&xsd;double">1.5</knowrob:m23>
+        <knowrob:m33 rdf:datatype="&xsd;double">1.5</knowrob:m33>
+        <knowrob:m13 rdf:datatype="&xsd;double">3.8</knowrob:m13>
+    </NamedIndividual>
+    
+
+
+    <!-- http://de.tum.ias/kr/florian_kitchen.owl#RotationMatrixOnTable16 -->
+
+    <NamedIndividual rdf:about="&florian_kitchen;RotationMatrixOnTable16">
+        <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
+        <knowrob:m03 rdf:datatype="&xsd;double">-3.1
+</knowrob:m03>
+        <knowrob:m02 rdf:datatype="&xsd;double">0.0</knowrob:m02>
+        <knowrob:m31 rdf:datatype="&xsd;double">0.0</knowrob:m31>
+        <knowrob:m01 rdf:datatype="&xsd;double">0.0</knowrob:m01>
+        <knowrob:m21 rdf:datatype="&xsd;double">0.0</knowrob:m21>
+        <knowrob:m30 rdf:datatype="&xsd;double">0.0</knowrob:m30>
+        <knowrob:m20 rdf:datatype="&xsd;double">0.0</knowrob:m20>
+        <knowrob:m12 rdf:datatype="&xsd;double">0.0</knowrob:m12>
+        <knowrob:m10 rdf:datatype="&xsd;double">0.0</knowrob:m10>
+        <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
+        <knowrob:m00 rdf:datatype="&xsd;double">1.0</knowrob:m00>
+        <knowrob:m22 rdf:datatype="&xsd;double">1.0</knowrob:m22>
+        <knowrob:m11 rdf:datatype="&xsd;double">1.0
+</knowrob:m11>
+        <knowrob:m23 rdf:datatype="&xsd;double">1.5</knowrob:m23>
+        <knowrob:m33 rdf:datatype="&xsd;double">1.5</knowrob:m33>
+        <knowrob:m13 rdf:datatype="&xsd;double">3.8</knowrob:m13>
+    </NamedIndividual>
+    
+
+
+    <!-- http://de.tum.ias/kr/florian_kitchen.owl#RotationMatrixOnTable17 -->
+
+    <NamedIndividual rdf:about="&florian_kitchen;RotationMatrixOnTable17">
+        <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
+        <knowrob:m03 rdf:datatype="&xsd;double">-3.1
+</knowrob:m03>
+        <knowrob:m12 rdf:datatype="&xsd;double">0.0</knowrob:m12>
+        <knowrob:m02 rdf:datatype="&xsd;double">0.0</knowrob:m02>
+        <knowrob:m01 rdf:datatype="&xsd;double">0.0</knowrob:m01>
+        <knowrob:m31 rdf:datatype="&xsd;double">0.0</knowrob:m31>
+        <knowrob:m20 rdf:datatype="&xsd;double">0.0</knowrob:m20>
+        <knowrob:m30 rdf:datatype="&xsd;double">0.0</knowrob:m30>
+        <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
+        <knowrob:m10 rdf:datatype="&xsd;double">0.0</knowrob:m10>
+        <knowrob:m21 rdf:datatype="&xsd;double">0.0</knowrob:m21>
+        <knowrob:m00 rdf:datatype="&xsd;double">1.0</knowrob:m00>
+        <knowrob:m22 rdf:datatype="&xsd;double">1.0</knowrob:m22>
+        <knowrob:m11 rdf:datatype="&xsd;double">1.0
+</knowrob:m11>
+        <knowrob:m23 rdf:datatype="&xsd;double">1.5</knowrob:m23>
+        <knowrob:m33 rdf:datatype="&xsd;double">1.5</knowrob:m33>
+        <knowrob:m13 rdf:datatype="&xsd;double">3.8</knowrob:m13>
+    </NamedIndividual>
+    
+
+
+    <!-- http://de.tum.ias/kr/florian_kitchen.owl#RotationMatrixOnTable18 -->
+
+    <NamedIndividual rdf:about="&florian_kitchen;RotationMatrixOnTable18">
+        <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
+        <knowrob:m03 rdf:datatype="&xsd;double">-3.1
+</knowrob:m03>
+        <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
+        <knowrob:m21 rdf:datatype="&xsd;double">0.0</knowrob:m21>
+        <knowrob:m20 rdf:datatype="&xsd;double">0.0</knowrob:m20>
+        <knowrob:m12 rdf:datatype="&xsd;double">0.0</knowrob:m12>
+        <knowrob:m10 rdf:datatype="&xsd;double">0.0</knowrob:m10>
+        <knowrob:m01 rdf:datatype="&xsd;double">0.0</knowrob:m01>
+        <knowrob:m31 rdf:datatype="&xsd;double">0.0</knowrob:m31>
+        <knowrob:m02 rdf:datatype="&xsd;double">0.0</knowrob:m02>
+        <knowrob:m30 rdf:datatype="&xsd;double">0.0</knowrob:m30>
+        <knowrob:m22 rdf:datatype="&xsd;double">1.0</knowrob:m22>
+        <knowrob:m00 rdf:datatype="&xsd;double">1.0</knowrob:m00>
+        <knowrob:m11 rdf:datatype="&xsd;double">1.0
+</knowrob:m11>
+        <knowrob:m23 rdf:datatype="&xsd;double">1.5</knowrob:m23>
+        <knowrob:m33 rdf:datatype="&xsd;double">1.5</knowrob:m33>
+        <knowrob:m13 rdf:datatype="&xsd;double">3.8</knowrob:m13>
+    </NamedIndividual>
+    
+
+
+    <!-- http://de.tum.ias/kr/florian_kitchen.owl#RotationMatrixOnTable2 -->
+
+    <NamedIndividual rdf:about="&florian_kitchen;RotationMatrixOnTable2">
+        <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
+        <knowrob:m03 rdf:datatype="&xsd;double">-3.0
+</knowrob:m03>
+        <knowrob:m12 rdf:datatype="&xsd;double">0.0</knowrob:m12>
+        <knowrob:m30 rdf:datatype="&xsd;double">0.0</knowrob:m30>
+        <knowrob:m02 rdf:datatype="&xsd;double">0.0</knowrob:m02>
+        <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
+        <knowrob:m31 rdf:datatype="&xsd;double">0.0</knowrob:m31>
+        <knowrob:m10 rdf:datatype="&xsd;double">0.0</knowrob:m10>
+        <knowrob:m20 rdf:datatype="&xsd;double">0.0</knowrob:m20>
+        <knowrob:m21 rdf:datatype="&xsd;double">0.0</knowrob:m21>
+        <knowrob:m01 rdf:datatype="&xsd;double">0.0</knowrob:m01>
+        <knowrob:m22 rdf:datatype="&xsd;double">1.0</knowrob:m22>
+        <knowrob:m00 rdf:datatype="&xsd;double">1.0</knowrob:m00>
+        <knowrob:m11 rdf:datatype="&xsd;double">1.0
+</knowrob:m11>
+        <knowrob:m23 rdf:datatype="&xsd;double">1.3</knowrob:m23>
+        <knowrob:m33 rdf:datatype="&xsd;double">1.5</knowrob:m33>
+        <knowrob:m13 rdf:datatype="&xsd;double">2.7</knowrob:m13>
+    </NamedIndividual>
+    
+
+
+    <!-- http://de.tum.ias/kr/florian_kitchen.owl#RotationMatrixOnTable3 -->
+
+    <NamedIndividual rdf:about="&florian_kitchen;RotationMatrixOnTable3">
+        <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
+        <knowrob:m03 rdf:datatype="&xsd;double">-2.5
+</knowrob:m03>
+        <knowrob:m02 rdf:datatype="&xsd;double">0.0</knowrob:m02>
+        <knowrob:m01 rdf:datatype="&xsd;double">0.0</knowrob:m01>
+        <knowrob:m12 rdf:datatype="&xsd;double">0.0</knowrob:m12>
+        <knowrob:m30 rdf:datatype="&xsd;double">0.0</knowrob:m30>
+        <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
+        <knowrob:m20 rdf:datatype="&xsd;double">0.0</knowrob:m20>
+        <knowrob:m21 rdf:datatype="&xsd;double">0.0</knowrob:m21>
+        <knowrob:m10 rdf:datatype="&xsd;double">0.0</knowrob:m10>
+        <knowrob:m31 rdf:datatype="&xsd;double">0.0</knowrob:m31>
+        <knowrob:m00 rdf:datatype="&xsd;double">1.0</knowrob:m00>
+        <knowrob:m22 rdf:datatype="&xsd;double">1.0</knowrob:m22>
+        <knowrob:m11 rdf:datatype="&xsd;double">1.0
+</knowrob:m11>
+        <knowrob:m23 rdf:datatype="&xsd;double">1.3</knowrob:m23>
+        <knowrob:m33 rdf:datatype="&xsd;double">1.5</knowrob:m33>
+        <knowrob:m13 rdf:datatype="&xsd;double">2.2</knowrob:m13>
+    </NamedIndividual>
+    
+
+
+    <!-- http://de.tum.ias/kr/florian_kitchen.owl#RotationMatrixOnTable4 -->
+
+    <NamedIndividual rdf:about="&florian_kitchen;RotationMatrixOnTable4">
+        <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
+        <knowrob:m03 rdf:datatype="&xsd;double">-3.0
+</knowrob:m03>
+        <knowrob:m10 rdf:datatype="&xsd;double">0.0</knowrob:m10>
+        <knowrob:m21 rdf:datatype="&xsd;double">0.0</knowrob:m21>
+        <knowrob:m20 rdf:datatype="&xsd;double">0.0</knowrob:m20>
+        <knowrob:m30 rdf:datatype="&xsd;double">0.0</knowrob:m30>
+        <knowrob:m01 rdf:datatype="&xsd;double">0.0</knowrob:m01>
+        <knowrob:m02 rdf:datatype="&xsd;double">0.0</knowrob:m02>
+        <knowrob:m12 rdf:datatype="&xsd;double">0.0</knowrob:m12>
+        <knowrob:m31 rdf:datatype="&xsd;double">0.0</knowrob:m31>
+        <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
+        <knowrob:m00 rdf:datatype="&xsd;double">1.0</knowrob:m00>
+        <knowrob:m22 rdf:datatype="&xsd;double">1.0</knowrob:m22>
+        <knowrob:m11 rdf:datatype="&xsd;double">1.0
+</knowrob:m11>
+        <knowrob:m23 rdf:datatype="&xsd;double">1.4</knowrob:m23>
+        <knowrob:m33 rdf:datatype="&xsd;double">1.5</knowrob:m33>
+        <knowrob:m13 rdf:datatype="&xsd;double">4.5</knowrob:m13>
+    </NamedIndividual>
+    
+
+
+    <!-- http://de.tum.ias/kr/florian_kitchen.owl#RotationMatrixOnTable5 -->
+
+    <NamedIndividual rdf:about="&florian_kitchen;RotationMatrixOnTable5">
+        <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
+        <knowrob:m03 rdf:datatype="&xsd;double">-3.0
+</knowrob:m03>
+        <knowrob:m02 rdf:datatype="&xsd;double">0.0</knowrob:m02>
+        <knowrob:m10 rdf:datatype="&xsd;double">0.0</knowrob:m10>
+        <knowrob:m01 rdf:datatype="&xsd;double">0.0</knowrob:m01>
+        <knowrob:m21 rdf:datatype="&xsd;double">0.0</knowrob:m21>
+        <knowrob:m30 rdf:datatype="&xsd;double">0.0</knowrob:m30>
+        <knowrob:m12 rdf:datatype="&xsd;double">0.0</knowrob:m12>
+        <knowrob:m20 rdf:datatype="&xsd;double">0.0</knowrob:m20>
+        <knowrob:m31 rdf:datatype="&xsd;double">0.0</knowrob:m31>
+        <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
+        <knowrob:m00 rdf:datatype="&xsd;double">1.0</knowrob:m00>
+        <knowrob:m22 rdf:datatype="&xsd;double">1.0</knowrob:m22>
+        <knowrob:m11 rdf:datatype="&xsd;double">1.0
+</knowrob:m11>
+        <knowrob:m23 rdf:datatype="&xsd;double">1.3</knowrob:m23>
+        <knowrob:m33 rdf:datatype="&xsd;double">1.5</knowrob:m33>
+        <knowrob:m13 rdf:datatype="&xsd;double">2.5</knowrob:m13>
+    </NamedIndividual>
+    
+
+
+    <!-- http://de.tum.ias/kr/florian_kitchen.owl#RotationMatrixOnTable6 -->
+
+    <NamedIndividual rdf:about="&florian_kitchen;RotationMatrixOnTable6">
+        <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
+        <knowrob:m03 rdf:datatype="&xsd;double">-0.3</knowrob:m03>
+        <knowrob:m02 rdf:datatype="&xsd;double">0.0</knowrob:m02>
+        <knowrob:m31 rdf:datatype="&xsd;double">0.0</knowrob:m31>
+        <knowrob:m20 rdf:datatype="&xsd;double">0.0</knowrob:m20>
+        <knowrob:m10 rdf:datatype="&xsd;double">0.0</knowrob:m10>
+        <knowrob:m21 rdf:datatype="&xsd;double">0.0</knowrob:m21>
+        <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
+        <knowrob:m01 rdf:datatype="&xsd;double">0.0</knowrob:m01>
+        <knowrob:m12 rdf:datatype="&xsd;double">0.0</knowrob:m12>
+        <knowrob:m30 rdf:datatype="&xsd;double">0.0</knowrob:m30>
+        <knowrob:m00 rdf:datatype="&xsd;double">1.0</knowrob:m00>
+        <knowrob:m22 rdf:datatype="&xsd;double">1.0</knowrob:m22>
+        <knowrob:m11 rdf:datatype="&xsd;double">1.0
+</knowrob:m11>
+        <knowrob:m23 rdf:datatype="&xsd;double">1.3</knowrob:m23>
+        <knowrob:m33 rdf:datatype="&xsd;double">1.5</knowrob:m33>
+        <knowrob:m13 rdf:datatype="&xsd;double">2.7</knowrob:m13>
+    </NamedIndividual>
+    
+
+
+    <!-- http://de.tum.ias/kr/florian_kitchen.owl#RotationMatrixOnTable7 -->
+
+    <NamedIndividual rdf:about="&florian_kitchen;RotationMatrixOnTable7">
+        <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
+        <knowrob:m03 rdf:datatype="&xsd;double">-3.0
+</knowrob:m03>
+        <knowrob:m20 rdf:datatype="&xsd;double">0.0</knowrob:m20>
+        <knowrob:m02 rdf:datatype="&xsd;double">0.0</knowrob:m02>
+        <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
+        <knowrob:m31 rdf:datatype="&xsd;double">0.0</knowrob:m31>
+        <knowrob:m10 rdf:datatype="&xsd;double">0.0</knowrob:m10>
+        <knowrob:m30 rdf:datatype="&xsd;double">0.0</knowrob:m30>
+        <knowrob:m12 rdf:datatype="&xsd;double">0.0</knowrob:m12>
+        <knowrob:m21 rdf:datatype="&xsd;double">0.0</knowrob:m21>
+        <knowrob:m01 rdf:datatype="&xsd;double">0.0</knowrob:m01>
+        <knowrob:m00 rdf:datatype="&xsd;double">1.0</knowrob:m00>
+        <knowrob:m22 rdf:datatype="&xsd;double">1.0</knowrob:m22>
+        <knowrob:m11 rdf:datatype="&xsd;double">1.0
+</knowrob:m11>
+        <knowrob:m23 rdf:datatype="&xsd;double">1.3</knowrob:m23>
+        <knowrob:m33 rdf:datatype="&xsd;double">1.5</knowrob:m33>
+        <knowrob:m13 rdf:datatype="&xsd;double">2.7</knowrob:m13>
+    </NamedIndividual>
+    
+
+
+    <!-- http://de.tum.ias/kr/florian_kitchen.owl#RotationMatrixOnTable8 -->
+
+    <NamedIndividual rdf:about="&florian_kitchen;RotationMatrixOnTable8">
+        <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
+        <knowrob:m03 rdf:datatype="&xsd;double">-2.8
+</knowrob:m03>
+        <knowrob:m30 rdf:datatype="&xsd;double">0.0</knowrob:m30>
+        <knowrob:m20 rdf:datatype="&xsd;double">0.0</knowrob:m20>
+        <knowrob:m21 rdf:datatype="&xsd;double">0.0</knowrob:m21>
+        <knowrob:m12 rdf:datatype="&xsd;double">0.0</knowrob:m12>
+        <knowrob:m10 rdf:datatype="&xsd;double">0.0</knowrob:m10>
+        <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
+        <knowrob:m02 rdf:datatype="&xsd;double">0.0</knowrob:m02>
+        <knowrob:m01 rdf:datatype="&xsd;double">0.0</knowrob:m01>
+        <knowrob:m31 rdf:datatype="&xsd;double">0.0</knowrob:m31>
+        <knowrob:m00 rdf:datatype="&xsd;double">1.0</knowrob:m00>
+        <knowrob:m22 rdf:datatype="&xsd;double">1.0</knowrob:m22>
+        <knowrob:m11 rdf:datatype="&xsd;double">1.0
+</knowrob:m11>
+        <knowrob:m23 rdf:datatype="&xsd;double">1.3</knowrob:m23>
+        <knowrob:m33 rdf:datatype="&xsd;double">1.5</knowrob:m33>
+        <knowrob:m13 rdf:datatype="&xsd;double">3.7</knowrob:m13>
+    </NamedIndividual>
+    
+
+
+    <!-- http://de.tum.ias/kr/florian_kitchen.owl#RotationMatrixOnTable9 -->
+
+    <NamedIndividual rdf:about="&florian_kitchen;RotationMatrixOnTable9">
+        <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
+        <knowrob:m03 rdf:datatype="&xsd;double">-3.1
+</knowrob:m03>
+        <knowrob:m30 rdf:datatype="&xsd;double">0.0</knowrob:m30>
+        <knowrob:m31 rdf:datatype="&xsd;double">0.0</knowrob:m31>
+        <knowrob:m20 rdf:datatype="&xsd;double">0.0</knowrob:m20>
+        <knowrob:m21 rdf:datatype="&xsd;double">0.0</knowrob:m21>
+        <knowrob:m10 rdf:datatype="&xsd;double">0.0</knowrob:m10>
+        <knowrob:m12 rdf:datatype="&xsd;double">0.0</knowrob:m12>
+        <knowrob:m02 rdf:datatype="&xsd;double">0.0</knowrob:m02>
+        <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
+        <knowrob:m01 rdf:datatype="&xsd;double">0.0</knowrob:m01>
+        <knowrob:m22 rdf:datatype="&xsd;double">1.0</knowrob:m22>
+        <knowrob:m00 rdf:datatype="&xsd;double">1.0</knowrob:m00>
+        <knowrob:m11 rdf:datatype="&xsd;double">1.0
+</knowrob:m11>
+        <knowrob:m33 rdf:datatype="&xsd;double">1.5</knowrob:m33>
+        <knowrob:m23 rdf:datatype="&xsd;double">1.5</knowrob:m23>
+        <knowrob:m13 rdf:datatype="&xsd;double">3.8</knowrob:m13>
+    </NamedIndividual>
+    
+
+
+    <!-- http://de.tum.ias/kr/florian_kitchen.owl#Schnapps1 -->
+
+    <NamedIndividual rdf:about="&florian_kitchen;Schnapps1">
+        <rdf:type rdf:resource="&florian_kitchen;Schnapps"/>
+        <knowrob:on-Physical rdf:resource="&florian_kitchen;KitchenTable1"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://de.tum.ias/kr/florian_kitchen.owl#Shaker1 -->
+
+    <NamedIndividual rdf:about="&florian_kitchen;Shaker1">
+        <rdf:type rdf:resource="&florian_kitchen;Shaker"/>
+        <knowrob:on-Physical rdf:resource="&florian_kitchen;KitchenTable1"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://de.tum.ias/kr/florian_kitchen.owl#Soda1 -->
+
+    <NamedIndividual rdf:about="&florian_kitchen;Soda1">
+        <rdf:type rdf:resource="&knowrob;Water"/>
+        <knowrob:on-Physical rdf:resource="&florian_kitchen;KitchenTable1"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://de.tum.ias/kr/florian_kitchen.owl#SodaCubes1 -->
+
+    <NamedIndividual rdf:about="&florian_kitchen;SodaCubes1">
+        <rdf:type rdf:resource="&knowrob;Frozen"/>
+        <rdf:type rdf:resource="&knowrob;Water"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://de.tum.ias/kr/florian_kitchen.owl#SparklingWater1 -->
+
+    <NamedIndividual rdf:about="&florian_kitchen;SparklingWater1">
+        <rdf:type rdf:resource="&knowrob;Water"/>
+        <knowrob:on-Physical rdf:resource="&florian_kitchen;KitchenTable1"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://de.tum.ias/kr/florian_kitchen.owl#Stirrer1 -->
+
+    <NamedIndividual rdf:about="&florian_kitchen;Stirrer1">
+        <rdf:type rdf:resource="&florian_kitchen;Stirrer"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://de.tum.ias/kr/florian_kitchen.owl#Sugar1 -->
+
+    <NamedIndividual rdf:about="&florian_kitchen;Sugar1">
+        <rdf:type rdf:resource="&knowrob;Sugar"/>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://annotation_tool/cad_models/sugar.kmz</knowrob:pathToCadModel>
+        <knowrob:on-Physical rdf:resource="&florian_kitchen;KitchenTable1"/>
+        <knowrob:orientation rdf:resource="&florian_kitchen;RotationMatrixOnTable10"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://de.tum.ias/kr/florian_kitchen.owl#TonicWater1 -->
+
+    <NamedIndividual rdf:about="&florian_kitchen;TonicWater1">
+        <rdf:type rdf:resource="&florian_kitchen;SoftDrink"/>
+        <knowrob:on-Physical rdf:resource="&florian_kitchen;KitchenTable1"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://de.tum.ias/kr/florian_kitchen.owl#TubeGlass1 -->
+
+    <NamedIndividual rdf:about="&florian_kitchen;TubeGlass1">
+        <rdf:type rdf:resource="&knowrob;DrinkingGlass"/>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://annotation_tool/cad_models/tube_glass.kmz</knowrob:pathToCadModel>
+        <knowrob:on-Physical rdf:resource="&florian_kitchen;KitchenTable1"/>
+        <knowrob:orientation rdf:resource="&florian_kitchen;RotationMatrixOnTable6"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://de.tum.ias/kr/florian_kitchen.owl#Vodka1 -->
+
+    <NamedIndividual rdf:about="&florian_kitchen;Vodka1">
+        <rdf:type rdf:resource="&florian_kitchen;Vodka"/>
+        <knowrob:on-Physical rdf:resource="&florian_kitchen;KitchenTable1"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://de.tum.ias/kr/florian_kitchen.owl#Whiskey1 -->
+
+    <NamedIndividual rdf:about="&florian_kitchen;Whiskey1">
+        <rdf:type rdf:resource="&florian_kitchen;Whiskey"/>
+        <knowrob:on-Physical rdf:resource="&florian_kitchen;KitchenTable1"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://de.tum.ias/kr/florian_kitchen.owl#Wine1 -->
+
+    <NamedIndividual rdf:about="&florian_kitchen;Wine1">
+        <rdf:type rdf:resource="&florian_kitchen;Wine"/>
+        <knowrob:on-Physical rdf:resource="&florian_kitchen;KitchenTable1"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://de.tum.ias/kr/florian_kitchen.owl#blue1 -->
+
+    <NamedIndividual rdf:about="&florian_kitchen;blue1">
+        <rdf:type rdf:resource="&knowrob;BlueColor"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://de.tum.ias/kr/florian_kitchen.owl#green1 -->
+
+    <NamedIndividual rdf:about="&florian_kitchen;green1">
+        <rdf:type rdf:resource="&knowrob;GreenColor"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://de.tum.ias/kr/florian_kitchen.owl#red1 -->
+
+    <NamedIndividual rdf:about="&florian_kitchen;red1">
+        <rdf:type rdf:resource="&knowrob;RedColor"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://de.tum.ias/kr/florian_kitchen.owl#yellow1 -->
+
+    <NamedIndividual rdf:about="&florian_kitchen;yellow1">
+        <rdf:type rdf:resource="&knowrob;YellowColor"/>
+    </NamedIndividual>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 3.2.3.1824) http://owlapi.sourceforge.net -->
+

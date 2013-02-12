@@ -1,0 +1,7 @@
+// predicates
+hasSense(:word,Sense,:sentence)
+hasRole(:word,Role,:sentence)
+
+// attributes
+Sense = {S3880531_pan,S7825850_applesauce,S7674508_olive_oil,S3990474_pot,S7936548_soda_water,S14845743_water,S2881193_bowl,S7929351_coffee_bean,S7844042_milk,S3181899_detergent,S7645469_fryer,S4138977_saucepan,S3094503_container,S7847198_cream,S7882886_mix,S4493381_tub,S3885535_pantry,S3147509_cup,S2863750_boiler,S3438257_glass,S2773037_bag,S4438897_tin,S6611998_folderol,S4223580_sink,S3593526_jar,S2808440_bathtub,S3950228_pitcher,S2512053_fish,S7828987_vinegar,S3797390_mug,S9282724_foam,S4138977_saucepan,S7882497_concoction,S9222051_bit,S3063338_coffee_maker,S3557141_ice_cube,S7749582_lemon,S7673397_vegetable_oil,S7698915_pasta,S7623263_pie_crust,S7584593_broth,S3612814_kettle,S3206908_dish,S7924443_cranberry_juice,S7739125_apple,S2850732_blender,S4253437_soap,S7569106_flour,S7860805_batter,S7838073_gravy,S14940386_liquid,S3733805_measuring_cup}
+Role = {Theme, Goal}

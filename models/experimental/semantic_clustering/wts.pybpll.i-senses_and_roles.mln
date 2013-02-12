@@ -1,0 +1,16 @@
+// domain declarations
+
+// predicate declarations
+hasSense(word, senseID!, sentence)
+isa(senseID, class)
+hasRole(word, role!, sentence)
+
+// formulas
+14.241923   hasSense(w1, s1, s) ^ isa(s1, PhysicalEntity) ^ hasRole(w1, Theme, s)
+14.241923   hasSense(w1, s1, s) ^ isa(s1, Substance) ^ hasRole(w1, Theme, s)
+14.241923   hasSense(w1, s1, s) ^ isa(s1, Liquid) ^ hasRole(w1, Theme, s)
+-0.693143   hasSense(w1, s1, s) ^ isa(s1, MilkDairyProduct) ^ hasRole(w1, Theme, s)
+14.241923   hasSense(w1, s1, s) ^ isa(s1, Entity) ^ hasRole(w1, Theme, s)
+0.693143    hasSense(w1, s1, s) ^ isa(s1, Water) ^ hasRole(w1, Theme, s)
+-0.693143   hasSense(w1, s1, s) ^ isa(s1, DairyProduct) ^ hasRole(w1, Theme, s)
+-0.693143   hasSense(w1, s1, s) ^ isa(s1, Beverage) ^ hasRole(w1, Theme, s)

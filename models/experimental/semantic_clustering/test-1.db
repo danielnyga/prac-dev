@@ -1,0 +1,34 @@
+isa(Juice1, FruitJuice)
+isa(Juice1, Beverage)
+isa(Juice1, Liquid)
+isa(Juice1, Substance)
+isa(Juice1, PhysicalEntity)
+isa(Juice1, Entity)
+
+isa(Juice2, BodyJuice)
+isa(Juice2, Liquid)
+isa(Juice2, Substance)
+isa(Juice2, PhysicalEntity)
+isa(Juice2, Entity)
+
+isa(Water1, DrinkingWater)
+isa(Water1, Beverage)
+isa(Water1, Liquid)
+isa(Water1, Substance)
+isa(Water1, PhysicalEntity)
+isa(Water1, Entity)
+
+isa(Water2, Water)
+isa(Water2, Liquid)
+isa(Water2, Substance)
+isa(Water2, PhysicalEntity)
+isa(Water2, Entity)
+
+//isa(Cup1, CupContainer)
+//isa(Cup1, Container)
+//isa(Cup1, Object)
+//isa(Cup1, PhysicalEntity)
+//isa(Cup1, Entity)
+
+
+

@@ -1,0 +1,6 @@
+// predicate declarations
+hasSense(word, senseID!, sentence)
+hasRole(word, role!, sentence)
+isa(senseID, class)
+
+0 hasSense(w1, s1, s) ^ isa(s1,+c1) ^ hasRole(w1,+r1,s)

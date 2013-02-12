@@ -1,0 +1,59 @@
+// "Fill a cup with water from the tap."
+
+hasPOS(Fill11, VB, S1)
+hasSense(Fill11, Sense14, S1)
+hasRole(Fill11, ActionVerb, S1)
+
+hasPOS(Water15, NN, S1)
+hasSense(Water15, Sense11, S1)
+hasRole(Water15, Theme, S1)
+
+hasPOS(Cup13, NN, S1)
+hasSense(Cup13, Sense12, S1)
+hasRole(Cup13, Goal, S1)
+
+hasPOS(Tap18, NN, S1)
+hasSense(Tap18, Sense13, S1)
+hasRole(Tap18, Source, S1)
+
+det(Cup13, A12, S1)
+dobj(Fill11, Cup13, S1)
+prep_with(Fill11, Water15, S1)
+det(Tap18, The17, S1)
+prep_from(Water15, Tap18, S1)
+
+// class taxonomy
+isa(Sense11, Water)
+isa(Sense11, FoodOrDrink)
+isa(Sense11, Liquid)
+isa(Sense11, Stuff)
+isa(Sense11, Thing)
+
+isa(Sense12, Cup)
+isa(Sense12, DrinkingMug)
+isa(Sense12, Container)
+isa(Sense12, Thing)
+
+isa(Sense13, TapFlowControlDevice)
+isa(Sense13, Device)
+isa(Sense13, Thing)
+
+isa(Sense14, Filling)
+
+//isa(Water, Thing)
+//isa(Water, Stuff)
+//isa(TapFlowControlDevice, Device)
+//isa(TapFlowControlDevice, Thing)
+//isa(Cup, Container)
+//isa(Cup, Thing)
+//isa(Milk, Stuff)
+//isa(Pot, Container)
+//isa(Pot, Thing)
+//isa(Device, Thing)
+//isa(Stuff, Thing)
+//isa(Container, Thing)
+//isa(Milk, Thing)
+//isa(Bowl, Container)
+//isa(Bowl, Thing)
+//isa(TetraPak, Container)
+//isa(TetraPak, Thing)

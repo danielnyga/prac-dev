@@ -1,0 +1,68 @@
+// "Fill oil into the fryer."
+
+// Fill
+has_pos(Fill41, VB)
+has_sense(Fill41, Sense41)
+action_role(Fill41, ActionVerb)
+
+// oil
+has_pos(Oil42, NN)
+has_sense(Oil42, Sense42)
+action_role(Oil42, Theme)
+
+// into
+
+// the
+has_pos(The43, DT)
+has_sense(The43, Nullsense)
+action_role(The43, NULL)
+
+// fryer
+has_pos(Fryer45, NN)
+has_sense(Fryer45, Sense43)
+action_role(Fryer45, Goal)
+
+
+root(Root4, Fill41)
+dobj(Fill41, Oil42)
+det(Fryer45, The43)
+prep_into(Fill41, Fryer45)
+
+
+// class taxonomy
+is_a(Sense41, fill.v.01)
+
+is_a(Sense43, pan.n.01)
+is_a(Sense43, utensil.n.01)
+is_a(Sense43, physical_entity.n.01)
+is_a(Sense43, implement.n.01)
+is_a(Sense43, kitchen_utensil.n.01)
+is_a(Sense43, artifact.n.01)
+is_a(Sense43, entity.n.01)
+is_a(Sense43, object.n.01)
+is_a(Sense43, instrumentality.n.03)
+is_a(Sense43, cooking_utensil.n.01)
+is_a(Sense43, whole.n.02)
+is_a(Sense43, frying_pan.n.01)
+
+is_a(Sense42,part.n.01)
+is_a(Sense42,substance.n.01)
+is_a(Sense42,physical_entity.n.01)
+is_a(Sense42,chemical.n.01)
+is_a(Sense42,unit.n.05)
+is_a(Sense42,macromolecule.n.01)
+is_a(Sense42,molecule.n.01)
+is_a(Sense42,abstraction.n.06)
+is_a(Sense42,compound.n.02)
+is_a(Sense42,entity.n.01)
+is_a(Sense42,fat.n.01)
+is_a(Sense42,thing.n.12)
+is_a(Sense42,relation.n.01)
+is_a(Sense42,matter.n.03)
+is_a(Sense42,edible_fat.n.01)
+is_a(Sense42,lipid.n.01)
+is_a(Sense42,material.n.01)
+is_a(Sense42,organic_compound.n.01)
+is_a(Sense42,vegetable_oil.n.01)
+
+is_a(Nullsense, NULL)

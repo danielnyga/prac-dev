@@ -1,0 +1,162 @@
+//
+// --- predicates
+//
+similar(word,word)
+//wordcoreference(word,word)
+coreference(phrase,phrase)
+//wordphrasecoreference(phrase,word)
+inCompatibleModifier(phrase,phrase)
+hasPOS(word,pos)
+clusterHeadMatch(phrase,phrase)
+wordInclusion(phrase,phrase)
+iWithini(phrase,phrase)
+//isa(word,sense)
+//synphrase(phrasetype,phrase,phrase)
+//wordphrase(pos, phrase, word)
+isPhrase(word,phrase)
+phraseSimilarity(phrase,phrase)
+zerodistance(phrase,phrase)
+onedistance(phrase,phrase)
+twodistance(phrase,phrase)
+threedistance(phrase,phrase)
+fardistance(phrase,phrase)
+
+// --- Stanford Parser dependencies
+
+abbrev(word,word)
+acomp(word,word)
+advcl(word,word)
+advmod(word,word)
+agent(word,word)
+amod(word,word)
+appos(word,word)
+attr(word,word)
+aux(word,word)
+auxpass(word,word)
+cc(word,word)
+ccomp(word,word)
+complm(word,word)
+conj(word,word)
+cop(word,word)
+csubj(word,word)
+csubjpass(word,word)
+dep(word,word)
+det(word,word)
+dobj(word,word)
+expl(word,word)
+infmod(word,word)
+iobj(word,word)
+mark(word,word)
+mwe(word,word)
+neg(word,word)
+nn(word,word)
+npadvmod(word,word)
+nsubj(word,word)
+nsubjpass(word,word)
+num(word,word)
+number(word,word)
+parataxis(word,word)
+partmod(word,word)
+pcomp(word,word)
+pobj(word,word)
+poss(word,word)
+possessive(word,word)
+preconj(word,word)
+predet(word,word)
+prep(word,word)
+prepc(word,word)
+prt(word,word)
+punct(word,word)
+purpcl(word,word)
+quantmod(word,word)
+rcmod(word,word)
+ref(word,word)
+rel(word,word)
+root(word,word)
+tmod(word,word)
+xcomp(word,word)
+xsubj(word,word)
+
+//
+// --- Formulae
+//
+
+// First phase: Exact match of phrases (all words need to match exactly)
+// two words coreference if, they are similar and there is some part of the phrase that is a NN or NNP
+//1 similar(w1,w2) ^ isPhrase(w1,p1) ^ isPhrase(w2,p2) ^ coreference(p1,p2) ^ exist(w) ^ (hasPOS(w, NN) v hasPOS(w, NNP)) ^ isPhrase(w,p1) ^ exist(w3) ^ (hasPOS(w3, NN) v hasPOS(w3, NNP)) ^ isPhrase(w3,p2)
+
+//If two phrases are completly identical that leads to coreference
+10 phraseSimilarity(p1,p2) ^ !(p1=p2) ^ coreference(p1,p2)
+
+// Appositives are corefer -- use the dependency parse to find them
+5 !(w1=w2) ^ coreference(p1,p2) ^ isPhrase(w1,p1) ^ isPhrase(w2,p2) ^ appos(w1,w2)
+
+//Strict head matching
+5 wordInclusion(p1,p2) ^ clusterHeadMatch(p1,p2) ^ coreference(p1,p2)
+2 clusterHeadMatch(p1,p2) ^ coreference(p1,p2)
+2 wordInclusion(p1,p2) ^ coreference(p1,p2)
+!(iWithini(p1,p2) ^ coreference(p1,p2)).
+//5 !clusterHeadMatch(p1,p2) ^ !coreference(p1,p2)
+
+//if two words have inCompatibleModifers then there is less chance they coreference
+10 inCompatibleModifier(p1,p2) ^ !coreference(p1,p2)
+
+//Make sure that the words match with the modifiers
+//5 isPhrase(w1,p1) ^ amod(w2,w1) ^ isPhrase(w3,p2) ^ amod(w4,w3) ^ coreference(p1,p2) ^ !(w1=3)
+
+//-4 (w1=w2) ^ coreference(w1,w2)
+
+
+//Check if two words share the same path, or parts of it
+//2 isa(w1,s1) ^ isa(w2,s1) ^ wordcoreference(w1,w2) ^ !(w1=w2) ^ similar(w1,w2)
+
+// if two noun phrases are close to each other -> higher probability that a preposition references the noun phrase
+//5 zerodistance(phrase1,phrase2) ^ !(phrase1=phrase2) ^ coreference(phrase1,phrase2)
+//3 onedistance(phrase1,phrase2) ^ !(phrase1=phrase2) ^ coreference(phrase1,phrase2)
+//2 twodistance(phrase1,phrase2) ^ !(phrase1=phrase2) ^ coreference(phrase1,phrase2)
+//1 threedistance(phrase1,phrase2) ^ !(phrase1=phrase2) ^ coreference(phrase1,phrase2)
+//4 fardistance(phrase1,phrase2) ^ !(phrase1=phrase2) ^ !coreference(phrase1,phrase2)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

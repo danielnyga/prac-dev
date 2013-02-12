@@ -1,0 +1,6 @@
+// formulas
+hasSense(w1,+sense1,s) ~ hasRole(w1,+role1,s)// ~ hasSense(w2,+sense2,s) ~ hasRole(w2,+role2,s)
+
+//hasRole(w1,+r1,s) ~ hasRole(w2,+r2,s)
+
+// hasSense(x,Water,s) ~ hasRole(x,Theme,s) ~ hasSense(y,Cup,s) ~ hasRole(y,Goal,s)

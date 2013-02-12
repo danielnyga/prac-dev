@@ -1,0 +1,53 @@
+// "Flip the pancake with a spatula."
+
+has_pos(flip-1,VB)
+has_pos(the-2,DT)
+has_pos(pancake-3,NN)
+has_pos(a-5,DT)
+has_pos(spatula-6,NN)
+
+root(ROOT-0, flip-1)
+det(pancake-3, the-2)
+dobj(flip-1, pancake-3)
+det(spatula-6, a-5)
+prep_with(flip-1, spatula-6)
+
+action_role(flip-1, ActionVerb)
+action_role(the-2, NULL)
+action_role(pancake-3, Theme)
+action_role(a-5, NULL)
+action_role(spatula-6, Instrument)
+
+has_sense(flip-1, flip-1-sense)
+has_sense(the-2, nullsense)
+has_sense(pancake-3, pancake-3-sense)
+has_sense(a-5, nullsense)
+has_sense(spatula-6, spatula-6-sense)
+
+//is_a(flip-1-sense, move.v.03)
+is_a(flip-1-sense, flip.v.08)
+//is_a(flip-1-sense, turn.v.01)
+
+is_a(pancake-3-sense, pancake.n.01)
+//is_a(pancake-3-sense, food.n.02)
+//is_a(pancake-3-sense, physical_entity.n.01)
+//is_a(pancake-3-sense, entity.n.01)
+//is_a(pancake-3-sense, solid.n.01)
+//is_a(pancake-3-sense, matter.n.03)
+//is_a(pancake-3-sense, cake.n.03)
+//is_a(pancake-3-sense, baked_goods.n.01)
+
+is_a(spatula-6-sense, spatula.n.01)
+//is_a(spatula-6-sense, turner.n.08)
+//is_a(spatula-6-sense, utensil.n.01)
+//is_a(spatula-6-sense, physical_entity.n.01)
+//is_a(spatula-6-sense, implement.n.01)
+//is_a(spatula-6-sense, kitchen_utensil.n.01)
+//is_a(spatula-6-sense, artifact.n.01)
+//is_a(spatula-6-sense, entity.n.01)
+//is_a(spatula-6-sense, object.n.01)
+//is_a(spatula-6-sense, instrumentality.n.03)
+//is_a(spatula-6-sense, cooking_utensil.n.01)
+//is_a(spatula-6-sense, whole.n.02)
+
+//is_a(nullsense, NULL)

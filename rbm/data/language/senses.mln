@@ -1,0 +1,87 @@
+// predicates
+
+// semantic predicates
+hasSense(word, senseID!, sentence)
+hasRole(word, role!, sentence)
+isa(senseID, sense)
+hasPOS(word, pos, sentence)
+
+// syntactic predicates
+det(word, meaninglessWord, sentence)
+dobj(word, word, sentence)
+prep_from(word, word, sentence)
+prep_with(word, word, sentence)
+prep_into(word, word, sentence)
+conj_and(word, word, sentence)
+
+0 hasSense(w1,sense1,s) ^ hasRole(w1,+role1,s) ^  isa(sense1,+superSense)
+
+//0 hasSense(w1,sense1,s) ^ hasRole(w1,+role1,s) ^ hasSense(w2,sense2,s) ^ hasRole(w2,+role2,s)
+
+0 prep_from(w1, w2, s) ^ hasRole(w1,+role1,s) ^ hasRole(w2,+role2,s)
+
+0 prep_with(w1, w2, s) ^ hasRole(w1,+role1,s) ^ hasRole(w2,+role2,s)
+
+0 prep_into(w1, w2, s) ^ hasRole(w1,+role1,s) ^ hasRole(w2,+role2,s)
+
+0 conj_and(w1, w2, s) ^ hasRole(w1, +r, s) ^ hasRole(w2, +r, s)
+
+0 dobj(w1, w2, s) ^ hasRole(w1, +r1, s) ^ hasRole(w2,+r2,s)
+
+0 hasPOS(w1, +p, s) ^ hasRole(w1, +r, s)
+
+0 dobj(w1, w2, s) ^ hasRole(w2, +r2, s) ^ prep_from(w1, w3, s) ^ hasRole(w3, +r3, s)
+
+0 dobj(w1, w2, s) ^ hasRole(w2, +r2, s) ^ prep_with(w1, w3, s) ^ hasRole(w3, +r3, s)
+
+0 dobj(w1, w2, s) ^ hasRole(w2, +r2, s) ^ prep_into(w1, w3, s) ^ hasRole(w3, +r3, s)
+
+// include the class taxonomy
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

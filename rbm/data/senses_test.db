@@ -1,0 +1,9 @@
+hasSense(0w1,Water,0s1)
+hasSense(0w2,Cup,0s1)
+
+hasSense(0w3,Milk,0s2)
+hasSense(0w4,Bowl,0s2)
+
+hasSense(0w5,Water,0s3)
+hasSense(0w6,Pot,0s3)
+hasSense(0w7,Cup,0s3)

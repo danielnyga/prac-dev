@@ -1,0 +1,48 @@
+// "Fill milk into the bowl."
+
+hasPOS(Fill21, VB, S2)
+hasSense(Fill21, Sense23, S2)
+hasRole(Fill21, ActionVerb, S2)
+
+hasPOS(Milk22, NN, S2)
+hasSense(Milk22, Sense21, S2)
+hasRole(Milk22, Theme, S2)
+
+hasPOS(Bowl25, NN, S2)
+hasSense(Bowl25, Sense22, S2)
+hasRole(Bowl25, Goal, S2)
+
+dobj(Fill21, Milk22, S2)
+det(Bowl25, The24, S2)
+prep_into(Fill21, Bowl25, S2)
+
+// class taxonomy
+isa(Sense21,Milk)
+isa(Sense21,FoodOrDrink)
+isa(Sense21,Liquid)
+isa(Sense21,Stuff)
+isa(Sense21,Thing)
+
+isa(Sense22,Bowl)
+isa(Sense22,Container)
+isa(Sense22,Thing)
+
+isa(Sense23,Filling)
+
+//isa(Water, Thing)
+//isa(Milk, Stuff)
+//isa(Pot, Container)
+//isa(Pot, Thing)
+//isa(TapFlowControlDevice, Device)
+//isa(Device, Thing)
+//isa(TapFlowControlDevice, Thing)
+//isa(Stuff, Thing)
+//isa(Container, Thing)
+//isa(Milk, Thing)
+//isa(Cup, Container)
+//isa(Bowl, Container)
+//isa(Bowl, Thing)
+//isa(Cup, Thing)
+//isa(Water, Stuff)
+//isa(TetraPak, Container)
+//isa(TetraPak, Thing)

@@ -1,0 +1,61 @@
+// "Fill milk into the bowl."
+
+// Fill
+has_pos(Fill21, VB)
+has_sense(Fill21, Sense23)
+action_role(Fill21, ActionVerb)
+
+// milk
+has_pos(Milk22, NN)
+has_sense(Milk22, Sense21)
+action_role(Milk22, Theme)
+
+// into
+
+// the
+has_pos(The24, DT)
+has_sense(The24, Nullsense)
+action_role(The24, NULL)
+
+// bowl
+has_pos(Bowl25, NN)
+has_sense(Bowl25, Sense22)
+action_role(Bowl25, Goal)
+
+root(Root2,Fill21)
+dobj(Fill21, Milk22)
+det(Bowl25, The24)
+prep_into(Fill21, Bowl25)
+
+// class taxonomy
+
+is_a(Sense21, part.n.01)
+is_a(Sense21, beverage.n.01)
+is_a(Sense21, food.n.01)
+is_a(Sense21, physical_entity.n.01)
+is_a(Sense21, foodstuff.n.02)
+is_a(Sense21, abstraction.n.06)
+is_a(Sense21, entity.n.01)
+is_a(Sense21, fluid.n.01)
+is_a(Sense21, relation.n.01)
+is_a(Sense21, matter.n.03)
+is_a(Sense21, dairy_product.n.01)
+is_a(Sense21, liquid.n.01)
+is_a(Sense21, substance.n.07)
+is_a(Sense21, substance.n.01)
+is_a(Sense21, milk.n.01)
+
+
+is_a(Sense22, physical_entity.n.01)
+is_a(Sense22, artifact.n.01)
+is_a(Sense22, entity.n.01)
+is_a(Sense22, vessel.n.03)
+is_a(Sense22, bowl.n.01)
+is_a(Sense22, object.n.01)
+is_a(Sense22, instrumentality.n.03)
+is_a(Sense22, container.n.01)
+is_a(Sense22, whole.n.02)
+
+is_a(Sense23, fill.v.01)
+
+is_a(Nullsense, NULL)

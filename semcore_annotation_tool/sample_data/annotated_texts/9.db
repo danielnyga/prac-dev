@@ -1,0 +1,364 @@
+
+// Global Dependencies
+
+
+//Add thawed orange juice concentrate.
+
+
+//Dependencies
+root(Root_0_S_1,Add_1_S_1)
+amod(Juice_4_S_1,Thawed_2_S_1)
+amod(Juice_4_S_1,Orange_3_S_1)
+nsubj(Concentrate_5_S_1,Juice_4_S_1)
+ccomp(Add_1_S_1,Concentrate_5_S_1)
+
+//Add
+hasPOS(Add_1_S_1, VB)
+hasSense(Add_1_S_1, Add_v_01)
+isa(Add_1_S_1, Change_v_02)
+isa(Add_1_S_1, Add_v_01)
+isa(Add_1_S_1, Increase_v_01)
+isa(Add_1_S_1, Change_magnitude_v_01)
+
+//thawed
+hasPOS(Thawed_2_S_1, JJ)
+hasSense(Thawed_2_S_1, Thawed_s_02)
+isa(Thawed_2_S_1, Thawed_s_02)
+
+//orange
+hasPOS(Orange_3_S_1, JJ)
+hasSense(Orange_3_S_1, Orange_n_01)
+isa(Orange_3_S_1, Citrus_n_01)
+isa(Orange_3_S_1, Produce_n_01)
+isa(Orange_3_S_1, Natural_object_n_01)
+isa(Orange_3_S_1, Physical_entity_n_01)
+isa(Orange_3_S_1, Matter_n_03)
+isa(Orange_3_S_1, Solid_n_01)
+isa(Orange_3_S_1, Entity_n_01)
+isa(Orange_3_S_1, Reproductive_structure_n_01)
+isa(Orange_3_S_1, Orange_n_01)
+isa(Orange_3_S_1, Object_n_01)
+isa(Orange_3_S_1, Plant_organ_n_01)
+isa(Orange_3_S_1, Plant_part_n_01)
+isa(Orange_3_S_1, Edible_fruit_n_01)
+isa(Orange_3_S_1, Fruit_n_01)
+isa(Orange_3_S_1, Whole_n_02)
+isa(Orange_3_S_1, Food_n_02)
+
+//juice
+hasPOS(Juice_4_S_1, NN)
+hasSense(Juice_4_S_1, Juice_n_01)
+isa(Juice_4_S_1, Physical_entity_n_01)
+isa(Juice_4_S_1, Food_n_01)
+isa(Juice_4_S_1, Foodstuff_n_02)
+isa(Juice_4_S_1, Entity_n_01)
+isa(Juice_4_S_1, Matter_n_03)
+isa(Juice_4_S_1, Juice_n_01)
+isa(Juice_4_S_1, Substance_n_07)
+
+//concentrate
+hasPOS(Concentrate_5_S_1, VB)
+hasSense(Concentrate_5_S_1, Concentrate_n_02)
+isa(Concentrate_5_S_1, Physical_entity_n_01)
+isa(Concentrate_5_S_1, Food_n_01)
+isa(Concentrate_5_S_1, Foodstuff_n_02)
+isa(Concentrate_5_S_1, Entity_n_01)
+isa(Concentrate_5_S_1, Matter_n_03)
+isa(Concentrate_5_S_1, Concentrate_n_02)
+isa(Concentrate_5_S_1, Substance_n_07)
+
+//.
+hasPOS(__6_S_1, __POINT__)
+
+
+//Add apple juice to punch bowl.
+
+
+//Dependencies
+amod(Apple_2_S_0,Add_1_S_0)
+nsubj(Juice_3_S_0,Apple_2_S_0)
+root(Root_0_S_0,Juice_3_S_0)
+aux(Punch_5_S_0,To_4_S_0)
+xcomp(Juice_3_S_0,Punch_5_S_0)
+dobj(Punch_5_S_0,Bowl_6_S_0)
+
+//Add
+hasPOS(Add_1_S_0, JJ)
+hasSense(Add_1_S_0, Add_v_01)
+isa(Add_1_S_0, Change_v_02)
+isa(Add_1_S_0, Add_v_01)
+isa(Add_1_S_0, Increase_v_01)
+isa(Add_1_S_0, Change_magnitude_v_01)
+
+//apple
+hasPOS(Apple_2_S_0, NN)
+hasSense(Apple_2_S_0, Apple_n_01)
+isa(Apple_2_S_0, Matter_n_03)
+isa(Apple_2_S_0, Produce_n_01)
+isa(Apple_2_S_0, Natural_object_n_01)
+isa(Apple_2_S_0, Physical_entity_n_01)
+isa(Apple_2_S_0, Pome_n_01)
+isa(Apple_2_S_0, Entity_n_01)
+isa(Apple_2_S_0, Reproductive_structure_n_01)
+isa(Apple_2_S_0, Solid_n_01)
+isa(Apple_2_S_0, Object_n_01)
+isa(Apple_2_S_0, Plant_organ_n_01)
+isa(Apple_2_S_0, Plant_part_n_01)
+isa(Apple_2_S_0, Apple_n_01)
+isa(Apple_2_S_0, Edible_fruit_n_01)
+isa(Apple_2_S_0, Fruit_n_01)
+isa(Apple_2_S_0, Whole_n_02)
+isa(Apple_2_S_0, Food_n_02)
+
+//juice
+hasPOS(Juice_3_S_0, NN)
+hasSense(Juice_3_S_0, Juice_n_01)
+isa(Juice_3_S_0, Physical_entity_n_01)
+isa(Juice_3_S_0, Food_n_01)
+isa(Juice_3_S_0, Foodstuff_n_02)
+isa(Juice_3_S_0, Entity_n_01)
+isa(Juice_3_S_0, Matter_n_03)
+isa(Juice_3_S_0, Juice_n_01)
+isa(Juice_3_S_0, Substance_n_07)
+
+//to
+hasPOS(To_4_S_0, TO)
+
+//punch
+hasPOS(Punch_5_S_0, VB)
+hasSense(Punch_5_S_0, Punch_n_02)
+isa(Punch_5_S_0, Alcohol_n_01)
+isa(Punch_5_S_0, Beverage_n_01)
+isa(Punch_5_S_0, Relation_n_01)
+isa(Punch_5_S_0, Food_n_01)
+isa(Punch_5_S_0, Physical_entity_n_01)
+isa(Punch_5_S_0, Mixed_drink_n_01)
+isa(Punch_5_S_0, Fluid_n_01)
+isa(Punch_5_S_0, Abstraction_n_06)
+isa(Punch_5_S_0, Punch_n_02)
+isa(Punch_5_S_0, Entity_n_01)
+isa(Punch_5_S_0, Causal_agent_n_01)
+isa(Punch_5_S_0, Drug_of_abuse_n_01)
+isa(Punch_5_S_0, Matter_n_03)
+isa(Punch_5_S_0, Part_n_01)
+isa(Punch_5_S_0, Agent_n_03)
+isa(Punch_5_S_0, Liquid_n_01)
+isa(Punch_5_S_0, Substance_n_01)
+isa(Punch_5_S_0, Drug_n_01)
+isa(Punch_5_S_0, Substance_n_07)
+
+//bowl
+hasPOS(Bowl_6_S_0, NN)
+hasSense(Bowl_6_S_0, Punch_bowl_n_01)
+isa(Bowl_6_S_0, Tableware_n_01)
+isa(Bowl_6_S_0, Crockery_n_01)
+isa(Bowl_6_S_0, Dish_n_01)
+isa(Bowl_6_S_0, Physical_entity_n_01)
+isa(Bowl_6_S_0, Ware_n_01)
+isa(Bowl_6_S_0, Artifact_n_01)
+isa(Bowl_6_S_0, Entity_n_01)
+isa(Bowl_6_S_0, Bowl_n_03)
+isa(Bowl_6_S_0, Object_n_01)
+isa(Bowl_6_S_0, Instrumentality_n_03)
+isa(Bowl_6_S_0, Container_n_01)
+isa(Bowl_6_S_0, Article_n_02)
+isa(Bowl_6_S_0, Whole_n_02)
+isa(Bowl_6_S_0, Punch_bowl_n_01)
+
+//.
+hasPOS(__7_S_0, __POINT__)
+
+
+//Add chilled ginger ale just before serving.
+
+
+//Dependencies
+root(Root_0_S_3,Add_1_S_3)
+dep(Add_1_S_3,Chilled_2_S_3)
+nn(Ale_4_S_3,Ginger_3_S_3)
+dobj(Chilled_2_S_3,Ale_4_S_3)
+advmod(Chilled_2_S_3,Just_5_S_3)
+prep(Chilled_2_S_3,Before_6_S_3)
+pcomp(Before_6_S_3,Serving_7_S_3)
+
+//Add
+hasPOS(Add_1_S_3, VB)
+hasSense(Add_1_S_3, Add_v_01)
+isa(Add_1_S_3, Change_v_02)
+isa(Add_1_S_3, Add_v_01)
+isa(Add_1_S_3, Increase_v_01)
+isa(Add_1_S_3, Change_magnitude_v_01)
+
+//chilled
+hasPOS(Chilled_2_S_3, VBN)
+hasSense(Chilled_2_S_3, Cool_v_01)
+isa(Chilled_2_S_3, Change_v_01)
+isa(Chilled_2_S_3, Cool_v_01)
+
+//ginger
+hasPOS(Ginger_3_S_3, NN)
+hasSense(Ginger_3_S_3, Ginger_n_02)
+isa(Ginger_3_S_3, Physical_entity_n_01)
+isa(Ginger_3_S_3, Food_n_01)
+isa(Ginger_3_S_3, Foodstuff_n_02)
+isa(Ginger_3_S_3, Spice_n_02)
+isa(Ginger_3_S_3, Ingredient_n_03)
+isa(Ginger_3_S_3, Entity_n_01)
+isa(Ginger_3_S_3, Flavorer_n_01)
+isa(Ginger_3_S_3, Matter_n_03)
+isa(Ginger_3_S_3, Substance_n_07)
+isa(Ginger_3_S_3, Ginger_n_02)
+
+//ale
+hasPOS(Ale_4_S_3, NN)
+hasSense(Ale_4_S_3, Ginger_ale_n_01)
+isa(Ale_4_S_3, Part_n_01)
+isa(Ale_4_S_3, Beverage_n_01)
+isa(Ale_4_S_3, Food_n_01)
+isa(Ale_4_S_3, Physical_entity_n_01)
+isa(Ale_4_S_3, Soft_drink_n_01)
+isa(Ale_4_S_3, Ginger_ale_n_01)
+isa(Ale_4_S_3, Abstraction_n_06)
+isa(Ale_4_S_3, Entity_n_01)
+isa(Ale_4_S_3, Fluid_n_01)
+isa(Ale_4_S_3, Relation_n_01)
+isa(Ale_4_S_3, Matter_n_03)
+isa(Ale_4_S_3, Liquid_n_01)
+isa(Ale_4_S_3, Substance_n_01)
+isa(Ale_4_S_3, Substance_n_07)
+
+//just
+hasPOS(Just_5_S_3, RB)
+hasSense(Just_5_S_3, Just_r_03)
+isa(Just_5_S_3, Just_r_03)
+
+//before
+hasPOS(Before_6_S_3, IN)
+hasSense(Before_6_S_3, Ahead_r_01)
+isa(Before_6_S_3, Ahead_r_01)
+
+//serving
+hasPOS(Serving_7_S_3, VBG)
+hasSense(Serving_7_S_3, Serve_v_06)
+isa(Serving_7_S_3, Serve_v_06)
+isa(Serving_7_S_3, Transfer_v_05)
+isa(Serving_7_S_3, Provide_v_02)
+isa(Serving_7_S_3, Give_v_03)
+
+//.
+hasPOS(__8_S_3, __POINT__)
+
+
+//Mix until combined.
+
+
+//Dependencies
+nsubj(Combined_3_S_2,Mix_1_S_2)
+advmod(Combined_3_S_2,Until_2_S_2)
+root(Root_0_S_2,Combined_3_S_2)
+
+//Mix
+hasPOS(Mix_1_S_2, NNP)
+hasSense(Mix_1_S_2, Mix_v_04)
+isa(Mix_1_S_2, Mix_v_04)
+isa(Mix_1_S_2, Change_v_02)
+isa(Mix_1_S_2, Add_v_01)
+isa(Mix_1_S_2, Increase_v_01)
+isa(Mix_1_S_2, Change_magnitude_v_01)
+
+//until
+hasPOS(Until_2_S_2, IN)
+
+//combined
+hasPOS(Combined_3_S_2, VBD)
+hasSense(Combined_3_S_2, Combined_a_01)
+isa(Combined_3_S_2, Combined_a_01)
+
+//.
+hasPOS(__4_S_2, __POINT__)
+
+
+// Word Similarity
+similar(Juice_4_S_1, Juice_3_S_0)
+similar(__6_S_1, __7_S_0)
+similar(__6_S_1, __8_S_3)
+similar(__6_S_1, __4_S_2)
+similar(Juice_3_S_0, Juice_4_S_1)
+similar(__7_S_0, __6_S_1)
+similar(__7_S_0, __8_S_3)
+similar(__7_S_0, __4_S_2)
+similar(__8_S_3, __6_S_1)
+similar(__8_S_3, __7_S_0)
+similar(__8_S_3, __4_S_2)
+similar(__4_S_2, __6_S_1)
+similar(__4_S_2, __7_S_0)
+similar(__4_S_2, __8_S_3)
+
+
+// Phrase Similarity
+
+
+// Phrases in the text
+isPhrase(Thawed_2_S_1,NP_12_S_1)
+isPhrase(Orange_3_S_1,NP_12_S_1)
+isPhrase(Juice_4_S_1,NP_12_S_1)
+isPhrase(Add_1_S_0,NP_10_S_0)
+isPhrase(Apple_2_S_0,NP_10_S_0)
+isPhrase(Bowl_6_S_0,NP_20_S_0)
+isPhrase(Ginger_3_S_3,NP_15_S_3)
+isPhrase(Ale_4_S_3,NP_15_S_3)
+isPhrase(Mix_1_S_2,NP_7_S_2)
+
+//Distance between the elements of the text
+zerodistance(NP_10_S_0,NP_10_S_0)
+zerodistance(NP_10_S_0,NP_20_S_0)
+onedistance(NP_10_S_0,NP_12_S_1)
+twodistance(NP_10_S_0,NP_7_S_2)
+threedistance(NP_10_S_0,NP_15_S_3)
+zerodistance(NP_20_S_0,NP_10_S_0)
+zerodistance(NP_20_S_0,NP_20_S_0)
+onedistance(NP_20_S_0,NP_12_S_1)
+twodistance(NP_20_S_0,NP_7_S_2)
+threedistance(NP_20_S_0,NP_15_S_3)
+onedistance(NP_12_S_1,NP_10_S_0)
+onedistance(NP_12_S_1,NP_20_S_0)
+zerodistance(NP_12_S_1,NP_12_S_1)
+onedistance(NP_12_S_1,NP_7_S_2)
+twodistance(NP_12_S_1,NP_15_S_3)
+twodistance(NP_7_S_2,NP_10_S_0)
+twodistance(NP_7_S_2,NP_20_S_0)
+onedistance(NP_7_S_2,NP_12_S_1)
+zerodistance(NP_7_S_2,NP_7_S_2)
+onedistance(NP_7_S_2,NP_15_S_3)
+threedistance(NP_15_S_3,NP_10_S_0)
+threedistance(NP_15_S_3,NP_20_S_0)
+twodistance(NP_15_S_3,NP_12_S_1)
+onedistance(NP_15_S_3,NP_7_S_2)
+zerodistance(NP_15_S_3,NP_15_S_3)
+
+//Cluster Head Matches
+
+
+//Word inclusion
+
+
+//I-Within-I
+
+iWithini(NP_12_S_1,NP_12_S_1)
+iWithini(NP_10_S_0,NP_10_S_0)
+iWithini(NP_20_S_0,NP_20_S_0)
+iWithini(NP_15_S_3,NP_15_S_3)
+iWithini(NP_7_S_2,NP_7_S_2)
+
+// Incompatible modifiers
+
+
+// Gender
+
+// Grouded elements in the text:
+
+
+ // KnowRob Object Taxonomie
+
+// Modifiers:
+

@@ -1,0 +1,8 @@
+has_role(The,Null)
+has_role(Milk,Theme)
+has_role(Fill,Actionverb)
+has_role(Glass,Goal)
+has_role(A,Null)
+has_role(Pot,Source)
+end_state(YES)
+in(Milk,Glass)

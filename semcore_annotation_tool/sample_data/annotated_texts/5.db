@@ -1,0 +1,356 @@
+
+// Global Dependencies
+
+
+//Add the liquor ingredients.
+
+
+//Dependencies
+root(Root_0_S_1,Add_1_S_1)
+det(Ingredients_4_S_1,The_2_S_1)
+nn(Ingredients_4_S_1,Liquor_3_S_1)
+dobj(Add_1_S_1,Ingredients_4_S_1)
+
+//Add
+hasPOS(Add_1_S_1, VB)
+hasSense(Add_1_S_1, Add_v_01)
+isa(Add_1_S_1, Change_v_02)
+isa(Add_1_S_1, Add_v_01)
+isa(Add_1_S_1, Increase_v_01)
+isa(Add_1_S_1, Change_magnitude_v_01)
+
+//the
+hasPOS(The_2_S_1, DT)
+
+//liquor
+hasPOS(Liquor_3_S_1, NN)
+hasSense(Liquor_3_S_1, Liquor_n_01)
+isa(Liquor_3_S_1, Alcohol_n_01)
+isa(Liquor_3_S_1, Beverage_n_01)
+isa(Liquor_3_S_1, Liquor_n_01)
+isa(Liquor_3_S_1, Food_n_01)
+isa(Liquor_3_S_1, Physical_entity_n_01)
+isa(Liquor_3_S_1, Fluid_n_01)
+isa(Liquor_3_S_1, Abstraction_n_06)
+isa(Liquor_3_S_1, Relation_n_01)
+isa(Liquor_3_S_1, Entity_n_01)
+isa(Liquor_3_S_1, Causal_agent_n_01)
+isa(Liquor_3_S_1, Drug_of_abuse_n_01)
+isa(Liquor_3_S_1, Matter_n_03)
+isa(Liquor_3_S_1, Part_n_01)
+isa(Liquor_3_S_1, Agent_n_03)
+isa(Liquor_3_S_1, Liquid_n_01)
+isa(Liquor_3_S_1, Substance_n_01)
+isa(Liquor_3_S_1, Drug_n_01)
+isa(Liquor_3_S_1, Substance_n_07)
+
+//ingredients
+hasPOS(Ingredients_4_S_1, NNS)
+hasSense(Ingredients_4_S_1, Ingredient_n_03)
+isa(Ingredients_4_S_1, Physical_entity_n_01)
+isa(Ingredients_4_S_1, Food_n_01)
+isa(Ingredients_4_S_1, Foodstuff_n_02)
+isa(Ingredients_4_S_1, Ingredient_n_03)
+isa(Ingredients_4_S_1, Entity_n_01)
+isa(Ingredients_4_S_1, Matter_n_03)
+isa(Ingredients_4_S_1, Substance_n_07)
+
+//.
+hasPOS(__5_S_1, __POINT__)
+
+
+//Fill your glass with ice cubes.
+
+
+//Dependencies
+root(Root_0_S_0,Fill_1_S_0)
+poss(Glass_3_S_0,Your_2_S_0)
+dobj(Fill_1_S_0,Glass_3_S_0)
+prep(Fill_1_S_0,With_4_S_0)
+nn(Cubes_6_S_0,Ice_5_S_0)
+pobj(With_4_S_0,Cubes_6_S_0)
+
+//Fill
+hasPOS(Fill_1_S_0, VB)
+hasSense(Fill_1_S_0, Fill_v_01)
+isa(Fill_1_S_0, Change_v_01)
+isa(Fill_1_S_0, Fill_v_01)
+
+//your
+hasPOS(Your_2_S_0, PRP__DOLLAR__)
+
+//glass
+hasPOS(Glass_3_S_0, NN)
+hasSense(Glass_3_S_0, Glass_n_02)
+isa(Glass_3_S_0, Physical_entity_n_01)
+isa(Glass_3_S_0, Artifact_n_01)
+isa(Glass_3_S_0, Entity_n_01)
+isa(Glass_3_S_0, Object_n_01)
+isa(Glass_3_S_0, Instrumentality_n_03)
+isa(Glass_3_S_0, Container_n_01)
+isa(Glass_3_S_0, Whole_n_02)
+isa(Glass_3_S_0, Glass_n_02)
+
+//with
+hasPOS(With_4_S_0, IN)
+
+//ice
+hasPOS(Ice_5_S_0, NN)
+hasSense(Ice_5_S_0, Ice_n_02)
+isa(Ice_5_S_0, Ice_n_02)
+isa(Ice_5_S_0, Object_n_01)
+isa(Ice_5_S_0, Physical_entity_n_01)
+isa(Ice_5_S_0, Entity_n_01)
+
+//cubes
+hasPOS(Cubes_6_S_0, NNS)
+hasSense(Cubes_6_S_0, Ice_cube_n_01)
+isa(Cubes_6_S_0, Block_n_01)
+isa(Cubes_6_S_0, Physical_entity_n_01)
+isa(Cubes_6_S_0, Cube_n_05)
+isa(Cubes_6_S_0, Artifact_n_01)
+isa(Cubes_6_S_0, Entity_n_01)
+isa(Cubes_6_S_0, Object_n_01)
+isa(Cubes_6_S_0, Ice_cube_n_01)
+isa(Cubes_6_S_0, Whole_n_02)
+
+//.
+hasPOS(__7_S_0, __POINT__)
+
+
+//Garnish your drink with the lemon twist.
+
+
+//Dependencies
+root(Root_0_S_3,Garnish_1_S_3)
+poss(Drink_3_S_3,Your_2_S_3)
+dobj(Garnish_1_S_3,Drink_3_S_3)
+prep(Garnish_1_S_3,With_4_S_3)
+det(Twist_7_S_3,The_5_S_3)
+amod(Twist_7_S_3,Lemon_6_S_3)
+pobj(With_4_S_3,Twist_7_S_3)
+
+//Garnish
+hasPOS(Garnish_1_S_3, VB)
+hasSense(Garnish_1_S_3, Trim_v_06)
+isa(Garnish_1_S_3, Change_v_01)
+isa(Garnish_1_S_3, Trim_v_06)
+isa(Garnish_1_S_3, Decorate_v_01)
+
+//your
+hasPOS(Your_2_S_3, PRP__DOLLAR__)
+
+//drink
+hasPOS(Drink_3_S_3, NN)
+hasSense(Drink_3_S_3, Drink_n_01)
+isa(Drink_3_S_3, Small_indefinite_quantity_n_01)
+isa(Drink_3_S_3, Drink_n_01)
+isa(Drink_3_S_3, Abstraction_n_06)
+isa(Drink_3_S_3, Measure_n_02)
+isa(Drink_3_S_3, Indefinite_quantity_n_01)
+isa(Drink_3_S_3, Entity_n_01)
+isa(Drink_3_S_3, Helping_n_01)
+
+//with
+hasPOS(With_4_S_3, IN)
+
+//the
+hasPOS(The_5_S_3, DT)
+
+//lemon
+hasPOS(Lemon_6_S_3, JJ)
+hasSense(Lemon_6_S_3, Lemon_n_01)
+isa(Lemon_6_S_3, Citrus_n_01)
+isa(Lemon_6_S_3, Produce_n_01)
+isa(Lemon_6_S_3, Natural_object_n_01)
+isa(Lemon_6_S_3, Physical_entity_n_01)
+isa(Lemon_6_S_3, Matter_n_03)
+isa(Lemon_6_S_3, Entity_n_01)
+isa(Lemon_6_S_3, Reproductive_structure_n_01)
+isa(Lemon_6_S_3, Solid_n_01)
+isa(Lemon_6_S_3, Object_n_01)
+isa(Lemon_6_S_3, Plant_organ_n_01)
+isa(Lemon_6_S_3, Lemon_n_01)
+isa(Lemon_6_S_3, Plant_part_n_01)
+isa(Lemon_6_S_3, Edible_fruit_n_01)
+isa(Lemon_6_S_3, Fruit_n_01)
+isa(Lemon_6_S_3, Whole_n_02)
+isa(Lemon_6_S_3, Food_n_02)
+
+//twist
+hasPOS(Twist_7_S_3, NN)
+hasSense(Twist_7_S_3, Turn_n_04)
+isa(Twist_7_S_3, Change_n_01)
+isa(Twist_7_S_3, Event_n_01)
+isa(Twist_7_S_3, Happening_n_01)
+isa(Twist_7_S_3, Turn_n_04)
+isa(Twist_7_S_3, Development_n_04)
+isa(Twist_7_S_3, Abstraction_n_06)
+isa(Twist_7_S_3, Entity_n_01)
+isa(Twist_7_S_3, Psychological_feature_n_01)
+
+//.
+hasPOS(__8_S_3, __POINT__)
+
+
+//Stir everything together with a stirrer.
+
+
+//Dependencies
+root(Root_0_S_2,Stir_1_S_2)
+dobj(Stir_1_S_2,Everything_2_S_2)
+advmod(Stir_1_S_2,Together_3_S_2)
+prep(Stir_1_S_2,With_4_S_2)
+det(Stirrer_6_S_2,A_5_S_2)
+pobj(With_4_S_2,Stirrer_6_S_2)
+
+//Stir
+hasPOS(Stir_1_S_2, VB)
+hasSense(Stir_1_S_2, Stir_v_01)
+isa(Stir_1_S_2, Move_v_02)
+isa(Stir_1_S_2, Stir_v_01)
+
+//everything
+hasPOS(Everything_2_S_2, NN)
+
+//together
+hasPOS(Together_3_S_2, RB)
+hasSense(Together_3_S_2, Together_r_01)
+isa(Together_3_S_2, Together_r_01)
+
+//with
+hasPOS(With_4_S_2, IN)
+
+//a
+hasPOS(A_5_S_2, DT)
+
+//stirrer
+hasPOS(Stirrer_6_S_2, NN)
+hasSense(Stirrer_6_S_2, Stirrer_n_02)
+isa(Stirrer_6_S_2, Physical_entity_n_01)
+isa(Stirrer_6_S_2, Implement_n_01)
+isa(Stirrer_6_S_2, Stirrer_n_02)
+isa(Stirrer_6_S_2, Artifact_n_01)
+isa(Stirrer_6_S_2, Entity_n_01)
+isa(Stirrer_6_S_2, Object_n_01)
+isa(Stirrer_6_S_2, Instrumentality_n_03)
+isa(Stirrer_6_S_2, Whole_n_02)
+
+//.
+hasPOS(__7_S_2, __POINT__)
+
+
+// Word Similarity
+similar(The_2_S_1, The_5_S_3)
+similar(__5_S_1, __7_S_0)
+similar(__5_S_1, __8_S_3)
+similar(__5_S_1, __7_S_2)
+similar(__7_S_0, __5_S_1)
+similar(__7_S_0, __8_S_3)
+similar(The_5_S_3, The_2_S_1)
+similar(__8_S_3, __5_S_1)
+similar(__8_S_3, __7_S_0)
+similar(__8_S_3, __7_S_2)
+similar(__7_S_2, __5_S_1)
+similar(__7_S_2, __8_S_3)
+
+
+// Phrase Similarity
+
+
+// Phrases in the text
+isPhrase(The_2_S_1,NP_10_S_1)
+isPhrase(Liquor_3_S_1,NP_10_S_1)
+isPhrase(Ingredients_4_S_1,NP_10_S_1)
+isPhrase(Your_2_S_0,NP_12_S_0)
+isPhrase(Glass_3_S_0,NP_12_S_0)
+isPhrase(Ice_5_S_0,NP_17_S_0)
+isPhrase(Cubes_6_S_0,NP_17_S_0)
+isPhrase(Your_2_S_3,NP_13_S_3)
+isPhrase(Drink_3_S_3,NP_13_S_3)
+isPhrase(The_5_S_3,NP_18_S_3)
+isPhrase(Lemon_6_S_3,NP_18_S_3)
+isPhrase(Twist_7_S_3,NP_18_S_3)
+isPhrase(Everything_2_S_2,NP_12_S_2)
+isPhrase(A_5_S_2,NP_18_S_2)
+isPhrase(Stirrer_6_S_2,NP_18_S_2)
+
+//Distance between the elements of the text
+zerodistance(NP_12_S_0,NP_12_S_0)
+zerodistance(NP_12_S_0,NP_17_S_0)
+onedistance(NP_12_S_0,NP_10_S_1)
+twodistance(NP_12_S_0,NP_12_S_2)
+twodistance(NP_12_S_0,NP_18_S_2)
+threedistance(NP_12_S_0,NP_13_S_3)
+threedistance(NP_12_S_0,NP_18_S_3)
+zerodistance(NP_17_S_0,NP_12_S_0)
+zerodistance(NP_17_S_0,NP_17_S_0)
+onedistance(NP_17_S_0,NP_10_S_1)
+twodistance(NP_17_S_0,NP_12_S_2)
+twodistance(NP_17_S_0,NP_18_S_2)
+threedistance(NP_17_S_0,NP_13_S_3)
+threedistance(NP_17_S_0,NP_18_S_3)
+onedistance(NP_10_S_1,NP_12_S_0)
+onedistance(NP_10_S_1,NP_17_S_0)
+zerodistance(NP_10_S_1,NP_10_S_1)
+onedistance(NP_10_S_1,NP_12_S_2)
+onedistance(NP_10_S_1,NP_18_S_2)
+twodistance(NP_10_S_1,NP_13_S_3)
+twodistance(NP_10_S_1,NP_18_S_3)
+twodistance(NP_12_S_2,NP_12_S_0)
+twodistance(NP_12_S_2,NP_17_S_0)
+onedistance(NP_12_S_2,NP_10_S_1)
+zerodistance(NP_12_S_2,NP_12_S_2)
+zerodistance(NP_12_S_2,NP_18_S_2)
+onedistance(NP_12_S_2,NP_13_S_3)
+onedistance(NP_12_S_2,NP_18_S_3)
+twodistance(NP_18_S_2,NP_12_S_0)
+twodistance(NP_18_S_2,NP_17_S_0)
+onedistance(NP_18_S_2,NP_10_S_1)
+zerodistance(NP_18_S_2,NP_12_S_2)
+zerodistance(NP_18_S_2,NP_18_S_2)
+onedistance(NP_18_S_2,NP_13_S_3)
+onedistance(NP_18_S_2,NP_18_S_3)
+threedistance(NP_13_S_3,NP_12_S_0)
+threedistance(NP_13_S_3,NP_17_S_0)
+twodistance(NP_13_S_3,NP_10_S_1)
+onedistance(NP_13_S_3,NP_12_S_2)
+onedistance(NP_13_S_3,NP_18_S_2)
+zerodistance(NP_13_S_3,NP_13_S_3)
+zerodistance(NP_13_S_3,NP_18_S_3)
+threedistance(NP_18_S_3,NP_12_S_0)
+threedistance(NP_18_S_3,NP_17_S_0)
+twodistance(NP_18_S_3,NP_10_S_1)
+onedistance(NP_18_S_3,NP_12_S_2)
+onedistance(NP_18_S_3,NP_18_S_2)
+zerodistance(NP_18_S_3,NP_13_S_3)
+zerodistance(NP_18_S_3,NP_18_S_3)
+
+//Cluster Head Matches
+
+
+//Word inclusion
+
+
+//I-Within-I
+
+iWithini(NP_10_S_1,NP_10_S_1)
+iWithini(NP_12_S_0,NP_12_S_0)
+iWithini(NP_17_S_0,NP_17_S_0)
+iWithini(NP_13_S_3,NP_13_S_3)
+iWithini(NP_18_S_3,NP_18_S_3)
+iWithini(NP_12_S_2,NP_12_S_2)
+iWithini(NP_18_S_2,NP_18_S_2)
+
+// Incompatible modifiers
+
+
+// Gender
+
+// Grouded elements in the text:
+
+
+ // KnowRob Object Taxonomie
+
+// Modifiers:
+

@@ -1,0 +1,11 @@
+instanceOf(O1, C1)
+//instanceOf(ID_E, SE)
+obj_id = {O2, O3}
+concept_id = {X,Y,Z}
+//!instanceOf(ID_E,SD)
+isa(SD,D)
+isa(SD,B)
+isa(SD,A)
+
+
+

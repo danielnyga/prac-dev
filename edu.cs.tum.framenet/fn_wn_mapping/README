@@ -1,0 +1,45 @@
+             
+	 FrameNet Verbs Annotated with WordNet Senses
+         ============================================
+                    December 6th, 2004
+          
+		        Lei Shi		    
+                       Rada Mihalcea
+           Language and Information Technologies
+                University of North Texas
+
+               Contact: leishi at unt.edu
+	       		rada at cs.unt.edu
+
+
+This data set includes a mapping between FrameNet verb lexical 
+units and WordNet senses. 
+
+The mapping is stored in the file FnWnVerbMap.1.0.txt. There are 
+3,094 entries in this file, each corresponding to a verb lexical 
+unit in FrameNet II. Each entry includes the following fields:
+   - frame: the name of the corresponding frame in FrameNet
+   - verb:  the verb lexical unit from FrameNet
+   - sensekey [sensekey]: one or more sense keys indicating the 
+     corresponding sense(s) from WordNet 
+
+Sense keys do not depend on the WordNet version, and thus any 
+WordNet version can be used to identify the synset corresponding
+to a verb sense. Note however that the mapping was created using
+WordNet 2.0, which means that earlier versions of WordNet are not
+guaranteed to include all sense keys.
+
+Lexical units not found in WordNet are annotated with a sense of
+0. Entries for which an appropriate WordNet sense could not be
+identified are also annotated with sense 0.
+
+Please report any problems or inconsistencies to leishi at unt.edu
+and rada at cs.unt.edu
+
+If you are using this data set, please refer to the following 
+publication: 
+
+Lei Shi and Rada Mihalcea, "Putting Pieces Together: Combining 
+FrameNet, VerbNet and WordNet for Robust Semantic Parsing", 
+in Proceedings of Cicling 2005, Mexico City, Mexico, 2005
+Available from:http://mira.csci.unt.edu/~stone/home.html

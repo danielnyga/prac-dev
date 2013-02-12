@@ -1,0 +1,338 @@
+
+// Global Dependencies
+
+
+//Add enough Mayo to coat all the pieces.
+
+
+//Dependencies
+root(Root_0_S_1,Add_1_S_1)
+advmod(Mayo_3_S_1,Enough_2_S_1)
+acomp(Add_1_S_1,Mayo_3_S_1)
+aux(Coat_5_S_1,To_4_S_1)
+xcomp(Mayo_3_S_1,Coat_5_S_1)
+predet(Pieces_8_S_1,All_6_S_1)
+det(Pieces_8_S_1,The_7_S_1)
+dobj(Coat_5_S_1,Pieces_8_S_1)
+
+//Add
+hasPOS(Add_1_S_1, VB)
+
+//enough
+hasPOS(Enough_2_S_1, RB)
+
+//Mayo
+hasPOS(Mayo_3_S_1, JJ)
+
+//to
+hasPOS(To_4_S_1, TO)
+
+//coat
+hasPOS(Coat_5_S_1, VB)
+
+//all
+hasPOS(All_6_S_1, PDT)
+
+//the
+hasPOS(The_7_S_1, DT)
+
+//pieces
+hasPOS(Pieces_8_S_1, NNS)
+
+//.
+hasPOS(__9_S_1, __POINT__)
+
+
+//Mix Chicken, Celery, Onion, Grapes, and Garlic.
+
+
+//Dependencies
+nn(Chicken_2_S_0,Mix_1_S_0)
+root(Root_0_S_0,Chicken_2_S_0)
+appos(Chicken_2_S_0,Celery_4_S_0)
+conj(Celery_4_S_0,Onion_6_S_0)
+conj(Celery_4_S_0,Grapes_8_S_0)
+cc(Celery_4_S_0,And_10_S_0)
+conj(Celery_4_S_0,Garlic_11_S_0)
+
+//Mix
+hasPOS(Mix_1_S_0, NNP)
+hasSense(Mix_1_S_0, Shuffle_v_03)
+isa(Mix_1_S_0, Shuffle_v_03)
+isa(Mix_1_S_0, Touch_v_01)
+isa(Mix_1_S_0, Handle_v_04)
+isa(Mix_1_S_0, Manipulate_v_02)
+
+//Chicken
+hasPOS(Chicken_2_S_0, NNP)
+hasSense(Chicken_2_S_0, Chicken_n_01)
+isa(Chicken_2_S_0, Chicken_n_01)
+isa(Chicken_2_S_0, Food_n_02)
+isa(Chicken_2_S_0, Physical_entity_n_01)
+isa(Chicken_2_S_0, Entity_n_01)
+isa(Chicken_2_S_0, Solid_n_01)
+isa(Chicken_2_S_0, Matter_n_03)
+isa(Chicken_2_S_0, Meat_n_01)
+isa(Chicken_2_S_0, Bird_n_02)
+isa(Chicken_2_S_0, Poultry_n_02)
+
+//,
+hasPOS(__3_S_0, __COMMA__)
+
+//Celery
+hasPOS(Celery_4_S_0, NNP)
+hasSense(Celery_4_S_0, Celery_n_01)
+isa(Celery_4_S_0, Celery_n_01)
+isa(Celery_4_S_0, Plant_n_02)
+isa(Celery_4_S_0, Living_thing_n_01)
+isa(Celery_4_S_0, Physical_entity_n_01)
+isa(Celery_4_S_0, Vascular_plant_n_01)
+isa(Celery_4_S_0, Entity_n_01)
+isa(Celery_4_S_0, Herb_n_01)
+isa(Celery_4_S_0, Object_n_01)
+isa(Celery_4_S_0, Organism_n_01)
+isa(Celery_4_S_0, Whole_n_02)
+
+//,
+hasPOS(__5_S_0, __COMMA__)
+
+//Onion
+hasPOS(Onion_6_S_0, NNP)
+
+//,
+hasPOS(__7_S_0, __COMMA__)
+
+//Grapes
+hasPOS(Grapes_8_S_0, NNS)
+
+//,
+hasPOS(__9_S_0, __COMMA__)
+
+//and
+hasPOS(And_10_S_0, CC)
+
+//Garlic
+hasPOS(Garlic_11_S_0, NNP)
+
+//.
+hasPOS(__12_S_0, __POINT__)
+
+
+//Put on your favorite crutonss Serve.
+
+
+//Dependencies
+root(Root_0_S_3,Put_1_S_3)
+prep(Put_1_S_3,On_2_S_3)
+poss(Serve_6_S_3,Your_3_S_3)
+amod(Serve_6_S_3,Favorite_4_S_3)
+nn(Serve_6_S_3,Crutonss_5_S_3)
+pobj(On_2_S_3,Serve_6_S_3)
+
+//Put
+hasPOS(Put_1_S_3, VB)
+
+//on
+hasPOS(On_2_S_3, IN)
+
+//your
+hasPOS(Your_3_S_3, PRP__DOLLAR__)
+
+//favorite
+hasPOS(Favorite_4_S_3, JJ)
+
+//crutonss
+hasPOS(Crutonss_5_S_3, NNS)
+
+//Serve
+hasPOS(Serve_6_S_3, NN)
+
+//.
+hasPOS(__7_S_3, __POINT__)
+
+
+//Add seasonings to taste.
+
+
+//Dependencies
+root(Root_0_S_2,Add_1_S_2)
+dobj(Add_1_S_2,Seasonings_2_S_2)
+prep(Add_1_S_2,To_3_S_2)
+pobj(To_3_S_2,Taste_4_S_2)
+
+//Add
+hasPOS(Add_1_S_2, VB)
+
+//seasonings
+hasPOS(Seasonings_2_S_2, NNS)
+
+//to
+hasPOS(To_3_S_2, TO)
+
+//taste
+hasPOS(Taste_4_S_2, NN)
+
+//.
+hasPOS(__5_S_2, __POINT__)
+
+
+// Word Similarity
+similar(To_4_S_1, To_3_S_2)
+similar(__9_S_1, __12_S_0)
+similar(__9_S_1, __7_S_3)
+similar(__9_S_1, __5_S_2)
+similar(__3_S_0, __5_S_0)
+similar(__3_S_0, __7_S_0)
+similar(__3_S_0, __9_S_0)
+similar(__5_S_0, __3_S_0)
+similar(__5_S_0, __7_S_0)
+similar(__5_S_0, __9_S_0)
+similar(__7_S_0, __3_S_0)
+similar(__7_S_0, __5_S_0)
+similar(__7_S_0, __9_S_0)
+similar(__9_S_0, __3_S_0)
+similar(__9_S_0, __5_S_0)
+similar(__9_S_0, __7_S_0)
+similar(__12_S_0, __9_S_1)
+similar(__12_S_0, __7_S_3)
+similar(__12_S_0, __5_S_2)
+similar(__7_S_3, __9_S_1)
+similar(__7_S_3, __12_S_0)
+similar(__7_S_3, __5_S_2)
+similar(To_3_S_2, To_4_S_1)
+similar(__5_S_2, __9_S_1)
+similar(__5_S_2, __12_S_0)
+similar(__5_S_2, __7_S_3)
+
+
+// Phrase Similarity
+
+
+// Phrases in the text
+isPhrase(All_6_S_1,NP_22_S_1)
+isPhrase(The_7_S_1,NP_22_S_1)
+isPhrase(Pieces_8_S_1,NP_22_S_1)
+isPhrase(Mix_1_S_0,NP_14_S_0)
+isPhrase(Chicken_2_S_0,NP_14_S_0)
+isPhrase(__COMMA___3_S_0,NP_14_S_0)
+isPhrase(Celery_4_S_0,NP_14_S_0)
+isPhrase(__COMMA___5_S_0,NP_14_S_0)
+isPhrase(Onion_6_S_0,NP_14_S_0)
+isPhrase(__COMMA___7_S_0,NP_14_S_0)
+isPhrase(Grapes_8_S_0,NP_14_S_0)
+isPhrase(__COMMA___9_S_0,NP_14_S_0)
+isPhrase(And_10_S_0,NP_14_S_0)
+isPhrase(Garlic_11_S_0,NP_14_S_0)
+isPhrase(__POINT___12_S_0,NP_14_S_0)
+isPhrase(Your_3_S_3,NP_14_S_3)
+isPhrase(Favorite_4_S_3,NP_14_S_3)
+isPhrase(Crutonss_5_S_3,NP_14_S_3)
+isPhrase(Serve_6_S_3,NP_14_S_3)
+isPhrase(Seasonings_2_S_2,NP_10_S_2)
+isPhrase(Taste_4_S_2,NP_14_S_2)
+
+//Distance between the elements of the text
+zerodistance(NP_14_S_0,NP_14_S_0)
+onedistance(NP_14_S_0,NP_22_S_1)
+twodistance(NP_14_S_0,NP_10_S_2)
+twodistance(NP_14_S_0,NP_14_S_2)
+threedistance(NP_14_S_0,NP_14_S_3)
+onedistance(NP_22_S_1,NP_14_S_0)
+zerodistance(NP_22_S_1,NP_22_S_1)
+onedistance(NP_22_S_1,NP_10_S_2)
+onedistance(NP_22_S_1,NP_14_S_2)
+twodistance(NP_22_S_1,NP_14_S_3)
+twodistance(NP_10_S_2,NP_14_S_0)
+onedistance(NP_10_S_2,NP_22_S_1)
+zerodistance(NP_10_S_2,NP_10_S_2)
+zerodistance(NP_10_S_2,NP_14_S_2)
+onedistance(NP_10_S_2,NP_14_S_3)
+twodistance(NP_14_S_2,NP_14_S_0)
+onedistance(NP_14_S_2,NP_22_S_1)
+zerodistance(NP_14_S_2,NP_10_S_2)
+zerodistance(NP_14_S_2,NP_14_S_2)
+onedistance(NP_14_S_2,NP_14_S_3)
+threedistance(NP_14_S_3,NP_14_S_0)
+twodistance(NP_14_S_3,NP_22_S_1)
+onedistance(NP_14_S_3,NP_10_S_2)
+onedistance(NP_14_S_3,NP_14_S_2)
+zerodistance(NP_14_S_3,NP_14_S_3)
+
+//Cluster Head Matches
+
+clusterHeadMatch(NP_14_S_0,NP_15_S_0)
+clusterHeadMatch(NP_15_S_0,NP_14_S_0)
+clusterHeadMatch(NP_19_S_0,NP_20_S_0)
+clusterHeadMatch(NP_14_S_0,NP_20_S_0)
+clusterHeadMatch(NP_20_S_0,NP_19_S_0)
+clusterHeadMatch(NP_14_S_0,NP_19_S_0)
+clusterHeadMatch(NP_20_S_0,NP_14_S_0)
+clusterHeadMatch(NP_19_S_0,NP_14_S_0)
+clusterHeadMatch(NP_19_S_0,NP_23_S_0)
+clusterHeadMatch(NP_14_S_0,NP_23_S_0)
+clusterHeadMatch(NP_23_S_0,NP_19_S_0)
+clusterHeadMatch(NP_14_S_0,NP_19_S_0)
+clusterHeadMatch(NP_23_S_0,NP_14_S_0)
+clusterHeadMatch(NP_19_S_0,NP_14_S_0)
+clusterHeadMatch(NP_19_S_0,NP_26_S_0)
+clusterHeadMatch(NP_14_S_0,NP_26_S_0)
+clusterHeadMatch(NP_26_S_0,NP_19_S_0)
+clusterHeadMatch(NP_14_S_0,NP_19_S_0)
+clusterHeadMatch(NP_26_S_0,NP_14_S_0)
+clusterHeadMatch(NP_19_S_0,NP_14_S_0)
+clusterHeadMatch(NP_19_S_0,NP_30_S_0)
+clusterHeadMatch(NP_14_S_0,NP_30_S_0)
+clusterHeadMatch(NP_30_S_0,NP_19_S_0)
+clusterHeadMatch(NP_14_S_0,NP_19_S_0)
+clusterHeadMatch(NP_30_S_0,NP_14_S_0)
+clusterHeadMatch(NP_19_S_0,NP_14_S_0)
+
+//Word inclusion
+
+wordInclusion(NP_15_S_0,NP_14_S_0)
+wordInclusion(NP_19_S_0,NP_14_S_0)
+wordInclusion(NP_20_S_0,NP_14_S_0)
+wordInclusion(NP_20_S_0,NP_19_S_0)
+wordInclusion(NP_23_S_0,NP_14_S_0)
+wordInclusion(NP_23_S_0,NP_19_S_0)
+wordInclusion(NP_26_S_0,NP_14_S_0)
+wordInclusion(NP_26_S_0,NP_19_S_0)
+wordInclusion(NP_30_S_0,NP_14_S_0)
+wordInclusion(NP_30_S_0,NP_19_S_0)
+
+//I-Within-I
+
+iWithini(NP_22_S_1,NP_22_S_1)
+iWithini(NP_14_S_0,NP_14_S_0)
+iWithini(NP_15_S_0,NP_15_S_0)
+iWithini(NP_15_S_0,NP_14_S_0)
+iWithini(NP_19_S_0,NP_19_S_0)
+iWithini(NP_19_S_0,NP_14_S_0)
+iWithini(NP_20_S_0,NP_20_S_0)
+iWithini(NP_20_S_0,NP_19_S_0)
+iWithini(NP_20_S_0,NP_14_S_0)
+iWithini(NP_23_S_0,NP_23_S_0)
+iWithini(NP_23_S_0,NP_19_S_0)
+iWithini(NP_23_S_0,NP_14_S_0)
+iWithini(NP_26_S_0,NP_26_S_0)
+iWithini(NP_26_S_0,NP_19_S_0)
+iWithini(NP_26_S_0,NP_14_S_0)
+iWithini(NP_30_S_0,NP_30_S_0)
+iWithini(NP_30_S_0,NP_19_S_0)
+iWithini(NP_30_S_0,NP_14_S_0)
+iWithini(NP_14_S_3,NP_14_S_3)
+iWithini(NP_10_S_2,NP_10_S_2)
+iWithini(NP_14_S_2,NP_14_S_2)
+
+// Incompatible modifiers
+
+
+// Gender
+
+// Grouded elements in the text:
+
+
+ // KnowRob Object Taxonomie
+
+// Modifiers:
+

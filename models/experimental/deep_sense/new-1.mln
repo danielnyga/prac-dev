@@ -1,0 +1,16 @@
+// domain declarations
+
+// domain declarations
+instanceOf(obj_id, concept_id!)
+isa(concept_id, conceptName)
+
+0 instanceOf(oid, cid) ^ isa(cid, D)
+0 instanceOf(oid, cid) ^ isa(cid, E)
+0 instanceOf(oid, cid) ^ isa(cid, F)
+0 instanceOf(oid, cid) ^ isa(cid, B)
+0 instanceOf(oid, cid) ^ isa(cid, C)
+0 instanceOf(oid, cid) ^ isa(cid, A)
+
+
+
+

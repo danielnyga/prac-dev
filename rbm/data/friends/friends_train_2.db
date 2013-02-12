@@ -1,0 +1,10 @@
+# property friends
+friends(Person0,Person0)
+friends(Person3,Person2)
+friends(Person2,Person3)
+friends(Person3,Person3)
+friends(Person2,Person2)
+friends(Person1,Person1)
+friends(Person1,Person0)
+friends(Person0,Person1)
+

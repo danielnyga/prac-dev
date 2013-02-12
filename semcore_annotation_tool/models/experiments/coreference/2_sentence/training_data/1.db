@@ -1,0 +1,150 @@
+isGrounded(Serve_1_S_1, NULL)
+isGrounded(Cold_2_S_1, NULL)
+isGrounded(Start_1_S_0, NULL)
+isGrounded(Mixing_2_S_0, NULL)
+isGrounded(The_3_S_0, NULL)
+isGrounded(Liquids_4_S_0, NULL)
+isGrounded(WholeEntity_S_0, NULL)
+isGrounded(ThemeEntity_S_1, NULL)
+
+// Global Dependencies
+hasRole(Serve_1_S_1, ServeActionVerb)
+hasRole(Liquids_4_S_0, MixPart)
+hasRole(Mixing_2_S_0, MixActionVerb)
+isaW(NULL,NULL)
+
+//Serve cold.
+
+
+hasRole(Cold_2_S_1, NULL)
+hasRole(Start_1_S_0, NULL)
+hasRole(The_3_S_0, NULL)
+
+//Dependencies
+acomp(Serve_1_S_1,Cold_2_S_1)
+
+//Serve
+hasPOS(Serve_1_S_1, VB)
+hasSense(Serve_1_S_1, Serve_v_06)
+isaW(Serve_v_06, Serve_v_06)
+isaW(Serve_v_06, Serve_v_06)
+isaW(Serve_v_06, Transfer_v_05)
+isaW(Serve_v_06, Provide_v_02)
+isaW(Serve_v_06, Give_v_03)
+
+//cold
+hasPOS(Cold_2_S_1, JJ)
+hasSense(Cold_2_S_1, Cold_a_01)
+isaW(Cold_a_01, Cold_a_01)
+
+hasRole(WholeEntity_S_0, MixWhole)
+hasPOS(WholeEntity_S_0, NN)
+hasSense(WholeEntity_S_0, Cocktail_n_01)
+
+hasRole(ThemeEntity_S_1, ServeTheme)
+hasPOS(ThemeEntity_S_1, NN)
+hasSense(ThemeEntity_S_1,Cocktail_n_01)
+
+coreference(WholeEntity_S_0, ThemeEntity_S_1)
+distance1(WholeEntity_S_0,Serve_1_S_1)
+distance1(WholeEntity_S_0,Cold_2_S_1)
+distance0(WholeEntity_S_0,Start_1_S_0)
+distance0(WholeEntity_S_0,Mixing_2_S_0)
+distance0(WholeEntity_S_0,The_3_S_0)
+distance0(WholeEntity_S_0,Liquids_4_S_0)
+distance1(WholeEntity_S_0,ThemeEntity_S_1)
+
+distance0(ThemeEntity_S_1,Serve_1_S_1)
+distance0(ThemeEntity_S_1,Cold_2_S_1)
+distance1(ThemeEntity_S_1,Start_1_S_0)
+distance1(ThemeEntity_S_1,Mixing_2_S_0)
+distance1(ThemeEntity_S_1,The_3_S_0)
+distance1(ThemeEntity_S_1,Liquids_4_S_0)
+distance1(ThemeEntity_S_1,WholeEntity_S_0)
+//Start mixing the liquids.
+
+
+//Dependencies
+partmod(Start_1_S_0,Mixing_2_S_0)
+det(Liquids_4_S_0,The_3_S_0)
+dobj(Mixing_2_S_0,Liquids_4_S_0)
+
+//Start
+hasPOS(Start_1_S_0, NNP)
+hasSense(Start_1_S_0, Begin_v_03)
+isaW(Begin_v_03, Begin_v_03)
+isaW(Begin_v_03, Begin_v_03)
+
+//mixing
+hasPOS(Mixing_2_S_0, VBG)
+hasSense(Mixing_2_S_0, Mix_v_04)
+isaW(Mix_v_04, Mix_v_04)
+isaW(Mix_v_04, Mix_v_04)
+isaW(Mix_v_04, Change_v_02)
+isaW(Mix_v_04, Add_v_01)
+isaW(Mix_v_04, Increase_v_01)
+isaW(Mix_v_04, Change_magnitude_v_01)
+
+//the
+hasPOS(The_3_S_0, DT)
+hasSense(The_3_S_0, NULL)
+
+//liquids
+hasPOS(Liquids_4_S_0, NNS)
+hasSense(Liquids_4_S_0, Liquid_n_01)
+isaW(Liquid_n_01, Liquid_n_01)
+isaW(Liquid_n_01, Part_n_01)
+isaW(Liquid_n_01, Physical_entity_n_01)
+isaW(Liquid_n_01, Abstraction_n_06)
+isaW(Liquid_n_01, Entity_n_01)
+isaW(Liquid_n_01, Fluid_n_01)
+isaW(Liquid_n_01, Relation_n_01)
+isaW(Liquid_n_01, Matter_n_03)
+isaW(Liquid_n_01, Liquid_n_01)
+isaW(Liquid_n_01, Substance_n_01)
+distance0(Serve_1_S_1,Cold_2_S_1)
+distance1(Serve_1_S_1,Start_1_S_0)
+distance1(Serve_1_S_1,Mixing_2_S_0)
+distance1(Serve_1_S_1,The_3_S_0)
+distance1(Serve_1_S_1,Liquids_4_S_0)
+distance1(Serve_1_S_1,WholeEntity_S_0)
+distance0(Serve_1_S_1,ThemeEntity_S_1)
+distance0(Cold_2_S_1,Serve_1_S_1)
+distance1(Cold_2_S_1,Start_1_S_0)
+distance1(Cold_2_S_1,Mixing_2_S_0)
+distance1(Cold_2_S_1,The_3_S_0)
+distance1(Cold_2_S_1,Liquids_4_S_0)
+distance1(Cold_2_S_1,WholeEntity_S_0)
+distance0(Cold_2_S_1,ThemeEntity_S_1)
+distance1(Start_1_S_0,Serve_1_S_1)
+distance1(Start_1_S_0,Cold_2_S_1)
+distance0(Start_1_S_0,Mixing_2_S_0)
+distance0(Start_1_S_0,The_3_S_0)
+distance0(Start_1_S_0,Liquids_4_S_0)
+distance0(Start_1_S_0,WholeEntity_S_0)
+distance1(Start_1_S_0,ThemeEntity_S_1)
+distance1(Mixing_2_S_0,Serve_1_S_1)
+distance1(Mixing_2_S_0,Cold_2_S_1)
+distance0(Mixing_2_S_0,Start_1_S_0)
+distance0(Mixing_2_S_0,The_3_S_0)
+distance0(Mixing_2_S_0,Liquids_4_S_0)
+distance0(Mixing_2_S_0,WholeEntity_S_0)
+distance1(Mixing_2_S_0,ThemeEntity_S_1)
+distance1(The_3_S_0,Serve_1_S_1)
+distance1(The_3_S_0,Cold_2_S_1)
+distance0(The_3_S_0,Start_1_S_0)
+distance0(The_3_S_0,Mixing_2_S_0)
+distance0(The_3_S_0,Liquids_4_S_0)
+distance0(The_3_S_0,WholeEntity_S_0)
+distance1(The_3_S_0,ThemeEntity_S_1)
+distance1(Liquids_4_S_0,Serve_1_S_1)
+distance1(Liquids_4_S_0,Cold_2_S_1)
+distance0(Liquids_4_S_0,Start_1_S_0)
+distance0(Liquids_4_S_0,Mixing_2_S_0)
+distance0(Liquids_4_S_0,The_3_S_0)
+distance0(Liquids_4_S_0,WholeEntity_S_0)
+distance0(Liquids_4_S_0,ThemeEntity_S_1)
+
+// Grounded elements in the text:
+
+isaI(NULL,NULL)

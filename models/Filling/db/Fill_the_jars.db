@@ -1,0 +1,29 @@
+// "Fill the jars."
+
+// Syntactic Features
+root(ROOT_0,Fill_1)
+det(Jars_3,The_2)
+dobj(Fill_1,Jars_3)
+has_pos(Fill_1,VB)
+has_pos(The_2,DT)
+has_pos(Jars_3,NNS)
+
+is_a(Jar01,physical_entity.n.01)
+is_a(Jar01,artifact.n.01)
+is_a(Jar01,entity.n.01)
+is_a(Jar01,vessel.n.03)
+is_a(Jar01,object.n.01)
+is_a(Jar01,instrumentality.n.03)
+is_a(Jar01,container.n.01)
+is_a(Jar01,jar.n.01)
+is_a(Jar01,whole.n.02)
+is_a(Fill04,fill.v.01)
+is_a(Nullsense, NULL)
+
+// Semantic relations
+action_role(Jars_3,Goal)
+has_sense(Fill_1,Fill04)
+action_role(Fill_1,ActionVerb)
+has_sense(Jars_3,Jar01)
+has_sense(The_2, Nullsense)
+action_role(The_2, NULL)

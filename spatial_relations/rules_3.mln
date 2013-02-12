@@ -1,0 +1,59 @@
+has_role(word, role)
+in(word,word)
+in_next(word,word)
+on(word,word)
+on_next(word,word)
+over(word,word)
+over_next(word,word)
+tilted(word)
+tilted_next(word)
+begin_state(yesno)
+end_state(yesno)
+yesno = {YES,NO}
+
+
+in(w1, w2) => !(w1=w2).
+
+0 in(w1,w2)  ^ end_state(YES)  ^ has_role(w2,Source) ^ has_role(w1,Theme)
+0 in(w1,w2) ^ begin_state(YES)  ^ has_role(w2,Source) ^ has_role(w1,Theme)
+0 in(w1,w2) ^ in_next(w1,w2) ^ has_role(w2,Source) ^ has_role(w1,Theme)
+0 !in(w1,w2) ^ end_state(YES)  ^ has_role(w2,Source) ^ has_role(w1,Theme)
+0 !in(w1,w2) ^ begin_state(YES)  ^ has_role(w2,Source) ^ has_role(w1,Theme)
+
+0 in(w1,w2)  ^ end_state(YES) ^ has_role(w2,Goal) ^ has_role(w1,Theme)
+0 in(w1,w2) ^ begin_state(YES) ^ has_role(w2,Goal) ^ has_role(w1,Theme)
+0 in(w1,w2) ^ in_next(w1,w2) ^ has_role(w2,Goal)  ^ has_role(w1,Theme)
+0 !in(w1,w2) ^ end_state(YES) ^ has_role(w2,Goal) ^ has_role(w1,Theme)
+0 !in(w1,w2) ^ begin_state(YES) ^ has_role(w2,Goal) ^ has_role(w1,Theme)
+
+0 over(w1,w2)  ^ end_state(YES) ^ has_role(w1,Source) ^ has_role(w2,Goal) 
+0 over(w1,w2) ^ begin_state(YES) ^ has_role(w1,Source) ^ has_role(w2,Goal)  
+0 over(w1,w2) ^ over_next(w1,w2) ^ has_role(w1,Source) ^ has_role(w2,Goal) 
+0 !over(w1,w2) ^ end_state(YES) ^ has_role(w1,Source) ^ has_role(w2,Goal) 
+0 !over(w1,w2) ^ begin_state(YES) ^ has_role(w1,Source) ^ has_role(w2,Goal) 
+ 
+0 tilted(w1)  ^ end_state(YES) ^ has_role(w1,Source)
+0 tilted(w1) ^ begin_state(YES)  ^ has_role(w1,Source)
+0 tilted(w1) ^ tilted_next(w1) ^ has_role(w1,Source)
+0 !tilted(w1) ^ begin_state(YES)  ^ has_role(w1,Source)
+0 !tilted(w1) ^ end_state(YES) ^ has_role(w1,Source)
+
+0 in(w1,w2)  ^ begin_state(YES)  ^ has_role(w2,Source) => tilted_next(w2)
+0 in(w1,w2)  ^ begin_state(YES) ^ has_role(w2,Source) => over_next(w2,w3) ^ has_role(w3,Goal)
+
+0 tilted(w1) ^ has_role(w1,Source) => over_next(w1,w2)  ^ has_role(w2,Goal)
+0 over(w1,w2)  ^ has_role(w1,Source) ^ has_role(w2,Goal) => tilted_next(w1)
+
+0 over(w1,w2) ^ tilted(w1) ^ has_role(w2,Goal) => in_next(w3,w2)  ^ has_role(w3,Theme)
+
+0 in(w1,w2) ^ has_role(w2,Goal) => !in_next(w1,w3) ^ has_role(w3,Source)
+
+0 in(w1,w2) ^ !in(w1,w3) ^ has_role(w2,Goal) ^ has_role(w3,Source)  => !tilted_next(w3) 
+0 in(w1,w2) ^ !in(w1,w3) ^ has_role(w2,Goal) ^ has_role(w3,Source) => !over_next(w3,w2)
+
+0 in(w1,w2) ^ !tilted(w3) ^ has_role(w2,Goal) ^ has_role(w3,Source) => !over_next(w3,w2)
+0 in(w1,w2) ^ !over(w3,w2) ^ has_role(w2,Goal) ^ has_role(w3,Source) => !tilted_next(w3)
+
+
+
+

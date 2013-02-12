@@ -1,0 +1,657 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+    <!ENTITY actioncores "http://ias.cs.tum.edu/prac/actioncores.owl#" >
+]>
+
+
+<rdf:RDF xmlns="http://ias.cs.tum.edu/prac/actioncores.owl#"
+     xml:base="http://ias.cs.tum.edu/prac/actioncores.owl"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:actioncores="http://ias.cs.tum.edu/prac/actioncores.owl#">
+    <owl:Ontology rdf:about="http://ias.cs.tum.edu/prac/actioncores.owl"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotation properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <owl:AnnotationProperty rdf:about="&actioncores;example"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Datatypes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://ias.cs.tum.edu/prac/actioncores.owl#args -->
+
+    <owl:ObjectProperty rdf:about="&actioncores;args"/>
+    
+
+
+    <!-- http://ias.cs.tum.edu/prac/actioncores.owl#component -->
+
+    <owl:ObjectProperty rdf:about="&actioncores;component"/>
+    
+
+
+    <!-- http://ias.cs.tum.edu/prac/actioncores.owl#coreActionRole -->
+
+    <owl:ObjectProperty rdf:about="&actioncores;coreActionRole">
+        <rdfs:domain>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&actioncores;coreActionRole"/>
+                <owl:someValuesFrom rdf:resource="&actioncores;ActionRole"/>
+            </owl:Restriction>
+        </rdfs:domain>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ias.cs.tum.edu/prac/actioncores.owl#domain -->
+
+    <owl:ObjectProperty rdf:about="&actioncores;domain"/>
+    
+
+
+    <!-- http://ias.cs.tum.edu/prac/actioncores.owl#firstElement -->
+
+    <owl:ObjectProperty rdf:about="&actioncores;firstElement"/>
+    
+
+
+    <!-- http://ias.cs.tum.edu/prac/actioncores.owl#fstComponent -->
+
+    <owl:ObjectProperty rdf:about="&actioncores;fstComponent">
+        <rdf:type rdf:resource="&owl;AsymmetricProperty"/>
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdf:type rdf:resource="&owl;IrreflexiveProperty"/>
+        <rdfs:domain rdf:resource="&actioncores;Biimplication"/>
+        <rdfs:range rdf:resource="&actioncores;Formula"/>
+        <rdfs:domain rdf:resource="&actioncores;Implication"/>
+        <rdfs:subPropertyOf rdf:resource="&actioncores;logicalComponent"/>
+        <owl:propertyDisjointWith rdf:resource="&actioncores;sndComponent"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ias.cs.tum.edu/prac/actioncores.owl#logicalComponent -->
+
+    <owl:ObjectProperty rdf:about="&actioncores;logicalComponent">
+        <rdf:type rdf:resource="&owl;AsymmetricProperty"/>
+        <rdf:type rdf:resource="&owl;IrreflexiveProperty"/>
+        <rdfs:range rdf:resource="&actioncores;Formula"/>
+        <rdfs:domain rdf:resource="&actioncores;Formula"/>
+        <rdfs:subPropertyOf rdf:resource="&actioncores;component"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ias.cs.tum.edu/prac/actioncores.owl#next -->
+
+    <owl:ObjectProperty rdf:about="&actioncores;next">
+        <rdf:type rdf:resource="&owl;AsymmetricProperty"/>
+        <rdf:type rdf:resource="&owl;IrreflexiveProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ias.cs.tum.edu/prac/actioncores.owl#optionalActionRole -->
+
+    <owl:ObjectProperty rdf:about="&actioncores;optionalActionRole">
+        <rdfs:domain>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&actioncores;optionalActionRole"/>
+                <owl:someValuesFrom rdf:resource="&actioncores;ActionRole"/>
+            </owl:Restriction>
+        </rdfs:domain>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ias.cs.tum.edu/prac/actioncores.owl#sndComponent -->
+
+    <owl:ObjectProperty rdf:about="&actioncores;sndComponent">
+        <rdf:type rdf:resource="&owl;AsymmetricProperty"/>
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdf:type rdf:resource="&owl;IrreflexiveProperty"/>
+        <rdfs:domain rdf:resource="&actioncores;Biimplication"/>
+        <rdfs:range rdf:resource="&actioncores;Formula"/>
+        <rdfs:domain rdf:resource="&actioncores;Implication"/>
+        <rdfs:subPropertyOf rdf:resource="&actioncores;logicalComponent"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://ias.cs.tum.edu/prac/actioncores.owl#label -->
+
+    <owl:DatatypeProperty rdf:about="&actioncores;label">
+        <rdfs:range rdf:resource="&xsd;string"/>
+        <rdfs:domain>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&actioncores;label"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onDataRange rdf:resource="&xsd;string"/>
+            </owl:Restriction>
+        </rdfs:domain>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://ias.cs.tum.edu/prac/actioncores.owl#ActionCore -->
+
+    <owl:Class rdf:about="&actioncores;ActionCore"/>
+    
+
+
+    <!-- http://ias.cs.tum.edu/prac/actioncores.owl#ActionCoreActivity -->
+
+    <owl:Class rdf:about="&actioncores;ActionCoreActivity">
+        <rdfs:subClassOf rdf:resource="&actioncores;ActionCore"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/prac/actioncores.owl#ActionCoreObject -->
+
+    <owl:Class rdf:about="&actioncores;ActionCoreObject">
+        <rdfs:subClassOf rdf:resource="&actioncores;ActionCore"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/prac/actioncores.owl#ActionCoreSituation -->
+
+    <owl:Class rdf:about="&actioncores;ActionCoreSituation">
+        <rdfs:subClassOf rdf:resource="&actioncores;ActionCore"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/prac/actioncores.owl#ActionRole -->
+
+    <owl:Class rdf:about="&actioncores;ActionRole"/>
+    
+
+
+    <!-- http://ias.cs.tum.edu/prac/actioncores.owl#BeingLocated -->
+
+    <owl:Class rdf:about="&actioncores;BeingLocated">
+        <rdfs:subClassOf rdf:resource="&actioncores;ActionCoreSituation"/>
+        <rdfs:comment rdf:datatype="&xsd;string">A Theme is in a stable position with respect to a Location.</rdfs:comment>
+        <example rdf:datatype="&xsd;string">Our offices are located about two miles south of I-85 .</example>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/prac/actioncores.owl#Biimplication -->
+
+    <owl:Class rdf:about="&actioncores;Biimplication">
+        <rdfs:subClassOf rdf:resource="&actioncores;ComplexFormula"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&actioncores;fstComponent"/>
+                <owl:onClass rdf:resource="&actioncores;Formula"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&actioncores;sndComponent"/>
+                <owl:onClass rdf:resource="&actioncores;Formula"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/prac/actioncores.owl#BoundVar -->
+
+    <owl:Class rdf:about="&actioncores;BoundVar">
+        <rdfs:subClassOf rdf:resource="&actioncores;LogicalVar"/>
+        <owl:disjointWith rdf:resource="&actioncores;UnboundVar"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/prac/actioncores.owl#ComplexFormula -->
+
+    <owl:Class rdf:about="&actioncores;ComplexFormula">
+        <rdfs:subClassOf rdf:resource="&actioncores;Formula"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/prac/actioncores.owl#ComputationalThing -->
+
+    <owl:Class rdf:about="&actioncores;ComputationalThing"/>
+    
+
+
+    <!-- http://ias.cs.tum.edu/prac/actioncores.owl#Conjunction -->
+
+    <owl:Class rdf:about="&actioncores;Conjunction">
+        <rdfs:subClassOf rdf:resource="&actioncores;ComplexFormula"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&actioncores;logicalComponent"/>
+                <owl:onClass rdf:resource="&actioncores;Formula"/>
+                <owl:minQualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">2</owl:minQualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/prac/actioncores.owl#Constant -->
+
+    <owl:Class rdf:about="&actioncores;Constant">
+        <rdfs:subClassOf rdf:resource="&actioncores;Value"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/prac/actioncores.owl#Constraint -->
+
+    <owl:Class rdf:about="&actioncores;Constraint">
+        <rdfs:subClassOf rdf:resource="&actioncores;ComputationalThing"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/prac/actioncores.owl#CountConstraint -->
+
+    <owl:Class rdf:about="&actioncores;CountConstraint">
+        <rdfs:subClassOf rdf:resource="&actioncores;NonLogicalConstraint"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/prac/actioncores.owl#Disjunction -->
+
+    <owl:Class rdf:about="&actioncores;Disjunction">
+        <rdfs:subClassOf rdf:resource="&actioncores;ComplexFormula"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&actioncores;logicalComponent"/>
+                <owl:onClass rdf:resource="&actioncores;Formula"/>
+                <owl:minQualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">2</owl:minQualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/prac/actioncores.owl#Equality -->
+
+    <owl:Class rdf:about="&actioncores;Equality">
+        <rdfs:subClassOf rdf:resource="&actioncores;Formula"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&actioncores;sndComponent"/>
+                <owl:onClass rdf:resource="&actioncores;LogicalVar"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&actioncores;fstComponent"/>
+                <owl:onClass rdf:resource="&actioncores;LogicalVar"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/prac/actioncores.owl#Exists -->
+
+    <owl:Class rdf:about="&actioncores;Exists">
+        <rdfs:subClassOf rdf:resource="&actioncores;ComplexFormula"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/prac/actioncores.owl#Formula -->
+
+    <owl:Class rdf:about="&actioncores;Formula">
+        <rdfs:subClassOf rdf:resource="&actioncores;Constraint"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/prac/actioncores.owl#Goal -->
+
+    <owl:Class rdf:about="&actioncores;Goal">
+        <rdfs:subClassOf rdf:resource="&actioncores;ActionRole"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/prac/actioncores.owl#GroundAtom -->
+
+    <owl:Class rdf:about="&actioncores;GroundAtom">
+        <rdfs:subClassOf rdf:resource="&actioncores;Formula"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/prac/actioncores.owl#GroundCountConstraint -->
+
+    <owl:Class rdf:about="&actioncores;GroundCountConstraint">
+        <rdfs:subClassOf rdf:resource="&actioncores;NonLogicalConstraint"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/prac/actioncores.owl#GroundLiteral -->
+
+    <owl:Class rdf:about="&actioncores;GroundLiteral">
+        <rdfs:subClassOf rdf:resource="&actioncores;Formula"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/prac/actioncores.owl#Implication -->
+
+    <owl:Class rdf:about="&actioncores;Implication">
+        <rdfs:subClassOf rdf:resource="&actioncores;ComplexFormula"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&actioncores;sndComponent"/>
+                <owl:onClass rdf:resource="&actioncores;Formula"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&actioncores;fstComponent"/>
+                <owl:onClass rdf:resource="&actioncores;Formula"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/prac/actioncores.owl#Instrument -->
+
+    <owl:Class rdf:about="&actioncores;Instrument">
+        <rdfs:subClassOf rdf:resource="&actioncores;ActionRole"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/prac/actioncores.owl#LastElement -->
+
+    <owl:Class rdf:about="&actioncores;LastElement">
+        <rdfs:subClassOf rdf:resource="&actioncores;ListElement"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&actioncores;next"/>
+                <owl:onClass rdf:resource="&actioncores;LogicalVar"/>
+                <owl:maxQualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">0</owl:maxQualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/prac/actioncores.owl#List -->
+
+    <owl:Class rdf:about="&actioncores;List">
+        <rdfs:subClassOf rdf:resource="&actioncores;ComputationalThing"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&actioncores;firstElement"/>
+                <owl:onClass rdf:resource="&actioncores;ListElement"/>
+                <owl:maxQualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:maxQualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/prac/actioncores.owl#ListElement -->
+
+    <owl:Class rdf:about="&actioncores;ListElement">
+        <rdfs:subClassOf rdf:resource="&actioncores;ComputationalThing"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&actioncores;next"/>
+                <owl:onClass rdf:resource="&actioncores;ListElement"/>
+                <owl:maxQualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:maxQualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/prac/actioncores.owl#Literal -->
+
+    <owl:Class rdf:about="&actioncores;Literal">
+        <rdfs:subClassOf rdf:resource="&actioncores;Formula"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/prac/actioncores.owl#Location -->
+
+    <owl:Class rdf:about="&actioncores;Location">
+        <rdfs:subClassOf rdf:resource="&actioncores;ActionRole"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/prac/actioncores.owl#LocativeRelation -->
+
+    <owl:Class rdf:about="&actioncores;LocativeRelation">
+        <rdfs:subClassOf rdf:resource="&actioncores;ActionCoreObject"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/prac/actioncores.owl#LogicalDomain -->
+
+    <owl:Class rdf:about="&actioncores;LogicalDomain">
+        <rdfs:subClassOf rdf:resource="&actioncores;ComputationalThing"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&actioncores;label"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onDataRange rdf:resource="&xsd;string"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/prac/actioncores.owl#LogicalVar -->
+
+    <owl:Class rdf:about="&actioncores;LogicalVar">
+        <rdfs:subClassOf rdf:resource="&actioncores;ComputationalThing"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&actioncores;domain"/>
+                <owl:onClass rdf:resource="&actioncores;LogicalDomain"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/prac/actioncores.owl#MovingInPlace -->
+
+    <owl:Class rdf:about="&actioncores;MovingInPlace">
+        <rdfs:subClassOf rdf:resource="&actioncores;ActionCoreActivity"/>
+        <rdfs:comment rdf:datatype="&xsd;string">A Theme moves with respect to a Fixed_location, generally with a certain Periodicity, without undergoing unbounded translational motion or significant alteration of configuration/shape.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/prac/actioncores.owl#Negation -->
+
+    <owl:Class rdf:about="&actioncores;Negation">
+        <rdfs:subClassOf rdf:resource="&actioncores;ComplexFormula"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&actioncores;logicalComponent"/>
+                <owl:onClass rdf:resource="&actioncores;Formula"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/prac/actioncores.owl#NonLogicalConstraint -->
+
+    <owl:Class rdf:about="&actioncores;NonLogicalConstraint">
+        <rdfs:subClassOf rdf:resource="&actioncores;Constraint"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/prac/actioncores.owl#Predicate -->
+
+    <owl:Class rdf:about="&actioncores;Predicate">
+        <rdfs:subClassOf rdf:resource="&actioncores;ComputationalThing"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&actioncores;label"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onDataRange rdf:resource="&xsd;string"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/prac/actioncores.owl#Source -->
+
+    <owl:Class rdf:about="&actioncores;Source">
+        <rdfs:subClassOf rdf:resource="&actioncores;ActionRole"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/prac/actioncores.owl#Theme -->
+
+    <owl:Class rdf:about="&actioncores;Theme">
+        <rdfs:subClassOf rdf:resource="&actioncores;ActionRole"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/prac/actioncores.owl#TrueFalse -->
+
+    <owl:Class rdf:about="&actioncores;TrueFalse">
+        <rdfs:subClassOf rdf:resource="&actioncores;Formula"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/prac/actioncores.owl#UnboundVar -->
+
+    <owl:Class rdf:about="&actioncores;UnboundVar">
+        <rdfs:subClassOf rdf:resource="&actioncores;LogicalVar"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/prac/actioncores.owl#Value -->
+
+    <owl:Class rdf:about="&actioncores;Value">
+        <rdfs:subClassOf rdf:resource="&actioncores;ComputationalThing"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&actioncores;label"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onDataRange rdf:resource="&xsd;string"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // General axioms
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="&actioncores;Biimplication"/>
+            <rdf:Description rdf:about="&actioncores;Conjunction"/>
+            <rdf:Description rdf:about="&actioncores;Disjunction"/>
+            <rdf:Description rdf:about="&actioncores;Exists"/>
+            <rdf:Description rdf:about="&actioncores;Implication"/>
+            <rdf:Description rdf:about="&actioncores;Negation"/>
+        </owl:members>
+    </rdf:Description>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 3.3.1957) http://owlapi.sourceforge.net -->
+

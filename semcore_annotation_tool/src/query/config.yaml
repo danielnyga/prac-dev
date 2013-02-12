@@ -1,0 +1,13 @@
+---
+#Define the methods used for the queries, all results will be presented
+methods:
+    J-MLNs:
+        - Toulbar2 B&B (MPE)
+#Those two are left empty so far
+    #- J-MLNs:
+    #- Alechmy - August 2010 (AMD64):
+#For sampling based methods the maximum number of states
+parameters:
+    - maxSteps: 5000
+#Should stay false
+    - saveResults: False

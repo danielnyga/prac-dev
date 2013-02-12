@@ -1,0 +1,11 @@
+// predicate declarations
+hasSense(:Word, Sense, :Sentence)
+hasRole(:Word, Role, :Sentence)
+//isa(Sense,Sense)
+
+// isa(Sense,Sense) as DAG
+// precedes(:Word,:Word) as List
+
+// constraints
+- hasSense(word1,+sense1,s) ^ hasSense(word2,+sense2,s) ^ hasRole(word1,+role1,s) ^ hasRole(word2,+role2,s)// ^ isa(+sense1,+super1) ^ isa(+sense2,+super2)
+//- hasSense(word1,Water,s) ^ hasSense(word2,Cup,s) ^ hasRole(word1,role1,s) ^ hasRole(word2,role2,s)

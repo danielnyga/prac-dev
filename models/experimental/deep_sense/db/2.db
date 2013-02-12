@@ -1,0 +1,5 @@
+instanceOf(ID_E, SE)
+
+isa(SE,E)
+isa(SE,B)
+isa(SE,A)

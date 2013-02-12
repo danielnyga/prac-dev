@@ -1,0 +1,7 @@
+has_role(The,Null)
+has_role(Fill,Actionverb)
+has_role(Water,Theme)
+has_role(Cup,Goal)
+has_role(A,Null)
+has_role(Tap,Source)
+in(Water,Tap)

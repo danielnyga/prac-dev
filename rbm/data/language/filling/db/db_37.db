@@ -1,0 +1,42 @@
+// *** mln database ***
+
+// links
+hasSense(Oword32, S2850732_blender, Osentence33)
+hasRole(Oword32, Goal, Osentence33)
+hasRole(Oword31, Theme, Osentence33)
+hasSense(Oword31, S7844042_milk, Osentence33)
+// concept #1
+// sentence #1
+// concept #2
+// concept #3
+// concept #4
+// concept #5
+// concept #6
+// concept #7
+// concept #8
+// concept #9
+// word #1
+// concept #10
+// concept #11
+// concept #12
+// concept #13
+// concept #14
+// concept #15
+// concept #16
+// concept #17
+// concept #18
+// concept #19
+// domHasRole1 #1
+// concept #20
+// concept #21
+// word #2
+// concept #22
+// concept #23
+// domHasRole1 #2
+// concept #24
+// concept #25
+// concept #26
+// concept #27
+// concept #28
+// concept #29
+// concept #30

@@ -1,0 +1,20 @@
+p_pointing_towards(spatula-6, pancake-3)
+p_next_to(spatula-6, pancake-3)
+p_orientation(spatula-6, UP)
+p_in_contact(spatula-6, fixedlocation-oven)
+
+p_on(pancake-3, fixedlocation-oven)
+p_in_contact(pancake-3, fixedlocation-oven)
+p_orientation(pancake-3, UP)
+
+s_orientation(spatula-6, UP)
+s_orientation(pancake-6, UP)
+
+s_underneath(spatula-6, pancake-3)
+s_on(pancake-3, spatula-6)
+s_on(spatula-6, fixedlocation-oven)
+
+s_in_contact(spatula-6, pancake-3)
+s_in_contact(spatula-6, fixedlocation-unknown)
+
+has_successor(YES)
