@@ -192,16 +192,23 @@ class ActionRoles(PRACReasoner):
         mrf = mln.groundMRF(db, method='WCSPGroundingFactory')
         converter = WCSPConverter(mrf)
         
+#        resultDB = PRACDatabase(mln, db=converter.getMostProbableWorldDB())
+#        infer.databases['missingroles'] = resultDB
+        
         self.pracinference.role_distribution = {}
         for role in feature.missingRoles:
             for concept in actioncore.known_concepts: break
             self.pracinference.role_distribution[role] = converter.getPseudoDistributionForGndAtom('has_sense(%s,%s)' % (role, concept))
             sortedList = sorted([(str(l.params[1]),v) for l, v in self.pracinference.role_distribution[role].iteritems()], key=operator.itemgetter(1), reverse=True)
             printDistribution(sortedList)
+            infer.databases['missingroles'].addGroundAtom('action_role(%s,%s)' % (role, role))
+            infer.databases['missingroles'].addGroundAtom('has_sense(%s,%s)' % (role, role))
+            infer.databases['missingroles'].addGroundAtom('is_a(%s,%s)' % (role, sortedList[0][0]))
             print 
             print 'Most likely %s: ' % (role) + bash.OKGREEN + bash.BOLD + sortedList[0][0] + bash.END
             print
             print
+            
                 
         
 #        for atom, prob in dist.iteritems():

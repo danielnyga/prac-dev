@@ -27,3 +27,6 @@ def startJvm():
     
 def shutdownJvm():
     jpype.shutdownJVM()
+    
+def isJvmRunning():
+    return jpype.isJVMStarted()
