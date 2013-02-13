@@ -36,6 +36,7 @@ f = file("env.sh", "w+")
 f.write("#!/bin/sh\n")
 f.write("export PYTHONPATH=%s\n" % os.path.pathsep.join(["$PYTHONPATH", os.path.join(home, "edu.tum.cs.prac", "src"), os.path.join(home, "semcore_annotation_tool", "src")]))
 f.write("export PATH=%s\n" % os.path.pathsep.join(["$PATH", os.path.join(home, appfolder)]))
+f.write("export PRAC_HOME=%s\n" % home)
 f.write("export SWI_HOME_DIR=%s\n" % os.path.join('/', 'usr', 'lib', 'swi-prolog'))
 f.close()
 
