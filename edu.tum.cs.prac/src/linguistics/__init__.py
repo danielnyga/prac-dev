@@ -22,8 +22,8 @@
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 import re
+import os
 import yaml
-
 
 class HRDialog(object):
     '''
@@ -74,3 +74,4 @@ class DRSdependency(object):
         self.look_var = look_var
         self.look_side = look_side
         self.look_subst = subst
+

@@ -52,6 +52,7 @@ formula_templates:
 ---
 action_core: Flipping
 definition: An Agent causes a Theme to move with respect to a FixedLocation, generally with a certain Periodicity, without undergoing unbounded translational motion or significant alteration of configuration/shape.
+controlled_template: The INSTRUMENT flips the THEME from FIXEDLOCATION. 
 inherits_from: CauseMotion
 action_roles:
     - Theme:

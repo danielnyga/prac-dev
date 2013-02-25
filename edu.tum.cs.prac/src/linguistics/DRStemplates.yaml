@@ -30,22 +30,25 @@
 
 ###BETA###
 
-syntactic_predicates:   
-
-    dobj: 
-        query_case: nominative
-        template: What is VERB_PASSIVE?
-        drs: drs([],[question(drs([A,B,C],[query(A,what)-1/1,property(B,X1,pos)-1/3,predicate(C,be,A,B)-1/2]))])
-        dependencies: DOBJ-left; X1-passive
-    
-
 query_cases:
 
+    dobj:
+        query_case: subject of the action
+        template: What X1 the X2?
+        drs: drs([],[question(drs([A,B,C],[query(A,what)-1/1,object(C,X2,countable,na,eq,1)-1/4,predicate(B,X1,A,C)-1/2]))])
+        dependencies: DOBJ-left, NSUBJ-left, DOBJ-right, NSUBJ-right; X1,X1,X2,X2
+
+    nsubj:
+        query_case: subject of the action
+        template: What X1 the X2?
+        drs: drs([],[question(drs([A,B,C],[query(A,what)-1/1,object(C,X2,countable,na,eq,1)-1/4,predicate(B,X1,A,C)-1/2]))])
+        dependencies: DOBJ-left, NSUBJ-left, DOBJ-right, NSUBJ-right; X1,X1,X2,X2
+
     impossibility:
-        query_case: impossibility of use of instrument
-        template: Flipping the pancake with the hammer is not possible.
-        drs: drs([A],[object(A,hammer,countable,na,eq,1)-1/4,-(drs([B,C],[modifier_pp(C,with,A)-1/2,property(B,possible,pos)-1/7,predicate(C,be,named('X1'),B)-1/5]))])
-        dependencies: DOBJ-left, PREP_WITH-
+        query_case: impossibility of object or instrument use
+        template: No X1 is used for the task.
+        drs: drs([],[=>(drs([A],[object(A,X1,countable,na,eq,1)-1/2]),drs([],[-(drs([B,C,D],[object(D,task,countable,na,eq,1)-1/7,property(B,used,pos)-1/4,predicate(C,be,A,B)-1/3,modifier_pp(C,for,D)-1/5]))]))])
+        dependencies: PARAM1-ext; X1
 
     zero-choices:
         query_case: choice between elements

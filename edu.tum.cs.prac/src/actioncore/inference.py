@@ -29,8 +29,10 @@ from utils import bash
 from grammar import parsePracFormula
 from actioncore import PRAC, PRACReasoner, PRACPIPE
 from nltk.corpus import wordnet as wn
+from StanfordParser import Parser
 #from linguistics.verbalizer import PRACVerbalizer
 #from linguistics import NLISentence
+import os
 import re
 import math
 import operator
@@ -242,7 +244,11 @@ class PRACInference(object):
         self.watch = StopWatch()
         self.databases = {}
         self.mlns = {}
+        
+        grammarPath = os.path.join('3rdparty', 'stanford-parser-2012-02-03', 'grammar', 'englishPCFG.ser.gz')
+        self.synParser = Parser(grammarPath)
  
+
 
 
 def printWordSenses(senses, tickIdx):

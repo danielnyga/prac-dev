@@ -44,20 +44,18 @@ from utils import bash
 import operator
 
 class queryCase(object):
-    def __init__(self, role, queryType, param):
+    def __init__(self, role, queryType, param, typ):
         self.role = role
         self.queryType = queryType
         self.param = []
         if param is not None:
-            for pm in param:
-                temp = re.findall(r'[a-zA-Z_]+', pm)
-                self.param.append(temp[0]) 
-
-#    need this later
-#    def add(self, role, queryType, parameters):
-#        self.role = role
-#        self.queryType = queryType
-#        self.parameters = parameters
+            if (typ == "array"):
+                for pm in param:
+                    temp = re.findall(r'[a-zA-Z_]+', pm)
+                    self.param.append(temp[0])
+            else: 
+                    tmp = re.findall(r'[a-zA-Z_]+', param)
+                    self.param.append(tmp[0])
 
     def printCase(self):
         pass
@@ -86,8 +84,8 @@ class PRACVerbalizer(PRACReasoner):
     @PRACPIPE
     def run(self):
 
+        self.synParser = self.pracinference.synParser
         self._understandTargetCase()
-
         if (self.cases is not None):
             self._pull_last_syn_features()
             self._pullDrsCases()
@@ -97,7 +95,7 @@ class PRACVerbalizer(PRACReasoner):
                 reply.create()
             print 
             print
-        
+
 #    def _verbManipulation(self, verb_inf_form, man_type):
 #        --passive
 #        --ing form
@@ -107,10 +105,32 @@ class PRACVerbalizer(PRACReasoner):
         dataMap = yaml.load(f)
         f.close()
         for query in self.cases:
-            dep = dataMap["query_cases"][query.queryType]["dependencies"]
-            self.drs.append(dataMap["query_cases"][query.queryType]["drs"])
-            self.drs[-1] = self._solve_dependencies(dep, query.param, self.drs[-1])
-               
+                 dep = dataMap["query_cases"][query.queryType]["dependencies"]
+                 self.drs.append(dataMap["query_cases"][query.queryType]["drs"])
+                 self.drs[-1] = self._solve_dependencies(dep, query.param, self.drs[-1])
+
+    def searchCtrlTemplate(self,role):
+        ''' assumption that the verb will never be asked '''
+        #actioncoresPath = os.path.join('models','actioncores.yaml')
+        #f = open(actioncoresPath)
+        #dataMap = yaml.load(f)
+        #f.close()
+
+        ctrl_deps = self.synParser.getDependencies("The INSTRUMENT flips the THEME from FIXEDLOCATION.", True)
+        for d in ctrl_deps:
+              print d
+        
+        self.ctrltags = NLISentence()
+        cldeps = map(str, ctrl_deps)
+
+        self.ctrltags.add(cldeps)
+
+        for item in self.ctrltags.SYNlist:
+                 if (item.left.lower() == role.lower() or item.right.lower() == role.lower()):
+                     missingSynTag = item.syntype.lower()
+                     print "\nmissing tag :" + missingSynTag + "\n"
+                     if (missingSynTag != "det"):
+                         self.cases.append(queryCase(role, missingSynTag, None, None)) 
 
     def _understandTargetCase(self):
 
@@ -128,13 +148,13 @@ class PRACVerbalizer(PRACReasoner):
             sortedList = sorted(self.pracinference.role_distribution[role], reverse=True)
             distribution = sorted([(str(l.params[1]),v) for l, v in self.pracinference.role_distribution[role].iteritems()], key=operator.itemgetter(1), reverse=True)
             if (distribution[0][1] < global_threshold):
-                self.cases.append(queryCase(role, "impossibility", distribution[0][1]))   
-            if (distribution[0][1] - distribution[1][1] < relative_threshold):
+                self.cases.append(queryCase(role, "impossibility", str(distribution[0][0]),"single"))
+            elif (distribution[0][1] - distribution[1][1] < relative_threshold):
                 param = []
                 param.append(distribution[0][0])
                 param.append(distribution[1][0])
-                self.cases.append(queryCase(role, "two-choices", param))             
-                self.cases.append(queryCase(role, "instrumental", None)) 
+                self.cases.append(queryCase(role, "two-choices", param, "array"))
+            self.searchCtrlTemplate(role)             
 
         if (self.cases is not None):
             print bash.BOLD + 'To be asked:' + bash.END
@@ -143,7 +163,6 @@ class PRACVerbalizer(PRACReasoner):
         else:
             print bash.BOLD + "Nothing to be asked." + bash.END 
         print  
-
 
     def _pull_last_syn_features(self):
         features = self.pracinference.features

@@ -23,11 +23,11 @@
 
 import java
 import os
-from StanfordParser import Parser
 from grammar import parsePracFormula 
 from nltk.corpus import wordnet as wn
 import FOL
 from utils import list_get
+
 
 
 java.classpath.append(os.path.join('3rdparty', 'stanford-parser-2012-02-03', 'stanford-parser.jar'))
@@ -103,13 +103,12 @@ class Syntax(FeatureExtractor):
     Extracts syntactic features that are obtained by the parser, such as
     'has_pos' and the stanford dependencies.
     '''
-    
+
     def __init__(self, mngr):
-        FeatureExtractor.__init__(self, 'syntax', mngr)
-        self.grammarPath = os.path.join('3rdparty', 'stanford-parser-2012-02-03', 'grammar', 'englishPCFG.ser.gz')
-        self.parser = self.parser = Parser(self.grammarPath)
-        
+        FeatureExtractor.__init__(self, 'syntax', mngr)    
+
     def run(self, pracinference):
+        self.parser = pracinference.synParser
         deps = self.parser.getDependencies(pracinference.sentence, True)
         self.deps = map(str, deps)
         words = set()
@@ -126,7 +125,6 @@ class Syntax(FeatureExtractor):
         self.evidence = self.pos + self.deps
         for e in self.evidence:
             FeatureExtractor.addEvidence(pracinference.databases['core'], pracinference.mlns['pracinit'], e)
-
     
 class WordSenses(FeatureExtractor):
     '''
