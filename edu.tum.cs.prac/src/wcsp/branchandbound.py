@@ -48,11 +48,13 @@ class FormulaGrounding(object):
         idx = self._varset_idx_from_varset(assignment)
         if self.assignments[idx] == {}:
             self.assignments[idx] = assignment
-            self.formula = self.formula.ground(mrf, assignment, simplify=True, allowPartialGroundings=True)
+            self.formula = self.formula.ground(mrf, assignment, simplify=False, allowPartialGroundings=True)
+            print self.formula
             return None
         else:
             new_grounding = FormulaGrounding(self.formula.ground(mrf, 
-                    assignment, simplify=True, allowPartialGroundings=True), self.mrf, self.variable_sets)
+                    assignment, simplify=False, allowPartialGroundings=True), self.mrf, self.variable_sets)
+            print new_grounding.formula
             for i, a in enumerate(self.assignments):
                 new_grounding.assignments[i] = a
             new_grounding.assignments[idx] = assignment
@@ -64,7 +66,7 @@ class FormulaGrounding(object):
         else: return None
         
     def __str__(self):
-        return str(self.assignments)
+        return str(self.assignments)# + ' -> ' + str(self.formula)
     
     def __repr__(self):
         return str(self)
@@ -84,7 +86,7 @@ class GroundingFactory(object):
         formula_groundings = []
         domain_sizes = []
         for literal in formula.iterLiterals():
-            if not literal.predName == self.predicate: continue
+            if type(literal) is FOL.GroundLit or not literal.predName == self.predicate: continue
             vars = set(literal.getVariables(mrf).keys())
             literals.append(literal)
             unseen_vars = vars.difference(seen_vars)
@@ -109,8 +111,6 @@ class GroundingFactory(object):
                 litAssignment = dict([(var, litAssignment[var]) for var in self.variable_sets[i_lit]])
                 if not litAssignment in self.seen_assignments[i_lit]:
                     new_assignments[i_lit] = litAssignment
-                else: new_assignments[i_lit] = {}
-            else: new_assignments[i_lit] = {}
         print new_assignments
         
         for i, assignment in enumerate(new_assignments):
@@ -120,10 +120,10 @@ class GroundingFactory(object):
             for formula_grounding in self.formula_groundings:
                 if formula_grounding.assignments[:i] + formula_grounding.assignments[i+1:] in seen_local_groundings: continue  
                 self.seen_assignments[i].append(assignment)
-                if new_grounding is None: continue
-                new_grounding = FormulaGrounding(self.mrf, self.formula.ground(self.mrf, self.formula, assignment)
-                seen_local_groundings.append(new_grounding.assignments[:i] + new_grounding.assignments[i+1:])
-                new_formula_groundings.append(new_grounding)
+                new_grounding = formula_grounding.ground(assignment)
+                if new_grounding is not None:
+                    seen_local_groundings.append(new_grounding.assignments[:i] + new_grounding.assignments[i+1:])
+                    new_formula_groundings.append(new_grounding)
             self.formula_groundings.extend(new_formula_groundings)
         print self.formula_groundings
         
@@ -145,7 +145,7 @@ if __name__ == '__main__':
     mln.declarePredicate('foo', ['x', 'y'])
     mln.declarePredicate('bar', ['y','z'])
     
-    f = parsePracFormula('foo(?x1,?y1) ^ foo(X,?y2) => foo(?y3,?z)')
+    f = parsePracFormula('foo(?x1,?y1) ^ foo(X,?y2) => bar(?y3,?z)')
     mln.addFormula(f, 1.5)
     
     db = PRACDatabase(mln)
@@ -157,19 +157,40 @@ if __name__ == '__main__':
     mrf = mln.groundMRF(db, simplify=False)
     
     print mrf.domains
-    fg = GroundingFactory(f, 'foo', mrf)
     
-    print fg.variable_sets
+    formulas = mrf.formulas
+    grounding_factories = []
     previous = None
-    for a in sorted(mrf.gndAtoms):
-        a = mrf.gndAtoms[a]
-        if a != previous:
-            pass
-        print 'atom:', a
-        fg.ground(a)
+    for gndAtom in sorted(mrf.gndAtoms):
+        gndAtom = mrf.gndAtoms[gndAtom]
+        if gndAtom.predName != previous:
+            print gndAtom.predName 
+            new_grounding_factories = []
+            for f in formulas:
+                print f
+                gf = GroundingFactory(f if isinstance(f, FOL.Formula) else f.formula, gndAtom.predName, mrf)
+                new_grounding_factories.append(gf)
+            grounding_factories = new_grounding_factories
+            previous = gndAtom.predName
+        new_formulas = []
+        for gf in grounding_factories:
+            gf.ground(gndAtom)
+            new_formulas.extend(gf.formula_groundings)
+        formulas = new_formulas
+#        
+#    fg = GroundingFactory(f, 'foo', mrf)
+#    
+#    print fg.variable_sets
+#    for a in sorted(mrf.gndAtoms):
+#        a = mrf.gndAtoms[a]
+#        if a != previous:
+#            pass
+#        print 'atom:', a
+#        fg.ground(a)
 
 #    print 'old', fg.seen_assignments
-    for gf in fg.formula_groundings:
+    print 'ground formulas:'
+    for gf in formulas:
         print gf
 
 
