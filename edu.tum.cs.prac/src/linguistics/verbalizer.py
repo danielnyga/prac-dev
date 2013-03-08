@@ -42,6 +42,7 @@ from utils import StopWatch, red, bold
 from utils import bash
 
 import operator
+from linguistics.verbshell import VerbShell
 
 class queryCase(object):
     def __init__(self, role, queryType, param, typ):
@@ -80,25 +81,46 @@ class PRACVerbalizer(PRACReasoner):
         self.drs = []
         self.cases = []
         self.nlitags = NLISentence()
+
     
     @PRACPIPE
     def run(self):
 
-        self.synParser = self.pracinference.synParser
+        self._instanciateCtrlTemplate()
+        
         self._understandTargetCase()
         if (self.cases is not None):
-            self._pull_last_syn_features()
+            self._pull_ctrl_syn_features() # or fallback to last_syn_features to be implemented
             self._pullDrsCases()
-            print bash.BOLD + "Verbalization: " + bash.END 
+            print bash.BOLD + "Verbalization: " + bash.END
             for query in self.drs:
                 reply = DRStoNL(query)
                 reply.create()
             print 
             print
+            print bash.BOLD + "entering Human-Robot Interaction Shell" + bash.END
+            #VerbShell().cmdloop()
 
 #    def _verbManipulation(self, verb_inf_form, man_type):
 #        --passive
 #        --ing form
+
+    def _instanciateCtrlTemplate(self):
+    
+        self.synParser = self.pracinference.synParser
+        ##Instantiating ctrl template
+        resultDB = self.pracinference.databases['core']
+        actioncore = self.pracinference.actioncore
+        action_cores_path = os.path.join('models', 'actioncores.yaml')
+        dataMap = yaml.load_all(open(action_cores_path))
+        for elem in dataMap:
+             if (elem['action_core'].lower() == "flipping"):
+                 self.pracinference.ctrlStatement = elem['controlled_template'].lower()
+        for var in resultDB.query('action_role(?w, ?r) ^ !(?r=NULL) ^ !(?r=ActionVerb)'):
+            m = re.findall(r'[a-zA-Z_]+', var['?w'])
+            #print "role: " + var['?r'] + " and value: " + var['?w'] + " trimmed: " + m[0]
+            self.pracinference.ctrlStatement = self.pracinference.ctrlStatement.replace(var['?r'].lower(),m[0].lower()) 
+            #print self.pracinference.ctrlStatement    
 
     def _pullDrsCases(self):
         f = open(abspath(join(dirname(__file__), '../linguistics/DRStemplates.yaml')))
@@ -110,16 +132,8 @@ class PRACVerbalizer(PRACReasoner):
                  self.drs[-1] = self._solve_dependencies(dep, query.param, self.drs[-1])
 
     def searchCtrlTemplate(self,role):
-        ''' assumption that the verb will never be asked '''
-        #actioncoresPath = os.path.join('models','actioncores.yaml')
-        #f = open(actioncoresPath)
-        #dataMap = yaml.load(f)
-        #f.close()
+        ctrl_deps = self.synParser.getDependencies(self.pracinference.ctrlStatement, True)
 
-        ctrl_deps = self.synParser.getDependencies("The INSTRUMENT flips the THEME from FIXEDLOCATION.", True)
-        for d in ctrl_deps:
-              print d
-        
         self.ctrltags = NLISentence()
         cldeps = map(str, ctrl_deps)
 
@@ -128,7 +142,6 @@ class PRACVerbalizer(PRACReasoner):
         for item in self.ctrltags.SYNlist:
                  if (item.left.lower() == role.lower() or item.right.lower() == role.lower()):
                      missingSynTag = item.syntype.lower()
-                     print "\nmissing tag :" + missingSynTag + "\n"
                      if (missingSynTag != "det"):
                          self.cases.append(queryCase(role, missingSynTag, None, None)) 
 
@@ -164,7 +177,13 @@ class PRACVerbalizer(PRACReasoner):
             print bash.BOLD + "Nothing to be asked." + bash.END 
         print  
 
+    def _pull_ctrl_syn_features(self):
+        ctrl_deps = self.synParser.getDependencies(self.pracinference.ctrlStatement, True)
+        cldeps = map(str, ctrl_deps)
+        self.nlitags.add(cldeps)        
+
     def _pull_last_syn_features(self):
+
         features = self.pracinference.features
         syntags = []
         syntags.append(features.get('syntax').getEvidence())        
@@ -212,4 +231,6 @@ class PRACVerbalizer(PRACReasoner):
         for i in range(len(self.DRSdep.look_subst)):
             currentdrs = currentdrs.replace(eliminate[i],self.DRSdep.look_subst[i])
         return currentdrs
+
+
 

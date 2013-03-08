@@ -50,10 +50,6 @@ query_cases:
         drs: drs([],[=>(drs([A],[object(A,X1,countable,na,eq,1)-1/2]),drs([],[-(drs([B,C,D],[object(D,task,countable,na,eq,1)-1/7,property(B,used,pos)-1/4,predicate(C,be,A,B)-1/3,modifier_pp(C,for,D)-1/5]))]))])
         dependencies: PARAM1-ext; X1
 
-    zero-choices:
-        query_case: choice between elements
-        template:
-
     two-choices:
         query_case: doubt between two plausible objects
         template: A X1 is an ROLE and a X2 is a ROLE.

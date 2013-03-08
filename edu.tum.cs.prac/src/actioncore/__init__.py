@@ -140,7 +140,7 @@ class ActionRole(object):
     
     def __str__(self):
         return repr(self)
-    
+
 class ActionCore(object):
     
     def __init__(self, args, prac):

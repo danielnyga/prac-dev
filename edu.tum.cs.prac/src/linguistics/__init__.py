@@ -25,17 +25,20 @@ import re
 import os
 import yaml
 
-class HRDialog(object):
+class HRIDialog(object):
     '''
     class representing the Human-Robot Dialogs,
     possibly including history of sessions.
     To be called in the outer module.
     '''
     def __init__(self):
-        self.Sentencelist = []
+        self.sentenceList = []
         
-    def add(NLISentence):
-        self.SentenceList.append(NLISentence)
+    def add(string,actor):
+         self.sentenceList[actor].append(string)
+    
+    def getLast(actor):
+         return self.sentenceList[actor]
 
 class NLISentence(object):
     '''

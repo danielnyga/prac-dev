@@ -32,6 +32,7 @@ from nltk.corpus import wordnet as wn
 from StanfordParser import Parser
 #from linguistics.verbalizer import PRACVerbalizer
 #from linguistics import NLISentence
+from linguistics import HRIDialog
 import os
 import re
 import math
@@ -241,9 +242,11 @@ class PRACInference(object):
         self.features = FeatureManager(prac)
         self.possibleWorlds = []
         self.sentence = None
+        self.hriDialog = HRIDialog()
         self.watch = StopWatch()
         self.databases = {}
         self.mlns = {}
+        self.ctrlStatement = []
         
         grammarPath = os.path.join('3rdparty', 'stanford-parser-2012-02-03', 'grammar', 'englishPCFG.ser.gz')
         self.synParser = Parser(grammarPath)
