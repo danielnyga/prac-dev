@@ -1,0 +1,160 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+DepedencyEntity	./Sentence.py	/^class DepedencyEntity:$/;"	c
+Dependency	./StanfordParser.py	/^class Dependency(object):$/;"	c
+Parser	./StanfordParser.py	/^class Parser(object):$/;"	c
+ParserError	./StanfordParser.py	/^class ParserError(Exception):$/;"	c
+PublicInterface	./tests/TestPublicInterface.py	/^class PublicInterface(unittest.TestCase):$/;"	c
+SenseEntity	./Sentence.py	/^class SenseEntity:$/;"	c
+SentenceChunk	./Sentence.py	/^class SentenceChunk:$/;"	c
+SentenceEntity	./Sentence.py	/^class SentenceEntity:$/;"	c
+SentenceManager	./Sentence.py	/^class SentenceManager:$/;"	c
+StanfordDependency	./Sentence.py	/^class StanfordDependency:$/;"	c
+TextEntity	./TextManager.py	/^class TextEntity:$/;"	c
+TextManager	./TextManager.py	/^class TextManager:$/;"	c
+Tree	./StanfordParser.py	/^class Tree:$/;"	c
+TreeNode	./StanfordParser.py	/^class TreeNode:$/;"	c
+WordEntity	./Sentence.py	/^class WordEntity:$/;"	c
+_SFDfromParser	./Sentence.py	/^    def _SFDfromParser(self, dep, words):$/;"	m	class:SentenceEntity
+__init__	./Sentence.py	/^    def __init__(self, index ,word, pos = None, sense = None, role=None, $/;"	m	class:WordEntity
+__init__	./Sentence.py	/^    def __init__(self, parser, sentenceInfo=None, entityDictionary=None,$/;"	m	class:SentenceManager
+__init__	./Sentence.py	/^    def __init__(self, senseID, votes, definition = None, examples = []):$/;"	m	class:SenseEntity
+__init__	./Sentence.py	/^    def __init__(self, sentenceInfo, parser, entityDict=None, sentenceID = None):$/;"	m	class:SentenceEntity
+__init__	./Sentence.py	/^    def __init__(self, typ, entities, output):$/;"	m	class:DepedencyEntity
+__init__	./Sentence.py	/^    def __init__(self, typ, first, second):$/;"	m	class:StanfordDependency
+__init__	./Sentence.py	/^    def __init__(self,identifier, type = None, sentence = None):$/;"	m	class:SentenceChunk
+__init__	./StanfordParser.py	/^    def __init__(self, *args, **margs):$/;"	m	class:ParserError
+__init__	./StanfordParser.py	/^    def __init__(self, depName, dep, gov):$/;"	m	class:Dependency
+__init__	./StanfordParser.py	/^    def __init__(self, parent=None, children=None):$/;"	m	class:TreeNode
+__init__	./StanfordParser.py	/^    def __init__(self, pcfg_model_fname=None):$/;"	m	class:Parser
+__init__	./StanfordParser.py	/^    def __init__(self,root):$/;"	m	class:Tree
+__init__	./TextManager.py	/^    def __init__(self, id, t):$/;"	m	class:TextEntity
+__init__	./TextManager.py	/^    def __init__(self, texts, parser, genderDict=None, kr = None):$/;"	m	class:TextManager
+__init__	./publicInterface.py	/^    def __init__(self, texts=None, fileList=None, kr = None):$/;"	m	class:annotationInterface
+__init__	./utilities.py	/^    def __init__(self):$/;"	m	class:helper
+__str__	./StanfordParser.py	/^    def __str__(self):$/;"	m	class:Dependency	file:
+__str__	./TextManager.py	/^    def __str__(self):$/;"	m	class:TextEntity	file:
+_createDependencies	./Sentence.py	/^    def _createDependencies(self,deps,words):$/;"	m	class:SentenceEntity
+_createModifierCompabilityMLN	./Sentence.py	/^    def _createModifierCompabilityMLN(self, mod1, mod2):$/;"	m	class:SentenceManager
+_createSyntacticElements	./Sentence.py	/^    def _createSyntacticElements(self, ses, words, tree, sentenceID):$/;"	m	class:SentenceEntity
+_createWordsList	./Sentence.py	/^    def _createWordsList(self, pos, sentenceInfo, entityDict, wordList, sentenceID):$/;"	m	class:SentenceEntity
+_getAllLeafs	./StanfordParser.py	/^    def _getAllLeafs(self, rootNode):$/;"	m	class:Parser
+_getBestSynsetMatch	./Sentence.py	/^    def _getBestSynsetMatch(self, set1, set2):$/;"	m	class:SentenceManager
+_getEntityObjectRef	./Sentence.py	/^    def _getEntityObjectRef(self, word, entityDict):$/;"	m	class:SentenceEntity
+_getGenderDict	./Sentence.py	/^    def _getGenderDict(self):$/;"	m	class:SentenceManager
+_getGenderDict	./publicInterface.py	/^    def _getGenderDict(self):$/;"	m	class:annotationInterface
+_getHeadWords	./Sentence.py	/^    def _getHeadWords(self):$/;"	m	class:SentenceManager
+_getLeafFromWord	./Sentence.py	/^    def _getLeafFromWord(self, word):$/;"	m	class:SentenceManager
+_getPhraseDistanceMLN	./Sentence.py	/^    def _getPhraseDistanceMLN(self, synElm, textID, phraseList):$/;"	m	class:SentenceManager
+_getPosAndDepsAndSEs	./Sentence.py	/^    def _getPosAndDepsAndSEs(self, sentence, parser, sentenceID):$/;"	m	class:SentenceEntity
+_getSpecificDependencies	./Sentence.py	/^    def _getSpecificDependencies(self, category):$/;"	m	class:SentenceManager
+_getTags	./Sentence.py	/^    def _getTags(self, sentenceInfo, sentence, parser, entityDict, sentenceID):$/;"	m	class:SentenceEntity
+_getTree	./StanfordParser.py	/^    def _getTree(self, node,sentenceID):$/;"	m	class:Parser
+_getWordDetails	./Sentence.py	/^    def _getWordDetails(self, sentenceInfo):$/;"	m	class:SentenceEntity
+_majoritySense	./Sentence.py	/^    def _majoritySense(self):$/;"	m	class:WordEntity
+_matchWordtoEntity	./Sentence.py	/^    def _matchWordtoEntity(self, w, words):$/;"	m	class:SentenceEntity
+_splitStanfordParserDependency	./Sentence.py	/^    def _splitStanfordParserDependency(self, dep):$/;"	m	class:SentenceEntity
+_textToAnnotations	./TextManager.py	/^    def _textToAnnotations(self, text, parser, genderDict=None, kr = None):$/;"	m	class:TextManager
+_textsToAnnotations	./TextManager.py	/^    def _textsToAnnotations(self, texts, parser, genderDict=None):$/;"	m	class:TextManager
+addFiles	./publicInterface.py	/^    def addFiles(self, fileList):$/;"	m	class:annotationInterface
+annotationInterface	./publicInterface.py	/^class annotationInterface:$/;"	c
+classpath	./Sentence.py	/^    classpath = [os.path.join('..', '..', '3rdparty', $/;"	v	class:SenseEntity
+classpath	./TextManager.py	/^    classpath = [os.path.join('..', '..', '3rdparty', 'stanford-parser-2012-02-03', 'stanford-parser.jar')]$/;"	v
+conn	./publicInterface.py	/^    conn = i.get_db('statistics.db')$/;"	v	class:annotationInterface
+createParseTree	./StanfordParser.py	/^    def createParseTree(self, sentenceID, sentence=None):$/;"	m	class:Parser
+createRealWorldMLN	./Sentence.py	/^    def createRealWorldMLN(self):$/;"	m	class:SentenceManager
+create_nltk_concept_taxonomie_mln	./Sentence.py	/^    def create_nltk_concept_taxonomie_mln(self, nltk_concepts):$/;"	m	class:SentenceManager
+fileList	./publicInterface.py	/^    fileList = []$/;"	v	class:annotationInterface
+findLemma	./Sentence.py	/^    def findLemma(self, synset, word):$/;"	m	class:SentenceEntity
+findNPs	./Sentence.py	/^    def findNPs(self, word):$/;"	m	class:SentenceManager
+find_phrases_on_path_to_root	./Sentence.py	/^    def find_phrases_on_path_to_root(self, phrase):$/;"	m	class:SentenceManager
+getAllLeafs	./StanfordParser.py	/^    def getAllLeafs(self, tree):$/;"	m	class:Parser
+getAppositiveMLN	./Sentence.py	/^    def getAppositiveMLN(self,textID):$/;"	m	class:SentenceManager
+getDependencies	./StanfordParser.py	/^    def getDependencies(self, sentence=None, collapsed=True):$/;"	m	class:Parser
+getDependenciesMLN	./Sentence.py	/^    def getDependenciesMLN(self,textID):$/;"	m	class:SentenceManager
+getFeatures	./Sentence.py	/^    def getFeatures(self,textID, phraseDistance=True, realWorld=False):$/;"	m	class:SentenceManager
+getFilteredPhraseDistanceMLN	./Sentence.py	/^    def getFilteredPhraseDistanceMLN(self, textID, blocked):$/;"	m	class:SentenceManager
+getGenderMLN	./Sentence.py	/^    def getGenderMLN(self,textID):$/;"	m	class:SentenceManager
+getGroundingMLN	./Sentence.py	/^    def getGroundingMLN(self, knowrob = False):$/;"	m	class:SentenceManager
+getIWithinIMLN	./Sentence.py	/^    def getIWithinIMLN(self, textID):$/;"	m	class:SentenceManager
+getKnowRobObjectsMLN	./Sentence.py	/^    def getKnowRobObjectsMLN(self):$/;"	m	class:SentenceManager
+getKnowrobTaxonomieMLN	./Sentence.py	/^    def getKnowrobTaxonomieMLN(self, objects):$/;"	m	class:SentenceManager
+getLeafElements	./StanfordParser.py	/^    def getLeafElements(self,tree, start):$/;"	m	class:Parser
+getMLN	./Sentence.py	/^    def getMLN(self, functional = True):$/;"	m	class:DepedencyEntity
+getMLN	./Sentence.py	/^    def getMLN(self, sentence, possibleSenses=False):$/;"	m	class:WordEntity
+getMLN	./Sentence.py	/^    def getMLN(self, sentenceID):$/;"	m	class:SentenceChunk
+getMLN	./Sentence.py	/^    def getMLN(self,sentenceID):$/;"	m	class:SentenceEntity
+getMLN	./Sentence.py	/^    def getMLN(self,textID, createPhrases = True, realWorld=False):$/;"	m	class:SentenceManager
+getMLN	./TextManager.py	/^    def getMLN(self, realWorld=False):$/;"	m	class:TextEntity
+getMLN	./TextManager.py	/^    def getMLN(self, realWorld=False):$/;"	m	class:TextManager
+getMLN	./publicInterface.py	/^    def getMLN(self):$/;"	m	class:annotationInterface
+getMLNbyTextID	./publicInterface.py	/^    def getMLNbyTextID(self, id):$/;"	m	class:annotationInterface
+getModifierCompabilityMLN	./Sentence.py	/^    def getModifierCompabilityMLN(self, textID):$/;"	m	class:SentenceManager
+getModifiersMLN	./Sentence.py	/^    def getModifiersMLN(self):$/;"	m	class:SentenceManager
+getNPs	./Sentence.py	/^    def getNPs(self):$/;"	m	class:SentenceEntity
+getPOS	./StanfordParser.py	/^    def getPOS(self, sentence=None):$/;"	m	class:Parser
+getPOSandDep	./StanfordParser.py	/^    def getPOSandDep(self, sentence=None, collapsed=False):$/;"	m	class:Parser
+getPhraseDistanceMLN	./Sentence.py	/^    def getPhraseDistanceMLN(self, textID, phraseList):$/;"	m	class:SentenceManager
+getPhraseSimilarityMLN	./Sentence.py	/^    def getPhraseSimilarityMLN(self,textID):$/;"	m	class:SentenceManager
+getPhrases	./Sentence.py	/^    def getPhrases(self):$/;"	m	class:SentenceEntity
+getSEs	./StanfordParser.py	/^    def getSEs(self, sentenceID, sentence=None):$/;"	m	class:Parser
+getSentenceMLN	./Sentence.py	/^    def getSentenceMLN(self,textID):$/;"	m	class:SentenceManager
+getStopWords	./Sentence.py	/^    def getStopWords(self):$/;"	m	class:SentenceManager
+getStrictHeadMatchingMLN	./Sentence.py	/^    def getStrictHeadMatchingMLN(self,textID):$/;"	m	class:SentenceManager
+getText	./Sentence.py	/^    def getText(self):$/;"	m	class:SentenceManager
+getTree	./StanfordParser.py	/^    def getTree(self, gs, sentenceID):$/;"	m	class:Parser
+getValMLN	./Sentence.py	/^    def getValMLN(self, w, sentenceID):$/;"	m	class:SentenceChunk
+getWordDistance	./Sentence.py	/^    def getWordDistance(self, textID):$/;"	m	class:SentenceManager
+getWordDistanceMLN	./Sentence.py	/^    def getWordDistanceMLN(self, current_element, sentence_id):$/;"	m	class:SentenceManager
+getWordInclusionMLN	./Sentence.py	/^    def getWordInclusionMLN(self, textID):$/;"	m	class:SentenceManager
+getWordPairSimilarityMLN	./Sentence.py	/^    def getWordPairSimilarityMLN(self, currentWord, currentSentence):$/;"	m	class:SentenceManager
+getWordSimilarityMLN	./Sentence.py	/^    def getWordSimilarityMLN(self, textID):$/;"	m	class:SentenceManager
+getWordSimilarityScore	./Sentence.py	/^    def getWordSimilarityScore(self, word1, word2):$/;"	m	class:SentenceManager
+get_grounding_mln_for_word	./Sentence.py	/^    def get_grounding_mln_for_word(self, element):$/;"	m	class:SentenceManager
+handleSpecialChars	./Sentence.py	/^    def handleSpecialChars(self,word):$/;"	m	class:SentenceManager
+handleSpecialChars	./utilities.py	/^    def handleSpecialChars(word):$/;"	m	class:helper
+helper	./utilities.py	/^class helper:$/;"	c
+i	./publicInterface.py	/^    i = Initialization()$/;"	v	class:annotationInterface
+identifier	./Sentence.py	/^    def identifier(self):$/;"	m	class:DepedencyEntity
+identifier	./Sentence.py	/^    def identifier(self):$/;"	m	class:WordEntity
+loadFiles	./publicInterface.py	/^    def loadFiles(self, texts, files):$/;"	m	class:annotationInterface
+loadProgressFromFile	./publicInterface.py	/^    def loadProgressFromFile(self, filename):$/;"	m	class:annotationInterface
+m	./publicInterface.py	/^    m = annotationInterface(texts = None, fileList = fileList)$/;"	v	class:annotationInterface
+majorityRawSense	./Sentence.py	/^    def majorityRawSense(self):$/;"	m	class:WordEntity
+majoritySense	./Sentence.py	/^    def majoritySense(self):$/;"	m	class:WordEntity
+majoritySenseEntity	./Sentence.py	/^    def majoritySenseEntity(self):$/;"	m	class:WordEntity
+makeMLNRead	./Sentence.py	/^    def makeMLNRead(self, exp):$/;"	m	class:SentenceManager
+nltkSense	./Sentence.py	/^    def nltkSense(self):$/;"	m	class:SenseEntity
+nltkSense	./Sentence.py	/^    def nltkSense(self,value):$/;"	m	class:SenseEntity
+parse	./StanfordParser.py	/^    def parse(self, sentence):$/;"	m	class:Parser
+parseTemplate	./Sentence.py	/^    def parseTemplate(self,template, entities, functional = True):$/;"	m	class:DepedencyEntity
+parseTree	./StanfordParser.py	/^    def parseTree(self, tree, searchTerm, queryType='type'):$/;"	m	class:Parser
+parser	./Sentence.py	/^    parser = Parser(os.path.join('..','..','3rdparty',$/;"	v	class:SenseEntity
+parser	./TextManager.py	/^    parser = Parser(os.path.join('..','..','3rdparty','stanford-parser-2012-02-03','grammar','englishPCFG.ser.gz'))$/;"	v
+pathMLN	./Sentence.py	/^    def pathMLN(self):$/;"	m	class:SenseEntity
+possibleSenses	./Sentence.py	/^    def possibleSenses(self):$/;"	m	class:WordEntity
+possibleSensesMLN	./Sentence.py	/^    def possibleSensesMLN(self, sentence):$/;"	m	class:WordEntity
+printInfo	./StanfordParser.py	/^    def printInfo(self):$/;"	m	class:Parser
+removeStopWordsFromTreeList	./Sentence.py	/^    def removeStopWordsFromTreeList(self, nodes):$/;"	m	class:SentenceManager
+saveData	./publicInterface.py	/^    def saveData(self, filename):$/;"	m	class:annotationInterface
+saveSelectedtoMLN	./publicInterface.py	/^    def saveSelectedtoMLN(self, folder, text, $/;"	m	class:annotationInterface
+saveSentenceToSQLite	./Sentence.py	/^    def saveSentenceToSQLite(self, sqlTextID, cursor):$/;"	m	class:SentenceEntity
+saveTextToSQLite	./Sentence.py	/^    def saveTextToSQLite(self, database_name):$/;"	m	class:SentenceManager
+saveTextToSQLite	./TextManager.py	/^    def saveTextToSQLite(self, database_name):$/;"	m	class:TextEntity
+saveTextToSQLite	./TextManager.py	/^    def saveTextToSQLite(self, database_name):$/;"	m	class:TextManager
+saveTextsToSQLite	./publicInterface.py	/^    def saveTextsToSQLite(self, filename):$/;"	m	class:annotationInterface
+saveToMLNDatabase	./publicInterface.py	/^    def saveToMLNDatabase(self,folder):$/;"	m	class:annotationInterface
+saveToSQLite	./Sentence.py	/^    def saveToSQLite(self, text, cursor):$/;"	m	class:DepedencyEntity
+sensePath	./Sentence.py	/^    def sensePath(self):$/;"	m	class:SenseEntity
+sensePathNLTK	./Sentence.py	/^    def sensePathNLTK(self):$/;"	m	class:SenseEntity
+setSense	./Sentence.py	/^    def setSense(self,senseID):$/;"	m	class:WordEntity
+sm	./Sentence.py	/^    sm = SentenceManager(parser)$/;"	v	class:SenseEntity
+stringContainsElements	./Sentence.py	/^    def stringContainsElements(self, elements, exp):$/;"	m	class:SentenceManager
+test	./TextManager.py	/^            ',{"id":"1","sentence":"Make yummy cookies!"}]}]'$/;"	v
+tm	./TextManager.py	/^    tm = TextManager(test, parser)$/;"	v
+wordListFromNodeList	./Sentence.py	/^    def wordListFromNodeList(self, nodes):$/;"	m	class:SentenceManager
+wordnetSynsetToNLTK	./Sentence.py	/^    def wordnetSynsetToNLTK(self,wordnetID):$/;"	m	class:SenseEntity

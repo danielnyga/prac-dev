@@ -1,0 +1,569 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+AnnotatedWord	./JSON2DB.py	/^class AnnotatedWord:$/;"	c
+Annotation	./Annotation.py	/^class Annotation:$/;"	c
+ConsoleApplication	./ConsoleApplication.py	/^class ConsoleApplication:$/;"	c
+ConversionManager	./fileconversion/__init__.py	/^class ConversionManager:$/;"	c
+Deletion	./statistics/database.py	/^class Deletion:$/;"	c
+DepedencyEntity	./annotation/Sentence.py	/^class DepedencyEntity:$/;"	c
+Dependency	./StanfordParser.py	/^class Dependency(object):$/;"	c
+Dependency	./annotation/StanfordParser.py	/^class Dependency(object):$/;"	c
+EhowToAnno	./fileconversion/Conversion.py	/^class EhowToAnno(abstractAnno):$/;"	c
+FileManager	./FileManager.py	/^class FileManager:$/;"	c
+Inference	./query/inference.py	/^class Inference:$/;"	c
+Initialization	./statistics/database.py	/^class Initialization:$/;"	c
+Insertion	./statistics/database.py	/^class Insertion:$/;"	c
+JSON2DB	./JSON2DB.py	/^class JSON2DB:$/;"	c
+JsonToAnno	./fileconversion/Conversion.py	/^class JsonToAnno(abstractAnno):$/;"	c
+KeyIdentifier	./utils/__init__.py	/^class KeyIdentifier(object):$/;"	c
+KnowRob	./knowrobinterface/actions.py	/^class KnowRob(QtCore.QThread):$/;"	c
+Mapping	./knowrobinterface/RealWorld.py	/^class Mapping:$/;"	c
+Modification	./statistics/database.py	/^class Modification:$/;"	c
+MturkToAnno	./fileconversion/Conversion.py	/^class MturkToAnno(abstractAnno):$/;"	c
+Parser	./StanfordParser.py	/^class Parser(object):$/;"	c
+Parser	./annotation/StanfordParser.py	/^class Parser(object):$/;"	c
+ParserError	./StanfordParser.py	/^class ParserError(Exception):$/;"	c
+ParserError	./annotation/StanfordParser.py	/^class ParserError(Exception):$/;"	c
+PublicInterface	./annotation/tests/TestPublicInterface.py	/^class PublicInterface(unittest.TestCase):$/;"	c
+Relations	./knowrobinterface/RealWorld.py	/^class Relations:$/;"	c
+Roles	./Roles.py	/^class Roles:$/;"	c
+SenseEntity	./annotation/Sentence.py	/^class SenseEntity:$/;"	c
+SentenceChunk	./annotation/Sentence.py	/^class SentenceChunk:$/;"	c
+SentenceEntity	./annotation/Sentence.py	/^class SentenceEntity:$/;"	c
+SentenceListModel	./models.py	/^class SentenceListModel(QtCore.QAbstractTableModel):$/;"	c
+SentenceManager	./SentenceManager.py	/^class SentenceManager:$/;"	c
+SentenceManager	./annotation/Sentence.py	/^class SentenceManager:$/;"	c
+StanfordDependency	./Annotation.py	/^class StanfordDependency:$/;"	c
+StanfordDependency	./annotation/Sentence.py	/^class StanfordDependency:$/;"	c
+SyntacticElement	./parsing/Trees.py	/^class SyntacticElement:$/;"	c
+SyntacticTree	./parsing/Trees.py	/^class SyntacticTree:$/;"	c
+TestConsoleApplication	./tests/ConsoleApplication.py	/^class TestConsoleApplication(unittest.TestCase):$/;"	c
+TestInferenceValidateQueries	./query/tests/TestInference.py	/^class TestInferenceValidateQueries(unittest.TestCase):$/;"	c
+TestUtils	./utils/tests/Utils.py	/^class TestUtils(unittest.TestCase):$/;"	c
+TextEntity	./annotation/TextManager.py	/^class TextEntity:$/;"	c
+TextListModel	./models.py	/^class TextListModel(QtCore.QAbstractListModel):$/;"	c
+TextManager	./annotation/TextManager.py	/^class TextManager:$/;"	c
+TextToAnno	./fileconversion/Conversion.py	/^class TextToAnno(abstractAnno):$/;"	c
+TextToAnno	./fileconversion/tests/Conversion.py	/^class TextToAnno(unittest.TestCase):$/;"	c
+Tree	./annotation/StanfordParser.py	/^class Tree:$/;"	c
+TreeGenerator	./parsing/Trees.py	/^class TreeGenerator:$/;"	c
+TreeNode	./annotation/StanfordParser.py	/^class TreeNode:$/;"	c
+Visualization	./Visualization.py	/^class Visualization:$/;"	c
+WidgetFunctionality	./AnnotationTool.py	/^class WidgetFunctionality(QtCore.QObject):$/;"	c
+WidgetManager	./AnnotationTool.py	/^class WidgetManager(QtGui.QMainWindow):$/;"	c
+Word	./Annotation.py	/^class Word:$/;"	c
+WordEntity	./annotation/Sentence.py	/^class WordEntity:$/;"	c
+_SFDfromParser	./annotation/Sentence.py	/^    def _SFDfromParser(self, dep, words):$/;"	m	class:SentenceEntity
+__all__	./fileconversion/__init__.py	/^__all__ = ['Conversion']$/;"	v
+__eq__	./utils/__init__.py	/^    def __eq__(self, other):$/;"	m	class:KeyIdentifier	file:
+__init__	./Annotation.py	/^    def __init__(self, index, tag, context, result, word):$/;"	m	class:Word
+__init__	./Annotation.py	/^    def __init__(self, sentence, sentenceID):$/;"	m	class:Annotation
+__init__	./Annotation.py	/^    def __init__(self, type, origin, destiny):$/;"	m	class:StanfordDependency
+__init__	./AnnotationTool.py	/^    def __init__(self):$/;"	m	class:WidgetManager
+__init__	./AnnotationTool.py	/^    def __init__(self):$/;"	m	class:tempDialog
+__init__	./AnnotationTool.py	/^    def __init__(self, already_added_items, knowrob):$/;"	m	class:knowrobItemsDialog
+__init__	./AnnotationTool.py	/^    def __init__(self, mln, anno, current):$/;"	m	class:mlnPreview
+__init__	./AnnotationTool.py	/^    def __init__(self, queryMLN):$/;"	m	class:queryDialog
+__init__	./AnnotationTool.py	/^    def __init__(self, template, entities):$/;"	m	class:newDependency
+__init__	./AnnotationTool.py	/^    def __init__(self, word):$/;"	m	class:wordOrEntityDialog
+__init__	./AnnotationTool.py	/^    def __init__(self,UI):$/;"	m	class:WidgetFunctionality
+__init__	./AnnotationTool.py	/^    def __init__(self,name,entities,templates):$/;"	m	class:dependencyTemplate
+__init__	./ConsoleApplication.py	/^    def __init__(self, args):$/;"	m	class:ConsoleApplication
+__init__	./FileManager.py	/^    def __init__(self):$/;"	m	class:FileManager
+__init__	./JSON2DB.py	/^    def __init__(self, file):$/;"	m	class:JSON2DB
+__init__	./JSON2DB.py	/^    def __init__(self,index,word,results,sentenceID=None):$/;"	m	class:AnnotatedWord
+__init__	./Roles.py	/^    def __init__(self):$/;"	m	class:Roles
+__init__	./SentenceManager.py	/^    def __init__(self):$/;"	m	class:SentenceManager
+__init__	./StanfordParser.py	/^    def __init__(self, *args, **margs):$/;"	m	class:ParserError
+__init__	./StanfordParser.py	/^    def __init__(self, depName, dep, gov):$/;"	m	class:Dependency
+__init__	./StanfordParser.py	/^    def __init__(self, pcfg_model_fname=None):$/;"	m	class:Parser
+__init__	./Visualization.py	/^    def __init__(self, instance_to_kr_mapping):$/;"	m	class:Visualization
+__init__	./annotation/Sentence.py	/^    def __init__(self, index ,word, pos = None, sense = None, role=None, $/;"	m	class:WordEntity
+__init__	./annotation/Sentence.py	/^    def __init__(self, parser, sentenceInfo=None, entityDictionary=None,$/;"	m	class:SentenceManager
+__init__	./annotation/Sentence.py	/^    def __init__(self, senseID, votes, definition = None, examples = []):$/;"	m	class:SenseEntity
+__init__	./annotation/Sentence.py	/^    def __init__(self, sentenceInfo, parser, entityDict=None, sentenceID = None):$/;"	m	class:SentenceEntity
+__init__	./annotation/Sentence.py	/^    def __init__(self, typ, entities, output):$/;"	m	class:DepedencyEntity
+__init__	./annotation/Sentence.py	/^    def __init__(self, typ, first, second):$/;"	m	class:StanfordDependency
+__init__	./annotation/Sentence.py	/^    def __init__(self,identifier, type = None, sentence = None):$/;"	m	class:SentenceChunk
+__init__	./annotation/StanfordParser.py	/^    def __init__(self, *args, **margs):$/;"	m	class:ParserError
+__init__	./annotation/StanfordParser.py	/^    def __init__(self, depName, dep, gov):$/;"	m	class:Dependency
+__init__	./annotation/StanfordParser.py	/^    def __init__(self, parent=None, children=None):$/;"	m	class:TreeNode
+__init__	./annotation/StanfordParser.py	/^    def __init__(self, pcfg_model_fname=None):$/;"	m	class:Parser
+__init__	./annotation/StanfordParser.py	/^    def __init__(self,root):$/;"	m	class:Tree
+__init__	./annotation/TextManager.py	/^    def __init__(self, id, t):$/;"	m	class:TextEntity
+__init__	./annotation/TextManager.py	/^    def __init__(self, texts, parser, genderDict=None, kr = None):$/;"	m	class:TextManager
+__init__	./annotation/publicInterface.py	/^    def __init__(self, texts=None, fileList=None, kr = None):$/;"	m	class:annotationInterface
+__init__	./annotation/utilities.py	/^    def __init__(self):$/;"	m	class:helper
+__init__	./fileconversion/Conversion.py	/^    def __init__(self, inputString):$/;"	m	class:EhowToAnno
+__init__	./fileconversion/Conversion.py	/^    def __init__(self, inputString):$/;"	m	class:JsonToAnno
+__init__	./fileconversion/Conversion.py	/^    def __init__(self, inputString):$/;"	m	class:MturkToAnno
+__init__	./fileconversion/Conversion.py	/^    def __init__(self, inputString):$/;"	m	class:abstractAnno
+__init__	./fileconversion/Conversion.py	/^    def __init__(self, input_string):$/;"	m	class:TextToAnno
+__init__	./fileconversion/preprocessing.py	/^    def __init__(self,file):$/;"	m	class:indexCorrecter
+__init__	./knowrobinterface/RealWorld.py	/^    def __init__(self):$/;"	m	class:Mapping
+__init__	./knowrobinterface/RealWorld.py	/^    def __init__(self):$/;"	m	class:Relations
+__init__	./knowrobinterface/actions.py	/^    def __init__(self, package, parent = None):$/;"	m	class:KnowRob
+__init__	./models.py	/^    def __init__(self, datain, parent=None, *args):$/;"	m	class:SentenceListModel
+__init__	./models.py	/^    def __init__(self, datain, parent=None, *args):$/;"	m	class:TextListModel
+__init__	./parsing/Trees.py	/^    def __init__(self):$/;"	m	class:SyntacticTree
+__init__	./parsing/Trees.py	/^    def __init__(self):$/;"	m	class:TreeGenerator
+__init__	./parsing/Trees.py	/^    def __init__(self, name, identifier):$/;"	m	class:SyntacticElement
+__init__	./query/inference.py	/^    def __init__(self, mln_formulae, evidence, queries, $/;"	m	class:Inference
+__init__	./utils/GenderDetermination.py	/^    def __init__(self):$/;"	m	class:genderFileGenerator
+__init__	./utils/__init__.py	/^    def __init__(self, value=None):$/;"	m	class:KeyIdentifier
+__str__	./JSON2DB.py	/^    def __str__(self):$/;"	m	class:AnnotatedWord	file:
+__str__	./StanfordParser.py	/^    def __str__(self):$/;"	m	class:Dependency	file:
+__str__	./annotation/StanfordParser.py	/^    def __str__(self):$/;"	m	class:Dependency	file:
+__str__	./annotation/TextManager.py	/^    def __str__(self):$/;"	m	class:TextEntity	file:
+__str__	./fileconversion/Conversion.py	/^    def __str__(self):$/;"	m	class:EhowToAnno	file:
+__str__	./fileconversion/Conversion.py	/^    def __str__(self):$/;"	m	class:JsonToAnno	file:
+__str__	./fileconversion/Conversion.py	/^    def __str__(self):$/;"	m	class:MturkToAnno	file:
+__str__	./fileconversion/Conversion.py	/^    def __str__(self):$/;"	m	class:TextToAnno	file:
+__str__	./knowrobinterface/RealWorld.py	/^    def __str__(self):$/;"	m	class:Relations	file:
+__str__	./utils/__init__.py	/^    def __str__(self):$/;"	m	class:KeyIdentifier	file:
+_check_parameter	./ConsoleApplication.py	/^    def _check_parameter(self, arguments):$/;"	m	class:ConsoleApplication
+_createDependencies	./annotation/Sentence.py	/^    def _createDependencies(self,deps,words):$/;"	m	class:SentenceEntity
+_createElementDictionaries	./utils/GenderDetermination.py	/^    def _createElementDictionaries(self, row, oldrow={'F':0,'M':0,'N':0,'P':0}):$/;"	m	class:genderFileGenerator
+_createGenderDictionary	./utils/GenderDetermination.py	/^    def _createGenderDictionary(self, mergedFileDict):$/;"	m	class:genderFileGenerator
+_createModifierCompabilityMLN	./annotation/Sentence.py	/^    def _createModifierCompabilityMLN(self, mod1, mod2):$/;"	m	class:SentenceManager
+_createSyntacticElements	./annotation/Sentence.py	/^    def _createSyntacticElements(self, ses, words, tree, sentenceID):$/;"	m	class:SentenceEntity
+_createWordsList	./annotation/Sentence.py	/^    def _createWordsList(self, pos, sentenceInfo, entityDict, wordList, sentenceID):$/;"	m	class:SentenceEntity
+_create_temp_file_with_data	./query/inference.py	/^    def _create_temp_file_with_data(self,data, dir = None):$/;"	m	class:Inference
+_delete_temp_files	./query/inference.py	/^    def _delete_temp_files(self):$/;"	m	class:Inference
+_ehowToAnno	./fileconversion/__init__.py	/^    def _ehowToAnno(self, x):$/;"	m	class:ConversionManager
+_extract_instances	./ConsoleApplication.py	/^    def _extract_instances(self, grounding_results):$/;"	m	class:ConsoleApplication
+_filter_results	./ConsoleApplication.py	/^    def _filter_results(self, results, filter):$/;"	m	class:ConsoleApplication
+_findRootNodeOfTreeWidgetItem	./AnnotationTool.py	/^    def _findRootNodeOfTreeWidgetItem(self,item):$/;"	m	class:WidgetFunctionality
+_generate_MLN_from_relations	./knowrobinterface/RealWorld.py	/^    def _generate_MLN_from_relations(self, relations):$/;"	m	class:Relations
+_getAllLeafs	./annotation/StanfordParser.py	/^    def _getAllLeafs(self, rootNode):$/;"	m	class:Parser
+_getBestSynsetMatch	./annotation/Sentence.py	/^    def _getBestSynsetMatch(self, set1, set2):$/;"	m	class:SentenceManager
+_getConfidenceLevel	./utils/GenderDetermination.py	/^    def _getConfidenceLevel(self, maxVal, second):$/;"	m	class:genderFileGenerator
+_getEntityObjectRef	./annotation/Sentence.py	/^    def _getEntityObjectRef(self, word, entityDict):$/;"	m	class:SentenceEntity
+_getGenderDict	./annotation/Sentence.py	/^    def _getGenderDict(self):$/;"	m	class:SentenceManager
+_getGenderDict	./annotation/publicInterface.py	/^    def _getGenderDict(self):$/;"	m	class:annotationInterface
+_getHeadWords	./annotation/Sentence.py	/^    def _getHeadWords(self):$/;"	m	class:SentenceManager
+_getLeafFromWord	./annotation/Sentence.py	/^    def _getLeafFromWord(self, word):$/;"	m	class:SentenceManager
+_getMajorityGender	./utils/GenderDetermination.py	/^    def _getMajorityGender(self, valueDict):$/;"	m	class:genderFileGenerator
+_getPhraseDistanceMLN	./annotation/Sentence.py	/^    def _getPhraseDistanceMLN(self, synElm, textID, phraseList):$/;"	m	class:SentenceManager
+_getPosAndDepsAndSEs	./annotation/Sentence.py	/^    def _getPosAndDepsAndSEs(self, sentence, parser, sentenceID):$/;"	m	class:SentenceEntity
+_getSpecificDependencies	./annotation/Sentence.py	/^    def _getSpecificDependencies(self, category):$/;"	m	class:SentenceManager
+_getSubTreeByIdentifier	./parsing/Trees.py	/^    def _getSubTreeByIdentifier(self, tree, name):$/;"	m	class:SyntacticTree
+_getTags	./annotation/Sentence.py	/^    def _getTags(self, sentenceInfo, sentence, parser, entityDict, sentenceID):$/;"	m	class:SentenceEntity
+_getTree	./annotation/StanfordParser.py	/^    def _getTree(self, node,sentenceID):$/;"	m	class:Parser
+_getWordDetails	./annotation/Sentence.py	/^    def _getWordDetails(self, sentenceInfo):$/;"	m	class:SentenceEntity
+_get_kr_instance_path_from_instance_name	./Visualization.py	/^    def _get_kr_instance_path_from_instance_name(self, kr_instance):$/;"	m	class:Visualization
+_getdepth	./parsing/Trees.py	/^    def _getdepth(self, node):$/;"	m	class:SyntacticTree
+_inOrderLeafs	./parsing/Trees.py	/^    def _inOrderLeafs(self, tree):$/;"	m	class:SyntacticTree
+_inOrderSearchTerms	./parsing/Trees.py	/^    def _inOrderSearchTerms(self, tree, searchTerm):$/;"	m	class:SyntacticTree
+_jsonToAnno	./fileconversion/__init__.py	/^    def _jsonToAnno(self, x):$/;"	m	class:ConversionManager
+_loadFile	./fileconversion/__init__.py	/^    def _loadFile(self,filename):$/;"	m	class:ConversionManager
+_load_config	./ConsoleApplication.py	/^    def _load_config(self):$/;"	m	class:ConsoleApplication
+_load_config	./query/inference.py	/^    def _load_config(self):$/;"	m	class:Inference
+_load_evidence_db	./ConsoleApplication.py	/^    def _load_evidence_db(self, file_path):$/;"	m	class:ConsoleApplication
+_load_objects_from_file	./knowrobinterface/RealWorld.py	/^    def _load_objects_from_file(self, f="Objects.yaml"):$/;"	m	class:Mapping
+_load_relationships_from_yaml	./knowrobinterface/RealWorld.py	/^    def _load_relationships_from_yaml(self, f="ObjectRelation.yaml"):$/;"	m	class:Relations
+_load_semantic_map	./knowrobinterface/RealWorld.py	/^    def _load_semantic_map(self):$/;"	m	class:Mapping
+_mTurkToAnno	./fileconversion/__init__.py	/^    def _mTurkToAnno(self, x):$/;"	m	class:ConversionManager
+_majoritySense	./annotation/Sentence.py	/^    def _majoritySense(self):$/;"	m	class:WordEntity
+_makeAllAnnotationsMLNCompatible	./SentenceManager.py	/^    def _makeAllAnnotationsMLNCompatible(self, annoList):$/;"	m	class:SentenceManager
+_makeAnnnotationMLNCompatible	./SentenceManager.py	/^    def _makeAnnnotationMLNCompatible(self, anno):$/;"	m	class:SentenceManager
+_matchUiToDataModelTree	./AnnotationTool.py	/^    def _matchUiToDataModelTree(self, items):$/;"	m	class:WidgetFunctionality
+_matchWordtoEntity	./annotation/Sentence.py	/^    def _matchWordtoEntity(self, w, words):$/;"	m	class:SentenceEntity
+_mergeFiles	./utils/GenderDetermination.py	/^    def _mergeFiles(self, fileList):$/;"	m	class:genderFileGenerator
+_parserOutPutToMLNCompatible	./Annotation.py	/^    def _parserOutPutToMLNCompatible(self,x):$/;"	m	class:Word
+_parserOutPutToMLNCompatible	./SentenceManager.py	/^    def _parserOutPutToMLNCompatible(self,x):$/;"	m	class:SentenceManager
+_plainToAnno	./fileconversion/__init__.py	/^    def _plainToAnno(self, x):$/;"	m	class:ConversionManager
+_query_kr_for_instance_relations	./knowrobinterface/RealWorld.py	/^    def _query_kr_for_instance_relations(self, kr_instances):$/;"	m	class:Relations
+_splitStanfordParserDependency	./annotation/Sentence.py	/^    def _splitStanfordParserDependency(self, dep):$/;"	m	class:SentenceEntity
+_textToAnno	./fileconversion/__init__.py	/^    def _textToAnno(self, x):$/;"	m	class:ConversionManager
+_textToAnnotations	./annotation/TextManager.py	/^    def _textToAnnotations(self, text, parser, genderDict=None, kr = None):$/;"	m	class:TextManager
+_textsToAnnotations	./annotation/TextManager.py	/^    def _textsToAnnotations(self, texts, parser, genderDict=None):$/;"	m	class:TextManager
+_wordNetToNLTK	./Annotation.py	/^    def _wordNetToNLTK(self,wordnetID, raw=False):$/;"	m	class:Word
+abstractAnno	./fileconversion/Conversion.py	/^class abstractAnno:$/;"	c
+addAllDependencies	./SentenceManager.py	/^    def addAllDependencies(self, annotations):$/;"	m	class:SentenceManager
+addAllPaths	./SentenceManager.py	/^    def addAllPaths(self,annoList):$/;"	m	class:SentenceManager
+addChild	./parsing/Trees.py	/^    def addChild(self, child,sentenceID):$/;"	m	class:SyntacticTree
+addFiles	./annotation/publicInterface.py	/^    def addFiles(self, fileList):$/;"	m	class:annotationInterface
+addGrounding	./AnnotationTool.py	/^    def addGrounding(self):$/;"	m	class:WidgetFunctionality
+addKRFields	./AnnotationTool.py	/^    def addKRFields(self):$/;"	m	class:WidgetFunctionality
+addRole	./Annotation.py	/^    def addRole(self, r):$/;"	m	class:Word
+addRoles	./Annotation.py	/^    def addRoles(self, roles):$/;"	m	class:Word
+addSenses	./Annotation.py	/^    def addSenses(self):$/;"	m	class:Annotation
+addStanfordDependencyToAnnotation	./SentenceManager.py	/^    def addStanfordDependencyToAnnotation(self, sp, anno):$/;"	m	class:SentenceManager
+addTemp	./AnnotationTool.py	/^    def addTemp(self):$/;"	m	class:tempDialog
+addVirtualWord	./AnnotationTool.py	/^    def addVirtualWord(self):$/;"	m	class:WidgetFunctionality
+addWord	./Annotation.py	/^    def addWord(self, index, result, tag, context, word):$/;"	m	class:Annotation
+addWordToList	./AnnotationTool.py	/^    def addWordToList(self):$/;"	m	class:newDependency
+add_virtual_node_to_model	./AnnotationTool.py	/^    def add_virtual_node_to_model(self, sentence_id):$/;"	m	class:WidgetFunctionality
+add_virtual_word_to_model	./AnnotationTool.py	/^    def add_virtual_word_to_model(self, text, virtual_tree):$/;"	m	class:WidgetFunctionality
+af	./utils/FileSelection.py	/^    af = annotationFiles()$/;"	v
+annotationFiles	./utils/FileSelection.py	/^class annotationFiles:$/;"	c
+annotationInterface	./annotation/publicInterface.py	/^class annotationInterface:$/;"	c
+app	./AnnotationTool.py	/^    app = QtGui.QApplication(sys.argv)$/;"	v
+appendRow	./models.py	/^    def appendRow(self, value, parent):$/;"	m	class:TextListModel
+args	./ConsoleApplication.py	/^    args = parser.parse_args()$/;"	v	class:ConsoleApplication
+base_dir	./utils/GenderDetermination.py	/^    base_dir = os.path.join(this_dir, '..','..','annotation', 'div','ngrams','Gender')$/;"	v	class:genderFileGenerator
+basefiles	./utils/GenderDetermination.py	/^    basefiles = ['Name-ConjPossessive.txt', 'Name-Predicate.txt', $/;"	v	class:genderFileGenerator
+c	./statistics/database.py	/^    c = conn.cursor()$/;"	v	class:Deletion
+callback	./knowrobinterface/actions.py	/^    def callback(self, data):$/;"	m	class:KnowRob
+check_string_not_none_special_empty	./utils/__init__.py	/^def check_string_not_none_special_empty(par):$/;"	f
+chunkChanges	./AnnotationTool.py	/^    def chunkChanges(self):$/;"	m	class:WidgetFunctionality
+classpath	./Constants.py	/^classpath = [os.path.join('..', '..', '3rdparty', 'stanford-parser-2012-02-03', 'stanford-parser.jar')]/;"	v
+classpath	./annotation/Sentence.py	/^    classpath = [os.path.join('..', '..', '3rdparty', $/;"	v	class:SenseEntity
+classpath	./annotation/TextManager.py	/^    classpath = [os.path.join('..', '..', '3rdparty', 'stanford-parser-2012-02-03', 'stanford-parser.jar')]$/;"	v
+closeApp	./AnnotationTool.py	/^    def closeApp(self):$/;"	m	class:WidgetFunctionality
+close_db	./statistics/database.py	/^    def close_db(self, conn):$/;"	m	class:Initialization
+cm	./fileconversion/__init__.py	/^    cm = ConversionManager()$/;"	v	class:ConversionManager
+columnCount	./models.py	/^    def columnCount(self, parent=QtCore.QModelIndex):$/;"	m	class:SentenceListModel
+concepts	./knowrobinterface/RealWorld.py	/^    concepts =  mapp.get_nltk_concepts()$/;"	v	class:Relations
+confi	./utils/GenderDetermination.py	/^    confi =  g.createConfidenceDictionary(files)$/;"	v	class:genderFileGenerator
+confidenceDictionaryToFile	./utils/GenderDetermination.py	/^    def confidenceDictionaryToFile(self, confiDict, file):$/;"	m	class:genderFileGenerator
+conn	./annotation/publicInterface.py	/^    conn = i.get_db('statistics.db')$/;"	v	class:annotationInterface
+conn	./statistics/database.py	/^    conn = initialization.get_db('statistics.db')$/;"	v	class:Deletion
+conv	./fileconversion/Conversion.py	/^    conv = EhowToAnno(inputString, "headline")$/;"	v	class:TextToAnno
+convertEhowToAnno	./fileconversion/Conversion.py	/^    def convertEhowToAnno(self,inputString):$/;"	m	class:EhowToAnno
+convertFiles	./fileconversion/__init__.py	/^    def convertFiles(self, inputFiles):$/;"	m	class:ConversionManager
+convertMturkToAnno	./fileconversion/Conversion.py	/^    def convertMturkToAnno(self, inputString):$/;"	m	class:MturkToAnno
+convertTagToWordnetPOS	./FileManager.py	/^    def convertTagToWordnetPOS(self,tag):$/;"	m	class:FileManager
+copyFilesWithNewEnding	./utils/FileSelection.py	/^    def copyFilesWithNewEnding(self, filelist, sourcefolder, ending, destinationfolder):$/;"	m	class:annotationFiles
+correctIndexInFile	./fileconversion/preprocessing.py	/^    def correctIndexInFile(self,f):$/;"	m	class:indexCorrecter
+correctIndexes	./SentenceManager.py	/^    def correctIndexes(self):$/;"	m	class:SentenceManager
+createConfidenceDictionary	./utils/GenderDetermination.py	/^    def createConfidenceDictionary(self, fileList):$/;"	m	class:genderFileGenerator
+createDependencyFromTemplate	./AnnotationTool.py	/^    def createDependencyFromTemplate(self, words, entities):$/;"	m	class:dependencyTemplate
+createListFile	./utils/FileSelection.py	/^    def createListFile(self, fileList, location):$/;"	m	class:annotationFiles
+createParseTree	./annotation/StanfordParser.py	/^    def createParseTree(self, sentenceID, sentence=None):$/;"	m	class:Parser
+createRealWorldMLN	./annotation/Sentence.py	/^    def createRealWorldMLN(self):$/;"	m	class:SentenceManager
+create_nltk_concept_taxonomie_mln	./annotation/Sentence.py	/^    def create_nltk_concept_taxonomie_mln(self, nltk_concepts):$/;"	m	class:SentenceManager
+create_statistics_schema	./statistics/database.py	/^    def create_statistics_schema(self, conn):$/;"	m	class:Initialization
+data	./fileconversion/preprocessing.py	/^    data = sys.stdin.readlines()$/;"	v	class:indexCorrecter
+data	./models.py	/^    def data(self, index, role):$/;"	m	class:SentenceListModel
+data	./models.py	/^    def data(self, index, role):$/;"	m	class:TextListModel
+db	./JSON2DB.py	/^    db = JSON2DB('\/home\/meyer\/Workspace\/edu.cs.tum.mturk.test\/data\/live_2\/ADD\/HITS.results')$/;"	v	class:JSON2DB
+deleteAllRoles	./Annotation.py	/^    def deleteAllRoles(self):$/;"	m	class:Word
+deleteDepdendency	./AnnotationTool.py	/^    def deleteDepdendency(self):$/;"	m	class:WidgetFunctionality
+deleteEntityFromList	./AnnotationTool.py	/^    def deleteEntityFromList(self):$/;"	m	class:newDependency
+deleteGrounding	./AnnotationTool.py	/^    def deleteGrounding(self):$/;"	m	class:WidgetFunctionality
+deleteKRField	./AnnotationTool.py	/^    def deleteKRField(self):$/;"	m	class:WidgetFunctionality
+deleteRole	./Annotation.py	/^    def deleteRole(self,r):$/;"	m	class:Word
+depChanges	./AnnotationTool.py	/^    def depChanges(self, row, column):$/;"	m	class:WidgetFunctionality
+dependencyTemplate	./AnnotationTool.py	/^class dependencyTemplate:$/;"	c
+destination_folder	./utils/FileSelection.py	/^	destination_folder = destinationfolder$/;"	v	class:annotationFiles
+doIndexCorrection	./fileconversion/preprocessing.py	/^    def doIndexCorrection(self,lines):$/;"	m	class:indexCorrecter
+eraseSpecialandLower	./FileManager.py	/^    def eraseSpecialandLower(self, exp):$/;"	m	class:FileManager
+evidence	./query/inference.py	/^    evidence = "hasPOS(Hallo, NN)"$/;"	v	class:Inference
+exportAllAnnoToMLN	./FileManager.py	/^    def exportAllAnnoToMLN(self,annotations):$/;"	m	class:FileManager
+exportAnnoToMLN	./FileManager.py	/^    def exportAnnoToMLN(self, anno):$/;"	m	class:FileManager
+exportSelectedtoMLN	./AnnotationTool.py	/^    def exportSelectedtoMLN(self):$/;"	m	class:WidgetFunctionality
+exportToMLN	./AnnotationTool.py	/^    def exportToMLN(self):$/;"	m	class:WidgetFunctionality
+fileExtension	./FileManager.py	/^fileExtension = ".db"$/;"	v
+fileList	./annotation/publicInterface.py	/^    fileList = []$/;"	v	class:annotationInterface
+file_name	./utils/FileSelection.py	/^		file_name = f.rstrip()$/;"	v	class:annotationFiles
+file_path	./utils/FileSelection.py	/^		file_path = f.rstrip()$/;"	v	class:annotationFiles
+filepath	./fileconversion/__init__.py	/^    filepath = sys.argv[1]$/;"	v	class:ConversionManager
+files	./utils/FileSelection.py	/^    files = [88, 85, 76, 73, 68, 66, 53, 46, 45, 45, 44, 43, 38, 29, 27, 22, 20, 19, 18, 16, 14, 11, 10,7,6,5,2,0]$/;"	v
+files	./utils/GenderDetermination.py	/^    files = [os.path.join(base_dir, x) for x in basefiles]$/;"	v	class:genderFileGenerator
+findAllLeafs	./AnnotationTool.py	/^    def findAllLeafs(self, tree):$/;"	m	class:WidgetFunctionality
+findLemma	./annotation/Sentence.py	/^    def findLemma(self, synset, word):$/;"	m	class:SentenceEntity
+findNPs	./annotation/Sentence.py	/^    def findNPs(self, word):$/;"	m	class:SentenceManager
+find_phrases_on_path_to_root	./annotation/Sentence.py	/^    def find_phrases_on_path_to_root(self, phrase):$/;"	m	class:SentenceManager
+find_sentence_for_node	./AnnotationTool.py	/^    def find_sentence_for_node(self, selected_item):$/;"	m	class:WidgetFunctionality
+finish_transaction	./statistics/database.py	/^    def finish_transaction(self, conn):$/;"	m	class:Initialization
+flags	./models.py	/^    def flags(self, index):$/;"	m	class:SentenceListModel
+folder	./utils/FileSelection.py	/^    folder = os.path.join(os.getcwd(),'..','..','..','data','howtos','plain')$/;"	v
+g	./utils/GenderDetermination.py	/^    g = genderFileGenerator()$/;"	v	class:genderFileGenerator
+genderFileGenerator	./utils/GenderDetermination.py	/^class genderFileGenerator(object):$/;"	c
+generateSyntactTreeFromParseTreeString	./parsing/Trees.py	/^    def generateSyntactTreeFromParseTreeString(self, treeString):$/;"	m	class:TreeGenerator
+getAllLeafs	./annotation/StanfordParser.py	/^    def getAllLeafs(self, tree):$/;"	m	class:Parser
+getAnnotationFiles	./utils/FileSelection.py	/^    def getAnnotationFiles(self, rowcount, wordcount, folder):$/;"	m	class:annotationFiles
+getAnnotations	./JSON2DB.py	/^    def getAnnotations(self, i):$/;"	m	class:JSON2DB
+getAppositiveMLN	./annotation/Sentence.py	/^    def getAppositiveMLN(self,textID):$/;"	m	class:SentenceManager
+getDependencies	./SentenceManager.py	/^    def getDependencies(self, sentence):$/;"	m	class:SentenceManager
+getDependencies	./StanfordParser.py	/^    def getDependencies(self, sentence=None, collapsed=False):$/;"	m	class:Parser
+getDependencies	./annotation/StanfordParser.py	/^    def getDependencies(self, sentence=None, collapsed=True):$/;"	m	class:Parser
+getDependenciesAsString	./Annotation.py	/^    def getDependenciesAsString(self):$/;"	m	class:Annotation
+getDependenciesMLN	./annotation/Sentence.py	/^    def getDependenciesMLN(self,textID):$/;"	m	class:SentenceManager
+getDepsMLNString	./FileManager.py	/^    def getDepsMLNString(self, deps, sentenceID):$/;"	m	class:FileManager
+getFeatures	./annotation/Sentence.py	/^    def getFeatures(self,textID, phraseDistance=True, realWorld=False):$/;"	m	class:SentenceManager
+getFilteredPhraseDistanceMLN	./annotation/Sentence.py	/^    def getFilteredPhraseDistanceMLN(self, textID, blocked):$/;"	m	class:SentenceManager
+getGenderMLN	./annotation/Sentence.py	/^    def getGenderMLN(self,textID):$/;"	m	class:SentenceManager
+getGroundingMLN	./annotation/Sentence.py	/^    def getGroundingMLN(self, knowrob = False):$/;"	m	class:SentenceManager
+getIWithinIMLN	./annotation/Sentence.py	/^    def getIWithinIMLN(self, textID):$/;"	m	class:SentenceManager
+getKnowRobObjectsMLN	./annotation/Sentence.py	/^    def getKnowRobObjectsMLN(self):$/;"	m	class:SentenceManager
+getKnowrobTaxonomieMLN	./annotation/Sentence.py	/^    def getKnowrobTaxonomieMLN(self, objects):$/;"	m	class:SentenceManager
+getLeafElements	./annotation/StanfordParser.py	/^    def getLeafElements(self,tree, start):$/;"	m	class:Parser
+getMLN	./annotation/Sentence.py	/^    def getMLN(self, functional = True):$/;"	m	class:DepedencyEntity
+getMLN	./annotation/Sentence.py	/^    def getMLN(self, sentence, possibleSenses=False):$/;"	m	class:WordEntity
+getMLN	./annotation/Sentence.py	/^    def getMLN(self, sentenceID):$/;"	m	class:SentenceChunk
+getMLN	./annotation/Sentence.py	/^    def getMLN(self,sentenceID):$/;"	m	class:SentenceEntity
+getMLN	./annotation/Sentence.py	/^    def getMLN(self,textID, createPhrases = True, realWorld=False):$/;"	m	class:SentenceManager
+getMLN	./annotation/TextManager.py	/^    def getMLN(self, realWorld=False):$/;"	m	class:TextEntity
+getMLN	./annotation/TextManager.py	/^    def getMLN(self, realWorld=False):$/;"	m	class:TextManager
+getMLN	./annotation/publicInterface.py	/^    def getMLN(self):$/;"	m	class:annotationInterface
+getMLNbyTextID	./annotation/publicInterface.py	/^    def getMLNbyTextID(self, id):$/;"	m	class:annotationInterface
+getMajoritySense	./Annotation.py	/^    def getMajoritySense(self, senses):$/;"	m	class:Word
+getModifierCompabilityMLN	./annotation/Sentence.py	/^    def getModifierCompabilityMLN(self, textID):$/;"	m	class:SentenceManager
+getModifiersMLN	./annotation/Sentence.py	/^    def getModifiersMLN(self):$/;"	m	class:SentenceManager
+getNPs	./annotation/Sentence.py	/^    def getNPs(self):$/;"	m	class:SentenceEntity
+getPOS	./StanfordParser.py	/^    def getPOS(self, sentence=None):$/;"	m	class:Parser
+getPOS	./annotation/StanfordParser.py	/^    def getPOS(self, sentence=None):$/;"	m	class:Parser
+getPOSMLNString	./FileManager.py	/^    def getPOSMLNString(self,word, sentenceID):$/;"	m	class:FileManager
+getPOSandDep	./annotation/StanfordParser.py	/^    def getPOSandDep(self, sentence=None, collapsed=False):$/;"	m	class:Parser
+getPathMLNString	./FileManager.py	/^    def getPathMLNString(self,word):$/;"	m	class:FileManager
+getPaths	./SentenceManager.py	/^    def getPaths(self,word):$/;"	m	class:SentenceManager
+getPhraseDistanceMLN	./annotation/Sentence.py	/^    def getPhraseDistanceMLN(self, textID, phraseList):$/;"	m	class:SentenceManager
+getPhraseSimilarityMLN	./annotation/Sentence.py	/^    def getPhraseSimilarityMLN(self,textID):$/;"	m	class:SentenceManager
+getPhrases	./annotation/Sentence.py	/^    def getPhrases(self):$/;"	m	class:SentenceEntity
+getQtElement	./parsing/Trees.py	/^    def getQtElement(self):$/;"	m	class:SyntacticTree
+getRolesMLNString	./FileManager.py	/^    def getRolesMLNString(self,word, sentenceID):$/;"	m	class:FileManager
+getSDIndexes	./SentenceManager.py	/^    def getSDIndexes(self, sp):$/;"	m	class:SentenceManager
+getSEs	./annotation/StanfordParser.py	/^    def getSEs(self, sentenceID, sentence=None):$/;"	m	class:Parser
+getSenesAsString	./Annotation.py	/^    def getSenesAsString(self):$/;"	m	class:Annotation
+getSenseList	./Annotation.py	/^    def getSenseList(self):$/;"	m	class:Word
+getSenseMLNString	./FileManager.py	/^    def getSenseMLNString(self, word, sentenceID):$/;"	m	class:FileManager
+getSentenceMLN	./annotation/Sentence.py	/^    def getSentenceMLN(self,textID):$/;"	m	class:SentenceManager
+getSiblings	./parsing/Trees.py	/^    def getSiblings(self):$/;"	m	class:SyntacticTree
+getStopWords	./annotation/Sentence.py	/^    def getStopWords(self):$/;"	m	class:SentenceManager
+getStrictHeadMatchingMLN	./annotation/Sentence.py	/^    def getStrictHeadMatchingMLN(self,textID):$/;"	m	class:SentenceManager
+getSubTreeByIdentifier	./parsing/Trees.py	/^    def getSubTreeByIdentifier(self, name):$/;"	m	class:SyntacticTree
+getSyntacticElementTree	./AnnotationTool.py	/^    def getSyntacticElementTree(self, synel, sentenceID):$/;"	m	class:WidgetFunctionality
+getText	./annotation/Sentence.py	/^    def getText(self):$/;"	m	class:SentenceManager
+getTree	./annotation/StanfordParser.py	/^    def getTree(self, gs, sentenceID):$/;"	m	class:Parser
+getValMLN	./annotation/Sentence.py	/^    def getValMLN(self, w, sentenceID):$/;"	m	class:SentenceChunk
+getValue	./AnnotationTool.py	/^    def getValue(self):$/;"	m	class:knowrobItemsDialog
+getValue	./AnnotationTool.py	/^    def getValue(self):$/;"	m	class:newDependency
+getValues	./AnnotationTool.py	/^    def getValues(self):$/;"	m	class:queryDialog
+getValues	./AnnotationTool.py	/^    def getValues(self):$/;"	m	class:tempDialog
+getValues	./AnnotationTool.py	/^    def getValues(self):$/;"	m	class:wordOrEntityDialog
+getWordAndSentenceIdentifierFromMLNIdentifier	./AnnotationTool.py	/^    def getWordAndSentenceIdentifierFromMLNIdentifier(self,mlnidentifier):$/;"	m	class:WidgetFunctionality
+getWordDistance	./annotation/Sentence.py	/^    def getWordDistance(self, textID):$/;"	m	class:SentenceManager
+getWordDistanceMLN	./annotation/Sentence.py	/^    def getWordDistanceMLN(self, current_element, sentence_id):$/;"	m	class:SentenceManager
+getWordInclusionMLN	./annotation/Sentence.py	/^    def getWordInclusionMLN(self, textID):$/;"	m	class:SentenceManager
+getWordPairSimilarityMLN	./annotation/Sentence.py	/^    def getWordPairSimilarityMLN(self, currentWord, currentSentence):$/;"	m	class:SentenceManager
+getWordSimilarityMLN	./annotation/Sentence.py	/^    def getWordSimilarityMLN(self, textID):$/;"	m	class:SentenceManager
+getWordSimilarityScore	./annotation/Sentence.py	/^    def getWordSimilarityScore(self, word1, word2):$/;"	m	class:SentenceManager
+get_db	./statistics/database.py	/^    def get_db(self, name):$/;"	m	class:Initialization
+get_grounding_mln_for_word	./annotation/Sentence.py	/^    def get_grounding_mln_for_word(self, element):$/;"	m	class:SentenceManager
+get_kr_instances	./knowrobinterface/RealWorld.py	/^    def get_kr_instances(self):$/;"	m	class:Mapping
+get_nltk_concepts	./knowrobinterface/RealWorld.py	/^    def get_nltk_concepts(self):$/;"	m	class:Mapping
+get_nltk_mappings_for_kr_objects	./knowrobinterface/RealWorld.py	/^    def get_nltk_mappings_for_kr_objects(self, kr_concepts):$/;"	m	class:Mapping
+get_relationship	./knowrobinterface/RealWorld.py	/^    def get_relationship(self, kr_instances):$/;"	m	class:Relations
+get_root_element	./parsing/Trees.py	/^    def get_root_element(self):$/;"	m	class:SyntacticTree
+get_virtual_tree_from_syntax_tree	./AnnotationTool.py	/^    def get_virtual_tree_from_syntax_tree(self, sentence_id):$/;"	m	class:WidgetFunctionality
+getdepth	./parsing/Trees.py	/^    def getdepth(self):$/;"	m	class:SyntacticTree
+group	./ConsoleApplication.py	/^    group = parser.add_mutually_exclusive_group()$/;"	v	class:ConsoleApplication
+handleSpecialChars	./annotation/Sentence.py	/^    def handleSpecialChars(self,word):$/;"	m	class:SentenceManager
+handleSpecialChars	./annotation/utilities.py	/^    def handleSpecialChars(word):$/;"	m	class:helper
+helper	./annotation/utilities.py	/^class helper:$/;"	c
+highlightWords	./AnnotationTool.py	/^    def highlightWords(self, words):$/;"	m	class:WidgetFunctionality
+i	./annotation/publicInterface.py	/^    i = Initialization()$/;"	v	class:annotationInterface
+i	./query/inference.py	/^    i = Inference("hasPOS(word,pos)\\n0.5 hasPOS(x,w)", $/;"	v	class:Inference
+id	./statistics/database.py	/^    id = insert.insert_or_update_text("Test Title2", cursor=c)$/;"	v	class:Deletion
+identifier	./annotation/Sentence.py	/^    def identifier(self):$/;"	m	class:DepedencyEntity
+identifier	./annotation/Sentence.py	/^    def identifier(self):$/;"	m	class:WordEntity
+inOrderLeafs	./parsing/Trees.py	/^    def inOrderLeafs(self):$/;"	m	class:SyntacticTree
+inOrderNPs	./parsing/Trees.py	/^    def inOrderNPs(self):$/;"	m	class:SyntacticTree
+inOrderPhrases	./parsing/Trees.py	/^    def inOrderPhrases(self, leafs = False):$/;"	m	class:SyntacticTree
+indexCorrecter	./fileconversion/preprocessing.py	/^class indexCorrecter:$/;"	c
+initialization	./statistics/database.py	/^    initialization = Initialization()$/;"	v	class:Deletion
+inputString	./fileconversion/Conversion.py	/^    inputString = "Heat oven to 350?F\/180?C.\\nPrepare and bake brownie mix as directed on package, using water, oil and eggs, in an 13 by 9 inch rectangular pan.\\nCool completely In a chilled medium bowl, beat whipping cream with electric mixer on high speed until stiff.\\nGently stir in marshmallows and cherries.\\nSpread evenly over brownies.\\nDrizzle chocolate over top.\\nSwirl chocolate through whipped cream mixture with knife if desired Cover and refrigerate about one hour or until its chilled.\\nServe."$/;"	v	class:TextToAnno
+insert	./statistics/database.py	/^    insert = Insertion()$/;"	v	class:Deletion
+insert_or_update_dependency	./statistics/database.py	/^    def insert_or_update_dependency(self, word1, word2,$/;"	m	class:Insertion
+insert_or_update_dependency_entity	./statistics/database.py	/^    def insert_or_update_dependency_entity(self, typ, text, conn=None, $/;"	m	class:Insertion
+insert_or_update_depentity_phrase	./statistics/database.py	/^    def insert_or_update_depentity_phrase(self, dep, phrase, conn=None, $/;"	m	class:Insertion
+insert_or_update_grounding	./statistics/database.py	/^    def insert_or_update_grounding(self, phrase, objectEntity,$/;"	m	class:Insertion
+insert_or_update_lemma	./statistics/database.py	/^    def insert_or_update_lemma(self, nltkID, conn=None, cursor=None):$/;"	m	class:Insertion
+insert_or_update_object	./statistics/database.py	/^    def insert_or_update_object(self, objectEntity, conn=None, cursor=None):$/;"	m	class:Insertion
+insert_or_update_phrase	./statistics/database.py	/^    def insert_or_update_phrase(self, tag, text, sentence, typ, conn=None,$/;"	m	class:Insertion
+insert_or_update_phrase_phrase	./statistics/database.py	/^    def insert_or_update_phrase_phrase(self, parent, child, conn=None,$/;"	m	class:Insertion
+insert_or_update_sense	./statistics/database.py	/^    def insert_or_update_sense(self, nltkID, conn=None, cursor=None):$/;"	m	class:Insertion
+insert_or_update_sentence	./statistics/database.py	/^    def insert_or_update_sentence(self, line_number, text, line_text, conn=None,$/;"	m	class:Insertion
+insert_or_update_text	./statistics/database.py	/^    def insert_or_update_text(self, title, conn=None, cursor=None):$/;"	m	class:Insertion
+insert_or_update_word	./statistics/database.py	/^    def insert_or_update_word(self, word, conn=None, cursor=None):$/;"	m	class:Insertion
+insert_or_update_word_instance	./statistics/database.py	/^    def insert_or_update_word_instance(self, word, sentence, text, $/;"	m	class:Insertion
+instances	./knowrobinterface/RealWorld.py	/^    instances = mapp.get_kr_instances()$/;"	v	class:Relations
+jsonParser	./SentenceManager.py	/^    def jsonParser(self, obj):$/;"	m	class:SentenceManager
+knowrobItemsDialog	./AnnotationTool.py	/^class knowrobItemsDialog(QtGui.QDialog):$/;"	c
+knowrobQuery	./knowrobinterface/actions.py	/^    def knowrobQuery(self, qry):$/;"	m	class:KnowRob
+kr	./knowrobinterface/actions.py	/^    kr = KnowRob('ias_semantic_map','ccrl2_semantic_map.owl')$/;"	v	class:KnowRob
+leaves	./parsing/Trees.py	/^    def leaves(self, tree):$/;"	m	class:SyntacticTree
+listener	./knowrobinterface/actions.py	/^    def listener(self):$/;"	m	class:KnowRob
+loadDepTemplates	./AnnotationTool.py	/^    def loadDepTemplates(self):$/;"	m	class:WidgetFunctionality
+loadDependencies	./AnnotationTool.py	/^    def loadDependencies(self, row, column):$/;"	m	class:WidgetFunctionality
+loadDependencyEntities	./AnnotationTool.py	/^    def loadDependencyEntities(self):$/;"	m	class:WidgetFunctionality
+loadDependencyTemplateFile	./AnnotationTool.py	/^    def loadDependencyTemplateFile(self, filename):$/;"	m	class:WidgetFunctionality
+loadDependencyTemplates	./AnnotationTool.py	/^    def loadDependencyTemplates(self):$/;"	m	class:WidgetFunctionality
+loadEntities	./AnnotationTool.py	/^    def loadEntities(self):$/;"	m	class:WidgetFunctionality
+loadFile	./fileconversion/preprocessing.py	/^    def loadFile(self,f):$/;"	m	class:indexCorrecter
+loadFileList	./AnnotationTool.py	/^    def loadFileList(self):$/;"	m	class:WidgetFunctionality
+loadFiles	./annotation/publicInterface.py	/^    def loadFiles(self, texts, files):$/;"	m	class:annotationInterface
+loadGroundings	./AnnotationTool.py	/^    def loadGroundings(self):$/;"	m	class:WidgetFunctionality
+loadJsonFile	./SentenceManager.py	/^    def loadJsonFile(self, f):$/;"	m	class:SentenceManager
+loadNewFiles	./AnnotationTool.py	/^    def loadNewFiles(self):$/;"	m	class:WidgetFunctionality
+loadPath	./AnnotationTool.py	/^    def loadPath(self):$/;"	m	class:WidgetFunctionality
+loadProgressFromFile	./AnnotationTool.py	/^    def loadProgressFromFile(self, filename):$/;"	m	class:WidgetFunctionality
+loadProgressFromFile	./FileManager.py	/^    def loadProgressFromFile(self, filename):$/;"	m	class:FileManager
+loadProgressFromFile	./annotation/publicInterface.py	/^    def loadProgressFromFile(self, filename):$/;"	m	class:annotationInterface
+loadQueryFile	./AnnotationTool.py	/^    def loadQueryFile(self):$/;"	m	class:WidgetFunctionality
+loadRoles	./FileManager.py	/^    def loadRoles(self):$/;"	m	class:FileManager
+loadRoles	./Roles.py	/^    def loadRoles(self):$/;"	m	class:Roles
+loadRolesForWordType	./Roles.py	/^    def loadRolesForWordType(self,wordType):$/;"	m	class:Roles
+loadRosPackage	./knowrobinterface/actions.py	/^    def loadRosPackage(self, package):$/;"	m	class:KnowRob
+loadSenses	./AnnotationTool.py	/^    def loadSenses(self, word):$/;"	m	class:WidgetFunctionality
+loadStandartConfig	./AnnotationTool.py	/^    def loadStandartConfig(self):$/;"	m	class:WidgetManager
+loadTextDetails	./AnnotationTool.py	/^    def loadTextDetails(self, index):$/;"	m	class:WidgetFunctionality
+loadWordDetails	./AnnotationTool.py	/^    def loadWordDetails(self,row,column):$/;"	m	class:WidgetFunctionality
+load_file_return_string	./utils/__init__.py	/^def load_file_return_string(file_name):$/;"	f
+load_relations_kr_mln_mapping	./knowrobinterface/RealWorld.py	/^    def load_relations_kr_mln_mapping(self, f="RelationsMapping.yaml"):$/;"	m	class:Mapping
+m	./annotation/publicInterface.py	/^    m = annotationInterface(texts = None, fileList = fileList)$/;"	v	class:annotationInterface
+majorityRawSense	./annotation/Sentence.py	/^    def majorityRawSense(self):$/;"	m	class:WordEntity
+majoritySense	./annotation/Sentence.py	/^    def majoritySense(self):$/;"	m	class:WordEntity
+majoritySenseEntity	./annotation/Sentence.py	/^    def majoritySenseEntity(self):$/;"	m	class:WordEntity
+makeFileNameFromSentence	./FileManager.py	/^    def makeFileNameFromSentence(self, sentence):$/;"	m	class:FileManager
+makeMLNRead	./annotation/Sentence.py	/^    def makeMLNRead(self, exp):$/;"	m	class:SentenceManager
+manualSenseQuery	./AnnotationTool.py	/^    def manualSenseQuery(self):$/;"	m	class:WidgetFunctionality
+mapp	./knowrobinterface/RealWorld.py	/^    mapp = Mapping()$/;"	v	class:Relations
+mapping	./Visualization.py	/^    mapping = {"http:\/\/de.tum.ias\/kr\/florian_kitchen.owl#Blender1": "Blender1"}$/;"	v
+mergeButtonClicked	./AnnotationTool.py	/^    def mergeButtonClicked(self):$/;"	m	class:WidgetFunctionality
+mlnPreview	./AnnotationTool.py	/^class mlnPreview(QtGui.QDialog):$/;"	c
+mln_file	./query/inference.py	/^                "experiments\/grounding\/put\/11\/learned_model.mln"$/;"	v	class:Inference
+mlngroundidentifier	./parsing/Trees.py	/^    def mlngroundidentifier(self):$/;"	m	class:SyntacticElement
+mlnidentifier	./parsing/Trees.py	/^    def mlnidentifier(self):$/;"	m	class:SyntacticElement
+mlnrepresentation	./AnnotationTool.py	/^    def mlnrepresentation(self):$/;"	m	class:dependencyTemplate
+moveWordDown	./AnnotationTool.py	/^    def moveWordDown(self):$/;"	m	class:newDependency
+moveWordUp	./AnnotationTool.py	/^    def moveWordUp(self):$/;"	m	class:newDependency
+newDepTemp	./AnnotationTool.py	/^    def newDepTemp(self):$/;"	m	class:WidgetFunctionality
+newDependency	./AnnotationTool.py	/^    def newDependency(self):$/;"	m	class:WidgetFunctionality
+newDependency	./AnnotationTool.py	/^class newDependency(QtGui.QDialog):$/;"	c
+nltkSense	./annotation/Sentence.py	/^    def nltkSense(self):$/;"	m	class:SenseEntity
+nltkSense	./annotation/Sentence.py	/^    def nltkSense(self,value):$/;"	m	class:SenseEntity
+openProgressfromFile	./AnnotationTool.py	/^    def openProgressfromFile(self):$/;"	m	class:WidgetFunctionality
+output	./utils/FileSelection.py	/^    output = os.path.join(os.getcwd(),'fileList.list')$/;"	v
+output_path	./utils/FileSelection.py	/^		output_path = os.path.join(destination_folder, f.rsplit('\/',1)[1].rstrip() + '.' + ending)$/;"	v	class:annotationFiles
+parse	./StanfordParser.py	/^    def parse(self, sentence):$/;"	m	class:Parser
+parse	./annotation/StanfordParser.py	/^    def parse(self, sentence):$/;"	m	class:Parser
+parseRoleFile	./Roles.py	/^    def parseRoleFile(self, f):$/;"	m	class:Roles
+parseTemplate	./annotation/Sentence.py	/^    def parseTemplate(self,template, entities, functional = True):$/;"	m	class:DepedencyEntity
+parseTree	./annotation/StanfordParser.py	/^    def parseTree(self, tree, searchTerm, queryType='type'):$/;"	m	class:Parser
+parser	./ConsoleApplication.py	/^    parser = argparse.ArgumentParser()$/;"	v	class:ConsoleApplication
+parser	./annotation/Sentence.py	/^    parser = Parser(os.path.join('..','..','3rdparty',$/;"	v	class:SenseEntity
+parser	./annotation/TextManager.py	/^    parser = Parser(os.path.join('..','..','3rdparty','stanford-parser-2012-02-03','grammar','englishPCFG.ser.gz'))$/;"	v
+parserOutPutToMLNCompatible	./Annotation.py	/^    def parserOutPutToMLNCompatible(self,x):$/;"	m	class:Annotation
+pathMLN	./annotation/Sentence.py	/^    def pathMLN(self):$/;"	m	class:SenseEntity
+populateWidgets	./AnnotationTool.py	/^    def populateWidgets(self, texts):$/;"	m	class:WidgetFunctionality
+possibleElements	./parsing/Trees.py	/^    def possibleElements(self, cat):$/;"	m	class:SyntacticTree
+possibleSenses	./annotation/Sentence.py	/^    def possibleSenses(self):$/;"	m	class:WordEntity
+possibleSensesMLN	./annotation/Sentence.py	/^    def possibleSensesMLN(self, sentence):$/;"	m	class:WordEntity
+previewMLN	./AnnotationTool.py	/^    def previewMLN(self):$/;"	m	class:WidgetFunctionality
+printInfo	./StanfordParser.py	/^    def printInfo(self):$/;"	m	class:Parser
+printInfo	./annotation/StanfordParser.py	/^    def printInfo(self):$/;"	m	class:Parser
+printTree	./parsing/Trees.py	/^    def printTree(self):$/;"	m	class:SyntacticTree
+qListItemRow	./AnnotationTool.py	/^    def qListItemRow(self, qlist, item):$/;"	m	class:WidgetFunctionality
+queryDialog	./AnnotationTool.py	/^class queryDialog(QtGui.QDialog):$/;"	c
+query_knowrob_for_concepts_of_objects	./knowrobinterface/RealWorld.py	/^    def query_knowrob_for_concepts_of_objects(self, objects):$/;"	m	class:Mapping
+rel	./knowrobinterface/RealWorld.py	/^    rel = Relations()$/;"	v	class:Relations
+relations	./knowrobinterface/RealWorld.py	/^    relations = rel.get_relationship(instances)$/;"	v	class:Relations
+removeButtonClicked	./AnnotationTool.py	/^    def removeButtonClicked(self):$/;"	m	class:WidgetFunctionality
+removeStopWordsFromTreeList	./annotation/Sentence.py	/^    def removeStopWordsFromTreeList(self, nodes):$/;"	m	class:SentenceManager
+removeTemp	./AnnotationTool.py	/^    def removeTemp(self):$/;"	m	class:tempDialog
+replaceData	./models.py	/^    def replaceData(self, newData):$/;"	m	class:SentenceListModel
+replaceData	./models.py	/^    def replaceData(self, newData):$/;"	m	class:TextListModel
+res	./utils/FileSelection.py	/^    res = af.subSelectFilesByLineNumber(output, files, asList=True)$/;"	v
+rolePath	./Roles.py	/^    rolePath = "roles\/"$/;"	v	class:Roles
+roleWord	./Roles.py	/^    roleWord = ["V","N","AV","AD"]$/;"	v	class:Roles
+roles	./FileManager.py	/^roles = "roles\/roles.db"$/;"	v
+row	./utils/GenderDetermination.py	/^    row = ['N',5,'F',6]$/;"	v	class:genderFileGenerator
+rowCount	./models.py	/^    def rowCount(self, parent=QtCore.QModelIndex()): $/;"	m	class:TextListModel
+rowCount	./models.py	/^    def rowCount(self, parent=QtCore.QModelIndex):$/;"	m	class:SentenceListModel
+run	./knowrobinterface/actions.py	/^    def run(self):$/;"	m	class:KnowRob
+run	./query/inference.py	/^    def run(self):$/;"	m	class:Inference
+rwchanged	./AnnotationTool.py	/^    def rwchanged(self):$/;"	m	class:WidgetFunctionality
+saveChanges	./AnnotationTool.py	/^    def saveChanges(self, deselected):$/;"	m	class:WidgetFunctionality
+saveData	./annotation/publicInterface.py	/^    def saveData(self, filename):$/;"	m	class:annotationInterface
+saveDataToFiles	./fileconversion/preprocessing.py	/^    def saveDataToFiles(self):$/;"	m	class:indexCorrecter
+saveDependencyTemplates	./AnnotationTool.py	/^    def saveDependencyTemplates(self):$/;"	m	class:WidgetFunctionality
+saveMLNToFile	./AnnotationTool.py	/^    def saveMLNToFile(self):$/;"	m	class:mlnPreview
+saveProgressToFile	./FileManager.py	/^    def saveProgressToFile(self,annotationList, filename):$/;"	m	class:FileManager
+saveProgressToSQLite	./AnnotationTool.py	/^    def saveProgressToSQLite(self):$/;"	m	class:WidgetFunctionality
+saveSelectedtoMLN	./annotation/publicInterface.py	/^    def saveSelectedtoMLN(self, folder, text, $/;"	m	class:annotationInterface
+saveSentence	./FileManager.py	/^    def saveSentence(self, sentence, data):$/;"	m	class:FileManager
+saveSentenceToSQLite	./annotation/Sentence.py	/^    def saveSentenceToSQLite(self, sqlTextID, cursor):$/;"	m	class:SentenceEntity
+saveTextToSQLite	./annotation/Sentence.py	/^    def saveTextToSQLite(self, database_name):$/;"	m	class:SentenceManager
+saveTextToSQLite	./annotation/TextManager.py	/^    def saveTextToSQLite(self, database_name):$/;"	m	class:TextEntity
+saveTextToSQLite	./annotation/TextManager.py	/^    def saveTextToSQLite(self, database_name):$/;"	m	class:TextManager
+saveTextsToSQLite	./annotation/publicInterface.py	/^    def saveTextsToSQLite(self, filename):$/;"	m	class:annotationInterface
+saveToFile	./AnnotationTool.py	/^    def saveToFile(self):$/;"	m	class:WidgetFunctionality
+saveToMLNDatabase	./annotation/publicInterface.py	/^    def saveToMLNDatabase(self,folder):$/;"	m	class:annotationInterface
+saveToSQLite	./annotation/Sentence.py	/^    def saveToSQLite(self, text, cursor):$/;"	m	class:DepedencyEntity
+savepath	./FileManager.py	/^savepath = "..\/..\/data\/annotated_sentences\/"$/;"	v
+senseChanges	./AnnotationTool.py	/^    def senseChanges(self, item):$/;"	m	class:WidgetFunctionality
+senseClicked	./AnnotationTool.py	/^    def senseClicked(self, item):$/;"	m	class:WidgetFunctionality
+sensePath	./annotation/Sentence.py	/^    def sensePath(self):$/;"	m	class:SenseEntity
+sensePathNLTK	./annotation/Sentence.py	/^    def sensePathNLTK(self):$/;"	m	class:SenseEntity
+sentenceChanged	./AnnotationTool.py	/^    def sentenceChanged(self, selected, deselected):$/;"	m	class:WidgetFunctionality
+setData	./models.py	/^    def setData(self, index, value, role = QtCore.Qt.EditRole):$/;"	m	class:TextListModel
+setSense	./annotation/Sentence.py	/^    def setSense(self,senseID):$/;"	m	class:WordEntity
+setTableBackGroundColor	./AnnotationTool.py	/^    def setTableBackGroundColor(self, color):$/;"	m	class:WidgetFunctionality
+setUpSignalSlots	./AnnotationTool.py	/^    def setUpSignalSlots(self):$/;"	m	class:WidgetManager
+setUpSignals	./AnnotationTool.py	/^    def setUpSignals(self):$/;"	m	class:mlnPreview
+setUpSignals	./AnnotationTool.py	/^    def setUpSignals(self):$/;"	m	class:newDependency
+setUpSignals	./AnnotationTool.py	/^    def setUpSignals(self):$/;"	m	class:queryDialog
+setUpSignals	./AnnotationTool.py	/^    def setUpSignals(self):$/;"	m	class:tempDialog
+setUpWidget	./AnnotationTool.py	/^    def setUpWidget(self, entities, template):$/;"	m	class:newDependency
+setUpWidget	./AnnotationTool.py	/^    def setUpWidget(self, mln):$/;"	m	class:mlnPreview
+setUpWidget	./AnnotationTool.py	/^    def setUpWidget(self, queryMLN):$/;"	m	class:queryDialog
+show_instance	./Visualization.py	/^    def show_instance(self, kr_instance, canvas="_"):$/;"	m	class:Visualization
+sm	./annotation/Sentence.py	/^    sm = SentenceManager(parser)$/;"	v	class:SenseEntity
+source_folder	./utils/FileSelection.py	/^	source_folder = sourcefolder$/;"	v	class:annotationFiles
+splitStanfordParserDependency	./SentenceManager.py	/^    def splitStanfordParserDependency(self, dep):$/;"	m	class:SentenceManager
+stringContainsElements	./annotation/Sentence.py	/^    def stringContainsElements(self, elements, exp):$/;"	m	class:SentenceManager
+subSelectFilesByLineNumber	./utils/FileSelection.py	/^    def subSelectFilesByLineNumber(self,file, lines, asList=False, outputFile=None):$/;"	m	class:annotationFiles
+syntacticElements	./parsing/Trees.py	/^    def syntacticElements(self, cat):$/;"	m	class:SyntacticTree
+tagPOS	./Annotation.py	/^    def tagPOS(self):$/;"	m	class:Annotation
+tagSense	./Annotation.py	/^    def tagSense(self):$/;"	m	class:Annotation
+tempDialog	./AnnotationTool.py	/^class tempDialog(QtGui.QDialog):$/;"	c
+test	./annotation/TextManager.py	/^            ',{"id":"1","sentence":"Make yummy cookies!"}]}]'$/;"	v
+test_both_Parameters_missing	./tests/ConsoleApplication.py	/^    def test_both_Parameters_missing(self):$/;"	m	class:TestConsoleApplication
+test_check_string_not_none_empty_empty	./utils/tests/Utils.py	/^    def test_check_string_not_none_empty_empty(self):$/;"	m	class:TestUtils
+test_check_string_not_none_empty_special	./utils/tests/Utils.py	/^    def test_check_string_not_none_empty_special(self):$/;"	m	class:TestUtils
+test_check_string_not_none_special_empty_none	./utils/tests/Utils.py	/^    def test_check_string_not_none_special_empty_none(self):$/;"	m	class:TestUtils
+test_constructor_parameters	./tests/ConsoleApplication.py	/^    def test_constructor_parameters(self):$/;"	m	class:TestConsoleApplication
+test_correct_input_s	./tests/ConsoleApplication.py	/^    def test_correct_input_s(self):$/;"	m	class:TestConsoleApplication
+test_empty_string_parameters	./tests/ConsoleApplication.py	/^    def test_empty_string_parameters(self):$/;"	m	class:TestConsoleApplication
+test_mutual_parameter_exclusion	./tests/ConsoleApplication.py	/^    def test_mutual_parameter_exclusion(self):$/;"	m	class:TestConsoleApplication
+test_no_input	./tests/ConsoleApplication.py	/^    def test_no_input(self):$/;"	m	class:TestConsoleApplication
+test_non_existing_file	./tests/ConsoleApplication.py	/^    def test_non_existing_file(self):$/;"	m	class:TestConsoleApplication
+test_should_be_same_dictionaries	./fileconversion/tests/Conversion.py	/^    def test_should_be_same_dictionaries(self):$/;"	m	class:TextToAnno
+test_should_fail_string	./query/tests/TestInference.py	/^    def test_should_fail_string(self):$/;"	m	class:TestInferenceValidateQueries
+test_should_first_entry_textName	./fileconversion/tests/Conversion.py	/^    def test_should_first_entry_textName(self):$/;"	m	class:TextToAnno
+test_should_not_accept_empty_strings	./fileconversion/tests/Conversion.py	/^    def test_should_not_accept_empty_strings(self):$/;"	m	class:TextToAnno
+test_should_not_be_none	./fileconversion/tests/Conversion.py	/^    def test_should_not_be_none(self):$/;"	m	class:TextToAnno
+test_should_only_accept_strings	./fileconversion/tests/Conversion.py	/^    def test_should_only_accept_strings(self):$/;"	m	class:TextToAnno
+test_should_result_be_dict	./fileconversion/tests/Conversion.py	/^    def test_should_result_be_dict(self):$/;"	m	class:TextToAnno
+test_should_result_contain_sentences_key	./fileconversion/tests/Conversion.py	/^    def test_should_result_contain_sentences_key(self):$/;"	m	class:TextToAnno
+test_should_result_not_be_empty	./fileconversion/tests/Conversion.py	/^    def test_should_result_not_be_empty(self):$/;"	m	class:TextToAnno
+test_should_result_not_be_none	./fileconversion/tests/Conversion.py	/^    def test_should_result_not_be_none(self):$/;"	m	class:TextToAnno
+test_should_return_correct_text_type_file	./tests/ConsoleApplication.py	/^    def test_should_return_correct_text_type_file(self):$/;"	m	class:TestConsoleApplication
+test_should_return_correct_text_type_string	./tests/ConsoleApplication.py	/^    def test_should_return_correct_text_type_string(self):$/;"	m	class:TestConsoleApplication
+textChanged	./AnnotationTool.py	/^    def textChanged(self, selected, deselected):$/;"	m	class:WidgetFunctionality
+text_to_anno	./fileconversion/Conversion.py	/^    def text_to_anno(self, input_string):$/;"	m	class:TextToAnno
+tg	./parsing/Trees.py	/^    tg = TreeGenerator()$/;"	v	class:TreeGenerator
+tm	./annotation/TextManager.py	/^    tm = TextManager(test, parser)$/;"	v
+toMLNCompatibleFormat	./utils/__init__.py	/^def toMLNCompatibleFormat(p):$/;"	f
+tokenize	./parsing/Trees.py	/^    def tokenize(self,treeString):$/;"	m	class:TreeGenerator
+tokens	./parsing/Trees.py	/^    tokens = tg.tokenize(treeString)$/;"	v	class:TreeGenerator
+treatDoubleWords	./SentenceManager.py	/^    def treatDoubleWords(self,sentence, words):$/;"	m	class:SentenceManager
+type	./parsing/Trees.py	/^    def type(self):$/;"	m	class:SyntacticElement
+type	./parsing/Trees.py	/^    def type(self, val):$/;"	m	class:SyntacticElement
+updateKnowRobList	./AnnotationTool.py	/^    def updateKnowRobList(self, clickedItem):$/;"	m	class:WidgetFunctionality
+vis	./Visualization.py	/^    vis = Visualization(mapping)$/;"	v
+window	./AnnotationTool.py	/^    window = WidgetManager()$/;"	v
+wordChanged	./AnnotationTool.py	/^    def wordChanged(self, row, column):$/;"	m	class:WidgetFunctionality
+wordListFromNodeList	./annotation/Sentence.py	/^    def wordListFromNodeList(self, nodes):$/;"	m	class:SentenceManager
+wordNetToNLTK	./JSON2DB.py	/^    def wordNetToNLTK(self,wordnetID):$/;"	m	class:AnnotatedWord
+wordOrEntityDialog	./AnnotationTool.py	/^class wordOrEntityDialog(QtGui.QDialog):$/;"	c
+wordnetSynsetToNLTK	./annotation/Sentence.py	/^    def wordnetSynsetToNLTK(self,wordnetID):$/;"	m	class:SenseEntity
+writeToFile	./FileManager.py	/^    def writeToFile(self, filename, data):$/;"	m	class:FileManager

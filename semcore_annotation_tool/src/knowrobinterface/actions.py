@@ -36,7 +36,7 @@ class KnowRob(QtCore.QThread):
 
         
         #Laod my kitchen
-        qstr = """owl_parse('/usr/stud/meyer/ontologies/florian_kitchen/
+        qstr = """owl_parse('/home/meyer/workspace/prac/semantic_maps/
                     florian_kitchen.owl',false, false, true)"""
         res = self.prolog.query(qstr)
         res.finish()
