@@ -1,0 +1,8 @@
+has_role(Push,Null)
+has_role(The,Null)
+has_role(Pan,FixedLocation)
+has_role(Burger,Theme)
+has_role(Spatula,Instrument)
+contact(Burger,Spatula)
+tilted_next(Burger)
+contact_next(Burger,Spatula)
