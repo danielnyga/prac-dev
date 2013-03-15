@@ -89,3 +89,19 @@ syntactic_predicates:
     - nn: [word, word]
     - dep: [word, word]
     - ccomp: [word, word]
+spatial_predicates:
+    - begin_state: [yesno]
+       # - yesno: unique
+    - end_state: [yesno]
+     #   - yesno: unique
+    - has_role: [word, role]
+    - in: [word, word]
+    - in_next: [word, word]
+    - 'on': [word, word]
+    - on_next: [word, word]
+    - over: [word, word]
+    - over_next: [word, word]
+    - tilted: [word]
+    - tilted_next: [word]
+    - contact: [word, word]
+    - contact_next: [word, word]
