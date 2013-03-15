@@ -40,10 +40,10 @@ from mlnLearningTool import MLNLearn
 from MLN.methods import ParameterLearningMeasures
 from sys import stdout
 from MLN.util import strFormula
-
 core_definitions = os.path.join('models', 'core.yaml')
 action_cores_path = os.path.join('models', 'actioncores.yaml')
 action_cores_probs = os.path.join('models', 'probabilities.yaml')
+action_cores_spat_probs = os.path.join('models', 'spatial_relation.yaml')
 
 class PRAC(object):
     
@@ -55,8 +55,13 @@ class PRAC(object):
         self.syn_predicates = []
         for pred in core_params['syntactic_predicates']:
             self.syn_predicates.append(pred)
-
+        # spatial_relation predicates
+        self.spat_predicates = []
+        for pred in core_params['spatial_predicates']:
+            self.spat_predicates.append(pred)
         self.mln = PRACMLN()
+        # mln for spatial_relation learning
+        self.mln_spatial = PRACMLN()
         for pred in self.predicates + self.syn_predicates:
             assert(len(pred.keys()) == 1 and len(pred.values()) == 1)
             for name in pred.keys(): pass
@@ -75,7 +80,25 @@ class PRAC(object):
             self.mln.predicates[name] = args
             if reduce(lambda x, y: x or y, functional):
                 self.mln.blocks[name] = functional
-
+        # initialization of spatial predicates
+        for pred in self.spat_predicates:
+            assert(len(pred.keys()) == 1 and len(pred.values()) == 1)
+            for name in pred.keys(): pass
+            for values in pred.values(): pass
+            args = []
+            functional = []
+            for arg in values:
+                flags = set()
+                if type(arg) == dict:
+                    flags = arg.values()
+                    for arg in arg.keys(): pass 
+                else:
+                    flags = set()
+                args.append(arg)
+                functional.append('unique' in flags)
+            self.mln_spatial.predicates[name] = args
+            if reduce(lambda x, y: x or y, functional):
+                self.mln_spatial.blocks[name] = functional
         # load all action cores
         self.action_cores = {}
         ac_params = yaml.load_all(open(action_cores_path))
@@ -84,7 +107,6 @@ class PRAC(object):
         for params in ac_params:
             action_core = ActionCore(params, self)
             self.action_cores[action_core.name] = action_core
-
         if os.path.exists(action_cores_probs):
             ac_probs = yaml.load_all(open(action_cores_probs))
             for ac_prob in ac_probs:
@@ -110,6 +132,32 @@ class PRAC(object):
                     known_concepts = ac_prob.get('known_concepts', None)
                     if known_concepts is not None:
                         acore.known_concepts = set(known_concepts)
+        # load spatial probabilities
+        if os.path.exists(action_cores_spat_probs):
+            ac_spat_probs = yaml.load_all(open(action_cores_spat_probs))
+            for ac_spat_prob in ac_spat_probs:
+                if ac_spat_prob is None:
+                    continue
+                name = ac_spat_prob.get('action_core', None)
+                acore = self.action_cores.get(name, None)
+                acore.learnedMLN_spatial = self.mln_spatial.duplicate()
+                if acore is not None:
+                    formulas = ac_spat_prob.get('weighted_formulas', None)
+                    if formulas is not None:
+                        for formula in formulas:
+                            f = None
+                            if type(formula) is dict:
+                                for fstring in formula.keys(): pass
+                                f = parsePracFormula(fstring)
+                                f.weight = formula[fstring]
+                                f.isHard = False
+                            else:
+                                f = parsePracFormula(formula)
+                                f.isHard = True
+                            acore.learnedMLN_spatial.addFormula(f, f.weight, f.isHard)
+                    known_concepts = ac_spat_prob.get('known_concepts', None)
+                    if known_concepts is not None:
+                        acore.known_concepts = set(known_concepts)
     
     def write(self):
         f = open(action_cores_probs, 'w+')
@@ -123,6 +171,21 @@ class PRAC(object):
                         continue
                     f.write('    - "%s": %f\n' % (strFormula(formula), formula.weight))
             f.write('---\n')
+            
+    def write_spatial(self, actioncore):
+        f = open(action_cores_spat_probs, 'w+')
+        for ac in self.action_cores.values():
+            if ac.name == 'Filling' or ac.name == 'Flipping' :
+                f.write('action_core: %s\n' % ac.name)
+                f.write('known_concepts: %s\n' % str(list(ac.known_concepts)))
+                f.write('weighted_formulas:\n')
+                if ac.mln is not None:
+                    for formula in ac.learnedMLN_spatial.formulas:
+                        if not formula.isHard and abs(formula.weight) <= 1e-6:
+                            continue
+                        f.write('    - "%s": %f\n' % (strFormula(formula), formula.weight))
+                f.write('---\n')
+        
             
 class ActionRole(object):
     
@@ -145,7 +208,11 @@ class ActionCore(object):
     
     def __init__(self, args, prac):
         self.mln = prac.mln.duplicate()
+        # mln for spatial_relation learning
+        self.mln_spatial = prac.mln_spatial.duplicate()
         self.learnedMLN = None
+        # learned mln for spatial relation
+        self.learnedMLN_spatial = None
         self.prac = prac
         self.name = args['action_core']
         self.definition = args.get('definition', None)
@@ -159,11 +226,18 @@ class ActionCore(object):
                 actionRole =  ActionRole(role)
                 self.action_roles[actionRole.name] = actionRole
         self.formula_templates = set()
+        self.formula_spatial_templates = set()
         if args.get('formula_templates', None) is not None:
             for templ in args.get('formula_templates',[]):
                 f = parsePracFormula(templ)
                 self.formula_templates.add(f)
                 self.mln.addFormulaTemplate(f)
+        # load spatial_relations formulas
+        if args.get('spatial_templates', None) is not None:
+            for templ in args.get('spatial_templates',[]):
+                f = parsePracFormula(templ)
+                self.formula_spatial_templates.add(f)
+                self.mln_spatial.addFormulaTemplate(f)
         self.action_verbs = []
         if args.get('action_verbs', None) is not None:
             for av in args.get('action_verbs',[]):
