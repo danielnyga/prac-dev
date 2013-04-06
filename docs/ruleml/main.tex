@@ -17,6 +17,15 @@
 
 \usepackage{alltt}
 \renewcommand{\ttdefault}{txtt}
+
+%%%FOR LATEXDRAW %%%%
+ \usepackage[usenames,dvipsnames]{pstricks}
+ \usepackage{epsfig}
+ \usepackage{pst-grad} % For gradients
+ \usepackage{pst-plot} % For axes
+
+
+
 %%%%%%
 %
 \begin{document}
@@ -67,6 +76,11 @@ web pages such as \textit{wikihow.com}. Being these presented in natural languag
 \paragraph{problem statement} from a robotic assistant's standpoint web instructions are often severly incomplete and present knowledge understatement, since many missing key pieces of information are generally considered common sense to the human. Current research in cognitive robotics aims at building verb-specific knowledge bases that enables a robot to infer the information which is needed in order to perform a particular activity, based on what is given in a naturalistic action specification.  
 However such inference might incur in limitations and require the robot to explicitly ask whom assigns the tasks for further information. Taxonomical and compositional relationships, object role understanding, are only some of missing elements that could potentially require clarification. An example would be when a task such as "flip the pancake" is given, and the assistant cannot infer with sufficient certainty which object should be used as instrument.
 
+\begin{figure}[H]
+\includegraphics[scale=0.51, trim= 0mm 0mm 0mm 10mm]{introduction.eps}
+\caption{Representation of a disambiguation interaction}
+\end{figure} 
+
 \section{Adopted Technologies}
 \subsection{Probabilistic Robot Action Cores (PRAC)}
 %\begin{figure}[H]
@@ -95,8 +109,8 @@ The PRAC system caters for inference of missing action roles. Unfortunately, thi
 We identify the following interaction:
 {\large
 \begin{alltt}
-\textbf{\color{Blue}Human to Robot} : Tasking Instruction            (in NL)
-\textbf{\color{Red}Robot to Human} : Ambiguity Resolution Question (in CNL)
+\textbf{\color{Red}Human to Robot} : Tasking Instruction            (in NL)
+\textbf{\color{Blue}Robot to Human} : Ambiguity Resolution Question (in CNL)
 \textbf{\color{Red}Human to Robot} : Disambiguation Reply           (in NL)
 \end{alltt}
 }
@@ -153,26 +167,30 @@ The querying procedure is identical to the one above, via the use of similar tem
         predicate(B,X1,A,C)-1/2]))])
         \textbf{dependencies}: NSUBJ-left, NSUBJ-right; X1, X2
 \end{alltt}
-\newpage
-The combination of the disambiguation case and object query verbalization will result in the following:
+
 %The system has proved scalability given also the aggregation capability of DRS.
 
-\begin{alltt}
-Question case evaluation
-========================
+%\begin{alltt}
+%Question case evaluation
+%========================
 
-To be asked:
-  - Ask for missing role \textbf{"Instrument"}, case \textbf{"two-choices"},
-  - Ask for missing role \textbf{"Instrument"}, case \textbf{"nsubj"}  
-\textbf{\color{red}
-Verbalization: 
-[[There is a spatula.],[There is a n:tongs.]]
-[[What v:flips a pancake?]]
-}
-\end{alltt}
+%To be asked:
+%  - Ask for missing role \textbf{"Instrument"}, case \textbf{"two-choices"},
+%  - Ask for missing role \textbf{"Instrument"}, case \textbf{"nsubj"}  
+%\textbf{\color{red}
+%Verbalization: 
+%[[There is a spatula.],[There is a n:tongs.]]
+%[[What v:flips a pancake?]]
+%}
+%\end{alltt}
 
 \paragraph{reply integration} is handled by \textit{PRACInference}, a module that processes the incoming sentence and assigns action roles. We will then substitute only the newly identified action roles that were previously missing in the main PRAC instance.
 
+By combining the disambiguation doubt and query verbalization we obtain:
+  \begin{figure}[H]
+\includegraphics[scale=0.51, trim= 0mm 0mm 0mm 10mm]{results.eps}
+\caption{Graphical representation of the disambiguation procedure and interaction}
+\end{figure}
 \section{CNL for action formalization}
 For the formalization of a PRAC model, be it grounded or abstract, we require a format that can serialize the instance or generate the PRAC model template.
 We therefore need a statement that comprises all generative information, namely all roles involved in the action and the data that can create the MLN templates.  
