@@ -367,9 +367,7 @@ An example of the semantic information that is then retrievable:
 causes the happening denoted by the verb in the clause)}
 \end{alltt}}
 
-\paragraph{template generation} will create, given the above generating sentence, an initial set of action roles and MLN formula templates.
-An example of the target format for the action verb 'Flipping': 
-  
+\paragraph{template generation} will create, given the above generating sentence, an initial set of action roles and MLN formula templates.  
 The action roles correspond to the nouns of the generating sentence, 
 and their type of syntactic relationship defines the variant MLN 
 templates that evaluate the probability of all possible syntactic 
@@ -378,7 +376,7 @@ information such as descriptions can be retrieved via preexisting
 webservices.
 
 \section{Results, Discussions and Conclusions}
-This paper brings attention to possible uses of Controlled Natural Languages in the artificial cognition domain. While already proven as powerful means of representation and reasoning for the semantic web\cite{kuhnkaljurandsemantic}, our claim is that novel uses are possible for robotic assistants, specifically as human-to-robot interface.
+This paper brings attention to possible uses of Controlled Natural Languages in the artificial cognition domain. While already proven as powerful means of representation and reasoning for the semantic web\cite{kaljurand:phd}, our claim is that novel uses are possible for robotic assistants, specifically as human-to-robot interface.
 We have proved via practical implementations that CNL can be exploited as means of language generation and presented current work in progress in relation to full action-oriented cognitive formalization.
 
 However, even if it is a facilitated mean of knowledge engineering, CNL construction is not always straightforward\cite{Schwitter05alayered}. Infact, the DRS construction of the disambiguation cases had to account for the ACE construction rules (that can present expressiveness limitations) and the asymmetry of what is accepted as correct ACE statement and what can be verbalized (e.g. modals). Being the system purely a DRS and PRAC based syntactical manipulator, the verbalizer is constrained by the current implemented features of these and presents similar limitations. This is visible since the system outputs are readable but not perfectly natural-like sentences, and on the other hand we have scalability issues given by improper object probability inference.
