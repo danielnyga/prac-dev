@@ -53,11 +53,7 @@ $^2$Institute for Artificial Intelligence \& TZI\footnote{The Center for Computi
 \maketitle              % typeset the title of the contribution
 \begin{abstract}
 
-%In this paper we discuss the problem of action-specific knowledge processing, representation and acquisition
-%by autonomous robots performing everyday activities.
 In this paper we discuss, within the context of artificial assistants performing everyday activities, a resolution method to disambiguate missing or not satisfactorily inferred action-specific information via explicit clarification.
-%Within the context of artificial assistants in Information related to the latter is often incomplete, requires 
-%disambiguation and inference. However, this can still be insufficient and require explicit clarification. 
 While arguing the lack of preexisting human-robot interaction means, 
 we introduce novel uses of Controlled Natural Languages (CNL)
 as means of linguistic human-robot interaction and action-oriented representation formalization.\\
@@ -103,7 +99,7 @@ natural-language instructions from the web are very often severly
 incomplete and present knowledge understatement, since many missing 
 key pieces of information are generally considered common sense to 
 the human, and hence explicit statements of these kinds of 
-self-evident yet necessary information are rendered obsolete. As an 
+self-evident yet necessary information are rendered inefficient. As an 
 example, consider a natural-language instruction ``Flip the 
 pancake,'' which might be taken from a recipe for making pancakes. 
 In order to perform the action successfully, a robot needs to decide 
@@ -111,9 +107,9 @@ which utensil to use (e.g. a spatula), where to hold it (e.g. at its
 handle) and what part of it to put underneath the pancake (e.g. the 
 blade), to name only a few.
 
-Current research in cognitive robotics aims at building up action 
-verb-specific knowledge bases that fill this gaps of knowledge and 
-enable a robot to infer the information which is \textit{needed} in 
+Current research in cognitive robotics aims at building action 
+verb-specific knowledge bases that fill these knowledge gaps and 
+enables a robot to infer the information which is \textit{needed} in 
 order to perform a particular activity, based on what is \textit 
 {given} in a naturalistic action specification. However, such 
 inference might incur in limitations and require the robot to fall 
@@ -126,27 +122,24 @@ further information. Figure \ref{fig:application} illustrates such a
 situation. Taxonomical and compositional relationships, object role 
 understanding, are only some of the missing elements that could 
 potentially require clarification. 
-
-
 \begin{figure}[H]
 %\includegraphics[width=.9\columnwidth]{introduction.eps}
 \includegraphics[scale=0.51, trim = 0mm 0mm 0mm 8mm]{introduction.eps}
 \caption{Representation of a disambiguation interaction}
 \label{fig:application}
 \end{figure} 
-
 In this work, we present a novel approach for identifying and 
 verbalizing such lacks of information in a knowledge base in order to enable
-a robot to acitively enhance its knowledge about actions and objects
-by stepping into dialog with humans. 
-\newpage
+a robot to actively enhance its knowledge about actions and objects
+by stepping into dialog with humans.
 The contributions of this paper
 are the following:
 \begin{enumerate}
-    \item use of CNL as means of language generation (i.e. verbalization of doubt statements and questions)
-    \item use of CNL as means of action-oriented knowledge formalization
+    \item CNL as means of language generation (i.e. verbalization of doubts)
+    \item CNL as means of action-oriented knowledge formalization
 \end{enumerate}
-The remainder of this paper is organized as follows: description of the adopted technologies (i.e. PRAC, ACE, DRS), 
+The remainder of this paper is organized as follows: 
+description of the adopted technologies (\textit{PRAC, ACE, DRS}), explanation of how the claims are related to the state of the art (\textit{Related work}), explanation of the language generation module (\textit{CNL for task querying}), and last but not least an ending summary comprising a description of the current limitations. 
 
 \section{Probabilistic Robot Action Cores}
 
