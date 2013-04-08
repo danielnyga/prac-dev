@@ -95,12 +95,13 @@ executable robot plans~\cite{tenorth10webinstructions}. However, as
 these recipes are presented in natural language, severe ambiguity, 
 vagueness and underspecification have been identified as major 
 challenges in doing so. From a robotic assistant's standpoint, 
-natural-language instructions from the web are very often severly 
+natural-language instructions from the web are therefore severly 
 incomplete and present knowledge understatement, since many missing 
 key pieces of information are generally considered common sense to 
-the human, and hence explicit statements of these kinds of 
-self-evident yet necessary information are rendered inefficient. As an 
-example, consider a natural-language instruction ``Flip the 
+the human, making these unadoperable.
+%and hence explicit statements of these kinds of 
+%self-evident yet necessary information are rendered inefficient. 
+As an example, consider a natural-language instruction ``Flip the 
 pancake,'' which might be taken from a recipe for making pancakes. 
 In order to perform the action successfully, a robot needs to decide 
 which utensil to use (e.g. a spatula), where to hold it (e.g. at its 
@@ -116,8 +117,8 @@ inference might incur in limitations and require the robot to fall
 back on human assistance. As an example, consider a situation where 
 the robot is asked to flip a pancake, but the knowledge base does 
 not contain sufficient information about what instrument to be used 
-(e.g. it has no strong preference for a spatula over barbeque 
-tongs). In such a case, the robot is to explicitly ask a human for 
+(e.g. it has no strong preference for a spatula over barbecue 
+tongs). In such a case, the robot has to explicitly ask a human for 
 further information. Figure \ref{fig:application} illustrates such a 
 situation. Taxonomical and compositional relationships, object role 
 understanding, are only some of the missing elements that could 
@@ -139,7 +140,7 @@ are the following:
     \item CNL as means of action-oriented knowledge formalization
 \end{enumerate}
 The remainder of this paper is organized as follows: 
-description of the adopted technologies (\textit{PRAC, ACE, DRS}), explanation of how the claims are related to the state of the art (\textit{Related work}), explanation of the language generation module (\textit{CNL for task querying}), and last but not least an ending summary comprising a description of the current limitations. 
+description of the adopted technologies (\textit{PRAC, ACE, DRS}), explanation of how the claims are related to the state of the art (\textit{Related work}), explanation of the language generation module (\textit{CNL for task querying}), an explanation of the current work in progress towards full action formalization, and last but not least an ending summary comprising results, current limitations and future perspectives. 
 
 \section{Probabilistic Robot Action Cores}
 
@@ -340,7 +341,7 @@ The action roles correspond to the nouns of the generating sentence, and their t
 This paper brings attention to possible uses of Controlled Natural Languages in the artificial cognition domain. While already proven as powerful means of representation and reasoning for the semantic web\cite{kuhnkaljurandsemantic}, our claim is that novel uses are possible for robotic assistants, specifically as human-to-robot interface.
 We have proved via practical implementations that CNL can be exploited as means of language generation and presented current work in progress in relation to full action-oriented cognitive formalization.
 
-However, even if it is a facilitated mean of knowledge engineering, CNL construction is not always straightforward\cite{Schwitter05alayered}. Infact, the DRS construction of the disambiguation cases had to account for the ACE construction rules (that can present expressiveness limitations) and the asymmetry of what is accepted as correct ACE statement and what can be verbalized (e.g. modals). Being the system purely a DRS\cite{drslatest} and PRAC based syntactical manipulator, the verbalizer is constrained by the current implemented features of these and presents similar limitations. This is visible since the system outputs are readable but not perfectly natural-like sentences, and on the other hand we have scalability issues given by improper object probability inference.
+However, even if it is a facilitated mean of knowledge engineering, CNL construction is not always straightforward\cite{Schwitter05alayered}. Infact, the DRS construction of the disambiguation cases had to account for the ACE construction rules (that can present expressiveness limitations) and the asymmetry of what is accepted as correct ACE statement and what can be verbalized (e.g. modals). Being the system purely a DRS and PRAC based syntactical manipulator, the verbalizer is constrained by the current implemented features of these and presents similar limitations. This is visible since the system outputs are readable but not perfectly natural-like sentences, and on the other hand we have scalability issues given by improper object probability inference.
 %The practical implementation of a PRAC model template generator will provide insights regarding representation limitations, for now discussed only theoretically. 
 With the expansion of the expressiveness set of ACE and DRS, future work will aim towards how to make use of such abstractions in order to provide robotic assistants with further means of expression.
 Further research will also be dedicated to the interaction dialogue itself and to \textit{learning via human-robot verbal interaction}, made possible via template generation and further knowledge manipulation, thanks to the common ground of Controlled Natural Languages.
