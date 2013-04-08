@@ -192,7 +192,12 @@ ACE provides many language constructs such as countable nouns (e.g. 'man', 'wate
 generalized quantifiers (‘at least 2’); indefinite pronouns (‘somebody’); intransitive, transitive and ditransitive verbs (‘sleep’, ‘like’, ‘give’); negation, conjunction and disjunction of noun phrases, verb phrases, relative clauses and sentences; and anaphoric references to noun phrases through definite noun phrases, pronouns, and variables.
 
 These sentences have a two-way relationship with Discourse Representation Structures (DRS), a format to encode information of multiple sentences, preserving anaphoric cross-references (i.e. \textit{discourse referents})\cite{kamp1993discourse}.
-Recently it has been exploited for uses such as Semantic Web Ontologies\cite{decoi2009rewerse}, Multilingual semantic wikis\cite{kuhnkaljurandsemantic}, while this paper focuses on the contributions of ACE in the artificial cognition domain.
+%TODO adding examples of DRS, and explaining in practice
+
+\section{Related work}
+Recently ACE has been exploited for uses such as Semantic Web Ontologies\cite{decoi2009rewerse}, Multilingual semantic wikis\cite{kuhnkaljurandsemantic}, while this paper focuses on the contributions of ACE in the artificial cognition domain.
+According to what is known to the authors to date, the verbalization functionality itself\cite{kaljurand:phd} has been used uniquely for verbalizing existing Semantic Web content, specifically OWL ontologies.
+While using the same means (i.e. the DRS verbalizer, an intermediate phase of the OWL verbalizer) we exploit the system for verbalizing questions and doubt statements, as an attempt to verbalize a probabilistic knowledge formalism.
 
 \section{CNL for task querying}
 The PRAC system caters for inference of missing action roles. Unfortunately, this operation can be partially satisfactory and might require explicit verbal clarification, in order to avoid that partially inferred information is translated into action planning.
