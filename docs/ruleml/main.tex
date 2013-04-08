@@ -34,7 +34,7 @@
 %
 \pagestyle{headings}  % switches on printing of running heads
 \addtocmark{Controlled languages for artificial cognition} % additional mark in the TOC
-\title{Novel uses of Controlled Natural Languages in\\ artificial cognition: formalization and language\\ generation}
+\title{Controlled Natural Languages in\\ Artificial Cognition: Uncertainty Verbalization\\and Language Generation}
 %
 \titlerunning{Controlled languages in artificial cognition}  % abbreviated title (for running head)
 %                                     also used for the TOC unless
@@ -48,7 +48,7 @@
 %
 \institute{$^1$Intelligent Autonomous Systems, Technische Universität München, Germany\\
 $^2$Institute for Artificial Intelligence \& TZI\footnote{The Center for Computing Technologies (TZI)}, University of Bremen, Germany
-\email{nicholas.kirk@tum.de}\\\email{nyga@cs.tum.edu}\\\email{beetz@cs.uni-bremen.de}
+\email{nicholas.kirk@tum.de}, \email{nyga@cs.tum.edu}, \email{beetz@cs.uni-bremen.de}
 }
 \maketitle              % typeset the title of the contribution
 \begin{abstract}
@@ -64,37 +64,127 @@ as means of linguistic human-robot interaction and action-oriented representatio
 We additionally provide implemented working scenarios, 
 state future possibilities and problems related to formalization of technical cognition.
 
-\keywords{language generation, action formalization, controlled natural language, intelligent autonomous systems, probabilistic robot action cores, discourse representation structures, attempto controlled english}
-\end{abstract}
+\keywords{language generation, action formalization, controlled 
+natural language, intelligent autonomous systems, probabilistic 
+robot action cores, discourse representation structures, attempto 
+controlled english} \end{abstract}
 
-\section{Introduction}
-In everyday routine activities artificial assistants will have to perform a variety of tasks not necessarily in an efficient manner, but in an appropriate way. This requires context awareness and flexibility in planning when operating in real settings with partially available data (i.e. making use of an open world assumption). Not having such operational knowledge beforehand, adaptation of prexisting skills and information is necessary.
+\section{Introduction} 
 
-For some domains such as daily tasks (e.g. cooking, folding) step-by-step plans are available online via 
-web pages such as \textit{wikihow.com}. Being these presented in natural language, the current challenge is to make sure artificial assistants interpret correctly such information and translate it into concrete action plans.
+In everyday routine activities, robotic assistants and co-workers 
+will have to perform a variety of tasks for which they cannot be 
+pre-programmed because they are not known at production time. 
+Research in the field of cognitive robotics rather envisions service 
+robots that autonomously acquire new skills and adapt existing ones 
+to new tasks and environments. They must decide on \textit{how} to 
+perform a particular activity at runtime, which requires to infer 
+the \textit{appropriate} actions to be executed on the \textit 
+{appropriate} objects in an \textit{appropriate} way. They have to 
+perform what is commonly referred to as \textit{everyday activity}, 
+which has been shown being a very knowledge-intensive task~\cite 
+{anderson95phd, nyga12actioncore}. It requires context awareness and 
+flexibility in action parameterization when operating in real world 
+settings with partially available data, which referred to as the ``open 
+world challenge.'' 
 
-\paragraph{problem statement} from a robotic assistant's standpoint web instructions are often severly incomplete and present knowledge understatement, since many missing key pieces of information are generally considered common sense to the human. Current research in cognitive robotics aims at building verb-specific knowledge bases that enables a robot to infer the information which is needed in order to perform a particular activity, based on what is given in a naturalistic action specification.  
-However such inference might incur in limitations and require the robot to explicitly ask whom assigns the tasks for further information. Taxonomical and compositional relationships, object role understanding, are only some of missing elements that could potentially require clarification. An example would be when a task such as "flip the pancake" is given, and the assistant cannot infer with sufficient certainty which object should be used as instrument.
+Recent research in the field of cognitive robotics aims at making 
+knowledge sources available for robots, which have been created by 
+humans and are intended for human use. For some domains such as 
+daily household tasks (e.g. cooking or cleaning up), step-by-step 
+plans and recipes from web pages like \textit {ehow.com} and \textit 
+{wikihow.com} have been successfully used for feeding such common 
+sense knowledge about actions and objects into knowledge bases of 
+mobile robotic platforms and for transforming such recipes into 
+executable robot plans~\cite{tenorth10webinstructions}. However, as 
+these recipes are presented in natural language, severe ambiguity, 
+vagueness and underspecification have been identified as major 
+challenges in doing so. From a robotic assistant's standpoint, 
+natural-language instructions from the web are very often severly 
+incomplete and present knowledge understatement, since many missing 
+key pieces of information are generally considered common sense to 
+the human, and hence explicit statements of these kinds of 
+self-evident yet necessary information are rendered obsolete. As an 
+example, consider a natural-language instruction ``Flip the 
+pancake,'' which might be taken from a recipe for making pancakes. 
+In order to perform the action successfully, a robot needs to decide 
+which utensil to use (e.g. a spatula), where to hold it (e.g. at its 
+handle) and what part of it to put underneath the pancake (e.g. the 
+blade), to name only a few.
 
-\begin{figure}[H]
-\includegraphics[scale=0.51, trim= 0mm 0mm 0mm 10mm]{introduction.eps}
+\begin{figure}[tbp]
+\includegraphics[width=.9\columnwidth]{introduction.eps}
 \caption{Representation of a disambiguation interaction}
+\label{fig:application}
 \end{figure} 
 
-\section{Adopted Technologies}
-\subsection{Probabilistic Robot Action Cores (PRAC)}
-%\begin{figure}[H]
-%\includegraphics[scale=0.5, trim= 7mm 0mm 0mm 0mm]{SemanticCoreGraph.png}
-%\caption{Graphical representation of a PRAC instance}
-%\end{figure} 
-Nyga et al.\cite{nyga12actioncore} introduced the concept of Probabilistic Robot Action Cores (PRAC), which represent
-the sets of inter- and intraconceptual relations that constitute an abstract
-event type, assigning an action role to each entity that is affected by the respective action verb. 
+Current research in cognitive robotics aims at building up action 
+verb-specific knowledge bases that fill this gaps of knowledge and 
+enable a robot to infer the information which is \textit{needed} in 
+order to perform a particular activity, based on what is \textit 
+{given} in a naturalistic action specification. However, such 
+inference might incur in limitations and require the robot to fall 
+back on human assistance. As an example, consider a situation where 
+the robot is asked to flip a pancake, but the knowledge base does 
+not contain sufficient information about what instrument to be used 
+(e.g. it has no strong preference for a spatula over barbeque 
+tongs). In such a case, the robot is to explicitly ask a human for 
+further information. Figure \ref{fig:application} illustrates such a 
+situation. Taxonomical and compositional relationships, object role 
+understanding, are only some of the missing elements that could 
+potentially require clarification. 
 
-As opposed to most approaches towards understanding natural-language instructions, which merely seek to understand what is given by an instruction, the PRAC concept is also able to infer what is missing. It combines action-specific and ontological world knowledge in a joint probabilistic first-order representation, which allows to automatically find generalizations from concrete event occurrences at an appropriate level of abstraction. 
-Specifically, PRAC models are represented as a set of action roles (objects involved in the action with a specific role) and Markov Logic Networks (MLN), a knowledge representation formalism that combines first-order logic and probability theory\cite{DBLP:journals/ml/RichardsonD06}.
+In this work, we present a novel approach for identifying and 
+verbalizing such lacks of information in a knowledge base in order to enable
+a robot to acitively enhance its knowledge about actions and objects
+by stepping into dialog with humans. The contributions of this paper
+are the following:
+\begin{enumerate}
+    \item ...
+\end{enumerate}
+The remainder of this paper is organized as follows: ...
 
-\subsection{Attempto Controlled English (ACE)}
+
+\section{Probabilistic Robot Action Cores}
+
+Nyga \emph{et al.}~\cite{nyga12actioncore} introduced the concept of 
+\emph{Probabilistic Robot Action Cores} (PRAC), which can be thought of abstract,
+generic event patterns representing sets of 
+inter- and intraconceptual relations that constitute an abstract 
+event type, assigning an action role to each entity that is affected 
+by the respective action verb. Formally, a PRAC is defined as a conditional
+probability distribution
+$P\left(\mathcal{R}\times\mathcal{A}\times\mathcal{C}\,|\,\sqsubseteq
+,\, \preceq \right)\nonumber$, where 
+
+\begin{center} \begin{tabular}{ll}
+    $\mathcal{R}$  & is the set of all action roles\\
+    $\mathcal{A}$  & is the set of all action verbs\\
+    $\mathcal{C}$  & is the set of all class concepts\\
+    %$P$ &  \text{is a probability distribution}\\
+	%&  \text{over all role assignments of an action}\\
+    %$\pi$ &  $\pi:\mathcal{A}\rightarrow 2^{\mathcal{R}}$ \text{ is a function that selects}\\
+    %& \text{the needed roles given an action}\\
+    $\sqsubseteq$ & is a taxonomy relation over $\mathcal{C}$\\
+    $\preceq$	& is a mereological relation over $\mathcal{C}$.
+\end{tabular}
+\end{center}
+As opposed to most approaches towards understanding natural-language 
+instructions, which merely seek to understand what is given by an 
+instruction, the PRAC concept is also able to infer what is missing. 
+It combines action-specific and ontological world knowledge in a 
+joint probabilistic first-order representation, which allows to 
+automatically find generalizations from concrete event occurrences 
+at an appropriate level of abstraction. Specifically, PRAC models 
+are represented as a set of action roles (objects involved in the 
+action with a specific role) and Markov Logic Networks (MLN), a 
+knowledge representation formalism that combines first-order logic 
+and probability theory\cite{DBLP:journals/ml/RichardsonD06}. In this
+work, we use the definitions of Action Roles in order to identify and
+verbalize insufficient information about action parameterization. For a 
+detailed discussion of PRAC models, we refer to \cite{nyga12actioncore}.
+
+\section{Attempto Controlled English \& Discourse Representation Structures}
+
 Fuchs et al.\cite{fuchs:flairs2006} presented Attempto Controlled English (ACE), a general purpose Controlled Natural Language, i.e. a subset of standard English with a restricted syntax and restricted semantics described by a small set of construction and interpretation rules.
 Being this a formal subset of the English language, it is intelligible as a natural language, can be paraphrased and proved by automatic theorem proving software, and furthermore can be translated into First Order Logic or OWL ontology representations.
 
@@ -261,7 +351,7 @@ Further research will also be dedicated to the interaction dialogue itself and t
 % ---- Bibliography ----
 %
 \bibliography{bibform}{}
-\bibliographystyle{plain}
+\bibliographystyle{unsrt}
 %\clearpage
 %\addtocmark[2]{Author Index} % additional numbered TOC entry
 %\renewcommand{\indexname}{Author Index}
