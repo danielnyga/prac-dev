@@ -81,11 +81,11 @@ perform a particular activity at runtime, which requires to infer
 the \textit{appropriate} actions to be executed on the \textit 
 {appropriate} objects in an \textit{appropriate} way. They have to 
 perform what is commonly referred to as \textit{everyday activity}, 
-which has been shown being a very knowledge-intensive task~\cite 
+which has been proven to be a very knowledge-intensive task~\cite 
 {anderson95phd, nyga12actioncore}. It requires context awareness and 
 flexibility in action parameterization when operating in real world 
-settings with partially available data, which referred to as the ``open 
-world challenge.'' 
+settings with partially available data, which is referred to as the 
+``open world challenge.'' 
 
 Recent research in the field of cognitive robotics aims at making 
 knowledge sources available for robots, which have been created by 
@@ -111,12 +111,6 @@ which utensil to use (e.g. a spatula), where to hold it (e.g. at its
 handle) and what part of it to put underneath the pancake (e.g. the 
 blade), to name only a few.
 
-\begin{figure}[tbp]
-\includegraphics[width=.9\columnwidth]{introduction.eps}
-\caption{Representation of a disambiguation interaction}
-\label{fig:application}
-\end{figure} 
-
 Current research in cognitive robotics aims at building up action 
 verb-specific knowledge bases that fill this gaps of knowledge and 
 enable a robot to infer the information which is \textit{needed} in 
@@ -133,21 +127,31 @@ situation. Taxonomical and compositional relationships, object role
 understanding, are only some of the missing elements that could 
 potentially require clarification. 
 
+
+\begin{figure}[H]
+%\includegraphics[width=.9\columnwidth]{introduction.eps}
+\includegraphics[scale=0.51, trim = 0mm 0mm 0mm 8mm]{introduction.eps}
+\caption{Representation of a disambiguation interaction}
+\label{fig:application}
+\end{figure} 
+
 In this work, we present a novel approach for identifying and 
 verbalizing such lacks of information in a knowledge base in order to enable
 a robot to acitively enhance its knowledge about actions and objects
-by stepping into dialog with humans. The contributions of this paper
+by stepping into dialog with humans. 
+\newpage
+The contributions of this paper
 are the following:
 \begin{enumerate}
-    \item ...
+    \item use of CNL as means of language generation (i.e. verbalization of doubt statements and questions)
+    \item use of CNL as means of action-oriented knowledge formalization
 \end{enumerate}
-The remainder of this paper is organized as follows: ...
-
+The remainder of this paper is organized as follows: description of the adopted technologies (i.e. PRAC, ACE, DRS), 
 
 \section{Probabilistic Robot Action Cores}
 
 Nyga \emph{et al.}~\cite{nyga12actioncore} introduced the concept of 
-\emph{Probabilistic Robot Action Cores} (PRAC), which can be thought of abstract,
+\emph{Probabilistic Robot Action Cores} (PRAC), which can be thought as abstract,
 generic event patterns representing sets of 
 inter- and intraconceptual relations that constitute an abstract 
 event type, assigning an action role to each entity that is affected 
@@ -178,26 +182,31 @@ at an appropriate level of abstraction. Specifically, PRAC models
 are represented as a set of action roles (objects involved in the 
 action with a specific role) and Markov Logic Networks (MLN), a 
 knowledge representation formalism that combines first-order logic 
-and probability theory\cite{DBLP:journals/ml/RichardsonD06}. In this
+and probability theory~\cite{DBLP:journals/ml/RichardsonD06}. In this
 work, we use the definitions of Action Roles in order to identify and
 verbalize insufficient information about action parameterization. For a 
 detailed discussion of PRAC models, we refer to \cite{nyga12actioncore}.
 
 \section{Attempto Controlled English \& Discourse Representation Structures}
 
-Fuchs et al.\cite{fuchs:flairs2006} presented Attempto Controlled English (ACE), a general purpose Controlled Natural Language, i.e. a subset of standard English with a restricted syntax and restricted semantics described by a small set of construction and interpretation rules.
+Fuchs \textit{et al.}~\cite{fuchs:flairs2006} presented Attempto Controlled English (ACE), a general purpose Controlled Natural Language, i.e. a subset of standard English with a restricted syntax and restricted semantics described by a small set of construction and interpretation rules.
 Being this a formal subset of the English language, it is intelligible as a natural language, can be paraphrased and proved by automatic theorem proving software, and furthermore can be translated into First Order Logic or OWL ontology representations.
 
 ACE provides many language constructs such as countable nouns (e.g. 'man', 'water'), proper names ('John'); 
 generalized quantifiers (‘at least 2’); indefinite pronouns (‘somebody’); intransitive, transitive and ditransitive verbs (‘sleep’, ‘like’, ‘give’); negation, conjunction and disjunction of noun phrases, verb phrases, relative clauses and sentences; and anaphoric references to noun phrases through definite noun phrases, pronouns, and variables.
+An example: \begin{alltt}{\color{red} ACE:} "A robot who does not understand asks a human that knows."\end{alltt}
 
-These sentences have a two-way relationship with Discourse Representation Structures (DRS), a format to encode information of multiple sentences, preserving anaphoric cross-references (i.e. \textit{discourse referents})\cite{kamp1993discourse}.
-%TODO adding examples of DRS, and explaining in practice
+These sentences have a two-way relationship with Discourse Representation Structures (DRS), a format to encode information of multiple sentences, preserving anaphoric cross-references (i.e. \textit{discourse referents})~\cite{kamp1993discourse}.\\
+A concrete example would be the following sentence-DRS couple: 
+\begin{verbatim}
+sentence: "A robot flips a pancake."
+DRS: [x,y: robot(x), pancake(y), flips(x,y)]
+\end{verbatim}
 
 \section{Related work}
-Recently ACE has been exploited for uses such as Semantic Web Ontologies\cite{decoi2009rewerse}, Multilingual semantic wikis\cite{kuhnkaljurandsemantic}, while this paper focuses on the contributions of ACE in the artificial cognition domain.
-According to what is known to the authors to date, the verbalization functionality itself\cite{kaljurand:phd} has been used uniquely for verbalizing existing Semantic Web content, specifically OWL ontologies.
-While using the same means (i.e. the DRS verbalizer, an intermediate phase of the OWL verbalizer) we exploit the system for verbalizing questions and doubt statements, as an attempt to verbalize a probabilistic knowledge formalism.
+Recently ACE has been exploited for uses such as Semantic Web Ontologies~\cite{decoi2009rewerse}, Multilingual semantic wikis~\cite{kuhnkaljurandsemantic}, while this paper focuses on the contributions of ACE in the artificial cognition domain.
+According to what is known to the authors to date, the verbalization functionality itself~\cite{kaljurand:phd} has been used uniquely for verbalizing existing Semantic Web content, specifically OWL ontologies.
+While using the same means (i.e. the DRS verbalizer, an intermediate phase of the OWL verbalizer) we exploit the system for verbalizing questions and doubt statements, as an attempt to verbalize a probabilistic knowledge formalism, and as the formalization per se of action-oriented knowledge in the everyday context we described.
 
 \section{CNL for task querying}
 The PRAC system caters for inference of missing action roles. Unfortunately, this operation can be partially satisfactory and might require explicit verbal clarification, in order to avoid that partially inferred information is translated into action planning.
@@ -226,9 +235,7 @@ defining a likely candidate (all probability assignments are below a threshold) 
 the optimal candidate is not available in context.  
 
 \paragraph{sentence construction} is operated to provide a grammar structure and contextual information for the disambiguation case and is performed via pre-defined DRS template instantiation. 
-%These templates define a discourse abstraction of the disambiguation cases, providing also other words as contextual information.
 \begin{alltt}
-
 {\large \textsc{two-choices}}:
     \textbf{query_case}: doubt between two plausible objects
     \textbf{template}: There is a X1, there is a X2.
@@ -250,42 +257,34 @@ For the example above:
 This provides an understanding of all the relationships between the entities involved in the action (i.e. syntactic relationships).
 This will be of use since all DRS templates will then refer to this possible syntactic formulation. The relationships from the latter are obtained by processing it with the Stanford Parser\cite{mcdm08b}, a typed syntactic parser.
 Unknown syntactic types related to the missing roles are taken from the instantiated version of such sentence, that comprises the known roles so far, and queried.
-The querying procedure is identical to the one above, via the use of similar templates:
-
-\begin{alltt}
-{\large \textsc{instrumental}}:
-
-        \textbf{query_case}: preposition of instrument
-        \textbf{template}: What X1 the X2?
-        \textbf{drs}: drs([],[question(drs([A,B,C],[query(A,what)-1/1,
-        object(C,X2,countable,na,eq,1)-1/4,
-        predicate(B,X1,A,C)-1/2]))])
-        \textbf{dependencies}: NSUBJ-left, NSUBJ-right; X1, X2
-\end{alltt}
-
-%The system has proved scalability given also the aggregation capability of DRS.
+The querying procedure is identical to the one above, via the use of similar templates.
 
 %\begin{alltt}
-%Question case evaluation
-%========================
+%{\large \textsc{instrumental}}:
 
-%To be asked:
-%  - Ask for missing role \textbf{"Instrument"}, case \textbf{"two-choices"},
-%  - Ask for missing role \textbf{"Instrument"}, case \textbf{"nsubj"}  
-%\textbf{\color{red}
-%Verbalization: 
-%[[There is a spatula.],[There is a n:tongs.]]
-%[[What v:flips a pancake?]]
-%}
+%        \textbf{query_case}: preposition of instrument
+%        \textbf{template}: What X1 the X2?
+%        \textbf{drs}: drs([],[question(drs([A,B,C],[query(A,what)-1/1,
+%        object(C,X2,countable,na,eq,1)-1/4,
+%        predicate(B,X1,A,C)-1/2]))])
+%        \textbf{dependencies}: NSUBJ-left, NSUBJ-right; X1, X2
 %\end{alltt}
+
+%The system has proved scalability given also the aggregation capability of DRS.
 
 \paragraph{reply integration} is handled by \textit{PRACInference}, a module that processes the incoming sentence and assigns action roles. We will then substitute only the newly identified action roles that were previously missing in the main PRAC instance.
 
 By combining the disambiguation doubt and query verbalization we obtain:
-  \begin{figure}[H]
-\includegraphics[scale=0.51, trim= 0mm 0mm 0mm 10mm]{results.eps}
-\caption{Graphical representation of the disambiguation procedure and interaction}
-\end{figure}
+\begin{alltt}
+To be asked:
+  - Ask for missing role \textbf{"Instrument"}, case \textbf{"two-choices"},
+  - Ask for missing role \textbf{"Instrument"}, case \textbf{"nsubj"}  
+\textbf{\color{red}
+Verbalization: 
+ACE: [[There is a spatula.],[There is a n:tongs.]]
+ACE: [[What v:flips a pancake?]]
+}
+\end{alltt}
 \section{CNL for action formalization}
 For the formalization of a PRAC model, be it grounded or abstract, we require a format that can serialize the instance or generate the PRAC model template.
 We therefore need a statement that comprises all generative information, namely all roles involved in the action and the data that can create the MLN templates.  
