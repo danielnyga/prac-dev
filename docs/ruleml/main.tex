@@ -87,16 +87,14 @@ Recent research in the field of cognitive robotics aims at making
 knowledge sources available for robots, which have been created by 
 humans and are intended for human use. For some domains such as 
 daily household tasks (e.g. cooking or cleaning up), step-by-step 
-plans and recipes from web pages like \textit {ehow.com} and \textit 
+plans and recipes from web pages like \textit 
 {wikihow.com} have been successfully used for feeding such common 
 sense knowledge about actions and objects into knowledge bases of 
 mobile robotic platforms and for transforming such recipes into 
 executable robot plans~\cite{tenorth10webinstructions}. However, as 
 these recipes are presented in natural language, severe ambiguity, 
 vagueness and underspecification have been identified as major 
-challenges in doing so. From a robotic assistant's standpoint, 
-natural-language instructions from the web are therefore severly 
-incomplete and present knowledge understatement, since many missing 
+challenges in doing so, since many missing 
 key pieces of information are generally considered common sense to 
 \begin{figure}[t]
 %\includegraphics[width=.9\columnwidth]{introduction.eps}
@@ -109,7 +107,7 @@ the human, making these unadoperable.
 %and hence explicit statements of these kinds of 
 %self-evident yet necessary information are rendered inefficient. 
 As an example, consider a natural-language instruction ``Flip the 
-pancake,'' which might be taken from a recipe for making pancakes. 
+pancake,'' taken from a recipe for making pancakes. 
 In order to perform the action successfully, a robot needs to decide 
 which utensil to use (e.g. a spatula), where to hold it (e.g. at its 
 handle) and what part of it to put underneath the pancake (e.g. the 
@@ -134,8 +132,7 @@ In this work, we present a novel approach for identifying and
 verbalizing such lacks of information in a knowledge base in order to enable
 a robot to actively enhance its knowledge about actions and objects
 by stepping into dialog with humans.
-The contributions of this paper
-are the following:
+The contributions of this paper are the following:
 \begin{enumerate}
     \item CNL as means of language generation (i.e. verbalization of doubts)
     \item CNL as means of action-oriented knowledge formalization
@@ -154,7 +151,7 @@ by the respective action verb. Formally, a PRAC is defined as a conditional
 probability distribution
 $P\left(\mathcal{R}\times\mathcal{A}\times\mathcal{C}\,|\,\sqsubseteq
 ,\, \preceq \right)\nonumber$, where 
-
+{\small
 \begin{center} \begin{tabular}{ll}
     $\mathcal{R}$  & is the set of all action roles\\
     $\mathcal{A}$  & is the set of all action verbs\\
@@ -166,7 +163,7 @@ $P\left(\mathcal{R}\times\mathcal{A}\times\mathcal{C}\,|\,\sqsubseteq
     $\sqsubseteq$ & is a taxonomy relation over $\mathcal{C}$\\
     $\preceq$	& is a mereological relation over $\mathcal{C}$.
 \end{tabular}
-\end{center}
+\end{center}}
 As opposed to most approaches towards understanding natural-language 
 instructions, which merely seek to understand what is given by an 
 instruction, the PRAC concept is also able to infer what is missing. 
@@ -243,10 +240,10 @@ as an attempt to verbalize a probabilistic knowledge formalism, and
 as the formalization per se of action-oriented knowledge in the 
 everyday context we described.
 
-\section{CNL for task querying}
+\section{CNL for Task Querying}
 The PRAC system caters for inference of missing action roles. Unfortunately, this operation can be partially satisfactory and might require explicit verbal clarification, in order to avoid that partially inferred information is translated into action planning.
 We identify the following interaction:
-{\large
+{\small
 \begin{alltt}
 \textbf{\color{Red}Human to Robot} : Tasking Instruction            (in NL)
 \textbf{\color{Blue}Robot to Human} : Ambiguity Resolution Question (in CNL)
@@ -314,6 +311,12 @@ to the missing roles are taken from the instantiated version of such
 sentence, that comprises the known roles so far, and queried. The 
 querying procedure is identical to the one above, via the use of 
 similar templates.
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.9\columnwidth]{results.pdf}
+\caption{Representation of a disambiguation interaction}
+\label{fig:pipeline}
+\end{figure} 
 
 %\begin{alltt}
 %{\large \textsc{instrumental}}:
@@ -328,18 +331,11 @@ similar templates.
 
 %The system has proved scalability given also the aggregation capability of DRS.
 
-\paragraph{reply integration} is handled by \textit{PRACInference}, 
+\paragraph{Reply integration} is handled by \textit{PRACInference}, 
 a module that processes the incoming sentence and assigns action 
 roles. We will then substitute only the newly identified action 
 roles that were previously missing in the main PRAC instance. The pipeline
-of reasoning is shown in Figure \ref{lfig:pipeline}.
-
-\begin{figure}[t]
-\centering
-\includegraphics[width=0.8\columnwidth]{results.pdf}
-\caption{Representation of a disambiguation interaction}
-\label{fig:pipeline}
-\end{figure} 
+of reasoning is shown in Figure \ref{fig:pipeline}.
 %\begin{alltt}
 %To be asked:
   %- Ask for missing role \textbf{"Instrument"}, case \textbf{"two-choices"},
@@ -351,7 +347,7 @@ of reasoning is shown in Figure \ref{lfig:pipeline}.
 %}
 %\end{alltt}
 
-\section{CNL for action formalization}
+\section{CNL for Action Formalization}
 For the formalization of a PRAC model, be it grounded or abstract, we require a format that can serialize the instance or generate the PRAC model template.
 We therefore need a statement that comprises all generative information, namely all roles involved in the action and the data that can create the MLN templates.  
 
@@ -367,7 +363,7 @@ An example of the semantic information that is then retrievable:
 causes the happening denoted by the verb in the clause)}
 \end{alltt}}
 
-\paragraph{template generation} will create, given the above generating sentence, an initial set of action roles and MLN formula templates.  
+\paragraph{Template generation} will create, given the above generating sentence, an initial set of action roles and MLN formula templates.  
 The action roles correspond to the nouns of the generating sentence, 
 and their type of syntactic relationship defines the variant MLN 
 templates that evaluate the probability of all possible syntactic 
