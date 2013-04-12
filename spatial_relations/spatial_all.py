@@ -1,5 +1,5 @@
-from spatial import *
-from  spatial.dbgenerator import *
+from spatialreasoning import *
+from  spatialreasoning.dbgenerator import *
 import sys
 import java
 from actioncore import PRAC
