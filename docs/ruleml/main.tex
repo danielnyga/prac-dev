@@ -73,7 +73,7 @@ pre-programmed because they are not known at production time.
 Research in the field of cognitive robotics rather envisions service 
 robots that autonomously acquire new skills and adapt existing ones 
 to new tasks and environments. They must decide on \textit{how} to 
-perform a particular activity at runtime, which requires to infer 
+perform a particular activity at runtime, which requires them to infer 
 the \textit{appropriate} actions to be executed on the \textit 
 {appropriate} objects in an \textit{appropriate} way. They have to 
 perform what is commonly referred to as \textit{everyday activity}, 
@@ -103,7 +103,7 @@ key pieces of information are generally considered common sense to
 \caption{Representation of a disambiguation interaction}
 \label{fig:application}
 \end{figure} 
-the human, making these unadoperable.
+the human, making these unserviceable.
 %and hence explicit statements of these kinds of 
 %self-evident yet necessary information are rendered inefficient. 
 As an example, consider a natural-language instruction ``Flip the 
@@ -117,10 +117,10 @@ verb-specific knowledge bases that fill these knowledge gaps and
 enables a robot to infer the information which is \textit{needed} in 
 order to perform a particular activity, based on what is \textit 
 {given} in a naturalistic action specification. However, such 
-inference might incur in limitations and require the robot to fall 
-back on human assistance. As an example, consider a situation where 
+inference might be insufficient to formulate action specification and require 
+the robot to fall back on human assistance. As an example, consider a situation where 
 the robot is asked to flip a pancake, but the knowledge base does 
-not contain sufficient information about what instrument to be used 
+not contain sufficient information about what instrument is to be used 
 (e.g. it has no strong preference for a spatula over barbecue 
 tongs). In such a case, the robot has to explicitly ask a human for 
 further information. Figure \ref{fig:application} illustrates such a 
@@ -129,7 +129,7 @@ understanding, are only some of the missing elements that could
 potentially require clarification. 
 
 In this work, we present a novel approach for identifying and 
-verbalizing such lacks of information in a knowledge base in order to enable
+verbalizing such absent information in a knowledge base in order to enable
 a robot to actively enhance its knowledge about actions and objects
 by stepping into dialog with humans.
 The contributions of this paper are the following:
@@ -138,7 +138,7 @@ The contributions of this paper are the following:
     \item CNL as means of action-oriented knowledge formalization
 \end{enumerate}
 The remainder of this paper is organized as follows: 
-description of the adopted technologies (\textit{PRAC, ACE, DRS}), explanation of how the claims are related to the state of the art (\textit{Related work}), explanation of the language generation module (\textit{CNL for task querying}), an explanation of the current work in progress towards full action formalization, and last but not least an ending summary comprising results, current limitations and future perspectives. 
+description of the adopted technologies (\textit{PRAC, ACE, DRS}), explanation of how the claims are related to the state of the art, explanation of the language generation module and of the current work in progress towards full action formalization, and last but not least an ending summary comprising results, current limitations and future perspectives. 
 
 \section{Probabilistic Robot Action Cores}
 
@@ -375,7 +375,7 @@ webservices.
 This paper brings attention to possible uses of Controlled Natural Languages in the artificial cognition domain. While already proven as powerful means of representation and reasoning for the semantic web\cite{kaljurand:phd}, our claim is that novel uses are possible for robotic assistants, specifically as human-to-robot interface.
 We have proved via practical implementations that CNL can be exploited as means of language generation and presented current work in progress in relation to full action-oriented cognitive formalization.
 
-However, even if it is a facilitated mean of knowledge engineering, CNL construction is not always straightforward\cite{Schwitter05alayered}. Infact, the DRS construction of the disambiguation cases had to account for the ACE construction rules (that can present expressiveness limitations) and the asymmetry of what is accepted as correct ACE statement and what can be verbalized (e.g. modals). Being the system purely a DRS and PRAC based syntactical manipulator, the verbalizer is constrained by the current implemented features of these and presents similar limitations. This is visible since the system outputs are readable but not perfectly natural-like sentences, and on the other hand we have scalability issues given by improper object probability inference.
+However, even if it is a facilitated mean of knowledge engineering, CNL construction is not always straightforward\cite{Schwitter05alayered}. In fact, the DRS construction of the disambiguation cases had to account for the ACE construction rules (that can present expressiveness limitations) and the asymmetry of what is accepted as correct ACE statement and what can be verbalized (e.g. modals). Being the system purely a DRS and PRAC based syntactical manipulator, the verbalizer is constrained by the current implemented features of these and presents similar limitations. This is visible since the system outputs are readable but not perfectly natural-like sentences, and on the other hand we have scalability issues given by improper object probability inference.
 %The practical implementation of a PRAC model template generator will provide insights regarding representation limitations, for now discussed only theoretically. 
 With the expansion of the expressiveness set of ACE and DRS, future work will aim towards how to make use of such abstractions in order to provide robotic assistants with further means of expression.
 Further research will also be dedicated to the interaction dialogue itself and to \textit{learning via human-robot verbal interaction}, made possible via template generation and further knowledge manipulation, thanks to the common ground of Controlled Natural Languages.
