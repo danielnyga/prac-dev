@@ -192,7 +192,7 @@ work, we use the definitions of Action Roles in order to identify and
 verbalize insufficient information about action parameterization. For a 
 detailed definition of PRAC Action Cores and Roles, we refer to \cite{nyga12actioncore}.
 As an example, consider the Action Core for the verb ``Flipping'', which
-has the following Action Role definitions:
+has the following Action Role definitions (partially adopded from \emph{FrameNet}):
 \begin{itemize}
     \item \textit{Action Core:} Flipping
     \item \textit{Definition:} An Agent causes a Theme to move with respect to a FixedLocation, 
@@ -249,10 +249,18 @@ verbalization functionality itself~\cite{kaljurand:phd} has been
 used uniquely for verbalizing existing Semantic Web content, 
 specifically OWL ontologies. While using the same means (i.e. the 
 DRS verbalizer, an intermediate phase of the OWL verbalizer) we 
-exploit the system for verbalizing questions and doubt statements, 
+exploit the system for verbalizing questions and ambiguity statements, 
 as an attempt to verbalize a probabilistic knowledge formalism, and 
 as the formalization per se of action-oriented knowledge in the 
 everyday context we described.
+
+With respect to the problem of filling in missing information about 
+actions and objects, a large amount of research has been done in 
+order to provide databases of conceptualizations of actions \cite
+{baker1998berkeley, schuler2005verbnet, kingsbury2002treebank}, 
+however, these projects do not provide computational models for 
+inference and learning, and they do not address the problem of autonomously identifying and closing
+gaps of knowledge. 
 
 \section{CNL for Task Querying}
 The PRAC system caters for inference of missing action roles. 
@@ -411,19 +419,31 @@ We have proved via practical implementations that CNL can be exploited
   in relation to full action-oriented cognitive formalization.
 
 However, even if it is an easier instrument for achieving knowledge 
-engineering, CNL construction is not always straightforward
-\cite{Schwitter05alayered}. In fact, the DRS construction of the 
+engineering, CNL construction is not always straightforward \cite
+{Schwitter05alayered}. In fact, the DRS construction of the 
 disambiguation cases had to account for the ACE construction rules 
 (that can present expressiveness limitations) and the asymmetry of 
 what is accepted as correct ACE statement and what can be verbalized 
-(e.g. modals). The verbalizer system being purely a DRS and PRAC based syntactical 
-manipulator, is constrained by the current implemented 
-features of these and presents similar limitations. This is visible since 
-the verbalization outputs are readable but not perfectly natural-like 
-sentences, and on the other hand we have scalability issues given by improper object probability inference.
-%The practical implementation of a PRAC model template generator will provide insights regarding representation limitations, for now discussed only theoretically. 
-With the expansion of the expressiveness set of ACE and DRS, future work will aim towards how to make use of such abstractions in order to provide robotic assistants with further means of expression.
-Further research will also be dedicated to the interaction dialogue itself and to \textit{learning via human-robot verbal interaction}, made possible via template generation and further knowledge manipulation, thanks to the common ground of Controlled Natural Languages.
+(e.g. modals). The verbalizer system being purely a DRS and PRAC 
+based syntactical manipulator, is constrained by the current 
+implemented features of these and presents similar limitations. This 
+is visible since the verbalization outputs are readable but not 
+perfectly natural-like sentences, and on the other hand we have 
+scalability issues given by improper object probability inference. 
+%The practical implementation of a PRAC model template generator 
+will provide insights regarding representation limitations, for now 
+discussed only theoretically. With the expansion of the 
+expressiveness set of ACE and DRS, future work will aim towards how 
+to make use of such abstractions in order to provide robotic 
+assistants with further means of expression. Further research will 
+also be dedicated to the interaction dialogue itself and to \textit
+{learning via human-robot verbal interaction}, made possible via 
+template generation and further knowledge manipulation, thanks to 
+the common ground of Controlled Natural Languages.
+
+\section{Acknowledgments}
+This work has been partially supported by the EU FP7 Projects
+\emph{RoboHow} (grant number 288533) and \emph{ACAT} (grant number 600578).
 
 % ---- Bibliography ----
 %
