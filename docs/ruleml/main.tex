@@ -75,7 +75,7 @@ controlled english} \end{abstract}
 In everyday routine activities, robotic assistants and co-workers 
 will have to perform a variety of tasks for which they cannot be 
 pre-programmed because they are not known at production time. 
-Research in the field of cognitive robotics rather envisions service 
+Research in the field of cognitive robotics envisions service 
 robots that autonomously acquire new skills and adapt existing ones 
 to new tasks and environments. They must decide on \textit{how} to 
 perform a particular activity at runtime, which requires them to infer 
@@ -151,7 +151,7 @@ explanation of the implemented language generation module and of the current wor
  an ending summary comprising results, current limitations and future perspectives is presented.
 
 \section{Probabilistic Robot Action Cores}
-%~
+
 Nyga et al.\cite{nyga12actioncore} introduced the concept of 
 \emph{Probabilistic Robot Action Cores} (PRAC), which can be thought as abstract,
 generic event patterns representing sets of 
@@ -192,7 +192,7 @@ work, we use the definitions of Action Roles in order to identify and
 verbalize insufficient information about action parameterization. For a 
 detailed definition of PRAC Action Cores and Roles, we refer to \cite{nyga12actioncore}.
 As an example, consider the Action Core for the verb ``Flipping'', which
-has the following Action Role definitions (partially adopded from \emph{FrameNet}):
+has the following Action Role definitions (partially adopted from \emph{FrameNet}\cite{baker1998berkeley}):
 \begin{itemize}
     \item \textit{Action Core:} Flipping
     \item \textit{Definition:} An Agent causes a Theme to move with respect to a FixedLocation, 
@@ -206,8 +206,8 @@ motion or significant alteration of configuration/shape.
 \end{itemize}
 A PRAC defines a joint probability distribution over the action roles
 according to Equation (1), such that arbitrary parameter slots, which
-are not given in an instruction can be inferred based on what has been
-stated in an instruction explicitly.  
+are not given in an instruction, can be inferred based on what has been
+stated explicitly in such instruction.  %TODO
 
 \section{Attempto Controlled English \& Discourse Representation Structures}
 
@@ -228,7 +228,8 @@ transitive and ditransitive verbs (‘sleep’, ‘like’, ‘give’);
 negation, conjunction and disjunction of noun phrases, verb phrases, 
 relative clauses and sentences; and anaphoric references to noun 
 phrases through definite noun phrases, pronouns, and variables. An 
-example: \begin{alltt}{\color{red} ACE:} \small"A robot who does not understand asks a human that knows."\end{alltt}
+example: \begin{alltt}{\color{red} ACE:} \small"A robot who does 
+not understand asks a human that knows."\end{alltt}
 
 These sentences have a two-way relationship with Discourse Representation 
 Structures (DRS), a format to encode information of multiple sentences, 
@@ -240,27 +241,41 @@ DRS: [x,y: robot(x), pancake(y), flips(x,y)]
 \end{verbatim}
 }
 
-\section{Related Work} Recently ACE has been exploited for uses such 
+\section{Related Work} 
+
+In reference to filling missing information such as objects or
+ actions in verb-oriented formalizations, a large amount of 
+ research has been done in order to provide databases of conceptualizations of actions \cite
+{baker1998berkeley, schuler2005verbnet, kingsbury2002treebank}.
+However, these projects do not provide computational models for 
+inference and learning, and they do not address the problem of
+ autonomously identifying and closing such
+gaps of knowledge.
+
+Recently ACE has been exploited for uses such 
 as Semantic Web Ontologies~\cite{kaljurand:phd}, Multilingual 
 semantic wikis~\cite{kuhnkaljurandsemantic}, while this paper 
 focuses on the contributions of ACE in the artificial cognition 
 domain. According to what is known to the authors to date, the 
 verbalization functionality itself~\cite{kaljurand:phd} has been 
 used uniquely for verbalizing existing Semantic Web content, 
-specifically OWL ontologies. While using the same means (i.e. the 
+specifically OWL ontologies. While using the same means (i.e. ACE and the 
 DRS verbalizer, an intermediate phase of the OWL verbalizer) we 
 exploit the system for verbalizing questions and ambiguity statements, 
 as an attempt to verbalize a probabilistic knowledge formalism, and 
 as the formalization per se of action-oriented knowledge in the 
 everyday context we described.
 
-With respect to the problem of filling in missing information about 
-actions and objects, a large amount of research has been done in 
-order to provide databases of conceptualizations of actions \cite
-{baker1998berkeley, schuler2005verbnet, kingsbury2002treebank}, 
-however, these projects do not provide computational models for 
-inference and learning, and they do not address the problem of autonomously identifying and closing
-gaps of knowledge. 
+%In reference to fill missing information about actions
+%With respect to the problem of filling in missing information about 
+%actions and objects, a large amount of research has been done in 
+%order to provide databases of conceptualizations of actions \cite
+%{baker1998berkeley, schuler2005verbnet, kingsbury2002treebank}.
+%However, these projects do not provide computational models for 
+%inference and learning, and they do not address the problem of autonomously identifying and closing
+%gaps of knowledge.
+
+
 
 \section{CNL for Task Querying}
 The PRAC system caters for inference of missing action roles. 
@@ -378,8 +393,9 @@ For the formalization of a PRAC model, be it grounded or abstract, we
 require a format that can serialize the instance or generate the PRAC 
 model template.
 We therefore need a statement that comprises all generative information,
- namely all roles involved in the action and the data that can create 
- the MLN templates.  
+ namely all roles involved in the action, and the data that can create 
+ the MLN formulas that evaluate the probability of all possible syntactic 
+types the action roles can be involved in.
 
 We create this by encapsulating the action roles as nouns in a Controlled 
 Natural Language statement, for human-readability and for preserving the 
@@ -403,8 +419,7 @@ causes the happening denoted by the verb in the clause)}
 an initial set of action roles and MLN formula templates.  
 The action roles correspond to the nouns of the generating sentence, 
 and their type of syntactic relationship defines the variant MLN 
-templates that evaluate the probability of all possible syntactic 
-types the action roles can be involved in. Other lexicographical 
+templates. Other lexicographical 
 information such as descriptions can be retrieved via preexisting 
 webservices.
 
