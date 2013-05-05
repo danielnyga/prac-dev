@@ -98,8 +98,9 @@ class PRACVerbalizer(PRACReasoner):
                 reply.create()
             print 
             print
-            print bash.BOLD + "entering Human-Robot Interaction Shell" + bash.END
-            #VerbShell().cmdloop()
+            print bash.BOLD + "Integrating Reply Information" + bash.END
+                        
+#VerbShell().cmdloop()
 
 #    def _verbManipulation(self, verb_inf_form, man_type):
 #        --passive

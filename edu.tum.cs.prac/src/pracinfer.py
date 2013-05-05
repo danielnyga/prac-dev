@@ -49,6 +49,7 @@ if __name__ == '__main__':
         result = PRACResult()
         verbalizer = PRACVerbalizer()
         pracinit(sentence) >> actionroles >> result >> verbalizer
+
         
 #        prac = PRAC()
 #        

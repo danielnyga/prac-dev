@@ -88,7 +88,7 @@ flexibility in action parameterization when operating in real world
 settings with partially available data, which is referred to as the 
 ``open world challenge.'' 
 
-Recent research in the field of cognitive robotics aims at making 
+Recent research in the field of cognitive robotics aims to make 
 knowledge sources available for robots, which have been created by 
 humans and are intended for human use. For some domains such as 
 daily household tasks (e.g. cooking or cleaning up), step-by-step 
@@ -111,13 +111,13 @@ key pieces of information are generally considered common sense to
 the human, making these unserviceable.
 %and hence explicit statements of these kinds of 
 %self-evident yet necessary information are rendered inefficient. 
-As an example, consider a natural-language instruction ``Flip the 
-pancake,'' taken from a recipe for making pancakes. 
+As an example, consider the natural-language instruction ``Flip the 
+pancake'', taken from a recipe for making pancakes. 
 In order to perform the action successfully, a robot needs to decide 
 which utensil to use (e.g. a spatula), where to hold it (e.g. at its 
 handle) and what part of it to put underneath the pancake (e.g. the 
 blade), to name only a few.
-Current research in cognitive robotics aims at building action 
+Current research in cognitive robotics aims to build action 
 verb-specific knowledge bases that fill these knowledge gaps and 
 enables a robot to infer the information which is \textit{needed} in 
 order to perform a particular activity, based on what is \textit 
@@ -135,7 +135,7 @@ potentially require clarification.
 
 In this work, we present an implementation of a novel approach for 
 identifying and verbalizing such absent information in a knowledge
- base in order to enable a robot to actively enhance its knowledge
+ base, in order to enable a robot to actively enhance its knowledge
   about actions and objects by stepping into dialog with humans.
 The contributions of this paper, within the artificial cognition domain,
  are the following:
@@ -174,7 +174,7 @@ P\left(\mathcal{R}\times\mathcal{A}\times\mathcal{C}\,|\,\sqsubseteq
     %$\pi$ &  $\pi:\mathcal{A}\rightarrow 2^{\mathcal{R}}$ \text{ is a function that selects}\\
     %& \text{the needed roles given an action}\\
     $\sqsubseteq$ & is a taxonomy relation over $\mathcal{C}$\\
-    $\preceq$	& is a mereological relation over $\mathcal{C}$.
+    $\preceq$	& is a mereological relation over $\mathcal{C}$
 \end{tabular}
 \end{center}}
 As opposed to most approaches towards understanding natural-language 
@@ -292,7 +292,7 @@ We identify the following interaction:
 }
 The last two phases can be cycled until the robotic assistant reaches a sufficient level of understanding. 
 Taxonomical, temporal, decision, impossibility clarifications are only some of the \textit{disambiguation cases} in which an explicit verbal task querying is necessary from the robot to the human. 
-The generation of natural-like language is non-trivial mainly given the scalability issues of linguistic factors of the sentence construction (e.g. anaphora resolution, number/gender/particle concordance, subordinate sentence handling, punctuation, verb conjugation). These requirements have proven to be fulfilled by Attempto Controlled English, now used as means of sentence construction.\\
+The generation of natural-like language is non-trivial given the scalability issues of linguistic factors of the sentence construction (e.g. anaphora resolution, number/gender/particle concordance, subordinate sentence handling, punctuation, verb conjugation). These requirements have proven to be fulfilled by Attempto Controlled English, now used as means of sentence construction.\\
 Specifically for an action-oriented representation, we present our cognitive verbalization procedure, operated for each non-assigned action role:
 
 \begin{enumerate} %TODO I don't know how to put across the following in a clearer way
@@ -302,11 +302,11 @@ Specifically for an action-oriented representation, we present our cognitive ver
 \end{enumerate}
 
 \paragraph{case identification} is performed via threshold evaluation of probability distributions of likely objects for the missing role. 
-Possible reasons for which the role assignment is missing, is the impossibility of 
-defining a likely candidate (all probability assignments are below a threshold) or identifying manifold candidates (probability assignments are too close), or
+Possible reasons for which the role assignment is missing is the impossibility of 
+defining a likely candidate (all probability assignments are below a threshold), the presence of manifold candidates (probability assignments are too close), or
 the optimal candidate is not available in context.  
 
-\paragraph{sentence construction} is operated to provide a grammar structure and contextual information for the disambiguation case. This has been implemented by creating an 
+\paragraph{sentence construction} is operated to provide a grammatical structure and contextual information for the disambiguation case. This has been implemented by creating an 
 abstract DRS template for each disambiguation case, that is grounded 
 before executing the verbalization phase. 
 \begin{alltt}
@@ -429,7 +429,7 @@ Languages in the artificial cognition domain. While already proven
 as powerful means of representation and reasoning for the semantic 
 web\cite{kaljurand:phd}, our claim is that novel uses are possible 
 for robotic assistants, specifically as human-to-robot interface.
-We have proved via practical implementations that CNL can be exploited
+We have proven via practical implementations that CNL can be exploited
  as means of language generation and presented current work in progress
   in relation to full action-oriented cognitive formalization.
 
@@ -445,12 +445,14 @@ implemented features of these and presents similar limitations. This
 is visible since the verbalization outputs are readable but not 
 perfectly natural-like sentences, and on the other hand we have 
 scalability issues given by improper object probability inference. 
-%The practical implementation of a PRAC model template generator 
-will provide insights regarding representation limitations, for now 
-discussed only theoretically. With the expansion of the 
-expressiveness set of ACE and DRS, future work will aim towards how 
+With the expansion of the expressiveness set of ACE and DRS, 
+future work will aim towards how 
 to make use of such abstractions in order to provide robotic 
-assistants with further means of expression. Further research will 
+assistants with further means of expression. 
+In reference to action formalization, the practical implementation 
+of a PRAC model template generator will provide insights regarding
+ representation limitations, for now discussed only theoretically. 
+Further research will 
 also be dedicated to the interaction dialogue itself and to \textit
 {learning via human-robot verbal interaction}, made possible via 
 template generation and further knowledge manipulation, thanks to 
