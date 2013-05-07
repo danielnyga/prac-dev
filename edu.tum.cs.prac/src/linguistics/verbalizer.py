@@ -36,6 +36,7 @@ import subprocess
 from os.path import abspath, dirname, join
 
 from actioncore import *
+from actioncore.inference import printRoles
 from linguistics import *
 
 from utils import StopWatch, red, bold
@@ -99,7 +100,10 @@ class PRACVerbalizer(PRACReasoner):
             print 
             print
             print bash.BOLD + "Integrating Reply Information" + bash.END
-                        
+        
+        #printRoles(self.pracinference.databases['core'], self.pracinference.actioncore)            
+
+
 #VerbShell().cmdloop()
 
 #    def _verbManipulation(self, verb_inf_form, man_type):

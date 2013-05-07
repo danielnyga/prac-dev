@@ -298,8 +298,6 @@ class PRACReasoner(object):
         other.pracinference = self.pracinference
         return other.run()
 
-
-
     
 if __name__ == '__main__':
     prac = PRAC()

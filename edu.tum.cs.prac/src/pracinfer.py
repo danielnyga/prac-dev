@@ -28,7 +28,7 @@ from actioncore.inference import *
 from optparse import OptionParser
 import linguistics
 from linguistics.verbalizer import *
-
+from linguistics.integrator import *
 
 if __name__ == '__main__':
     
@@ -37,18 +37,26 @@ if __name__ == '__main__':
     parser.add_option('-m', '--map', dest='semanticMap')
     (options, args) = parser.parse_args()
     
-    if not len(sys.argv) == 3:
-        print 'Usage: pracinfer <action core name> <sentence>\nExample: $pracinfer Flipping "Flip the pancake."'
+    if not len(sys.argv) == 4 or len(sys.argv) == 3:
+        print 'Usage: pracinfer <action core name> <sentence> <reply (optional)>\nExample: $pracinfer Flipping "Flip the pancake." "with the spatula"'
         exit(1)
     else: 
         java.startJvm()
         sentence = sys.argv[2]
+        
+        if len(sys.argv) == 4:
+            intReply = True
+            reply = sys.argv[3]
 
         print 'Running PRAC inference on sentence "%s"' % sentence
         pracinit = PRACInit(sys.argv[1])
         result = PRACResult()
         verbalizer = PRACVerbalizer()
-        pracinit(sentence) >> actionroles >> result >> verbalizer
+        integrator = PRACIntegrator()
+        pracinit(sentence) >> actionroles >> result >> verbalizer >> integrator
+        if (intReply == True):
+            pracinit(reply) >> actionroles >> result >> integrator
+        
 
         
 #        prac = PRAC()
