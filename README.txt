@@ -12,10 +12,7 @@ INSTALLATION INSTRUCTIONS:
   and make sure it's in your PATH
 
 - get NLTK and WordNet:
-  $ sudo apt-get install python-nltk
-  $ python
-  >> import nltk
-  >> nltk.download()
+  $ sudo apt-get install python-nltk python-jpype python-pyparsing python-tk python-webpy pyjamas-pyjs
   
   There should be a dialog popping up. Go to the "Corpora" tab and
   tick the WordNet corpus. Hit download.
