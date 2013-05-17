@@ -43,7 +43,7 @@ if __name__ == '__main__':
     else: 
         java.startJvm()
         sentence = sys.argv[2]
-        
+        intReply = False
         if len(sys.argv) == 4:
             intReply = True
             reply = sys.argv[3]
