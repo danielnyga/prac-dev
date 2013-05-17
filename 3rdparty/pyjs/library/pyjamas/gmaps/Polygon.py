@@ -17,7 +17,7 @@ from pyjamas.gmaps.Utils import dictToJs, createListenerMethods, listToJs
 
 
 def Polygon(options):
-    JS("return new $wnd.google.maps.Polygon(@{{options}})")
+    JS("return new $wnd['google']['maps']['Polygon'](@{{options}})")
 
 def PolygonOptions(adict):
     """Accepts a dictionary of options. If necessary, transforms "paths" from
@@ -26,29 +26,29 @@ def PolygonOptions(adict):
         try:
             if isinstance(adict["paths"], (list,tuple)):
                 adict["paths"] = listToJs(adict["paths"])
-            elif isinstance(adict["paths"], basestring): #Gmaps 
+            elif isinstance(adict["paths"], basestring): #Gmaps
                 adict["paths"] = decodePoly(adict["paths"])
-        except: #isinstance throws exception for raw javascript objects. 
+        except: #isinstance throws exception for raw javascript objects.
             pass #That means it's already good.
     return dictToJs(adict)
-    
+
 def decodePoly(poly):
-    """Quickly decodes a gmaps api v2 encoded polyline... deprecated by google but still 
+    """Quickly decodes a gmaps api v2 encoded polyline... deprecated by google but still
     a good over-the-wire compression format"""
     JS("""
-    var i=-1,j=-1,k,l,q=@{{poly}}.match(/[\_-\~]*[\?-\^]/g),w=0,x=0,y=0,z=1e-5;
+    var i=-1,j=-1,k,l,q=@{{poly}}['match'](/[\_-\~]*[\?-\^]/g),w=0,x=0,y=0,z=1e-5;
 
     @{{poly}}=[];
 
     if (q) for (;;)
     {
         if (!q[++i]) break;
-        for (k=q[i].length,l=63,w=0;k--;l=95) w=(w<<5)+q[i].charCodeAt(k)-l;
+        for (k=q[i]['length'],l=63,w=0;k--;l=95) w=(w<<5)+q[i]['charCodeAt'](k)-l;
         y+=(w<<31>>31)^(w>>1);
         if (!q[++i]) break;
-        for (k=q[i].length,l=63,w=0;k--;l=95) w=(w<<5)+q[i].charCodeAt(k)-l;
+        for (k=q[i]['length'],l=63,w=0;k--;l=95) w=(w<<5)+q[i]['charCodeAt'](k)-l;
         x+=(w<<31>>31)^(w>>1);
-        @{{poly}}[++j]=new $wnd.google.maps.LatLng(y*z,x*z);
+        @{{poly}}[++j]=new $wnd['google']['maps']['LatLng'](y*z,x*z);
     }
     return @{{poly}}
 """)

@@ -1,7 +1,7 @@
 """
 * Copyright 2008 Google Inc.
 * Copyright 2011 Bob Hampton
-* 
+*
 * Licensed under the Apache License, Version 2.0 (the "License"); you may not
 * use this file except in compliance with the License. You may obtain a copy of
 * the License at
@@ -40,9 +40,9 @@ class CanvasGradientImplIE6:
             self.angle = 90
         else:
             self.angle = int(math.atan(self.dx/self.dy) * 180 / math.pi) + 180
-        
+
         self.colorStops = []
-    
+
     def addColorStop(self, offset, color):
         newColorStop = ColorStop(offset, color)
         for i in range(len(self.colorStops)):
@@ -50,10 +50,10 @@ class CanvasGradientImplIE6:
             if offset < cs.offset:
                 self.colorStops.append(i, newColorStop)
                 return
-            
+
         self.colorStops.append(newColorStop)
-    
-    
+
+
     """*
     * Creates an equivalent copy of this Gradient object.
     *

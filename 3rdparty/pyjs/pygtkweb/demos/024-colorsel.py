@@ -66,7 +66,7 @@ class ColorSelectionExample:
 
         # Attach to the "delete" and "destroy" events so we can exit
         window.connect("delete_event", self.destroy_window)
-  
+
         # Create drawingarea, set size and catch button events
         self.drawingarea = gtk.DrawingArea()
 
@@ -75,12 +75,12 @@ class ColorSelectionExample:
         self.drawingarea.set_size_request(200, 200)
         self.drawingarea.set_events(gtk.gdk.BUTTON_PRESS_MASK)
         self.drawingarea.connect("event",  self.area_event)
-  
+
         # Add drawingarea to window, then show them both
         window.add(self.drawingarea)
         self.drawingarea.show()
         window.show()
-  
+
 def main():
     gtk.main()
     return 0

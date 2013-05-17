@@ -10,18 +10,18 @@ class FileDialog(DialogBox):
     def __init__(self, url):
         DialogBox.__init__(self)
         self.setText("Upload Files")
-        
+
         iframe = Frame(url)
         closeButton = Button("Close", self)
         msg = HTML("<center>Upload files, here.  Please avoid spaces in file names.<br />(rename the file before uploading)</center>", True)
 
         dock = DockPanel()
         dock.setSpacing(4)
-        
+
         dock.add(closeButton, DockPanel.SOUTH)
         dock.add(msg, DockPanel.NORTH)
         dock.add(iframe, DockPanel.CENTER)
-        
+
         dock.setCellHorizontalAlignment(closeButton, HasAlignment.ALIGN_RIGHT)
         dock.setCellWidth(iframe, "100%")
         dock.setWidth("100%")

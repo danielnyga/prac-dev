@@ -176,7 +176,7 @@ class Form(FormPanel):
 
         for l in self.describe_listeners:
             l.onSaveDone(self, response)
-        
+
     def formsetup(self, data=None):
 
         if data is None:
@@ -188,7 +188,7 @@ class Form(FormPanel):
 
         for idx, fname in enumerate(self.fields):
             self.grid.setHTML(idx, 2, None)
-            
+
     def set_errors(self, errors):
 
         offsets = {}
@@ -198,7 +198,7 @@ class Form(FormPanel):
             err = "<br />".join(err)
             idx = offsets[k]
             self.grid.setHTML(idx, 2, err)
-            
+
     def update_values(self, data = None):
         if data is not None:
             self.data = data

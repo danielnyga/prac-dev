@@ -16,24 +16,24 @@ from __pyjamas__ import wnd, JS
 
 
 class SWFUploadInstances:
-    
+
     def addInstance(self, movieName, instance):
         setattr(self, movieName, instance)
-    
+
 class SWFUploadEventCatcher:
-    
+
     def __init__(self):
         self.instances = SWFUploadInstances()
-    
+
     def addInstance(self, movieName, instance):
         self.instances.addInstance(movieName, instance)
-        
-# Global variable called by Flash External Interface 
+
+# Global variable called by Flash External Interface
 wnd().SWFUpload = SWFUploadEventCatcher()
-        
+
 def setInstanceGlobal(movieName, instance):
     wnd().SWFUpload.addInstance(movieName, instance)
-    
+
 # Counter for Flash-movies
 global movieCount
 movieCount = 0
@@ -46,7 +46,7 @@ class SWFUpload(FlashPanel):
     """
     Embedding and api handling of SWFUpload
     """
-    
+
     QUEUE_ERROR = {
         'QUEUE_LIMIT_EXCEEDED'              : -100,
         'FILE_EXCEEDS_SIZE_LIMIT'          : -110,
@@ -86,11 +86,11 @@ class SWFUpload(FlashPanel):
         'TRANSPARENT' : "transparent",
         'OPAQUE' : "opaque"
     }
-    
+
     def __init__(self):
         FlashPanel.__init__(self)
         global movieCount
-        
+
         self.settings = None
         self.eventQueue = []
         self.setObjectClass('swfupload')
@@ -100,13 +100,13 @@ class SWFUpload(FlashPanel):
         self.setWmode('window')
         self.setMenu(False)
         setInstanceGlobal(self.movieName, self)
-        
+
     def getSettings(self):
         """
         @return: the settings instance
         """
         return self.settings
-    
+
     def setSettings(self, settings):
         """
         @param settings: An instance of Settings
@@ -116,11 +116,11 @@ class SWFUpload(FlashPanel):
         self.setObjectWidth(self.settings.getButtonWidth())
         self.setObjectHeight(self.settings.getButtonHeight())
         self.flashvars = self.__createFlashVars()
-        
+
     def __createFlashVars(self):
         httpSuccessString = ','.join(self.settings.http_success)
         paramString = self.__buildParamString()
-        vars = [  
+        vars = [
                 "movieName=", quote(self.object_id),
                 "&amp;uploadURL=", quote(self.settings.upload_url),
                 "&amp;useQueryString=", quote(self.settings.use_query_string),
@@ -147,21 +147,21 @@ class SWFUpload(FlashPanel):
                 "&amp;buttonCursor=", quote(self.settings.button_cursor)
                 ]
         return ''.join(vars)
-        
+
     def __buildParamString(self):
         postParams = self.settings.post_params
         paramStringPairs = []
         for k,v in postParams:
             paramStringPairs.append(quote(k) + "=" + quote(v))
         return '&amp;'.join(paramStringPairs)
-    
+
     def callFlash(self, functionName, arguments=[]):
         """
         @param functionName: Methodname of ExternalInterface
         @param arguments: List with arguments of ExternalInterfaces method
-        
+
         @return: the return value of ExternalInterfaces method.
-        
+
         Extended method from FlashPanel.
         """
         returnValue = FlashPanel.callFlash(self, functionName, arguments)
@@ -171,11 +171,11 @@ class SWFUpload(FlashPanel):
         except:
             pass
         return returnValue
-        
+
     def startUpload(self, file_id=None):
         """
         @param file_id: The file id
-        
+
         startUpload causes the file specified by the file_id parameter to
         start the upload process. If the file_id parameter is omitted
         then the first file in the queue is uploaded.
@@ -184,102 +184,102 @@ class SWFUpload(FlashPanel):
             self.callFlash('StartUpload', [file_id])
         else:
             self.callFlash('StartUpload')
-        
+
     def cancelUpload(self, file_id, triggerErrorEvent=True):
         """
         @param triggerErrorEvent: Boolean, Default: True
-        
+
         cancelUpload cancels the file specified by the file_id parameter.
         The file is then removed from the queue.
         """
         self.callFlash('CancelUpload', [file_id, triggerErrorEvent])
-    
+
     def stopUpload(self):
         """
         stopUpload stops and re-queues the file currently being uploaded.
         """
         self.callFlash('StopUpload')
-        
+
     def getFileByIndex(self, index):
         """
         @param index: The file index in the queue
-        
+
         @return: retrieve a File Object from the queue by the file index.
         """
         return self.callFlash('GetFileByIndex', [index])
-        
+
     def getFile(self, file_id):
         """
         @param file_id: The file id
-        
+
         @return: retrieve a File Object from the queue by the file id
         """
         return self.callFlash('GetFile', [file_id])
-        
+
     def addFileParam(self, file_id, name, value):
         """
         @param file_id: The file id
         @param name: Name of the parameter
         @param value: Value of the parameter
-         
+
         The addFileParam function adds a name/value pair that will be sent in the POST
         with the file specified by the file_id parameter.
-        The name/value pair will only be sent with the file it is added to. 
+        The name/value pair will only be sent with the file it is added to.
         """
         self.callFlash('AddFileParam', [file_id, name, value])
-        
+
     def removeFileParam(self, file_id, name):
         """
         @param file_id: The file id
         @param name: Name of the parameter
-        
+
         The removeFileParam function removes a name/value pair from a file upload that
         was added using addFileParam.
         """
         self.callFlash('RemoveFileParam', [file_id, name])
-    
+
     def setUploadURL(self, url):
         """
         @param url: The upload url
-         
+
         Dynamically modifies the upload_url setting.
         """
         self.callFlash('SetUploadURL', [url])
-        
+
     def setPostParams(self, paramsDict):
         """
         @param paramsDict: Dictonary with parameters
-         
+
         Dynamically modifies the post_params setting.
-        Any previous values are over-written. 
+        Any previous values are over-written.
         """
         self.callFlash('SetPostParams', [paramsDict])
-        
+
     def addPostParam(self, name, value):
         """
         @param name: Name of the parameter
         @param value: Value of the parameter
-        
+
         The addPostParam function adds a name/value pair that will be
         sent in the POST for all files uploaded.
         """
         self.settings.addPostParam(name, value)
         self.setPostParams(self.settings.post_params)
-        
+
     def removePostParam(self, name):
         """
         @param name: Name of the parameter
-        
+
         The removePostParam function removes a name/value pair from the
         values sent with the POST for file uploads.
         """
         self.settings.removePostParam(name)
         self.setPostParams(self.settings.post_params)
-        
+
     def setFileSizeLimit(self, fileSizeLimit):
         """
         @param fileSizeLimit: Limit of the size for files
-         
+
         Dynamically modifies the file_size_limit setting. This applies to
         all future files that are queued. The file_size_limit parameter will
         accept a unit. Valid units are B, KB, MB, and GB. The default unit is KB.
@@ -288,70 +288,70 @@ class SWFUpload(FlashPanel):
         """
         self.settings.fiel_size_limit = fileSizeLimit
         self.callFlash('SetFileSizeLimit', [fileSizeLimit])
-        
+
     def setFileUploadLimit(self, fileUploadLimit):
         """
         @param fileSizeLimit: Limit of the size for a upload
-        
-        Dynamically modifies the file_upload_limit setting. 
+
+        Dynamically modifies the file_upload_limit setting.
         The special value zero (0) indicates "no limit".
         """
         self.settings.file_upload_limit = fileUploadLimit
         self.callFlash('SetFileUploadLimit', [fileUploadLimit])
-        
+
     def setFileQueueLimit(self, fileQueueLimit):
         """
         @param fileSizeLimit: Limit of the size for a queue
-        
+
         Dynamically modifies the file_queue_limit setting.
         The special value zero (0) indicates "no limit".
         """
         self.settings.file_queue_limit = fileQueueLimit
         self.callFlash("SetFileQueueLimit", [fileQueueLimit])
-    
+
     def setFilePostName(self, filePostName):
         """
         @param filePostName: The file post name
-        
+
         Dynamically modifies the file_post_name setting.
         The Linux Flash Player ignores this setting.
         """
         self.settings.file_post_name = filePostName
         self.callFlash("SetFilePostName", [filePostName])
-        
+
     def setButtonDisabled(self, isDisabled):
         """
         @param isDisable: Boolean to enable/disable the button
-        
+
         When 'true' changes the Flash Button state to disabled and ignores any clicks.
         """
         self.settings.button_disabled = isDisabled
         self.callFlash("SetButtonDisabled", [isDisabled])
-        
+
     def setButtonAction(self, buttonAction):
         """
         @param buttonAction: button action
-         
+
         Sets the action taken when the Flash button is clicked.
         Valid action values are taken from the BUTTON_ACTION dict.
         """
         self.settings.button_action = buttonAction
         self.callFlash("SetButtonAction", [buttonAction])
-        
+
     def setButtonCursor(self, cursor):
         """
-        @param cursor: mouse cursor 
-        
+        @param cursor: mouse cursor
+
         Sets the mouse cursor shown when hovering over the Flash button.
         Valid cursor values are taken from the CURSOR dict.
         """
         self.settings.button_cursor = cursor
         self.callFlash("SetButtonCursor", [cursor])
-        
+
     def setButtonText(self, html):
         """
         @param html: Html-text for the button
-         
+
         Sets the text that should be displayed over the Flash button.
         Text that is too large and overflows the button size will be clipped.
         The text can be styled using HTML supported by the Flash Player.
@@ -364,17 +364,17 @@ class SWFUpload(FlashPanel):
         """
         @param left: left padding
         @param top: top padding
-         
+
         Sets the top and left padding of the Flash button text. The values may be negative.
         """
         self.settings.button_text_top_padding = top
         self.settings.button_text_left_padding = left
         self.callFlash("SetButtonTextPadding", [left, top])
-    
+
     def setButtonTextStyle(self, css):
         """
         @param css: CSS styles for the button text
-        
+
         Sets the CSS styles used to style the Flash Button Text.
         CSS should be formatted according to the Flash Player documentation (Adobe Documentation)
         Style classes defined here can then be referenced by HTML in the button_text setting.
@@ -387,7 +387,7 @@ class SWFUpload(FlashPanel):
         """
         @param width: The width of the button
         @param height: The height of the button
-        
+
         Dynamically change the Flash button's width and height. The values should
         be numeric and should not include any units. The height value should be 1/4th
         of the total button image height so the button state sprite images can be
@@ -400,11 +400,11 @@ class SWFUpload(FlashPanel):
             DOM.setStyleAttribute(movie, 'width', width + 'px')
             DOM.setStyleAttribute(movie, 'height', height + 'px')
         self.callFlash("SetButtonDimensions", [width, height])
-        
+
     def setButtonImageURL(self,  buttonImageURL):
         """
         @param buttonImageURL: The image url for the button
-        
+
         Dynamically change the image used in the Flash Button. The image url must be
         relative to the swfupload.swf file, an absolute path (e.g., starting with a /),
         or a fully qualified url. Any image format supported by Flash can be loaded.
@@ -412,7 +412,7 @@ class SWFUpload(FlashPanel):
         The button image is expected to be a button sprite (or a single image file with
         several images stacked together). The image will be used to represent all the
         button states by moving the image up or down to only display the needed portion.
-        These states include: normal, hover, click, disabled. 
+        These states include: normal, hover, click, disabled.
         """
         self.settings.button_image_url = buttonImageURL
         self.callFlash("SetButtonImageURL", [buttonImageURL])
@@ -423,73 +423,73 @@ class SWFUpload(FlashPanel):
             return self.callFlash("TestExternalInterface")
         except:
             return False
-    
+
     def flashReady(self):
         """
         Event-Method called by swfupload
         """
         self.swfUploadLoaded()
-    
+
     def swfUploadLoaded(self):
         """
         Event-Method called by swfupload
         """
         DeferredHandler.add(self.settings.swfupload_loaded_handler)
-        
+
     def uploadProgress(self, file, bytesLoaded, totalBytes):
         """
         Event-Method called by swfupload
         """
         file = SWFFile(file)
         DeferredHandler.add(self.settings.upload_progress_handler, [file, bytesLoaded, totalBytes])
-        
+
     def uploadError(self, file, errorCode, message):
         """
         Event-Method called by swfupload
         """
         file = SWFFile(file)
         DeferredHandler.add(self.settings.upload_error_handler, [file, errorCode, message])
-        
+
     def uploadSuccess(self, file, receivedResponse, serverData):
         """
         Event-Method called by swfupload
         """
         file = SWFFile(file)
         DeferredHandler.add(self.settings.upload_success_handler, [file, receivedResponse, serverData])
-        
+
     def uploadComplete(self, file):
         """
         Event-Method called by swfupload
         """
         file = SWFFile(file)
         DeferredHandler.add(self.settings.upload_complete_handler, [file])
-        
+
     def fileDialogStart(self):
         """
         Event-Method called by swfupload
         """
         DeferredHandler.add(self.settings.file_dialog_start_handler)
-        
+
     def fileQueued(self, file):
         """
         Event-Method called by swfupload
         """
         file = SWFFile(file)
         DeferredHandler.add(self.settings.file_queued_handler, [file])
-        
+
     def fileQueueError(self, file, errorCode, message):
         """
         Event-Method called by swfupload
         """
         file = SWFFile(file)
         DeferredHandler.add(self.settings.file_queue_error_handler, [file, errorCode, message])
-        
+
     def fileDialogComplete(self, sel, qu, tqu):
         """
         Event-Method called by swfupload
         """
         DeferredHandler.add(self.settings.file_dialog_complete_handler, [sel, qu, tqu])
-        
+
     def uploadStart(self, file):
         """
         Event-Method called by swfupload
@@ -497,13 +497,13 @@ class SWFUpload(FlashPanel):
         file = SWFFile(file)
         status = self.settings.upload_start_handler(file)
         self.callFlash('ReturnUploadStart', [status])
-        
-                
+
+
 class Settings:
     """
-    
+
     """
-    
+
     def __init__(self):
         # Upload backend settings
         self.upload_url = ""
@@ -548,7 +548,7 @@ class Settings:
         All the events associated with a failed upload are still called and so the requeuing the failed upload
         can conflict with the Queue Plugin (or custom code that uploads the entire queue).
         Code that automatically uploads the next file in the queue will upload the failed file over and over
-        again if care is not taken to allow the failing upload to be cancelled. 
+        again if care is not taken to allow the failing upload to be cancelled.
         """
         self.http_success = []
         """
@@ -556,7 +556,7 @@ class Settings:
         Also, only the 200 status code provides the serverData.
 
         When returning and accepting an HTTP Status Code other than 200 it is not necessary for the server
-        to return content. 
+        to return content.
         """
         self.assume_success_timeout = 0
         """
@@ -569,9 +569,9 @@ class Settings:
         uploadProgress event.
 
         A timeout of zero (0) seconds disables this feature and is the default value. SWFUpload will wait indefinitely
-        for the Flash Player to trigger the uploadSuccess event. 
+        for the Flash Player to trigger the uploadSuccess event.
         """
-        
+
         # File Settings
         self.file_types =  '*.*'
         """
@@ -580,7 +580,7 @@ class Settings:
         """
         self.file_types_description =  'All Files'
         """
-        A text description that is displayed to the user in the File Browser dialog. 
+        A text description that is displayed to the user in the File Browser dialog.
         """
         self.file_size_limit =  0
         """
@@ -608,12 +608,12 @@ class Settings:
         errored, or cancelled a new files can be queued in its place until the queue limit has been reached.
         If the upload limit (or remaining uploads allowed) is less than the queue limit then the lower number is used.
         """
-    
+
         # Flash Settings
         self.flash_url = 'swfupload.swf'
         """
         The full, absolute, or relative URL to the Flash Control swf file. This setting cannot be changed once the
-        SWFUpload has been instantiated. Relative URLs are relative to the page URL. 
+        SWFUpload has been instantiated. Relative URLs are relative to the page URL.
         """
         self.prevent_swf_caching = True
         """
@@ -623,7 +623,7 @@ class Settings:
         Note: The algorithm for adding the random number to the URL is dumb and cannot handle URLs that already
         have some parameters.
         """
-        
+
         # Button Settings
         self.button_image_url = ''
         """
@@ -680,7 +680,7 @@ class Settings:
         """
         Sets the WMODE property of the Flash Movie.
         """
-        
+
         # Event Handlers
         self.return_upload_start_handler = None
         self.swfupload_loaded_handler = None
@@ -688,293 +688,293 @@ class Settings:
         self.file_queued_handler = None
         self.file_queue_error_handler = None
         self.file_dialog_complete_handler = None
-        
+
         self.upload_start_handler = None
         self.upload_progress_handler = None
         self.upload_error_handler = None
         self.upload_success_handler = None
         self.upload_complete_handler = None
-        
+
         #self.debug_handler = self.debugMessage
-    
+
         # Other settings
         self.custom_settings = {}
         self.customSettings = self.custom_settings
-        
+
         # Update the flash url if needed
         if self.prevent_swf_caching:
             # TODO
             pass
             #self.flash_url = self.flash_url + self.flash_url.indexOf("?") < 0 ? "?" : "&") + "preventswfcaching=" + new Date().getTime()
-    
+
     def setURL(self, url):
         """
         @param url: The upload url
         """
         self.upload_url = url
-        
+
     def getURL(self):
         """
         @return: the upload url
         """
         return self.upload_url
-    
+
     def setSuccessTimeout(self, assume_success_timeout):
         """
         @param assume_success_timeout: The success timeout
         """
         self.assume_success_timeout = assume_success_timeout
-        
+
     def getSuccessTimeout(self):
         """
         @return: the success timeout
         """
         return self.assume_success_timeout
-    
+
     def setFilePostName(self, file_post_name):
         """
         @param file_post_name: The file post name
         """
         self.file_post_name = file_post_name
-        
+
     def getFilePostName(self):
         """
         @return: the  file post name
         """
         return self.file_post_name
-    
+
     def setPostParams(self, post_params):
         """
         @param post_params: Dictonary with post parameters
         """
         self.post_params =  post_params
-        
+
     def addPostParam(self, name, value):
         """
         @param name: Name of the parameter
         @param value: Value of the parameter
         """
         self.post_params[name] = value
-        
+
     def removePostParam(self, name):
         pass # TODO
-        
+
     def getPostParams(self):
         """
         @return: the post parameters
         """
         return self.post_params
-    
+
     def setPreventSWFCaching(self, prevent_swf_caching):
         """
         @param prevent_swf_caching: Boolean if prevent swf caching
         """
         self.prevent_swf_caching = prevent_swf_caching
-        
+
     def getPreventSWFCaching(self):
         """
         @return: if prevent swf caching
         """
         return self.prevent_swf_caching
-    
+
     def useQueryString(self, use_query_string):
         """
         @param use_query_string: Boolean if to use a query string
         """
         self.use_query_string = use_query_string
-        
+
     def isUseQueryString(self):
         """
         @return: if to use a query string
         """
         return self.use_query_string
-        
+
     def setRequeueOnError(self, requeue_on_error):
         self.requeue_on_error = requeue_on_error
-        
+
     def getRequeueOnError(self):
         return self.requeue_on_error
-    
+
     def setHTTPSuccess(self, http_success):
         """
         @param http_success: List with http success codes
         """
         self.http_success = http_success
-        
+
     def getHTTPSuccess(self):
         """
         @return: the http success codes
         """
         return self.http_success
-    
+
     def setFileSizeLimit(self, file_size_limit):
         """
         @param file_size_limit: Fiel size limit
         """
         self.file_size_limit = file_size_limit
-        
+
     def getFileSizeLimit(self):
         """
         @return: the file size limit
         """
         return self.file_size_limit
-    
+
     def setFileType(self, file_types):
         """
         @param file_types: The type(s) of files
         """
         self.file_types = file_types
-        
+
     def getFileType(self):
         """
         @return: the type(s) of files
         """
         return self.file_types
-    
+
     def setFileTypeDescription(self, file_types_description):
         """
         @param file_types_description: File type description
         """
         self.file_types_description = file_types_description
-        
+
     def getFileTypeDescription(self):
         """
         @return: the file type description
         """
         return self.file_types_description
-    
+
     def setFileUploadLimit(self, file_upload_limit):
         """
         @param file_upload_limit: File upload limit
         """
         self.file_upload_limit = file_upload_limit
-        
+
     def getFileUploadLimit(self):
         """
         @return: the file upload limit
         """
         return self.file_upload_limit
-    
+
     def setFileQueueLimit(self, file_queue_limit):
         """
         @param file_queue_limit: File queue limit
         """
         self.file_queue_limit = file_queue_limit
-        
+
     def getFileQueueLimit(self):
         """
         @return: the file queue limit
         """
         return self.file_queue_limit
-        
+
     def setButtonImageURL(self, button_image_url):
         """
         @param button_image_url: Buttons image url
         """
         self.button_image_url = button_image_url
-        
+
     def getButtonImageURL(self):
         """
         @return: the buttons image url
         """
         return self.button_image_url
-    
+
     def setButtonWidth(self, button_width):
         """
         @param button_width: The width of the button
         """
         self.button_width = button_width
-        
+
     def getButtonWidth(self):
         """
         @return: the width of the button
         """
         return self.button_width
-        
+
     def setButtonHeight(self, button_height):
         """
         @param button_height: The height of the button
         """
         self.button_height = button_height
-        
+
     def getButtonHeight(self):
         """
         @return: the the height of the button
         """
         return self.button_height
-    
+
     def setButtonAction(self, button_action):
         """
         @param button_action: Button action
         """
         self.button_action = button_action
-        
+
     def getButtonAction(self):
         """
         @return: thebutton action
         """
         return self.button_action
-    
+
     def setButtonHTML(self, button_text):
         """
         @param button_text: Buttons html text
         """
         self.button_text = button_text
-        
+
     def getButtonHTML(self):
         """
         @return: the  buttons html text
         """
         return self.button_text
-    
+
     def setButtonCSS(self, button_text_style):
         """
         @param button_text_style: CSS Style for buttons text
         """
         self.button_text_style = button_text_style
-        
+
     def getButtonCSS(self):
         """
         @return: the  buttons css style
         """
         return self.button_text_style
-    
+
     def setButtonTopPadding(self, button_text_top_padding):
         """
         @param button_text_top_padding: Buttons top padding
         """
         self.button_text_top_padding = button_text_top_padding
-        
+
     def getButtonTopPadding(self):
         """
         @return: the  buttons top padding
         """
         return self.button_text_top_padding
-    
+
     def setButtonLeftPadding(self, button_text_left_padding):
         """
         @param button_text_left_padding: Buttons left padding
         """
         self.button_text_left_padding = button_text_left_padding
-        
+
     def getButtonLeftPadding(self):
         """
         @return: the  buttons left padding
         """
         return self.button_text_left_padding
-    
+
     def setFlashURL(self, flash_url):
         """
         @param flash_url: The flash url
         """
         self.flash_url = flash_url
-        
+
     def getFlashURL(self):
         """
         @return: the flash url
         """
         return self.flash_url
-        
+
     def setEventListener(self, listener):
         """
         @param listener: The listener object
@@ -989,7 +989,7 @@ class Settings:
         self.file_queue_error_handler = getattr(listener, 'fileQueueError')
         self.file_dialog_complete_handler = getattr(listener, 'fileDialogComplete')
         self.upload_start_handler = getattr(listener, 'uploadStart')
-        
+
 
 class SWFFile:
     """
@@ -997,7 +997,7 @@ class SWFFile:
     Some operating systems do not fill in all the values (this is especially true
     for the createdate and modificationdate values).
     """
-    
+
     def __init__(self, file):
         ### Workaround - otherwise name is undefined ###
         name = None
@@ -1005,27 +1005,27 @@ class SWFFile:
         @{{name}} = @{{file}}.name;
         """)
         #################################################
-        
+
         self.id = file.id
         """
-        SWFUpload file id, used for starting or cancelling and upload 
+        SWFUpload file id, used for starting or cancelling and upload
         """
         if name:
             self.name = name #file.name
         """
-        The file name. The path is not included. 
+        The file name. The path is not included.
         """
         self.creationdate = file.creationdate
         """
-        The date the file was created 
+        The date the file was created
         """
         self.modificationdate = file.modificationdate
         """
-        The date the file was last modified 
+        The date the file was last modified
         """
         self.type = file.type
         """
-        The file type as reported by the client operating system 
+        The file type as reported by the client operating system
         """
         self.index = file.index
         """
@@ -1033,11 +1033,11 @@ class SWFFile:
         """
         self.filestatus = file.filestatus
         """
-        The file's current status. Use SWFUpload.FILE_STATUS to interpret the value. 
+        The file's current status. Use SWFUpload.FILE_STATUS to interpret the value.
         """
         self.size = file.size
         """
-        The file size in bytes 
+        The file size in bytes
         """
 
     def getId(self):
@@ -1087,20 +1087,20 @@ class SWFFile:
         @return: the file size
         """
         return self.size
-    
-    
+
+
 class SWFUploadInterface:
     """
     Interface for events fired by swfupload
     """
-    
+
     def swfUploadLoaded(self):
         """
         The swfUploadLoaded event is fired by flashReady. It is settable.
         swfUploadLoaded is called to let you know that it is safe to call SWFUpload methods.
         """
         pass
-        
+
     def uploadProgress(self, file, bytesLoaded, totalBytes):
         """
         The uploadProgress event is fired periodically by the Flash Control.
@@ -1111,7 +1111,7 @@ class SWFUploadInterface:
         This is a bug in the Linux Flash Player.
         """
         pass
-        
+
     def uploadError(self, file, errorCode, message):
         """
         The uploadError event is fired any time an upload is interrupted or does not
@@ -1122,8 +1122,8 @@ class SWFUploadInterface:
         Upload error will not fire for files that are cancelled but still waiting in the queue.
         """
         pass
-        
-    def uploadSuccess(self, file, receivedResponse, serverData): 
+
+    def uploadSuccess(self, file, receivedResponse, serverData):
         """
         uploadSuccess is fired when the entire upload has been transmitted and the server returns a
         HTTP 200 status code. Any data outputted by the server is available in the server data parameter.
@@ -1138,8 +1138,8 @@ class SWFUploadInterface:
         At this point the upload is not yet complete. Another upload cannot be started from uploadSuccess.
         """
         pass
-        
-    def uploadComplete(self, file): 
+
+    def uploadComplete(self, file):
         """
         uploadComplete is always fired at the end of an upload cycle (after uploadError or uploadSuccess).
         At this point the upload is complete and another upload can be started.
@@ -1149,23 +1149,23 @@ class SWFUploadInterface:
         all the uploads in a queue.
         """
         pass
-        
-    def fileDialogStart(self): 
+
+    def fileDialogStart(self):
         """
         fileDialogStart is fired after selectFile for selectFiles is called.
         This event is fired immediately before the File Selection Dialog window is displayed.
         However, the event may not execute until after the Dialog window is closed.
         """
         pass
-        
-    def fileQueued(self, file): 
+
+    def fileQueued(self, file):
         """
         The fileQueued event is fired for each file that is queued after the File
         Selection Dialog window is closed.
         """
         pass
-        
-    def fileQueueError(self, file, errorCode, message): 
+
+    def fileQueueError(self, file, errorCode, message):
         """
         The fileQueueError event is fired for each file that was not queued after the
         File Selection Dialog window is closed. A file may not be queued for several reasons
@@ -1174,8 +1174,8 @@ class SWFUploadInterface:
         SWFUpload.QUEUE_ERROR dict.
         """
         pass
-        
-    def fileDialogComplete(self, sel, qu, tqu): 
+
+    def fileDialogComplete(self, sel, qu, tqu):
         """
         The fileDialogComplete event fires after the File Selection Dialog window has been closed and all the selected
         files have been processed. The 'number of files queued' argument indicates the number of files that were
@@ -1184,8 +1184,8 @@ class SWFUploadInterface:
         If you want file uploading to begin automatically this is a good place to call 'startUpload()'
         """
         pass
-        
-    def uploadStart(self, file): 
+
+    def uploadStart(self, file):
         """
         uploadStart is called immediately before the file is uploaded. This event provides an opportunity
         to perform any last minute validation, add post params or do any other work before the file is uploaded.

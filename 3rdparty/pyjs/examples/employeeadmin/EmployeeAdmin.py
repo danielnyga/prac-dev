@@ -23,21 +23,21 @@ from ApplicationConstants import Command
 import controller, components
 
 class AppFacade(Facade):
-    
+
     def __init__(self):
         self.initializeFacade()
         self.initializeController()
         self.registerCommand(Command.STARTUP, controller.StartupCommand)
         self.registerCommand(Command.DELETE_USER, controller.DeleteUserCommand)
         self.registerCommand(Command.ADD_ROLE_RESULT, controller.AddRoleResultCommand)
-        
+
     @staticmethod
     def getInstance():
         return AppFacade()
 
 
 if __name__ == '__main__':
-    
+
     pyjd.setup("./public/EmployeeAdmin.html")
     app = AppFacade.getInstance()
     pyjsApp = components.PyJsApp()

@@ -16,12 +16,12 @@ class XULrunnerHackCallback(object):
 
     def callback(self):
         return self.htr.asyncImpl(self.mode, self.user, self.pwd, self.url,
-                                  self.postData, self.handler, self.return_xml, 
+                                  self.postData, self.handler, self.return_xml,
                                   self.content_type, self.headers)
 
 
 class HTTPRequest(object):
-    def asyncGet(self, url, handler, returnxml=False, 
+    def asyncGet(self, url, handler, returnxml=False,
                  content_type=None, headers=None, user=None, pwd=None):
         postData = None
         if not hasattr(handler, 'onCompletion'):
@@ -29,14 +29,14 @@ class HTTPRequest(object):
         return self.asyncImpl('GET', user, pwd, url, postData, handler,
                               returnxml, content_type, headers)
 
-    def asyncPost(self, url, postData, handler, returnxml=False, 
+    def asyncPost(self, url, postData, handler, returnxml=False,
                   content_type=None, headers=None, user=None, pwd=None):
         if not hasattr(handler, 'onCompletion'):
             raise RuntimeError("Invalid call to asyncPost: handler is not a valid request handler")
         return self.asyncImpl('POST', user, pwd, url, postData, handler,
                               returnxml, content_type, headers)
 
-    def asyncDelete(self, url, handler, returnxml=False, 
+    def asyncDelete(self, url, handler, returnxml=False,
                     content_type=None, headers=None, user=None, pwd=None):
         postData = None
         if not hasattr(handler, 'onCompletion'):
@@ -44,7 +44,7 @@ class HTTPRequest(object):
         return self.asyncImpl('DELETE', user, pwd, url, postData, handler,
                               returnxml, content_type, headers)
 
-    def asyncPut(self, url, postData, handler, returnxml=False, 
+    def asyncPut(self, url, postData, handler, returnxml=False,
                  content_type=None, headers=None, user=None, pwd=None):
         if not hasattr(handler, 'onCompletion'):
             raise RuntimeError("Invalid call to asyncPut: handler is not a valid request handler")
@@ -62,7 +62,7 @@ class HTTPRequest(object):
         localHandler = handlers.get(xmlHttp)
         if hasattr(localHandler, "onProgress"):
             localHandler.onProgress(event)
-        
+
     def onLoad(self, sender, event, ignorearg):
         xmlHttp = event.target
         localHandler = handlers.get(xmlHttp)
@@ -78,7 +78,7 @@ class HTTPRequest(object):
             localHandler.onCompletion(responseText)
         else :
             localHandler.onError(responseText, status)
-        
+
     def onReadyStateChange(self, xmlHttp, event, ignorearg):
         try:
             xmlHttp = get_main_frame().gobject_wrap(xmlHttp) # HACK!
@@ -104,7 +104,7 @@ class HTTPRequest(object):
             localHandler.onCompletion(responseText)
         else :
             localHandler.onError(responseText, status)
-        
+
     def _convertUrlToAbsolute(self, url):
 
         uri = pygwt.getModuleBaseURL()
@@ -112,7 +112,7 @@ class HTTPRequest(object):
             # url is /somewhere.
             sep = uri.find('://')
             if not uri.startswith('file://'):
-                
+
                 slash = uri.find('/', sep+3)
                 if slash > 0:
                     uri = uri[:slash]
@@ -194,7 +194,10 @@ class HTTPRequest(object):
         #    print "setting cookie", c
 
         handlers[xmlHttp] = handler
-        xmlHttp.send(postData or '')
+        try:
+            xmlHttp.send(postData or '')
+        except:
+            handler.onError("xmlHttp.send error", -1)
 
         return xmlHttp
 

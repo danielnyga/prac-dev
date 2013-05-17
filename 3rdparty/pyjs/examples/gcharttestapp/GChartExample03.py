@@ -28,7 +28,7 @@ class GChartExample03(GChart):
         self.getCurve().getSymbol().setModelWidth(0.5)
         for i in range(10):
             self.getCurve().addPoint(i,i*10)
-        
+
         if do_axis2:
             self.addCurve()
             self.getCurve().setLegendLabel("<i>x<sup>2</sup></i>")
@@ -40,11 +40,11 @@ class GChartExample03(GChart):
             self.getCurve().getSymbol().setBackgroundColor("navy")
             self.getCurve().getSymbol().setFillThickness(2)
             self.getCurve().getSymbol().setFillSpacing(5)
-            
+
             for i in range(self.getCurve(0).getNPoints()):
                 self.getCurve().addPoint(i,i*i)
-            
-        
+
+
         self.getXAxis().setAxisLabel("<i>x</i>")
         self.getXAxis().setHasGridlines(True)
         self.getXAxis().setTickThickness(0); # hide tick marks...
@@ -59,6 +59,6 @@ class GChartExample03(GChart):
             self.getY2Axis().setHasGridlines(True)
             # last bar 'sticks out' over right edge, so extend 'grid' right:
             self.getY2Axis().setTickLength(15)
-    
+
 
 

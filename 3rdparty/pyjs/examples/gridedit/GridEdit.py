@@ -14,7 +14,7 @@ from pyjamas import Window
 
 class GridEdit:
     def onModuleLoad(self):
-        
+
         self.input = TextBox()
         self.input.setEnabled(False)
         self.input.addKeyboardListener(self)
@@ -28,7 +28,7 @@ class GridEdit:
         self.g.setWidth("500px")
         self.g.setHeight("120px")
         self.g.addTableListener(self)
-        
+
         self.initGrid()
         RootPanel().add(self.input)
         RootPanel().add(self.g)
@@ -46,7 +46,7 @@ class GridEdit:
             self.input.setEnabled(False)
             val = self.input.getText()
             self.set_grid_value(self.row, self.col, val)
-            
+
     def onCellClicked(self, sender, row, col):
         self.row = row
         self.col = col
@@ -62,7 +62,7 @@ class GridEdit:
         self.g.setHTML(row, col, val)
 
     def initGrid(self):
-        
+
         self.values = {}
         for y in range(5):
             self.values[y] = {}

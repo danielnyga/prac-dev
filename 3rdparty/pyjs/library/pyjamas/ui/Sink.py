@@ -9,7 +9,7 @@ class SinkList(Composite):
         self.vp_list=VerticalPanel()
         self.sinks=[]
         self.selectedSink=-1
-        
+
         self.initWidget(self.vp_list)
         self.setStyleName("ks-List")
 
@@ -42,10 +42,10 @@ class SinkList(Composite):
 class Sink(Composite):
     def __init__(self):
         Composite.__init__(self)
-    
+
     def onHide(self):
         pass
-        
+
     def onShow(self):
         pass
 
@@ -71,7 +71,7 @@ class SinkInfo:
         if self.instance is None:
             self.instance = self.createInstance()
         return self.instance
-    
+
     def getName(self):
         return self.name
-    
+

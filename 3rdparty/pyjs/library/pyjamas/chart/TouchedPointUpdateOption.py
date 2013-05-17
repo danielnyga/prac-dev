@@ -30,7 +30,7 @@
 class TouchedPointUpdateOption(object):
     def __init__(self):
         pass
-    
+
 """*
 * When this option is passed to the update method, any
 * touched point is cleared as a consequence of the update.

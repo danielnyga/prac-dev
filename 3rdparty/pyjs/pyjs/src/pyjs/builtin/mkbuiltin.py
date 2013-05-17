@@ -31,6 +31,7 @@ short_names = {
 
 class Replacement(object):
     re_p = re.compile('''[$]{\s*([0-9]+)(\s*,\s*([^,]+?))+\s*}[$]''')
+    re_empty_line = re.compile('''^ +$''', re.M)
 
     def substitute(self, src, names):
         def subs(m):
@@ -54,6 +55,7 @@ class Replacement(object):
         for name in names:
             if isinstance(names[name], basestring):
                 dst = dst.replace('${%s}' % name, names[name])
+        dst = self.re_empty_line.sub('', dst)
         return dst
 
     def repl_g(self):
@@ -324,8 +326,7 @@ if (dstar !== null || named !== null) {
         dstar[k] = named[k];
     }
     dstar = $new(@{{dict}}, dstar);
-}
-""", locals())
+}""", locals())
 
     def repl_call_tail(self):
         return self.substitute("""\
@@ -485,6 +486,7 @@ if (method$ === B$__new__) {
 ${1, __new__, instance, ${cls}}$
 } else {
     instance = ${fcall}.apply(module, [module, null, method$, ${cls}, ${cls}].concat(${args}));
+    instance['__class__'] = cls;
 }
 if (instance['$inst'] === true) {
 ${1, getattribute, mro$, method$, ${cls}, '__init__'}$
@@ -815,7 +817,7 @@ if (${a} !== null && ${b} !== null) {
             return @{{long}}['$dict'].__cmp__(${a}, ${b}) == 0 ? ${val1} : ${val2};
     }
 }
-return ${val2}""" % locals(), locals())
+return ${val2};""" % locals(), locals())
 
         if op in ['in', 'not_in']:
             return self.substitute("""\
@@ -837,8 +839,7 @@ for (;;) {
     if (@{{op_eq}}(i, ${a})) {
         return ${val1};
     }
-}
-""" % locals(), locals())
+}""" % locals(), locals())
 
         valnull = '${val2}'
         if not '=' in op:

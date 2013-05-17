@@ -13,7 +13,7 @@
 from pyjs.jsonrpc import JSONRPCServiceBase, jsonremote
 
 class JSONRPCService(JSONRPCServiceBase):
-    
+
     def __call__(self, request, extra=None):
         return self.process(request.raw_post_data)
 

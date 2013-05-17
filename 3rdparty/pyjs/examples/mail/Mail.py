@@ -30,7 +30,7 @@ class Mail:
         # 'singleton'.
         mailList = MailList(self.singleton)
         mailList.setWidth("100%")
-        
+
         # Create the right panel, containing the email list & details.
         rightPanel.add(mailList)
         rightPanel.add(self.mailDetail)
@@ -56,13 +56,13 @@ class Mail:
         # because we want to take advantage of the entire client area.
         Window.enableScrolling(False)
         Window.setMargin("0px")
-        
+
         # Finally, add the outer panel to the RootPanel, so that it will be
         # displayed.
         #RootPanel.get().add(outer) # FIXME get#
         RootPanel().add(outer)
         RootPanel().add(Logger())
-        
+
         # Call the window resized handler to get the initial sizes setup. Doing
         # this in a deferred command causes it to occur after all widgets' sizes
         # have been computed by the browser.

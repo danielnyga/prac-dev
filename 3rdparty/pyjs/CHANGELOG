@@ -1,8 +1,13 @@
-                    Changes made to Pyjamas since 0.8.1~+alpha1
-                    ---------------------------------
-
                     Changes made to Pyjamas since 0.8pre1
                     ---------------------------------
+
+ * completed the port of RichTextArea, added an example RichTextToolbar,
+   and added a port of gwt-selection which can be used to highlight
+   links, add span styles around blocks etc.  unsurprisingly an additional
+   example named "richtext" has been added.
+
+ * modified DisclosurePanel and Tree widgets to allow use of
+   alternative sets of images. Issue #715. (Phil Charlesworth)
 
  * added Gradient and Text support to GWTCanvas IE implementation,
    thanks to Bob Hamilton

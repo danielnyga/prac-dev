@@ -290,11 +290,11 @@ class BuiltinTest(UnitTest):
         self.assertTrue(CLS is imports.loccls.CLS, "CLS is imports.loccls.CLS")
         self.assertTrue(CLS is imports.upcls.CLS, "CLS is imports.upcls.CLS")
 
-    def testImport(self): 
+    def testImport(self):
 
         self.fail("Bug #XXX - from X import .. not completely implemented, only considering modules")
         return
-        
+
         from imports import __doc__ as imports_doc
         self.assertEqual(imports.__doc__, imports_doc, "Module object must have __doc__ attribute")
         from imports import __name__ as imports_name
@@ -306,12 +306,12 @@ class BuiltinTest(UnitTest):
         self.assertEqual(imports.all_import1, 1)
         self.assertEqual(imports.all_import2, 3)
         self.assertEqual(imports.all_import3, 3)
-        
-        
+
+
         # import builtins module
         import __builtin__
         self.assertEqual(__builtin__.dict, dict, "__builtin__.dict != dict")
-        
+
         from __builtin__ import dict as dict_bltin
         self.assertEqual(dict_bltin, dict, "__builtin__.dict != dict")
 
@@ -486,7 +486,7 @@ class BuiltinTest(UnitTest):
             e = 2
         self.assertEqual(i, 0)
         self.assertEqual(e, 1)
-        
+
         class X(object):
             pass
         x = X()
@@ -494,27 +494,27 @@ class BuiltinTest(UnitTest):
         for x.a in [3,4,5]:
             pass
         self.assertEqual(x.a, 5)
-                
+
         d = {}
         for d['zz'] in [1,2,3]:
             pass
         self.assertEqual(d, {'zz': 3})
-        
+
         l = [1]
         for l[0] in [1,2,3]:
             pass
         self.assertEqual(l, [3])
-        
+
         l = [1,3,4]
         for l[1:2] in [[5,6,7]]:
             pass
         self.assertEqual(l, [1, 5, 6, 7, 4])
-        
+
         x = ((1, 2), 3, (4, 5))
         for (a, b), c, (d, e) in [x]*5:
             pass
         self.assertEqual([a, b, c, d, e], [1,2,3,4,5])
-        
+
         for [[a, b], c, [d, e]] in [x]*5:
             pass
         self.assertEqual([a, b, c, d, e], [1,2,3,4,5])
@@ -745,7 +745,7 @@ class BuiltinTest(UnitTest):
                 if format_spec == 'd':
                     return 'G(' + self.x + ')'
                 return object.__format__(self, format_spec)
-                    
+
         class Galt:
             def __init__(self, x):
                 self.x = x

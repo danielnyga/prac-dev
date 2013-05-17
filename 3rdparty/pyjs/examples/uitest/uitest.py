@@ -4,9 +4,9 @@ from pyjamas.Timer import Timer
 
 from __pyjamas__ import doc
 
-from UnitTest import IN_BROWSER, IN_JS, IN_BROWSER
+from UnitTest import IN_BROWSER, IN_JS
 
-from DockPanelTest import DockPanelTest 
+from DockPanelTest import DockPanelTest
 from LabelTest import LabelTest
 from DOMTest import DOMTest
 from EventTest import EventTest
@@ -67,6 +67,5 @@ if __name__ == '__main__':
     if hasattr(sys, 'argv'):
         if len(sys.argv) == 2:
             test_gen_output_folder = sys.argv[1]
-        
-    main(test_gen_output_folder )
 
+    main(test_gen_output_folder )

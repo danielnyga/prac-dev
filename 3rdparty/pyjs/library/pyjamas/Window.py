@@ -78,7 +78,7 @@ def getLocation():
     if not location:
         location = Location.Location(wnd().location)
     return location
- 
+
 def getTitle():
     return doc().title
 

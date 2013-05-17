@@ -4,17 +4,17 @@ A modification of pyjamas DeferredMethod
 @contact: tobi-weber@gmx.de
 """
 
-from pyjamas.Timer import Timer 
+from pyjamas.Timer import Timer
 
 global deferredHandlers
 deferredHandlers = []
 global timerIsActive
-timerIsActive = False 
-   
+timerIsActive = False
+
 def add(handler, arguments=[]):
     deferredHandlers.append([handler, arguments])
     maybeSetDeferredHandlerTimer()
-  
+
 def flushDeferredHandlers():
     for i in range(len(deferredHandlers)):
         current = deferredHandlers[0]
@@ -23,17 +23,17 @@ def flushDeferredHandlers():
             handler = current[0]
             args = current[1]
             handler(*args)
-    
+
 def maybeSetDeferredHandlerTimer():
     global timerIsActive
-    
+
     if (not timerIsActive) and (not len(deferredHandlers)==0):
         Timer(1, onTimer)
         timerIsActive = True
-  
+
 def onTimer(t):
     global timerIsActive
-    
+
     flushDeferredHandlers()
     timerIsActive = False
-    maybeSetDeferredHandlerTimer() 
+    maybeSetDeferredHandlerTimer()

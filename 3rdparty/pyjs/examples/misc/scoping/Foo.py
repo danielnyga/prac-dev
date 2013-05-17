@@ -8,9 +8,9 @@ def b():
 class Foo:
     def __init__(self):
         Window.alert("Next you should see 'in a', 'in b'")
-        x = [a, b]       
+        x = [a, b]
         for f in x:
-            f() 
+            f()
 
 
 class Bar:
@@ -20,9 +20,9 @@ class Bar:
         Window.alert( "in Bar b" )
 
     Window.alert("Next you should see 'in Bar a', 'in Bar b'")
-    x = [a, b]       
+    x = [a, b]
     for f in x:
-        f() 
+        f()
 
     def __init__(self):
 
@@ -32,6 +32,6 @@ class Bar:
             Window.alert( "in bar b" )
 
         Window.alert("you should now see 'in bar a', 'in bar b'")
-        x = [a, b]       
+        x = [a, b]
         for f in x:
-            f() 
+            f()

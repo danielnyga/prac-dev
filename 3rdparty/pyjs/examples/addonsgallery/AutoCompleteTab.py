@@ -11,14 +11,14 @@ class AutoCompleteTab(Sink):
         Sink.__init__(self)
         self.colour_input = AutoCompleteTextBox()
         self.colour_input.setCompletionItems(colours)
-        
+
         panel = HorizontalPanel()
         panel.add(HTML("Enter a colour: "))
         panel.add(self.colour_input)
 
         panel.setSpacing(8)
         self.setWidget(panel)
-        
+
 
     def onShow(self):
         #self.colour_input.setFocus(True)

@@ -50,10 +50,10 @@ def getNumberOfCharsWide(s):
     result = 0
     if not s.startswith("<html>"):
         result = len(s)
-    
+
     else:
         result = htmlWidth(s)
-    
+
     return result
 
 class Annotation:
@@ -75,7 +75,7 @@ class Annotation:
         self.numberOfCharsWide = 0
         self.widthUpperBound = NAI
         self.heightUpperBound = NAI
-        
+
     """
     * Computes parameters used to estimate the width and height
     * of the (invisible) enclosing 1x1 Grid of an annotation
@@ -88,14 +88,14 @@ class Annotation:
             self._isHTML = False
             self.numberOfLinesHigh = 0
             self.numberOfCharsWide = 0
-        
+
         elif hasattr(s, "startswith") and not s.startswith("<html>"):
             # no html==>plain text
             self._isHTML = False
             self.numberOfLinesHigh = 1
             self.numberOfCharsWide = len(s)
             result = s
-        
+
         else:
             # HTML
             self._isHTML = True
@@ -103,81 +103,81 @@ class Annotation:
             result = s[HTML_LEN:]
             if self.widthUpperBound == NAI:
                 self.numberOfCharsWide = htmlWidth(result)
-            
-            
+
+
             if self.heightUpperBound == NAI:
                 self.numberOfLinesHigh = htmlHeight(result)
-            
-            
-        
+
+
+
         return result
-        
-    
-    
+
+
+
     def getFontColor(self):
         return self.fontColor
-    
+
     def getFontSize(self):
         return self.fontSize
-    
-    
+
+
     def getLocation(self):
         return self.location
-    
-    
+
+
     def isHTML(self):
         return self._isHTML
-    
-    
+
+
     def getText(self):
         if self._isHTML:
             return "<html>" + (self.text or "")
         return self.text
-    
+
     def getVisible(self):
         return self.visible
-    
+
     def getXShift(self):
         return self.xShift
-    
+
     def getYShift(self):
         return self.yShift
-    
-    
+
+
     def setFontColor(self, cssColor):
         self.fontColor = cssColor
-    
+
     def setFontSize(self, fontSize):
         self.fontSize = fontSize
-    
+
     def setFontWeight(self, cssWeight):
         self.fontWeight = cssWeight
-    
+
     def setFontStyle(self, cssStyle):
         self.fontStyle = cssStyle
-    
-    
+
+
     def getFontWeight(self):
         return self.fontWeight
-    
+
     def getFontStyle(self):
         return self.fontStyle
-    
-    
+
+
     def setLocation(self, location):
         self.location = location
-    
-    
+
+
     def setText(self, text, widthUpperBound=NAI, heightUpperBound=NAI):
         self.widthUpperBound = widthUpperBound
         self.heightUpperBound = heightUpperBound
         self.text = self.analyzeHTML(text)
         self.widget = None
-    
+
     def setVisible(self, visible):
         self.visible = visible
-    
-    
+
+
     def setWidget(self, widget,
                     widthUpperBound=DEFAULT_WIDGET_WIDTH_UPPERBOUND,
                     heightUpperBound=DEFAULT_WIDGET_HEIGHT_UPPERBOUND):
@@ -187,44 +187,44 @@ class Annotation:
         self.heightUpperBound = heightUpperBound
         self.text = None
         self.widget = widget
-    
+
     def getWidget(self):
         return self.widget
-    
-    
+
+
     def setXShift(self, xShift):
         self.xShift = xShift
-    
+
     def setYShift(self, yShift):
         self.yShift = yShift
-    
-    
+
+
     def getHeightUpperBound(self):
         result = 0
         if self.heightUpperBound != NAI:
             result = self.heightUpperBound
-        
+
         else:
             result = int (math.ceil(self.fontSize *
                             self.numberOfLinesHigh *
                             CHARHEIGHT_TO_FONTSIZE_UPPERBOUND))
-        
+
         return result
-    
-    
+
+
     def getWidthUpperBound(self):
         result = 0
         if self.widthUpperBound != NAI:
             result = self.widthUpperBound
-        
+
         else:
             result = int ( math.ceil(self.fontSize *
                                 self.numberOfCharsWide *
                                 CHARWIDTH_TO_FONTSIZE_UPPERBOUND))
-        
+
         return result
-    
-    
+
+
  # end of class Annotation
 
 

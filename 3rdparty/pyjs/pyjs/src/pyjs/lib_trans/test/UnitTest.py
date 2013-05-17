@@ -32,7 +32,7 @@ class UnitTest:
         test_method=getattr(self, test_method_name)
         self.current_test_name = test_method_name
         self.setUp()
-        try:        
+        try:
             try:
                 test_method()
             except Exception, e:
@@ -83,12 +83,12 @@ class UnitTest:
                 msg=" " + str(msg)
             if self.current_test_name:
                 msg += " (%s) " % self.getCurrentTestID()
-            return self.getName() + msg + ": " 
+            return self.getName() + msg + ": "
         return ""
 
     def getCurrentTestID(self):
         return "%s/%i" % (self.current_test_name,self.tests_completed)
-        
+
 
     def getTestMethods(self):
         self.test_methods=[]

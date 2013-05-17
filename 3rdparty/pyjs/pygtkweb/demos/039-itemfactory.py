@@ -31,7 +31,7 @@ class ItemFactoryExample:
     #       <path>             -> path of a radio item to link against
     #       "<Separator>"      -> create a separator
     #       "<Branch>"         -> create an item to hold sub items (optional)
-    #       "<LastBranch>"     -> create a right justified branch 
+    #       "<LastBranch>"     -> create a right justified branch
 
     def get_main_menu(self, window):
         accel_group = gtk.AccelGroup()

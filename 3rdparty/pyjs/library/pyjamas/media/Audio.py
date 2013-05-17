@@ -21,11 +21,11 @@ from pyjamas import DOM
 * An HTML5 AUDIO element
 """
 class Audio(Media):
-    
+
     def __init__(self, src=None, **kwargs):
         self.setElement(DOM.createElement("audio"))
         if src:
             self.setSrc(src)
-    
+
         Media.__init__(self, **kwargs)
 

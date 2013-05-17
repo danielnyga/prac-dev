@@ -16,7 +16,7 @@ class REPL(object):
         self.jscontext = jscontext
         self.jscontext.eval(js_interactive_func)
         self.jscontext.eval(set_main)
-        
+
     def __call__(self):
         """
         Start read-eval-print loop
@@ -31,7 +31,7 @@ class REPL(object):
             jsglob = self.jsglobal
             )
         self.shell(local_ns=locs)
-        
+
     def translate(self, src):
         output = StringIO()
         tree = self.compiler.parse(src + "\n")
@@ -41,7 +41,7 @@ class REPL(object):
         jssrc = output.getvalue()
         output.close()
         return jssrc, t.imported_modules, t.imported_js
-    
+
     def eval(self, code, print_result=False):
         try:
             res = self.jscontext.eval(code)
@@ -50,7 +50,7 @@ class REPL(object):
         except Exception, e:
             print e
         return 0
-        
+
 js_interactive_func = """
 function runinteractive (f, ctxt)
 {
@@ -74,7 +74,7 @@ shell  - PyV8Shell instance
 jsctxt - PyV8 context
 jsglob - PyV8 globals
 """
-    
+
 class V8InteractiveShell(InteractiveShell):
     _js_int = None
     _is_native = False
@@ -201,7 +201,7 @@ class V8ShellEmbed(IPShellEmbed):
                                              mode = self.IP.rc.xmode,
                                              call_pdb = self.IP.rc.pdb)
         self.restore_system_completer()
-        
+
 
 class InteractiveTranslator(translator.Translator):
     def __init__(self, compiler,
@@ -224,11 +224,11 @@ class InteractiveTranslator(translator.Translator):
         self.output = output
         self.dynamic = dynamic
         self.findFile = findFile
-        
+
         self.set_compile_options(kw)
 
         self.future_division = False
-        
+
         self.imported_modules = []
         self.imported_js = []
         self.is_class_definition = False

@@ -22,7 +22,7 @@ from __pyjamas__ import jsimport
 jsimport("example.js")
 
 def main():
-    global examplevar 
+    global examplevar
     #examplevar is actually "out of modules", in a super scope
 
     log.debug(examplevar)

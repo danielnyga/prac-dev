@@ -47,7 +47,7 @@ class DbTest():
 
             rs.next()
         rs.close()
-            
+
 if __name__ == '__main__':
     app = DbTest()
 

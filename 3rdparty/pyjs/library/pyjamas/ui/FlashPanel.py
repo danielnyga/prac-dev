@@ -21,12 +21,11 @@ def browser():
     return 'w3c'
 
 class FlashPanel(Panel):
-    
+
     def __init__(self, **kwargs):
         element = DOM.createDiv()
         self.setElement(element)
-        Panel.__init__(self, **kwargs)
-        
+
         self.object_id = 'FlashObject'
         """ id of the object-tag. Default: FlashObject """
         self.object_class = None
@@ -52,58 +51,60 @@ class FlashPanel(Panel):
         self.flashvars = ''
         self.browser = browser()
         #log.debug('FlashPanel loaded on %s' % self.browser)
-        
+
+        Panel.__init__(self, **kwargs)
+
     def onLoad(self):
         DOM.setInnerHTML(self.element, self.__getFlashHTML())
-    
+
     def getObjectID(self):
         """
         @return: id of the object-tag
         """
         return self.object_id
-         
+
     def setObjectID(self, object_id):
         """
         @param object_id: The id of the object-tag
         """
         self.object_id = object_id
-    
+
     def getObjectClass(self):
         """
         @return: class-name of the object-tag
         """
         return self.object_class
-    
+
     def setObjectClass(self, object_class):
         """
         @param object_class: The class-name of the object-tag
         """
         self.object_class = object_class
-    
+
     def getObjectWidth(self):
         """
         @return: width parameter of the object-tag
         """
         return self.object_width
-    
+
     def setObjectWidth(self, width):
         """
-        @param object_class: The width parameter of the object-tag
+        @param width: The width parameter of the object-tag
         """
         self.object_width = str(width)
-    
+
     def getObjectHeight(self):
         """
         @return: height parameter of the object-tag
         """
         return self.object_height
-    
+
     def setObjectHeight(self, height):
         """
-        @param object_class: The height parameter of the object-tag
+        @param height: The height parameter of the object-tag
         """
         self.object_height = str(height)
-        
+
     def getFlashUrl(self):
         """
         @return: url of the flashmovie
@@ -115,31 +116,31 @@ class FlashPanel(Panel):
         @param flash_url: The url of the flash_movie
         """
         self.flash_url = flash_url
-    
+
     def getWmode(self):
         """
         @return: flash parameter wmode
         """
         return self.wmode
-    
+
     def setWmode(self, wmode):
         """
         @param wmode: The flash parameter wmode
         """
         self.wmode = wmode
-        
+
     def getQuality(self):
         """
         @return: flash parameter quality
         """
         return self.quality
-    
+
     def setQuality(self, quality):
         """
         @param quality: The flash parameter quality
         """
         self.quality = quality
-        
+
     def getMenu(self):
         """
         @return: flash parameter menu
@@ -148,7 +149,7 @@ class FlashPanel(Panel):
             return True
         else:
             return False
-    
+
     def setMenu(self, menu):
         """
         @param menu: The flash parameter menu
@@ -157,7 +158,7 @@ class FlashPanel(Panel):
             self.menu = 'true'
         else:
             self.menu = 'false'
-            
+
     def getAllowFullscreen(self):
         """
         @return: flash parameter allowfullscreen
@@ -166,7 +167,7 @@ class FlashPanel(Panel):
             return True
         else:
             return False
-    
+
     def setAllowFullscreen(self, allowFullscreen):
         """
         @param allowFullscreen: The flash parameter allowfullscreen
@@ -175,45 +176,45 @@ class FlashPanel(Panel):
             self.allowFullscreen = 'true'
         else:
             self.allowFullscreen = 'false'
-        
+
     def getBGColor(self):
         """
         @return: flash parameter bgcolor
         """
         return self.bgColor
-    
+
     def setBGColor(self, bgcolor):
         """
         @param bgcolor: The flash parameter bgcolor
         """
         self.bgColor = bgcolor
-        
+
     def getFlashVars(self):
         """
         @return: flash parameter flashvars
         """
         return self.flashvars
-    
+
     def setFlashVars(self, flashvars):
         """
         @param flashvars: The flash parameter flashvars
         """
         self.flashvars = flashvars
-        
+
     def __getFlashHTML(self):
-        object = 'id="'+self.object_id+'"'
+        obj = 'id="'+self.object_id+'"'
         if self.object_width:
-            object += ' width="'+self.object_width+'"'
+            obj += ' width="'+self.object_width+'"'
         if self.object_height:
-            object += ' height="'+self.object_height+'"'
+            obj += ' height="'+self.object_height+'"'
         if self.object_class:
-            object += ' class="'+self.object_class+'"'
+            obj += ' class="'+self.object_class+'"'
         if self.browser == 'ie':
-            object += ' classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"'
+            obj += ' classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"'
         else:
-            object += ' type="application/x-shockwave-flash"' 
-            object += ' data="'+self.flash_url+'"'
-        html =  ['<object %s>' % object]
+            obj += ' type="application/x-shockwave-flash"'
+            obj += ' data="'+self.flash_url+'"'
+        html =  ['<object %s>' % obj]
         if self.flash_url:
             html.append('<param name="movie" value="'+self.flash_url+'" />')
         if self.quality:
@@ -238,32 +239,32 @@ class FlashPanel(Panel):
         </div>
         """)
         html.append('</object>')
-        
+
         flashvars = ''.join(html)
         return flashvars
-            
+
     def getMovieElement(self):
         """
         @return: element DOM-Object of the object-tag
-        """ 
+        """
         element = DOM.getElementById(self.object_id)
         return element
-    
+
     def callFlash(self, functionName, arguments=[]):
         """
         @param functionName: Methodname of ExternalInterface
         @param arguments: List with arguments of ExternalInterfaces method
-        
+
         @return: return value of ExternalInterfaces method
         """
         raise NotImplemented("calling of javascript and conversion of javascript parameters is required")
-    
+
     def toJS(self, list_or_dict):
         """
         @param list_or_dict: A List or a Dictonary
-        
+
         Converting recrusive Dictonarys and Lists to Javascript Types.
-        
+
         @return: javascript array or object
         """
         raise NotImplemented("conversion of javascript parameters is required")
@@ -274,5 +275,5 @@ class FlashPanel(Panel):
         """
         arguments = self.toJS(arguments)
         return wnd().__flash__argumentsToXML(arguments, num);
-        
-        
+
+

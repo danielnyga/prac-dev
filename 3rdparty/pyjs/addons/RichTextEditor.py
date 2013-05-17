@@ -32,7 +32,7 @@ JS("""
 
 class RichTextEditor(Widget):
 
-    def __init__(self, initialValue="", target="", method="POST", 
+    def __init__(self, initialValue="", target="", method="POST",
                         basePath=None, **kwargs):
 
         self.id = "rte" + str(hash(self))

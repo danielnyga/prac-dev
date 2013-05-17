@@ -5,9 +5,9 @@ from pyjamas.ui.RootPanel import RootPanel
 
 class HangMan:
     def onModuleLoad(self):
-        self.webspace=HangManWidget() 
+        self.webspace=HangManWidget()
         RootPanel().add(self.webspace)
-    
+
 
 if __name__ == '__main__':
     # for pyjd, set up a web server and load the HTML from there:

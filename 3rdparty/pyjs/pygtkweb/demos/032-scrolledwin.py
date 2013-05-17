@@ -12,7 +12,7 @@ class ScrolledWindowExample:
 
     def __init__(self):
         # Create a new dialog window for the scrolled window to be
-        # packed into. 
+        # packed into.
         window = gtk.Dialog()
         window.connect("destroy", self.destroy)
         window.set_title("ScrolledWindow example")
@@ -33,7 +33,7 @@ class ScrolledWindowExample:
         # The dialog window is created with a vbox packed into it.
         window.vbox.pack_start(scrolled_window, True, True, 0)
         scrolled_window.show()
-    
+
         # create a table of 10 by 10 squares.
         table = gtk.Table(10, 10, False)
 

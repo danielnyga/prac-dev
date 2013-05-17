@@ -40,15 +40,15 @@ class DialogBoxModal(PopupPanel):
         self.dragStartX = 0
         self.dragStartY = 0
         self.panel = FlexTable()
-        
+
         self.closeButton = Image("images/cancel.png")
         self.closeButton.addClickListener(self)
         dock = DockPanel()
         dock.setSpacing(0)
-        
+
         dock.add(self.closeButton, DockPanel.EAST)
         dock.add(self.caption, DockPanel.WEST)
-        
+
         dock.setCellHorizontalAlignment(self.closeButton, HasAlignment.ALIGN_RIGHT)
         dock.setCellHorizontalAlignment(self.caption, HasAlignment.ALIGN_LEFT)
         dock.setCellWidth(self.caption, "100%")
@@ -189,14 +189,14 @@ class PopupFrame(DialogBoxModal):
         #closeButton = Button("Close", self)
         #msg = HTML("<center>IFRAME:</center>", True)
         self.iframe.setStyleName("gwt-DialogFrame")
-        
+
         self.dock = DockPanel()
         self.dock.setSpacing(4)
-        
+
         #dock.add(closeButton, DockPanel.SOUTH)
         #dock.add(msg, DockPanel.NORTH)
         self.dock.add(self.iframe, DockPanel.CENTER)
-        
+
         #dock.setCellHorizontalAlignment(closeButton, HasAlignment.ALIGN_RIGHT)
         self.dock.setCellWidth(self.iframe, "100%")
         self.dock.setWidth("100%")
@@ -212,7 +212,7 @@ class PopupFrame(DialogBoxModal):
 
     def set_width(self, width):
 
-        self.iframe.setWidth("%dpx" % width) 
+        self.iframe.setWidth("%dpx" % width)
 
     def set_height(self, height):
         self.iframe.setHeight("%dpx" % height)

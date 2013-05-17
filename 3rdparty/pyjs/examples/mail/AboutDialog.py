@@ -9,7 +9,7 @@ from pyjamas.ui.Widget import Widget
 from pyjamas.ui import HasAlignment
 
 class AboutDialog(DialogBox):
-    
+
   LOGO_IMAGE = "http://trac.pyworks.org/pyjamas/chrome/site/pyjamas-logo-small.png"
 
   def __init__(self):
@@ -22,7 +22,7 @@ class AboutDialog(DialogBox):
       # Create a DockPanel to contain the 'about' label and the 'OK' button.
       outer = DockPanel()
       outer.setSpacing(4)
-      
+
       outer.add(Image(AboutDialog.LOGO_IMAGE), DockPanel.WEST)
 
       # Create the 'OK' button, along with a listener that hides the dialog
@@ -52,7 +52,7 @@ class AboutDialog(DialogBox):
 
   def onClick(self, sender):
       self.hide()
-      
+
   def onKeyDownPreview(self, key, modifiers):
       # Use the popup's key preview hooks to close the dialog when either
       # enter or escape is pressed.

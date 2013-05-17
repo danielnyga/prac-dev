@@ -14,7 +14,7 @@ class LoggerCls(Grid):
         self.resize(len(self.targets)+1, 2)
         self.setBorderWidth("1px")
         self.counter=0
-        
+
         self.setHTML(0, 0, "<b>Log</b>")
         self.setText(1, 0, "app")
         for i in range(len(self.targets)):
@@ -26,30 +26,30 @@ class LoggerCls(Grid):
         self.resize(len(self.targets)+1, 2)
         self.setText(len(self.targets), 0, target)
         return self.targets.index(target)
-        
+
     def write(self, target, message):
         self.counter+=1
-        
+
         if target=='':
             target='app'
         try:
             target_idx=self.targets.index(target)
         except ValueError:
             target_idx = -1
-        
+
         # add new target
         if target_idx<0:
             target_idx=self.addTarget(target)
-        
-        target_row=target_idx+1     
+
+        target_row=target_idx+1
         old_text=self.getHTML(target_row, 1)
         log_line="%d: " % self.counter + message
 
         if old_text=='&nbsp;':
-            new_text=log_line            
+            new_text=log_line
         else:
             new_text=old_text + "<br>" + log_line
-        self.setHTML(target_row, 1, new_text) 
+        self.setHTML(target_row, 1, new_text)
 
 def Logger(target="", message=""):
     global _logger
@@ -58,5 +58,5 @@ def Logger(target="", message=""):
         _logger = LoggerCls()
 
     _logger.write(target, message)
-    
+
     return _logger

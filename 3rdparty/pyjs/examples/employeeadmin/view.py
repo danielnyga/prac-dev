@@ -1,5 +1,5 @@
 """
-PureMVC Python Demo - wxPython Employee Admin 
+PureMVC Python Demo - wxPython Employee Admin
 By Toby de Havilland <toby.de.havilland@puremvc.org>
 Copyright(c) 2007-08 Toby de Havilland, Some rights reserved.
 Addapted for pyjamas: Kees Bos
@@ -14,9 +14,9 @@ from ApplicationConstants import Command, Notification
 from pyjamas.Window import alert
 
 class DialogMediator(Mediator):
-    
+
     NAME = 'DialogMediator'
-    
+
     def __init__(self, viewComponent):
         super(DialogMediator, self).__init__(DialogMediator.NAME, viewComponent)
         self.viewComponent.mediator = self
@@ -35,21 +35,21 @@ class DialogMediator(Mediator):
             raise
 
 class UserFormMediator(Mediator):
-    
+
     NAME = 'UserFormMediator'
-    
+
     userProxy = None
-    
+
     def __init__(self, viewComponent):
         super(UserFormMediator, self).__init__(UserFormMediator.NAME, viewComponent)
         self.viewComponent.mediator = self
         self.viewComponent.addBtn.addClickListener(self.onAdd)
         self.viewComponent.cancelBtn.addClickListener(self.onCancel)
-        
+
         self.userProxy = self.facade.retrieveProxy(model.UserProxy.NAME)
-        self.viewComponent.updateDepartmentCombo(ApplicationConstants.DeptList, 
+        self.viewComponent.updateDepartmentCombo(ApplicationConstants.DeptList,
                                                  ApplicationConstants.DEPT_NONE_SELECTED)
-        
+
     def listNotificationInterests(self):
         return [
         Notification.NEW_USER,
@@ -57,18 +57,18 @@ class UserFormMediator(Mediator):
         Notification.USER_SELECTED
         ]
 
-    def handleNotification(self, note): 
+    def handleNotification(self, note):
         try:
             noteName = note.getName()
             if noteName == Notification.NEW_USER:
                 self.viewComponent.clearForm()
                 self.viewComponent.updateMode(self.viewComponent.MODE_ADD)
                 self.viewComponent.firstInput.setFocus(True)
-            
+
             if noteName == Notification.USER_DELETED:
                 self.viewComponent.user = None
                 self.viewComponent.clearForm()
-                
+
             if noteName == Notification.USER_SELECTED:
                 user = note.getBody()
                 if not user:
@@ -78,7 +78,7 @@ class UserFormMediator(Mediator):
                     self.viewComponent.updateMode(self.viewComponent.MODE_EDIT)
         except:
             raise
-    
+
     def onAdd(self, evnt):
         if self.viewComponent.mode == self.viewComponent.MODE_ADD:
             self.addUser()
@@ -88,10 +88,10 @@ class UserFormMediator(Mediator):
     def addUser(self):
         l = self.viewComponent.departmentCombo.getSelectedItemText(True)
         l = l and l[0] or None
-        user = vo.UserVO(self.viewComponent.usernameInput.getText(), 
-                         self.viewComponent.firstInput.getText(), 
-                         self.viewComponent.lastInput.getText(), 
-                         self.viewComponent.emailInput.getText(), 
+        user = vo.UserVO(self.viewComponent.usernameInput.getText(),
+                         self.viewComponent.firstInput.getText(),
+                         self.viewComponent.lastInput.getText(),
+                         self.viewComponent.emailInput.getText(),
                          self.viewComponent.passwordInput.getText(),
                          l)
         self.viewComponent.user = user
@@ -102,10 +102,10 @@ class UserFormMediator(Mediator):
     def updateUser(self):
         l = self.viewComponent.departmentCombo.getSelectedItemText(True)
         l = l and l[0] or None
-        user = vo.UserVO(self.viewComponent.usernameInput.getText(), 
-                         self.viewComponent.firstInput.getText(), 
-                         self.viewComponent.lastInput.getText(), 
-                         self.viewComponent.emailInput.getText(), 
+        user = vo.UserVO(self.viewComponent.usernameInput.getText(),
+                         self.viewComponent.firstInput.getText(),
+                         self.viewComponent.lastInput.getText(),
+                         self.viewComponent.emailInput.getText(),
                          self.viewComponent.passwordInput.getText(),
                          l)
         self.viewComponent.user = user
@@ -120,7 +120,7 @@ class UserFormMediator(Mediator):
 class UserListMediator(Mediator):
 
     NAME = 'UserListMediator'
-    
+
     userProxy = None
 
     def __init__(self, viewComponent):
@@ -128,10 +128,10 @@ class UserListMediator(Mediator):
         self.viewComponent.newBtn.addClickListener(self.onNewUser)
         self.viewComponent.deleteBtn.addClickListener(self.onDeleteUser)
         self.viewComponent.userGrid.addTableListener(self.onSelectUser)
-        
+
         self.userProxy = self.facade.retrieveProxy(model.UserProxy.NAME)
         self.viewComponent.updateUserGrid(self.userProxy.getUsers())
-        
+
     def listNotificationInterests(self):
         return [
         Notification.CANCEL_SELECTED,
@@ -147,25 +147,25 @@ class UserListMediator(Mediator):
             if noteName == Notification.CANCEL_SELECTED:
                 self.viewComponent.deSelect()
                 self.viewComponent.updateUserGrid(self.userProxy.getUsers())
-            
+
             elif noteName == Notification.USER_UPDATED:
                 self.viewComponent.deSelect()
                 self.viewComponent.updateUserGrid(self.userProxy.getUsers())
-            
+
             elif noteName == Notification.USER_ADDED:
                 self.viewComponent.deSelect()
                 self.viewComponent.updateUserGrid(self.userProxy.getUsers())
-            
+
             elif noteName == Notification.USER_DELETED:
                 self.viewComponent.deSelect()
                 self.viewComponent.updateUserGrid(self.userProxy.getUsers())
         except:
             raise
-            
+
     def onSelectUser(self, evt):
         self.sendNotification(Notification.USER_SELECTED,
                               self.viewComponent.selectedUser)
-    
+
     def onNewUser(self, evnt):
         self.viewComponent.deSelect()
         self.sendNotification(Notification.NEW_USER)
@@ -180,7 +180,7 @@ class UserListMediator(Mediator):
 class RolePanelMediator(Mediator):
 
     NAME = 'RolePanelMediator'
-    
+
     roleProxy = None
 
     def __init__(self, viewComponent):
@@ -189,12 +189,12 @@ class RolePanelMediator(Mediator):
         self.viewComponent.removeBtn.addClickListener(self.onRemoveRole)
 
         self.roleProxy = self.facade.retrieveProxy(model.RoleProxy.NAME)
-        self.viewComponent.updateRoleCombo(ApplicationConstants.RoleList, 
+        self.viewComponent.updateRoleCombo(ApplicationConstants.RoleList,
                                            ApplicationConstants.ROLE_NONE_SELECTED)
-        
+
     def getRolePanel(self):
         return viewComponent
-    
+
     def onAddRole(self, evnt):
         self.roleProxy.addRoleToUser(self.viewComponent.user, self.viewComponent.selectedRole)
 
@@ -213,9 +213,9 @@ class RolePanelMediator(Mediator):
         Command.ADD_ROLE_RESULT,
         ]
 
-    def handleNotification(self, note): 
+    def handleNotification(self, note):
         try:
-            noteName = note.getName()   
+            noteName = note.getName()
 
             if noteName == Notification.NEW_USER:
                 self.viewComponent.clearForm()

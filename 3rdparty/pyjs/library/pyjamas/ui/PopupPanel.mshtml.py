@@ -1,12 +1,12 @@
 #class PopupPanel:
-#    
+#
 #    # PopupImpl.onShow
 #    def onShowImpl(self, popup):
 #        frame = doc().createElement('iframe')
 #        frame.scrolling = 'no'
 #        frame.frameBorder = 0
 #        frame.style.position = 'absolute'
-#        
+#
 #        popup.__frame = frame
 #        frame.__popup = popup
 #        frame.style.setExpression('left', 'this.__popup.offsetLeft')

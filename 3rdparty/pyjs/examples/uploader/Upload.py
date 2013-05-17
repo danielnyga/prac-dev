@@ -65,7 +65,7 @@ class FileUploadPanel(SimplePanel):
 
         hPanel.add(Button("Submit", getattr(self, "onBtnClick")))
         vPanel.add(hPanel)
-        
+
         self.simple = CheckBox("Simple mode?  ")
         #self.simple.setChecked(True)
         vPanel.add(self.simple)
@@ -88,7 +88,7 @@ class FileUploadPanel(SimplePanel):
             else:
                 el = self.field.getElement()
                 files = getattr(el, 'files')
-                #TODO implement loop for multiple file uploads 
+                #TODO implement loop for multiple file uploads
                 file = JS("@{{files}}[0]") #otherwise pyjs thinks it's a string?
                 AsyncUpload.asyncUpload(self.url, file, self)
 

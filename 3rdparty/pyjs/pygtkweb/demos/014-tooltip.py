@@ -47,11 +47,11 @@ class Tooltips:
         button = create_arrow_button(gtk.ARROW_DOWN, gtk.SHADOW_OUT)
         box.pack_start(button, False, False, 3)
         self.tooltips.set_tip(button, "SHADOW_OUT")
-  
+
         button = create_arrow_button(gtk.ARROW_LEFT, gtk.SHADOW_ETCHED_IN)
         box.pack_start(button, False, False, 3)
         self.tooltips.set_tip(button, "SHADOW_ETCHED_IN")
-  
+
         button = create_arrow_button(gtk.ARROW_RIGHT, gtk.SHADOW_ETCHED_OUT)
         box.pack_start(button, False, False, 3)
         self.tooltips.set_tip(button, "SHADOW_ETCHED_OUT")

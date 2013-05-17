@@ -25,9 +25,9 @@ from pyjamas import Window
 
 
 from pyjamas.Canvas.GWTCanvasImplIEConsts import BUTT, DESTINATION_OVER, SOURCE_OVER
-from pyjamas.Canvas import GWTCanvasConsts 
-from pyjamas.Canvas.JSOStack import JSOStack 
-from pyjamas.Canvas import PathElement 
+from pyjamas.Canvas import GWTCanvasConsts
+from pyjamas.Canvas.JSOStack import JSOStack
+from pyjamas.Canvas import PathElement
 from pyjamas.Canvas.VMLContext import VMLContext
 from pyjamas.Canvas.VMLContext import VMLStyle
 from pyjamas.Canvas.Color import Color
@@ -35,9 +35,9 @@ from pyjamas.Canvas.CanvasGradientImplIE6 import CanvasGradientImplIE6
 
 def addNamespace():
     JS("""
-    if (!$doc.namespaces["v"]) {
-        $doc.namespaces.add("v", "urn:schemas-microsoft-com:vml");
-        $doc.createStyleSheet().cssText = "v\\:*{behavior:url(#default#VML);}";
+    if (!$doc['namespaces']["v"]) {
+        $doc['namespaces']['add']("v", "urn:schemas-microsoft-com:vml");
+        $doc['createStyleSheet']()['cssText'] = "v\\:*{behavior:url(#default#VML);}";
     }
     """)
 
@@ -54,7 +54,7 @@ class GWTCanvasImplIE6:
         except:
             doc().namespaces.add("v", "urn:schemas-microsoft-com:vml")
             doc().createStyleSheet().cssText = "v\\:*{behavior:url(#default#VML);}"
-        
+
 
 
         """*
@@ -155,7 +155,7 @@ class GWTCanvasImplIE6:
             destY = args[1]
             destWidth = fullWidth
             destHeight = fullHeight
-    
+
         vmlStr = [] # JSOStack.getScratchArray()
 
         vmlStr.append("<v:group style=\"position:absolute;width:10;height:10;")
@@ -273,7 +273,7 @@ class GWTCanvasImplIE6:
             # need some proper math to calculate the focus position
             focusX = 50
             focusY = 50
- 
+
             # Now add all the color stops
             colors = ""
             for i in range(1, len(colorStops)):
@@ -562,7 +562,7 @@ class GWTCanvasImplIE6:
         if isinstance(fillStyle, CanvasGradientImplIE6):
             self.context.fillStyle.type = 'Gradient'
             self.context.fillStyle.gradient = fillStyle
-            #Window.alert("gradient fillstyle: " + 
+            #Window.alert("gradient fillstyle: " +
             #             str(len(self.context.fillStyle.gradient.colorStops)))
         else:
             fillStyle = str(fillStyle).strip()

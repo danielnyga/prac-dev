@@ -39,7 +39,7 @@ class CheckBox(ButtonBase):
     def _getProps(self):
         return ButtonBase._getProps() + self._props
 
-    
+
     def sinkEvents(self, eventBitsToAdd):
         """ Unlike other widgets the CheckBox sinks on its inputElement,
             not its wrapper
@@ -85,7 +85,7 @@ class CheckBox(ButtonBase):
         """ XXX this function is deprecated: use getChecked
         """
         return self.getChecked()
-    
+
     def getChecked(self):
         if self.isAttached():
             propName = "checked"

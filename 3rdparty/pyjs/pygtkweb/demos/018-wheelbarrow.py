@@ -155,7 +155,7 @@ class WheelbarrowExample:
 
         # This masks out everything except for the image itself
         window.shape_combine_mask(mask, 0, 0)
-    
+
         # show the window
         window.set_position(gtk.WIN_POS_CENTER_ALWAYS)
         window.show()

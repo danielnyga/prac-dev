@@ -19,18 +19,18 @@ class GridWidget(AbsolutePanel):
         self.page=0
         self.min_page=1
         self.max_page=10
-        
+
         self.addb=Button("Next >", self)
         self.subb=Button("< Prev", self)
         self.clearb=Button("Clear", self)
-        
+
         self.g=Grid()
         self.g.resize(5, 5)
         self.g.setWidget(0, 0, HTML("<b>Grid Test</b>"))
         self.g.setBorderWidth(2)
         self.g.setCellPadding(4)
         self.g.setCellSpacing(1)
-        
+
         self.updatePageDisplay()
 
         self.add(self.subb)
@@ -48,20 +48,20 @@ class GridWidget(AbsolutePanel):
         elif sender==self.subb:
             self.page-=1
         self.updatePageDisplay()
-        
+
 
     def updatePageDisplay(self):
         if self.page<self.min_page: self.page=self.min_page
         elif self.page>self.max_page: self.page=self.max_page
         total_pages=(self.max_page-self.min_page) + 1
-        
+
         self.g.setHTML(0, 4, "<b>page %d of %d</b>" % (self.page, total_pages))
-        
+
         if self.page>=self.max_page:
             self.addb.setEnabled(False)
         else:
             self.addb.setEnabled(True)
-            
+
         if self.page<=self.min_page:
             self.subb.setEnabled(False)
         else:

@@ -22,6 +22,6 @@ class GChartExample01(GChart):
         self.getXAxis().setHasGridlines(True)
         self.getYAxis().setAxisLabel("<b>x<sup>2</sup></b>")
         self.getYAxis().setHasGridlines(True)
-    
+
 
 

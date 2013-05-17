@@ -49,7 +49,7 @@ class YChanger (HorizontalPanel):
         self.add(self.incrementY)
         self.add(self.coordinates)
         self.add(self.decrementY)
-    
+
     def onClick(self, sender):
         if sender == self.incrementY:
             self.chart.getTouchedPoint().setY(
@@ -58,18 +58,18 @@ class YChanger (HorizontalPanel):
             self.chart.getTouchedPoint().setY(
                                 self.chart.getTouchedPoint().getY() - 1)
         self.chart.update()
-    
+
     # The 2 HoverUpdateable interface methods:
     def hoverCleanup(self, hoveredAwayFrom):
         pass
-    
+
     def hoverUpdate(self, hoveredOver):
         # update (x,y) display when they click point
         self.coordinates.setHTML(hoveredOver.getHovertext())
-    
+
 
 class GChartExample21(GChart):
-    
+
     def __init__(self):
         GChart.__init__(self)
         self.setChartSize(300, 300)
@@ -92,7 +92,7 @@ class GChartExample21(GChart):
         self.getCurve().getSymbol().setHoverYShift(-30)
         # 3px, external point selection border
         self.getCurve().getSymbol().setHoverSelectionBorderWidth(-3)
-        
+
         # configure curve as a baseline-based bar chart
         self.getCurve().getSymbol().setSymbolType(SymbolType.VBAR_BASELINE_EAST)
         self.getCurve().getSymbol().setModelWidth(1)

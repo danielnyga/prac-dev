@@ -60,7 +60,7 @@ def _dispatchEvent(sender, event, useCap):
     curElem = sender
     while curElem and (get_listener(curElem) is None):
         curElem = curElem.parentElement
-    
+
     listener = get_listener(curElem)
     if listener is not None:
         dispatchEvent(evt, curElem, listener)

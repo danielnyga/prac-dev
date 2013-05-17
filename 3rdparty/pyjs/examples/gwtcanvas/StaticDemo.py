@@ -36,18 +36,18 @@ class StaticDemoControls(Composite):
 * as well as transformations, and style settings.
 """
 class StaticDemo (SimpleCanvasDemo):
-    
+
     def __init__(self, theCanvas):
         SimpleCanvasDemo.__init__(self, theCanvas)
         self.width = 400
         self.height = 400
         self.demoName = "Static Scene"
-    
-    
+
+
     def createControls(self):
         self.controls = StaticDemoControls()
-    
-    
+
+
     """
     * Test cases derived from javascript test cases by Emil Eklund
     * and from Mozilla foundation Canvas tutorial. Please note that
@@ -55,42 +55,42 @@ class StaticDemo (SimpleCanvasDemo):
     * originally derived from mozilla foundation test cases
     """
     def drawDemo(self):
-        
+
         self.canvas.resize(self.width, self.height)
-        
+
         # Changing the coordinate size will implicitly clear the self.canvas
         # self.canvas.clear()
         self.canvas.saveContext()
-        
+
         self.canvas.setLineWidth(1)
         self.canvas.setFillStyle(Color.GREEN)
         self.canvas.fillRect(5, 5, 25, 25)
         self.canvas.setStrokeStyle(Color.RED)
         self.canvas.strokeRect(20, 20, 25, 25)
-        
+
         self.canvas.beginPath()
-        
+
         self.canvas.setLineWidth(1)
-        
+
         self.canvas.moveTo(1,1)
         self.canvas.lineTo(80,80)
         self.canvas.lineTo(100,20)
         self.canvas.closePath()
         self.canvas.stroke()
-        
+
         self.canvas.setStrokeStyle(Color.BLUE)
         self.canvas.setFillStyle(Color.BLACK)
-        
+
         self.canvas.beginPath()
         self.canvas.moveTo(120,50)
         self.canvas.lineTo(150,70)
         self.canvas.lineTo(150,50)
-        
+
         self.canvas.quadraticCurveTo(150, 150, 80, 80)
         self.canvas.cubicCurveTo(85,25,75,37,75,40)
         self.canvas.closePath()
         self.canvas.fill()
-        
+
         self.canvas.setFont("bold 16px Verdana")
         self.canvas.fillText("PYJS",20,120)
 
@@ -98,14 +98,14 @@ class StaticDemo (SimpleCanvasDemo):
         self.canvas.rect(180,180,80,80)
         self.canvas.rect(200,200,80,80)
         self.canvas.stroke()
-        
+
         self.canvas.beginPath()
         self.canvas.arc(200, 100, 20, 0,  math.pi, False)
         self.canvas.stroke()
-        
+
         self.canvas.saveContext()
         self.canvas.translate(150, 0)
-        
+
         self.canvas.fillRect(0,0,150,150)
         self.canvas.setFillStyle(Color.Color("#09F"))
         self.canvas.fillRect(15,15,120,120)
@@ -114,11 +114,11 @@ class StaticDemo (SimpleCanvasDemo):
         self.canvas.fillRect(30,30,90,90)
         self.canvas.fillRect(45,45,60,60)
         self.canvas.fillRect(60,60,30,30)
-        
+
         self.canvas.restoreContext()
         self.canvas.saveContext()
         self.canvas.translate(10, 140)
-        
+
         self.canvas.setFillStyle(Color.Color("#FD0"))
         self.canvas.fillRect(0,0,75,75)
         self.canvas.setFillStyle(Color.Color("#6C0"))
@@ -128,15 +128,15 @@ class StaticDemo (SimpleCanvasDemo):
         self.canvas.setFillStyle(Color.Color("#F30"))
         self.canvas.fillRect(75,75,75,75)
         self.canvas.setFillStyle(Color.Color("#FFF"))
-        
+
         self.canvas.setGlobalAlpha(0.2)
-        
+
         for i in range(7):
             self.canvas.beginPath()
             self.canvas.arc(75, 75, 10 + (10 * i), 0,  math.pi * 2, False)
             self.canvas.fill()
-        
-        
+
+
         self.canvas.saveContext()
         self.canvas.setGlobalAlpha(0.8)
         self.canvas.beginPath()
@@ -149,43 +149,43 @@ class StaticDemo (SimpleCanvasDemo):
         self.canvas.arc(90,65,5,0, math.pi * 2,True);  # Right eye
         self.canvas.stroke()
         self.canvas.restoreContext()
-        
+
         self.canvas.restoreContext()
-        
+
         self.canvas.beginPath()
         self.canvas.arc(200, 200, 20, 0, math.pi * 2, False)
         self.canvas.stroke()
-        
+
         self.canvas.saveContext()
         self.canvas.setGlobalAlpha(1.0)
-        
+
         for i in range(6):
             # Loop through rings (from inside to out)
             self.canvas.saveContext()
             self.canvas.setFillStyle(Color.Color((51 * i),(255 - 51 * i),255))
-            
+
             for j in range(i*6):
                 # draw individual dots
                 self.canvas.rotate(math.pi * 2 / ( i * 6.))
                 self.canvas.beginPath()
-                
+
                 self.canvas.rect(0, i * 12.5,5,5)
                 self.canvas.fill()
-            
-            
+
+
             self.canvas.restoreContext()
-        
-        
+
+
         self.canvas.restoreContext()
-        
+
         self.canvas.restoreContext()
         # self.canvas.clear()
-    
-    
+
+
     def stopDemo(self):
         # This demo is not animated so this is a no-op
         pass
-    
-    
+
+
 
 

@@ -25,7 +25,7 @@ from pyjamas.ui.TabBar import TabBar
 class TabPanel(PanelBase, Composite):
     def __init__(self, tabBar=None, **kwargs):
         self.children = [] # TODO: can self.children be used instead?
-        self.tab_names = {} 
+        self.tab_names = {}
         self.deck = kwargs.pop('Deck', None)
         floatingtab = kwargs.pop('FloatingTab', False)
         if self.deck is None:

@@ -67,6 +67,9 @@ class TimeModuleTest(UnitTest.UnitTest):
         self.assertEqual(tuple(tm[0:9]), (2000, 7, 1, 12, 34, 0, 5, 183, -1))
         tm = time.strptime("010100 1234", "%d%m%y %H%M")
         self.assertEqual(tuple(tm[0:9]), (2000, 1, 1, 12, 34, 0, 5, 1, -1))
+        tm = time.strptime("20000101 123456", "%Y%m%d %H%M%S")
+        self.assertEqual(tuple(tm[0:9]), (2000, 1, 1, 12, 34, 56, 5, 1, -1))
+        self.assertRaises(ValueError, time.strptime, "20100231", "%Y%m%d")
 
     def testAsctime(self):
         t = (2010, 5, 19, 9, 22, 44, 2, 139, 1)

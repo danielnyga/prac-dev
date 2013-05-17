@@ -40,7 +40,7 @@ class GetSelectionExample:
             print "Selection was not returned as \"STRING\" or \"ATOM\"!"
 
         return False
-  
+
 
     def __init__(self):
         # Create the toplevel window

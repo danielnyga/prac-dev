@@ -29,7 +29,7 @@ class AutoCompleteTextBox(TextBox):
 
         self.choicesPopup.add(self.choices)
         self.choicesPopup.addStyleName("AutoCompleteChoices")
-            
+
         self.choices.setStyleName("list")
 
         if not kwargs.has_key('StyleName'): kwargs['StyleName']="gwt-AutoCompleteTextBox"
@@ -40,7 +40,7 @@ class AutoCompleteTextBox(TextBox):
     def setCompletionItems(self, items):
         if not hasattr(items, 'getCompletionItems'):
             items = SimpleAutoCompletionItems(items)
-        
+
         self.items = items
 
     def getCompletionItems(self):
@@ -58,7 +58,7 @@ class AutoCompleteTextBox(TextBox):
             selectedIndex += 1
             if selectedIndex >= self.choices.getItemCount():
                 selectedIndex = 0
-            self.choices.setSelectedIndex(selectedIndex)           
+            self.choices.setSelectedIndex(selectedIndex)
             return
 
         if arg1 == KeyboardListener.KEY_UP:
@@ -71,7 +71,7 @@ class AutoCompleteTextBox(TextBox):
 
         if arg1 == KeyboardListener.KEY_ENTER:
             if self.visible:
-                self.complete()      
+                self.complete()
             return
 
         if arg1 == KeyboardListener.KEY_ESCAPE:
@@ -90,13 +90,13 @@ class AutoCompleteTextBox(TextBox):
 
             for i in range(len(matches)):
                 self.choices.addItem(matches[i])
-                
+
             if len(matches) == 1 and matches[0] == text:
                 self.choicesPopup.hide()
             else:
                 self.choices.setSelectedIndex(0)
                 self.choices.setVisibleItemCount(len(matches) + 1)
-                    
+
                 if not self.popupAdded:
                     RootPanel().add(self.choicesPopup)
                     self.popupAdded = True
@@ -118,7 +118,7 @@ class AutoCompleteTextBox(TextBox):
     def complete(self):
         if self.choices.getItemCount() > 0:
             self.setText(self.choices.getItemText(self.choices.getSelectedIndex()))
-            
+
         self.choices.clear()
         self.choicesPopup.hide()
         self.setFocus(True)
@@ -136,10 +136,10 @@ class SimpleAutoCompletionItems:
     def getCompletionItems(self, match):
         matches = []
         match = match.lower()
-        
+
         for i in range(len(self.completions)):
             lower = self.completions[i].lower()
             if lower.startswith(match):
                 matches.append(self.completions[i])
-        
+
         return matches

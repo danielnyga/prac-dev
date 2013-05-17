@@ -117,8 +117,8 @@ $pyjs.trackstack.push($pyjs.track);
         txt = template % {'app_libs': app_libs, 'module_name': file_name,
                           'module': txt}
 
-        txt += "sys();\n" 
-        txt += "pyjslib();\n" 
+        txt += "sys();\n"
+        txt += "pyjslib();\n"
         txt += "%s();\n" % file_name
 
     if options.output:

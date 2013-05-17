@@ -14,13 +14,13 @@ class CalendarProvider:
         self.lastStartRow = -1
         self.lastMaxRows = -1
         self.lastPeople = []
-        
+
     def updateRowData(self, startRow, maxRows, acceptor):
         if startRow == self.lastStartRow:
             if maxRows == self.lastMaxRows:
                 self.pushResults(acceptor, startRow, self.lastPeople)
                 return
-        
+
         handler = CalendarProviderHandler(self, acceptor, startRow, maxRows)
         self.calService.getPeople(startRow, maxRows, handler)
 
@@ -37,24 +37,24 @@ class CalendarProviderHandler:
         self.acceptor = acceptor
         self.startRow = startRow
         self.maxRows = maxRows
-    
+
     def onRemoteResponse(self, response, requestInfo):
         people = response
-        
+
         self.owner.lastStartRow = self.startRow
         self.owner.lastMaxRows = self.maxRows
         self.owner.lastPeople = people
         self.owner.pushResults(self.acceptor, self.startRow, people)
-        
+
     def onRemoteError(self, code, message, request):
         self.acceptor.failed(message)
-    
+
 
 class SchoolCalendarWidget(Composite):
-    
+
     def __init__(self, visibleRows):
         Composite.__init__(self)
-    
+
         columns = ["Name", "Description", "Schedule"]
         styles = ["name", "desc", "sched"]
         self.calProvider = CalendarProvider(self)
@@ -63,10 +63,10 @@ class SchoolCalendarWidget(Composite):
 
         self.dynaTable = DynaTableWidget(self.calProvider, columns, styles, visibleRows)
         self.initWidget(self.dynaTable)
-        
+
     def getDayIncluded(self, day):
         return self.daysFilter[day]
-        
+
     def onLoad(self):
         self.dynaTable.refresh()
 
@@ -75,7 +75,7 @@ class SchoolCalendarWidget(Composite):
             return
 
         self.daysFilter[day] = included
-        
+
         if not self.pendingRefresh:
             self.pendingRefresh = True
             DeferredCommand.add(self)

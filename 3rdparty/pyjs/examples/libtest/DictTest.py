@@ -215,24 +215,24 @@ class DictTest(UnitTest):
             a += x
             b += y
         self.assertEqual((a,b),(4,6))
-        
+
         class DICT(dict): pass
-          
-        
+
+
         d2 = DICT({1:2,3:4})
         a,b = 0,0
         for x,y in d2.iteritems():
             a += x
             b += y
         self.assertEqual((a,b),(4,6))
-        
+
         d3 = dict()
         a,b = 0,0
         for x,y in d3.iteritems():
             a += x
             b += y
         self.assertEqual((a,b),(0,0))
-        
+
     def testUpdate(self):
         d1 = {1:2,3:4}
         d1.update({3:5,7:9})

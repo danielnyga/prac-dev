@@ -1,5 +1,6 @@
-""" Pyjamas UI BuilderPanel: takes a PyJsGlade builder spec and adds widgets
-    requested using the methods just like in any other Panel class.
+"""
+Pyjamas UI BuilderPanel: takes a PyJsGlade builder spec and adds widgets
+requested using the methods just like in any other Panel class.
 
 Copyright (C) 2010 Luke Kenneth Casson Leighton <lkcl@lkcl.net>
 

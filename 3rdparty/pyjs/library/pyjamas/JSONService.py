@@ -26,7 +26,7 @@ __lastRequestID = None
 def nextRequestID():
     """
     Return Next Request identifier.
-    MUST be a JSON scalar (String, Number, True, False), but SHOULD normally 
+    MUST be a JSON scalar (String, Number, True, False), but SHOULD normally
     not be Null, and Numbers SHOULD NOT contain fractional parts.
     """
     global __requestID, __requestIDPrefix, __lastRequestID
@@ -47,13 +47,16 @@ class JSONService(object):
 
     def __init__(self, url, handler=None, headers=None):
         """
-        Create a JSON remote service object. The url is the URL that will 
-        receive POST data with the JSON request. See the JSON-RPC spec for 
+        Create a JSON remote service object. The url is the URL that will
+        receive POST data with the JSON request. See the JSON-RPC spec for
         more information.
 
-        The handler object should implement 
+        The handler object should implement::
+
             onRemoteResponse(value, requestInfo)
-        to accept the return value of the remote method, and
+
+        to accept the return value of the remote method, and::
+
             onRemoteError(code, error_dict, requestInfo)
                  code = http-code or 0
                  error_dict is an jsonrpc 2.0 error dict:
@@ -62,6 +65,7 @@ class JSONService(object):
                        'message': jsonrpc-error-message (string) ,
                        'data' : extra-error-data
                      }
+
         to handle errors.
         """
         self.url = url
@@ -83,9 +87,9 @@ class JSONService(object):
         pass
 
     def sendNotify(self, method, params):
-        # jsonrpc: A String specifying the version of the JSON-RPC protocol. 
+        # jsonrpc: A String specifying the version of the JSON-RPC protocol.
         #          MUST be exactly "2.0"
-        #          If jsonrpc is missing, the server MAY handle the Request as 
+        #          If jsonrpc is missing, the server MAY handle the Request as
         #          JSON-RPC V1.0-Request.
         # version: String specifying the version of the JSON-RPC protocol.
         #          MUST be exactly "1.1"
@@ -94,24 +98,24 @@ class JSONService(object):
         # id:      If omitted, the Request is a Notification
         #          NOTE: JSON-RPC 1.0 uses an id of Null for Notifications.
         # method:  A String containing the name of the procedure to be invoked.
-        # params:  An Array or Object, that holds the actual parameter values 
-        #          for the invocation of the procedure. Can be omitted if 
+        # params:  An Array or Object, that holds the actual parameter values
+        #          for the invocation of the procedure. Can be omitted if
         #          empty.
         #          NOTE: JSON-RPC 1.0 only a non-empty Array is used
         # From the spec of 1.1:
-        #     The Content-Type MUST be specified and # SHOULD read 
+        #     The Content-Type MUST be specified and # SHOULD read
         #     application/json.
         #     The Accept MUST be specified and SHOULD read application/json.
         #
         # From http://groups.google.com/group/json-rpc/web/json-rpc-over-http
-        #     Content-Type SHOULD be 'application/json-rpc' but MAY be 
+        #     Content-Type SHOULD be 'application/json-rpc' but MAY be
         #     'application/json' or 'application/jsonrequest'
-        #     The Accept MUST be specified and SHOULD read 'application/json-rpc' 
+        #     The Accept MUST be specified and SHOULD read 'application/json-rpc'
         #     but MAY be 'application/json' or 'application/jsonrequest'.
         #
         msg = {"jsonrpc": "2.0",
                "version": "1.1",
-               "method": method, 
+               "method": method,
                "params": params
               }
         msg_data = dumps(msg)
@@ -123,9 +127,9 @@ class JSONService(object):
 
     def sendRequest(self, method, params, handler):
         id = nextRequestID()
-        msg = {"jsonrpc": "2.0", 
-               "id": id, 
-               "method": method, 
+        msg = {"jsonrpc": "2.0",
+               "id": id,
+               "method": method,
                "params": params
               }
         msg_data = dumps(msg)
@@ -164,7 +168,7 @@ def create_object(items):
     for (k, v) in items.items():
         vars[str(k)] = v
     return kls(**vars)
-    
+
 def _decode_response(json_str):
     return loads(json_str, object_hook=create_object)
 
@@ -211,7 +215,7 @@ class JSONResponseTextHandler(object):
                         )
             self.request.handler.onRemoteError(0, error, self.request)
         elif "result" in response:
-            self.request.handler.onRemoteResponse(response["result"], 
+            self.request.handler.onRemoteResponse(response["result"],
                                                   self.request)
         else:
             error = dict(
@@ -259,7 +263,7 @@ class ServiceProxy(JSONService):
 # reserved names: callMethod, onCompletion
 class JSONProxy(JSONService):
     def __init__(self, url, methods=None, headers=None):
-        self._serviceURL = url 
+        self._serviceURL = url
         self.methods = methods
         self.headers = {} if headers is None else headers
         # Init with JSONService, for the use of callMethod
@@ -269,19 +273,19 @@ class JSONProxy(JSONService):
     def _registerMethods(self, methods):
         if methods:
             for method in methods:
-                setattr(self, 
+                setattr(self,
                         method,
-                        getattr(ServiceProxy(self._serviceURL, method, 
+                        getattr(ServiceProxy(self._serviceURL, method,
                                              headers=self.headers),
                                 '__call__')
                        )
 
     # It would be nice to use __getattr__ (instead of _registerMethods)
     # However, that doesn't work with pyjs and the use of _registerMethods
-    # saves some repeated instance creations (now only once per method and 
+    # saves some repeated instance creations (now only once per method and
     # not once per call)
     #def __getattr__(self, name):
     #    if not name in self.methods:
-    #        raise AttributeError("no such method %s" % name) 
+    #        raise AttributeError("no such method %s" % name)
     #    return ServiceProxy(self._serviceURL, name, headers=self.headers)
 

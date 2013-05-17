@@ -11,7 +11,7 @@ class DynaTable:
         if slot is not None:
             calendar = SchoolCalendarWidget(15)
             slot.add(calendar)
-            
+
             slot = RootPanel("days")
             if slot is not None:
                 filterWidget = DayFilterWidget(calendar)

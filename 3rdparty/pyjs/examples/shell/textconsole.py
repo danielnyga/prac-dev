@@ -32,7 +32,7 @@ class TextWindow(AbsolutePanel):
             txt = Label(' ')
             self.add(txt, xpos, ypos)
             self.text[x][y] = txt
-            
+
         return self.text[x][y]
 
     def setChar(self, x, y, char):
@@ -45,7 +45,7 @@ class TextWindow(AbsolutePanel):
         self.fontsize = math.floor(width / self.cols)
         AbsolutePanel.setWidth(self, "%dpx" % (self.cols*self.fontsize))
 
-        ratio = self.fontsize / self.fontheight 
+        ratio = self.fontsize / self.fontheight
         DOM.setStyleAttribute(self.getElement(), 'fontSizeAdjust', str(ratio))
         #log.debug(str(ratio))
 

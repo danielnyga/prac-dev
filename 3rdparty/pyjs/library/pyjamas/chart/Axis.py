@@ -30,7 +30,7 @@ from pyjamas.chart import Annotation
 
 from pyjamas.chart.GChartConsts import NAI
 from pyjamas.chart.GChartConsts import DEFAULT_TICK_COUNT
-from pyjamas.chart.GChartConsts import DEFAULT_WIDGET_WIDTH_UPPERBOUND 
+from pyjamas.chart.GChartConsts import DEFAULT_WIDGET_WIDTH_UPPERBOUND
 from pyjamas.chart.GChartConsts import DEFAULT_WIDGET_HEIGHT_UPPERBOUND
 from pyjamas.chart.GChartConsts import DEFAULT_TICK_LABEL_FONT_COLOR
 from pyjamas.chart.GChartConsts import DEFAULT_TICK_LABEL_FONTSIZE
@@ -48,8 +48,8 @@ from pyjamas.chart.GChartConsts import YAXIS_ID
 from pyjamas.chart.GChartConsts import XTICKS_ID
 from pyjamas.chart.GChartConsts import XGRIDLINES_ID
 from pyjamas.chart.GChartConsts import XAXIS_ID
-from pyjamas.chart.GChartConsts import TICK_CHARHEIGHT_TO_FONTSIZE_LOWERBOUND 
-from pyjamas.chart.GChartConsts import TICK_CHARWIDTH_TO_FONTSIZE_LOWERBOUND 
+from pyjamas.chart.GChartConsts import TICK_CHARHEIGHT_TO_FONTSIZE_LOWERBOUND
+from pyjamas.chart.GChartConsts import TICK_CHARWIDTH_TO_FONTSIZE_LOWERBOUND
 from pyjamas.chart.GChartConsts import Y_AXIS
 from pyjamas.chart.GChartConsts import Y2_AXIS
 
@@ -62,20 +62,18 @@ LOG10INVERSE_FORMAT_TYPE = 2
 LOG2INVERSE_FORMAT_TYPE = 3
 
 
-"""*
-** Represents an axis of the chart, for example, the x,
-** y, or y2 axis. An axis consists of the axis itself,
-** along with its tick marks, tick labels and gridlines.
-**
-** @see XAxis XAxis
-** @see YAxis YAxis
-** @see Y2Axis Y2Axis
-** @see #getXAxis getXAxis
-** @see #getYAxis getYAxis
-** @see #getY2Axis getY2Axis
-**
-**
-*"""
+"""
+Represents an axis of the chart, for example, the x,
+y, or y2 axis. An axis consists of the axis itself,
+along with its tick marks, tick labels and gridlines.
+
+@see XAxis XAxis
+@see YAxis YAxis
+@see Y2Axis Y2Axis
+@see #getXAxis getXAxis
+@see #getYAxis getYAxis
+@see #getY2Axis getY2Axis
+"""
 class AxisLimits:
     def __init__(self, min, max):
         self.min = min
@@ -190,61 +188,61 @@ class Axis:
         p.setAnnotationFontWeight(self.getTickLabelFontWeight())
 
 
-    """*
-    * Adds a tick at the specified position with the specified
-    * label on this axis, whose width and height are within
-    * the specified upper-bounds.
-    *
-    * <p>
-    * Note that explicitly adding a single tick via this method
-    * will eliminate any auto-generated ticks associated with the
-    * <tt>setTickCount</tt> method.
-    *
-    * <p>
-    * Use this method to specify unusually spaced
-    * tick marks with labels that do not directly
-    * reflect the position (for example, for a logarithmic axis,
-    * or for a bar chart with special keyword-type labels, or
-    * a time axis that places date and time on two separate lines).
-    *
-    * @param tickPosition the position, in model units, along
-    *   this axis at which the tick is displayed.
-    *   For example, if the axis range goes from 0 to 1,
-    *   a tick at position 0.5 would appear in the middle of
-    *   the axis.
-    *
-    *  @param tickLabel the label for this tick.  HTML is
-    *  supported in tick labels, but it must be prefixed by
-    *  <tt>&lt;html&gt</tt>.  See the {@link
-    *  Curve.Point#setAnnotationText(String,int,int)
-    *  setAnnotationText} method for more information.
-    *
-    *  @param widthUpperBound an upper bound on the width of
-    *  the text or HTML, in pixels. Use <tt>NAI</tt> to
-    *  get GChart to estimate this width for you. See the
-    *  <tt>setAnnotationText</tt> method for more information.
-    *
-    *  @param heightUpperBound an upper bound on the height of
-    *  the text or HTML, in pixels. Use <tt>NAI</tt> to
-    *  get GChart to estimate this height for you. See the
-    *  <tt>setAnnotationText</tt> method for more information.
-    *
-    * @see #clearTicks clearTicks
-    * @see #addTick(double) addTick(double)
-    * @see #addTick(double,String) addTick(double,String)
-    * @see #addTick(double,Widget,int,int) addTick(double,Widget,int,int)
-    * @see #setTickCount setTickCount
-    * @see #setTickLabelFormat setTickLabelFormat
-    * @see #setTickLabelFontSize setTickLabelFontSize
-    * @see #setTickLabelFontStyle setTickLabelFontStyle
-    * @see #setTickLabelFontColor setTickLabelFontColor
-    * @see #setTickLabelFontWeight setTickLabelFontWeight
-    * @see Curve.Point#setAnnotationText(String,int,int)
-    *      setAnnotationText
-    * @see Curve.Point#setAnnotationWidget setAnnotationWidget
-    *
-    """
     def _addTickLabel(self, tickPosition, tickLabel, widthUpperBound, heightUpperBound):
+        """
+        Adds a tick at the specified position with the specified
+        label on this axis, whose width and height are within
+        the specified upper-bounds.
+
+        <p>
+        Note that explicitly adding a single tick via this method
+        will eliminate any auto-generated ticks associated with the
+        <tt>setTickCount</tt> method.
+
+        <p>
+        Use this method to specify unusually spaced
+        tick marks with labels that do not directly
+        reflect the position (for example, for a logarithmic axis,
+        or for a bar chart with special keyword-type labels, or
+        a time axis that places date and time on two separate lines).
+
+        @param tickPosition the position, in model units, along
+          this axis at which the tick is displayed.
+          For example, if the axis range goes from 0 to 1,
+          a tick at position 0.5 would appear in the middle of
+          the axis.
+
+         @param tickLabel the label for this tick.  HTML is
+         supported in tick labels, but it must be prefixed by
+         <tt>&lt;html&gt</tt>.  See the {@link
+         Curve.Point#setAnnotationText(String,int,int)
+         setAnnotationText} method for more information.
+
+         @param widthUpperBound an upper bound on the width of
+         the text or HTML, in pixels. Use <tt>NAI</tt> to
+         get GChart to estimate this width for you. See the
+         <tt>setAnnotationText</tt> method for more information.
+
+         @param heightUpperBound an upper bound on the height of
+         the text or HTML, in pixels. Use <tt>NAI</tt> to
+         get GChart to estimate this height for you. See the
+         <tt>setAnnotationText</tt> method for more information.
+
+        @see #clearTicks clearTicks
+        @see #addTick(double) addTick(double)
+        @see #addTick(double,String) addTick(double,String)
+        @see #addTick(double,Widget,int,int) addTick(double,Widget,int,int)
+        @see #setTickCount setTickCount
+        @see #setTickLabelFormat setTickLabelFormat
+        @see #setTickLabelFontSize setTickLabelFontSize
+        @see #setTickLabelFontStyle setTickLabelFontStyle
+        @see #setTickLabelFontColor setTickLabelFontColor
+        @see #setTickLabelFontWeight setTickLabelFontWeight
+        @see Curve.Point#setAnnotationText(String,int,int)
+             setAnnotationText
+        @see Curve.Point#setAnnotationWidget setAnnotationWidget
+
+        """
         self.chartDecorationsChanged = True
         if NAI != self.tickCount:
             # clear out any auto-generated ticks
@@ -893,392 +891,392 @@ class Axis:
         pass
 
 
-    """*
-    * Converts a coordinate position in the model units associated
-    * with this axis into a corresponding coordinate position
-    * expressed in GChart's plot area pixel coordinates.
-    * <p>
-    *
-    * These
-    * coordinates have their origin at the upper left corner
-    * of the plot area, and x pixel-coordinates that increase
-    * as you move right, and y pixel-coordinates that increase
-    * as you move down.
-    * <p>
-    *
-    * The plot area is the rectangular region bounded by the
-    * chart's axes, and with a size specified via
-    * <tt>setChartSize</tt>, where the chart's curves are
-    * typically displayed.
-    * <p>
-    *
-    * Apart from a shift in the origin of the pixel coordinates
-    * used, this method works just like <tt>modelToPixel</tt>
-    * see that method for additional details, tips, and
-    * restrictions.
-    *
-    * @param modelCoordinate a position on this axis expressed
-    *  in the model units associated with this axis.
-    *
-    * @return the distance,
-    * in pixels, from the left edge (for the x axis) or top
-    * edge (for the y or y2 axis) of
-    * the plot area to the given position on this axis.
-    *
-    * @see #getMouseCoordinate getMouseCoordinate
-    * @see #plotAreaPixelToModel plotAreaPixelToModel
-    * @see #modelToPixel modelToPixel
-    * @see #setChartSize setChartSize
-    *
-    """
     def modelToPlotAreaPixel(self, modelCoordinate):
+        """*
+        * Converts a coordinate position in the model units associated
+        * with this axis into a corresponding coordinate position
+        * expressed in GChart's plot area pixel coordinates.
+        * <p>
+        *
+        * These
+        * coordinates have their origin at the upper left corner
+        * of the plot area, and x pixel-coordinates that increase
+        * as you move right, and y pixel-coordinates that increase
+        * as you move down.
+        * <p>
+        *
+        * The plot area is the rectangular region bounded by the
+        * chart's axes, and with a size specified via
+        * <tt>setChartSize</tt>, where the chart's curves are
+        * typically displayed.
+        * <p>
+        *
+        * Apart from a shift in the origin of the pixel coordinates
+        * used, this method works just like <tt>modelToPixel</tt>
+        * see that method for additional details, tips, and
+        * restrictions.
+        *
+        * @param modelCoordinate a position on this axis expressed
+        *  in the model units associated with this axis.
+        *
+        * @return the distance,
+        * in pixels, from the left edge (for the x axis) or top
+        * edge (for the y or y2 axis) of
+        * the plot area to the given position on this axis.
+        *
+        * @see #getMouseCoordinate getMouseCoordinate
+        * @see #plotAreaPixelToModel plotAreaPixelToModel
+        * @see #modelToPixel modelToPixel
+        * @see #setChartSize setChartSize
+        *
+        """
         pass
 
 
-    """*
-    * Converts a coordinate position in GChart's decorated
-    * chart pixel
-    * coordinates into the model units associated with this axis.
-    * <p>
-    *
-    * GChart's decorated chart pixel
-    * coordinates have their origin at the upper left corner
-    * of the decorated GChart, and x pixel-coordinates that increase
-    * as you move right, and y pixel-coordinates that increase
-    * as you move down. They are related to GWT's standard
-    * client window coordinates via the following equations:
-    *
-    * <pre>
-    *   xClient = plotPanel.getAbsoluteLeft()
-    *             - Window.getScrollLeft()
-    *             + xPixel
-    *   yClient = plotPanel.getAbsoluteTop()
-    *             - Window.getScrollTop()
-    *             + yPixel
-    * </pre>
-    * <p>
-    *
-    *
-    * In the above <tt>plotPanel</tt> is an internal
-    * <tt>AbsolutePanel</tt>
-    * GChart creates to hold the entire, decorated, chart. Apart from
-    * borders and such applied to the GChart as a whole, its
-    * absolute top and left positions should be the same as
-    * those of the GChart itself.
-    * <p>
-    *
-    * For example, for a completely undecorated chart (no tick labels,
-    * legend keys, etc.) the plot area takes up the entire chart. In
-    * that case, if the pixel units of the plot area range from
-    * <tt>0...100</tt> along this axis, and the model coordinates range
-    * from <tt>0...10</tt> along this axis, then
-    * <tt>pixelToModel(pixelCoordinate)</tt> returns
-    * <tt>pixelCoordinate/10.</tt>.  <p>
-    *
-    * The model/pixel mapping is as of the last <tt>update</tt>
-    * this method returns <tt>Double.NaN</tt> before the first
-    * <tt>update</tt>. Note that, unlike <tt>clientToModel</tt>
-    * and <tt>modelToClient</tt>, the GChart does <i>not</i>
-    * need to be actually rendered within the browser for you to
-    * use this method.
-    * <p>
-    *
-    * <i>Tip:</i> If you need to access this mapping before
-    * the first real update, you can explicitly specify the min and
-    * max of this axis via <tt>setAxisMin</tt> and
-    * <tt>setAxisMax</tt>, and then call <tt>update</tt> before adding
-    * any curves to the chart (which, since the chart is empty, should
-    * be very fast). This approach will allow you to convert between
-    * model and pixel coordinates before the first real update, and
-    * before the chart is rendered in the browser.
-    * <p>
-    *
-    * @param pixelCoordinate the distance,
-    * in pixels, from the left edge (for the x axis) or top
-    * edge (for the y or y2 axis) of
-    * the decorated chart to a point on this axis.
-    *
-    * @return that same position on this axis expressed in the
-    *  the model units associated with this axis.
-    *
-    * @see #getMouseCoordinate getMouseCoordinate
-    * @see #clientToModel clientToModel
-    * @see #modelToClient modelToClient
-    * @see #modelToPixel modelToPixel
-    * @see #plotAreaPixelToModel plotAreaPixelToModel
-    *
-    """
     def pixelToModel(self, pixelCoordinate):
+        """*
+        * Converts a coordinate position in GChart's decorated
+        * chart pixel
+        * coordinates into the model units associated with this axis.
+        * <p>
+        *
+        * GChart's decorated chart pixel
+        * coordinates have their origin at the upper left corner
+        * of the decorated GChart, and x pixel-coordinates that increase
+        * as you move right, and y pixel-coordinates that increase
+        * as you move down. They are related to GWT's standard
+        * client window coordinates via the following equations:
+        *
+        * <pre>
+        *   xClient = plotPanel.getAbsoluteLeft()
+        *             - Window.getScrollLeft()
+        *             + xPixel
+        *   yClient = plotPanel.getAbsoluteTop()
+        *             - Window.getScrollTop()
+        *             + yPixel
+        * </pre>
+        * <p>
+        *
+        *
+        * In the above <tt>plotPanel</tt> is an internal
+        * <tt>AbsolutePanel</tt>
+        * GChart creates to hold the entire, decorated, chart. Apart from
+        * borders and such applied to the GChart as a whole, its
+        * absolute top and left positions should be the same as
+        * those of the GChart itself.
+        * <p>
+        *
+        * For example, for a completely undecorated chart (no tick labels,
+        * legend keys, etc.) the plot area takes up the entire chart. In
+        * that case, if the pixel units of the plot area range from
+        * <tt>0...100</tt> along this axis, and the model coordinates range
+        * from <tt>0...10</tt> along this axis, then
+        * <tt>pixelToModel(pixelCoordinate)</tt> returns
+        * <tt>pixelCoordinate/10.</tt>.  <p>
+        *
+        * The model/pixel mapping is as of the last <tt>update</tt>
+        * this method returns <tt>Double.NaN</tt> before the first
+        * <tt>update</tt>. Note that, unlike <tt>clientToModel</tt>
+        * and <tt>modelToClient</tt>, the GChart does <i>not</i>
+        * need to be actually rendered within the browser for you to
+        * use this method.
+        * <p>
+        *
+        * <i>Tip:</i> If you need to access this mapping before
+        * the first real update, you can explicitly specify the min and
+        * max of this axis via <tt>setAxisMin</tt> and
+        * <tt>setAxisMax</tt>, and then call <tt>update</tt> before adding
+        * any curves to the chart (which, since the chart is empty, should
+        * be very fast). This approach will allow you to convert between
+        * model and pixel coordinates before the first real update, and
+        * before the chart is rendered in the browser.
+        * <p>
+        *
+        * @param pixelCoordinate the distance,
+        * in pixels, from the left edge (for the x axis) or top
+        * edge (for the y or y2 axis) of
+        * the decorated chart to a point on this axis.
+        *
+        * @return that same position on this axis expressed in the
+        *  the model units associated with this axis.
+        *
+        * @see #getMouseCoordinate getMouseCoordinate
+        * @see #clientToModel clientToModel
+        * @see #modelToClient modelToClient
+        * @see #modelToPixel modelToPixel
+        * @see #plotAreaPixelToModel plotAreaPixelToModel
+        *
+        """
         pass
 
 
-    """*
-    * Converts a coordinate position in GChart's plot area
-    * pixel
-    * coordinates into the model units associated with this axis.
-    * <p>
-    *
-    * GChart's plot area pixel
-    * coordinates have their origin at the upper left corner
-    * of the plot area, and x pixel-coordinates that increase
-    * as you move right, and y pixel-coordinates that increase
-    * as you move down.
-    * <p>
-    *
-    * The plot area is the rectangular region bounded by the
-    * chart's axes, and with a size specified via
-    * <tt>setChartSize</tt>, where the chart's curves are
-    * typically displayed.
-    * <p>
-    *
-    * Apart from a shift in the origin of the pixel coordinates
-    * used, this method works just like <tt>pixelToModel</tt>
-    * see that method for additional details, tips, and
-    * restrictions.
-    *
-    * @param pixelCoordinate the distance,
-    * in pixels, from the left edge (for the x axis) or top
-    * edge (for the y or y2 axis) of
-    * the plot area to a point on this axis.
-    *
-    * @return that same position on this axis expressed in the
-    *  the model units associated with this axis.
-    *
-    * @see #modelToPlotAreaPixel modelToPlotAreaPixel
-    * @see #pixelToModel pixelToModel
-    * @see #setChartSize setChartSize
-    *
-    """
     def plotAreaPixelToModel(self, pixelCoordinate):
+        """*
+        * Converts a coordinate position in GChart's plot area
+        * pixel
+        * coordinates into the model units associated with this axis.
+        * <p>
+        *
+        * GChart's plot area pixel
+        * coordinates have their origin at the upper left corner
+        * of the plot area, and x pixel-coordinates that increase
+        * as you move right, and y pixel-coordinates that increase
+        * as you move down.
+        * <p>
+        *
+        * The plot area is the rectangular region bounded by the
+        * chart's axes, and with a size specified via
+        * <tt>setChartSize</tt>, where the chart's curves are
+        * typically displayed.
+        * <p>
+        *
+        * Apart from a shift in the origin of the pixel coordinates
+        * used, this method works just like <tt>pixelToModel</tt>
+        * see that method for additional details, tips, and
+        * restrictions.
+        *
+        * @param pixelCoordinate the distance,
+        * in pixels, from the left edge (for the x axis) or top
+        * edge (for the y or y2 axis) of
+        * the plot area to a point on this axis.
+        *
+        * @return that same position on this axis expressed in the
+        *  the model units associated with this axis.
+        *
+        * @see #modelToPlotAreaPixel modelToPlotAreaPixel
+        * @see #pixelToModel pixelToModel
+        * @see #setChartSize setChartSize
+        *
+        """
         pass
 
 
 
 
-    """* Specifies the label of this axis.
-    ** <p>
-    **
-    ** This label will be positioned just outside of, and
-    ** centered lengthwise on, the region adjacent to
-    ** this axis that GChart reserves for this axis' tick labels.
-    **
-    ** @param axisLabel a Widget to use as the label of this axis.
-    **
-    ** @see #getAxisLabel getAxisLabel
-    ** @see #setTickLabelThickness setTickLabelThickness
-    ** @see #setAxisLabelThickness setAxisLabelThickness
-    **
-    """
 
     def setAxisLabel(self, axisLabel):
+        """* Specifies the label of this axis.
+        ** <p>
+        **
+        ** This label will be positioned just outside of, and
+        ** centered lengthwise on, the region adjacent to
+        ** this axis that GChart reserves for this axis' tick labels.
+        **
+        ** @param axisLabel a Widget to use as the label of this axis.
+        **
+        ** @see #getAxisLabel getAxisLabel
+        ** @see #setTickLabelThickness setTickLabelThickness
+        ** @see #setAxisLabelThickness setAxisLabelThickness
+        **
+        """
         if isinstance(axisLabel, basestring):
             axisLabel = HTML(axisLabel)
         self.axisLabel = axisLabel
         self.chartDecorationsChanged = True
 
 
-    """* Sets the thickness of the axis-label-holding region
-    ** adjacent to the region allocated for tick labels.<p>
-    **
-    ** The axis label widget will be centered in this region.
-    ** Choose a thickness large enough to hold the largest
-    ** font size you want users to be able to zoom up to
-    ** without the axis label spilling over into
-    ** adjacent regions.
-    ** <p>
-    **
-    ** If the axis label thickness is <tt>NAI</tt> (the
-    ** default), and the widget defining the axis label
-    ** implements <tt>HasHTML</tt> (or <tt>HasText</tt>) then
-    ** GChart uses a thickness based on the estimated number of
-    ** non-tag characters in the first <tt>&lt;br&gt;</tt> or
-    ** <tt>&lt;li&gt;</tt>
-    ** delimited line for y-axis labels, and based on the
-    ** estimated number of (<tt>&lt;br&gt;</tt> or
-    ** <tt>&lt;li&gt;</tt> delimited)
-    ** text lines for x-axis labels.<p>
-    **
-    ** Note that if the axis label is <tt>None</tt> (its
-    ** default setting) then no space is allocated for the axis
-    ** label, regardless of this thickness setting.
-    ** <p>
-    **
-    ** @param thickness the thickness of the axis-label-holding
-    ** region, in pixels, or <tt>NAI</tt> to use
-    ** GChart's character-based default thickness estimates.
-    **
-    ** @see #getAxisLabelThickness getAxisLabelThickness
-    ** @see #setAxisLabel setAxisLabel
-    """
     def setAxisLabelThickness(self, thickness):
+        """* Sets the thickness of the axis-label-holding region
+        ** adjacent to the region allocated for tick labels.<p>
+        **
+        ** The axis label widget will be centered in this region.
+        ** Choose a thickness large enough to hold the largest
+        ** font size you want users to be able to zoom up to
+        ** without the axis label spilling over into
+        ** adjacent regions.
+        ** <p>
+        **
+        ** If the axis label thickness is <tt>NAI</tt> (the
+        ** default), and the widget defining the axis label
+        ** implements <tt>HasHTML</tt> (or <tt>HasText</tt>) then
+        ** GChart uses a thickness based on the estimated number of
+        ** non-tag characters in the first <tt>&lt;br&gt;</tt> or
+        ** <tt>&lt;li&gt;</tt>
+        ** delimited line for y-axis labels, and based on the
+        ** estimated number of (<tt>&lt;br&gt;</tt> or
+        ** <tt>&lt;li&gt;</tt> delimited)
+        ** text lines for x-axis labels.<p>
+        **
+        ** Note that if the axis label is <tt>None</tt> (its
+        ** default setting) then no space is allocated for the axis
+        ** label, regardless of this thickness setting.
+        ** <p>
+        **
+        ** @param thickness the thickness of the axis-label-holding
+        ** region, in pixels, or <tt>NAI</tt> to use
+        ** GChart's character-based default thickness estimates.
+        **
+        ** @see #getAxisLabelThickness getAxisLabelThickness
+        ** @see #setAxisLabel setAxisLabel
+        """
         axisLabelThickness = thickness
         self.chartDecorationsChanged = True
 
 
-    """*
-    ** Specifies the maximum value visible on this axis.
-    ** <p>
-    **
-    ** Aspects of the chart rendered beyond this maximum will
-    ** be clipped if the chart's <tt>clipToPlotArea</tt>
-    ** property is <tt>True</tt>.
-    **
-    ** <p>
-    **
-    ** If <tt>Double.NaN</tt> is specified, this maximum
-    ** is auto-determined as described in <tt>getAxisMax</tt>.
-    **
-    ** <p> <i>Performance tip:</i> Using auto-determined axis
-    ** limits (via <tt>Double.NaN</tt>) forces GChart, at the
-    ** next update, to re-render many chart elements whenever
-    ** the min or max data value displayed on this axis
-    ** changes.  These (often expensive) re-renderings can be
-    ** avoided by using explicitly specified axis limits
-    ** whenever possible. <p>
-    **
-    ** @param max maximum value visible on this axis, in "model units"
-    ** (arbitrary, application-specific, units) or <tt>Double.NaN</tt>
-    ** (the default value) to use an auto-determined maximum.
-    **
-    ** @see #getAxisMax getAxisMax
-    ** @see #getDataMin getDataMin
-    ** @see #getDataMax getDataMax
-    ** @see GChart#setClipToPlotArea setClipToPlotArea
-    **
-    *"""
     def setAxisMax(self, max):
+        """*
+        ** Specifies the maximum value visible on this axis.
+        ** <p>
+        **
+        ** Aspects of the chart rendered beyond this maximum will
+        ** be clipped if the chart's <tt>clipToPlotArea</tt>
+        ** property is <tt>True</tt>.
+        **
+        ** <p>
+        **
+        ** If <tt>Double.NaN</tt> is specified, this maximum
+        ** is auto-determined as described in <tt>getAxisMax</tt>.
+        **
+        ** <p> <i>Performance tip:</i> Using auto-determined axis
+        ** limits (via <tt>Double.NaN</tt>) forces GChart, at the
+        ** next update, to re-render many chart elements whenever
+        ** the min or max data value displayed on this axis
+        ** changes.  These (often expensive) re-renderings can be
+        ** avoided by using explicitly specified axis limits
+        ** whenever possible. <p>
+        **
+        ** @param max maximum value visible on this axis, in "model units"
+        ** (arbitrary, application-specific, units) or <tt>Double.NaN</tt>
+        ** (the default value) to use an auto-determined maximum.
+        **
+        ** @see #getAxisMax getAxisMax
+        ** @see #getDataMin getDataMin
+        ** @see #getDataMax getDataMax
+        ** @see GChart#setClipToPlotArea setClipToPlotArea
+        **
+        *"""
         self.chartDecorationsChanged = True
         self.axisMax = max
 
-    """*
-    ** Specifies the minimum value of this axis.
-    ** <p>
-    **
-    ** Aspects of the chart rendered at positions before this
-    ** minimum
-    ** value will be clipped if the chart's
-    ** <tt>clipToPlotArea</tt> property is <tt>True</tt>.
-    ** <p>
-    **
-    ** If <tt>Double.NaN</tt> is specified, this minimum
-    ** is auto-determined as described in <tt>getAxisMin</tt>.
-    **
-    ** <p> <i>Performance tip:</i> Using auto-determined axis
-    ** limits (via <tt>Double.NaN</tt>) forces GChart, at the
-    ** next update, to re-render many chart elements whenever
-    ** the min or max data value displayed on this axis
-    ** changes.  These (often expensive) re-renderings can be
-    ** avoided by using explicitly specified axis limits
-    ** whenever possible. <p>
-    **
-    ** @param min minimum value visible on this axis, in "model units"
-    ** (arbitrary, application-specific, units), or Double.NaN
-    ** (the default) to use an auto-determined minimum.
-    **
-    ** @see #getAxisMin getAxisMin
-    ** @see #getDataMin getDataMin
-    ** @see #getDataMax getDataMax
-    **
-    *"""
     def setAxisMin(self, min):
+        """*
+        ** Specifies the minimum value of this axis.
+        ** <p>
+        **
+        ** Aspects of the chart rendered at positions before this
+        ** minimum
+        ** value will be clipped if the chart's
+        ** <tt>clipToPlotArea</tt> property is <tt>True</tt>.
+        ** <p>
+        **
+        ** If <tt>Double.NaN</tt> is specified, this minimum
+        ** is auto-determined as described in <tt>getAxisMin</tt>.
+        **
+        ** <p> <i>Performance tip:</i> Using auto-determined axis
+        ** limits (via <tt>Double.NaN</tt>) forces GChart, at the
+        ** next update, to re-render many chart elements whenever
+        ** the min or max data value displayed on this axis
+        ** changes.  These (often expensive) re-renderings can be
+        ** avoided by using explicitly specified axis limits
+        ** whenever possible. <p>
+        **
+        ** @param min minimum value visible on this axis, in "model units"
+        ** (arbitrary, application-specific, units), or Double.NaN
+        ** (the default) to use an auto-determined minimum.
+        **
+        ** @see #getAxisMin getAxisMin
+        ** @see #getDataMin getDataMin
+        ** @see #getDataMax getDataMax
+        **
+        *"""
         # min can change axis label width ==> changes position of plot area
         self.chartDecorationsChanged = True
         self.axisMin = min
 
 
-    """*
-    ** Defines if this axis is visible. Note that
-    ** this property only defines the visibility of the axis line
-    ** itself, it does not control the visibility of
-    ** tick marks or tick labels associated with the axis.
-    **
-    ** <p>
-    ** <i>Tip:</i>Tick marks can be made invisible by using
-    ** <tt>setTickThickness</tt> to set the tick thickness
-    ** to 0. Tick labels can be made invisible by using
-    ** <tt>setTickLabelFontColor</tt> to set the tick label
-    ** color to the chart's background color.
-    ** <p>
-    **
-    ** @param axisVisible False to hide axis, True to show it.
-    **
-    ** @see #setTickThickness setTickThickness
-    ** @see #setTickLabelFontColor setTickLabelFontColor
-    ** @see #getAxisVisible getAxisVisible
-    *"""
     def setAxisVisible(self, axisVisible):
+        """*
+        ** Defines if this axis is visible. Note that
+        ** this property only defines the visibility of the axis line
+        ** itself, it does not control the visibility of
+        ** tick marks or tick labels associated with the axis.
+        **
+        ** <p>
+        ** <i>Tip:</i>Tick marks can be made invisible by using
+        ** <tt>setTickThickness</tt> to set the tick thickness
+        ** to 0. Tick labels can be made invisible by using
+        ** <tt>setTickLabelFontColor</tt> to set the tick label
+        ** color to the chart's background color.
+        ** <p>
+        **
+        ** @param axisVisible False to hide axis, True to show it.
+        **
+        ** @see #setTickThickness setTickThickness
+        ** @see #setTickLabelFontColor setTickLabelFontColor
+        ** @see #getAxisVisible getAxisVisible
+        *"""
         self.chartDecorationsChanged = True
         self.axisVisible = axisVisible
 
 
-    """*
-    ** Specifies if this axis should have gridlines. When an
-    ** axis has gridlines, tick marks with indexes <tt>0, N,
-    ** 2*N,...</tt> where <tt>N</tt> is the value of this axis'
-    ** <tt>ticksPerGridline</tt> property, are in effect
-    ** extended across the entire chart.
-    **
-    ** @param hasGridlines True to display gridlines,
-    ** False (the default) to not display them.
-    **
-    ** @see #getHasGridlines getHasGridlines
-    ** @see #setTicksPerGridline setTicksPerGridline
-    **
-    *"""
     def setHasGridlines(self, hasGridlines):
+        """*
+        ** Specifies if this axis should have gridlines. When an
+        ** axis has gridlines, tick marks with indexes <tt>0, N,
+        ** 2*N,...</tt> where <tt>N</tt> is the value of this axis'
+        ** <tt>ticksPerGridline</tt> property, are in effect
+        ** extended across the entire chart.
+        **
+        ** @param hasGridlines True to display gridlines,
+        ** False (the default) to not display them.
+        **
+        ** @see #getHasGridlines getHasGridlines
+        ** @see #setTicksPerGridline setTicksPerGridline
+        **
+        *"""
         self.chartDecorationsChanged = True
         self.hasGridlines = hasGridlines
 
-    """* Sets the number of ticks to be placed on this axis. The
-    ** default tick count is 10. Ticks are always evenly
-    ** spaced across the entire axis, unless explicitly
-    ** specified via <tt>addTick</tt>.
-    ** <p>
-    **
-    ** Note that setting the tick count overrides (erases)
-    ** any ticks explicitly specified via <tt>addTick</tt>.
-    **
-    ** @param tickCount the number of ticks for this axis.
-    **
-    ** @see #getTickCount getTickCount
-    ** @see #addTick(double) addTick(double)
-    ** @see #addTick(double,String) addTick(double, String)
-    ** @see #addTick(double,String,int,int) addTick(double,String,int,int)
-    ** @see #addTick(double,Widget) addTick(double,Widget)
-    ** @see #addTick(double,Widget,int,int) addTick(double,Widget,int,int)
-    ** @see #setTickLabelFormat setTickLabelFormat
-    ** @see #setTickLabelFontSize setTickLabelFontSize
-    ** @see #setTickLabelFontStyle setTickLabelFontStyle
-    ** @see #setTickLabelFontColor setTickLabelFontColor
-    ** @see #setTickLabelFontWeight setTickLabelFontWeight
-    **
-    *"""
     def setTickCount(self, tickCount):
+        """* Sets the number of ticks to be placed on this axis. The
+        ** default tick count is 10. Ticks are always evenly
+        ** spaced across the entire axis, unless explicitly
+        ** specified via <tt>addTick</tt>.
+        ** <p>
+        **
+        ** Note that setting the tick count overrides (erases)
+        ** any ticks explicitly specified via <tt>addTick</tt>.
+        **
+        ** @param tickCount the number of ticks for this axis.
+        **
+        ** @see #getTickCount getTickCount
+        ** @see #addTick(double) addTick(double)
+        ** @see #addTick(double,String) addTick(double, String)
+        ** @see #addTick(double,String,int,int) addTick(double,String,int,int)
+        ** @see #addTick(double,Widget) addTick(double,Widget)
+        ** @see #addTick(double,Widget,int,int) addTick(double,Widget,int,int)
+        ** @see #setTickLabelFormat setTickLabelFormat
+        ** @see #setTickLabelFontSize setTickLabelFontSize
+        ** @see #setTickLabelFontStyle setTickLabelFontStyle
+        ** @see #setTickLabelFontColor setTickLabelFontColor
+        ** @see #setTickLabelFontWeight setTickLabelFontWeight
+        **
+        *"""
         self.chartDecorationsChanged = True
         self.getSystemCurve(self.ticksId).clearPoints(); # eliminate user specified ticks
         self.tickCount = tickCount
 
-    """*
-    ** Specifies the weight of the font used in this axis' tick
-    ** labels.
-    **
-    ** @param cssWeight the weight of the font, such as bold,
-    **    normal, light, 100, 200, ... 900, for tick labels.
-    **
-    ** @see #getTickLabelFontWeight getTickLabelFontWeight
-    ** @see #setTickLabelFormat setTickLabelFormat
-    ** @see #setTickCount setTickCount
-    ** @see #addTick(double) addTick(double)
-    ** @see #addTick(double,String) addTick(double,String)
-    ** @see #addTick(double,String,int,int) addTick(double,String,int,int)
-    ** @see #addTick(double,Widget) addTick(double,Widget)
-    ** @see #addTick(double,Widget,int,int) addTick(double,Widget,int,int)
-    ** @see #setTickLabelFontStyle setTickLabelFontStyle
-    ** @see #setTickLabelFontColor setTickLabelFontColor
-    ** @see #setTickLabelFontSize setTickLabelFontSize
-    ** @see #DEFAULT_TICK_LABEL_FONT_WEIGHT DEFAULT_TICK_LABEL_FONT_WEIGHT
-    *"""
     def setTickLabelFontWeight(self, cssWeight):
+        """*
+        ** Specifies the weight of the font used in this axis' tick
+        ** labels.
+        **
+        ** @param cssWeight the weight of the font, such as bold,
+        **    normal, light, 100, 200, ... 900, for tick labels.
+        **
+        ** @see #getTickLabelFontWeight getTickLabelFontWeight
+        ** @see #setTickLabelFormat setTickLabelFormat
+        ** @see #setTickCount setTickCount
+        ** @see #addTick(double) addTick(double)
+        ** @see #addTick(double,String) addTick(double,String)
+        ** @see #addTick(double,String,int,int) addTick(double,String,int,int)
+        ** @see #addTick(double,Widget) addTick(double,Widget)
+        ** @see #addTick(double,Widget,int,int) addTick(double,Widget,int,int)
+        ** @see #setTickLabelFontStyle setTickLabelFontStyle
+        ** @see #setTickLabelFontColor setTickLabelFontColor
+        ** @see #setTickLabelFontSize setTickLabelFontSize
+        ** @see #DEFAULT_TICK_LABEL_FONT_WEIGHT DEFAULT_TICK_LABEL_FONT_WEIGHT
+        *"""
         self.chartDecorationsChanged = True
         # assure that any existing ticks are updated with weight
         c = self.getSystemCurve(self.ticksId)
@@ -1287,32 +1285,32 @@ class Axis:
             c.getPoint(i).setAnnotationFontWeight(cssWeight)
         self.tickLabelFontWeight = cssWeight
 
-    """*
-    ** Specifies the color of the font used to render tick labels
-    ** for this axis.
-    **
-    ** <p>
-    ** For more information on standard CSS color
-    ** specifications see the discussion in
-    ** {@link Symbol#setBackgroundColor Symbol.setBackgroundColor}.
-    ** <p>
-    **
-    ** @param cssColor color of the font used to display this
-    **    axis' tick labels, in standard CSS format.
-    **
-    ** @see #getTickLabelFontColor getTickLabelFontColor
-    ** @see #setTickLabelFormat setTickLabelFormat
-    ** @see #setTickCount setTickCount
-    ** @see #addTick(double) addTick(double)
-    ** @see #addTick(double,String) addTick(double,String)
-    ** @see #addTick(double,String,int,int) addTick(double,String,int,int)
-    ** @see #addTick(double,Widget) addTick(double,Widget)
-    ** @see #addTick(double,Widget,int,int) addTick(double,Widget,int,int)
-    ** @see #setTickLabelFontStyle setTickLabelFontStyle
-    ** @see #setTickLabelFontWeight setTickLabelFontWeight
-    ** @see #setTickLabelFontSize setTickLabelFontSize
-    *"""
     def setTickLabelFontColor(self, cssColor):
+        """*
+        ** Specifies the color of the font used to render tick labels
+        ** for this axis.
+        **
+        ** <p>
+        ** For more information on standard CSS color
+        ** specifications see the discussion in
+        ** {@link Symbol#setBackgroundColor Symbol.setBackgroundColor}.
+        ** <p>
+        **
+        ** @param cssColor color of the font used to display this
+        **    axis' tick labels, in standard CSS format.
+        **
+        ** @see #getTickLabelFontColor getTickLabelFontColor
+        ** @see #setTickLabelFormat setTickLabelFormat
+        ** @see #setTickCount setTickCount
+        ** @see #addTick(double) addTick(double)
+        ** @see #addTick(double,String) addTick(double,String)
+        ** @see #addTick(double,String,int,int) addTick(double,String,int,int)
+        ** @see #addTick(double,Widget) addTick(double,Widget)
+        ** @see #addTick(double,Widget,int,int) addTick(double,Widget,int,int)
+        ** @see #setTickLabelFontStyle setTickLabelFontStyle
+        ** @see #setTickLabelFontWeight setTickLabelFontWeight
+        ** @see #setTickLabelFontSize setTickLabelFontSize
+        *"""
         self.chartDecorationsChanged = True
         c = self.getSystemCurve(self.ticksId)
         nPoints = c.getNPoints()
@@ -1321,28 +1319,28 @@ class Axis:
         self.tickLabelFontColor = cssColor
 
 
-    """*
-    ** Specifies the CSS font-style of this
-    ** axis' tick labels.
-    **
-    ** @param cssStyle any valid CSS font-style, namely,
-    **   normal, italic, oblique, or inherit.
-    **
-    ** @see #getTickLabelFontStyle getTickLabelFontStyle
-    ** @see #setTickLabelFormat setTickLabelFormat
-    ** @see #setTickCount setTickCount
-    ** @see #addTick(double) addTick(double)
-    ** @see #addTick(double,String) addTick(double,String)
-    ** @see #addTick(double,String,int,int) addTick(double,String,int,int)
-    ** @see #addTick(double,Widget) addTick(double,Widget)
-    ** @see #addTick(double,Widget,int,int) addTick(double,Widget,int,int)
-    ** @see #setTickLabelFontColor setTickLabelFontColor
-    ** @see #setTickLabelFontWeight setTickLabelFontWeight
-    ** @see #setTickLabelFontSize setTickLabelFontSize
-    ** @see #DEFAULT_TICK_LABEL_FONT_STYLE
-    ** DEFAULT_TICK_LABEL_FONT_STYLE
-    *"""
     def setTickLabelFontStyle(self, cssStyle):
+        """*
+        ** Specifies the CSS font-style of this
+        ** axis' tick labels.
+        **
+        ** @param cssStyle any valid CSS font-style, namely,
+        **   normal, italic, oblique, or inherit.
+        **
+        ** @see #getTickLabelFontStyle getTickLabelFontStyle
+        ** @see #setTickLabelFormat setTickLabelFormat
+        ** @see #setTickCount setTickCount
+        ** @see #addTick(double) addTick(double)
+        ** @see #addTick(double,String) addTick(double,String)
+        ** @see #addTick(double,String,int,int) addTick(double,String,int,int)
+        ** @see #addTick(double,Widget) addTick(double,Widget)
+        ** @see #addTick(double,Widget,int,int) addTick(double,Widget,int,int)
+        ** @see #setTickLabelFontColor setTickLabelFontColor
+        ** @see #setTickLabelFontWeight setTickLabelFontWeight
+        ** @see #setTickLabelFontSize setTickLabelFontSize
+        ** @see #DEFAULT_TICK_LABEL_FONT_STYLE
+        ** DEFAULT_TICK_LABEL_FONT_STYLE
+        *"""
         self.chartDecorationsChanged = True
         c = self.getSystemCurve(self.ticksId)
         nPoints = c.getNPoints()
@@ -1351,29 +1349,29 @@ class Axis:
         self.tickLabelFontStyle = cssStyle
 
 
-    """*
-    ** Sets the CSS font size for tick labels on this
-    ** axis, in pixels.
-    **
-    ** @param tickLabelFontSize the font size of tick labels
-    **   displayed on this axis.
-    **
-    ** @see #getTickLabelFontSize getTickLabelFontSize
-    ** @see #setTickLabelFormat setTickLabelFormat
-    ** @see #setTickCount setTickCount
-    ** @see #addTick(double) addTick(double)
-    ** @see #addTick(double,String) addTick(double,String)
-    ** @see #addTick(double,String,int,int) addTick(double,String,int,int)
-    ** @see #addTick(double,Widget) addTick(double,Widget)
-    ** @see #addTick(double,Widget,int,int) addTick(double,Widget,int,int)
-    ** @see #setTickLabelFontStyle setTickLabelFontStyle
-    ** @see #setTickLabelFontColor setTickLabelFontColor
-    ** @see #setTickLabelFontWeight setTickLabelFontWeight
-    ** @see GChart#DEFAULT_TICK_LABEL_FONTSIZE DEFAULT_TICK_LABEL_FONTSIZE
-    **
-    *"""
 
     def setTickLabelFontSize(self, tickLabelFontSize):
+        """*
+        ** Sets the CSS font size for tick labels on this
+        ** axis, in pixels.
+        **
+        ** @param tickLabelFontSize the font size of tick labels
+        **   displayed on this axis.
+        **
+        ** @see #getTickLabelFontSize getTickLabelFontSize
+        ** @see #setTickLabelFormat setTickLabelFormat
+        ** @see #setTickCount setTickCount
+        ** @see #addTick(double) addTick(double)
+        ** @see #addTick(double,String) addTick(double,String)
+        ** @see #addTick(double,String,int,int) addTick(double,String,int,int)
+        ** @see #addTick(double,Widget) addTick(double,Widget)
+        ** @see #addTick(double,Widget,int,int) addTick(double,Widget,int,int)
+        ** @see #setTickLabelFontStyle setTickLabelFontStyle
+        ** @see #setTickLabelFontColor setTickLabelFontColor
+        ** @see #setTickLabelFontWeight setTickLabelFontWeight
+        ** @see GChart#DEFAULT_TICK_LABEL_FONTSIZE DEFAULT_TICK_LABEL_FONTSIZE
+        **
+        *"""
         self.chartDecorationsChanged = True
         c = self.getSystemCurve(self.ticksId)
         nPoints = c.getNPoints()
@@ -1382,124 +1380,124 @@ class Axis:
         self.tickLabelFontSize = tickLabelFontSize
 
 
-    """*
-    * Specifies a format string to be used in
-    * converting the numeric values associated with each
-    * tick on this axis into tick labels.  This string must
-    * follow the conventions of the number format patterns
-    * used by the GWT <a
-    * href="http:#google-web-toolkit.googlecode.com/svn/javadoc/1.4/com/google/gwt/i18n/client/NumberFormat.html">
-    * NumberFormat</a> class, <i>with three
-    * exceptions:</i>
-    * <p>
-    * <ol>
-    *
-    *  <li><i>Log10 inverse prefix</i>: If the string begins
-    *  with the prefix <tt>=10^</tt> the value is replaced with
-    *  <tt>pow(10.,value)</tt> and the so-transformed value is
-    *  then formatted using the part of the format string that
-    *  comes after this prefix, which must be a valid GWT
-    *  <tt>NumberFormat</tt> pattern (e.g. "##.##").
-    *  <p>
-    *  For an example of how to use this prefix to create a
-    *  semi-log plot, see <a
-    *  href="package-summary.html#GChartExample04">the
-    *  Chart Gallery's GChartExample04</a>.
-    *  <p>
-    *
-    *  <li><i>Log2 inverse prefix</i>: If the string begins with
-    *  the prefix <tt>=2^</tt> the value is replaced with
-    *  <tt>pow(2.,value)</tt> and the so-transformed value is
-    *  then formatted using the part of the format string that
-    *  comes after this prefix, which must be a valid GWT
-    *  <tt>NumberFormat</tt> pattern.
-    *  <p>
-    *
-    *  <li><i>Date casting prefix</i>: If the string begins with
-    *  the prefix <tt>=(Date)</tt> the value is replaced with
-    *  <tt>Date((long) value)</tt> and the so-transformed
-    *  value is then formatted using the format string that
-    *  comes after this prefix, which must be a valid GWT
-    *  <a href="http:#google-web-toolkit.googlecode.com/svn/javadoc/1.4/com/google/gwt/i18n/client/DateTimeFormat.html">
-    *  DateTimeFormat</a>  pattern (e.g. "yyyy-MM-dd&nbsp;HH:mm").
-    *  For the special case format string of <tt>"=(Date)"</tt>
-    *  (just the date casting prefix) GChart uses the
-    *  <tt>DateTimeFormat</tt> returned by the
-    *  <tt>DateTimeFormat.getShortDateTimeFormat</tt> method.  <p>
-    *
-    *  Note that the values associated with this Axis must
-    *  represent the number of milliseconds since January 1,
-    *  1970 (in the GMT time zone) whenever this date
-    *  casting prefix is used.  <p>
-    *
-    *
-    *  For example, if the x-axis tick label format were
-    *  "=(Date)MMM-dd-yyyy HH", then, for a tick located at the
-    *  x position of 0, the tick label would be "Jan-01-1970 00"
-    *  (on a client in the GMT time zone) and for a tick located
-    *  at the x position of 25*60*60*1000 (one day + one hour,
-    *  in milliseconds) the tick label would be "Jan-02-1970 01"
-    *  (again, on a GMT-based client). Results would be
-    *  shifted appropriately on clients in different time zones.
-    *  <p>
-    *
-    *  Note that if your chart is based on absolute, GMT-based,
-    *  millisecond times then date labels will change when your
-    *  chart is displayed on clients in different time zones.
-    *  Sometimes, this is what you want. To keep the date labels
-    *  the same in all time zones, convert date labels into Java
-    *  <tt>Date</tt> objects in your client-side code, then use
-    *  the <tt>Date.getTime</tt> method, also in your
-    *  client-side code, to convert those dates into the
-    *  millisecond values GChart requires.  The <a
-    *  href="package-summary.html#GChartExample12"> Chart
-    *  Gallery's GChartExample12</a> illustrates how to use this
-    *  second approach to produce a time series chart whose
-    *  date-time labels are the same in all time zones.
-    *
-    *  <p>
-    *
-    *  <blockquote><small>
-    *
-    *  Ben Martin describes an alter(and more flexible)
-    *  approach to formatting time series tick labels in his <a
-    *  href="http:#www.linux.com/feature/132854">GChart
-    *  tutorial</a>. Ben's article, along with Malcolm Gorman's
-    *  related <a
-    *  href="http:#groups.google.com/group/Google-Web-Toolkit/msg/6125ce39fd2339ac">
-    *  GWT forum post</a> were the origin of this date
-    *  casting prefix. Thanks! </small></blockquote>
-    *
-    * </ol>
-    * <p>
-    *
-    *
-    * <p> Though HTML text is not supported in the tick label
-    * format string, you can change the size, weight, style, and
-    * color of tick label text via the
-    * <tt>setTickLabelFont*</tt> family of methods. You
-    * <i>can</i> use HTML in tick labels (e.g. for a multi-line
-    * x-axis label) but but only if you define each tick label
-    * explicitly using the <tt>addTick</tt> method.
-    *
-    * @param format an appropriately prefixed
-    *   GWT <tt>NumberFormat</tt> compatible or
-    *   GWT <tt>DateTimeFormat</tt> compatible format string that
-    *   defines how to convert tick values into tick labels.
-    *
-    * @see #setTickCount setTickCount
-    * @see #addTick(double) addTick(double)
-    * @see #addTick(double,String) addTick(double,String)
-    * @see #addTick(double,String,int,int) addTick(double,String,int,int)
-    * @see #addTick(double,Widget) addTick(double,Widget)
-    * @see #addTick(double,Widget,int,int) addTick(double,Widget,int,int)
-    * @see #setTickLabelFontSize setTickLabelFontSize
-    * @see #setTickLabelFontStyle setTickLabelFontStyle
-    * @see #setTickLabelFontColor setTickLabelFontColor
-    * @see #setTickLabelFontWeight setTickLabelFontWeight
-    * @see #getTickLabelFormat getTickLabelFormat
-    """
     def setTickLabelFormat(self, format):
+        """*
+        * Specifies a format string to be used in
+        * converting the numeric values associated with each
+        * tick on this axis into tick labels.  This string must
+        * follow the conventions of the number format patterns
+        * used by the GWT <a
+        * href="http:#google-web-toolkit.googlecode.com/svn/javadoc/1.4/com/google/gwt/i18n/client/NumberFormat.html">
+        * NumberFormat</a> class, <i>with three
+        * exceptions:</i>
+        * <p>
+        * <ol>
+        *
+        *  <li><i>Log10 inverse prefix</i>: If the string begins
+        *  with the prefix <tt>=10^</tt> the value is replaced with
+        *  <tt>pow(10.,value)</tt> and the so-transformed value is
+        *  then formatted using the part of the format string that
+        *  comes after this prefix, which must be a valid GWT
+        *  <tt>NumberFormat</tt> pattern (e.g. "##.##").
+        *  <p>
+        *  For an example of how to use this prefix to create a
+        *  semi-log plot, see <a
+        *  href="package-summary.html#GChartExample04">the
+        *  Chart Gallery's GChartExample04</a>.
+        *  <p>
+        *
+        *  <li><i>Log2 inverse prefix</i>: If the string begins with
+        *  the prefix <tt>=2^</tt> the value is replaced with
+        *  <tt>pow(2.,value)</tt> and the so-transformed value is
+        *  then formatted using the part of the format string that
+        *  comes after this prefix, which must be a valid GWT
+        *  <tt>NumberFormat</tt> pattern.
+        *  <p>
+        *
+        *  <li><i>Date casting prefix</i>: If the string begins with
+        *  the prefix <tt>=(Date)</tt> the value is replaced with
+        *  <tt>Date((long) value)</tt> and the so-transformed
+        *  value is then formatted using the format string that
+        *  comes after this prefix, which must be a valid GWT
+        *  <a href="http:#google-web-toolkit.googlecode.com/svn/javadoc/1.4/com/google/gwt/i18n/client/DateTimeFormat.html">
+        *  DateTimeFormat</a>  pattern (e.g. "yyyy-MM-dd&nbsp;HH:mm").
+        *  For the special case format string of <tt>"=(Date)"</tt>
+        *  (just the date casting prefix) GChart uses the
+        *  <tt>DateTimeFormat</tt> returned by the
+        *  <tt>DateTimeFormat.getShortDateTimeFormat</tt> method.  <p>
+        *
+        *  Note that the values associated with this Axis must
+        *  represent the number of milliseconds since January 1,
+        *  1970 (in the GMT time zone) whenever this date
+        *  casting prefix is used.  <p>
+        *
+        *
+        *  For example, if the x-axis tick label format were
+        *  "=(Date)MMM-dd-yyyy HH", then, for a tick located at the
+        *  x position of 0, the tick label would be "Jan-01-1970 00"
+        *  (on a client in the GMT time zone) and for a tick located
+        *  at the x position of 25*60*60*1000 (one day + one hour,
+        *  in milliseconds) the tick label would be "Jan-02-1970 01"
+        *  (again, on a GMT-based client). Results would be
+        *  shifted appropriately on clients in different time zones.
+        *  <p>
+        *
+        *  Note that if your chart is based on absolute, GMT-based,
+        *  millisecond times then date labels will change when your
+        *  chart is displayed on clients in different time zones.
+        *  Sometimes, this is what you want. To keep the date labels
+        *  the same in all time zones, convert date labels into Java
+        *  <tt>Date</tt> objects in your client-side code, then use
+        *  the <tt>Date.getTime</tt> method, also in your
+        *  client-side code, to convert those dates into the
+        *  millisecond values GChart requires.  The <a
+        *  href="package-summary.html#GChartExample12"> Chart
+        *  Gallery's GChartExample12</a> illustrates how to use this
+        *  second approach to produce a time series chart whose
+        *  date-time labels are the same in all time zones.
+        *
+        *  <p>
+        *
+        *  <blockquote><small>
+        *
+        *  Ben Martin describes an alter(and more flexible)
+        *  approach to formatting time series tick labels in his <a
+        *  href="http:#www.linux.com/feature/132854">GChart
+        *  tutorial</a>. Ben's article, along with Malcolm Gorman's
+        *  related <a
+        *  href="http:#groups.google.com/group/Google-Web-Toolkit/msg/6125ce39fd2339ac">
+        *  GWT forum post</a> were the origin of this date
+        *  casting prefix. Thanks! </small></blockquote>
+        *
+        * </ol>
+        * <p>
+        *
+        *
+        * <p> Though HTML text is not supported in the tick label
+        * format string, you can change the size, weight, style, and
+        * color of tick label text via the
+        * <tt>setTickLabelFont*</tt> family of methods. You
+        * <i>can</i> use HTML in tick labels (e.g. for a multi-line
+        * x-axis label) but but only if you define each tick label
+        * explicitly using the <tt>addTick</tt> method.
+        *
+        * @param format an appropriately prefixed
+        *   GWT <tt>NumberFormat</tt> compatible or
+        *   GWT <tt>DateTimeFormat</tt> compatible format string that
+        *   defines how to convert tick values into tick labels.
+        *
+        * @see #setTickCount setTickCount
+        * @see #addTick(double) addTick(double)
+        * @see #addTick(double,String) addTick(double,String)
+        * @see #addTick(double,String,int,int) addTick(double,String,int,int)
+        * @see #addTick(double,Widget) addTick(double,Widget)
+        * @see #addTick(double,Widget,int,int) addTick(double,Widget,int,int)
+        * @see #setTickLabelFontSize setTickLabelFontSize
+        * @see #setTickLabelFontStyle setTickLabelFontStyle
+        * @see #setTickLabelFontColor setTickLabelFontColor
+        * @see #setTickLabelFontWeight setTickLabelFontWeight
+        * @see #getTickLabelFormat getTickLabelFormat
+        """
         # interpret prefixes and create an appropriate formatter
         if self.tickLabelFormat == format:
             return
@@ -1534,82 +1532,82 @@ class Axis:
         self.tickLabelFormat = format
 
 
-    """* Specifies the number of pixels of padding (blank space)
-    ** between the tick marks and their labels. <p>
-    **
-    ** With the default of <tt>0</tt>, each
-    ** tick label is flush against its tick mark.
-    **
-    ** @param tickLabelPadding the amount of padding between
-    ** tick labels and tick marks, in pixels.
-    **
-    **
-    ** @see #getTickLabelPadding getTickLabelPadding
-    ** @see #setTickLength setTickLength
-    ** @see #setTickLocation setTickLocation
-    **
-    *"""
     def setTickLabelPadding(self, tickLabelPadding):
+        """* Specifies the number of pixels of padding (blank space)
+        ** between the tick marks and their labels. <p>
+        **
+        ** With the default of <tt>0</tt>, each
+        ** tick label is flush against its tick mark.
+        **
+        ** @param tickLabelPadding the amount of padding between
+        ** tick labels and tick marks, in pixels.
+        **
+        **
+        ** @see #getTickLabelPadding getTickLabelPadding
+        ** @see #setTickLength setTickLength
+        ** @see #setTickLocation setTickLocation
+        **
+        *"""
         self.chartDecorationsChanged = True
         self.tickLabelPadding = tickLabelPadding
 
-    """* Specifies the thickness of the region adjacent to
-    ** this axis that GChart will reserve for purposes of
-    ** holding this axis' tick labels.  <p>
-    ** <p>
-    **
-    ** For vertical axes, this represents the width of the
-    ** widest tick label, for horizontal axes, this represents
-    ** the height of highest tick label.
-    ** <p>
-    **
-    **
-    ** By default, this property has the special "undefined"
-    ** value <tt>NAI</tt>. With this value, the
-    ** companion method <tt>getTickLabelThickness</tt> uses an
-    ** HTML-based heuristic to estimate the thickness.
-    **
-    **
-    ** @see #getTickLabelThickness getTickLabelThickness
-    ** @see #setTickLabelFontSize setTickLabelFontSize
-    ** @see #setTickLocation setTickLocation
-    ** @see #setTickLabelPadding setTickLabelPadding
-    ** @see #setAxisLabel setAxisLabel
-    ** @see NAI NAI
-    **
-    *"""
     def setTickLabelThickness(self, tickLabelThickness):
+        """* Specifies the thickness of the region adjacent to
+        ** this axis that GChart will reserve for purposes of
+        ** holding this axis' tick labels.  <p>
+        ** <p>
+        **
+        ** For vertical axes, this represents the width of the
+        ** widest tick label, for horizontal axes, this represents
+        ** the height of highest tick label.
+        ** <p>
+        **
+        **
+        ** By default, this property has the special "undefined"
+        ** value <tt>NAI</tt>. With this value, the
+        ** companion method <tt>getTickLabelThickness</tt> uses an
+        ** HTML-based heuristic to estimate the thickness.
+        **
+        **
+        ** @see #getTickLabelThickness getTickLabelThickness
+        ** @see #setTickLabelFontSize setTickLabelFontSize
+        ** @see #setTickLocation setTickLocation
+        ** @see #setTickLabelPadding setTickLabelPadding
+        ** @see #setAxisLabel setAxisLabel
+        ** @see NAI NAI
+        **
+        *"""
         self.chartDecorationsChanged = True
         self.tickLabelThickness = tickLabelThickness
 
-    """* Specifies the ratio of the number of tick marks on the
-    ** axis, to the number of gridlines on the axis.
-    ** <p>
-    **
-    ** For example, with the default value of 1, every tick has
-    ** an associated gridline, whereas with a
-    ** <tt>ticksPerGridline</tt> setting of 2, only the first,
-    ** third, fifth, etc. ticks have gridlines.
-    **
-    ** <p>
-    **
-    ** This setting only has an impact when the axis' gridlines
-    ** are turned on, that is, when this axis'
-    ** <tt>getHasGridlines</tt> method returns True.
-    **
-    ** @see #setHasGridlines setHasGridlines
-    ** @see #setTickCount setTickCount
-    ** @see #addTick(double) addTick(double)
-    ** @see #addTick(double,String) addTick(double,String)
-    ** @see #addTick(double,String,int,int) addTick(double,String,int,int)
-    ** @see #addTick(double,Widget) addTick(double,Widget)
-    ** @see #addTick(double,Widget,int,int) addTick(double,Widget,int,int)
-    **
-    ** @param ticksPerGridline the number of ticks on this
-    **   axis per "gridline-extended" tick.
-    **
-    *"""
     def setTicksPerGridline(self, ticksPerGridline):
+        """* Specifies the ratio of the number of tick marks on the
+        ** axis, to the number of gridlines on the axis.
+        ** <p>
+        **
+        ** For example, with the default value of 1, every tick has
+        ** an associated gridline, whereas with a
+        ** <tt>ticksPerGridline</tt> setting of 2, only the first,
+        ** third, fifth, etc. ticks have gridlines.
+        **
+        ** <p>
+        **
+        ** This setting only has an impact when the axis' gridlines
+        ** are turned on, that is, when this axis'
+        ** <tt>getHasGridlines</tt> method returns True.
+        **
+        ** @see #setHasGridlines setHasGridlines
+        ** @see #setTickCount setTickCount
+        ** @see #addTick(double) addTick(double)
+        ** @see #addTick(double,String) addTick(double,String)
+        ** @see #addTick(double,String,int,int) addTick(double,String,int,int)
+        ** @see #addTick(double,Widget) addTick(double,Widget)
+        ** @see #addTick(double,Widget,int,int) addTick(double,Widget,int,int)
+        **
+        ** @param ticksPerGridline the number of ticks on this
+        **   axis per "gridline-extended" tick.
+        **
+        *"""
         if ticksPerGridline <= 0:
             raise IllegalArgumentException("ticksPerGridline=" +
             ticksPerGridline + "; ticksPerGridline must be > 0")
@@ -1617,34 +1615,34 @@ class Axis:
         self.chartDecorationsChanged = True
         self.ticksPerGridline = ticksPerGridline
 
-    """* Specifies the ratio of the number of tick marks on the
-    ** axis, to the number of labeled tick marks on the axis.
-    ** <p>
-    **
-    ** For example, with the default value of 1, every tick is
-    ** labeled, whereas with a <tt>ticksPerLabel</tt> setting
-    ** of 2, only the first, third, fifth, etc. ticks are
-    ** labeled.
-    **
-    ** <p>
-    **
-    ** This setting is only used when tick labels
-    ** are specified implicitly via <tt>setTickCount</tt>. It
-    ** is ignored when tick positions and their labels are
-    ** explicitly specified via <tt>addTick</tt>.
-    **
-    ** @see #setTickCount setTickCount
-    ** @see #addTick(double) addTick(double)
-    ** @see #addTick(double,String) addTick(double,String)
-    ** @see #addTick(double,String,int,int) addTick(double,String,int,int)
-    ** @see #addTick(double,Widget) addTick(double,Widget)
-    ** @see #addTick(double,Widget,int,int) addTick(double,Widget,int,int)
-    **
-    ** @param ticksPerLabel the ratio of the number of ticks,
-    **  to the number of labeled ticks.
-    **
-    *"""
     def setTicksPerLabel(self, ticksPerLabel):
+        """* Specifies the ratio of the number of tick marks on the
+        ** axis, to the number of labeled tick marks on the axis.
+        ** <p>
+        **
+        ** For example, with the default value of 1, every tick is
+        ** labeled, whereas with a <tt>ticksPerLabel</tt> setting
+        ** of 2, only the first, third, fifth, etc. ticks are
+        ** labeled.
+        **
+        ** <p>
+        **
+        ** This setting is only used when tick labels
+        ** are specified implicitly via <tt>setTickCount</tt>. It
+        ** is ignored when tick positions and their labels are
+        ** explicitly specified via <tt>addTick</tt>.
+        **
+        ** @see #setTickCount setTickCount
+        ** @see #addTick(double) addTick(double)
+        ** @see #addTick(double,String) addTick(double,String)
+        ** @see #addTick(double,String,int,int) addTick(double,String,int,int)
+        ** @see #addTick(double,Widget) addTick(double,Widget)
+        ** @see #addTick(double,Widget,int,int) addTick(double,Widget,int,int)
+        **
+        ** @param ticksPerLabel the ratio of the number of ticks,
+        **  to the number of labeled ticks.
+        **
+        *"""
         self.chartDecorationsChanged = True
         if ticksPerLabel <= 0:
             raise IllegalArgumentException("ticksPerLabel=" +
@@ -1653,42 +1651,42 @@ class Axis:
         self.ticksPerLabel = ticksPerLabel
 
 
-    """*
-    * Sets this axis' tick length. Set the tick length to zero to
-    * eliminate the tick entirely.
-    * <p>
-    *
-    *
-    * @param tickLength the length of the tick.
-    *
-    * @see #getTickLength getTickLength
-    * @see #setTickThickness setTickThickness
-    * @see #setTickLabelPadding setTickLabelPadding
-    * @see #setTickLocation setTickLocation
-    *
-    """
     def setTickLength(self, tickLength):
+        """*
+        * Sets this axis' tick length. Set the tick length to zero to
+        * eliminate the tick entirely.
+        * <p>
+        *
+        *
+        * @param tickLength the length of the tick.
+        *
+        * @see #getTickLength getTickLength
+        * @see #setTickThickness setTickThickness
+        * @see #setTickLabelPadding setTickLabelPadding
+        * @see #setTickLocation setTickLocation
+        *
+        """
         pass
 
 
-    """*
-    * Specifies the location of the tick marks relative to this
-    * axis, namely, if tick marks are outside, inside, or
-    * centered on this axis.
-    * <p>
-    *
-    * @see #getTickLocation getTickLocation
-    * @see #setTickThickness setTickThickness
-    * @see #setTickLength setTickLength
-    * @see #setTickLabelPadding setTickLabelPadding
-    *
-    * @param tickLocation Specify either
-    * <tt>TickLocation.INSIDE</tt>,
-    * <tt>TickLocation.OUTSIDE</tt>, or
-    * <tt>TickLocation.CENTERED</tt>
-    *
-    """
     def setTickLocation(self, tickLocation):
+        """*
+        * Specifies the location of the tick marks relative to this
+        * axis, namely, if tick marks are outside, inside, or
+        * centered on this axis.
+        * <p>
+        *
+        * @see #getTickLocation getTickLocation
+        * @see #setTickThickness setTickThickness
+        * @see #setTickLength setTickLength
+        * @see #setTickLabelPadding setTickLabelPadding
+        *
+        * @param tickLocation Specify either
+        * <tt>TickLocation.INSIDE</tt>,
+        * <tt>TickLocation.OUTSIDE</tt>, or
+        * <tt>TickLocation.CENTERED</tt>
+        *
+        """
         self.tickLocation = tickLocation
         self.chartDecorationsChanged = True
         sym = self.getSystemCurve(self.ticksId).getSymbol()
@@ -1703,19 +1701,19 @@ class Axis:
 
 
 
-    """*
-    * Sets this axis' tick thickness.
-    * <p>
-    *
-    * @param tickThickness the thickness of the tick.
-    *
-    * @see #getTickThickness getTickThickness
-    * @see #setTickLength setTickLength
-    * @see #setTickLabelPadding setTickLabelPadding
-    * @see #setTickLocation setTickLocation
-    *
-    """
     def setTickThickness(self, tickThickness):
+        """*
+        * Sets this axis' tick thickness.
+        * <p>
+        *
+        * @param tickThickness the thickness of the tick.
+        *
+        * @see #getTickThickness getTickThickness
+        * @see #setTickLength setTickLength
+        * @see #setTickLabelPadding setTickLabelPadding
+        * @see #setTickLocation setTickLocation
+        *
+        """
         pass
 
     def maybePopulateTicks(self):
@@ -1808,8 +1806,8 @@ class Axis:
         return not self.getAxisLimits().equals(self.previousLimits)
 
 
-    """ similar to getTickText, except for the tick position """
     def getTickPosition(self, c, iTick):
+        """ similar to getTickText, except for the tick position """
         if self.isHorizontalAxis:
             result = c.getPoint(iTick).getX()
 
@@ -1877,11 +1875,11 @@ class Axis:
             self.setAxisMax(axisMax)
 
 
-"""* The x-axis of a GChart.
-*
-* @see GChart#getXAxis getXAxis
 """
+The x-axis of a GChart.
 
+@see GChart#getXAxis getXAxis
+"""
 class XAxis(Axis):
     def __init__(self, chart):
         Axis.__init__(self, chart)
@@ -2023,11 +2021,11 @@ class XAxis(Axis):
 
 
  # INDENT ERROR} end of class XAxis
-"""* The right, or "y2", axis of a GChart.
-*
-* @see GChart#getY2Axis getY2Axis
 """
+The right, or "y2", axis of a GChart.
 
+@see GChart#getY2Axis getY2Axis
+"""
 class Y2Axis(Axis):
     def __init__(self, chart):
         Axis.__init__(self, chart)
@@ -2122,12 +2120,11 @@ class Y2Axis(Axis):
         self.getSystemCurve(self.ticksId).getSymbol().setHeight(tickThickness)
 
 
-"""* The left y-axis of a GChart.
-*
-* @see GChart#getYAxis getYAxis
-*
 """
+The left y-axis of a GChart.
 
+@see GChart#getYAxis getYAxis
+"""
 class YAxis(Axis):
     def __init__(self, chart):
         Axis.__init__(self, chart)

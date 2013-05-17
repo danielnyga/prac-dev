@@ -32,10 +32,10 @@ def error(id, code, message):
 class JSONRPCService:
     def __init__(self, method_map=None):
         self.method_map = method_map or {}
-    
+
     def add_method(self, name, method):
         self.method_map[name] = method
-        
+
     def __call__(self, request, extra=None):
         # We do not yet support GET requests, something pyjamas does
         # not use anyways.
@@ -65,7 +65,7 @@ class JSONRPCService:
 
 def jsonremote(service):
     """Make JSONRPCService a decorator so that you can write :
-    
+
     from jsonrpc import JSONRPCService
     chatservice = JSONRPCService()
 
@@ -103,7 +103,7 @@ def jsonremote(service):
 #  (r'^formsservice/$', 'djangoapp.views.processor'),
 
 
-from django import forms 
+from django import forms
 
 def builderrors(form):
     d = {}
@@ -206,20 +206,20 @@ class FormProcessor(JSONRPCService):
             return describe_fields(f.fields, field_names)
 
         elif command.has_key('delete'):
-            instance = f.delete(**data) 
+            instance = f.delete(**data)
             return {'success': True}
 
         elif command.has_key('get'):
-            fields = command['get'] 
-            instance = f.get(**fields) 
+            fields = command['get']
+            instance = f.get(**fields)
             jc = dict_datetimeflatten(instance)
             return {'success': True, 'instance': jc}
 
         elif command.has_key('update'):
             if not f.is_valid():
                 return {'success':False, 'errors': builderrors(f)}
-            instance = f.save(force_update=True) 
-            fields = command['update'] 
+            instance = f.save(force_update=True)
+            fields = command['update']
             jc = json_convert([instance], fields=fields)[0]
             return {'success': True, 'instance': jc}
 
@@ -227,7 +227,7 @@ class FormProcessor(JSONRPCService):
             if not f.is_valid():
                 return {'success':False, 'errors': builderrors(f)}
             instance = f.save() # XXX: if you want more, over-ride save.
-            fields = command['save'] 
+            fields = command['save']
             jc = json_convert([instance], fields=fields)[0]
             return {'success': True, 'instance': jc}
 

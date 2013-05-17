@@ -31,7 +31,7 @@ class ButtonBase(FocusWidget):
 
     def setHTML(self, html):
         DOM.setInnerHTML(self.getElement(), html)
-    
+
 
 class Button(ButtonBase):
 

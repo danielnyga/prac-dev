@@ -11,7 +11,7 @@ from pyjamas.ui.HTMLPanel import HTMLPanel
 from pyjamas.ui.MenuBar import MenuBar
 from pyjamas.ui.MenuItem import MenuItem
 from pyjamas.ui.ScrollPanel import ScrollPanel
-from pyjamas.ui.DisclosurePanel import DisclosurePanel 
+from pyjamas.ui.DisclosurePanel import DisclosurePanel
 from Logger import Logger
 from pyjamas import DOM
 
@@ -19,20 +19,20 @@ class Layouts(Sink):
     def __init__(self):
         Sink.__init__(self)
 
-        text="""This is a <code>ScrollPanel</code> contained at 
-        the center of a <code>DockPanel</code>. 
-        By putting some fairly large contents 
-        in the middle and setting its size explicitly, it becomes a 
-        scrollable area within the page, but without requiring the use of 
+        text="""This is a <code>ScrollPanel</code> contained at
+        the center of a <code>DockPanel</code>.
+        By putting some fairly large contents
+        in the middle and setting its size explicitly, it becomes a
+        scrollable area within the page, but without requiring the use of
         an IFRAME.
-        Here's quite a bit more meaningless text that will serve primarily 
-        to make this thing scroll off the bottom of its visible area.  
-        Otherwise, you might have to make it really, really small in order 
+        Here's quite a bit more meaningless text that will serve primarily
+        to make this thing scroll off the bottom of its visible area.
+        Otherwise, you might have to make it really, really small in order
         to see the nifty scroll bars!"""
-        
+
         contents = HTML(text)
         scroller = ScrollPanel(contents, StyleName="ks-layouts-Scroller")
-        
+
         dock = DockPanel(HorizontalAlignment=HasAlignment.ALIGN_CENTER,
                          Spacing=10)
         north0 = HTML("This is the <i>first</i> north component", True)
@@ -46,7 +46,7 @@ class Layouts(Sink):
         dock.add(west, DockPanel.WEST)
         dock.add(north1, DockPanel.NORTH)
         dock.add(scroller, DockPanel.CENTER)
-        
+
         #Logger.write("Layouts", "TODO: flowpanel")
         flow = FlowPanel()
         for i in range(8):
@@ -76,11 +76,11 @@ class Layouts(Sink):
 
         #Logger.write("Layouts", "TODO: htmlpanel")
         id = HTMLPanel.createUniqueId()
-        text="""This is an <code>HTMLPanel</code>.  It allows you to add 
+        text="""This is an <code>HTMLPanel</code>.  It allows you to add
             components inside existing HTML, like this: <span id='%s' />
             Notice how the menu just fits snugly in there?  Cute.""" % id
         html = HTMLPanel(text)
-        
+
         DOM.setStyleAttribute(menu.getElement(), "display", "inline")
         html.add(menu, id)
 
@@ -90,7 +90,7 @@ class Layouts(Sink):
 
         panel = VerticalPanel(Spacing=8,
                               HorizontalAlignment=HasAlignment.ALIGN_CENTER)
-        
+
         panel.add(self.makeLabel("Dock Panel"))
         panel.add(dock)
         panel.add(self.makeLabel("Flow Panel"))
@@ -103,7 +103,7 @@ class Layouts(Sink):
         panel.add(html)
         panel.add(self.makeLabel("Disclosure Panel"))
         panel.add(disclose)
-        
+
         self.initWidget(panel)
         self.setStyleName("ks-layouts")
 
@@ -118,11 +118,11 @@ class Layouts(Sink):
 
 def init():
     text="""This page demonstrates some of the basic GWT panels, each of which
-        arranges its contained widgets differently.  
-        These panels are designed to take advantage of the browser's 
-        built-in layout mechanics, which keeps the user interface snappy 
-        and helps your AJAX code play nicely with existing HTML.  
-        On the other hand, if you need pixel-perfect control, 
-        you can tweak things at a low level using the 
+        arranges its contained widgets differently.
+        These panels are designed to take advantage of the browser's
+        built-in layout mechanics, which keeps the user interface snappy
+        and helps your AJAX code play nicely with existing HTML.
+        On the other hand, if you need pixel-perfect control,
+        you can tweak things at a low level using the
         <code>DOM</code> class."""
     return SinkInfo("Layouts", text, Layouts)

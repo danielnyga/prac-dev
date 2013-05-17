@@ -35,10 +35,10 @@ class Module(object):
         self.result = False
         self.error = ''
         self.source = ''
-        
+
     def __repr__(self):
         return "<module '{0.name}' from '{0.file}'>".format(self)
-        
+
     def paint(self, dist=0, parent=None):
         if parent and not parent.name in self.rdeps:
             self.rdeps.append(parent.name)
@@ -47,11 +47,11 @@ class Module(object):
             for dep in self.deps:
                 if not dep in self.rdeps:
                     self.mods[dep].paint(self.distance + 1, self)
-                    
+
     def export(self):
         return ("{0.name}\t{0.file}\t{0.distance}\t"
                 "{0.deps}\t{0.rdeps}\t{0.result}\t{0.error!r}\n".format(self))
-    
+
     def export_json(self):
         return dict(name=self.name,
                     file=self.file,
@@ -61,8 +61,8 @@ class Module(object):
                     source=self.source,
                     error=self.error,
                     result=self.result)
-                    
-    
+
+
     def set_result(self, r):
         err = ''
         if isinstance(r, JSRuntimeError):
@@ -75,7 +75,7 @@ class Module(object):
             t = r
         self.result = t
         self.error = err
-        
+
     def set_source(self, stdlib_sources):
         if self.file.startswith('stdlib'):
             if self.name in stdlib_sources:
@@ -86,7 +86,7 @@ class Module(object):
             self.source = 'pyjs'
         else:
             self.source = 'other'
-    
+
     def __cmp__(self, a):
         return self.distance.__cmp__(a.distance)
 
@@ -106,7 +106,7 @@ def main():
         mod = basename(mod)
     if '.' in mod:
         mod = mod.split('.')[0]
-        
+
     translator_arguments = translator.get_compile_options(options)
     out = mkdtemp(prefix='pyjs_depstest')
     compiler = translator.compiler
@@ -117,13 +117,13 @@ def main():
                         path=pyjs.path,
                         compiler=translator.compiler,
                         translator_arguments=translator_arguments)
-    linker() 
-    
+    linker()
+
     mod_src = dict(map(
         lambda x: x.strip().split(':'),
         open(join(pyjs.pyjspth, 'stdlib', 'modules_sources')).readlines())
                    )
-    
+
     mods = {}
     mods[mod] = Module(mod, args[0], linker._file_deps[None], mods)
     for fn, mn in linker._file_to_module.iteritems():
@@ -131,14 +131,14 @@ def main():
         mods[mn].set_source(mod_src)
     if not 'pyjslib' in mods[mod].deps:
         mods[mod].deps.append('pyjslib')
-    
+
     mods[mod].paint()
     nf2 = defaultdict(set)
     for nf, rdeps in linker._not_found.iteritems():
         if not nf.split('.')[0] in mods:
             nf2[nf.split('.')[0]].update(
                 map(lambda x: linker._file_to_module[x], rdeps))
-    
+
     for nf, rdeps in nf2.iteritems():
         print "Not found {} depended by {}".format(nf, list(rdeps))
     for m in mods:
@@ -148,13 +148,13 @@ def main():
                                 compiler=translator.compiler,
                                 translator_arguments=translator_arguments)
         mods[m].set_result(test_dependency(linker))
-    
+
     outf = open('{}.deps'.format(mod), 'w')
     for m in sorted(mods.values()):
         outf.write(m.export())
     outf.close()
     print "Exported dependency tree to {}.deps".format(mod)
-    
+
     outf = open('{}.deps.json'.format(mod), 'w')
     outf.write(DepsJSON().encode(mods.values()))
     outf.close()
@@ -172,7 +172,7 @@ def test_dependency(linker):
         fp.close()
     except Exception, e:
         return e
-    
+
     try:
         ctxt.enter()
         x = ctxt.eval(txt)
@@ -180,7 +180,7 @@ def test_dependency(linker):
         res = JSRuntimeError(ctxt, e)
     finally:
         if ctxt.entered:
-            ctxt.leave()    
+            ctxt.leave()
     return res
 
 _deps_cache = {}
@@ -189,19 +189,19 @@ class DepsTestLinker(PyV8Linker):
     def __init__(self, *args, **kw):
         PyV8Linker.__init__(self, *args, **kw)
         self.translator_func = self._translator_func
-    
+
     def _translator_func(self, platform, file_names, out_file, module_name,
                          translator_args, incremental):
         if out_file in _deps_cache:
             return _deps_cache[out_file]
-        
+
         deps, js_libs = translate(self.compiler,
                                   file_names,
                                   out_file,
                                   module_name,
                                   **translator_args)
         _deps_cache[out_file] = (deps, js_libs)
-        return deps, js_libs    
+        return deps, js_libs
 
 class DepsExport(PyV8Linker):
     def __init__(self, *args, **kw):
@@ -210,7 +210,7 @@ class DepsExport(PyV8Linker):
         self._file_to_module = {}
         self._file_deps = defaultdict(set)
         self._not_found = defaultdict(set)
-    
+
     def _translator_func(self, platform, file_names, out_file, module_name,
                          translator_args, incremental):
         kw = dict(self.translator_arguments)
@@ -221,7 +221,7 @@ class DepsExport(PyV8Linker):
                                   module_name,
                                   **kw)
         return deps, js_libs
-    
+
     def visit_modules(self, module_names, platform=None, parent_file = None):
         prefix = ''
         all_names = []
@@ -270,7 +270,7 @@ class DepsExport(PyV8Linker):
             self._file_to_module[p] = mn
             self._file_deps[parent_file].add(mn)
             self.visit_module(p, override_paths, platform, module_name=mn)
-    
+
 if __name__ == '__main__':
     main()
 

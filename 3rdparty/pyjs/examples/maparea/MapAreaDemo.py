@@ -25,7 +25,7 @@ class MapAreaDemo:
         height = 215 #px
         scale = 1.5
         img = Image(
-            "babykatie_small.jpg", 
+            "babykatie_small.jpg",
             Width="%dpx" % int(scale * width),
             Height="%dpx" % int(scale * height),
         )
@@ -51,24 +51,24 @@ class MapAreaDemo:
         )
         areas = [ \
             NamedMapArea(
-                "right eye", 
-                "circle", 
+                "right eye",
+                "circle",
                 [scale * i for i in [73, 97, 7]],
             ),
             NamedMapArea(
-                "left eye", 
-                "circle", 
+                "left eye",
+                "circle",
                 [scale * i for i in [116, 88, 5]],
             ),
             NamedMapArea(
-                "nose", 
-                "rect", 
+                "nose",
+                "rect",
                 [scale * i for i in [88, 97, 115, 115]],
                 Href="http://lkcl.net",
             ),
             NamedMapArea(
-                "mouth", 
-                "polygon", 
+                "mouth",
+                "polygon",
                 [scale * i for i in [82, 129, 102, 124, 119, 119, 121, 125, 103, 132, 79, 133]],
             ),
             ]
@@ -82,19 +82,19 @@ class MapAreaDemo:
         hpanel.add(map)
         hpanel.add(imagepanel)
         hpanel.add(msgpanel)
-                    
+
         RootPanel().add(hpanel)
 
 
 class NamedMapArea(MapArea):
     """ An area inside an imagemap with a name
     """
-    
+
     def __init__(self, areaname, shape, coords, Href="", **kwargs):
         self.areaname = areaname
         coords = ", ".join(["%d" % int(i) for i in coords])
         MapArea.__init__(self, shape, coords, Href=Href, **kwargs)
-    
+
 
 class MapClickHandler:
 
@@ -110,7 +110,7 @@ class MapClickHandler:
 
     def onMouseMove(self, sender, x, y):
         self._mouseActionMessage(sender.areaname, "move", x, y)
-        
+
     def onMouseDown(self, sender, x, y):
         self._mouseActionMessage(sender.areaname, "down", x, y)
 
@@ -127,7 +127,7 @@ class MapClickHandler:
         msg = "you clicked on baby katie's " + sender.areaname
         self.msgarea2.setText(msg)
         log.debug(msg)
-    
+
 
 if __name__ == '__main__':
     pyjd.setup("http://127.0.0.1/examples/maparea/public/MapAreaDemo.html")

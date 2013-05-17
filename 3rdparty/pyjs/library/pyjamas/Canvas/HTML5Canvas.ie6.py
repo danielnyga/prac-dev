@@ -1,5 +1,5 @@
 class HTML5Canvas(Widget):
-    
+
     def getCanvasImpl(self):
         return HTML5CanvasImplIE6()
     def createLinearGradient(self, x0, y0, x1, y1):

@@ -31,10 +31,10 @@ def error(id, code, message):
 class JSONRPCService:
     def __init__(self, method_map=None):
         self.method_map = method_map or {}
-    
+
     def add_method(self, name, method):
         self.method_map[name] = method
-        
+
     def __call__(self, request, extra=None):
         # We do not yet support GET requests, something pyjamas does
         # not use anyways.
@@ -58,7 +58,7 @@ class JSONRPCService:
 
 def jsonremote(service):
     """Make JSONRPCService a decorator so that you can write :
-    
+
     from jsonrpc import JSONRPCService
     chatservice = JSONRPCService()
 
@@ -96,7 +96,7 @@ def jsonremote(service):
 #  (r'^formsservice/$', 'djangoapp.views.processor'),
 
 
-from django import forms 
+from django import forms
 
 def builderrors(form):
     d = {}

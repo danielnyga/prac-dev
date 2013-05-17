@@ -36,15 +36,15 @@ def force_positional_arguments(f):
             return f(request, **params[0])
         return f(request, *params, **kwargs)
     return wrapped
-    
+
 
 class JSONRPCService:
     def __init__(self, method_map={}):
         self.method_map = method_map
-        
+
     def add_method(self, name, method):
         self.method_map[name] = method
-        
+
     @wr
     def __call__(self, request, extra=None):
         #TODO: add support for jsonrpc tag
@@ -79,7 +79,7 @@ class JSONRPCService:
 # part of the app:
 #  (r'^formsservice/$', 'djangoapp.views.processor'),
 
-from django import forms 
+from django import forms
 
 def builderrors(form):
     d = {}

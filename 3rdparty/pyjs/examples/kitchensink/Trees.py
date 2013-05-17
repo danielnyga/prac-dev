@@ -8,34 +8,34 @@ class Trees(Sink):
         self.fProto = [
             Proto("Beethoven", [
                 Proto("Concertos", [
-                    Proto("No. 1 - C"), 
-                    Proto("No. 2 - B-Flat Major"), 
-                    Proto("No. 3 - C Minor"), 
-                    Proto("No. 4 - G Major"), 
+                    Proto("No. 1 - C"),
+                    Proto("No. 2 - B-Flat Major"),
+                    Proto("No. 3 - C Minor"),
+                    Proto("No. 4 - G Major"),
                     Proto("No. 5 - E-Flat Major")
                 ]),
                 Proto("Quartets", [
-                    Proto("Six String Quartets"), 
-                    Proto("Three String Quartets"), 
+                    Proto("Six String Quartets"),
+                    Proto("Three String Quartets"),
                     Proto("Grosse Fugue for String Quartets")
                 ]),
                 Proto("Sonatas", [
-                    Proto("Sonata in A Minor"), 
+                    Proto("Sonata in A Minor"),
                     Proto("Sonata in F Major")
                 ]),
                 Proto("Symphonies", [
-                    Proto("No. 1 - C Major"), 
-                    Proto("No. 2 - D Major"), 
-                    Proto("No. 3 - E-Flat Major"), 
-                    Proto("No. 4 - B-Flat Major"), 
-                    Proto("No. 5 - C Minor"), 
-                    Proto("No. 6 - F Major"), 
-                    Proto("No. 7 - A Major"), 
-                    Proto("No. 8 - F Major"), 
+                    Proto("No. 1 - C Major"),
+                    Proto("No. 2 - D Major"),
+                    Proto("No. 3 - E-Flat Major"),
+                    Proto("No. 4 - B-Flat Major"),
+                    Proto("No. 5 - C Minor"),
+                    Proto("No. 6 - F Major"),
+                    Proto("No. 7 - A Major"),
+                    Proto("No. 8 - F Major"),
                     Proto("No. 9 - D Minor")
                 ])
             ]),
-        
+
             Proto("Brahms", [
                 Proto("Concertos", [
                     Proto("Violin Concerto"),
@@ -58,9 +58,9 @@ class Trees(Sink):
                     Proto("No. 2 - D Minor"),
                     Proto("No. 3 - F Major"),
                     Proto("No. 4 - E Minor")
-                ])      
+                ])
             ]),
-        
+
             Proto("Mozart", [
                 Proto("Concertos", [
                     Proto("Piano Concerto No. 12"),
@@ -73,22 +73,22 @@ class Trees(Sink):
         ]
 
         self.fTree = Tree()
-        
+
         for i in range(len(self.fProto)):
             self.createItem(self.fProto[i])
             self.fTree.addItem(self.fProto[i].item)
-        
+
         self.fTree.addTreeListener(self)
         self.initWidget(self.fTree)
-        
+
     def onTreeItemSelected(self, item):
         pass
-    
+
     def onTreeItemStateChanged(self, item):
         child = item.getChild(0)
         if hasattr(child, "isPendingItem"):
             item.removeItem(child)
-        
+
             proto = item.getUserObject()
             for i in range(len(proto.children)):
                 self.createItem(proto.children[i])
@@ -107,9 +107,9 @@ class Trees(Sink):
                 break;
             else:
                 node += 1
-        
+
         return node
-    
+
     def createItem(self, proto):
         proto.item = TreeItem(proto.text)
         proto.item.setUserObject(proto)
@@ -122,7 +122,7 @@ class Proto:
         self.children = []
         self.item = None
         self.text = text
-        
+
         if children is not None:
             self.children = children
 

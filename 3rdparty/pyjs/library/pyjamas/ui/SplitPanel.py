@@ -21,7 +21,7 @@
 from __pyjamas__ import console
 from pyjamas import DOM
 from pyjamas import Window
-from pyjamas.DeferredCommand import queue_Call
+from pyjamas import DeferredCommand
 from pyjamas.EventController import EventGenerator
 from pyjamas.ui import GlassWidget
 from pyjamas.ui.SimplePanel import SimplePanel
@@ -247,7 +247,7 @@ class SplitPanel(AbsolutePanel, MouseHandler, EventGenerator):
             finalized = self._finalizePositions(pos)
         # if needed, queue callback to finalize
         if not finalized:
-            queue_Call(self._finalizePositions)
+            DeferredCommand.add(self._finalizePositions)
 
     def getWidget(self, index):
         if index == 0:

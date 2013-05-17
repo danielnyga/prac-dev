@@ -3,10 +3,10 @@ from pyjamas.ui.Composite import Composite
 class Sink(Composite):
     def __init__(self):
         Composite.__init__(self)
-    
+
     def onHide(self):
         pass
-        
+
     def onShow(self):
         pass
 
@@ -32,7 +32,7 @@ class SinkInfo:
         if self.instance==None:
             self.instance=self.createInstance()
         return self.instance
-    
+
     def getName(self):
         return self.name
-    
+

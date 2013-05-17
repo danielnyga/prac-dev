@@ -72,7 +72,7 @@ class Completer:
             words = walk_class (obj)
         else:
             words = dir(eval(expr, self.locals))
-            
+
         matches = []
         n = len(attr)
         for word in words:
@@ -87,7 +87,7 @@ class GtkInterpreter (threading.Thread):
     GTK timeout callback.
     """
     TIMEOUT = 100 # Millisecond interval between timeouts.
-    
+
     def __init__ (self):
         threading.Thread.__init__ (self)
         self.ready = threading.Condition ()
@@ -119,18 +119,18 @@ class GtkInterpreter (threading.Thread):
             self.cmd = self.cmd + self.new_cmd
             self.new_cmd = None
             try:
-                code = codeop.compile_command (self.cmd[:-1]) 
-                if code: 
+                code = codeop.compile_command (self.cmd[:-1])
+                if code:
                     self.cmd = ''
                     exec (code, self.globs, self.locs)
                     self.completer.update (self.locs)
             except Exception:
                 traceback.print_exc ()
-                self.cmd = ''  
-                                    
+                self.cmd = ''
+
         self.ready.release()
-        return 1 
-            
+        return 1
+
     def feed (self, code):
         """Feed a line of code to the thread.
         This function will block until the code checked by the GTK thread.
@@ -138,12 +138,12 @@ class GtkInterpreter (threading.Thread):
         Returns false if deferring execution until complete block available.
         """
         if (not code) or (code[-1]<>'\n'): code = code +'\n' # raw_input strips newline
-        self.completer.update (self.locs) 
+        self.completer.update (self.locs)
         self.ready.acquire()
         self.new_cmd = code
         self.ready.wait ()  # Wait until processed in timeout interval
         self.ready.release ()
-        
+
         return not self.cmd
 
     def kill (self):
@@ -152,7 +152,7 @@ class GtkInterpreter (threading.Thread):
         self._kill=1
         self.ready.release()
         self.join()
-        
+
 # Read user input in a loop, and send each line to the interpreter thread.
 
 def signal_handler (*args):
@@ -162,7 +162,7 @@ def signal_handler (*args):
 if __name__=="__main__":
     signal.signal (signal.SIGINT, signal_handler)
     signal.signal (signal.SIGSEGV, signal_handler)
-    
+
     prompt = '>>> '
     interpreter = GtkInterpreter ()
     interpreter.start ()

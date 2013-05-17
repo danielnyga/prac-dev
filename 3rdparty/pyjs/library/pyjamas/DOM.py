@@ -52,6 +52,9 @@ from pyjamas.ui.Event import (
     ONINPUT
 )
 
+ELEMENT_NODE = 1
+TEXT_NODE = 3
+DOCUMENT_NODE = 9
 
 def get_listener(item):
     if item is None:
@@ -236,7 +239,7 @@ def buttonClick(element):
 
 
 def compare(elem1, elem2):
-    if hasattr(elem1, "isSameNode"):
+    if hasattr(elem1, "isSameNode") and hasattr(elem2, "isSameNode"):
         return elem1.isSameNode(elem2)
     return elem1 == elem2
 
@@ -581,6 +584,13 @@ def getFirstChild(elem):
     return child
 
 
+def getLastChild(elem):
+    child = elem and elem.lastChild
+    while child and child.nodeType != 1:
+        child = child.previousSibling
+    return child
+
+
 def getInnerHTML(element):
     try:
         return element and element.innerHtml # webkit. erk.
@@ -616,6 +626,13 @@ def getIntStyleAttribute(elem, attr):
     return getIntAttribute(elem.style, attr)
 
 
+def getPrevSibling(elem):
+    sib = elem.previousSibling
+    while sib and sib.nodeType != 1:
+        sib = sib.previousSibling
+    return sib
+
+
 def getNextSibling(elem):
     sib = elem.nextSibling
     while sib and sib.nodeType != 1:
@@ -638,7 +655,9 @@ def getParent(elem):
 
 def getStyleAttribute(elem, attr):
     try:
-        if hasattr(elem.style, 'getProperty'):
+        if hasattr(elem.style, 'getPropertyValue'):
+            return elem.style.getPropertyValue(mash_name_for_glib(attr))
+        elif hasattr(elem.style, 'getProperty'):
             return elem.style.getProperty(mash_name_for_glib(attr))
         return elem.style.getAttribute(attr)
     except AttributeError:
@@ -695,9 +714,13 @@ def iterChildren(elem):
 
 class IterWalkChildren:
 
-    def __init__(self, elem):
+    def __init__(self, elem, all_nodes=False):
         self.parent = elem
-        self.child = getFirstChild(elem)
+        self.all_nodes = all_nodes
+        if all_nodes:
+            self.child = elem.firstChild
+        else:
+            self.child = getFirstChild(elem)
         self.lastChild = None
         self.stack = []
 
@@ -705,8 +728,12 @@ class IterWalkChildren:
         if not self.child:
             raise StopIteration
         self.lastChild = self.child
-        firstChild = getFirstChild(self.child)
-        nextSibling = getNextSibling(self.child)
+        if self.all_nodes:
+            firstChild = self.child.firstChild
+            nextSibling = self.child.nextSibling
+        else:
+            firstChild = getFirstChild(self.child)
+            nextSibling = getNextSibling(self.child)
         if firstChild is not None:
             if nextSibling is not None:
                 self.stack.append((nextSibling, self.parent))
@@ -900,9 +927,9 @@ def setStyleAttribute(element, name, value):
         element.style.setAttribute(name, value, "")
 
 def setStyleAttributes(element, **kwargs):
-   """ 
+   """
    multi attr: setStyleAttributes(self, {attr1:val1, attr2:val2, ...})
-   """ 
+   """
    for attr, val in kwargs.items():
         if hasattr(element.style, 'setProperty'):
                 element.style.setProperty(mash_name_for_glib(attr), val, "")

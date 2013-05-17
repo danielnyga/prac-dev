@@ -35,7 +35,7 @@ class TreeModelSortExample:
 
         # Create new windows
         self.w = [None] * 3
-        
+
         for n in range(3):
             self.w[n] = gtk.Window(gtk.WINDOW_TOPLEVEL)
             win = self.w[n]

@@ -26,8 +26,8 @@ class GearsException(Exception):
     """
     def __init__(self, message):
         super(message)
-    
-    
+
+
     """*
     * Creates a exception with the indicated root cause.
     *
@@ -36,6 +36,6 @@ class GearsException(Exception):
     """
     def __init__(self, message, cause):
         super(message, cause)
-    
+
 
 

@@ -83,7 +83,7 @@ class TickLocation:
     """
     def __init__(self, locationIndex):
         self.locationIndex = locationIndex
-    
+
     # symbol type representing ticks on x axes at given position
     # axisPosition of  -1 is x-axis, +1 is x2-axis.
     #
@@ -92,7 +92,7 @@ class TickLocation:
         symbolMap = [SymbolType.BOX_NORTH, SymbolType.BOX_CENTER, SymbolType.BOX_SOUTH]
         result = symbolMap[axisPosition*self.locationIndex+1]
         return result
-    
+
     # symbol type representing ticks on y axes at given position
     # axisPosition of  -1 is y-axis, +1 is y2-axis
     #
@@ -101,8 +101,8 @@ class TickLocation:
         symbolMap = [SymbolType.BOX_EAST, SymbolType.BOX_CENTER, SymbolType.BOX_WEST]
         result = symbolMap[axisPosition*self.locationIndex+1]
         return result
-    
-    
+
+
  # class TickLocation
 
 """*

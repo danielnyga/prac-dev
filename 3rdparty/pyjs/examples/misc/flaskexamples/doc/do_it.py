@@ -9,7 +9,7 @@ with open("index.rst") as infile:
   for line in infile:
     line = line.rstrip("\n").rstrip()
     if(line.startswith(".. ")):
-      if(line.startswith(".. note::")): 
+      if(line.startswith(".. note::")):
         print >> ofile, line
         continue
 
@@ -36,7 +36,7 @@ with open("sed_it.sed", "w+") as sed_file:
   print >> sed_file, "#!/usr/bin/sed -f"
   for k,v in link_subs.iteritems():
     print >> sed_file, "s:%s:%s:g" % (k, v)
-      
+
 
 
 #.. Documentation master file to be processed using sphinx

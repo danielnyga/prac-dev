@@ -26,11 +26,11 @@ class GChartExample04(GChart):
         self.getCurve().getSymbol().setBorderColor("black")
         self.getCurve().getSymbol().setWidth(9)
         self.getCurve().getSymbol().setHeight(9)
-        
+
         # add (log10-transformed) powers of 2 from 1/4 to 8
         for i in range(-2, 4):
             self.getCurve().addPoint(i,log10(math.pow(2,i)))
-        
+
         # GChart's "=10^" NumberFormat prefix inverts the log10
         # transform
         self.getYAxis().setTickLabelFormat("=10^#.##")
@@ -41,14 +41,14 @@ class GChartExample04(GChart):
             for y in range(2, 11):
                 self.getYAxis().addTick(log10(x*y))
             x *= 10
-        
+
         self.getXAxis().setAxisLabel("<b>x</b>")
         self.getXAxis().setHasGridlines(True)
         self.getXAxis().setTickCount(6)
-        
+
         self.getYAxis().setAxisLabel("<b>2<sup>x</sup></b>")
         self.getYAxis().setHasGridlines(True)
-        
-    
+
+
 
 

@@ -52,4 +52,4 @@ class Grid(pyjamas.ui.Grid.Grid):
                 self.getRowFormatter().addStyleName(row, "user-SelectedRow")
             else:
                 self.getRowFormatter().removeStyleName(row, "user-SelectedRow")
-            
+

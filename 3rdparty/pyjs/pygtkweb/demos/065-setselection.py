@@ -52,7 +52,7 @@ class SetSelectionExample:
         eventbox = gtk.EventBox()
         eventbox.show()
         window.add(eventbox)
-        
+
         # Create a toggle button to act as the selection
         selection_button = gtk.ToggleButton("Claim Selection")
         eventbox.add(selection_button)

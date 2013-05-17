@@ -23,7 +23,7 @@ def setup():
     X = p.width / 2
     Y = p.width / 2
     nX = X
-    nY = Y  
+    nY = Y
 
 def draw():
     global p,radius,delay,X,Y,nX,nY
@@ -34,7 +34,7 @@ def draw():
     p.fill( 0, 121, 184 )
     p.stroke(255)
     p.ellipse(X, Y, radius, radius )
-    
+
 def mouseMoved():
     global p,nX,nY
     nX = p.mouseX
@@ -47,7 +47,7 @@ class ProcessingCanvas(GWTCanvas):
         self.p = Processing (self.c)
         global p
         p = self.p
-    
+
 if __name__ == '__main__':
     note = HTML("""
 Note that this is an example of using processing.js.<br>

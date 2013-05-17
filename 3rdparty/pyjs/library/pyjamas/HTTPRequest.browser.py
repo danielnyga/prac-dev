@@ -2,7 +2,7 @@
 class HTTPRequest(object):
 
     def doCreateXmlHTTPRequest(self):
-        if JS("""typeof $wnd.XMLHttpRequest != 'undefined'"""):
+        if JS("""typeof $wnd['XMLHttpRequest'] != 'undefined'"""):
             # IE7+, Mozilla, Safari, ...
            res = JS("""new XMLHttpRequest()""")
            return res
@@ -15,7 +15,7 @@ class HTTPRequest(object):
         if user and pwd and not "Authorization" in headers:
             import base64
             headers["Authorization"] = 'Basic %s' % (base64.b64encode('%s:%s' % (user, pwd)))
-        
+
         if content_type is not None:
             headers["Content-Type"] = content_type
         if not "Content-Type" in headers:
@@ -29,7 +29,7 @@ class HTTPRequest(object):
             global xmlHttp, handler
             if xmlHttp.readyState == 4:
                 # For IE:
-                JS("delete @{{xmlHttp}}.onreadystatechange;")
+                JS("delete @{{xmlHttp}}['onreadystatechange'];")
                 localHandler = handler
                 status = xmlHttp.status
                 if returnxml:
@@ -44,9 +44,9 @@ class HTTPRequest(object):
                     localHandler.onError(response, status);
         xmlHttp.onreadystatechange = onreadystatechange
 
-        if hasattr(localHandler, 'onProgress'):
+        if hasattr(handler, 'onProgress'):
             def onprogress(evnt=None):
-                localHandler.onProgress(evnt)
+                handler.onProgress(evnt)
             xmlHttp.onprogress = onprogress
 
         try:
@@ -62,7 +62,7 @@ class HTTPRequest(object):
             xmlHttp.send(postData)
         except:
             # For IE:
-            JS("delete @{{xmlHttp}}.onreadystatechange;")
+            JS("delete @{{xmlHttp}}['onreadystatechange'];")
             localHandler = handler
             handler = None
             xmlHttp = None

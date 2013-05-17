@@ -92,6 +92,8 @@ Copyright: 2011 Rene Maurer <renemaur@gmail.com>
 Copyright: 2012 Bob Hampton <bobh@optimizations.com>
 Copyright: 2012 Michael Perkonigg <blablu@gmx.net>
 Copyright: 2012 João Ventura <joaojonesventura@gmail.com>
+Copyright: 2012 PJSHAB <pjbraby@gmail.com>
+Copyright: 2012 Alok Parlikar <aup@cs.cmu.edu>
 
 Files: pyjs/src/pyjs/lib/socket.py
 Copyright: 2008-2010, David P. D. Moss.
@@ -108,6 +110,8 @@ License: Apache
 
 Files: contrib/pyjscompressor.py
 Copyright: 2010 Sujan Shakya, suzan.shakya@gmail.com
+Copyright: 2012 PJSHAB <pjbraby@gmail.com>
+Copyright: 2012 Alok Parlikar <aup@cs.cmu.edu>
 License: Apache
 
 Files: examples/flowpanel/*

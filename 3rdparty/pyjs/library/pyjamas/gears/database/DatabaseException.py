@@ -28,8 +28,8 @@ class DatabaseException(GearsException):
     """
     def __init__(self, message):
         super(message)
-    
-    
+
+
     """*
     * Constructor taking a message and root cause.
     *
@@ -38,6 +38,6 @@ class DatabaseException(GearsException):
     """
     def __init__(self, message, cause):
         super(message, cause)
-    
+
 
 

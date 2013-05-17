@@ -29,7 +29,7 @@ class PanedExample:
         tree_view.append_column(column)
 
         return scrolled_window
-   
+
     # Add some text to our text widget - this is a callback that is invoked
     # when our window is realized. We could also force our window to be
     # realized with GtkWidget.realize, but it would have to be part of a
@@ -45,7 +45,7 @@ class PanedExample:
                       "great - clear but cold, and there are lots of fun sights.\n"
                       "Sojourner says hi. See you soon.\n"
                       " -Path\n")
-   
+
     # Create a scrolled text area that displays a "message"
     def create_text(self):
         view = gtk.TextView()
@@ -56,7 +56,7 @@ class PanedExample:
         self.insert_text(buffer)
         scrolled_window.show_all()
         return scrolled_window
-   
+
     def __init__(self):
         window = gtk.Window(gtk.WINDOW_TOPLEVEL)
         window.set_title("Paned Windows")

@@ -21,7 +21,7 @@ class GChartExample07 (GChart):
         pieMarketShare = [0.65,0.20,0.10,0.05]
         pieTypes = ["Apple", "Cherry", "Pecan", "Bannana"]
         pieColors = ["green", "red", "maroon", "yellow"]
-        
+
         self.setChartSize(300, 200)
         self.setChartTitle("<h3>2008 Sales by Pie Flavor" +
                             "<br>(Puny Pies, Inc.) </h3>")
@@ -55,8 +55,8 @@ class GChartExample07 (GChart):
             self.getCurve().getPoint().setAnnotationText(pieTypes[i])
             self.getCurve().getPoint().setAnnotationLocation(
                                     AnnotationLocation.OUTSIDE_PIE_ARC)
-        
-    
-    
+
+
+
 
 

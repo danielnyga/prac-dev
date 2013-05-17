@@ -9,4 +9,4 @@ celery = Celery(app)
 
 @celery.task(name="celery_echo")
 def celery_echo(mth, txt):
-    return echo(mth,txt) 
+    return echo(mth,txt)

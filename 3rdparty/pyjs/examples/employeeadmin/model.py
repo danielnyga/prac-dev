@@ -1,5 +1,5 @@
 """
-PureMVC Python Demo - wxPython Employee Admin 
+PureMVC Python Demo - wxPython Employee Admin
 By Toby de Havilland <toby.de.havilland@puremvc.org>
 Copyright(c) 2007-08 Toby de Havilland, Some rights reserved.
 Addapted for pyjamas: Kees Bos
@@ -11,33 +11,33 @@ import ApplicationConstants
 from ApplicationConstants import Command, Notification
 
 class UserProxy(Proxy):
-    
+
     NAME = "UserProxy"
     def __init__(self):
         super(UserProxy, self).__init__(UserProxy.NAME, [])
         self.data = []
         self.addItem(vo.UserVO('lstooge',
-                               'Larry', 
-                               'Stooge', 
-                               "larry@stooges.com", 
+                               'Larry',
+                               'Stooge',
+                               "larry@stooges.com",
                                'ijk456',
                                ApplicationConstants.DEPT_ACCT))
         self.addItem(vo.UserVO('cstooge',
-                               'Curly', 
-                               'Stooge', 
-                               "curly@stooges.com", 
+                               'Curly',
+                               'Stooge',
+                               "curly@stooges.com",
                                'xyz987',
                                ApplicationConstants.DEPT_SALES))
         self.addItem(vo.UserVO('mstooge',
-                               'Moe', 
-                               'Stooge', 
-                               "moe@stooges.com", 
+                               'Moe',
+                               'Stooge',
+                               "moe@stooges.com",
                                'abc123',
                                ApplicationConstants.DEPT_PLANT))
 
     def getUsers(self):
         return self.data
-   
+
     def addItem(self, item):
         self.data.append(item)
 
@@ -59,14 +59,14 @@ class RoleProxy(Proxy):
     def __init__(self):
         super(RoleProxy, self).__init__(RoleProxy.NAME, [])
         self.data = []
-        self.addItem(vo.RoleVO('lstooge', 
+        self.addItem(vo.RoleVO('lstooge',
                                [ApplicationConstants.ROLE_PAYROLL,
                                 ApplicationConstants.ROLE_EMP_BENEFITS]))
-        self.addItem(vo.RoleVO('cstooge', 
+        self.addItem(vo.RoleVO('cstooge',
                                [ApplicationConstants.ROLE_ACCT_PAY,
                                 ApplicationConstants.ROLE_ACCT_RCV,
                                 ApplicationConstants.ROLE_GEN_LEDGER]))
-        self.addItem(vo.RoleVO('mstooge', 
+        self.addItem(vo.RoleVO('mstooge',
                                [ApplicationConstants.ROLE_INVENTORY,
                                 ApplicationConstants.ROLE_PRODUCTION,
                                 ApplicationConstants.ROLE_SALES,

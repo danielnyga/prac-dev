@@ -1,0 +1,19 @@
+
+This is an example of the use of pyjamas.JSONTranslations, which 
+is some sort of gettext implementation. The JSONTranslations 
+class extends the NullTranslations from the python gettext module.
+
+
+The following shell scripts are used:
+update_po.sh : updates the translations files (*.po) in lang/
+update_mo.sh : compiles the translations files in lang/
+update_json.sh : transform the *.mo files to json files that
+                 can be used by the JSONTranslations class
+
+To add a translation, copy the Gettext_en_US.po and do the
+translations for all msgids. Then run update_mo.sh and update_json.sh.
+Finally add your language to the 'lang' list in Gettext.py.
+
+The update_po.sh is needed when you added messages to Gettext.py.
+
+

@@ -31,17 +31,17 @@ MOVETO = " m"
 CUBIC = " c"
 
 def arc(x, y, radius, startAngle, endAngle, antiClockwise, canvas):
-    
+
     matrix = canvas.matrix
     context = canvas.context
-    
+
     if not antiClockwise:
         realStartAngle = endAngle
         realEndAngle = startAngle
     else:
         realStartAngle = startAngle
         realEndAngle = endAngle
-    
+
     ar = radius * 10
     startX = (x + math.cos(realStartAngle) * ar - 5)
     startY = (y + math.sin(realStartAngle) * ar - 5)
@@ -49,8 +49,8 @@ def arc(x, y, radius, startAngle, endAngle, antiClockwise, canvas):
     endY = (y + math.sin(realEndAngle) * ar - 5)
     if startX == endX  and  not antiClockwise:
         startX += 0.125
-    
-    
+
+
     cx = canvas.getCoordX(matrix, x, y)
     cy = canvas.getCoordY(matrix, x, y)
     arcX = (context.arcScaleX * ar)

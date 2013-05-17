@@ -12,7 +12,7 @@ class FrameExample:
         window = gtk.Window(gtk.WINDOW_TOPLEVEL)
         window.set_title("Frame Example")
 
-        # Here we connect the "destroy" event to a signal handler 
+        # Here we connect the "destroy" event to a signal handler
         window.connect("destroy", lambda w: gtk.main_quit())
         window.set_size_request(300, 300)
 
@@ -32,7 +32,7 @@ class FrameExample:
         # Set the style of the frame
         frame.set_shadow_type(gtk.SHADOW_ETCHED_OUT)
         frame.show()
-  
+
         # Display the window
         window.show()
 

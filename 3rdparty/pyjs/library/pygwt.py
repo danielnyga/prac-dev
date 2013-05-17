@@ -10,7 +10,7 @@ def getNextHashId():
 def getHashCode(o):
     JS("""
     return (@{{o}} == null) ? 0 :
-        (@{{o}}.$H ? @{{o}}.$H : (@{{o}}.$H = @{{!pygwt_getNextHashId}}()))
+        (@{{o}}['$H'] ? @{{o}}['$H'] : (@{{o}}['$H'] = @{{!pygwt_getNextHashId}}()))
     """)
 
 def getModuleName():
@@ -33,3 +33,14 @@ def getModuleBaseURL():
     if len(s) > 0:
         return s + "/"
     return ""
+
+def getImageBaseURL(images=False):
+    import pyjd
+
+    if images:
+        if isinstance(images, str):
+            return getModuleBaseURL() + images + '/'
+        else:
+            return getModuleBaseURL() + "images/"
+    else:
+        return getModuleBaseURL()

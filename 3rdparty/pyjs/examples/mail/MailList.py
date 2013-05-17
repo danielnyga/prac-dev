@@ -70,7 +70,7 @@ class MailList(Composite):
                 self.styleRow(self.selectedRow, False)
                 self.selectedRow = -1
                 self.update()
-    
+
         elif (sender == self.newerButton):
             # Move back a page.
             self.startIndex = self.startIndex - MailList.VISIBLE_EMAIL_COUNT
@@ -108,7 +108,7 @@ class MailList(Composite):
         item = MailItems().getMailItem(self.startIndex + row)
         if item is None:
             return
-                    
+
         self.styleRow(self.selectedRow, False)
         self.styleRow(row, True)
 

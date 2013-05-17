@@ -84,7 +84,7 @@ class PyV8Linker(linker.BaseLinker):
         kwargs['platforms'] = [PLATFORM]
         super(PyV8Linker, self).__init__(*args, **kwargs)
         self.translator_func = self._translator_func
-    
+
     def _translator_func(self, platform, file_names, out_file, module_name,
                          translator_args, incremental):
         cached = False
@@ -102,10 +102,10 @@ class PyV8Linker(linker.BaseLinker):
         if cached:
             deps, js_libs = linker.parse_outfile(out_file)
             return deps, js_libs
-        deps, js_libs = linker.out_translate(platform, file_names, out_file, 
+        deps, js_libs = linker.out_translate(platform, file_names, out_file,
                                              module_name, translator_args,
                                              incremental)
-        return deps, js_libs        
+        return deps, js_libs
 
     def visit_start(self):
         super(PyV8Linker, self).visit_start()
@@ -170,5 +170,5 @@ class PyV8Linker(linker.BaseLinker):
         out_file = open(self.out_file_mod , 'w')
         out_file.write(APP_TEMPLATE % locals())
         out_file.close()
-        
+
 add_linker_options = linker.add_linker_options

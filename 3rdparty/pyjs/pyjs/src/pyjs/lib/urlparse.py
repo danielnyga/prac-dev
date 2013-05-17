@@ -102,7 +102,7 @@ class BaseResult:
       if hasattr(e, '_tuple'): e = e._tuple
       return self._tuple == e
     def __ne__(self, e): return not self.__eq__(e)
-  
+
 
 
 

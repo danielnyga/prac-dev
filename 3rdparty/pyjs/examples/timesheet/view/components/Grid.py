@@ -59,4 +59,4 @@ class Grid(pyjamas.ui.Grid.Grid):
                 self.getRowFormatter().addStyleName(row, "gwt-SelectedRow")
             else:
                 self.getRowFormatter().removeStyleName(row, "gwt-SelectedRow")
-            
+

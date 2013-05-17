@@ -23,25 +23,6 @@ class Timer(object):
     Timer() a re-implementation of GWT's Timer class.  This class has
     the same interface as GWT's with two minor enhancements in the
     constructor which changes what gets fired when the timer goes off.
-
-    In addition to the constructor, there are four public methods:
-
-       run() -- the method that gets fired when the timer goes off.
-       The base class raises a NotImplementedError if it is not
-       overridden by a subclass or if Timer isn't instantiated with
-       the notify keyword arguement.
-
-       schedule(delayMillis) -- schedule the timer to fire delayMillis
-       milliseconds into the future.
-
-       scheduleRepeating(periodMillis) -- schedule the timer to fire
-       periodMillis milliseconds into the future and after execution
-       (but not until execution is over), automatically reschedule the
-       timer.  This is identical to an implementation of run() that
-       calls schedule() on itself as its last action.
-
-       cancel() -- cancel a timer.
-
     '''
 
     __timers = set()
@@ -65,20 +46,20 @@ class Timer(object):
 
         There are two enhancements to pyjamas' implementation when
         specified with special keyword arguments, one of which
-        obviates the need for subclassing.
+        obviates the need for subclassing::
 
             timer = Timer(delayMillis=ms)
 
-        is identical to:
+        is identical to::
 
             timer = Timer()
             timer.schedule(ms)
 
-        and:
+        and::
 
             timer = Timer(notify=object_or_func)
 
-        is the same as:
+        is the same as::
 
             timer = Timer()
             run = getattr(object_or_func, 'onTimer', object_or_func)
@@ -90,14 +71,14 @@ class Timer(object):
 
         NOTE: when notify is specified, the function or method will be
         called with one argument: the instance of the timer.  So, this
-        would be proper usage:
+        would be proper usage::
 
             def timer_cb(timer):
                ...
 
             timer = Timer(notify=timer_cb)
 
-        or:
+        or::
 
             class myclass:
 
@@ -150,7 +131,12 @@ class Timer(object):
         Timer.__timers.discard(self)
 
     def run(self):
-        'Run when fired...needs to be overridden.'
+        """
+        The method that gets fired when the timer goes off.
+        The base class raises a NotImplementedError if it is not
+        overridden by a subclass or if Timer isn't instantiated with
+        the notify keyword arguement.
+        """
         raise NotImplementedError, ('''Timer.run() must be overridden or Timer
                                        must be instantiated with notify keyword
                                        argument''')
@@ -183,24 +169,24 @@ class Timer(object):
         Timer.__timers.add(self)
 
     # fire the timer
-    def __fire(self):
+    def __fire(self, *args, **kwds):
         # if not repeating, remove it from the list of active timers
         if not self.__is_repeating:
             Timer.__timers.discard(self)
         self.__onTimer()
 
     ######################################################################
-    # Platforms need to implement the following four methods
+    # Platforms may need to implement the following four methods
     ######################################################################
 
     def __setTimeout(self, delayMillis):
-        raise NotImplementedError, 'Timer is not fully implemented for your platform'
+        return get_main_frame().window.setTimeout(self.__fire, delayMillis)
 
     def __clearTimeout(self,tid):
-        raise NotImplementedError, 'Timer is not fully implemented for your platform'
+        return get_main_frame().window.clearTimeout(tid)
 
     def __setInterval(self, periodMillis):
-        raise NotImplementedError, 'Timer is not fully implemented for your platform'
+        return get_main_frame().window.setInterval(self.__fire, periodMillis)
 
     def __clearInterval(self, tid):
-        raise NotImplementedError, 'Timer is not fully implemented for your platform'
+        return get_main_frame().window.clearInterval(tid)

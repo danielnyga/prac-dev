@@ -1,5 +1,5 @@
 # Modifications to allow execution under pyjd on Windows (mshtml) 2010-09-08
-# See Issue 481 - Copyright (c) Phil Charlesworth 2010 
+# See Issue 481 - Copyright (c) Phil Charlesworth 2010
 import pyjd
 
 from pyjamas.ui.Button import Button
@@ -32,7 +32,7 @@ class XMLloader:
 class XMLload:
 
     def onModuleLoad(self):
-        
+
         HTTPRequest().asyncGet("contacts.xml", XMLloader(self))
 
     def onError(self, text, code):

@@ -96,7 +96,7 @@ class FunctionTest(UnitTest):
         v = f(1,2,3,4)
         self.assertEqual(v[2][0], 3)
         self.assertEqual(v[2][1], 4)
-    
+
         try:
             class ClassWithLambdas1:
                 f1 = [lambda *args: args[0]]
@@ -281,17 +281,17 @@ class FunctionTest(UnitTest):
             return "b"
 
         self.assertEqual(fn3("b"), "abc")
-        
+
         def shiftdecorator(si):
             def wrapper(fn):
                 def decorated(*args, **kw):
                     return fn(*args, **kw) + si
                 return decorated
             return wrapper
-                
+
         def fn4(v):
             return v
-            
+
         @shiftdecorator(1)
         def fn4d1(v):
             return v
@@ -299,7 +299,7 @@ class FunctionTest(UnitTest):
         def fn4d2(v):
             return v
         fn4d3 = shiftdecorator(2)(fn4)
-        
+
         self.assertEqual(fn4d1(1), 2)
         self.assertEqual(fn4d2(1), 3)
         self.assertEqual(fn4d3(1), 3)

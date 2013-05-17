@@ -15,20 +15,20 @@
 
   You should have received a copy of the GNU Lesser General Public License
   along with this software; if not, write to the Free Software
-  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
+  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 """
 
 
-        
+
 class PeerObjectProxy(object):
     """creates a peer object which will send requests to the remote service when invoked."""
     def __init__(self, name, conn):
         self._name = name
         self._conn = conn
-    
+
     def notify(self, *args):
         self._conn.sendNotify(self._name, args)
-        
+
     def __call__(self, *args):
         evt  = self._conn.sendRequest(self._name, args)
         return evt.waitForResponse()
@@ -40,7 +40,7 @@ class PeerObjectProxy(object):
 class PeerProxy:
     def __init__(self, connectionHandler):
         self._connectionHandler = connectionHandler
-    
+
     def __getattr__(self, name):
         return PeerObjectProxy(name, self._connectionHandler)
 
@@ -55,14 +55,14 @@ class ServiceProxy(PeerProxy):
             from jsonrpc.socketserver import SocketServiceHandler
             import socket
             from threading import Thread
-            
+
             (host, port)= m.groups()
             port = int(port)
             s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             s.connect((host, port))
             conn = SocketServiceHandler(s, localService,messageDelimiter=messageDelimiter)
             PeerProxy.__init__(self, conn)
-            
+
             t=Thread(target=conn.receiveForever)
             t.setDaemon(True)
             t.start()
@@ -71,6 +71,6 @@ class ServiceProxy(PeerProxy):
             conn= HTTPClientConnectionHandler(url, localService,messageDelimiter=messageDelimiter)
             PeerProxy.__init__(self, conn)
 
-    
+
 
 

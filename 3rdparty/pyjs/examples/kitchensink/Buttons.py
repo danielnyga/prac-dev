@@ -25,13 +25,13 @@ class Buttons(Sink):
         hp.setSpacing(8)
         hp.add(normalButton)
         hp.add(disabledButton)
-        
+
         hp=HorizontalPanel()
         panel.add(hp)
         hp.setSpacing(8)
         hp.add(normalCheck)
         hp.add(disabledCheck)
-        
+
         hp=HorizontalPanel()
         panel.add(hp)
         hp.setSpacing(8)
@@ -39,11 +39,11 @@ class Buttons(Sink):
         hp.add(radio1)
         hp.add(radio2)
         hp.add(radio3)
-        
+
         disabledButton.setEnabled(False)
         disabledCheck.setEnabled(False)
         radio2.setEnabled(False)
-        
+
         panel.setSpacing(8)
         self.initWidget(panel)
 

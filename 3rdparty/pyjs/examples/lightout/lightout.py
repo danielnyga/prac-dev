@@ -28,20 +28,20 @@ class GridCell(FocusWidget):
         FocusWidget.__init__(self, element)
         self.redraw()
         self.addClickListener(self)
-    
+
     def redraw(self):
         if self.light:
             self.setStyleName("on")
         else:
             self.setStyleName("off")
-    
+
     def toggle(self):
         if self.light:
             self.light = False
         else:
             self.light = True
         self.redraw()
-            
+
     def onClick(self,sender):
         if self.i>0:
             self.parent.getWidget(self.i-1,self.j).toggle()
@@ -53,12 +53,12 @@ class GridCell(FocusWidget):
             self.parent.getWidget(self.i,self.j+1).toggle()
         self.toggle()
         self.check_win()
-        
+
     def check_win(self):
         for i in range(self.parent.getRowCount()):
             for j in range(self.parent.getColumnCount()):
                 if self.parent.getWidget(i,j).light:
-                    return 
+                    return
         Window.alert('You win!!! But can you beat the next level?')
         global game
         game.next_level()
@@ -68,7 +68,7 @@ class Game(SimplePanel):
         self.level = level
         SimplePanel.__init__(self)
         self.start_game(self.level)
-        
+
     def start_game(self, level=None):
         if level is not None:
             self.level = level
@@ -80,7 +80,7 @@ class Game(SimplePanel):
                 gc = GridCell(i,j)
                 grid.setWidget(i,j,gc)
         self.add(grid)
-    
+
     def next_level(self):
         self.remove(self.getWidget())
         self.level+=1

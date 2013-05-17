@@ -514,8 +514,8 @@ class AnnotationRenderingPanel (PartitionedAbsolutePanel):
                 *
                 """
                 e = labelWidget.getElement()
-                if (None == e  or  
-                    (DOM.getParent(e) != 
+                if (None == e  or
+                    (DOM.getParent(e) !=
                      result.innerGrid.getCellFormatter().getElement(0,0))):
                     # the widget' DOM parent isn't label's grid-cell (it was moved)
                     result.labelWidget = None
@@ -629,12 +629,12 @@ class ReusableImage (Image):
         newW = int ( round(xD + dWidth) - newX )
         newY = int ( round(yD) )
         newH = int ( round(yD + dHeight) - newY )
-        thickness = min(newW, newH) 
+        thickness = min(newW, newH)
         # Don't allow borders that would exceed specified width or
         # height. So, if smaller of width, height is at least twice the
         # border width, border width is used as is, otherwise,
         # it's replaced with half the smaller of width, height:
-        newCappedBorderWidthX2 = min (2*borderWidth, thickness) 
+        newCappedBorderWidthX2 = min (2*borderWidth, thickness)
 
         """
         * Note: on a GWT absolute panel, the x,y position of the widget is the
@@ -960,24 +960,22 @@ class GraphicsRenderingPanel (AbsolutePanel):
 
 
     def renderBorderedImage(self, backgroundColor, borderColor, borderStyle, borderWidth, width, height, x, y, url):
-        """
-        if None != canvas  and  url == getBlankImageURL()  and  (borderStyle == USE_CSS  or  borderStyle.equals("solid")):
-            # 
-            # Use canvas to emulate a transparent, bordered image
-            # (GChart can only render solid borders and blank image URLS
-            # with canvas at this point)
-            #
-            #
-            drawBorderedImage(backgroundColor,
-                                borderColor,
-                                borderStyle,
-                                borderWidth,
-                                width,
-                                height,
-                                x, y)
-
-        else { # use an actual image HTML element
-        """
+#        if None != canvas  and  url == getBlankImageURL()  and  (borderStyle == USE_CSS  or  borderStyle.equals("solid")):
+#            #
+#            # Use canvas to emulate a transparent, bordered image
+#            # (GChart can only render solid borders and blank image URLS
+#            # with canvas at this point)
+#            #
+#            #
+#            drawBorderedImage(backgroundColor,
+#                                borderColor,
+#                                borderStyle,
+#                                borderWidth,
+#                                width,
+#                                height,
+#                                x, y)
+#
+#        else { # use an actual image HTML element
         self.addOrRevealImage(backgroundColor,
                             borderColor,
                             borderStyle,
@@ -1060,8 +1058,8 @@ class PlotPanel (AbsolutePanel):
     def addGraphicsRenderingPanel(self, rpIndex):
         domInsert = True
         w = GraphicsRenderingPanel(self.chart)
-        if (DECORATIVE_RENDERING_PANEL_INDEX == rpIndex  or  
-            self.chart.isHoverFeedbackRenderingPanel(rpIndex)  or  
+        if (DECORATIVE_RENDERING_PANEL_INDEX == rpIndex  or
+            self.chart.isHoverFeedbackRenderingPanel(rpIndex)  or
             not self.chart.getClipToPlotArea()):
             # chart decorations and hover feedback are never clipped
             w.setPixelSize(0, 0)
@@ -1183,7 +1181,7 @@ class PlotPanel (AbsolutePanel):
         if (NAI == clientX):
             self.xMouse = NAI
         else:
-            self.xMouse = (Window.getScrollLeft() + clientX - 
+            self.xMouse = (Window.getScrollLeft() + clientX -
                            self.getAbsoluteLeft())
 
     def getClientY(self):
@@ -1201,7 +1199,7 @@ class PlotPanel (AbsolutePanel):
         if (NAI == clientY):
             self.yMouse = NAI
         else:
-            self.yMouse = (Window.getScrollTop() + clientY - 
+            self.yMouse = (Window.getScrollTop() + clientY -
                            self.getAbsoluteTop())
 
 
@@ -1344,8 +1342,8 @@ class PlotPanel (AbsolutePanel):
         # their clipping specs into agreement with the chartspecs
         for i in range(self.getRenderingPanelCount()):
             grp = self.graphicsPanel.getWidget(i)
-            if (DECORATIVE_RENDERING_PANEL_INDEX == i  or  
-                self.chart.isHoverFeedbackRenderingPanel(i)  or  
+            if (DECORATIVE_RENDERING_PANEL_INDEX == i  or
+                self.chart.isHoverFeedbackRenderingPanel(i)  or
                 not self.chart.getClipToPlotArea()):
                 grp.setPixelSize(0, 0)
                 GChartUtil.setOverflow(grp, "visible")
@@ -1412,8 +1410,8 @@ class PlotPanel (AbsolutePanel):
 
     def yToChartPixel(self, y, isY2):
         if isY2:
-            minY = self.y2Min 
-            maxY = self.y2Max 
+            minY = self.y2Min
+            maxY = self.y2Max
         else:
             minY = self.yMin
             maxY = self.yMax
@@ -1434,8 +1432,8 @@ class PlotPanel (AbsolutePanel):
 
     def yToPixel(self, y, isY2):
         if isY2:
-            minY = self.y2Min 
-            maxY = self.y2Max 
+            minY = self.y2Min
+            maxY = self.y2Max
         else:
             minY = self.yMin
             maxY = self.yMax
@@ -1483,8 +1481,8 @@ class PlotPanel (AbsolutePanel):
 
     def dyToPixel(self, dy, isY2):
         if isY2:
-            minY = self.y2Min 
-            maxY = self.y2Max 
+            minY = self.y2Min
+            maxY = self.y2Max
         else:
             minY = self.yMin
             maxY = self.yMax
@@ -1859,7 +1857,7 @@ class PlotPanel (AbsolutePanel):
                 result = True
 
             elif self.isGeometricallyContainedIn(hoverElement,
-                                             DOM.eventGetClientX(event), 
+                                             DOM.eventGetClientX(event),
                                               DOM.eventGetClientY(event)):
                 result = True
 
@@ -1897,7 +1895,7 @@ class PlotPanel (AbsolutePanel):
             result = False
 
         elif self.isGeometricallyContainedIn(self.getElement(),
-                                             DOM.eventGetClientX(event), 
+                                             DOM.eventGetClientX(event),
                                               DOM.eventGetClientY(event)):
             result = False
 
@@ -2058,7 +2056,7 @@ class PlotPanel (AbsolutePanel):
             if self.chart.getHoverTouchingEnabled()  or  isClick:
                 self.setClientX(DOM.eventGetClientX(event), isClick)
                 self.setClientY(DOM.eventGetClientY(event), isClick)
-                if (not self.chart.isUpdateNeeded()  and  
+                if (not self.chart.isUpdateNeeded()  and
                     self.touchObjectAtMousePosition(isClick)):
                     self.chart.assembleChart()
 
@@ -2073,7 +2071,7 @@ class PlotPanel (AbsolutePanel):
             """
             self.setClientX(NAI, False); # mouse not over chart,
             self.setClientY(NAI, False); # so position is undefined
-            if (not self.chart.isUpdateNeeded()  and  
+            if (not self.chart.isUpdateNeeded()  and
                 self.touchObjectAtMousePosition()):
                 self.chart.assembleChart()
 

@@ -119,7 +119,7 @@ class Transformer:
                                token.STRING: self.atom_string,
                                token.NAME: self.atom_name,
                                }
-        self.encoding = None
+        self.encoding = 'utf-8'
 
     def transform(self, tree):
         """Transform an AST into a modified parse tree."""
@@ -148,7 +148,7 @@ class Transformer:
 
     def compile_node(self, node):
         ### emit a line-number node?
-        
+
         import sys
         n = node.type
 
@@ -1351,7 +1351,7 @@ class Transformer:
                             isinstance(sub, Sliceobj))]
             if len(tulplesub) == len(subscripts):
                 subscripts = [Tuple(subscripts)]
-        elif (len(nodelist.children) == 2 and 
+        elif (len(nodelist.children) == 2 and
               nodelist.children[1].type == token.COMMA):
             subscripts = [Tuple(subscripts)]
         return Subscript(primary, assigning, subscripts,

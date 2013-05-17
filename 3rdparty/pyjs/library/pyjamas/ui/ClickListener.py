@@ -1,6 +1,6 @@
-""" 
+"""
     Copyright (C) 2008, 2009 - Luke Kenneth Casson Leighton <lkcl@lkcl.net>
-  
+
 """
 from pyjamas import DOM
 from pyjamas.ui import Event
@@ -11,7 +11,7 @@ class ClickHandler(object):
         self._clickListeners = []
         self._doubleclickListeners = []
         self._clickPreventDefault = preventDefault
-        
+
         self.sinkEvents(Event.ONCLICK)
         self.sinkEvents(Event.ONDBLCLICK)
 
@@ -25,11 +25,14 @@ class ClickHandler(object):
         self._doubleclickListeners.append(listener)
 
     def addClickListener(self, listener):
+        stylename = self.getStyleName()
+        if stylename:
+            self.addStyleName("%s-clickable" % stylename.split()[0])
         self._clickListeners.append(listener)
 
     def onBrowserEvent(self, event):
-        """Listen to events raised by the browser and call the appropriate 
-        method of the listener (widget, ..) object. 
+        """Listen to events raised by the browser and call the appropriate
+        method of the listener (widget, ..) object.
         """
         type = DOM.eventGetType(event)
         if type == "click":

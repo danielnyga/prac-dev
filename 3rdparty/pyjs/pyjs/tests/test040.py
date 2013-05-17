@@ -12,7 +12,7 @@ class Foo:
         self.foo = 5
         biz.baz.foo = 5
         baz[2].foo = 5
-    
+
         # augmented assignments
         foo += 5
         bar.foo += 5

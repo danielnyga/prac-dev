@@ -41,7 +41,7 @@ class SuiteDemoControls (Composite):
     def __init__(self, chart):
         self.chart = chart
         self.canvas = chart.canvas
-        
+
         self.b2 = Button("Compositing", self)
         self.b3 = Button("Paths & shapes", self)
         self.b4 = Button("Arcs & circles", self)
@@ -55,7 +55,7 @@ class SuiteDemoControls (Composite):
         self.b9 = Button("Animations", self)
         self.b12 = Button("Text", self)
         self.b13 = Button("Gradients", self)
-        
+
         hp = HorizontalPanel()
         vp = VerticalPanel()
         vp.setHorizontalAlignment(HasAlignment.ALIGN_LEFT)
@@ -75,9 +75,9 @@ class SuiteDemoControls (Composite):
         vp.add(self.b12)
         vp.add(self.b13)
         hp.add(vp)
-        
+
         Composite.__init__(self, hp)
-    
+
     def onClick(self, sender):
         if sender == self.b2:
             self.onClickCompositing(sender)
@@ -109,7 +109,7 @@ class SuiteDemoControls (Composite):
     # compositing
     def onClickCompositing(self, sender):
         self.chart.run = False
-        
+
         self.canvas.saveContext()
         self.canvas.clear()
         self.canvas.translate(40, 40)
@@ -122,11 +122,11 @@ class SuiteDemoControls (Composite):
         self.canvas.setFillStyle(Color.Color("#00f"))
         self.canvas.fillRect(40, 85, 100, 100)
         self.canvas.restoreContext()
-    
+
     # paths / shapes
     def onClickPaths(self, sender):
         self.chart.run = False
-        
+
         self.canvas.saveContext()
         self.canvas.clear()
         self.canvas.translate(30, 30)
@@ -156,11 +156,11 @@ class SuiteDemoControls (Composite):
         self.canvas.rect(165, 25, 100, 100)
         self.canvas.stroke()
         self.canvas.restoreContext()
-    
+
     # arcs / circles
     def onClickArcs(self, sender):
         self.chart.run = False
-        
+
         self.canvas.saveContext()
         self.canvas.clear()
         self.canvas.translate(30, 70)
@@ -181,9 +181,9 @@ class SuiteDemoControls (Composite):
                     self.canvas.fill()
                 else:
                     self.canvas.stroke()
-                
-            
-        
+
+
+
         self.canvas.translate(160, 20)
         self.canvas.setStrokeStyle(Color.Color("#ff0"))
         self.canvas.setLineWidth(4)
@@ -197,11 +197,11 @@ class SuiteDemoControls (Composite):
         self.canvas.arc(90, 65, 5, 0,  (math.pi * 2), True)
         self.canvas.stroke()
         self.canvas.restoreContext()
-    
+
     # bezier
     def onClickBezier(self, sender):
         self.chart.run = False
-        
+
         self.canvas.saveContext()
         self.canvas.clear()
         self.canvas.translate(30, 70)
@@ -228,11 +228,11 @@ class SuiteDemoControls (Composite):
         self.canvas.cubicCurveTo(85, 25, 75, 37, 75, 40)
         self.canvas.fill()
         self.canvas.restoreContext()
-    
+
     # colours
     def onClickColours(self, sender):
         self.chart.run = False
-        
+
         self.canvas.saveContext()
         self.canvas.clear()
         self.canvas.translate(20, 20)
@@ -244,8 +244,8 @@ class SuiteDemoControls (Composite):
                                                      int(math.floor(255 - 42.5 * j)),
                                                      0))
                 self.canvas.fillRect(j * 25, i * 25, 25, 25)
-            
-        
+
+
         self.canvas.translate(160, 160)
         for i in range(6):
             for j in range(6):
@@ -256,14 +256,14 @@ class SuiteDemoControls (Composite):
                 self.canvas.arc(12.5 + j * 25, 12.5 + i * 25, 10, 0,
                                      (math.pi * 2), True)
                 self.canvas.stroke()
-            
-        
+
+
         self.canvas.restoreContext()
-    
+
     # translating
     def onClickTranslate(self, sender):
         self.chart.run = False
-        
+
         color = [ Color.Color("#fc0"), Color.Color("#0cf"), Color.Color("#cf0") ]
         self.canvas.saveContext()
         self.canvas.clear()
@@ -276,14 +276,14 @@ class SuiteDemoControls (Composite):
                 self.chart.drawSpirograph(2000, 20.0 * (j + 2) / (j + 1), -8.0 * (i + 3)
                 / (i + 1), 10.0)
                 self.canvas.restoreContext()
-            
-        
+
+
         self.canvas.restoreContext()
-    
+
     # scaling
     def onClickScale(self, sender):
         self.chart.run = False
-        
+
         self.canvas.saveContext()
         self.canvas.clear()
         self.canvas.translate(25, 25)
@@ -324,11 +324,11 @@ class SuiteDemoControls (Composite):
         self.chart.drawSpirograph(2000, 22, 6, 5)
         self.canvas.restoreContext()
         self.canvas.restoreContext()
-    
+
     # rotating
     def onClickRotate(self, sender):
         self.chart.run = False
-        
+
         self.canvas.saveContext()
         self.canvas.clear()
         self.canvas.translate(175, 175)
@@ -343,15 +343,15 @@ class SuiteDemoControls (Composite):
                 self.canvas.arc(0, i * 12.5, 5, 0,  (math.pi * 2), True)
                 # self.canvas.rect(0,i*12.5,5,5)
                 self.canvas.fill()
-            
+
             self.canvas.restoreContext()
-        
+
         self.canvas.restoreContext()
-    
+
     # lines
     def onClickLines(self, sender):
         self.chart.run = False
-        
+
         self.canvas.saveContext()
         self.canvas.clear()
         self.canvas.scale(0.9, 0.9)
@@ -364,7 +364,7 @@ class SuiteDemoControls (Composite):
             self.canvas.moveTo(5 + i * 14, 5)
             self.canvas.lineTo(5 + i * 14, 140)
             self.canvas.stroke()
-        
+
         self.canvas.restoreContext()
         self.canvas.saveContext()
         self.canvas.translate(0, 170)
@@ -438,22 +438,22 @@ class SuiteDemoControls (Composite):
                 dy = 25.0
             else:
                 dy = -25.0
-            
+
             self.canvas.lineTo( (math.pow(i, 1.5) * 2.0), 75 + dy)
-        
+
         self.canvas.stroke()
         self.canvas.restoreContext()
         self.canvas.restoreContext()
-    
+
     # timer
     def onClickClock(self, sender):
         self.chart.run = True
         self.chart.drawClock()
-    
+
     # transparency
     def onClickTrans(self, sender):
         self.chart.run = False
-        
+
         self.canvas.saveContext()
         self.canvas.clear()
         self.canvas.translate(20, 180)
@@ -470,8 +470,8 @@ class SuiteDemoControls (Composite):
                                                 ((i + 1) / 10.0)))
             for j in range(4):
                 self.canvas.fillRect(5 + i * 14.0, 5 + j * 37.5, 14, 27.5)
-            
-        
+
+
         self.canvas.restoreContext()
         self.canvas.saveContext()
         self.canvas.translate(180, 20)
@@ -490,9 +490,9 @@ class SuiteDemoControls (Composite):
             self.canvas.beginPath()
             self.canvas.arc(75, 75, 10 + (10 * i), 0,  (math.pi * 2), True)
             self.canvas.fill()
-        
+
         self.canvas.restoreContext()
-    
+
 
     # text
     def onClickText(self, sender):
@@ -526,7 +526,7 @@ class SuiteDemoControls (Composite):
         self.canvas.restoreContext()
 
         self.canvas.restoreContext()
-    
+
     def onClickGradients(self, sender):
         self.chart.run = False
 
@@ -625,7 +625,7 @@ class SuiteDemoControls (Composite):
         # Demos copied from GradientsDemo for testing
         self.canvas.saveContext()
         self.canvas.translate(150, 150)
-        
+
         radgrad = self.canvas.createRadialGradient(45, 45, 10, 52, 50, 30)
         radgrad.addColorStop(0, Color.Color("#A7D30C"))
         radgrad.addColorStop(0.5, Color.Color("#019F62"))
@@ -636,17 +636,17 @@ class SuiteDemoControls (Composite):
         radgrad2.addColorStop(0, Color.Color("#FF5F98"))
         radgrad2.addColorStop(0.75, Color.Color("#FF0188"))
         radgrad2.addColorStop(1, Color.Color("rgba(255,1,136,0)"))
-        
+
         radgrad3 = self.canvas.createRadialGradient(95, 15, 15, 102, 20, 40)
         radgrad3.addColorStop(0, Color.Color("#00C9FF"))
         radgrad3.addColorStop(0.8, Color.Color("#00B5E2"))
         radgrad3.addColorStop(1, Color.Color("rgba(0,201,255,0)"))
-        
+
         radgrad4 = self.canvas.createRadialGradient(0, 150, 50, 0, 140, 90)
         radgrad4.addColorStop(0, Color.Color("#F4F201"))
         radgrad4.addColorStop(0.8, Color.Color("#E4C700"))
         radgrad4.addColorStop(1, Color.Color("rgba(228,199,0,0)"))
-        
+
         # draw shapes
         self.canvas.setFillStyle(radgrad4)
         self.canvas.fillRect(0, 0, 150, 150)
@@ -658,39 +658,39 @@ class SuiteDemoControls (Composite):
 
         self.canvas.setFillStyle(radgrad)
         self.canvas.fillRect(0, 0, 150, 150)
-        
+
         self.canvas.restoreContext()
 
         self.canvas.restoreContext()
-    
-    
+
+
 """*
 * Demo showcaseing a range of tests from the Mozilla Canvas Tutorial
 * and from contributions from Oliver Zoran.
 *
 """
 class SuiteDemo (SimpleCanvasDemo):
-    
+
     def __init__(self, theCanvas):
         SimpleCanvasDemo.__init__(self, theCanvas)
         self.width = 350
         self.height = 350
         self.demoName = "Feature Suite"
         self.run = False
-    
+
     def createControls(self):
         self.controls = SuiteDemoControls(self)
-    
-    
+
+
     def drawDemo(self):
         self.canvas.resize(self.width, self.height)
         self.canvas.setBackgroundColor(Color.BLACK)
-    
-    
+
+
     def stopDemo(self):
         self.run = False
         self.canvas.setBackgroundColor(GWTCanvasConsts.TRANSPARENT)
-    
+
     def getTimeSeconds(self):
         return time.time() % 60.0
 
@@ -714,7 +714,7 @@ class SuiteDemo (SimpleCanvasDemo):
         self.canvas.translate(175, 175)
         self.canvas.scale(0.8, 0.8)
         self.canvas.rotate( (-math.pi / 2))
-        
+
         self.canvas.saveContext()
         self.canvas.beginPath()
         self.canvas.setLineWidth(7)
@@ -725,12 +725,12 @@ class SuiteDemo (SimpleCanvasDemo):
         self.canvas.arc(0, 0, 142, 0,  (math.pi * 2), True)
         self.canvas.stroke()
         self.canvas.restoreContext()
-        
+
         self.canvas.setStrokeStyle(Color.BLACK)
         self.canvas.setFillStyle(Color.WHITE)
         self.canvas.setLineWidth(4)
         self.canvas.setLineCap("round")
-        
+
         # Hour marks
         self.canvas.saveContext()
         for i in range(12):
@@ -739,9 +739,9 @@ class SuiteDemo (SimpleCanvasDemo):
             self.canvas.moveTo(100, 0)
             self.canvas.lineTo(120, 0)
             self.canvas.stroke()
-        
+
         self.canvas.restoreContext()
-        
+
         # Minute marks
         self.canvas.saveContext()
         self.canvas.setLineWidth(2.5)
@@ -751,17 +751,17 @@ class SuiteDemo (SimpleCanvasDemo):
                 self.canvas.moveTo(117, 0)
                 self.canvas.lineTo(120, 0)
                 self.canvas.stroke()
-            
+
             self.canvas.rotate( (math.pi / 30))
-        
+
         self.canvas.restoreContext()
-        
+
         sec = self.getTimeSeconds()
         min = self.getTimeMinutes() + sec / 60.0
         hr = self.getTimeHours() + min / 60.0
 
         self.canvas.setFillStyle(Color.BLACK)
-        
+
         # write Hours
         self.canvas.saveContext()
         self.canvas.rotate( (hr * math.pi / 6 + math.pi / 360 * min + math.pi
@@ -772,7 +772,7 @@ class SuiteDemo (SimpleCanvasDemo):
         self.canvas.lineTo(80, 0)
         self.canvas.stroke()
         self.canvas.restoreContext()
-        
+
         # write Minutes
         self.canvas.saveContext()
         self.canvas.rotate( (math.pi / 30 * min + math.pi / 1800 * sec))
@@ -782,7 +782,7 @@ class SuiteDemo (SimpleCanvasDemo):
         self.canvas.lineTo(112, 0)
         self.canvas.stroke()
         self.canvas.restoreContext()
-        
+
         # Write seconds
         self.canvas.saveContext()
         self.canvas.rotate( (sec * math.pi / 30))
@@ -808,10 +808,10 @@ class SuiteDemo (SimpleCanvasDemo):
         self.canvas.arc(0, 0, 3, 0,  (math.pi * 2), True)
         self.canvas.fill()
         self.canvas.restoreContext()
-        
+
         self.canvas.restoreContext()
         Timer(1000, self)
-    
+
     def drawSpirograph(self, p, r0, r, o):
         x1 = r0 - o
         y1 = 0
@@ -830,6 +830,6 @@ class SuiteDemo (SimpleCanvasDemo):
             y1 = y2
             i += 1
         self.canvas.stroke()
-    
+
 
 

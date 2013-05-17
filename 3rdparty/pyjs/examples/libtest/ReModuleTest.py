@@ -52,7 +52,7 @@ class ReModuleTest(UnitTest.UnitTest):
 
         m = re.match("1..4", "1234")
         self.assertFalse(m is None, """re.match("1..4", "1234")""")
- 
+
     def testSearchBasics(self):
         self.searchTest('test 1', 'Ab.cd', 0, 'AbXcd', ['AbXcd'], (0,5))
         self.searchTest('test 2', 'Ab.cd', 0, 'abXcd', None, (0,5))

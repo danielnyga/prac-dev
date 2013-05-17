@@ -29,7 +29,7 @@ class GChartExample02(GChart):
 
 
         self.updateButton = Button("<b><big>Generate New Simulated Revenues</big></b>")
-        
+
         self.setChartSize(WIDTH, HEIGHT)
         self.setChartTitle("<b><big><big>" +
                     "Simulated Quarterly Revenues" +
@@ -55,33 +55,33 @@ class GChartExample02(GChart):
                 self.getCurve().getPoint().setAnnotationText(barLabels[iCurve])
                 self.getCurve().getPoint().setAnnotationLocation(
                                     AnnotationLocation.NORTH)
-            
-        
-        
+
+
+
         for i in range(len(groupLabels)):
             # formula centers tick-label horizontally on each group
             self.getXAxis().addTick(
                         len(barLabels)/2. + i*(len(barLabels)+1),
                         groupLabels[i])
-        
+
         self.getXAxis().setTickLabelFontSize(20.0)
         self.getXAxis().setTickLabelThickness(40.0)
         self.getXAxis().setTickLength(6.0);    # small tick-like gap...
         self.getXAxis().setTickThickness(0); # but with invisible ticks
         self.getXAxis().setAxisMin(0);       # keeps first bar on chart
-        
+
         self.getYAxis().setAxisMin(0);           # Based on sim revenue range
         self.getYAxis().setAxisMax(MAX_REVENUE); # of 0 to MAX_REVENUE.
         self.getYAxis().setTickCount(11)
         self.getYAxis().setHasGridlines(True)
         self.getYAxis().setTickLabelFormat("$#,###")
-    
+
 
 
     def onClick(self, event):
         for iCurve in range(self.getNCurves()):
             for iPoint in range(self.getCurve(iCurve).getNPoints()):
                 self.getCurve(iCurve).getPoint(iPoint).setY(rnd()*MAX_REVENUE)
-            
+
         self.update()
         #self.updateButton.setFocus(True)

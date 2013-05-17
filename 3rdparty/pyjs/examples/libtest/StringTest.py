@@ -122,6 +122,9 @@ class StringTest(UnitTest):
         result=empty.split(' ')
         self.assertEquals(result, [''])
 
+        self.assertEquals('1.2.3'.rsplit('.', 1), ['1.2', '3'])
+        self.assertEquals('1.2.3'.rsplit('.', 2), ['1', '2', '3'])
+
     def testStrip(self):
         text=" this is  a rather long string  "
         expected_result1="this is  a rather long string"
@@ -163,7 +166,7 @@ class StringTest(UnitTest):
 
     def testStrList(self):
         self.assertEqual(str([5,6]), "[5, 6]")
-        
+
     def testStrFloat(self):
         f1 = 1.5
         self.assertEqual(str(f1), "1.5")
@@ -269,6 +272,9 @@ class StringTest(UnitTest):
 
         # Check for handling of newlines in format string
         self.assertEqual("\n%(s1)s\n%(s1)s\n" % testdict, '\nstring\nstring\n')
+        self.assertEqual("%%s %(foo)s" % {'foo': 1}, "%s 1")
+        self.assertEqual("%s %%(foo)s" % {'foo': 1}, "{'foo': 1} %(foo)s")
+        self.assertEqual("%s %(foo)s" % {'foo': 1}, "{'foo': 1} 1")
 
     def testSprintfVar(self):
         f = "%s"

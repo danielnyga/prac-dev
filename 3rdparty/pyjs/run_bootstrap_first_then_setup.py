@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 # Copyright (C) 2007-2008 The PyAMF Project.
 # Copyright (C) 2009 Luke Kenneth Casson Leighton <lkcl@lkcl.net>
 # See LICENSE for details.
@@ -41,7 +42,7 @@ def get_files(d):
         if fname == "PureMVC_Python_1_0":
             continue
         if fname[-4:] == ".pyc": # ehmm.. no.
-            continue 
+            continue
         if os.path.isdir(p):
             get_dir(p)
         else:
@@ -84,9 +85,9 @@ if __name__ == '__main__':
     """)
 
     setup(name = "Pyjamas",
-        version = "0.8.1",
+        version = "0.9",
         description = "Pyjamas Widget API for Web applications, in Python",
-        long_description = open('README', 'rt').read(),
+        long_description = open('README.rst', 'rt').read(),
         url = "http://pyjs.org",
         author = "The Pyjamas Project",
         author_email = "lkcl@lkcl.net",

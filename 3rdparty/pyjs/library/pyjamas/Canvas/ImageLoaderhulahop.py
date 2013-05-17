@@ -30,16 +30,16 @@ imageLoaders = []
 * method once all specified Images are loaded.
 """
 class ImageLoader:
-    
-    
+
+
     def __init__(self):
-    
+
         self.images = []
         self.callBack = None
         self.loadedImages = 0
         self.totalImages = 0
-    
-    
+
+
     """*
     * Stores the ImageElement reference so that when all the images report
     * an onload, we can return the array of all the ImageElements.
@@ -48,8 +48,8 @@ class ImageLoader:
     def addHandle(self, img):
         self.totalImages += 1
         self.images.append(img)
-    
-    
+
+
     """*
     * Invokes the onImagesLoaded method in the CallBack if all the
     * images are loaded AND we have a CallBack specified.
@@ -61,9 +61,9 @@ class ImageLoader:
             self.callBack.onImagesLoaded(self.images)
             # remove the image loader
             imageLoaders.remove(self)
-        
-    
-    
+
+
+
     """*
     * Sets the callback object for the ImageLoader.
     * Once this is set, we may invoke the callback once all images that
@@ -73,16 +73,16 @@ class ImageLoader:
     """
     def finalize(self, cb):
         self.callBack = cb
-    
-    
+
+
     def incrementLoadedImages(self):
         self.loadedImages += 1
-    
-    
+
+
     def isAllLoaded(self):
         return (self.loadedImages == self.totalImages)
-    
-    
+
+
     def _onload(self, form, event, something):
         if not self.__formAction:
             return
@@ -120,31 +120,31 @@ class ImageLoader:
         JS("""
         // if( callback specified )
         // do nothing
-        
+
         var __this = this;
-        
-        @{{img}}.onload = function() {
-            if(!@{{img}}.__isLoaded) {
-                
+
+        @{{img}}['onload'] = function() {
+            if(!@{{img}}['__isLoaded']) {
+
                 // __isLoaded should be set for the first time here.
                 // if for some reason img fires a second onload event
                 // we do not want to execute the following again (hence the guard)
-                @{{img}}.__isLoaded = true;
-                __this.incrementLoadedImages();
-                @{{img}}.onload = null;
-                
+                @{{img}}['__isLoaded'] = true;
+                __this['incrementLoadedImages']();
+                @{{img}}['onload'] = null;
+
                 // we call this function each time onload fires
                 // It will see if we are ready to invoke the callback
-                __this.dispatchIfComplete();
+                __this['dispatchIfComplete']();
             } else {
                 // we invoke the callback since we are already loaded
-                __this.dispatchIfComplete();
+                __this['dispatchIfComplete']();
             }
         }
-        
+
         return @{{img}};
         """)
-    
+
 
 
 def init():

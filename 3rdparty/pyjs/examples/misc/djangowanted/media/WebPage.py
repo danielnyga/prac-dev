@@ -57,13 +57,13 @@ class WebApp:
                 self.form.update(v)
             else:
                 self.form.save(v)
- 
+
     def onErrors(self, form, response):
         log.debug("onErrors %s" % repr(response))
-        
+
     def onSaveDone(self, form, response):
         log.debug("onSave %s" % repr(response))
-        
+
     def onModuleLoad(self):
 
         self.pages = DataService()
@@ -100,7 +100,7 @@ class WebApp:
         self.pages.getPageByName(token, self)
 
     def setPage(self, ref):
-        
+
         htp = self.pages[ref]
         if htp == self.current_page:
             return
@@ -137,7 +137,7 @@ class FormService(JSONProxy):
 class WantedService(JSONProxy):
     def __init__(self):
         JSONProxy.__init__(self, "/services/wanted/",
-                 ["getItem", 
+                 ["getItem",
                   "getItems"])
 
 class DataService(JSONProxy):

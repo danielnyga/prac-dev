@@ -52,7 +52,7 @@ class TimeGridMediator(Mediator):
 
     def onDateSelected(self, date):
         if not self.viewComponent.date is None and self.viewComponent.dirty:
-            self.timeProxy.setDateEntries(self.viewComponent.date, 
+            self.timeProxy.setDateEntries(self.viewComponent.date,
                                           self.viewComponent.getEntries())
         self.viewComponent.date = date
         self.viewComponent.setEntries(self.timeProxy.getDateEntries(self.viewComponent.date))

@@ -26,7 +26,7 @@ class Media(Widget):
         print "autorewind", autorewind
         self.loopparam = DOM.createElement("PARAM")
         DOM.setAttribute(self.loopparam, "name", "autorewind")
-        DOM.setBooleanAttribute(self.loopparam, "VALUE", 
+        DOM.setBooleanAttribute(self.loopparam, "VALUE",
             autorewind and "true" or "false")
         self.getElement().appendChild(self.loopparam)
 
@@ -34,7 +34,7 @@ class Media(Widget):
         print "autoplay", autostart
         self.playparam = DOM.createElement("PARAM")
         DOM.setAttribute(self.playparam, "name", "autostart")
-        DOM.setBooleanAttribute(self.playparam, "VALUE", 
+        DOM.setBooleanAttribute(self.playparam, "VALUE",
             autostart and "true" or "false")
         self.getElement().appendChild(self.playparam)
 

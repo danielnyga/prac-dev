@@ -25,11 +25,11 @@ def ensureFocusHandler():
     pass
 
 def createFocusHandler():
-    pass    
+    pass
 
 def createFocusable0():
     pass
-    
+
 def blur(elem):
     elem.blur()
 
@@ -86,7 +86,7 @@ class FocusMixin:
             return True
         except AttributeError:
             return True
-    
+
     def setReadonly(self, readonly):
         DOM.setBooleanAttribute(self.getElement(), "readOnly", readonly)
 

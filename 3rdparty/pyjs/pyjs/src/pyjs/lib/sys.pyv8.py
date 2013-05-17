@@ -1,16 +1,16 @@
 # Initialize system values
 
 def sys_init():
-    
+
     def pyv8_list(l):
         l2 = list()
         for i in range(l.__len__()):
-            l2[0:0] = [l.pop()]        
+            l2[0:0] = [l.pop()]
         return l2
-        
+
     global stdin
     stdin = pyv8_sys_get_stdin()
-    
+
     global stdout
     stdout = pyv8_sys_get_stdout()
 

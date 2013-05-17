@@ -116,7 +116,7 @@ class Buffer(gtk.TextBuffer):
         for i in range(Buffer.N_COLORS):
             tag = self.create_tag()
             self.color_tags.append(tag)
-  
+
         #self.invisible_tag = self.create_tag(None, invisible=True)
         self.not_editable_tag = self.create_tag(editable=False,
                                                 foreground="purple")
@@ -152,7 +152,7 @@ class Buffer(gtk.TextBuffer):
         # remove tag from whole buffer
         start, end = self.get_bounds()
         self.remove_tag(self.found_text_tag, start, end)
-  
+
         iter = self.get_iter_at_mark(self.get_insert())
 
         i = 0
@@ -183,7 +183,7 @@ class Buffer(gtk.TextBuffer):
                                    "%d strings found and marked in red" % i)
 
         dialog.connect("response", lambda x,y: dialog.destroy())
-  
+
         dialog.show()
 
     def search_forward(self, str, view):
@@ -215,7 +215,7 @@ class Buffer(gtk.TextBuffer):
         elif (not enabled and self.color_cycle_timeout_id != 0):
             gtk.timeout_remove(self.color_cycle_timeout_id)
             self.color_cycle_timeout_id = 0
-    
+
         for tag in self.color_tags:
             if enabled:
                 color = apply(TestText.colormap.alloc_color,
@@ -224,10 +224,10 @@ class Buffer(gtk.TextBuffer):
             else:
                 tag.set_property("foreground_set", False)
             hue += 1.0 / Buffer.N_COLORS
-      
+
     def cycle_colors(self):
         hue = self.start_hue
-  
+
         for tag in self.color_tags:
             color = apply(TestText.colormap.alloc_color,
                           hue_to_color (hue))
@@ -315,7 +315,7 @@ class Buffer(gtk.TextBuffer):
         for i in range(100):
             iter = self.get_iter_at_offset(0)
             self.insert_pixbuf(iter, pixbuf)
-          
+
             str = "%d Hello World! blah blah blah blah blah blah blah blah blah blah blah blah\nwoo woo woo woo woo woo woo woo woo woo woo woo woo woo woo\n" % i
             self.insert(iter, str)
 
@@ -337,11 +337,11 @@ class Buffer(gtk.TextBuffer):
             iter = self.get_iter_at_line_offset(1, 14)
             iter2 = self.get_iter_at_line_offset(1, 24)
             self.apply_tag_by_name("strikethrough", iter, iter2)
-          
+
             iter = self.get_iter_at_line_offset(0, 9)
             iter2 = self.get_iter_at_line_offset(0, 16)
             self.apply_tag_by_name("bg_green", iter, iter2)
-  
+
             iter = self.get_iter_at_line_offset(4, 2)
             iter2 = self.get_iter_at_line_offset(4, 10)
             self.apply_tag_by_name("bg_green", iter, iter2)
@@ -352,7 +352,7 @@ class Buffer(gtk.TextBuffer):
 
             iter = self.get_iter_at_mark(temp_mark)
             self.insert(iter, "Centered text!\n")
-	  
+
             iter2 = self.get_iter_at_mark(temp_mark)
             self.apply_tag_by_name("centered", iter2, iter)
 
@@ -365,7 +365,7 @@ class Buffer(gtk.TextBuffer):
             self.insert_with_tags(iter,
                                     "Paragraph with negative indentation. blah blah blah blah blah. The quick brown fox jumped over the lazy dog.\n",
                                     self.get_tag_table().lookup("negative_indent"))
-      
+
         print "%d lines %d chars\n" % (self.get_line_count(),
                                        self.get_char_count())
 
@@ -386,7 +386,7 @@ class Buffer(gtk.TextBuffer):
             result = dialog.run()
             dialog.destroy()
             return False
-  
+
         iter = self.get_iter_at_offset(0)
         buf = f.read()
         f.close()
@@ -446,7 +446,7 @@ class Buffer(gtk.TextBuffer):
                                            gtk.BUTTONS_OK, err);
                 dialog.run()
                 dialog.destroy()
-  
+
         return result
 
     def save_as_ok_func(self, filename):
@@ -463,7 +463,7 @@ class Buffer(gtk.TextBuffer):
                 dialog.destroy()
                 if result != gtk.RESPONSE_YES:
                     return False
-  
+
         self.filename = filename
 
         if self.save_buffer():
@@ -556,10 +556,10 @@ class View(gtk.Window):
         TestText.views.push(self)
 
         buffer.ref()
-  
+
         if not TestText.colormap:
             TestText.colormap = self.get_colormap()
-  
+
         self.connect("delete_event", self.delete_event_cb)
 
         self.accel_group = gtk.AccelGroup()
@@ -575,7 +575,7 @@ class View(gtk.Window):
 
         vbox.pack_start(self.item_factory.get_widget("<main>"),
                         False, False, 0)
-  
+
         sw = gtk.ScrolledWindow()
         sw.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
 
@@ -585,7 +585,7 @@ class View(gtk.Window):
         # Make sure border width works, no real reason to do this other
         # than testing
         self.text_view.set_border_width(10)
-  
+
         # Draw tab stops in the top and bottom windows.
         self.text_view.set_border_window_size(gtk.TEXT_WINDOW_TOP, 15)
         self.text_view.set_border_window_size(gtk.TEXT_WINDOW_BOTTOM, 15)
@@ -593,14 +593,14 @@ class View(gtk.Window):
         self.text_view.connect("expose_event", self.tab_stops_expose)
 
         self.bhid = buffer.connect("mark_set", self.cursor_set_callback)
-  
+
         # Draw line numbers in the side windows; we should really be
         # more scientific about what width we set them to.
         self.text_view.set_border_window_size(gtk.TEXT_WINDOW_RIGHT, 30)
         self.text_view.set_border_window_size(gtk.TEXT_WINDOW_LEFT, 30)
 
         self.text_view.connect("expose_event", self.line_numbers_expose)
-  
+
         vbox.pack_start(sw, True, True, 0)
         sw.add(self.text_view)
 
@@ -610,7 +610,7 @@ class View(gtk.Window):
         self.set_view_title()
         self.init_menus()
         self.add_example_widgets()
-  
+
         self.show_all()
 
     def delete_event_cb(self, window, event, data=None):
@@ -802,7 +802,7 @@ class View(gtk.Window):
             response_id != RESPONSE_BACKWARD):
             dialog.destroy()
             return
-  
+
         start, end = dialog.buffer.get_bounds()
         search_string = start.get_text(end)
 
@@ -813,7 +813,7 @@ class View(gtk.Window):
             buffer.search_forward(search_string, self)
         elif response_id == RESPONSE_BACKWARD:
             buffer.search_backward(search_string, self)
-    
+
         dialog.destroy()
 
     def do_search(self, callback_action, widget):
@@ -841,7 +841,7 @@ class View(gtk.Window):
             info['start_y'] = -1
             info['button'] = -1
             child.set_data("testtext-move-info", info)
-  
+
         if event.type == gtk.gdk.BUTTON_PRESS:
             if info['button'] < 0:
                 info['button'] = event.button
@@ -875,8 +875,8 @@ class View(gtk.Window):
         return False
 
     def add_movable_child(self, text_view, window):
-        label = gtk.Label("Drag me around")  
-  
+        label = gtk.Label("Drag me around")
+
         event_box = gtk.EventBox()
         event_box.add_events(gtk.gdk.BUTTON_PRESS_MASK |
                              gtk.gdk.BUTTON_RELEASE_MASK |
@@ -903,7 +903,7 @@ class View(gtk.Window):
 
     def do_add_focus_children(self, callback_action, widget):
         text_view = self.text_view
-  
+
         child = gtk.EventBox()
         b = gtk.Button("Button _A in widget.window")
         child.add(b)
@@ -1002,13 +1002,13 @@ class View(gtk.Window):
     def cursor_set_callback(self, buffer, location, mark):
         # Redraw tab windows if the cursor moves
         # on the mapped widget (windows may not exist before realization...
-  
+
         text_view = self.text_view
         if mark == buffer.get_insert():
             tab_window = text_view.get_window(gtk.TEXT_WINDOW_TOP)
             tab_window.invalidate_rect(None, False)
             #tab_window.invalidate_rect(tab_window.get_geometry()[:4], False)
-      
+
             tab_window = text_view.get_window(gtk.TEXT_WINDOW_BOTTOM)
             tab_window.invalidate_rect(None, False)
             #tab_window.invalidate_rect(tab_window.get_geometry()[:4], False)
@@ -1016,7 +1016,7 @@ class View(gtk.Window):
     def tab_stops_expose(self, widget, event):
         #print self, widget, event
         text_view = widget
-  
+
         # See if this expose is on the tab stop window
         top_win = text_view.get_window(gtk.TEXT_WINDOW_TOP)
         bottom_win = text_view.get_window(gtk.TEXT_WINDOW_BOTTOM)
@@ -1046,11 +1046,11 @@ class View(gtk.Window):
         if attrs.tabs:
             tabslist = attrs.tabs.get_tabs()
             in_pixels = attrs.tabs.get_positions_in_pixels()
-      
+
         for align, position in tabslist:
             if not in_pixels:
                 position = pango.PIXELS(position)
-      
+
             pos, y = text_view.buffer_to_window_coords(type, position, 0)
             target.draw_line(text_view.style.fg_gc[text_view.state],
                              pos, 0, pos, 15)
@@ -1081,7 +1081,7 @@ class View(gtk.Window):
 
     def line_numbers_expose(self, widget, event, user_data=None):
         text_view = widget
-  
+
         # See if this expose is on the line numbers window
         left_win = text_view.get_window(gtk.TEXT_WINDOW_LEFT)
         right_win = text_view.get_window(gtk.TEXT_WINDOW_RIGHT)
@@ -1094,7 +1094,7 @@ class View(gtk.Window):
             target = right_win
         else:
             return False
-  
+
         first_y = event.area.y
         last_y = first_y + event.area.height
 
@@ -1104,10 +1104,10 @@ class View(gtk.Window):
         numbers = []
         pixels = []
         count = self.get_lines(first_y, last_y, pixels, numbers)
-  
+
         # Draw fully internationalized numbers!
         layout = widget.create_pango_layout("")
-  
+
         for i in range(count):
             x, pos = text_view.buffer_to_window_coords(type, 0, pixels[i])
             str = "%d" % numbers[i]
@@ -1120,7 +1120,7 @@ class View(gtk.Window):
 
     def add_example_widgets(self):
         buffer = self.text_view.get_buffer()
-  
+
         anchor = buffer.get_data("anchor")
 
         if (anchor and not anchor.get_deleted()):
@@ -1140,7 +1140,7 @@ class Stack(list):
 
     def get(self):
         return self[0]
-    
+
 class TestText:
     untitled_serial = 1
     colormap = None

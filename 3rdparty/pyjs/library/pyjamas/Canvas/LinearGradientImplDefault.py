@@ -15,7 +15,7 @@
 """
 
 
-from pyjamas.Canvas.CanvasGradientImplDefault import CanvasGradientImplDefault 
+from pyjamas.Canvas.CanvasGradientImplDefault import CanvasGradientImplDefault
 
 """*
 * Default deferred binding of GradientFactory will create instances of this class.
@@ -26,7 +26,7 @@ class LinearGradientImplDefault(CanvasGradientImplDefault):
     def __init__(self, x0, y0, x1, y1, c):
         CanvasGradientImplDefault.__init__(self)
         self.createNativeGradientObject(x0,y0,x1,y1,c)
-  
+
 
     def createNativeGradientObject(self, x0, y0, x1, y1, c):
         ctx = c.getContext('2d')

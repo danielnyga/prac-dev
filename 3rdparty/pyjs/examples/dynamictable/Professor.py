@@ -9,9 +9,9 @@ class Professor(Person):
             self.teachingSchedule = Schedule()
         else:
             self.teachingSchedule = teachingSchedule
-        
+
     def getSchedule(self, daysFilter):
         return self.teachingSchedule.getDescription(daysFilter)
-    
+
     def getTeachingSchedule(self):
         return self.teachingSchedule

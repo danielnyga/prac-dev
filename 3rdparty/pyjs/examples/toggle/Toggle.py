@@ -15,9 +15,9 @@ from pyjamas.ui.HorizontalPanel import HorizontalPanel
 
 class Toggle:
     def onModuleLoad(self):
-        
+
         self.label = Label("Not set yet")
-        
+
         self.button = Button("Probe button", self)
         self.image_up = Image("./images/logo.png")
         self.image_up3 = Image("./images/logo.png")
@@ -26,28 +26,28 @@ class Toggle:
         self.toggle = ToggleButton(self.image_up, self.image_down, self)
         self.toggle2 = ToggleButton("up", "down", getattr(self, "onToggleUD"))
         self.push = PushButton(self.image_up3, self.image_down3)
-        
+
         self.vpanel = VerticalPanel()
         self.togglePanel = HorizontalPanel()
         self.togglePanel.setSpacing(10)
-        
+
         self.togglePanel.add(self.toggle)
         self.togglePanel.add(self.toggle2)
         self.togglePanel.add(self.push)
-        
+
         self.vpanel.add(self.label)
         self.vpanel.add(self.button)
         self.vpanel.add(self.togglePanel)
-        
+
         RootPanel().add(self.vpanel)
         self.i = False
-        
+
     def onToggleUD(self, sender):
             self.label.setText(" Toggle2 isdown: "+str(self.toggle2.isDown()))
 
     def onClick(self, sender):
         if sender == self.button:
-            if self.i: 
+            if self.i:
                 self.i = False
                 text = ">>>>UP<<<<"
                 self.toggle.setCurrentFace(self.toggle.getUpFace())

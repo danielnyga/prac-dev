@@ -31,7 +31,7 @@ class UIManagerExample:
       </placeholder>
     </toolbar>
     </ui>'''
-      
+
     def __init__(self):
         # Create the toplevel window
         window = gtk.Window()

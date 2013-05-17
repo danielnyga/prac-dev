@@ -14,9 +14,9 @@ from pyjamas.Timer import Timer
 
 class LabelTimer(Timer, Label):
 
-    __doc__ = """The timer in this demo is a subclass of Timer that 
+    __doc__ = """The timer in this demo is a subclass of Timer that
     implements a repeated check of the result from a Celery worker until
-    it is 
+    it is
 
     The default is for the application to check every second.
     """
@@ -72,7 +72,7 @@ class LabelTimer(Timer, Label):
             self.cancel()
             code = errobj['code']
             Label.setText(self, "JSONRPC Error %s: %s" % (code, message))
-    
+
 
 class JSONRPCExample:
     def onModuleLoad(self):
@@ -83,13 +83,13 @@ class JSONRPCExample:
         self.METHOD_UPPERCASE = "UPPERCASE"
         self.METHOD_LOWERCASE = "lowercase"
         self.METHOD_NONEXISTANT = "Non existant"
-        self.methods = [self.METHOD_ECHO, self.METHOD_REVERSE, 
-                        self.METHOD_UPPERCASE, self.METHOD_LOWERCASE, 
+        self.methods = [self.METHOD_ECHO, self.METHOD_REVERSE,
+                        self.METHOD_UPPERCASE, self.METHOD_LOWERCASE,
                         self.METHOD_NONEXISTANT]
 
         self.remote_php = EchoServicePHP()
         self.remote_py = [
-            EchoServicePython(), 
+            EchoServicePython(),
             EchoServicePython(server="flask"),
             EchoServicePython(server="flask", flask_view_type="class"),
             EchoServicePython(server="flask", flask_view_type="celery"),
@@ -107,7 +107,7 @@ after newline
 """)
         self.text_area.setCharacterWidth(80)
         self.text_area.setVisibleLines(8)
-        
+
         self.method_list = ListBox()
         self.method_list.setName("hello")
         self.method_list.setVisibleItemCount(1)
@@ -135,7 +135,7 @@ after newline
             buttons.add(python_buttons[i])
             self.python_buttons[python_buttons[i]] = self.remote_py[i]
         buttons.setSpacing(8)
-        
+
         info = """<h2>JSON-RPC Example</h2>
         <p>This example demonstrates the calling of server services with
            <a href="http://json-rpc.org/">JSON-RPC</a>.
@@ -143,14 +143,14 @@ after newline
         <p>Enter some text below, and press a button to send the text
            to an Echo service on your server. An echo service simply sends the exact same text back that it receives.
            </p>"""
-        
+
         panel = VerticalPanel()
         panel.add(HTML(info))
         panel.add(self.text_area)
         panel.add(method_panel)
         panel.add(buttons)
         panel.add(self.status)
-        
+
         RootPanel().add(panel)
 
     def onClick(self, sender):
@@ -202,7 +202,7 @@ after newline
         #     }
         message = errobj['message']
         if code != 0:
-            self.status.setText("HTTP error %d: %s" % 
+            self.status.setText("HTTP error %d: %s" %
                                 (code, message))
         else:
             code = errobj['code']

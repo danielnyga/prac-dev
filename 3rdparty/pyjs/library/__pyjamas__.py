@@ -30,7 +30,6 @@ def get_gtk_module():
     return gtk_module
 
 def set_main_frame(frame):
-    print "set_main_frame", frame
     global main_frame
     main_frame = frame
     from pyjamas import DOM
@@ -42,10 +41,10 @@ def get_main_frame():
     return main_frame
 
 def doc():
-    return main_frame.getDomDocument() 
+    return main_frame.getDomDocument()
 
 def wnd():
-    return main_frame.getDomWindow() 
+    return main_frame.getDomWindow()
 
 def JS(code):
     """ try to avoid using this function, it will only give you grief

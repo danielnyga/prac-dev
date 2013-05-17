@@ -22,20 +22,20 @@ class Labels:
         label = gtk.Label("This is a Normal label")
         frame.add(label)
         vbox.pack_start(frame, False, False, 0)
-  
+
         frame = gtk.Frame("Multi-line Label")
         label = gtk.Label("This is a Multi-line label.\nSecond line\n"
                              "Third line")
         frame.add(label)
         vbox.pack_start(frame, False, False, 0)
-  
+
         frame = gtk.Frame("Left Justified Label")
         label = gtk.Label("This is a Left-Justified\n"
                              "Multi-line label.\nThird      line")
         label.set_justify(gtk.JUSTIFY_LEFT)
         frame.add(label)
         vbox.pack_start(frame, False, False, 0)
-  
+
         frame = gtk.Frame("Right Justified Label")
         label = gtk.Label("This is a Right-Justified\nMulti-line label.\n"
                              "Fourth line, (j/k)")
@@ -59,7 +59,7 @@ class Labels:
         label.set_line_wrap(True)
         frame.add(label)
         vbox.pack_start(frame, False, False, 0)
-  
+
         frame = gtk.Frame("Filled, wrapped label")
         label = gtk.Label("This is an example of a line-wrapped, filled label.  "
                              "It should be taking "
@@ -75,7 +75,7 @@ class Labels:
         label.set_line_wrap(True)
         frame.add(label)
         vbox.pack_start(frame, False, False, 0)
-  
+
         frame = gtk.Frame("Underlined label")
         label = gtk.Label("This label is underlined!\n"
                              "This one is underlined in quite a funky fashion")

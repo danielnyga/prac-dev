@@ -30,7 +30,7 @@ class MainTest:
     @staticmethod
     def printable(text):
         log(text)
-    
+
 class StoringObject:
     def save(self,func):
         self.func = func

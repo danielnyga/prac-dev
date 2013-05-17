@@ -7,6 +7,8 @@ from pyjamas import Factory
 from pyjamas.ui.HTML import HTML
 from pyjamas.ui.RootPanel import RootPanel
 from pyjamas.Timer import Timer
+from pyjamas import Window
+from pyjamas import DOM
 
 tooltip_hide_timer = None
 
@@ -18,7 +20,7 @@ class Tooltip(PopupPanel):
         PopupPanel.__init__(self, True, **kwargs)
         self.show_delay = show_delay
         self.hide_delay = hide_delay
-        
+
         if isinstance(contents, basestring):
             contents = HTML(contents)
         self.add(contents)
@@ -33,10 +35,26 @@ class Tooltip(PopupPanel):
             self.tooltip_show_timer = Timer(1, self)
         else:
             self.tooltip_show_timer = Timer(self.show_delay, self)
-        
+
+    def onShowImpl(self, popup):
+        width = self.getOffsetWidth()
+        heigth = self.getOffsetHeight()
+        w_width = Window.getClientWidth()
+        w_heigth = Window.getClientHeight()
+        if w_width > width and w_heigth > heigth:
+            offset_x = self.getAbsoluteLeft()
+            offset_y = self.getAbsoluteTop()
+            element = self.getElement()
+            if (offset_x + width) > w_width:
+                offset_x = w_width - width
+                DOM.setStyleAttribute(element, "left", "%dpx" % offset_x)
+            if (offset_y + heigth) > w_heigth:
+                offset_y = w_heigth - heigth
+                DOM.setStyleAttribute(element, "top", "%dpx" % offset_y)
+
     def show(self):
         global tooltip_hide_timer
-        
+
         # activate fast tooltips
         tooltip_hide_timer = Timer(self.hide_delay, self)
         PopupPanel.show(self)
@@ -66,7 +84,7 @@ class TooltipListener:
     def __init__(self, text, show_delay = 1000, hide_delay = 5000, styleName = ""):
         if not styleName:
             styleName = self.DEFAULT_TOOLTIP_STYLE
-        
+
         self.tooltip = None
         self.text = text
         self.styleName = styleName
@@ -84,10 +102,10 @@ class TooltipListener:
 
     def onMouseMove(self, sender, x, y):
         pass
-        
+
     def onMouseDown(self, sender, x, y):
         pass
-    
+
     def onMouseUp(self, sender, x, y):
         pass
 
@@ -112,6 +130,6 @@ class TooltipListener:
     def hide(self):
         if self.tooltip is not None:
             self.tooltip.hide()
-        
+
 Factory.registerClass('pyjamas.ui.Tooltip', 'Tooltip', Tooltip)
 

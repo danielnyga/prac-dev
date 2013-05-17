@@ -30,7 +30,7 @@ class CollapserPanel(SimplePanel):
         SimplePanel.__init__(self)
         self.sink = sink
         self.caption = HTML()
-        self.child = None 
+        self.child = None
         self.showing = False
         self.dragging = False
         self.dragStartX = 0
@@ -41,7 +41,7 @@ class CollapserPanel(SimplePanel):
         self.collapse.addClickListener(self)
         dock = DockPanel()
         dock.setSpacing(0)
-        
+
         dock.add(self.collapse, DockPanel.EAST)
         dock.add(self.caption, DockPanel.WEST)
 
@@ -258,7 +258,7 @@ class RightPanel(DockPanel):
 
     def setTitle(self, title):
         self.title.setHTML(title)
-        
+
     def clear_items(self):
 
         for i in range(len(self.grids)):
@@ -282,7 +282,7 @@ class RightPanel(DockPanel):
         #    fname = item[0]
         #    self.grids[i] = RightGrid(fname)
         #    self.g.setWidget(i, 0, self.grids[i])
-   
+
     def add_html(self, html, name, index):
         self.data[index] = html
         self.names[index] = name
@@ -327,7 +327,7 @@ class MidPanel(Grid):
         self.styleRow(self.selected_row, True)
         self.sink.select_right_grid(self.item_locations[row],
                                     self.item_names[row])
-        
+
     def styleRow(self, row, selected):
         if (row != -1):
             if (selected):
@@ -387,7 +387,7 @@ class InfoDirectory:
 
         self.onWindowResized(width, height)
         Window.addWindowResizeListener(self)
-  
+
     def setCollapserWidth(self, widget, width):
         self.horzpanel1.setCellWidth(widget, width)
 
@@ -444,7 +444,7 @@ class InfoDirectory:
             item = datasets[i]
             fname = item[0]
             self.remote.get_rightpanel_data(fname, fname, i, self)
-        
+
     def fill_right_grid(self, data):
         index = data.get('index')
         name = data.get('name')

@@ -1,6 +1,6 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 """
-Utility to run all possible tests and provide overall results. 
+Utility to run all possible tests and provide overall results.
 
 Test plan:
 
@@ -123,7 +123,7 @@ class PyjamasTester(object):
         dest="examples_run",
         action="store_true",
         help="Test examples"
-        )    
+        )
     parser.add_option(
         "--examples-path",
         dest="examples_path",
@@ -138,52 +138,52 @@ class PyjamasTester(object):
         default=False,
         help="Provide report on tracker issues lacking failing tests"
         )
-        
+
     def __init__(self):
         self.options, args = self.parser.parse_args()
-        
+
         self.tmpdir = mkdtemp(prefix='pyjs')
         self.root = path.dirname(__file__)
-        
+
         print "Output will be produced in %s" % self.tmpdir
-        
+
         self.tracker_url = "http://code.google.com/p/pyjamas/issues/csv"
         if not path.isabs(self.options.pyv8):
             self.options.pyv8 = path.join(currentdir, self.options.pyv8)
         if self.options.pyv8.endswith(".py"):
             self.options.pyv8 = "%s %s" % (self.options.cpython, self.options.pyv8)
-        
+
         if not path.isabs(self.options.examples_path):
             self.options.examples_path = path.join(currentdir, self.options.examples_path)
-            
+
         self.testsresults = []
         self.testsknown = []
-        
+
         if self.options.libtest_only:
             self.options.utils_run = False
             self.options.examples_run = False
-        
+
         if self.options.libtest_run:
             self._test(self.test_libtest_cpython)
 
         if self.options.libtest_run:
             if self.options.pyv8_run:
                 self._test(self.test_libtest_pyv8)
-                
+
         if self.options.utils_run:
             self._test(self.test_pyjsbuild)
             self._test(self.test_pyjscompile)
             self._test(self.test_pyjampiler)
-            
+
         if self.options.examples_run:
             self._test(self.test_examples)
-        
+
         self.issues = {}
         if self.options.tracker:
             self.get_tracker_issues()
-        
+
         self.print_results()
-        
+
 
 
     def run_cmd(self, cmd=None, opts=None, cwd=None):
@@ -220,21 +220,21 @@ class PyjamasTester(object):
         example_files = [path.join("I18N", basename) for basename in example_files]
         return self.parse_cmd_output(
             *self.run_cmd(cmd=self.options.pyv8,
-                          opts=["-o %s" % output, 
-                                "--strict", 
+                          opts=["-o %s" % output,
+                                "--strict",
                                 "--dynamic '^I18N[.].*.._..'",
                                 "LibTest"] + example_files,
                           cwd=directory)
             )
-    
+
     def test_examples(self, output):
         return self.check_stderr(*self.run_cmd(
-            opts=["__main__.py", 
+            opts=["__main__.py",
                   "--download", # should it be there or not ???
-                  "--", 
+                  "--",
                   "-o %s" % output,],
             cwd=self.options.examples_path))
-    
+
     def test_pyjsbuild(self, output):
         return self.check_stderr(*(self.run_cmd(
             path.join(self.root, 'bin', 'pyjsbuild'),
@@ -244,7 +244,7 @@ class PyjamasTester(object):
                   ],
             cwd=path.join(self.options.examples_path, 'libtest')) +
                                    ('libtest', 'compile')))
-    
+
     def test_pyjscompile(self, output):
         return self.check_stderr(*(self.run_cmd(
             path.join(self.root, 'bin', 'pyjscompile'),
@@ -254,7 +254,7 @@ class PyjamasTester(object):
                   ],
             cwd=path.join(self.options.examples_path, 'libtest')) +
                                    ('libtest', 'compile')))
-    
+
     def test_pyjampiler(self, output):
         cmd = path.join(self.root, 'bin', 'pyjampiler')
         r = self.check_stderr(*(self.run_cmd(
@@ -273,7 +273,7 @@ class PyjamasTester(object):
             cwd=path.join(self.options.examples_path, 'libtest')) +
                                  ('libtest', 'compile')))
         return r
-                     
+
     def check_stderr(self, stdout, stderr, cls='cmd', name=''):
         if not name:
             name = cls
@@ -294,12 +294,12 @@ class PyjamasTester(object):
             return [dict(cls = cls,
                 status = "passed",
                 name = name,
-                count = 1)] 
-    
+                count = 1)]
+
     def parse_cmd_output(self, stdout_value, stderr_value=None):
         """
         Parse stdout/stderr into list of dicts
-        
+
         """
         res = []
         for line in stdout_value.split('\n'):
@@ -334,12 +334,12 @@ class PyjamasTester(object):
                     message = stderr_value
                     ))
         return res
-                    
-        
-        
+
+
+
     def _test(self, method):
         name = method.im_func.func_name
-        d = dict(name=name, 
+        d = dict(name=name,
                  tests=[], failed_list=[], known_list=[],
                  total=0, passed=0,
                  failed=0, known=0, err=None)
@@ -353,7 +353,7 @@ class PyjamasTester(object):
             print e
             d['err'] = e
             return False
-        
+
         for test in d['tests']:
             if test['status'] == 'passed':
                 d['passed'] += test['count']
@@ -365,7 +365,7 @@ class PyjamasTester(object):
                 d['known_list'].append(test)
                 self.testsknown.append((d, test))
         d['total'] = d['passed'] + d['failed'] + d['known']
-        
+
     def get_tracker_issues(self):
         print "Fetching issues csv from %s" % self.tracker_url
         csv_data = urllib2.urlopen(self.tracker_url)
@@ -378,7 +378,7 @@ class PyjamasTester(object):
                 issue = issue_cls(*row)
                 self.issues[issue.ID] = issue
         print "    received %s issues from tracker" % len(self.issues)
-        
+
     def print_results(self):
         """
         .. TODO:: handle test_pack['err']
@@ -392,7 +392,7 @@ class PyjamasTester(object):
             for test_pack in self.testsresults:
                 print "-"*30
                 print ("%(name)s: total %(total)s, passed %(passed)s,"
-                " known %(known)s, failed %(failed)s" % test_pack)                
+                " known %(known)s, failed %(failed)s" % test_pack)
                 print "-"*30
                 if test_pack['failed'] > 0:
                     is_failed = True
@@ -412,7 +412,7 @@ class PyjamasTester(object):
                     print test_pack['name'], "failed tests:"
                     for test in test_pack['failed_list']:
                         print "[!] %(cls)s.%(name)s: %(message)s" % test
-        
+
         if self.issues:
             referenced = []
             for test_pack, test in self.testsknown:
@@ -428,7 +428,7 @@ class PyjamasTester(object):
                             test_pack['name'],
                             test['cls'], test['name'], test['message'])
 
-            
+
             if self.options.tracker_report:
                 print "="*30
                 print " Issues test coverage report"
@@ -436,11 +436,11 @@ class PyjamasTester(object):
                 for issue_id, issue in self.issues.iteritems():
                     if not issue_id in referenced:
                         print "    No test for issue #%(ID)s '%(Summary)s'" % issue._asdict()
-            
-                        
 
 
-        
+
+
+
 
 if __name__ == '__main__':
     PyjamasTester()

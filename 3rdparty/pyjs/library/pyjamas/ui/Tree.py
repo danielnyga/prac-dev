@@ -37,7 +37,8 @@ class Tree(Widget):
         self.focusable = None
         self.focusListeners = []
         self.mouseListeners = []
-        self.imageBase = pygwt.getModuleBaseURL()
+        self.images = ka.pop('Images', False)
+        self.imageBase = pygwt.getImageBaseURL(self.images)
         self.keyboardListeners = []
         self.listeners = []
         self.lastEventType = ""
@@ -110,6 +111,9 @@ class Tree(Widget):
 
     def getImageBase(self):
         return self.imageBase
+
+    def getImages(self):
+        return self.images
 
     def getItem(self, index):
         return self.root.getChild(index)
@@ -212,6 +216,12 @@ class Tree(Widget):
     def setImageBase(self, baseUrl):
         self.imageBase = baseUrl
         self.root.updateStateRecursive()
+
+    def setImages(self, images):
+        if self.images == images:
+            return
+        self.images = images
+        self.setImageBase(pygwt.getImageBaseURL(self.images))
 
     def setSelectedItem(self, item, fireEvents=True):
         if item is None:

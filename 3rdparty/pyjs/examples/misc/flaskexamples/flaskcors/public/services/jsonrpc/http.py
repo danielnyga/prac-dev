@@ -15,7 +15,7 @@
 
   You should have received a copy of the GNU Lesser General Public License
   along with this software; if not, write to the Free Software
-  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
+  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 """
 
 from jsonrpc import SimpleServiceHandler
@@ -26,9 +26,8 @@ class HTTPClientConnectionHandler(SimpleServiceHandler):
     def __init__(self, url, service,messageDelimiter=""):
         self.url = url
         SimpleServiceHandler.__init__(self, service,messageDelimiter=messageDelimiter)
-        
+
     def send(self, data):
         req = urllib2.Request(self.url, data)
         resp = urllib2.urlopen(req)
         self.handlePartialData(resp.read())
-    

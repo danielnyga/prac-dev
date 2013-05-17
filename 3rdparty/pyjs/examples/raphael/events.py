@@ -9,25 +9,25 @@ from pyjamas.ui.HTML import HTML
 from pyjamas.ui import HasAlignment
 from pyjamas import DOM
 
-class Events(VerticalPanel):            
+class Events(VerticalPanel):
     def __init__(self,width=600,height=300):
-        VerticalPanel.__init__(self)    
+        VerticalPanel.__init__(self)
         self.elements=[]
         self.desc=[]
-        
-        self.canvas = Raphael(width, height)        
+
+        self.canvas = Raphael(width, height)
         self.canvas.addListener('mouseup',self.onCanvasMouseup)
         self.canvas.addListener('mousemove',self.onCanvasMousemove)
         self.canvas.addListener('dblclick',self.onCanvasDblClick)
         self.canvas.addListener('contextmenu',self.onCanvasContextmenu)
         self.canvas.addListener('mousedown',self.onCanvasMousedown)
-        
+
         self.add(self.canvas)
         self.status=Label('Execute any events on the canvas!')
         self.add(self.status)
-        
+
     def set_status(self,status):
-        self.status.setText(status)        
+        self.status.setText(status)
 
     def draw(self):
 
@@ -38,13 +38,13 @@ class Events(VerticalPanel):
         circle1.addListener('mousemove',self.onElementMousemove)
         circle1.addListener('dblclick',self.onElementDblClick)
         circle1.addListener('contextmenu',self.onElementContextmenu)
-        circle1.addListener('mousedown',self.onElementMousedown)        
+        circle1.addListener('mousedown',self.onElementMousedown)
         self.elements.append(circle1)
         self.desc.append('Circle 1')
-        
+
         circle2=self.canvas.circle(100,100,25)
         circle2.setAttr('fill','#000')
-        circle2.setAttrs({'cursor':'move','opacity':0.6})                
+        circle2.setAttrs({'cursor':'move','opacity':0.6})
         circle2.addListener('mouseup',self.onElementMouseup)
         circle2.addListener('mousemove',self.onElementMousemove)
         circle2.addListener('dblclick',self.onElementDblClick)
@@ -62,34 +62,34 @@ class Events(VerticalPanel):
         rect1.addListener('mousedown',self.onElementMousedown)
         self.elements.append(rect1)
         self.desc.append('Rectangle 1')
-        
+
         rect2=self.canvas.rect(200,150,30,30)
         rect2.setAttr('fill','#000')
         rect2.addListener('mouseup',self.onElementMouseup)
         rect2.addListener('mousemove',self.onElementMousemove)
         rect2.addListener('dblclick',self.onElementDblClick)
         rect2.addListener('contextmenu',self.onElementContextmenu)
-        rect2.addListener('mousedown',self.onElementMousedown)        
+        rect2.addListener('mousedown',self.onElementMousedown)
         self.elements.append(rect2)
         self.desc.append('Rectangle 2')
-                
+
         connection=self.canvas.connection(rect1,rect2)
         connection.addListener('mouseup',self.onElementMouseup)
         connection.addListener('mousemove',self.onElementMousemove)
         connection.addListener('dblclick',self.onElementDblClick)
         connection.addListener('contextmenu',self.onElementContextmenu)
-        connection.addListener('mousedown',self.onElementMousedown)        
+        connection.addListener('mousedown',self.onElementMousedown)
         self.elements.append(connection)
-        self.desc.append('Connection')   
-        
+        self.desc.append('Connection')
+
         ellipse=self.canvas.ellipse(200,200,25,40)
-        text=self.canvas.text(200,200,'ABC')   
+        text=self.canvas.text(200,200,'ABC')
         set=self.canvas.set()
         set.add(ellipse)
-        set.add(text)      
+        set.add(text)
         set.addListener('mousemove',self.onElementMousemove)
         self.elements.append(set)
-        self.desc.append('Set')           
+        self.desc.append('Set')
 
     def onCanvasMousedown(self,sender,event):
         x = DOM.eventGetClientX(event) - DOM.getAbsoluteLeft(self.canvas.getElement())
@@ -100,7 +100,7 @@ class Events(VerticalPanel):
         x = DOM.eventGetClientX(event) - DOM.getAbsoluteLeft(self.canvas.getElement())
         y = DOM.eventGetClientY(event) - DOM.getAbsoluteTop(self.canvas.getElement())
         self.set_status('Mousemove on Canvas at '+str(x)+', '+str(y))
-    
+
     def onCanvasMousemove(self,sender,event):
         x = DOM.eventGetClientX(event) - DOM.getAbsoluteLeft(self.canvas.getElement())
         y = DOM.eventGetClientY(event) - DOM.getAbsoluteTop(self.canvas.getElement())
@@ -110,7 +110,7 @@ class Events(VerticalPanel):
         x = DOM.eventGetClientX(event) - DOM.getAbsoluteLeft(self.canvas.getElement())
         y = DOM.eventGetClientY(event) - DOM.getAbsoluteTop(self.canvas.getElement())
         self.set_status('Doubleclick on Canvas at '+str(x)+', '+str(y))
-        
+
     def onCanvasContextmenu(self, sender,event):
         x = DOM.eventGetClientX(event) - DOM.getAbsoluteLeft(self.canvas.getElement())
         y = DOM.eventGetClientY(event) - DOM.getAbsoluteTop(self.canvas.getElement())
@@ -123,14 +123,14 @@ class Events(VerticalPanel):
         s = self.desc[self.elements.index(sender)]
         self.set_status('Mousedown on Element '+s+' at '+str(x)+', '+str(y))
         DOM.eventCancelBubble(event,True)
-                
+
     def onElementMouseup(self,sender,event):
         x = DOM.eventGetClientX(event) - DOM.getAbsoluteLeft(self.canvas.getElement())
         y = DOM.eventGetClientY(event) - DOM.getAbsoluteTop(self.canvas.getElement())
         s = self.desc[self.elements.index(sender)]
         self.set_status('Mouseup on Element '+s+' at '+str(x)+', '+str(y))
         DOM.eventCancelBubble(event,True)
-    
+
     def onElementMousemove(self,sender,event):
         x = DOM.eventGetClientX(event) - DOM.getAbsoluteLeft(self.canvas.getElement())
         y = DOM.eventGetClientY(event) - DOM.getAbsoluteTop(self.canvas.getElement())
@@ -144,7 +144,7 @@ class Events(VerticalPanel):
         s = self.desc[self.elements.index(sender)]
         self.set_status('Doubleclick on Element '+s+' at '+str(x)+', '+str(y))
         DOM.eventCancelBubble(event,True)
-        
+
     def onElementContextmenu(self, sender,event):
         x = DOM.eventGetClientX(event) - DOM.getAbsoluteLeft(self.canvas.getElement())
         y = DOM.eventGetClientY(event) - DOM.getAbsoluteTop(self.canvas.getElement())
@@ -152,8 +152,8 @@ class Events(VerticalPanel):
         self.set_status('Contextmenue on Element '+s+' at '+str(x)+', '+str(y))
         DOM.eventCancelBubble(event,True)
         DOM.eventPreventDefault(event)
-        
-if __name__ == "__main__":    
+
+if __name__ == "__main__":
     pyjd.setup("public/events.html")
     events=Events()
     RootPanel().add(events)

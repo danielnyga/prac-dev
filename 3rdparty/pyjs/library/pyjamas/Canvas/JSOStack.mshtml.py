@@ -18,7 +18,7 @@
 
 
 class JSOStack:
-    
+
     def __init__(self):
         self.clear()
 

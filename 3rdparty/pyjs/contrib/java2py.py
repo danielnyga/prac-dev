@@ -223,7 +223,7 @@ def java_linemap(fn, lines):
             in_stupid_js = True
             res.append(l)
             continue
-    
+
         res.append(fn(l))
 
     return res

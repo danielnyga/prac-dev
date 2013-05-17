@@ -38,7 +38,7 @@ class TextViewExample:
 
     def __init__(self):
         window = gtk.Window(gtk.WINDOW_TOPLEVEL)
-        window.set_resizable(True)  
+        window.set_resizable(True)
         window.connect("destroy", self.close_application)
         window.set_title("TextView Widget Basic Example")
         window.set_border_width(0)
@@ -158,7 +158,7 @@ class TextViewExample:
 
 def main():
     gtk.main()
-    return 0       
+    return 0
 
 if __name__ == "__main__":
     TextViewExample()

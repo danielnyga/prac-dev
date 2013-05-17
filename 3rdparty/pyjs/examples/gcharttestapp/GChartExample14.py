@@ -44,7 +44,7 @@ class IncrementalUpdate:
         self.iCurve = iCurve
         self.phaseShift = phaseShift
         self.n = n
-    
+
     def execute(self):
         for iC in range(self.iCurve, self.iCurve+self.n):
             if self.gchart.getNCurves() <= self.iCurve:
@@ -67,47 +67,47 @@ class IncrementalUpdate:
                         self.gchart.getCurve(0).getSymbol().getHeight())
                 self.gchart.getCurve().getSymbol().setWidth(
                         self.gchart.getCurve(0).getSymbol().getWidth())
-            
+
             for i in range(0, PERIOD, DELTA_TIME):
                 y = math.sin((2*math.pi*(iC*PERIOD+i+self.phaseShift))/PERIOD)
                 if self.gchart.getCurve(iC).getNPoints()*DELTA_TIME <= i:
                     self.gchart.getCurve(iC).addPoint(iC*PERIOD+i+self.phaseShift, y)
                 else:
                     self.gchart.getCurve(iC).getPoint(i/DELTA_TIME).setY(y)
-                
-            
-        
+
+
+
         self.gchart.update()
-    
-    
+
+
 
 
 class GChartExample14 (GChart):
     def __init__(self):
         GChart.__init__(self)
 
-    
+
         self.phase = 0
         self.btn = Button("Update", self)
         self.setChartFootnotes(self.btn)
-        
+
         self.setChartSize(1000,100)
         self.setChartTitle("<big><i>Sine vs Time</i></big>")
         self.setPadding("2px")
-        
+
         self.getXAxis().setAxisLabel("<small><i>Time (seconds)</i></small>")
         self.getXAxis().setHasGridlines(True)
         self.getXAxis().setTickCount(6)
         self.getXAxis().setTickLabelFormat("#.##")
         self.getXAxis().setAxisMin(0)
         self.getXAxis().setAxisMax(PERIOD*N_PERIODS)
-        
+
         self.getYAxis().setHasGridlines(True)
         self.getYAxis().setTickCount(5)
         self.getYAxis().setAxisMin(-1)
         self.getYAxis().setAxisMax(1)
         self.getYAxis().setTickLabelThickness(10)
-        
+
         self.addCurve()
         self.getCurve().getSymbol().setSymbolType(SymbolType.VBAR_BASELINE_CENTER)
         self.getCurve().getSymbol().setBorderWidth(0)
@@ -116,13 +116,13 @@ class GChartExample14 (GChart):
         self.getCurve().getSymbol().setFillThickness(0)
         self.getCurve().getSymbol().setHeight(1)
         self.getCurve().getSymbol().setWidth(1)
-        
+
         for i in range(N_PERIODS):
             DeferredCommand.add(IncrementalUpdate(self, i, 0, 1))
-        
+
         #     for int phaseShift=0; phaseShift < N_PERIODS*PERIOD; phaseShift+=DELTA_PHASE)
         #         DeferredCommand.addCommand(IncrementalUpdate(this,0, phaseShift, N_PERIODS))
-    
+
     def onClick(self, event):
         self.phase += DELTA_PHASE
         for i in range(N_PERIODS):

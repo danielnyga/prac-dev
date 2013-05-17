@@ -12,7 +12,7 @@ class CompileTest(UnitTest.UnitTest):
         #issue 432
         x, y = 1, 2
         del x, y
-     
+
     def test_issue_433(self):
         #issue 433
         for x in [1, 2] + [3, 4]:
@@ -24,13 +24,13 @@ class CompileTest(UnitTest.UnitTest):
         x
         "some string"
         #self.fail("ast.Discard nodes, #584")
-        
+
     def test_callfunc_expressions(self):
         s = "123"
         x = ('a' + 'b').strip()
         ("    " + s).rstrip()
         #self.fail("Callfunc over expressions, #591")
-        
+
     def test_function_deep_args_unpacking(self):
         """
         def func(a, (b, (c, d)), e):
@@ -52,7 +52,7 @@ class CompileTest(UnitTest.UnitTest):
 
         try: import _importtimeerror
         except: pass
-        
+
         """
         try: import _badsyntaxmodule
         except: pass
@@ -74,7 +74,7 @@ class CompileTest(UnitTest.UnitTest):
                 pass
         """
         self.fail("try/catch in class definition scope, issue #593")
-    
+
     def testWithFlowControl(self):
         # Hard to make work correctly!
         # Should walk ast and track them
@@ -84,9 +84,9 @@ class CompileTest(UnitTest.UnitTest):
                 with self.Dummy():
                     if i == 2:
                         return i
-        
+
         self.assertEqual(return_stmt(), 2)
-        
+
         def break_stmt():
             x = 0
             for i in range(10):
@@ -95,7 +95,7 @@ class CompileTest(UnitTest.UnitTest):
                     if i == 2:
                         break
             return x
-        
+
         self.assertEqual(break_stmt(), 2)
 
         def continue_stmt():
@@ -106,8 +106,8 @@ class CompileTest(UnitTest.UnitTest):
                     continue
                 x += 100
             return x
-        
+
         self.assertEqual(continue_stmt(), 10)
         """
         self.fail("Flow control statements inside with, issue #625")
-            
+

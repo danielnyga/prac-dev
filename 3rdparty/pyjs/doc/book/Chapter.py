@@ -66,7 +66,7 @@ def sect_markup(txt, name):
         p.add(l, i)
 
     return p
- 
+
 def urlmap(txt, esc=1):
     idx = txt.find("http://")
     if idx == -1:
@@ -97,7 +97,7 @@ def urlmap(txt, esc=1):
     txt = escape(beg, esc) + "<a href='%s'>" % url
     txt += "%s</a>" % escape(url) + urlmap(end, esc)
     return txt
- 
+
 def ts(txt, esc=1):
     l = txt.split('\n')
     r = []
@@ -121,7 +121,7 @@ class Chapter(Sink):
     def onShow(self):
 
         if self.loaded:
-            return 
+            return
 
         self.name = self.name.replace(" ", "_")
         self.name = self.name.lower()
@@ -177,7 +177,7 @@ class Chapter(Sink):
                     self.txt += line
             self.txt += "\n"
             return
-            
+
         line = line.strip()
         ul_line = False
         ul_line2 = False
@@ -247,7 +247,7 @@ class Chapter(Sink):
         self.vp.add(HTML("TODO: Chapter '%s' not loaded" % self.name))
         self.vp.add(HTML(text))
         self.vp.add(HTML(code))
-        
+
 def init(name, desc):
     return SinkInfo(name, desc, Chapter)
 

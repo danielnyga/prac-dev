@@ -1,9 +1,9 @@
 # Picasaweb and other gdata services use RESTful methods which is great
 # for them but presents a problem as far as getting the JSON data without
 # using the regular pyjamas JSONRPC classes we know and love. Easy if you
-# have a backend that can do the get but not so easy to do everything 
-# client-side since we have to get around Single Origin Policy by dynamically 
-# adding script tags to the DOM. Check out public/PicasaWeb.html since this 
+# have a backend that can do the get but not so easy to do everything
+# client-side since we have to get around Single Origin Policy by dynamically
+# adding script tags to the DOM. Check out public/PicasaWeb.html since this
 # necessitates a static script tag and a var too.
 # At this point it works but I'm sure some DOM genius can find some
 # room for improvement... jkh http://jameskhedley.com
@@ -11,9 +11,9 @@ from pyjamas.ui.HTML import HTML
 from pyjamas.ui.TextBox import TextBox
 from pyjamas.ui.Label import Label
 from pyjamas.ui.Button import Button
-from pyjamas.ui.VerticalPanel import VerticalPanel  
-from pyjamas.ui.HorizontalPanel import HorizontalPanel 
-from pyjamas.ui.DisclosurePanel import DisclosurePanel 
+from pyjamas.ui.VerticalPanel import VerticalPanel
+from pyjamas.ui.HorizontalPanel import HorizontalPanel
+from pyjamas.ui.DisclosurePanel import DisclosurePanel
 from pyjamas.ui.Grid import Grid
 from pyjamas.ui.Composite import Composite
 from pyjamas.Timer import Timer
@@ -31,30 +31,30 @@ class Photos(Composite):
         self.grid.addTableListener(self)
         self.drill = 0
         self.pos = 0
-        self.up = Button("Up", self) 
-        self.next = Button("Next", self) 
-        self.prev = Button("Prev", self) 
+        self.up = Button("Up", self)
+        self.next = Button("Next", self)
+        self.prev = Button("Prev", self)
         self.timer = Timer(notify=self)
         self.userid = "jameskhedley"
         self.album_url = "http://picasaweb.google.com/data/feed/base/user/" + self.userid + "?alt=json-in-script&kind=album&hl=en_US&callback=restCb"
         self.doRESTQuery(self.album_url, self.timer)
 
         self.vp = VerticalPanel()
-        self.disclosure = DisclosurePanel("Click for boring technical details.") 
+        self.disclosure = DisclosurePanel("Click for boring technical details.")
         self.disclosure.add(HTML('''<p>OK so you want to write client JS to do a RESTful HTTP query from picasa right?
 				 Well you can't because of the Same Origin Policy. Basically this means that
 				 because the domain of the query and the domain of the hosted site are different,
 				 then that could well be a cross-site scripting (XSS) attack. So, the workaround is to
-				 do the call from a script tag so the JSON we get back is part of the document. 
+				 do the call from a script tag so the JSON we get back is part of the document.
 				 But since we don't know what URL to hit yet, once we find out then we have to inject
 				 a new script tag dynamically which the browser will run as soon as we append it.
 				 To be honest I'm not 100% why Google use RESTful services and not JSON-RPC or somesuch,
 				 which would be easier. Well, easier for me.'''))
-        
+
         self.IDPanel = HorizontalPanel()
         self.IDPanel.add(Label("Enter google account:"))
         self.IDButton = Button("Go", self)
-        
+
         self.IDBox = TextBox()
         self.IDBox.setText(self.userid)
         self.IDPanel.add(self.IDBox)
@@ -67,9 +67,9 @@ class Photos(Composite):
 
     def doRESTQuery(self, url, timer):
         """this is a totally different from an RPC call in that we have to
-           dynamically add script tags to the DOM when we want to query the 
-           REST API. These rely on callbacks in the DOM so we can either add 
-           them dynamically or pre-define them in public/Main.html. 
+           dynamically add script tags to the DOM when we want to query the
+           REST API. These rely on callbacks in the DOM so we can either add
+           them dynamically or pre-define them in public/Main.html.
            Once we've done that have to wait for the response.
            Which means we need to provide a listener for the timer"""
 
@@ -81,7 +81,7 @@ class Photos(Composite):
 
     def onCellClicked(self, sender, row, col):
         if self.drill==0:
-            self.drill += 1 
+            self.drill += 1
             self.vp.clear()
             self.grid.clear()
             self.vp.add(self.up)
@@ -140,7 +140,7 @@ class Photos(Composite):
                 self.vp.add(self.disclosure)
                 self.vp.add(self.grid)
                 self.fillGrid(self.albums, "albums")
-            
+
     def onTimer(self, timer):
         fd = doc().getElementById("__pygwt_hiddenData")
         receiver = fd.innerHTML
@@ -178,7 +178,7 @@ class Photos(Composite):
         for ph in photo_list:
             aphoto = {}
             aphoto['thumb'] = HTML('<img src="' + ph[u"media$group"][u"media$thumbnail"][1][u"url"] + '"/>')
-            aphoto['full'] = ph[u"media$group"][u"media$content"][0][u"url"] 
+            aphoto['full'] = ph[u"media$group"][u"media$content"][0][u"url"]
             self.photos.append(aphoto)
 
     def parseAlbums(self, items):

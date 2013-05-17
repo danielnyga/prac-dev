@@ -130,34 +130,34 @@ class ZoomController (HorizontalPanel ):
         "Zoom out (shrinks plot area so it fits in selected region)")
         self.add(self.bzoomIn)
         self.add(self.bzoomOut)
-    
+
     def onClick(self, sender):
         if sender == self.bzoomIn:
             self.chart.zoomIn()
         else:
             self.chart.zoomOut()
-    
+
     def hoverCleanup(self, hoveredAwayFrom):
         pass
-    
+
     def hoverUpdate(self, hoveredOver):
         pass
-        
-    
+
+
 MIN_SELECTION_FRACTION_X = 0.1
 MIN_SELECTION_FRACTION_Y = 0.1
 N_POINTS = 100
-    
+
 
 class GChartExample24(GChart):
-    
+
     def updateCursor(self):
         dx = self.p2.x - self.p1.x
         dy = self.p2.y - self.p1.y
-        if (not self.moving  and  
+        if (not self.moving  and
             abs(dx) >= MIN_SELECTION_FRACTION_X*
-                (self.getXAxis().getAxisMax()- self.getXAxis().getAxisMin()) 
-                and  abs(dy) >= MIN_SELECTION_FRACTION_Y* 
+                (self.getXAxis().getAxisMax()- self.getXAxis().getAxisMin())
+                and  abs(dy) >= MIN_SELECTION_FRACTION_Y*
                 (self.getYAxis().getAxisMax()-self.getYAxis().getAxisMin())):
 
             self.getCurve(self.SELECTION_CURVE).setVisible(True)
@@ -169,11 +169,11 @@ class GChartExample24(GChart):
             self.getCurve(self.SELECTION_CURVE).getSymbol().setModelHeight(abs(dy))
             self.getCurve(self.SELECTION_CURVE).getPoint(0).setX((self.p1.x + self.p2.x)/2)
             self.getCurve(self.SELECTION_CURVE).getPoint(0).setY((self.p1.y + self.p2.y)/2)
-        
+
         elif self.moving:
             if self.getCurve(self.SELECTION_CURVE).isVisible():
                 self.getCurve(self.SELECTION_CURVE).setVisible(False)
-            
+
             xMin = self.getXAxis().getAxisMin() - dx
             xMax =  self.getXAxis().getAxisMax() - dx
             yMin =  self.getYAxis().getAxisMin() - dy
@@ -182,13 +182,13 @@ class GChartExample24(GChart):
             self.getXAxis().setAxisMax(xMax)
             self.getYAxis().setAxisMin(yMin)
             self.getYAxis().setAxisMax(yMax)
-        
-        
-        
+
+
+
         self.update()
-        
-    
-    
+
+
+
     def __init__(self):
         GChart.__init__(self)
 
@@ -204,10 +204,10 @@ class GChartExample24(GChart):
         self.zoomIndex = 0
         self.zoomController = ZoomController(self)
         # min plot area fraction zoom selection cursor must capture
-        
+
         self.initialPlotRegion = Region()
         self.initialSelectionRegion = Region()
-    
+
         self.setChartTitle(
         "Drag to pan; Press Ctrl while drag-selecting a rectangle to zoom")
         self.setChartSize(500, 150)
@@ -220,9 +220,9 @@ class GChartExample24(GChart):
         for i in range(N_POINTS):
             self.getCurve().addPoint(i, math.sin((2* math.pi * i)/N_POINTS)*
                         math.sin(10*(2* math.pi * i)/N_POINTS))
-        
+
         self.getCurve().getSymbol().setSymbolType(SymbolType.LINE)
-        
+
         # will use this curve to create the selection cursor
         self.addCurve()
         self.getCurve().addPoint(-Double.MAX_VALUE, -Double.MAX_VALUE)
@@ -237,16 +237,16 @@ class GChartExample24(GChart):
         # give them some x-panning space
         self.getXAxis().setAxisMin(0.25*N_POINTS)
         self.getXAxis().setAxisMax(0.75*N_POINTS)
-        
+
         self.getYAxis().setTickLabelThickness(50)
         self.getYAxis().setAxisMin(-0.5)
         self.getYAxis().setAxisMax(0.5)
-        
+
         """
         self.addClickListener(self)
         """
         self.addMouseListener(self)
-        
+
     def onMouseEnter(self, sender):
         pass
 
@@ -262,19 +262,19 @@ class GChartExample24(GChart):
             self.updateCursor()
             self.selecting = False
             self.moving = False
-        
-    
+
+
     def onMouseWheel(self, sender, x, y):
         event = DOM.eventGetCurrentEvent()
         DOM.eventPreventDefault(event)
         if self.getCurve(self.SELECTION_CURVE).isVisible():
             if event.isNorth():
                 self.zoomIn()
-            
+
             elif event.isSouth():
                 self.zoomOut()
-        
-    
+
+
     def onMouseDown(self, sender, x, y):
         """
         * Most browsers, by default, support the ability to
@@ -289,12 +289,12 @@ class GChartExample24(GChart):
         self.altPressed = DOM.eventGetAltKey(event)
         x = self.getXAxis().getMouseCoordinate()
         y = self.getYAxis().getMouseCoordinate()
-        if (min(self.p1.x, self.p2.x) <= x  and 
-            x <= max(self.p1.x, self.p2.x)  and  
-            min(self.p1.y, self.p2.y) <= y  and  
+        if (min(self.p1.x, self.p2.x) <= x  and
+            x <= max(self.p1.x, self.p2.x)  and
+            min(self.p1.y, self.p2.y) <= y  and
             y <= max(self.p1.y, self.p2.y)):
             return; # ignore mouse down inside selection rectangle
-        
+
         self.p1.x = self.p2.x = x
         self.p1.y = self.p2.y = y
         xMin = self.getXAxis().getAxisMin()
@@ -311,10 +311,10 @@ class GChartExample24(GChart):
         else:
             self.selecting = False
             self.moving = True
-        
+
         self.updateCursor()
-        
-    
+
+
     def onMouseMove(self, sender, x, y):
         event = DOM.eventGetCurrentEvent()
         DOM.eventPreventDefault(event)
@@ -325,9 +325,9 @@ class GChartExample24(GChart):
             if self.moving:
                 self.p1.x = self.p2.x = self.getXAxis().getMouseCoordinate()
                 self.p1.y = self.p2.y = self.getYAxis().getMouseCoordinate()
-            
-        
-    
+
+
+
     def onClick(self, event):
         x = self.getXAxis().getMouseCoordinate()
         y = self.getYAxis().getMouseCoordinate()
@@ -338,13 +338,13 @@ class GChartExample24(GChart):
             self.getYAxis().setAxisMax(.5)
             self.getCurve(self.SELECTION_CURVE).setVisible(False)
             self.update()
-        
+
         elif self.getCurve(self.SELECTION_CURVE).isVisible():
             self.p1.x = self.p2.x = x
             self.p1.y = self.p2.y = y
             self.getCurve(self.SELECTION_CURVE).setVisible(False)
             self.update()
-        
+
         else:
             xMin = self.getXAxis().getAxisMin()
             xMax = self.getXAxis().getAxisMax()
@@ -358,12 +358,12 @@ class GChartExample24(GChart):
             self.zoomIndex = 0
             self.getCurve(self.SELECTION_CURVE).setVisible(True)
             self.updateCursor()
-        
+
         self.moving = self.selecting = False
-    
+
 
     def zoomIn(self):
-        
+
         if -1 == self.zoomIndex:
             # return to starting (0 index) state
             self.getXAxis().setAxisMin(self.initialPlotRegion.xMin)
@@ -374,7 +374,7 @@ class GChartExample24(GChart):
             self.p2.x = self.initialSelectionRegion.xMax
             self.p1.y = self.initialSelectionRegion.yMin
             self.p2.y = self.initialSelectionRegion.yMax
-        
+
         else:
             xMin = self.getXAxis().getAxisMin()
             xMax = self.getXAxis().getAxisMax()
@@ -397,32 +397,32 @@ class GChartExample24(GChart):
                 xMax = (self.p1.x + self.p2.x + dx)/2
                 yMin = (self.p1.y + self.p2.y - dy)/2
                 yMax = (self.p1.y + self.p2.y + dy)/2
-            
-            
+
+
             pXMin = min(self.p1.x, self.p2.x)
             pXMax = max(self.p1.x, self.p2.x)
             pYMin = min(self.p1.y, self.p2.y)
             pYMax = max(self.p1.y, self.p2.y)
-            
+
             newPXSize = (pXMax-pXMin)*(pXMax-pXMin)/(xMax - xMin)
             newPYSize = (pYMax-pYMin)*(pYMax-pYMin)/(yMax - yMin)
-            
+
             xCenter = (self.p1.x + self.p2.x)/2
             yCenter = (self.p1.y + self.p2.y)/2
             self.p1.x = xCenter - newPXSize/2
             self.p2.x = xCenter + newPXSize/2
             self.p1.y = yCenter - newPYSize/2
             self.p2.y = yCenter + newPYSize/2
-            
+
             self.getXAxis().setAxisMin(pXMin)
             self.getXAxis().setAxisMax(pXMax)
             self.getYAxis().setAxisMin(pYMin)
             self.getYAxis().setAxisMax(pYMax)
-            
-        
+
+
         self.updateCursor()
         self.zoomIndex += 1
-    
+
     def zoomOut(self):
         if 1 == self.zoomIndex:
             # return to starting (0 index) state
@@ -434,7 +434,7 @@ class GChartExample24(GChart):
             self.p2.x = self.initialSelectionRegion.xMax
             self.p1.y = self.initialSelectionRegion.yMin
             self.p2.y = self.initialSelectionRegion.yMax
-        
+
         else:
             xMin = self.getXAxis().getAxisMin()
             xMax = self.getXAxis().getAxisMax()
@@ -458,15 +458,15 @@ class GChartExample24(GChart):
                 xMax =  xCenter + dx/2
                 yMin =  yCenter - dy/2
                 yMax =  yCenter + dy/2
-            
+
             pXMin = min(self.p1.x, self.p2.x)
             pXMax = max(self.p1.x, self.p2.x)
             pYMin = min(self.p1.y, self.p2.y)
             pYMax = max(self.p1.y, self.p2.y)
-            
+
             newXSize = (xMax - xMin)*(xMax - xMin)/(pXMax-pXMin)
             newYSize = (yMax - yMin)*(yMax - yMin)/(pYMax-pYMin)
-            
+
             dx = xMax - xMin
             dy = yMax - yMin
             xCenter = (self.p1.x + self.p2.x)/2
@@ -475,23 +475,23 @@ class GChartExample24(GChart):
             self.p2.x = xCenter + dx/2
             self.p1.y = yCenter - dy/2
             self.p2.y = yCenter + dy/2
-            
+
             newXMin = (xMin + xMax - newXSize)/2.0
             newXMax = (xMin + xMax + newXSize)/2.0
             newYMin = (yMin + yMax - newYSize)/2.0
             newYMax = (yMin + yMax + newYSize)/2.0
-            
+
             self.getXAxis().setAxisMin(newXMin)
             self.getXAxis().setAxisMax(newXMax)
             self.getYAxis().setAxisMin(newYMin)
             self.getYAxis().setAxisMax(newYMax)
-            
+
             self.p1.x = xMin
             self.p2.x = xMax
             self.p1.y = yMin
             self.p2.y = yMax
-        
+
         self.zoomIndex -= 1
         self.updateCursor()
-    
+
 

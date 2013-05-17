@@ -50,7 +50,7 @@ class MailDetail(Composite):
         self.sender.setHTML("<b>From:</b>&nbsp;" + item.sender)
         self.recipient.setHTML("<b>To:</b>&nbsp;foo@example.com")
         self.body.setHTML(item.body)
-        
+
     def adjustSize(self, windowWidth, windowHeight):
         scrollWidth = windowWidth - self.scroller.getAbsoluteLeft() - 9
         if (scrollWidth < 1):

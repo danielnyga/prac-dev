@@ -52,7 +52,7 @@ class Wiki(KeyboardHandler):
                     self.t.getText(),
                     self)
 
-    def onRemoteResponse(self, response, request_info): 
+    def onRemoteResponse(self, response, request_info):
         if request_info.method == 'find_one':
             self.h.setHTML(response['content'])
             self.t.setText(response['content'])
@@ -61,7 +61,7 @@ class Wiki(KeyboardHandler):
         log.debug('remote error! ' + str(message))
         log.debug('remote error! ' + str(request_info))
 
-    def onKeyUp(self, sender, keycode, modifiers): 
+    def onKeyUp(self, sender, keycode, modifiers):
         if sender == self.t:
             self.h.setHTML(self.t.getText())
 

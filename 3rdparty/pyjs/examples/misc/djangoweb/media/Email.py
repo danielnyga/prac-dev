@@ -35,13 +35,13 @@ class Email(Composite):
         self.message = TextArea()
         self.message.setCharacterWidth(60)
         self.message.setVisibleLines(15)
-        
+
         self.button_py = Button("Send", self)
 
         buttons = HorizontalPanel()
         buttons.add(self.button_py)
         buttons.setSpacing(8)
-        
+
         panel.add(HTML("Subject:"))
         panel.add(self.subject)
         panel.add(HTML("From:"))
@@ -50,7 +50,7 @@ class Email(Composite):
         panel.add(self.message)
         panel.add(buttons)
         panel.add(self.status)
-        
+
     def onClick(self, sender):
         self.status.setText(self.TEXT_WAITING)
         text = self.message.getText()

@@ -23,7 +23,7 @@ import pyjd
 * the test should go through very quickly.
 *
 """
-    
+
 # convenience method to create a short, class-name-based title
 def getTitle(obj):
     result = obj.__class__.__name__

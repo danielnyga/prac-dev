@@ -153,20 +153,20 @@ class GenericTreeModelExample:
     def delete_event(self, widget, event, data=None):
         gtk.main_quit()
         return False
- 
+
     def __init__(self):
         # Create a new window
         self.window = gtk.Window(gtk.WINDOW_TOPLEVEL)
- 
+
         self.window.set_size_request(300, 200)
- 
+
         self.window.connect("delete_event", self.delete_event)
- 
+
         self.listmodel = FileListModel()
- 
+
         # create the TreeView
         self.treeview = gtk.TreeView()
- 
+
         # create the TreeViewColumns to display the data
         column_names = self.listmodel.get_column_names()
         self.tvcolumn = [None] * len(column_names)
@@ -201,7 +201,7 @@ class GenericTreeModelExample:
             self.window.set_title(new_model.dirname)
             treeview.set_model(new_model)
         return
- 
+
 def main():
     gtk.main()
 

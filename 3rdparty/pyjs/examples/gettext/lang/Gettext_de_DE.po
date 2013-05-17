@@ -1,0 +1,51 @@
+# Example messages for pyjs gettext example
+# Copyright (C) 2012 Kees Bos
+# This file is distributed under the same license as the Gettext example.
+# Kees Bos <cornelis.bos@gmail.com>
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: 0.1\n"
+"Report-Msgid-Bugs-To: yourself\n"
+"POT-Creation-Date: 2012-06-28 17:10+0200\n"
+"PO-Revision-Date: 2012-06-29 17:10+0200\n"
+"Last-Translator: Kees Bos <cornelis.bos@gmail.com>\n"
+"Language-Team: Kees Bos <cornelis.bos@gmail.com>\n"
+"Language: de_DE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n!=1;\n"
+
+#: Gettext.py:23 Gettext.py:36
+msgid "Click me"
+msgstr "Klick mich"
+
+#: Gettext.py:24 Gettext.py:35 Gettext.py:37
+msgid "<b>Hello World</b> (html)"
+msgstr "<b>Hallo Welt</b> (html)"
+
+#: Gettext.py:25 Gettext.py:36 Gettext.py:38
+msgid "Hello World (label)"
+msgstr "Hallo Welt (Etikett)"
+
+#: Gettext.py:26 Gettext.py:37 Gettext.py:39
+#, python-format
+msgid "Hello from %s"
+msgstr "Hallo von %s"
+
+#: Gettext.py:40 Gettext.py:42
+msgid "No, really click me!"
+msgstr "Nein, wirkich klick auf mich"
+
+#: Gettext.py:41 Gettext.py:43
+msgid "Hello, there!"
+msgstr "Hallo dort!"
+
+#: Gettext.py:29
+#, python-format
+msgid "%(num)d single"
+msgid_plural "%(num)d plural"
+msgstr[0] "%(num)d Einzahl"
+msgstr[1] "%(num)d Mehrzal"

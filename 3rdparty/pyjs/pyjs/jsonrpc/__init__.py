@@ -1,7 +1,7 @@
 import sys
 import traceback
 
-# some dog's dinner random ways to get a json library from somewhere... 
+# some dog's dinner random ways to get a json library from somewhere...
 try:
     import json
 except ImportError, e:
@@ -9,7 +9,7 @@ except ImportError, e:
         import gluon.contrib.simplejson as json
     except ImportError, e:
         import simplejson as json
- 
+
 # this base class, use it to call self.process
 class JSONRPCServiceBase:
 
@@ -52,11 +52,11 @@ class JSONRPCServiceBase:
             return self.error(msgid, 100, 'method "%s" does not exist' % method)
 
     def listmethods(self):
-        return self.methods.keys() 
+        return self.methods.keys()
 
 def jsonremote(service):
     """Make JSONRPCService a decorator so that you can write :
-    
+
     import JSONRPCService (note: this must derive from JSONRPCServiceBase!)
     chatservice = JSONRPCService()
 

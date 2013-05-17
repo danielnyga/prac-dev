@@ -61,11 +61,10 @@ class DragHandler(object):
         Some native dataTransfer objects will only set content-type of "Text"
         and/or "URL".
 
-        allowedEffects is one of:
-            'none', 'copy', 'copyLink', 'copyMove', 'link', 'linkMove', 'move',
-            or 'all'
+        allowedEffects is one of: 'none', 'copy', 'copyLink', 'copyMove',
+        'link', 'linkMove', 'move', or 'all'
 
-        an example:
+        an example::
 
          dt = event.dataTransfer
          dt.setData('text/plain','Hello, World!')

@@ -28,36 +28,36 @@ from pyjamas.dnd.drop import AbsolutePositionDropController
 
 # XXX must import Example class - it provides e.g.the createDraggable function
 class AbsolutePositionExample(Example):
-    
+
     CSS_DEMO_ABSOLUTE_POSITION_EXAMPLE = "demo-AbsolutePositionExample"
-    
+
     def __init__(self, dragController):
 
         Example.__init__(self, dragController)
         self.addStyleName(self.CSS_DEMO_ABSOLUTE_POSITION_EXAMPLE)
-        
+
         # use the drop target as this composite's widget
         positioningDropTarget = AbsolutePanel()
         positioningDropTarget.setPixelSize(400, 200)
         self.setWidget(positioningDropTarget)
-        
+
         # instantiate our drop controller
         self.absposdc = AbsolutePositionDropController(positioningDropTarget)
         dragController.registerDropController(self.absposdc)
-    
-    
+
+
     def getDescription(self):
         return "Draggable widgets can be placed anywhere on the gray drop target."
 
-    
+
     def getInvolvedClasses(self):
         return [AbsolutePositionExample, AbsolutePositionDropController]
-    
-    
+
+
     def onInitialLoad(self):
         self.absposdc.drop(self.createDraggable(), 10, 30)
         self.absposdc.drop(self.createDraggable(), 60, 8)
         self.absposdc.drop(self.createDraggable(), 190, 60)
-    
+
 
 

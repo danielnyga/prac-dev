@@ -25,22 +25,22 @@ class XMLload:
     def onModuleLoad(self):
 
         HTTPRequest().asyncGet(
-            "address_form.ui", 
+            "address_form.ui",
             XMLloader(self),
         )
 
     def onError(self, text, code):
         # FIXME
         pass
-          
+
     def onTimeout(self, text):
-        # FIXME 
+        # FIXME
         pass
-             
+
     def doStuff(self, xmldoc):
 
         b = gtk.Builder()
-        
+
         b.add_from_string(xmldoc)
 
         for o in b.get_objects():

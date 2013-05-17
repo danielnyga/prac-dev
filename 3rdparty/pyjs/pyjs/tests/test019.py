@@ -5,7 +5,7 @@ class Schedule:
 
     def addTimeSlot(self, timeSlot):
         self.timeSlots.append(timeSlot)
-        
+
     def getDescription(self, daysFilter):
         s = None
         for timeSlot in self.timeSlots:

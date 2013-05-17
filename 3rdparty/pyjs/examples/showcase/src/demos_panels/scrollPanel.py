@@ -26,7 +26,7 @@ class ScrollPanelDemo(SimplePanel):
         vert = VerticalPanel()
         vert.setSpacing("10px")
         self.add(vert)
-        
+
         panel = ScrollPanel(Size=("300px", "100px"))
 
         contents = HTML("<b>Tao Te Ching, Chapter One</b><p>" +

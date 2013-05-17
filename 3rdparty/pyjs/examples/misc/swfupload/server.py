@@ -11,7 +11,7 @@ import posixpath
 import urllib
 
 class Server:
-    
+
     def __init__(self):
         server_address = ('', 8080)
         httpd = TestHTTPServer(server_address, TestRequestHandler)
@@ -20,17 +20,17 @@ class Server:
 
 class TestHTTPServer(ThreadingMixIn, HTTPServer):
     pass
-    
-    
+
+
 class TestRequestHandler(BaseHTTPRequestHandler):
-    
+
     def __init__(self, request, client_address, server):
         BaseHTTPRequestHandler.__init__(self, request, client_address, server)
         self.protocol_version = 'HTTP/1.1'
-        
+
     def do_GET(self):
         self.handle_data()
-        
+
     def do_POST(self):
         self.form = cgi.FieldStorage(
                         fp=self.rfile,
@@ -41,7 +41,7 @@ class TestRequestHandler(BaseHTTPRequestHandler):
                         keep_blank_values=True,
                         strict_parsing=False)
         self.handle_data()
-        
+
     def handle_data(self):
         if self.path == '/':
             p = '/html/swfu.html'
@@ -67,7 +67,7 @@ class TestRequestHandler(BaseHTTPRequestHandler):
         self.end_headers()
         self.copyfile(f, self.wfile)
         f.close()
-    
+
     def handleUpload(self):
         self.send_response(200)
         self.end_headers()
@@ -85,7 +85,7 @@ class TestRequestHandler(BaseHTTPRequestHandler):
         f.close()
         self.wfile.write('Upload done')
         return
-            
+
     def translate_path(self, path):
         path = path.decode('utf-8')
         path = urlparse.urlparse(path)[2]
@@ -99,10 +99,10 @@ class TestRequestHandler(BaseHTTPRequestHandler):
             if word in (os.curdir, os.pardir): continue
             path = os.path.join(path, word)
         return path
-    
+
     def copyfile(self, source, outputfile):
         shutil.copyfileobj(source, outputfile)
-        
+
     def guess_type(self, path):
         base, ext = posixpath.splitext(path)
         if ext in self.extensions_map:
@@ -120,7 +120,6 @@ class TestRequestHandler(BaseHTTPRequestHandler):
         '': 'application/octet-stream', # Default
         })
 
-    
+
 if __name__ == '__main__':
     Server()
-    

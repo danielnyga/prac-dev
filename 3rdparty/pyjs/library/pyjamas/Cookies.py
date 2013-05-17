@@ -20,7 +20,7 @@ def getCookie2(cookie_name):
     if cs:
         return cs.value
     return None
-    
+
 # expires can be int or Date
 def setCookie(name, value, expires, domain=None, path=None, secure=False):
     cookiestr = doc().cookie

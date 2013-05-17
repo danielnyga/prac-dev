@@ -12,4 +12,4 @@ def suite(text):
 # dummy
 def st2tuple(tree, line_info=1):
     return tree
-    
+

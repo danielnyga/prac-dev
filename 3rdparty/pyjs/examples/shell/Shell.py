@@ -87,7 +87,7 @@ class ShellApp():
         g = mod.AppInit()
         a = self.screen.add_app(g, self.loading_desc, 400, 300)
         a.show()
-    
+
         self.loading_desc = None
         self.loading_app = None
 

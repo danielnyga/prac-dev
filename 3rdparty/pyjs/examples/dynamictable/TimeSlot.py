@@ -6,7 +6,7 @@ class TimeSlot:
         self.dayOfWeek = dayOfWeek
         self.startMinutes = startMinutes
         self.endMinutes = endMinutes
-    
+
     def compareTo(self, other):
         if self.dayOfWeek < other.dayOfWeek:
             return -1
@@ -24,7 +24,7 @@ class TimeSlot:
 
     def getDescription(self):
         return self.DAYS[self.dayOfWeek] + " " + self.getHrsMins(self.startMinutes) + "-" + self.getHrsMins(self.endMinutes)
-        
+
     def getHrsMins(self, mins):
         hrs = math.floor(mins / 60)
         if hrs > 12:

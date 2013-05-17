@@ -92,7 +92,7 @@ class Handler(object):
     def addListener(self, listener, *args, **kwargs):
         args = args or ()
         kwargs = kwargs or {}
-        args = self.extra_args + args 
+        args = self.extra_args + args
         kwargs.update(self.extra_kwargs)
         self.listeners[listener] = (args, kwargs)
 

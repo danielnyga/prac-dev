@@ -19,14 +19,14 @@ class ToggleButton (CustomButton):
     """
     A ToggleButton is a stylish stateful button which allows the
     user to toggle between UP and DOWN states.
-    
+
     CSS: .gwt-ToggleButton-
     up/down/up-hovering/down-hovering/up-disabled/down-disabled
     {.html-face}
     """
     STYLENAME_DEFAULT = "gwt-ToggleButton"
-    
-    
+
+
     def __init__(self, upImageText = None, downImageText=None, handler = None,
                        **kwargs):
         """
@@ -36,10 +36,10 @@ class ToggleButton (CustomButton):
         CustomButton.__init__(self, upImageText, downImageText, handler,
                                     **kwargs)
 
-    
+
     def onClick(self, sender=None):
         self.toggleDown()
         CustomButton.onClick(self)
-    
+
 Factory.registerClass('pyjamas.ui.ToggleButton', 'ToggleButton', ToggleButton)
 

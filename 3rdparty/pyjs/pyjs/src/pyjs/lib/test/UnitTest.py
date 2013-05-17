@@ -32,7 +32,7 @@ class UnitTest:
         test_method=getattr(self, test_method_name)
         self.current_test_name = test_method_name
         self.setUp()
-        try:        
+        try:
             try:
                 test_method()
             except Exception,e:
@@ -81,12 +81,12 @@ class UnitTest:
                 msg=" " + str(msg)
             if self.current_test_name:
                 msg += " (%s) " % self.getCurrentTestID()
-            return self.getName() + msg + ": " 
+            return self.getName() + msg + ": "
         return ""
 
     def getCurrentTestID(self):
         return "%s/%i" % (self.current_test_name,self.tests_completed)
-        
+
 
     def getTestMethods(self):
         self.test_methods=[]
@@ -129,8 +129,8 @@ class UnitTest:
         if sys.platform in ['mozilla', 'ie6', 'opera', 'oldmoz', 'safari']:
             from __pyjamas__ import JS
             JS("""if (typeof @{{!console}} != 'undefined') {
-                if (typeof @{{!console}}.error == 'function') @{{!console}}.error(@{{msg}});
-                if (typeof @{{!console}}.trace == 'function') @{{!console}}.trace();
+                if (typeof @{{!console}}['error'] == 'function') @{{!console}}['error'](@{{msg}});
+                if (typeof @{{!console}}['trace'] == 'function') @{{!console}}['trace']();
             }""")
         return False
 

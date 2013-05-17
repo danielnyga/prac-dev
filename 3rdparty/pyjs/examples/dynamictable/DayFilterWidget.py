@@ -18,7 +18,7 @@ class DayCheckBox(CheckBox):
 class DayCheckBoxListener:
     def __init__(self, calendar):
         self.calendar = calendar
-        
+
     def onClick(self, sender):
         self.calendar.setDayIncluded(sender.day, sender.isChecked())
 
@@ -27,7 +27,7 @@ class DayFilterWidget(Composite):
 
     def __init__(self, calendar):
         Composite.__init__(self)
-    
+
         self.calendar = calendar
         self.dayCheckBoxListener = DayCheckBoxListener(calendar)
         self.outer = VerticalPanel()
@@ -48,17 +48,17 @@ class DayFilterWidget(Composite):
         hp.setHorizontalAlignment(HasAlignment.ALIGN_CENTER)
         hp.add(self.buttonAll)
         hp.add(self.buttonNone)
-        
+
         self.outer.add(hp)
         self.outer.setCellVerticalAlignment(hp, HasAlignment.ALIGN_BOTTOM)
         self.outer.setCellHorizontalAlignment(hp, HasAlignment.ALIGN_CENTER)
-        
+
     def setAllCheckBoxes(self, checked):
         for widget in self.outer:
             if hasattr(widget, "setChecked"):
                 widget.setChecked(checked)
                 self.dayCheckBoxListener.onClick(widget)
-    
+
     def onClick(self, sender):
         if self.buttonAll == sender:
             self.setAllCheckBoxes(True)
@@ -66,5 +66,5 @@ class DayFilterWidget(Composite):
             self.setAllCheckBoxes(False)
 
 
-        
-        
+
+

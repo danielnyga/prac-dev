@@ -15,6 +15,6 @@ class GChartExample00(GChart):
         self.getCurve().setLegendLabel("x<sup>2</sup>")
         self.getXAxis().setAxisLabel("x")
         self.getYAxis().setAxisLabel("x<sup>2</sup>")
-    
+
 
 

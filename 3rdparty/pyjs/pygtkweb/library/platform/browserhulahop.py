@@ -38,7 +38,7 @@ class Element:
             self.element = element
         else:
             raise Exception("Cannot create Element without tag or element")
-        
+
         self.activeEvents = []
 
     def append(self, element):
@@ -137,7 +137,7 @@ class Document:
     @staticmethod
     def createElement(tag):
         return Element(tag)
-    
+
     @staticmethod
     def append(element):
         doc().body.appendChild(element.element)

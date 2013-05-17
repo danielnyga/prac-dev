@@ -30,7 +30,7 @@ from pyjamas.ui import HasAlignment
 import pyjamas.Window
 
 # Depends on CSS
-#.gwt-DialogBox .Minimize {
+# .gwt-DialogBox .Minimize {
 #     width: 18px;
 #     height: 22px;
 #     margin: 0;
@@ -38,7 +38,7 @@ import pyjamas.Window
 #     border: 0;
 #     background: transparent url(window_minimize.gif) no-repeat center top;
 #     text-indent: -1000em;
-#}
+# }
 # And the same for .Maximize and .Close
 
 
@@ -150,9 +150,11 @@ class DialogWindow(DialogBox):
     def _runDialogListener(self, action):
         cont = True
         for listener in self._dialogListeners:
-            if hasattr(listener, action):
-                if getattr(listener, action)() is False:
-                    cont = False
+            if listener is not self:
+                onListener = getattr(listener, action, None)
+                if onListener is not None:
+                    if onListener() is False:
+                        cont = False
         return cont
 
     def onActivate(self):
@@ -179,7 +181,7 @@ class DialogWindow(DialogBox):
         self.panel.setHeight(height)
         self.panel.setWidth(width)
 
-    def onMaximize(self, sender):
+    def onMaximize(self, sender=None):
         if self._runDialogListener("onMaximize") is False:
             return
         self._toggleMaximize()
@@ -189,7 +191,7 @@ class DialogWindow(DialogBox):
         self.hide()
         self.show()
 
-    def onMinimize(self, sender):
+    def onMinimize(self, sender=None):
         if self._runDialogListener("onMinimize") is False:
             return
         widget = self.child
@@ -208,7 +210,7 @@ class DialogWindow(DialogBox):
                     self._toggleMaximize()
                 widget.setVisible(True)
 
-    def onClose(self, sender):
+    def onClose(self, sender=None):
         if self._runDialogListener("onClose") is False:
             return
         self.hide()

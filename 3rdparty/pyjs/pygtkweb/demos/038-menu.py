@@ -15,7 +15,7 @@ class MenuExample:
         window.connect("delete_event", lambda w,e: gtk.main_quit())
 
         # Init the menu-widget, and remember -- never
-        # show() the menu widget!! 
+        # show() the menu widget!!
         # This is the menu that holds the menu items, the one that
         # will pop up when you click on the "Root Menu" in the app
         menu = gtk.Menu()

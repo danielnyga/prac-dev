@@ -17,7 +17,7 @@ from pyjamas.ui.Composite import Composite
 from pyjamas import Factory
 from pyjamas.ui.Widget import Widget
 from pyjamas.ui.SimplePanel import SimplePanel
-from pyjamas.ui.VerticalPanel import VerticalPanel 
+from pyjamas.ui.VerticalPanel import VerticalPanel
 from pyjamas.ui import Event
 from pyjamas import DOM
 import pygwt
@@ -43,9 +43,9 @@ class ClickableHeader(SimplePanel):
 Factory.registerClass('pyjamas.ui.DisclosurePanel', 'ClickableHeader', ClickableHeader)
 
 class DefaultHeader(Widget):
-    def __init__(self, text):
+    def __init__(self, text, images=True):
         Widget.__init__(self)
-        self.imageBase = pygwt.getModuleBaseURL()
+        self.setImageBase(images)
 
         self.root = DOM.createTable()
         self.tbody = DOM.createTBody()
@@ -75,6 +75,9 @@ class DefaultHeader(Widget):
     def onClose(self, panel):
         self.updateState(False)
 
+    def setImageBase(self, images):
+        self.imageBase = pygwt.getImageBaseURL(images)
+
     def updateState(self, setOpen):
         if setOpen:
             DOM.setAttribute(self.imgElem, "src",
@@ -82,7 +85,7 @@ class DefaultHeader(Widget):
         else:
             DOM.setAttribute(self.imgElem, "src",
                              self.imageBase + "disclosurePanelClosed.png")
-        
+
 
 # TODO: must be able to pass in DisclosurePanel argument by a means
 # *other* than an actual class instance.
@@ -94,6 +97,7 @@ class DisclosurePanel(Composite):
 
         self.handlers = []
         self.content = None
+        self.images = False
 
         # this is awkward: VerticalPanel is the composite,
         # so we get the element here, and pass it in to VerticalPanel.
@@ -116,7 +120,7 @@ class DisclosurePanel(Composite):
         headerWidget = kwargs.pop('header', headerWidget)
         # TODO: add ImageBundle
         # images = kwargs.pop('images', None)
-        
+
         # If both headerText and headerWidget are arguments, headerText will
         # be used to preserve API compatibility.
         headerContent = headerWidget
@@ -174,6 +178,9 @@ class DisclosurePanel(Composite):
     def getOpen(self):
         return self.isOpen
 
+    def getImages(self):
+        return self.images
+
     def remove(self, widget):
         if widget == self.getContent():
             self.setContent(None)
@@ -200,6 +207,15 @@ class DisclosurePanel(Composite):
         self.isOpen = isOpen
         self.setContentDisplay()
         self.fireEvent()
+
+    def setImages(self, images):
+        if self.images == images:
+            return
+        self.images = images
+        header = self.getHeader()
+        if header is not None and isinstance(header,DefaultHeader):
+            header.setImageBase(images)
+            header.updateState(self.getOpen())
 
     def fireEvent(self):
         for handler in self.handlers:

@@ -1,5 +1,5 @@
 class GWTCanvas(Widget):
-    
+
     def getCanvasImpl(self):
         return GWTCanvasImplIE6()
     def createLinearGradient(self, x0, y0, x1, y1):

@@ -35,16 +35,16 @@ class Foo:
 class AttributeTest(UnitTest):
 
     def testHasattr(self):
-        self.assertEqual(hasattr(self, "getName"), True, 
+        self.assertEqual(hasattr(self, "getName"), True,
                         "AttrTest should have method 'getName'")
-        self.assertEqual(hasattr(self, "blah"), False, 
+        self.assertEqual(hasattr(self, "blah"), False,
                         "AttrTest has no method 'getName'")
-        self.assertEqual(hasattr("", "find"), True, 
+        self.assertEqual(hasattr("", "find"), True,
                         "str should have method 'find', bug #483")
-        self.assertEqual(hasattr(1.0, "real"), True, 
+        self.assertEqual(hasattr(1.0, "real"), True,
                         "float should have attribute 'real', bug #483")
-        self.assertEqual(hasattr(1, "real"), True, 
-                        "int should have attribute 'real', bug #483") 
+        self.assertEqual(hasattr(1, "real"), True,
+                        "int should have attribute 'real', bug #483")
 
 
     def testGetattr(self):
@@ -95,7 +95,7 @@ class AttributeTest(UnitTest):
         self.assertEqual(hasattr(foo, "v"), True)
         delattr(foo, "v")
         self.assertEqual(hasattr(foo, "v"), False)
-        
+
         self.assertEqual(hasattr(foo, "getV"), True)
         try:
             delattr(foo, "getV")
@@ -182,7 +182,11 @@ class AttributeTest(UnitTest):
         self.assertTrue(hasattr(Foo, 'typeof'))
         del Foo.typeof
         self.assertFalse(hasattr(Foo, 'typeof'))
-    
+
+        o = object()
+        self.assertFalse(hasattr(o, 'name'), "hasattr(o, 'name') should be False")
+        self.assertFalse(getattr(o, 'name', False))
+
     def testTypeAttributes(self):
         try:
             x = [].append
@@ -197,16 +201,16 @@ class AttributeTest(UnitTest):
             x = "asdfgd".rjust
         except Exception, e:
             self.fail("String attribute, #595, '%s'" % e)
-    
+
     def testExpressionAttributeCall(self):
         s1 = "    1234"
         s2 = "5678    "
-        
+
         def s3():
             return " 6 "
-        
+
         l = [" 1 ", " 2", "3 "]
-        
+
         self.assertEqual((s1 + s2).strip(), "12345678")
         self.assertEqual((s1 + "").strip(), "1234")
         self.assertEqual(l[0].strip(), "1")

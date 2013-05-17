@@ -42,7 +42,7 @@ from pyjamas.Canvas.GWTCanvasImplIE6 import GWTCanvasImplIE6
 * </p>
 """
 class GWTCanvas(FocusWidget):
-    
+
     """*
     * Creates a GWTCanvas element. Element type depends on deferred binding.
     * Default is CANVAS HTML5 DOM element. In the case of IE it should be VML.
@@ -60,13 +60,13 @@ class GWTCanvas(FocusWidget):
     """
     def __init__(self, coordX=300, coordY=150, pixelX=300, pixelY=150,
                        **kwargs):
-        
+
         """
         * Impl Instance. Compiler should statify all the methods, so we
         * do not end up with duplicate code for each canvas instance.
         """
         self.impl = self.getCanvasImpl()
-        
+
         self.coordHeight = 0
         self.coordWidth = 0
         focusable = Focus.createFocusable()
@@ -77,13 +77,13 @@ class GWTCanvas(FocusWidget):
         self.setPixelWidth(pixelX)
         self.setPixelHeight(pixelY)
         self.setCoordSize(coordX, coordY)
-    
+
     def getCanvasElement(self):
         return self.canvas
 
     def getCanvasImpl(self):
         return GWTCanvasImplDefault()
-    
+
     def setWidth(self, width):
         self.setPixelWidth(width)
 
@@ -104,15 +104,15 @@ class GWTCanvas(FocusWidget):
     """
     def arc(self, x, y, radius, startAngle, endAngle, antiClockwise):
         self.impl.arc(x, y, radius, startAngle, endAngle, antiClockwise)
-    
-    
+
+
     """*
     * Erases the current path and prepares it for a path.
     """
     def beginPath(self):
         self.impl.beginPath()
-    
-    
+
+
     """*
     * Clears the entire canvas.
     """
@@ -120,16 +120,16 @@ class GWTCanvas(FocusWidget):
         # we used local references instead of looking up the attributes
         # on the DOM element
         self.impl.clear(self.coordWidth, self.coordHeight)
-    
-    
+
+
     """*
     * Closes the current path. "Closing" simply means that a line is drawn from
     * the last element in the path back to the first.
     """
     def closePath(self):
         self.impl.closePath()
-    
-    
+
+
     """*
     *
     * Creates a LinearGradient Object for use as a fill or stroke style.
@@ -142,8 +142,8 @@ class GWTCanvas(FocusWidget):
     """
     def createLinearGradient(self, x0, y0, x1, y1):
         return LinearGradientImplDefault(x0, y0, x1, y1, self.getCanvasElement())
-    
-    
+
+
     """*
     *
     * Creates a RadialGradient Object for use as a fill or stroke style.
@@ -159,8 +159,8 @@ class GWTCanvas(FocusWidget):
     def createRadialGradient(self, x0, y0, r0, x1, y1, r1):
         return RadialGradientImplDefault(x0, y0, r0, x1, y1, r1,
                                         self.getCanvasElement())
-    
-    
+
+
     """*
     *
     * Does nothing if the context's path is empty. Otherwise, it connects the
@@ -181,8 +181,8 @@ class GWTCanvas(FocusWidget):
     """
     def cubicCurveTo(self, cp1x, cp1y, cp2x, cp2y, x, y):
         self.impl.cubicCurveTo(cp1x, cp1y, cp2x, cp2y, x, y)
-    
-    
+
+
     """*
     * Draws an input image at a given position on the canvas. Resizes image
     * according to specified width and height and samples from the specified
@@ -204,7 +204,7 @@ class GWTCanvas(FocusWidget):
     * @param offsetY y coord of the top left corner in the destination space
     * @param width the size of the image in the destination space
     * @param height the size of the image in the destination space
-    
+
     option 3:
     * @param img the image to be drawn
     * @param sourceX the start X position in the source image
@@ -239,15 +239,15 @@ class GWTCanvas(FocusWidget):
                                      destX, destY, destWidth, destHeight)
         elif len(args) == 2:
             self.impl.drawImage(img, args[0], args[1])
-    
-    
+
+
     """*
     * Fills the current path according to the current fillstyle.
     """
     def fill(self):
         self.impl.fill()
-    
-    
+
+
     """*
     * Fills a rectangle of the specified dimensions, at the specified start
     * coords, according to the current fillstyle.
@@ -259,7 +259,7 @@ class GWTCanvas(FocusWidget):
     """
     def fillRect(self, startX, startY, width, height):
         self.impl.fillRect(startX, startY, width, height)
-    
+
     """*
     * Places text, at the specified start
     * coords, according to the current fillstyle.
@@ -270,8 +270,8 @@ class GWTCanvas(FocusWidget):
     """
     def fillText(self, text, startX, startY, maxWidth=None):
         self.impl.fillText(text, startX, startY, maxWidth)
-    
-    
+
+
     """*
     * Returns the height in pixels of the canvas.
     *
@@ -279,8 +279,8 @@ class GWTCanvas(FocusWidget):
     """
     def getCoordHeight(self):
         return self.coordHeight
-    
-    
+
+
     """*
     *
     * Returns the width in pixels of the canvas.
@@ -289,8 +289,8 @@ class GWTCanvas(FocusWidget):
     """
     def getCoordWidth(self):
         return self.coordWidth
-    
-    
+
+
     """*
     * See self.setter method for a fully detailed description.
     *
@@ -299,8 +299,8 @@ class GWTCanvas(FocusWidget):
     """
     def getGlobalAlpha(self):
         return self.impl.getGlobalAlpha()
-    
-    
+
+
     """*
     * See self.setter method for a fully detailed description.
     *
@@ -309,8 +309,8 @@ class GWTCanvas(FocusWidget):
     """
     def getGlobalCompositeOperation(self):
         return self.impl.getGlobalCompositeOperation()
-    
-    
+
+
     """*
     * See self.setter method for a fully detailed description.
     *
@@ -319,8 +319,8 @@ class GWTCanvas(FocusWidget):
     """
     def getLineCap(self):
         return self.impl.getLineCap()
-    
-    
+
+
     """*
     * See self.setter method for a fully detailed description.
     *
@@ -329,8 +329,8 @@ class GWTCanvas(FocusWidget):
     """
     def getLineJoin(self):
         return self.impl.getLineJoin()
-    
-    
+
+
     """*
     * See self.setter method for a fully detailed description.
     *
@@ -339,8 +339,8 @@ class GWTCanvas(FocusWidget):
     """
     def getLineWidth(self):
         return self.impl.getLineWidth()
-    
-    
+
+
     """*
     * See self.setter method for a fully detailed description.
     *
@@ -349,8 +349,8 @@ class GWTCanvas(FocusWidget):
     """
     def getMiterLimit(self):
         return self.impl.getMiterLimit()
-    
-    
+
+
     """*
     * Adds a line from the last point in the current path to the point defined by
     * x and y.
@@ -360,8 +360,8 @@ class GWTCanvas(FocusWidget):
     """
     def lineTo(self, x, y):
         self.impl.lineTo(x, y)
-    
-    
+
+
     """*
     * Makes the last point in the current path be <b>(x,y)</b>.
     *
@@ -370,8 +370,8 @@ class GWTCanvas(FocusWidget):
     """
     def moveTo(self, x, y):
         self.impl.moveTo(x, y)
-    
-    
+
+
     """*
     * Does nothing if the context has an empty path. Otherwise it connects the
     * last point in the path to the given point <b>(x, y)</b> using a quadratic
@@ -385,8 +385,8 @@ class GWTCanvas(FocusWidget):
     """
     def quadraticCurveTo(self, cpx, cpy, x, y):
         self.impl.quadraticCurveTo(cpx, cpy, x, y)
-    
-    
+
+
     """*
     * Adds a rectangle to the current path, and closes the path.
     *
@@ -397,8 +397,8 @@ class GWTCanvas(FocusWidget):
     """
     def rect(self, startX, startY, width, height):
         self.impl.rect(startX, startY, width, height)
-    
-    
+
+
     """*
     * Convenience function for resizing the canvas with consistent coordinate and
     * screen pixel spaces. Equivalent to doing:
@@ -416,15 +416,15 @@ class GWTCanvas(FocusWidget):
         self.setCoordSize(width, height)
         self.setPixelHeight(height)
         self.setPixelWidth(width)
-    
-    
+
+
     """*
     * Restores the last saved context from the context stack.
     """
     def restoreContext(self):
         self.impl.restoreContext()
-    
-    
+
+
     """*
     * Adds a rotation of the specified angle to the current transform.
     *
@@ -432,15 +432,15 @@ class GWTCanvas(FocusWidget):
     """
     def rotate(self, angle):
         self.impl.rotate(angle)
-    
-    
+
+
     """*
     * Saves the current context to the context stack.
     """
     def saveContext(self):
         self.impl.saveContext()
-    
-    
+
+
     """*
     * Adds a scale transformation to the current transformation matrix.
     *
@@ -449,8 +449,8 @@ class GWTCanvas(FocusWidget):
     """
     def scale(self, x, y):
         self.impl.scale(x, y)
-    
-    
+
+
     """*
     * Sets the background color of the canvas element.
     *
@@ -458,8 +458,8 @@ class GWTCanvas(FocusWidget):
     """
     def setBackgroundColor(self, color):
         self.impl.setBackgroundColor(self.getCanvasElement(), str(color))
-    
-    
+
+
     """*
     * Sets the coordinate height of the Canvas.
     * <p>
@@ -471,8 +471,8 @@ class GWTCanvas(FocusWidget):
     def setCoordHeight(self, height):
         self.impl.setCoordHeight(self.getCanvasElement(), height)
         self.coordHeight = height
-    
-    
+
+
     """*
     * Sets the coordinate space of the Canvas.
     * <p>
@@ -485,8 +485,8 @@ class GWTCanvas(FocusWidget):
     def setCoordSize(self, width, height):
         self.setCoordWidth(width)
         self.setCoordHeight(height)
-    
-    
+
+
     """*
     * Sets the coordinate width of the Canvas.
     * <p>
@@ -498,8 +498,8 @@ class GWTCanvas(FocusWidget):
     def setCoordWidth(self, width):
         self.impl.setCoordWidth(self.getCanvasElement(), width)
         self.coordWidth = width
-    
-    
+
+
     """*
     * Set the current Fill Style to the specified color gradient.
     *
@@ -507,8 +507,8 @@ class GWTCanvas(FocusWidget):
     """
     def setFillStyle(self, grad):
         self.impl.setFillStyle(grad)
-    
-    
+
+
     """*
     * Set the global transparency to the specified alpha.
     *
@@ -516,7 +516,7 @@ class GWTCanvas(FocusWidget):
     """
     def setGlobalAlpha(self, alpha):
         self.impl.setGlobalAlpha(alpha)
-    
+
     """*
     * Set the canvas font attribute.
     *
@@ -543,8 +543,8 @@ class GWTCanvas(FocusWidget):
     """
     def setGlobalCompositeOperation(self, globalCompositeOperation):
         self.impl.setGlobalCompositeOperation(globalCompositeOperation)
-    
-    
+
+
     """*
     * A string value that determines the end style used when drawing a line.
     * Specify the string <code>GWTCanvas.BUTT</code> for a flat edge that is
@@ -557,8 +557,8 @@ class GWTCanvas(FocusWidget):
     """
     def setLineCap(self, lineCap):
         self.impl.setLineCap(lineCap)
-    
-    
+
+
     """*
     * A string value that determines the join style between lines. Specify the
     * string <code>GWTCanvas.ROUND</code> for round joins,
@@ -571,8 +571,8 @@ class GWTCanvas(FocusWidget):
     """
     def setLineJoin(self, lineJoin):
         self.impl.setLineJoin(lineJoin)
-    
-    
+
+
     """*
     * Sets the current context's linewidth. Line width is the thickness of a
     * stroked line.
@@ -581,8 +581,8 @@ class GWTCanvas(FocusWidget):
     """
     def setLineWidth(self, width):
         self.impl.setLineWidth(width)
-    
-    
+
+
     """*
     * A double value with the miter limit. You use this property to specify
     * how the canvas draws the juncture between connected line segments. If the
@@ -596,8 +596,8 @@ class GWTCanvas(FocusWidget):
     """
     def setMiterLimit(self, miterLimit):
         self.impl.setMiterLimit(miterLimit)
-    
-    
+
+
     """*
     * Sets the CSS height of the canvas in pixels.
     *
@@ -606,8 +606,8 @@ class GWTCanvas(FocusWidget):
     def setPixelHeight(self, height):
         FocusWidget.setHeight(self, str(height) + "px")
         self.impl.setPixelHeight(self.getCanvasElement(), height)
-    
-    
+
+
     """*
     * Sets the CSS width in pixels for the canvas.
     *
@@ -616,8 +616,8 @@ class GWTCanvas(FocusWidget):
     def setPixelWidth(self, width):
         FocusWidget.setWidth(self, str(width) + "px")
         self.impl.setPixelWidth(self.getCanvasElement(), width)
-    
-    
+
+
     """*
     * Set the current Stroke Style to the specified color gradient.
     *
@@ -625,15 +625,15 @@ class GWTCanvas(FocusWidget):
     """
     def setStrokeStyle(self, grad):
         self.impl.setStrokeStyle(grad)
-    
-    
+
+
     """*
     * Strokes the current path according to the current stroke style.
     """
     def stroke(self):
         self.impl.stroke()
-    
-    
+
+
     """*
     * Strokes a rectangle defined by the supplied arguments.
     *
@@ -644,8 +644,8 @@ class GWTCanvas(FocusWidget):
     """
     def strokeRect(self, startX, startY, width, height):
         self.impl.strokeRect(startX, startY, width, height)
-    
-    
+
+
     """*
     * <code>The transform(m11, m12, m21, m22, dx, dy)</code> method must multiply
     * the current transformation matrix with the input matrix. Input described
@@ -666,8 +666,8 @@ class GWTCanvas(FocusWidget):
     """
     def transform(self, m11, m12, m21, m22, dx, dy):
         self.impl.transform(m11, m12, m21, m22, dx, dy)
-    
-    
+
+
     """*
     * Applies a translation (linear shift) by x in the horizontal and by y in the
     * vertical.
@@ -677,6 +677,6 @@ class GWTCanvas(FocusWidget):
     """
     def translate(self, x, y):
         self.impl.translate(x, y)
-    
+
 
 

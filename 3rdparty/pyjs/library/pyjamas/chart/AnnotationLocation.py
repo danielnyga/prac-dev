@@ -42,8 +42,8 @@ def getAnnotationLocation(widthMultiplier, heightMultiplier):
     # assumes both multiplier are -1, 0, or 1
     result = locationMap[heightMultiplier+1][widthMultiplier+1]
     return result
-    
-    
+
+
 # Negative width or height "turn the symbol inside-out",
 # requiring a corresponding "reflection" of annotation
 # location (only needed for baseline-based bar symbols)
@@ -53,7 +53,7 @@ def transform(a, signWidth, signHeight):
         result = getAnnotationLocation(
                     signWidth*a.widthMultiplier,
                     signHeight*a.heightMultiplier)
-    
+
     return result
 
 
@@ -93,7 +93,7 @@ def transform(a, signWidth, signHeight):
 **
 *"""
 class AnnotationLocation:
-    
+
     # these multiply the width and height of the annotation and
     # the symbol it is attached to in order to define the
     # center of the annotation (see equations in later code),
@@ -102,7 +102,7 @@ class AnnotationLocation:
         validateMultipliers(widthMultiplier, heightMultiplier)
         self.widthMultiplier = widthMultiplier
         self.heightMultiplier = heightMultiplier
-    
+
     # These define the alignment of the label within it's
     # containing 1 x 1 Grid. For example, if this
     # containing grid is to the left of the labeled
@@ -113,21 +113,21 @@ class AnnotationLocation:
     def getHorizontalAlignment(self):
         if self.widthMultiplier == -1:
             result = HasHorizontalAlignment.ALIGN_RIGHT
-        
+
         elif self.widthMultiplier == 0:
             result = HasHorizontalAlignment.ALIGN_CENTER
-        
+
         elif self.widthMultiplier == 1:
             result = HasHorizontalAlignment.ALIGN_LEFT
-        
+
         else:
             raise IllegalStateException(
                     "Invalid widthMultiplier: " + str(self.widthMultiplier) +
                     " 1, 0, or -1 were expected.")
-        
+
         return result
-    
-    
+
+
     """ Given the x-coordinate at the center of the symbol
     * that this annotation annotates, the annotation's
     * width, and the symbol's width, this method returns
@@ -138,34 +138,34 @@ class AnnotationLocation:
         result = int (round(x +
                     (self.widthMultiplier * (w + symbolW) - w)/2.) )
         return result
-    
-    
+
+
     """ analogous to getUpperLeftX, except for the y-coordinate """
     def getUpperLeftY(self, y, h, symbolH):
         result = int (round(y +
                     (self.heightMultiplier * (h + symbolH) - h)/2.))
         return result
-    
+
     # analogous to getHorizontalAlignment
     def getVerticalAlignment(self):
         if self.heightMultiplier == -1:
             result = HasVerticalAlignment.ALIGN_BOTTOM
-        
+
         elif self.heightMultiplier == 0:
             result = HasVerticalAlignment.ALIGN_MIDDLE
-        
+
         elif self.heightMultiplier == 1:
             result = HasVerticalAlignment.ALIGN_TOP
-        
+
         else:
             raise IllegalStateException(
             "Invalid heightMultiplier: " + self.heightMultiplier +
             " -1, 0, or 1 were expected.")
-        
+
         return result
-    
-    
-    
+
+
+
     """
     * This method returns the annotation location whose
     * "attachment point" keeps the annotation either
@@ -214,14 +214,14 @@ class AnnotationLocation:
             pieTransformedHeightMultiplier = self.heightMultiplier
         else:
             pieTransformedHeightMultiplier = 0
-        
+
         return getAnnotationLocation(pieTransformedWidthMultiplier,
                                 pieTransformedHeightMultiplier)
-        
-    
-    
+
+
+
  # end of class AnnotationLocation
-    
+
 # non-tagging-only locations used by ANCHOR_MOUSE_* symbol types
 AT_THE_MOUSE = AnnotationLocation(0,0)
 AT_THE_MOUSE_SNAP_TO_X = AnnotationLocation(0,0)

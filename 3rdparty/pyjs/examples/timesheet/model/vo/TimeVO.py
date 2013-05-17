@@ -6,7 +6,7 @@ class TimeVO(object):
     end = None
     project = None
     description = None
-    
+
     def __init__(self, start, end, project, description = ''):
         self.start = start
         self.end = end

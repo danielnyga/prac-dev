@@ -23,9 +23,9 @@ from pyjamas.ui.RootPanel import RootPanel
 
 class PicasaWeb:
     def onModuleLoad(self):
-        self.photos=Photos() 
+        self.photos=Photos()
         RootPanel().add(self.photos)
-    
+
 
 if __name__ == '__main__':
     # for pyjd, set up a web server and load the HTML from there:

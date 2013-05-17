@@ -1,14 +1,14 @@
 """ Control Widgets.  Presently comprises a Vertical Slider Demo and derivatives.
 
-    HorizontalDemoSlider and HorizontalDemoSlider2 added by Bill Winder 
-    AreaDemoSlider and AreaDemoSlider2 added by Bill Winder 
+    HorizontalDemoSlider and HorizontalDemoSlider2 added by Bill Winder
+    AreaDemoSlider and AreaDemoSlider2 added by Bill Winder
 
     Copyright (C) 2008, 2009, 2010 Luke Kenneth Casson Leighton <lkcl@lkcl.net>
     Copyright (C) 2010 - Cedric Gestes <gestes@aldebaran-robotics.com>
-    Copyright (C) 2009, 2010 - Bill Winder <wgwinder@gmail.com> 
+    Copyright (C) 2009, 2010 - Bill Winder <wgwinder@gmail.com>
 
 
-    To do: All controls with draggable=True do not fire the OnFocus methon on single click.  
+    To do: All controls with draggable=True do not fire the OnFocus methon on single click.
     the control does not activate the OnFocus method. Clicking the handle does fire OnFocus, however.
 
 """

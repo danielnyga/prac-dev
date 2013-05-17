@@ -31,7 +31,7 @@ class Board(VerticalPanel, ClickHandler):
         self.title=Text('Board')
         self.title.setzIndex(100)
         self.add(self.title)
-        self.setSize("100%", "50%")        
+        self.setSize("100%", "50%")
         self.setBorderWidth(1)
 
     def onClick(self, sender):
@@ -53,7 +53,7 @@ class Text(HTML, ClickHandler):
     def __init__(self, text):
         HTML.__init__(self, text)
         ClickHandler.__init__(self, preventDefault=True)
-        self.addClickListener(self)        
+        self.addClickListener(self)
 
     def onClick(self, sender):
         log.debug('Text'+str(sender))

@@ -15,7 +15,7 @@ TARGETS = {
         ],
         downloads=[
             dict(
-                url='http://puremvc.org/pages/downloads/Python/PureMVC_Python.zip',             
+                url='http://puremvc.org/pages/downloads/Python/PureMVC_Python.zip',
                 dst=os.path.join(puremvc, 'PureMVC_Python.zip'),
                 unzip=True,
             )

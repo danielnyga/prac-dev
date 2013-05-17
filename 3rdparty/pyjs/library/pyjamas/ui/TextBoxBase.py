@@ -110,7 +110,7 @@ class TextBoxBase(FocusWidget, ChangeHandler, InputHandler):
         element.setSelectionRange(pos, pos + length)
 
     def setText(self, text):
-        DOM.setAttribute(self.getElement(), "value", str(text))
+        DOM.setAttribute(self.getElement(), "value", text)
 
     def setTextAlignment(self, align):
         DOM.setStyleAttribute(self.getElement(), "textAlign", align)

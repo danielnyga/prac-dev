@@ -66,7 +66,7 @@ class ProgressBar:
         vbox.set_border_width(10)
         self.window.add(vbox)
         vbox.show()
-  
+
         # Create a centering alignment object
         align = gtk.Alignment(0.5, 0.5, 0, 0)
         vbox.pack_start(align, False, False, 5)

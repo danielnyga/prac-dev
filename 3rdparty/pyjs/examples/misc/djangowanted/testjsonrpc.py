@@ -52,9 +52,9 @@ class TestJsolait(unittest.TestCase):
         print reply
         item = reply["result"]
         self.assert_(item is None)
-        
+
     def test_itemform(self):
-        reply = self.f.itemform({}, {"describe": 
+        reply = self.f.itemform({}, {"describe":
                                        ['id', 'name', 'description',
                                         'short_description',
                                         'price', 'numdoors',
@@ -62,7 +62,7 @@ class TestJsolait(unittest.TestCase):
         pprint(reply)
 
         d = {'name': 'fred', 'short_description': 'joe', 'description': 'longer', 'price': 20, 'vehicletype': 'a car', 'numdoors': '5'}
-        reply = self.f.itemform(d, {"save": 
+        reply = self.f.itemform(d, {"save":
                                        ['name', 'description',
                                         'short_description',
                                         'price', 'numdoors',
@@ -83,7 +83,7 @@ class TestJsolait(unittest.TestCase):
     def notest_itemformerror(self):
 
         d = {'name': 'fred', 'short_description': 'joe', 'description': 'longer', 'price': 20, 'vehicletype': 'a car', 'numdoors': 'x' * 101}
-        reply = self.f.itemform(d, {"save": 
+        reply = self.f.itemform(d, {"save":
                                        ['name', 'description',
                                         'short_description',
                                         'price', 'numdoors',

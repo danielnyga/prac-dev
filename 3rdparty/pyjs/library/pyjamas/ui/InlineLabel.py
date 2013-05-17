@@ -18,10 +18,10 @@ from pyjamas.ui.Label import Label
 
 class InlineLabel(Label):
     '''A Label, but using <span> instead of <div>'''
-    
+
     def __init__(self, text=None, wordWrap=True, **kwargs):
         kwargs['StyleName'] = kwargs.get('StyleName', "gwt-InlineLabel")
         kwargs['Element'] = DOM.createSpan()
         Label.__init__(self, text, wordWrap, **kwargs)
-        
+
 Factory.registerClass('pyjamas.ui.InlineLabel', 'InlineLabel', InlineLabel)

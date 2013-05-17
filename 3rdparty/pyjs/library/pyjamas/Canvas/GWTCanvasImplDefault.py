@@ -56,7 +56,7 @@ class GWTCanvasImplDefault:
 
     def setFont(self, font):
         self.canvasContext.font = font
-    
+
     def fillText(self, text, sourceX, sourceY, maxWidth=None):
         # TODO: split this dog's dinner into browser-specific
         # and pyjd-specific overrides...

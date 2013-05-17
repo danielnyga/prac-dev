@@ -14,7 +14,7 @@ class Wiki(JsonHandler):
             f.close()
             return {'name': name, 'content': text}
         except:
-            return {'name':name, 
+            return {'name':name,
                     'content':'Nothing here... yet'}
 
     def insert(self, name, content):

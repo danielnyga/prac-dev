@@ -21,7 +21,7 @@ def indent(contents, all=None, left=None, right=None, top=None, bottom=None,
     """ Add a wrapper around the given contents to indent it.
 
         The parameters are as follows:
-            
+
             'contents'
 
                 The contents to indent.  This should be a widget or a panel.

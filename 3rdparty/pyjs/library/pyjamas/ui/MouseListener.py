@@ -73,7 +73,7 @@ class MouseHandler(object):
 
     def onMouseMove(self, sender, x, y):
         pass
-        
+
     def onMouseDown(self, sender, x, y):
         pass
 
@@ -118,4 +118,4 @@ class MouseWheelHandler(object):
 
     def onMouseWheel(self, sender, velocity):
         pass
-        
+

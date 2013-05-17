@@ -58,7 +58,7 @@ class Face:
         Constructor for Face. Creates a face that delegates to
         the supplied face.
 
-        @param delegateTo default content provider
+        @param delegateTo: default content provider
         """
         self.button = button
         self.delegateTo = delegateTo
@@ -103,7 +103,7 @@ class Face:
     def setImage(self, image):
         """
         Set the face's contents as an image.
-        @param image image to set as face contents
+        @param image: image to set as face contents
         """
         self.face = image.getElement()
         self.button.updateButtonFace()
@@ -111,7 +111,7 @@ class Face:
     def setText(self, text):
         """
         Sets the face's contents as text.
-        @param text text to set as face's contents
+        @param text: text to set as face's contents
         """
         self.face = DOM.createDiv()
         UIObject.setStyleName(self.button, self.face, self.STYLENAME_HTML_FACE,

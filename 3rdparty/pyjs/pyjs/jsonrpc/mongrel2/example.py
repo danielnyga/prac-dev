@@ -15,7 +15,7 @@
 
   You should have received a copy of the GNU Lesser General Public License
   along with this software; if not, write to the Free Software
-  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
+  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 """
 
 #from pyjs.jsonrpc.mongrel2 import Mongrel2JSONRPCService, jsonremote
@@ -37,4 +37,4 @@ def echo(request, data):
 while True:
     print "WAITING FOR REQUEST"
     mongservice() # handles one request
-    
+

@@ -44,7 +44,7 @@ class MailItems:
 
     def getMailItemCount(self):
         return len(self.items)
-  
+
     def getMailItem(self, index):
         if (index >= len(self.items)):
             return None
@@ -74,5 +74,5 @@ class MailItems:
             if (self.fragmentIdx == len(MailItems.fragments)):
                 self.fragmentIdx = 0
             i = i + 1
-            
+
         return MailItem(sender, email, subject, body)

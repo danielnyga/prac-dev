@@ -10,22 +10,22 @@ class TooltipTab(Sink):
         Sink.__init__(self)
         img = Image("images/num1.png")
         img.addMouseListener(TooltipListener("An image: " + img.getUrl()))
-        
+
         img2 = Image("images/num2.png")
         img2.addMouseListener(TooltipListener("An image: " + img2.getUrl()))
 
         html = HTML("Some <i>HTML</i> text.")
         html.addMouseListener(TooltipListener("An HTML component."))
-        
+
         panel_h = HorizontalPanel()
         panel_h.add(img)
-        panel_h.add(img2)       
+        panel_h.add(img2)
         panel_h.setSpacing(8)
-        
+
         panel = VerticalPanel()
         panel.add(panel_h)
         panel.add(html)
-        
+
         panel.setSpacing(8)
         self.setWidget(panel)
 

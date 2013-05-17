@@ -27,7 +27,7 @@ class Tabs(Sink):
     def createImage(self, imageUrl):
         image = Image(imageUrl)
         image.setStyleName("ks-images-Image")
-        
+
         p = VerticalPanel()
         p.setHorizontalAlignment(HasAlignment.ALIGN_CENTER)
         p.setVerticalAlignment(HasAlignment.ALIGN_MIDDLE)

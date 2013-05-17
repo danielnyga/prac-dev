@@ -19,18 +19,18 @@ class Popups(Sink):
         self.fDialogButton = Button("Show Dialog", self)
         self.fPopupButton = Button("Show Popup", self)
         self.fMultipleDialogButton = Button("Show muliple dialogs", self)
-        
+
         panel = VerticalPanel()
         panel.add(self.fPopupButton)
         panel.add(self.fDialogButton)
         panel.add(self.fMultipleDialogButton)
-        
+
         list = ListBox()
         list.setVisibleItemCount(5)
         for i in range(10):
             list.addItem("list item %d" % i)
         panel.add(list)
-        
+
         panel.setSpacing(8)
         self.initWidget(panel)
 
@@ -78,18 +78,18 @@ class MyDialog(DialogBox):
     def __init__(self, baseURL):
         DialogBox.__init__(self, glass=True)
         self.setText("Sample DialogBox with embedded Frame")
-        
+
         iframe = Frame(baseURL + "rembrandt/LaMarcheNocturne.html")
         closeButton = Button("Close", self)
         msg = HTML("<center>This is an example of a standard dialog box component.<br>  You can put pretty much anything you like into it,<br>such as the following IFRAME:</center>", True)
-        
+
         dock = DockPanel()
         dock.setSpacing(4)
-        
+
         dock.add(closeButton, DockPanel.SOUTH)
         dock.add(msg, DockPanel.NORTH)
         dock.add(iframe, DockPanel.CENTER)
-        
+
         dock.setCellHorizontalAlignment(closeButton, HasAlignment.ALIGN_RIGHT)
         dock.setCellWidth(iframe, "100%")
         dock.setWidth("100%")
@@ -97,7 +97,14 @@ class MyDialog(DialogBox):
         iframe.setHeight("20em")
         self.setWidget(dock)
 
+        # Work around for IE/MSHTML Issue 511
+        self.initURL = iframe.getUrl()
+        self.iframe = iframe
+
     def onClick(self, sender):
+        # Work around for IE/MSHTML Issue 511
+        self.iframe.setUrl(self.initURL)
+
         self.hide()
 
 
@@ -142,9 +149,9 @@ class MyDialogWindow(DialogWindow):
 class MyPopup(PopupPanel):
     def __init__(self):
         PopupPanel.__init__(self, True)
-        
+
         contents = HTML("Click anywhere outside this popup to make it disappear.")
         contents.setWidth("128px")
         self.setWidget(contents)
-        
+
         self.setStyleName("ks-popups-Popup")

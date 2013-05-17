@@ -18,8 +18,8 @@ from pyjamas import Window
 
 fileedit_url = '/fckeditor/editor/filemanager/browser/default/browser.html?Connector=/fckeditor%2Feditor%2Ffilemanager%2Fconnectors%2Fpy%2Fconnector.py' # good grieeef, could this get any longer??
 
-from HTMLDialog import HTMLDialog 
-from Popups import FileDialog 
+from HTMLDialog import HTMLDialog
+from Popups import FileDialog
 
 class WebPageEdit(Composite):
     def __init__(self, sink):
@@ -45,7 +45,7 @@ class WebPageEdit(Composite):
         self.todoList.addClickListener(self)
 
         self.fDialogButton = Button("Upload Files", self)
-        
+
         self.status = HTML()
 
         panel.add(HTML("Status:"))
@@ -137,8 +137,8 @@ class WebPageEdit(Composite):
             self.todoTextName.setText(item['fields']['name'])
             self.todoTextArea.setHTML(item['fields']['text'])
 
-        elif (request_info.method == 'getPages' or 
-              request_info.method == 'addPage' or 
+        elif (request_info.method == 'getPages' or
+              request_info.method == 'addPage' or
               request_info.method == 'deletePage'):
             self.status.setHTML(self.status.getText() + "HERE!")
             self.todoList.clear()

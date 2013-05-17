@@ -255,7 +255,7 @@ class CountryListBox(ListBox):
     def __init__(self):
         ListBox.__init__(self)
         self.addCountries()
-       
+
     def addCountries(self):
         for countryItem in self.country_list:
             self.addItem(countryItem[0], countryItem[1])

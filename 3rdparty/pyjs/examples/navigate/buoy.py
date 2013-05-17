@@ -5,7 +5,7 @@
 
     @summary: Manager for handling a web browser's History, <title> & bread crumbs within a Pyjamas application.
 
-    Catches the onHistoryChanged() notification of Pyjamas and converts it into a series of objects 
+    Catches the onHistoryChanged() notification of Pyjamas and converts it into a series of objects
 
     An app needs to be structured such that any state a user can bookmark
     can be reached programmatically. Optionally, if <title> and/or  breadcrumb are employed
@@ -79,7 +79,7 @@ class Buoy(object):
     def checkpoint(self):
         '''
         Checks Buoy for a flare
-        If not found drops Buoy to mark end state 
+        If not found drops Buoy to mark end state
 
         @return: any parameters of flare or {}
         @rtype: dict
@@ -172,7 +172,7 @@ class Buoy(object):
         params are used to create tokens (/about/history=all) & to drive apps
 
         @type params: dict
-        @param params: {'name' : value} set value to None for valueless parameters 
+        @param params: {'name' : value} set value to None for valueless parameters
         '''
         self.params = params
 
@@ -188,7 +188,7 @@ class Buoy(object):
     def _get_titles(self):
         '''
         a list of buoy title strings.
-        used to generate list for setting of <title> content 
+        used to generate list for setting of <title> content
 
         @return: list of titles
         @rtype: list
@@ -299,11 +299,11 @@ class Buoy(object):
 
         method placed in Buoy rather than BuoyService as it is the mirror of construct_token()
 
-        override for an alternative format 
+        override for an alternative format
 
         @type token: string
         @param token: a History token
-        @return: list of dict parameters 
+        @return: list of dict parameters
         @rtype: list
         '''
         events = []
@@ -414,7 +414,7 @@ class BuoyService(Buoy):
         '''
         create one BuoyService per application
 
-        @param title: Application title 
+        @param title: Application title
         @type title: string
         @param crumb: First bread crumb string. Defaults to title
         @type crumb: string
@@ -464,7 +464,7 @@ class BuoyService(Buoy):
         installs a sole listener to enable App to update a bread crumb trail
 
         @param listener: class instance supporting onBreadcrumbsChanged() method
-        @type listener: class instance 
+        @type listener: class instance
         '''
         self.breadcrumbs_listener = listener
 
@@ -532,7 +532,7 @@ class BuoyService(Buoy):
 
     def new_item(self, token):
         '''
-        updates the current URL's hash token. 
+        updates the current URL's hash token.
         disables the calling of BuoyService's onHistoryChanged() when a Buoy adds a new item
 
         @param token: hash token
@@ -542,7 +542,7 @@ class BuoyService(Buoy):
         which calls BuoyService.new_item(). The subsequent call to History.newItem() will call
         BuoyService.onHistoryChanged() but as the app is already in the correct state
         there is such requirement. So we smoother it by disabling BuoyService's history listener
-        until after the new item is added. 
+        until after the new item is added.
         '''
         self._set_history_listener(False)
         History.newItem(token)
@@ -551,7 +551,7 @@ class BuoyService(Buoy):
     def _build_flares(self, service, token):
         '''
         using ServiceBuoy build a route & events based on a token
-        
+
         @param service: app's ServiceBuoy instance
         @type service: serviceBuoy
         @param token: hash token
@@ -573,7 +573,7 @@ class BuoyService(Buoy):
     def _set_history_listener(self, on, on_period=251):
         '''
         pyjamas/library/pyjamas/History.py is checking every 250ms if URL has changed
-        
+
         By default, BuoyService checks every 250+1ms before turning its listener back on.
         An initial call in BuoyService() set-up needs to set on_period to 1 for immediate listening
 
@@ -590,7 +590,7 @@ class BuoyService(Buoy):
 
     def onTimer(self, id):
         '''
-        turn history listener on once all 'off' periods have completed 
+        turn history listener on once all 'off' periods have completed
         '''
         self.timer_count += 1
         if self.timer_count == 1:

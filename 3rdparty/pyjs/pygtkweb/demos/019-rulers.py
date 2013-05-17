@@ -42,7 +42,7 @@ class RulersExample:
         area.connect_object("motion_notify_event", motion_notify, hrule)
         table.attach(hrule, 1, 2, 0, 1,
                      gtk.EXPAND|gtk.SHRINK|gtk.FILL, gtk.FILL, 0, 0 )
-    
+
         # The vertical ruler goes on the left. As the mouse moves across
         # the drawing area, a motion_notify_event is passed to the
         # appropriate event handler for the ruler.

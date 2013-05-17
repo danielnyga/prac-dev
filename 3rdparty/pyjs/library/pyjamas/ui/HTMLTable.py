@@ -148,7 +148,7 @@ class HTMLTable(Panel):
         while col >= self.getDOMCellCount(row):
             self.insertCells(row, self.getDOMCellCount(row), 1)
         self.setWidget(row, col, item)
-        
+
     def add(self, item, row, col):
         self.addIndexedItem((row, col), item)
 
@@ -195,7 +195,7 @@ class HTMLTable(Panel):
     def onBrowserEvent(self, event):
         event_type = DOM.eventGetType(event)
         if event_type != "dblclick" and event_type != "click":
-            return 
+            return
 
         self._onBrowserEvent(event, event_type)
 
@@ -277,7 +277,7 @@ class HTMLTable(Panel):
         element = widget.getElement()
         del self.widgetMap[self.computeKeyForElement(element)]
         del widgethash[element]
-    
+
     def checkCellBounds(self, row, column):
         self.checkRowBounds(row)
         #if column<0: raise IndexError, "Column " + column + " must be non-negative: " + column

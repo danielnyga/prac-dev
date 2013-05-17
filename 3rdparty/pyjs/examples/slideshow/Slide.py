@@ -30,7 +30,7 @@ def urlmap(txt):
     txt = esc(beg) + "<a href='%s'>" % url
     txt += "%s</a>" % esc(url) + urlmap(end)
     return txt
- 
+
 def ts(txt):
     l = txt.split('\n')
     r = []
@@ -52,7 +52,7 @@ class Slide(Sink):
     def onShow(self):
 
         if self.loaded:
-            return 
+            return
 
         name = self.name.replace(" ", "_")
         name = name.lower()
@@ -78,7 +78,7 @@ class Slide(Sink):
                     txt += line
                 txt += "\n"
                 continue
-                
+
             line = line.strip()
             ul_line = False
             ul_line2 = False
@@ -129,13 +129,13 @@ class Slide(Sink):
         self.vp.add(HTML("TODO: Slide '%s' not loaded" % self.name))
         self.vp.add(HTML(text))
         self.vp.add(HTML(code))
-        
+
     def onProgress(self, event):
         self.vp.clear()
         self.vp.add(HTML("Progress: %s" % self.name))
         self.vp.add(HTML("%s" % str(event.loaded)))
         self.vp.add(HTML("%s" % str(event.total)))
-        
+
 def init(name, desc):
     return SinkInfo(name, desc, Slide)
 

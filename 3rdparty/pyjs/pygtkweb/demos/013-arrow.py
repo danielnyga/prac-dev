@@ -42,13 +42,13 @@ class Arrows:
 
         button = create_arrow_button(gtk.ARROW_DOWN, gtk.SHADOW_OUT)
         box.pack_start(button, False, False, 3)
-  
+
         button = create_arrow_button(gtk.ARROW_LEFT, gtk.SHADOW_ETCHED_IN)
         box.pack_start(button, False, False, 3)
-  
+
         button = create_arrow_button(gtk.ARROW_RIGHT, gtk.SHADOW_ETCHED_OUT)
         box.pack_start(button, False, False, 3)
-  
+
         window.show()
 
 def main():

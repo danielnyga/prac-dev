@@ -4,7 +4,7 @@
     this program tells you which copyright holders you missed.
 
     Limitations:
-    
+
     * for each section, you must put the full set of copyright holders.
       whilst the file lists are "carried over" i.e. later sections
       override earlier ones (see "remove_files()"), the same trick is
@@ -287,7 +287,7 @@ for i in range(1, len(copyright_sects)):
     for j in range(i):
         #print i, j, copyright_sects[i].file_pattern, copyright_sects[j].file_pattern
         copyright_sects[j].remove_files(copyright_sects[i].files)
-    
+
 for dc in copyright_sects:
     dc.read_files_for_copyrights()
     dc.check_copyright_matches()

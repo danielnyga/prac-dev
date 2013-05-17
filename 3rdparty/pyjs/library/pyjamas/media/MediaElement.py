@@ -17,35 +17,36 @@
 
 
 
-class MediaElement extends Element:
-    
+class MediaElement(Element):
+
     def __init__(self):
-    
-    
+        pass
+
+
     def getNetworkState(self):
         JS("""
-        return this.networkState;
+        return this['networkState'];
         """)
-    
-    
+
+
     def getBuffered(self):
         JS("""
-        return this.buffered;
+        return this['buffered'];
         """)
-    
-    
+
+
     def isSeeking(self):
         JS("""
-        return media.seeking;
+        return media['seeking'];
         """)
-    
-    
+
+
     def setBooleanAttr(self, name, value):
         if value:
             setAttribute(name, "")
-        
+
         else:
             removeAttribute(name)
-        
-    
+
+
 

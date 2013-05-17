@@ -8,7 +8,7 @@ from vo.TimeVO import TimeVO
 import time
 
 class TimeProxy(puremvc.patterns.proxy.Proxy):
-    
+
     NAME = "TimeProxy"
     def __init__(self):
         super(TimeProxy, self).__init__(TimeProxy.NAME, [])
@@ -24,7 +24,7 @@ class TimeProxy(puremvc.patterns.proxy.Proxy):
 
     def setDateEntries(self, date, entries):
         self.data[date] = entries
-   
+
     def addItem(self, date, item):
         if not self.data.has_key(date):
             self.data[date] = []

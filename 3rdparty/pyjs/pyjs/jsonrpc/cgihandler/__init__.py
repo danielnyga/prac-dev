@@ -15,7 +15,7 @@
 
   You should have received a copy of the GNU Lesser General Public License
   along with this software; if not, write to the Free Software
-  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
+  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 """
 
 from pyjs.jsonrpc import JSONRPCServiceBase, jsonremote
@@ -39,8 +39,8 @@ def write_data(data, cookies):
         response += cookies+"\n"
     response += "Content-Length: %d\n\n" % len(data)
     response += data
-    
-    #on windows all \n are converted to \r\n if stdout is a terminal and 
+
+    #on windows all \n are converted to \r\n if stdout is a terminal and
     # is not set to binary mode :(
     #this will then cause an incorrect Content-length.
     #I have only experienced this problem with apache on Win so far.

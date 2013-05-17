@@ -89,6 +89,12 @@ class UIObject(Applier):
     def getAbsoluteTop(self):
         return DOM.getAbsoluteTop(self.getElement())
 
+    def getClientHeight(self):
+        return DOM.getIntAttribute(self.getElement(), "clientHeight")
+
+    def getClientWidth(self):
+    	return DOM.getIntAttribute(self.getElement(), "clientWidth")
+
     def getElement(self):
         """Get the DOM element associated with the UIObject, if any"""
         return self.element
@@ -110,8 +116,7 @@ class UIObject(Applier):
     def getStyleAttribute(self, attribute):
         """ can be called with two forms:
             getStyleAttribute(self, attr) - returns value
-            getStyleAttribute(self, (attr1,attr2,...)) - returns dictionary
-                                                         of attr:value pairs
+            getStyleAttribute(self, (attr1,attr2,...)) - returns dictionary of attr:value pairs
         """
         if isinstance(attribute, basestring):
             return DOM.getStyleAttribute(self.getElement(), attribute)
@@ -167,7 +172,7 @@ class UIObject(Applier):
 
     def addStyleDependentName(self, styleSuffix):
         """Adds a secondary or dependent style name to this element.
-           For example if the primary stylename is gwt-TextBox, 
+           For example if the primary stylename is gwt-TextBox,
            self.addStyleDependentName("readonly") will return
            gwt-TextBox-readonly.
         """
@@ -177,7 +182,7 @@ class UIObject(Applier):
         """Remove a style from the element associated with this UIObject.  This is
         a CSS class name."""
         self.setStyleName(self.element, style, False)
-    
+
     def removeStyleDependentName(self, styleSuffix):
         """Remove a dependent style name by specifying the style name's suffix.
         """
@@ -271,7 +276,7 @@ class UIObject(Applier):
             DOM.setStyleAttribute(element, 'display', "none")
 
     def unsinkEvents(self, eventBitsToRemove):
-        """Reverse the operation of sinkEvents.  See L{UIObject.sinkevents}.
+        """Reverse the operation of sinkEvents.  See L{UIObject.sinkEvents}.
         """
         DOM.sinkEvents(self.getElement(),
                       ~eventBitsToRemove & DOM.getEventsSunk(self.getElement()))

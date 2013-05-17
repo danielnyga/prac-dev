@@ -13,12 +13,12 @@ class Trees(Composite):
 
         self.fProto = []
         self.fTree = Tree()
-        
+
         self.fTree.addTreeListener(self)
         self.initWidget(self.fTree)
         self.remote = InfoServicePython()
         self.remote.index("", 1, self)
-        
+
     def protoise_tree(self, data):
 
         if not data:
@@ -36,7 +36,7 @@ class Trees(Composite):
     def create_tree(self, data):
 
         self.fProto = self.protoise_tree(data)
-        
+
         for i in range(len(self.fProto)):
             p = self.fProto[i]
             p.pathify()
@@ -56,12 +56,12 @@ class Trees(Composite):
 
     def onTreeItemSelected(self, item):
         pass
-    
+
     def onTreeItemStateChanged(self, item):
         child = item.getChild(0)
         if hasattr(child, "isPendingItem"):
             item.removeItem(child)
-        
+
             proto = item.getUserObject()
             for i in range(len(proto.children)):
                 self.createItem(proto.children[i])
@@ -80,7 +80,7 @@ class Proto:
         self.item = None
         self.text = text
         self.root = '/'
-        
+
         if children is not None:
             self.children = children
 

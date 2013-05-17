@@ -158,7 +158,7 @@ class CreateImports(object):
         lines.append(')')
         self.import_lines[:] = lines
         return lines
-    
+
     def createDestination(self, dstFile=None, import_lines=None):
         if dstFile is None:
             dstFile = self.dstFile
@@ -216,8 +216,8 @@ if __name__== '__main__':
         srcFile = os.path.join(dirname, sys.argv[1])
         dstFile = os.path.join(dirname, sys.argv[2])
         ci = CreateImports(
-            srcFile, 
-            dstFile, 
+            srcFile,
+            dstFile,
             base_directory=options.base_directory,
         )
         ci.getImportNames()
@@ -235,8 +235,8 @@ if __name__== '__main__':
                 srcFile = os.path.join(dirname, f)
                 dstFile = srcFile.replace(gwtbase, pyjsbase)
                 ci = CreateImports(
-                    srcFile, 
-                    dstFile, 
+                    srcFile,
+                    dstFile,
                     base_directory=options.base_directory,
                 )
                 ci.getImportNames()

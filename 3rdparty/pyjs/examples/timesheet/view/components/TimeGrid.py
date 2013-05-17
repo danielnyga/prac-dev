@@ -14,9 +14,9 @@ from model.vo.TimeVO import TimeVO
 
 class TimeGrid(FlexTable):
 
-    columns = [("From", 5, 5), 
-               ("To", 5, 5), 
-               ("Project", None, 20), 
+    columns = [("From", 5, 5),
+               ("To", 5, 5),
+               ("Project", None, 20),
                ("Description", None, 40),
               ]
     emptyTimeVO = TimeVO("", "", "", "")
@@ -99,7 +99,7 @@ class TimeGrid(FlexTable):
             self.currentCol = col
             self.getWidget(self.currentRow, self.currentCol).setFocus(True)
             return
-        # Now we're moving to new postition, just make sure 
+        # Now we're moving to new postition, just make sure
         # that the previous cells are filled in correctly
         if not self.checkCell(self.currentRow, self.currentCol, True):
             # Nope. We won't move
@@ -205,7 +205,7 @@ class TimeGrid(FlexTable):
                 MM = "00"
             return "%s:%s" % (HH, MM)
         raise ValueError("Invalid format '%s'" % text)
-        
+
 
     def autoFill(self, row, col):
         widget = self.getWidget(row, col)

@@ -173,8 +173,8 @@ class EditMediator(Mediator):
         if content == "":
             self.viewComponent.edit_content.setFocus(True)
             return ("Content is a required field", key, title, content)
-        if len(content) > 255:                                                                                                               
-            self.viewComponent.edit_content.setFocus(True)                                                                                   
+        if len(content) > 255:
+            self.viewComponent.edit_content.setFocus(True)
             return ("Post body must be less than 255 characters. It is " + str(len(content)), key, title, content)
         return (error_message, key, title, content)
 

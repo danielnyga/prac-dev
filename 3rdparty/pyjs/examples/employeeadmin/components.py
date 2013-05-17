@@ -22,18 +22,18 @@ from Grid import Grid
 import ApplicationConstants
 
 class PyJsApp(object):
-    
+
     appFrame = None
-    
+
     def __init__(self):
         self.appFrame = AppFrame()
 
 class AppFrame(object):
-    
+
     userForm = None
     userList = None
     rolePanel = None
-    
+
     def __init__(self):
         self.panel = DockPanel()
         self.userList = UserList(self)
@@ -49,15 +49,15 @@ class AppFrame(object):
         pass
 
 class RolePanel(AbsolutePanel):
-    
+
     user = None
     selectedRole = None
-    
+
     roleList = None
     roleCombo = None
     addBtn = None
     removeBtn = None
-    
+
     def __init__(self,parent):
         AbsolutePanel.__init__(self)
 
@@ -97,13 +97,13 @@ class RolePanel(AbsolutePanel):
             self.roleList.addItem(item)
         #self.roleList.addItem('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;')
         #self.roleList.addItem('- - - - - - - -')
-    
+
     def updateRoleCombo(self,choices, default_):
         self.roleCombo.clear()
         for choice in choices:
             self.roleCombo.addItem(choice)
         self.roleCombo.selectValue(default_)
-    
+
     def onComboChange(self, sender, keyCode=None, modifiers=None):
         selected = self.roleCombo.getSelectedItemText()
         if  not selected \
@@ -116,7 +116,7 @@ class RolePanel(AbsolutePanel):
             self.selectedRole=selected[0]
         self.removeBtn.setEnabled(False)
         self.roleList.setItemTextSelection(None)
-    
+
     def onListChange(self, sender):
         selected = self.roleList.getSelectedItemText()
         if selected:
@@ -127,7 +127,7 @@ class RolePanel(AbsolutePanel):
             self.selectedRole=None
         self.addBtn.setEnabled(False)
         self.roleCombo.setItemTextSelection(None)
-    
+
     def onClick(self, sender):
         pass
 
@@ -144,14 +144,14 @@ class RolePanel(AbsolutePanel):
         pass
 
 class UserList(AbsolutePanel):
-    
+
     userGrid = None
     newBtn = None
     deleteBtn = None
-    
+
     users = None
     selectedUser = None
-    
+
     def __init__(self,parent):
         AbsolutePanel.__init__(self)
         self.userGrid = Grid()
@@ -175,9 +175,9 @@ class UserList(AbsolutePanel):
         self.add(self.userGrid)
         self.add(self.newBtn)
         self.add(self.deleteBtn)
-        
+
         return
-    
+
     def updateUserGrid(self, users):
         self.userGrid.clearGrid()
         self.users = users
@@ -188,7 +188,7 @@ class UserList(AbsolutePanel):
             self.userGrid.setCellValue(i, 3, users[i].email)
             self.userGrid.setCellValue(i, 4, users[i].department)
             self.userGrid.setCellValue(i, 5, users[i].password)
-    
+
     def onCellClicked(self, sender, row, col):
         try:
             if row > 0 and row <= len(self.users):
@@ -201,19 +201,19 @@ class UserList(AbsolutePanel):
                 self.deleteBtn.setEnabled(False)
         except IndexError:
             pass
-    
+
     def deSelect(self):
         self.userGrid.selectRow(-1)
-    
+
 
 class UserForm(AbsolutePanel):
-    
+
     MODE_ADD    = "modeAdd";
     MODE_EDIT   = "modeEdit";
-    
+
     user = None
     mode = None
-    
+
     usernameInput = None
     firstInput = None
     lastInput = None
@@ -223,7 +223,7 @@ class UserForm(AbsolutePanel):
     departmentCombo = None
     addBtn = None
     cancelBtn = None
-    
+
     def __init__(self,parent):
         AbsolutePanel.__init__(self)
         ftable = FlexTable()
@@ -325,20 +325,20 @@ class UserForm(AbsolutePanel):
         for choice in choices:
             self.departmentCombo.addItem(choice)
         self.departmentCombo.selectValue(default_)
-    
+
     def updateMode(self, mode):
         self.mode = mode
         if self.mode == self.MODE_ADD:
             self.addBtn.setText("Add User")
         else:
             self.addBtn.setText("Update User")
-        
+
     def checkValid(self, evt=None):
         if self.enableSubmit(self.usernameInput.getText(),self.passwordInput.getText(),self.confirmInput.getText(), self.departmentCombo.getSelectedItemText(True)):
             self.addBtn.setEnabled(True)
         else:
             self.addBtn.setEnabled(False)
-    
+
     def enableSubmit(self, u, p, c, d):
         return (len(u) > 0 and len(p) >0 and p == c and len(d) > 0)
 

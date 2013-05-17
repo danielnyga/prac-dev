@@ -451,7 +451,7 @@ class Point:
     ** @see Axis#addTick(double,String,int,int) addTick
     **
     *"""
-    def setAnnotationText(self, annotationText, 
+    def setAnnotationText(self, annotationText,
                                 widthUpperBound=NAI,
                                 heightUpperBound=NAI):
         self.getParent().invalidate()

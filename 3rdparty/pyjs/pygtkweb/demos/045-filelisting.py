@@ -59,23 +59,23 @@ class FileListingCellDataExample:
     def delete_event(self, widget, event, data=None):
         gtk.main_quit()
         return False
- 
+
     def __init__(self, dname = None):
         cell_data_funcs = (None, self.file_size, self.file_mode,
                            self.file_last_changed)
- 
+
         # Create a new window
         self.window = gtk.Window(gtk.WINDOW_TOPLEVEL)
- 
+
         self.window.set_size_request(400, 300)
- 
+
         self.window.connect("delete_event", self.delete_event)
- 
+
         listmodel = self.make_list(dname)
- 
+
         # create the TreeView
         self.treeview = gtk.TreeView()
- 
+
         # create the TreeViewColumns to display the data
         self.tvcolumn = [None] * len(self.column_names)
         cellpb = gtk.CellRendererPixbuf()
@@ -98,7 +98,7 @@ class FileListingCellDataExample:
         self.scrolledwindow.add(self.treeview)
         self.window.add(self.scrolledwindow)
         self.treeview.set_model(listmodel)
- 
+
         self.window.show_all()
         return
 

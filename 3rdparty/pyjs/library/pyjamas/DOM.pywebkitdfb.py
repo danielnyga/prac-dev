@@ -11,7 +11,7 @@ def getAbsoluteLeft(elem):
         while (curr.offsetParent) :
             left -= curr.scrollLeft
             curr = curr.parentNode
-    
+
     while (elem) :
         left += elem.offsetLeft
 
@@ -23,7 +23,7 @@ def getAbsoluteLeft(elem):
             break
 
         elem = parent
-    
+
     return left
 
 def getAbsoluteTop(elem):
@@ -39,7 +39,7 @@ def getAbsoluteTop(elem):
         while (curr.offsetParent) :
             top -= curr.scrollTop
             curr = curr.parentNode
-    
+
     while (elem) :
         top += elem.offsetTop
 
@@ -49,9 +49,9 @@ def getAbsoluteTop(elem):
         if (parent and (parent.tagName == 'BODY') and
                 (getStyleAttribute(elem, 'position') == 'absolute')) :
             break
-        
+
         elem = parent
-    
+
     return top
 
 

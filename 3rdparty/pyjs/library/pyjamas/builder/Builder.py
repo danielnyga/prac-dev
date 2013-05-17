@@ -9,8 +9,8 @@ from pyjamas.HTTPRequest import HTTPRequest
 from pyjamas.ui.Tooltip import TooltipListener
 
 
-# All event listeners with a tuple that comprises of the listener add 
-# function and the additional (to 'self') parameters that are expected 
+# All event listeners with a tuple that comprises of the listener add
+# function and the additional (to 'self') parameters that are expected
 # for the listener. E.g., def onClick(self, sender): ...
 # See also pyjamas.ui.MultiListener.MultiListener.combinations
 eventListeners = dict(
@@ -140,7 +140,7 @@ class Builder(object):
                 item.setElementProperties(childitem, elemprops)
 
                 # add child (by name) to item
-                cname = child[0]["id"] 
+                cname = child[0]["id"]
                 setattr(item, cname, childitem)
 
             # make the event target the recipient of all events

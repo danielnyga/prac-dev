@@ -1,8 +1,8 @@
 ######################################################################
 # PySourceColor
-# A hacked up version of the MoinMoin python parser that 
+# A hacked up version of the MoinMoin python parser that
 # was originally submitted / written by Jurgen Hermann to ASPN.
-# This does not create w3c valid html, but it works on every 
+# This does not create w3c valid html, but it works on every
 # browser i've tried so far.(I.E.,Mozilla/Firefox,Opera,wxHTML).
 # After experimenting with diffrent html vs CSS + html
 # I settled on plain old html because it works!
@@ -20,7 +20,7 @@ __title__ = 'PySourceColor'
 __version__ = "ver.1"
 __date__ = '2 August 2004'
 __author__ = "M.E.Farmer Jr."
-__credits__ = '''This was originally submitted / written by Jurgen Hermann 
+__credits__ = '''This was originally submitted / written by Jurgen Hermann
 to ASPN python recipes. I found it in 2003 and integrated it into an editor.
 Recent refactoring led me to seperate it. I decided to polish it up a little
 and release it in the hope it would be useful.
@@ -32,13 +32,13 @@ _ = (r'raw',r'''raw''',r"raw",r"""raw""")##Raw test
 _ = (u'uni',u'''uni''',u"uni",u"""uni""")##Unicode test
 
 # Do not edit
-_DOUBLECOMMENT = token.NT_OFFSET + 1   
+_DOUBLECOMMENT = token.NT_OFFSET + 1
 _CLASS = token.NT_OFFSET + 2
-_DEF = token.NT_OFFSET + 3           
-_TEXT = token.NT_OFFSET + 4           
-_KEYWORD = token.NT_OFFSET + 5      
-_SINGLEQUOTE = token.NT_OFFSET + 6    
-_DOUBLEQUOTE = token.NT_OFFSET + 7     
+_DEF = token.NT_OFFSET + 3
+_TEXT = token.NT_OFFSET + 4
+_KEYWORD = token.NT_OFFSET + 5
+_SINGLEQUOTE = token.NT_OFFSET + 6
+_DOUBLEQUOTE = token.NT_OFFSET + 7
 _TRIPLESINGLEQUOTE = token.NT_OFFSET + 8
 _TRIPLEDOUBLEQUOTE = token.NT_OFFSET + 9
 _BACKGROUND = token.NT_OFFSET + 10
@@ -53,13 +53,13 @@ _BACKGROUND = token.NT_OFFSET + 10
 
 _Null = {
     token.ERRORTOKEN:     '#FF8080',# no edit
-    token.STRING:         '#000000',# no edit 
+    token.STRING:         '#000000',# no edit
     _TEXT:                '#000000',# no edit
     token.NAME:           '#000000',# All Text
     token.NUMBER:        'b#000000',# 0->10
     token.OP:            'b#000000',# ()<>=!.:;^>%, etc...
     tokenize.COMMENT:    'i#000000',# There are 2 types of comment
-    _DOUBLECOMMENT:       '#000000',## Like this 
+    _DOUBLECOMMENT:       '#000000',## Like this
     _CLASS:             'bu#000000',# Class name
     _DEF:                'b#000000',# Def name
     _KEYWORD:            'b#000000',# Python keywords
@@ -72,13 +72,13 @@ _Null = {
 
 _Dark = {
     token.ERRORTOKEN:     '#FF8080',# no edit
-    token.STRING:         '#FFFFFF',# no edit 
+    token.STRING:         '#FFFFFF',# no edit
     _TEXT:                '#000000',# no edit
     token.NAME:           '#ffffff',# All Text
     token.NUMBER:         '#FF0000',# 0->10
     token.OP:            'b#FAF785',# Operators ()<>=!.:;^>%, etc...
     tokenize.COMMENT:    'i#45FCA0',# There are 2 types of comment
-    _DOUBLECOMMENT:       '#A7C7A9',## Like this 
+    _DOUBLECOMMENT:       '#A7C7A9',## Like this
     _CLASS:              'b#B599FD',# Class name
     _DEF:                'b#EBAE5C',# Def name
     _KEYWORD:            'b#8680FF',# Python keywords
@@ -89,16 +89,16 @@ _Dark = {
     _BACKGROUND:          '#000000',# Page background color
     }
 
- 
+
 _Lite = {
     token.ERRORTOKEN:     '#FF8080',# no edit
-    token.STRING:         '#000000',# no edit 
+    token.STRING:         '#000000',# no edit
     _TEXT:                '#000000',# no edit
     token.NAME:           '#000000',# All Text
     token.NUMBER:         '#FF2200',# 0->10
     token.OP:            'b#303000',# Operators ()<>=!.:;^>%, etc...
     tokenize.COMMENT:     '#007F00',# There are 2 types of comment
-    _DOUBLECOMMENT:       '#606060',## Like this 
+    _DOUBLECOMMENT:       '#606060',## Like this
     _CLASS:               '#0000FF',# Class name
     _DEF:                'b#BF9B00',# Def name
     _KEYWORD:            'b#0000AF',# Python keywords
@@ -111,13 +111,13 @@ _Lite = {
 
 _Idle = {
     token.ERRORTOKEN:     '#FF8080',# no edit
-    token.STRING:         '#000000',# no edit 
+    token.STRING:         '#000000',# no edit
     _TEXT:                '#000000',# no edit
     token.NAME:           '#000000',# All Text
     token.NUMBER:         '#000000',# 0->10
     token.OP:             '#000000',# Operators ()<>=!.:;^>%, etc...
     tokenize.COMMENT:     '#DD0000',# There are 2 types of comment
-    _DOUBLECOMMENT:       '#DD0000',## Like this 
+    _DOUBLECOMMENT:       '#DD0000',## Like this
     _CLASS:               '#0000FF',# Class name
     _DEF:                 '#0000FF',# Def name
     _KEYWORD:             '#FF7700',# Python keywords
@@ -136,7 +136,7 @@ _PythonWin = {
     token.NUMBER:         '#008080',# 0->10
     token.OP:             '#000000',# ()<>=!.:;^>%, etc...
     tokenize.COMMENT:     '#007F00',# There are 2 types of comment
-    _DOUBLECOMMENT:       '#7F7F7F',## Like this 
+    _DOUBLECOMMENT:       '#7F7F7F',## Like this
     _CLASS:              'b#0000FF',# Class name
     _DEF:                'b#007F7F',# Def name
     _KEYWORD:            'b#000080',# Python keywords
@@ -149,13 +149,13 @@ _PythonWin = {
 
 _Eriks_Style = {
     token.ERRORTOKEN:     '#FF8080',# no edit
-    token.STRING:         '#000000',# no edit 
+    token.STRING:         '#000000',# no edit
     _TEXT:                '#000000',# no edit
     token.NAME:           '#000000',# All Text
     token.NUMBER:         '#FF2200',# 0->10
     token.OP:            'b#303000',# Operators ()<>=!.:;^>%, etc...
     tokenize.COMMENT:     '#007F00',# There are 2 types of comment
-    _DOUBLECOMMENT:       '#606060',## Like this 
+    _DOUBLECOMMENT:       '#606060',## Like this
     _CLASS:               '#0000FF',# Class name
     _DEF:                 '#0000FF',# Def name
     _KEYWORD:            'b#0000AF',# Python keywords
@@ -178,14 +178,14 @@ Example usage:
  python PySourceColor.py --in=c:/myDir/my.py --out=c:/myDir --color=Lite --show
   # Using short options w/out =
  python PySourceColor.py -i c:/myDir/  -c Idle
-  # Using any mix 
+  # Using any mix
  python PySourceColor.py --in _ -o=c:/myDir --show
 -------------------------------------------------------------------------------
 This module is designed to colorize python source code.
 It is a hacked version of MoinMoin python parser recipe.
     -h or --help
         Display this help message.
-    -i or --in 
+    -i or --in
         Input file or dir. (Use any of these for the cwdir . , _ , this)
     -o or --out
         Optional, output dir for the colorized source
@@ -201,11 +201,11 @@ _______________________________________________________________________________
 """
 
 def Main():
-    '''This code gathers the command line arguments 
+    '''This code gathers the command line arguments
        and tries to do something reasonable with them
     '''
     try:
-        # try to get command line args 
+        # try to get command line args
         opts, args = getopt.getopt(sys.argv[1:],
                      "hsi:o:c:", ["help", "show", "input=", "out=", "color="])
     except getopt.GetoptError:
@@ -272,7 +272,7 @@ def WebAll(sourcePath, outdir=None, colors=None, show=0):
 def WebIt(sourcePath, outdir=None, colors=None, show=0):
     ''' Converts python source to html.
     '''
-    print" Converting %s into HTML" % sourcePath                
+    print" Converting %s into HTML" % sourcePath
     if colors is None:
         # Default colorscheme
         colors = _Dark
@@ -306,7 +306,7 @@ def WalkDir(dir):
     GLOB_PATTERN = os.path.join(dir, "*.[p][y]*")
     pathlist = glob.glob(GLOB_PATTERN)
     # Now filter out all but py and pyw
-    filterlist = [x for x in pathlist 
+    filterlist = [x for x in pathlist
                         if x.endswith('.py')
                         or x.endswith('.pyw')]
     if filterlist != []:
@@ -354,7 +354,7 @@ class Parser:
         self.doPageStart()
 
         # Parse the source.
-        ## Tokenize calls the __call__ 
+        ## Tokenize calls the __call__
         ## function for each token till done.
         try:
             tokenize.tokenize(text.readline, self)
@@ -403,7 +403,7 @@ class Parser:
             # Sets the color if it was a class or def name
             if self.ClassFlag:
                 toktype = _CLASS
-                self.ClassFlag = 0 
+                self.ClassFlag = 0
             elif self.DefFlag:
                 toktype = _DEF
                 self.DefFlag = 0
@@ -447,7 +447,7 @@ class Parser:
         splitpoint = color.find('#')
         tags = color[:splitpoint].lower()
         color = color[splitpoint:]
-        
+
         # Check for styles and set them if needed..(b=bold, i=italics)
         if 'b' in tags:
             otherstart += '<b>'
@@ -480,7 +480,7 @@ class Parser:
         # Get background color and check for styles and ignore all but b,i,u
         color = self.colors.get(_BACKGROUND, self.colors[_TEXT])
         color = color[color.find('#'):]
-        if color[:1] != '#': 
+        if color[:1] != '#':
             self.out.write('</head><body bgcolor="#000000">\n')
         else:
             self.out.write('</head><body bgcolor="%s">\n'% color)
@@ -506,8 +506,7 @@ class Parser:
         if self.footer:
             self.doPageFooter()
         # Write a little info in the web page source
-        self.out.write('<!--This document created by %s ver.%s on: %s-->\n'%
-                                        (__title__,__version__,time.ctime()))
+        self.out.write('<!-- This document created by %s -->\n' % __title__)
         self.out.write('</body></html>\n')
 
 if __name__ == '__main__':

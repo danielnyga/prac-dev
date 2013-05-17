@@ -1,6 +1,6 @@
 # Copyright 2006 James Tauber and contributors
 # Copyright (C) 2009 Luke Kenneth Casson Leighton <lkcl@lkcl.net>
-# Copyright (C) 2011 Vsevolod Fedorov <vsevolod.fedorov@gmail.com>
+# Copyright (C) 2011-2012 Vsevolod Fedorov <vsevolod.fedorov@gmail.com>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,9 +15,19 @@
 # limitations under the License.
 from pyjamas import DOM
 from pyjamas import Factory
+from pyjamas.Canvas.GWTCanvas import GWTCanvas
+from pyjamas.Canvas import Color
 
 from pyjamas.ui.UIObject import UIObject
 from pyjamas.ui.TreeContentPanel import TreeContentPanel
+
+# http://www.greywyvern.com/code/php/binary2base64 - yaay!
+# http://websemantics.co.uk/online_tools/image_to_data_uri_convertor/
+# this 2nd one didn't put %3D at the end, you have to back-convert that
+# into "==" characters.
+tree_closed = "data:image/gif;base64,R0lGODlhEAAQAJECAMzMzAAAAP///wAAACH5BAEAAAIALAAAAAAQABAAAAIjlI+py+1vgJxzAYtNOFd1sUVYQJLCh3zhmYFcm1oUBdU2VAAAOw=="
+tree_open = "data:image/gif;base64,R0lGODlhEAAQAJECAAAAAMDAwAAAAP///yH5BAEAAAIALAAAAAAQABAAAAIflI+py+1vgpxzBYvV1TldAILC5nUIeZoHulIUBMdQAQA7"
+tree_white = "data:image/gif;base64,R0lGODlhEAAQAJEAAP///wAAAP///wAAACH5BAEAAAIALAAAAAAQABAAAAIOlI+py+0Po5y02ouzPgUAOw=="
 
 class TreeItem(UIObject):
 
@@ -42,7 +52,7 @@ class TreeItem(UIObject):
         self.itemTable = DOM.createTable()
         self.contentElem = DOM.createSpan()
         self.childSpanElem = DOM.createSpan()
-        self.imgElem = DOM.createImg()
+        self.imgElem = self.createImage()
 
         tbody = DOM.createTBody()
         tr = DOM.createTR()
@@ -60,6 +70,9 @@ class TreeItem(UIObject):
         DOM.appendChild(self.getElement(), self.childSpanElem)
         DOM.appendChild(tdImg, self.imgElem)
         DOM.appendChild(tdContent, self.contentElem)
+
+        self.setStyleName(tdImg, "gwt-TreeItemTdImg", True)
+        self.setStyleName(tdContent, "gwt-TreeItemTdContent", True)
 
         # XXX - can't set pos relative on a div node,
         # or white_space on an HTML Table..
@@ -97,6 +110,9 @@ class TreeItem(UIObject):
 
     def __iter__(self):
         return self.children.__iter__()
+
+    def createImage(self):
+        return DOM.createImg()
 
     # also callable as addItem(widget) and addItem(itemText)
     def addItem(self, item):
@@ -136,7 +152,7 @@ class TreeItem(UIObject):
             item.onAttach()
         w = self.getWidget()
         if w:
-           w.onAttach() 
+           w.onAttach()
 
     def onDetach(self):
         self.attached = False
@@ -144,7 +160,7 @@ class TreeItem(UIObject):
             item.onDetach()
         w = self.getWidget()
         if w:
-           w.onDetach() 
+           w.onDetach()
 
     def getChild(self, index):
         if (index < 0) or (index >= len(self.children)):
@@ -320,21 +336,32 @@ class TreeItem(UIObject):
     def updateState(self):
         if len(self.children) == 0:
             self.setVisible(self.childSpanElem, False)
-            DOM.setAttribute(self.imgElem, "src", self.imgSrc("tree_white.gif"))
+            #DOM.setAttribute(self.imgElem, "src", self.imgSrc("tree_white.gif"))
+            self.drawImage("white")
             return
 
         if self.open:
             self.setVisible(self.childSpanElem, True)
-            DOM.setAttribute(self.imgElem, "src", self.imgSrc("tree_open.gif"))
+            self.drawImage("open")
         else:
             self.setVisible(self.childSpanElem, False)
-            DOM.setAttribute(self.imgElem, "src", self.imgSrc("tree_closed.gif"))
+            self.drawImage("closed")
 
     def updateStateRecursive(self):
         self.updateState()
         for i in range(len(self.children)):
             child = self.children[i]
             child.updateStateRecursive()
+
+    def drawImage(self, mode):
+        if mode == "white":
+            src = tree_white
+        elif mode == "open":
+            src = tree_open
+        elif mode == "closed":
+            src = tree_closed
+
+        DOM.setAttribute(self.imgElem, "src", src)
 
 
 class RootTreeItem(TreeItem):

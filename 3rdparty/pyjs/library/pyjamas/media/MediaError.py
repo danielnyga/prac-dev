@@ -22,11 +22,11 @@ MEDIA_ERR_DECODE = 3
 MEDIA_ERR_SRC_NOT_SUPPORTED = 4
 
 class MediaError(object):
-    
+
     def getCode(self):
         JS("""
-        return this.code;
+        return this['code'];
         """)
-    
+
 
 

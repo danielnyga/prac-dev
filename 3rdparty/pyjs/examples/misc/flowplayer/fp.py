@@ -8,55 +8,55 @@ log = logging.getAppendLogger(__name__, logging.DEBUG, logging.PLAIN_FORMAT)
 
 
 class FlowPlayerExample:
-    
+
     def onModuleLoad(self):
         self.panel = VerticalPanel()
         self.player = self.getPlayer()
-        
+
         # Add the Player to the Panel
         self.panel.add(self.player)
         RootPanel().add(self.panel)
-        
-        
+
+
     def getPlayer(self):
         """
         Create a player
         """
         # Url to the flowplayer flashmovie
         url = 'swf/flowplayer.swf'
-        
+
         # Create the initial configuration
         config = Configuration()
-        
+
         # Add a Content
         plugin = self.getContentTop()
         config.addPlugin(plugin)
-        
+
         # Customize Controls, if controls not added,
         # default controls will be used
         plugin = self.getControls()
         config.addPlugin(plugin)
-        
+
         # Add the Common-Clip to configuration
         common_clip = Clip()
         common_clip.setAttr('autoBuffering', True)
         common_clip.setAttr('autoPlay', False)
         config.setCommonClip(common_clip)
-        
+
         # Set a playlist
         playlist = self.getPlaylist()
         config.setPlaylist(playlist)
-        
+
         # Create the Player Object with the initial configuration
         #log.debug('Loading Player')
         player = Player(url, config)
-        
+
         # Add Listener to the player
         player.addListener(self)
-        
+
         return player
-    
-    
+
+
     def getPlaylist(self):
         """
         Create a playlist
@@ -70,8 +70,8 @@ class FlowPlayerExample:
         for clip in playlist:
             clip.addListener(self)
         return playlist
-        
-        
+
+
     def getControls(self):
         """
         Create and configure the Controls Plugin
@@ -87,10 +87,10 @@ class FlowPlayerExample:
         controls.setAttr('progressColor', '#bbbbbb')
         controls.setAttr('backgroundColor', '#FFFFFF')
         controls.setAttr('playlist', True)
-        
+
         return controls
-    
-    
+
+
     def getContentTop(self):
         """
         Create and configure a content plugin
@@ -106,10 +106,10 @@ class FlowPlayerExample:
         content.setAttr('backgroundGradient', 'low')
         content.setAttr('opacity', 0.9)
         content.addListener(self)
-        
+
         return content
-    
-    
+
+
     def getContentBottom(self):
         """
         Create and configure another content plugin
@@ -125,12 +125,12 @@ class FlowPlayerExample:
         content.setAttr('backgroundGradient', 'low')
         content.setAttr('opacity', 0.9)
         content.addListener(self)
-        
+
         return content
-        
-        
+
+
     # Player events
-    
+
     def onLoadPlayer(self):
         """
         This is a Player Event
@@ -140,7 +140,7 @@ class FlowPlayerExample:
         # Load a Content-Plugin at runtime into the player
         content = self.getContentBottom()
         self.player.loadPlugin(content)
-        
+
     def onLoadPlugin(self, name):
         """
         This is a Player Event
@@ -153,7 +153,7 @@ class FlowPlayerExample:
             props = {'width': 80, 'bottom': 40, 'left': 40, 'height': 30}
             content.animate(props)
             content.setHtml('Click me')
-    
+
     def onClipAdd(self, clip, index):
         """
         This is a Player Event
@@ -161,7 +161,7 @@ class FlowPlayerExample:
         """
         #log.debug('Clip %s on index %s added' % (clip.url, index))
         pass
-    
+
     def onPlaylistReplace(self, clips):
         """
         This is a Player Event
@@ -169,17 +169,17 @@ class FlowPlayerExample:
         """
         #log.debug('Playlist is replaced')
         pass
-        
+
     def onError(self, args):
         """
         This is a Player Event
         Fired on an error
         """
         log.debug('Error: %s' % str(args))
-    
-    
+
+
     # Plugin events
-    
+
     def onClickPlugin(self, plugin):
         """
         This is a Plugin Event
@@ -199,7 +199,7 @@ class FlowPlayerExample:
             #clip.addListener(self)
             #log.debug('Add Clip')
             #self.player.addClip(clip, 3)
-    
+
     def onAnimatePlugin(self, plugin):
         """
         This is a Plugin Event
@@ -207,9 +207,9 @@ class FlowPlayerExample:
         """
         #log.debug('Plugin %s animated' % plugin.name)
         pass
-    
+
     # Clip events
-    
+
     def onResume(self, clip):
         """
         This is a Clip Event
@@ -219,7 +219,7 @@ class FlowPlayerExample:
         # Get the contentTop plugin, and fade it out
         plugin = self.player.getPlugin('contentTop')
         plugin.fadeOut()
-        
+
     def onPause(self, clip):
         """
         This is a Clip Event
@@ -232,7 +232,7 @@ class FlowPlayerExample:
         plugin.setHtml('<b>%s</b>' % clip.url)
         plugin.append('<br>More Text')
         plugin.fadeIn()
-    
+
 
 if __name__ == '__main__':
     app = FlowPlayerExample()

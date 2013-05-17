@@ -21,15 +21,15 @@ class FileSelectionExample:
         self.filew.connect("destroy", self.destroy)
         # Connect the ok_button to file_ok_sel method
         self.filew.ok_button.connect("clicked", self.file_ok_sel)
-    
+
         # Connect the cancel_button to destroy the widget
         self.filew.cancel_button.connect("clicked",
                                          lambda w: self.filew.destroy())
-    
+
         # Lets set the filename, as if this were a save dialog,
         # and we are giving a default filename
         self.filew.set_filename("penguin.png")
-    
+
         self.filew.show()
 
 def main():

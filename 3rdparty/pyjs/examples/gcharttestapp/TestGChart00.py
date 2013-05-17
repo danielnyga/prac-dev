@@ -9,6 +9,6 @@ class TestGChart00 (GChart):
         GChart.__init__(self, XChartSize=150, YChartSize=150)
         self.setChartTitle(GChartTestAppUtil.getTitle(self))
         self.setChartFootnotes("Check: Consistent with a 'no data' chart (and it doesn't crash).")
-    
+
 
 

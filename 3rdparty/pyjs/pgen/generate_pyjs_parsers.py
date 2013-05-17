@@ -33,7 +33,7 @@ opmap_assign = "opmap = {0!r}".format(opmap)
 
 out = g_templ.substitute(gen_date=gen_date,
                          python_version=python_version,
-                         grammar_attrs_assign=attrs_assign_str, 
+                         grammar_attrs_assign=attrs_assign_str,
                          opmap_assign=opmap_assign)
 
 out_f = open('grammar2x.py', 'w')

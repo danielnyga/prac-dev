@@ -50,7 +50,7 @@ class Spinner(SimplePanel):
 
         period = 1000/self.numSectors
         self._timer = Timer(notify=self)
-        self._timer.scheduleRepeating(period)        
+        self._timer.scheduleRepeating(period)
 
     def onTimer(self, timerID):
         """ Respond to our timer firing.
@@ -61,7 +61,7 @@ class Spinner(SimplePanel):
 
 #############################################################################
 
-if __name__ == "__main__":    
+if __name__ == "__main__":
     pyjd.setup("public/spinner.html")
     spinner=Spinner()
     RootPanel().add(spinner)

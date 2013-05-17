@@ -58,7 +58,7 @@ class MenuMediator(Mediator):
             dlg = None
 
             def onOpen(sender):
-                self.sendNotification(Notification.FILE_LOADED, 
+                self.sendNotification(Notification.FILE_LOADED,
                                       (dlg.filename, dlg.data))
 
             fileLocation = self.checkFileLocation(fileLocation)

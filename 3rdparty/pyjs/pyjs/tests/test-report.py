@@ -26,7 +26,7 @@ class Coverage:
         sys.settrace(None)
 
     def output(self, *files):
-        
+
         print """
         <html>
         <head>
@@ -70,11 +70,11 @@ class Coverage:
         </head>
         <body>
         """ % self.testset_name
-        
+
         print """
             <h1>Coverage for %s</h1>
         """ % self.testset_name
-        
+
         for filename in files:
             print """
             <h2>%s</h2>
@@ -97,11 +97,11 @@ class Coverage:
             print """
             </table>
             """
-        
+
         print """
         </body>
         </html>
-        """    
+        """
 
 
 print """
@@ -129,10 +129,10 @@ def test(filename, module):
         if output == desired_output:
             print "<p>pass</p>"
         else:
-            print differ.make_table(output.split("\n"), desired_output.split("\n"), context=True)            
+            print differ.make_table(output.split("\n"), desired_output.split("\n"), context=True)
     except Exception, e:
         print "\texception", e
-    
+
 
 import sys
 sys.path.append("..")

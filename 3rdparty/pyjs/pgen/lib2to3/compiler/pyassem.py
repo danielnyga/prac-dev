@@ -141,7 +141,7 @@ class FlowGraph:
             for j, b in l:
                 del blocks[index[b]]
             # Insert the chain in the proper location
-            blocks = blocks[:i] + [cur] + [chain] + blocks[i + 1:] 
+            blocks = blocks[:i] + [cur] + [chain] + blocks[i + 1:]
             # Finally, re-compute the block indexes
             for i in range(len(blocks)):
                 index[blocks[i]] = i

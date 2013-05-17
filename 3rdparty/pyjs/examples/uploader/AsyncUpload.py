@@ -8,21 +8,21 @@ def asyncUpload(url, file, handler):
         localHandler = handler
         status = xmlHttp.status
         localHandler.onload(status)
-        
+
     def onprogress(evnt=None):
         global xmlHttp, handler
         localHandler = handler
         localHandler.onprogress(evnt.loaded, evnt.total)
-        
+
     def onerror(evnt=None):
         global xmlHttp, handler
         localHandler = handler
         status = xmlHttp.status
         localHandler.onerror(status)
-        
+
     xmlHttp.upload.load = onload
     xmlHttp.upload.progress = onprogress
-    
+
     xmlHttp.upload.onload = onload
     xmlHttp.upload.onprogress = onprogress
     xmlHttp.upload.onerror = onerror
@@ -32,7 +32,7 @@ def asyncUpload(url, file, handler):
     try:
         xmlHttp.open("POST", url, True)
         JS("""var reader = new FileReader();
-            
+
             reader.onload = function(evt) {
                 var fd = new FormData();
                 fd.append("file", @{{file}});

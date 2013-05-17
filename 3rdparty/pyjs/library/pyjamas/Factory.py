@@ -45,7 +45,7 @@ def createWidgetOnElement(element):
 
     kwargs['Element'] = element
     return lookupClass(klsname)(*args, **kwargs)
-    
+
 def addPyjamasNameSpace():
     doc().createElementNS("urn:schemas-pyjs-org:pyjs")
     #try:

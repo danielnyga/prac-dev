@@ -23,7 +23,7 @@ class ExceptionTest(UnitTest):
             self.assertTrue(True, "the exception should have happened")
             return
         self.assertTrue(False, "the exception should have happened")
-            
+
     def testExceptionOrdTrigger(self):
         try:
             x = ord(5) # shouldn't be a number
@@ -69,7 +69,7 @@ class ExceptionTest(UnitTest):
 
         # str exceptions were removed since 2.6
         if sys.version_info >= (2, 6):
-            return 
+            return
 
         try:
             raise "test"

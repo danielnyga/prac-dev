@@ -11,12 +11,12 @@ class Menus(Sink):
     def __init__(self):
         Sink.__init__(self)
         self.menu = MenuBar()
-        
+
         subMenu = MenuBar(True)
         subMenu.addItem("<code>Code</code>", True, self)
         subMenu.addItem("<strike>Strikethrough</strike>", True, self)
         subMenu.addItem("<u>Underlined</u>", True, self)
-        
+
         menu0 = MenuBar(True)
         menu0.addItem("<b>Bold</b>", True, self)
         menu0.addItem("<i>Italicized</i>", True, self)
@@ -30,13 +30,13 @@ class Menus(Sink):
         menu2.addItem("Bling", self)
         menu2.addItem("Ginormous", self)
         menu2.addItem("<code>w00t!</code>", True, self)
-        
+
         self.menu.addItem(MenuItem("Style", menu0))
         self.menu.addItem(MenuItem("Fruit", menu1))
         self.menu.addItem(MenuItem("Term", menu2))
-        
+
         self.menu.setWidth("100%")
-        
+
         self.panel = VerticalPanel()
         self.context = HTML("""Right-Click me<br/>to show a context menu.<br />
                                Left-click me<br />to do absolutely nothing.""")
@@ -59,14 +59,14 @@ class Menus(Sink):
 
         x = DOM.eventGetClientX(event) + 2
         y = DOM.eventGetClientY(event) + 2
-        
+
         popup = ContextMenuPopupPanel(subMenu)
         popup.showAt(x, y)
 
 
     def execute(self):
         Window.alert("Thank you for selecting a menu item.")
-        
+
     def onShow(self):
         pass
 

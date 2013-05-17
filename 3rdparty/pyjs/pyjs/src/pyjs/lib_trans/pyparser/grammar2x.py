@@ -1,4 +1,4 @@
-# This module is automatically generated from grammar2x.py.templ, 
+# This module is automatically generated from grammar2x.py.templ,
 #      at 2011-07-01 13:23:21.288018, with python 2.7.2 (default, Jun 27 2011, 21:15:33) .
 #
 # Modified by Daniel Kluev, for Pyjamas project, 2011.

@@ -25,11 +25,6 @@
 """
 def createLinearGradient(x0, y0, x1, y1, c):
         return LinearGradientImplDefault(x0,y0,x1,y1,c)
-    
-    
-    CanvasGradient createRadialGradient(double x0, double y0, double r0,
-    double x1, double y1, double r1, Element c) {
+
+def createRadialGradient(x0, y0, r0, x1, y1, r1, c):
         return RadialGradientImplDefault(x0,y0,r0,x1,y1,r1,c)
-    
-
-

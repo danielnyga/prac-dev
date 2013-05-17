@@ -227,7 +227,7 @@ class SliceEditor(DialogBox):
     def getColorSpec(self, backgroundColor, borderColor):
         for i in range(self.chart.colorSelector.getNObjects()):
             cs =  self.chart.colorSelector.getObject(i)
-            if (backgroundColor == cs.backgroundColor and  
+            if (backgroundColor == cs.backgroundColor and
                 borderColor == cs.borderColor):
                 return cs
 

@@ -17,22 +17,22 @@ class ToolbarExample:
     # check which one is active and set the style of the toolbar
     # accordingly
     def radio_event(self, widget, toolbar):
-        if self.text_button.get_active(): 
+        if self.text_button.get_active():
             toolbar.set_style(gtk.TOOLBAR_TEXT)
         elif self.icon_button.get_active():
             toolbar.set_style(gtk.TOOLBAR_ICONS)
         elif self.both_button.get_active():
             toolbar.set_style(gtk.TOOLBAR_BOTH)
 
-    # even easier, just check given toggle button and enable/disable 
+    # even easier, just check given toggle button and enable/disable
     # tooltips
     def toggle_event(self, widget, toolbar):
         toolbar.set_tooltips(widget.get_active())
 
     def __init__(self):
         # Here is our main window (a dialog) and a handle for the handlebox
-        # Ok, we need a toolbar, an icon with a mask (one for all of 
-        # the buttons) and an icon widget to put this icon in (but 
+        # Ok, we need a toolbar, an icon with a mask (one for all of
+        # the buttons) and an icon widget to put this icon in (but
         # we'll create a separate widget for each button)
         # create a new window with a given title, and nice size
         dialog = gtk.Dialog()
@@ -43,13 +43,13 @@ class ToolbarExample:
         # typically we quit if someone tries to close us
         dialog.connect("delete_event", self.delete_event)
 
-        # to make it nice we'll put the toolbar into the handle box, 
+        # to make it nice we'll put the toolbar into the handle box,
         # so that it can be detached from the main window
         handlebox = gtk.HandleBox()
         dialog.vbox.pack_start(handlebox, False, False, 5)
 
         # toolbar will be horizontal, with both icons and text, and
-        # with 5pxl spaces between items and finally, 
+        # with 5pxl spaces between items and finally,
         # we'll also put it into our handlebox
         toolbar = gtk.Toolbar()
         toolbar.set_orientation(gtk.ORIENTATION_HORIZONTAL)
@@ -128,7 +128,7 @@ class ToolbarExample:
         toolbar.append_space()
         tooltips_button.set_active(True)
 
-        # to pack a widget into toolbar, we only have to 
+        # to pack a widget into toolbar, we only have to
         # create it and append it with an appropriate tooltip
         entry = gtk.Entry()
         toolbar.append_widget(entry,  "This is just an entry", "Private")

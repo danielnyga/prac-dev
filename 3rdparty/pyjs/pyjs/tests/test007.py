@@ -26,7 +26,7 @@ class ComplexPanel(Panel):
 
     def __init__(self):
         self.children = []
-    
+
     def add(self, widget):
         self.children.append(widget)
         widget.setParent(self)

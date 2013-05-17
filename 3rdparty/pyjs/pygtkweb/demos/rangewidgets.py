@@ -49,7 +49,7 @@ class RangeWidgets:
         # Turn the value display on the scale widgets off or on depending
         # on the state of the checkbutton
         self.hscale.set_draw_value(button.get_active())
-        self.vscale.set_draw_value(button.get_active())  
+        self.vscale.set_draw_value(button.get_active())
 
     # makes the sample window
 
@@ -73,7 +73,7 @@ class RangeWidgets:
         # scrollbar widgets, and the highest value you'll get is actually
         # (upper - page_size).
         adj1 = gtk.Adjustment(0.0, 0.0, 101.0, 0.1, 1.0, 1.0)
-  
+
         self.vscale = gtk.VScale(adj1)
         scale_set_default_values(self.vscale)
         box2.pack_start(self.vscale, True, True, 0)
@@ -109,7 +109,7 @@ class RangeWidgets:
         button.connect("toggled", self.cb_draw_value)
         box2.pack_start(button, True, True, 0)
         button.show()
-  
+
         box2 = gtk.HBox(False, 10)
         box2.set_border_width(10)
 
@@ -117,23 +117,23 @@ class RangeWidgets:
         label = gtk.Label("Scale Value Position:")
         box2.pack_start(label, False, False, 0)
         label.show()
-  
+
         opt = gtk.OptionMenu()
         menu = gtk.Menu()
 
         item = make_menu_item ("Top", self.cb_pos_menu_select, gtk.POS_TOP)
         menu.append(item)
-  
+
         item = make_menu_item ("Bottom", self.cb_pos_menu_select,
                                gtk.POS_BOTTOM)
         menu.append(item)
-  
+
         item = make_menu_item ("Left", self.cb_pos_menu_select, gtk.POS_LEFT)
         menu.append(item)
-  
+
         item = make_menu_item ("Right", self.cb_pos_menu_select, gtk.POS_RIGHT)
         menu.append(item)
-  
+
         opt.set_menu(menu)
         box2.pack_start(opt, True, True, 0)
         opt.show()
@@ -149,32 +149,32 @@ class RangeWidgets:
         label = gtk.Label("Scale Update Policy:")
         box2.pack_start(label, False, False, 0)
         label.show()
-  
+
         opt = gtk.OptionMenu()
         menu = gtk.Menu()
-  
+
         item = make_menu_item("Continuous", self.cb_update_menu_select,
                               gtk.UPDATE_CONTINUOUS)
         menu.append(item)
-  
+
         item = make_menu_item ("Discontinuous", self.cb_update_menu_select,
                                gtk.UPDATE_DISCONTINUOUS)
         menu.append(item)
-  
+
         item = make_menu_item ("Delayed", self.cb_update_menu_select,
                                gtk.UPDATE_DELAYED)
         menu.append(item)
-  
+
         opt.set_menu(menu)
         box2.pack_start(opt, True, True, 0)
         opt.show()
-  
+
         box1.pack_start(box2, True, True, 0)
         box2.show()
 
         box2 = gtk.HBox(False, 10)
         box2.set_border_width(10)
-  
+
         # An HScale widget for adjusting the number of digits on the
         # sample scales.
         label = gtk.Label("Scale Digits:")
@@ -190,10 +190,10 @@ class RangeWidgets:
 
         box1.pack_start(box2, True, True, 0)
         box2.show()
-  
+
         box2 = gtk.HBox(False, 10)
         box2.set_border_width(10)
-  
+
         # And, one last HScale widget for adjusting the page size of the
         # scrollbar.
         label = gtk.Label("Scrollbar Page Size:")
@@ -229,7 +229,7 @@ class RangeWidgets:
 
 def main():
     gtk.main()
-    return 0            
+    return 0
 
 if __name__ == "__main__":
     RangeWidgets()

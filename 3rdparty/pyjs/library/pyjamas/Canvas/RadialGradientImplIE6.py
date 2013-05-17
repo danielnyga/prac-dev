@@ -14,21 +14,21 @@
 * the License.
 """
 
-from pyjamas.Canvas.CanvasGradientImplIE6 import CanvasGradientImplIE6 
+from pyjamas.Canvas.CanvasGradientImplIE6 import CanvasGradientImplIE6
 
 """*
 *  IE6 deferred binding of Gradient Factory will create instances of this class
 *  for RadialGradients.
 """
 class RadialGradientImplIE6 (CanvasGradientImplIE6):
-    
+
     def __init__(self, x0, y0, r0, x1, y1, r1):
         CanvasGradientImplIE6.__init__(self, x0,y0,x1,y1)
         self.startRad = r0
         self.endRad = r1
         self.type = "gradientradial"
-    
-    
+
+
     def cloneGradient(self):
         newGrad = RadialGradientImplIE6(self.startX,self.startY,
                          self.startRad,
@@ -40,14 +40,14 @@ class RadialGradientImplIE6 (CanvasGradientImplIE6):
         newGrad.endX = self.endX
         newGrad.endY = self.endY
         newGrad.endRad = self.endRad
-        
+
         cStops = self.colorStops
-        
+
         for i in range(len(cStops)):
             newGrad.colorStops.append(cStops[i].cloneColorStop())
-        
+
         return newGrad
-    
-    
+
+
 
 

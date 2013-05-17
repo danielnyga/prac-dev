@@ -23,7 +23,7 @@ class Coverage:
         sys.settrace(None)
 
     def output(self, *files):
-        
+
         print """
         <html>
         <head>
@@ -67,11 +67,11 @@ class Coverage:
         </head>
         <body>
         """ % self.testset_name
-        
+
         print """
             <h1>Coverage for %s</h1>
         """ % self.testset_name
-        
+
         for filename in files:
             print """
             <h2>%s</h2>
@@ -94,11 +94,11 @@ class Coverage:
             print """
             </table>
             """
-        
+
         print """
         </body>
         </html>
-        """    
+        """
 
 # Tester
 

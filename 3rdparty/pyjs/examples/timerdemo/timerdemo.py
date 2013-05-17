@@ -54,10 +54,10 @@ class Clock:
     happens when you click on the button.
     '''
 
-    
+
     start_txt = 'Click to start the clock'
     stop_txt = 'Click to stop the clock'
-    
+
     def __init__(self):
 
         # the button
@@ -129,7 +129,7 @@ class PopupTimerButton(Timer, Button):
         else:
             self.create_popup()
             self.reset()
-    
+
     def reset(self):
         # reset to starting state
         self.setHTML('Click for countdown popup')
@@ -234,7 +234,7 @@ class RandomColor:
             # no it's being reset
             self.__label.setText(str(new) + ' sec')
             self.onTimer(self.timer)
-            
+
     def randomcolor(self):
 
         # randomize the color and set the panel accordingly

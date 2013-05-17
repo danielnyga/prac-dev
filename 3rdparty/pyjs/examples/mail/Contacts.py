@@ -26,12 +26,12 @@ class ContactPopup(PopupPanel):
         emailLabel = Label(contact.email)
         inner.add(nameLabel)
         inner.add(emailLabel)
-        
+
         panel = HorizontalPanel()
         panel.setSpacing(4)
         panel.add(Image(contact.photo))
         panel.add(inner)
-        
+
         self.add(panel)
         self.setStyleName("mail-ContactPopup")
         nameLabel.setStyleName("mail-ContactPopupName")
@@ -66,7 +66,7 @@ class Contacts(Composite):
     def addContact(self, contact):
         link = HTML("<a href='javascript:;'>" + contact.name + "</a>")
         self.panel.add(link)
-        
+
         # Add a click listener that displays a ContactPopup when it is clicked.
         listener = ContactListener(contact, link)
         link.addClickListener(listener)
@@ -75,7 +75,7 @@ class ContactListener:
     def __init__(self, contact, link):
         self.cont = contact
         self.link = link
-        
+
     def onClick(self, sender):
         if (sender == self.link):
             popup = ContactPopup(self.cont)

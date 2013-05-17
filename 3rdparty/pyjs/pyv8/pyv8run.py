@@ -30,7 +30,7 @@ from jsglobal import Global
 
 class JSRuntimeError(Exception):
     def __init__(self, ctxt, exc):
-        self.module = ctxt.locals['$pyjs']['track']['module']        
+        self.module = ctxt.locals['$pyjs']['track']['module']
         self.lineno = ctxt.locals['$pyjs']['track']['lineno']
         self.traceback = self.get_traceback(ctxt.locals['$pyjs']['trackstack'])
         if ':' in exc.message and not ' ' in exc.message.split(':', 1)[0]:
@@ -40,22 +40,22 @@ class JSRuntimeError(Exception):
         else:
             self.jserrortype = exc.__class__.__name__
             self.jserrortext = exc.message
-    
+
     def __str__(self):
         return "{0.jserrortype}: {0.module}.py:{0.lineno} {0.jserrortext}".\
                format(self)
-    
+
     def full(self):
         return ("{0.jserrortype}: {0.module}.py:{0.lineno}\n"
                 "Traceback:\n{trace}\n"
                 "{0.jserrortext}".format(self, trace=self.get_traceback_text()))
-    
+
     def get_traceback(self, jstb):
         tb = []
         for x in jstb:
             tb.append(dict(module=x['module'], lineno=x['lineno']))
         return tb
-    
+
     def get_traceback_text(self):
         trace = []
         for x in self.traceback:
@@ -70,17 +70,10 @@ def main():
     translator.add_compile_options(parser)
 
     parser.add_option(
-        "--dynamic",
-        dest="unlinked_modules",
-        action="append",
-        help="regular expression for modules that will not be linked"
-        "and thus loaded dynamically"
-        )
-    parser.add_option(
         "-c",
         dest="command",
         help="Python command to run")
-    
+
     args = sys.argv[1:]
     app_args = []
     if '--' in args:
@@ -97,9 +90,9 @@ def main():
         modules = ['main']
     else:
         modules = args
-    
+
     app_args[0:0] = [modules[0]]
-    
+
     _modules = []
     for mod in modules:
         if mod.startswith('.') or mod.startswith('/') or mod.endswith('.py'):
@@ -108,10 +101,10 @@ def main():
         else:
             _modules.append(mod)
     modules = _modules
-    
+
     pyjs.path[0:0] = [join(pyjs.pyjspth, 'stdlib')]
     pyjs.path.append(join(pyjs.pyjspth, 'pyjs', 'src'))
-    
+
     for d in options.library_dirs:
         pyjs.path.append(os.path.abspath(d))
 
@@ -123,13 +116,13 @@ def main():
                         compiler=translator.compiler,
                         translator_arguments=translator_arguments)
     linker()
-    
+
     fp = open(linker.out_file_mod, 'r')
     txt = fp.read()
     fp.close()
 
     #PyV8.debugger.enabled = True
-    
+
     # create a context with an explicit global
     g = Global(app_args, pyjs.path)
     ctxt = PyV8.JSContext(g)
@@ -140,7 +133,7 @@ def main():
         x = ctxt.eval(txt)
     except Exception, e:
         print JSRuntimeError(ctxt, e).full()
-    
+
     if IS_REPL:
         from repl import REPL
         REPL(translator.compiler, linker, translator_arguments, g, ctxt)()

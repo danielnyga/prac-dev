@@ -11,7 +11,7 @@ JS("""
  * Permission to use, copy, modify, and distribute this software
  * and its documentation for any purposes and without
  * fee is hereby granted provided that this copyright notice
- * appears in all copies. 
+ * appears in all copies.
  *
  * Of course, this soft is provided "as is" without express or implied
  * warranty of any kind.
@@ -20,7 +20,7 @@ JS("""
     by John Walker.
 
  Code found at:
-  http://strongwiki.wisegeek.com/trac/browser/trunk/javascript/crypto
+  http://strongwiki['wisegeek']['com']/trac/browser/trunk/javascript/crypto
 
  */
 
@@ -30,7 +30,7 @@ function array(n) {
     for (i = 0; i < n; i++) {
         this[i] = 0;
     }
-    this.length = n;
+    this['length'] = n;
 }
 
 /* Some basic logical functions had to be rewritten because of a bug in
@@ -59,7 +59,7 @@ function shr(a, b) {
 function shl1(a) {
     a = a % 0x80000000;
     if (a & 0x40000000 == 0x40000000) {
-        a -= 0x40000000;  
+        a -= 0x40000000;
         a *= 2;
         a += 0x80000000;
     } else {
@@ -92,7 +92,7 @@ function and(a, b) {
         if (t2 >= 0) {
             return (a & t2);
         } else {
-            return (a & b);  
+            return (a & b);
         }
     }
 }
@@ -112,7 +112,7 @@ function or(a, b) {
         if (t2 >= 0) {
             return ((a | t2) + 0x80000000);
         } else {
-            return (a | b);  
+            return (a | b);
         }
     }
 }
@@ -132,7 +132,7 @@ function xor(a, b) {
         if (t2 >= 0) {
             return ((a ^ t2) + 0x80000000);
         } else {
-            return (a ^ b);  
+            return (a ^ b);
         }
     }
 }
@@ -144,12 +144,12 @@ function not(a) {
 
 /* Here begin the real algorithm */
 
-var state = new array(4); 
+var state = new array(4);
 var count = new array(2);
     count[0] = 0;
-    count[1] = 0;                     
-var buffer = new array(64); 
-var transformBuffer = new array(16); 
+    count[1] = 0;
+var buffer = new array(64);
+var transformBuffer = new array(16);
 var digestBits = new array(16);
 
 var S11 = 7;
@@ -217,15 +217,15 @@ function II(a, b, c, d, x, s, ac) {
     return a;
 }
 
-function transform(buf, offset) { 
-    var a = 0, b = 0, c = 0, d = 0; 
+function transform(buf, offset) {
+    var a = 0, b = 0, c = 0, d = 0;
     var x = transformBuffer;
-    
+
     a = state[0];
     b = state[1];
     c = state[2];
     d = state[3];
-    
+
     for (i = 0; i < 16; i++) {
         x[i] = and(buf[i * 4 + offset], 0xFF);
         for (j = 1; j < 4; j++) {
@@ -312,20 +312,20 @@ function transform(buf, offset) {
 
 }
 
-this.init = function() {
+this['init'] = function() {
     count[0] = count[1] = 0;
     state[0] = 0x67452301;
     state[1] = 0xefcdab89;
     state[2] = 0x98badcfe;
     state[3] = 0x10325476;
-    for (i = 0; i < digestBits.length; i++) {
+    for (i = 0; i < digestBits['length']; i++) {
         digestBits[i] = 0;
     }
 };
 
-this.update = function(b) { 
+this['update'] = function(b) {
     var index, i;
-    
+
     index = and(shr(count[0],3) , 0x3F);
     if (count[0] < 0xFFFFFFFF - 7) {
       count[0] += 8;
@@ -340,9 +340,9 @@ this.update = function(b) {
     }
 };
 
-this.finish = function() {
+this['finish'] = function() {
     var bits = new array(8);
-    var padding; 
+    var padding;
     var i = 0, index = 0, padLen = 0;
 
     for (i = 0; i < 4; i++) {
@@ -353,24 +353,24 @@ this.finish = function() {
     }
     index = and(shr(count[0], 3), 0x3F);
     padLen = (index < 56) ? (56 - index) : (120 - index);
-    padding = new array(64); 
+    padding = new array(64);
     padding[0] = 0x80;
     for (i = 0; i < padLen; i++) {
-      this.update(padding[i]);
+      this['update'](padding[i]);
     }
     for (i = 0; i < 8; i++) {
-      this.update(bits[i]);
+      this['update'](bits[i]);
     }
 
     for (i = 0; i < 4; i++) {
         for (j = 0; j < 4; j++) {
             digestBits[i * 4 + j] = and(shr(state[i], (j * 8)) , 0xFF);
         }
-    } 
+    }
     return digestBits;
 };
 
-this.getdigestBits = function() {
+this['getdigestBits'] = function() {
     return digestBits;
 };
 

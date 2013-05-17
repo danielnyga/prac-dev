@@ -107,7 +107,7 @@ class HTTPHandler(logging.Handler):
             headers = {}
             headers["Host"] = host
             if self.method == "POST":
-                self.httpRequest.asyncPost(url, data, self, 
+                self.httpRequest.asyncPost(url, data, self,
                     content_type="application/x-www-form-urlencoded",
                     headers=headers)
             else:

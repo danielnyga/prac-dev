@@ -33,7 +33,7 @@ class GetAttribute():
 class Sink:
     def __init__(self):
         self.sink = "Sink"
-    
+
 class SinkInfo:
     def __init__(self, object_type):
         self.object_type=object_type
@@ -46,7 +46,7 @@ class SinkInfo:
         if self.instance==None:
             self.instance=self.createInstance()
         return self.instance
-    
+
 class Trees(Sink):
     def __init__(self):
         Sink.__init__(self)
@@ -161,7 +161,8 @@ class ClassTest(UnitTest):
             from __pyjamas__ import JS
             try:
                 x = ExampleClass().fail_a()
-                self.assertTrue(JS('pyjslib.isUndefined(@{{x}})'))
+                #self.assertTrue(JS('pyjslib.isUndefined(@{{x}})'))
+                self.assertTrue(JS("$pyjs['loaded_modules']['pyjslib']['isUndefined'](@{{x}})"))
             except ValueError:
                 self.assertTrue(True)
 
@@ -359,7 +360,7 @@ class ClassTest(UnitTest):
         self.assertEqual(ExampleChildConstructor.z, expected_result3, "Did not inherit class var from grandparent")
         self.assertEqual(ExampleChildNoConstructor.z, expected_result3, "Did not inherit class var from grandparent")
         self.assertEqual(ExampleChildExplicitConstructor.z, expected_result3, "Did not inherit class var from grandparent")
-        
+
     def testInheritFromType(self):
 
         i_types = [(int, 1), (float, 1.5), (str, "test"), (long, 1),
@@ -375,10 +376,10 @@ class ClassTest(UnitTest):
                 self.assertEqual(inst.test_inh_method(), 1, "Methods of subclasses of type '%s' fail, issue #623" % cls.__name__)
                 self.assertEqual(str(inst), str(val), "__str__ of subclasses of type '%s' fail, issue #623" % cls.__name__)
                 self.assertEqual(type(inst), subclassed_type, "Subclasses of type '%s' have wrong type, issue #623" % cls.__name__)
-                self.assertTrue(isinstance(inst, subclassed_type), "Subclasses of type '%s' have wrong type, issue #623" % cls.__name__)                
+                self.assertTrue(isinstance(inst, subclassed_type), "Subclasses of type '%s' have wrong type, issue #623" % cls.__name__)
             except:
                 self.fail("Subclassing type '%s' does not work, issue #623" % cls.__name__)
-                
+
 
         class SubclassedString(str): pass
         class SubclassedInt(int): pass
@@ -568,24 +569,24 @@ class ClassTest(UnitTest):
             self.fail('Failed to raise error for invalid instance')
         except TypeError, e:
             self.assertTrue(e.args[0].find('get_x() must be called') >= 0, e.args[0])
-    
+
     def testIsSubclass(self):
         class A: pass
         class B(A): pass
         class C(B): pass
         class D: pass
         class E(D, C): pass
-        
+
         self.assertTrue(issubclass(A, A))
         self.assertTrue(issubclass(C, A))
         self.assertTrue(issubclass(E, A))
         self.assertTrue(issubclass(E, (PassMeAClass, A)))
         self.assertFalse(issubclass(A, PassMeAClass))
-        
+
         self.assertRaises(TypeError, issubclass, PassMeAClass(), PassMeAClass)
         self.assertRaises(TypeError, issubclass, PassMeAClass, PassMeAClass())
         self.assertRaises(TypeError, issubclass, None, PassMeAClass)
-    
+
     def testMetaClass(self):
         Klass = type('MyClass', (object,), {'method': method, 'x': 5})
         instance = Klass()
@@ -656,8 +657,8 @@ class ClassTest(UnitTest):
         MultiInherit2.set_x(i, 5)
         self.assertEqual(MultiInherit1.get_x(i), 5)
 
-        self.assertEqual(i.getName(), 'MultiInherit2', 'Inheritance prolem issue #560')
-        self.assertEqual(str(i), 'MultiInherit2', 'Inheritance prolem issue #560')
+        self.assertEqual(i.getName(), 'MultiInherit2', 'Inheritance problem issue #560')
+        self.assertEqual(str(i), 'MultiInherit2', 'Inheritance problem issue #560')
         i = DoubleInheritReversed(1,2,3)
         self.assertEqual(i.getName(), 'MultiInherit2')
         self.assertEqual(str(i), 'MultiInherit2')
@@ -763,7 +764,7 @@ class ClassTest(UnitTest):
         self.assertEqual(pmc.foo(), "foo in PassMeAClass", "foo !in PassMeAClass")
 
         try:
-            pmc = ggetObject("mscp1", 5) 
+            pmc = ggetObject("mscp1", 5)
         except:
             self.assertEqual(False, True, "Exception indicates bug in compiler: 'Error: uncaught exception: ExampleMultiSuperclassParent1() arguments after ** must be a dictionary 5'")
         else:
@@ -922,7 +923,7 @@ class ClassTest(UnitTest):
                         def __init__(self):
                             self.v = 1
                 self.b = B()
- 
+
         a = A(0)
         self.assertEqual(a.b.v, 0)
         a = A(1)
@@ -1014,18 +1015,18 @@ class ClassTest(UnitTest):
         class T(cl[0]):
             pass
         self.assertEqual(T([1]), [1])
-        
+
         class T(cl[1], cl[2]):
             pass
         t = T()
         self.assertEqual(t.m1(), 1)
         self.assertEqual(t.m2(), 2)
-        
+
         class T2(type(t)):
             pass
         t2 = T2()
         self.assertEqual(t2.m1(), 1)
-        self.assertEqual(t2.m2(), 2)        
+        self.assertEqual(t2.m2(), 2)
 
 class PassMeAClass(object):
     def __init__(self):
@@ -1035,7 +1036,7 @@ class PassMeAClass(object):
 
 def PassMeAClassFunction(klass):
     c = klass()
-    return c.foo() 
+    return c.foo()
 
 # testMetaClass
 def method(self):
@@ -1064,10 +1065,10 @@ class ExampleClass:
     @staticmethod
     def sampleStaticMethod(arg):
         return arg
-    
+
     def shouldntWork(arg):
         return "before" + arg + "after"
-        
+
     oldIdiomStaticMethod = staticmethod(shouldntWork)
 
     def fail_a(self):
@@ -1167,7 +1168,7 @@ class OtherClass2(object):
         return ObjectClass.__new__(cls)
     def __init__(self):
         self.init = True
-        
+
 class OtherClass3(object):
     def __new__(cls, x, y):
         val = object.__new__(cls)

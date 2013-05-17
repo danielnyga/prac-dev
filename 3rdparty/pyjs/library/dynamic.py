@@ -14,13 +14,13 @@ class AjaxError(RuntimeError):
     pass
 
 def createHttpRequest():
-    if JS("""typeof $wnd.XMLHttpRequest != 'undefined'"""):
+    if JS("""typeof $wnd['XMLHttpRequest'] != 'undefined'"""):
         # IE7+, Mozilla, Safari, ...
        return JS("""new XMLHttpRequest()""")
 
     # Check for IE6/ActiveX
     try:
-        res = JS("""new ActiveXObject("Msxml2.XMLHTTP")""")
+        res = JS("""new ActiveXObject("Msxml2['XMLHTTP']")""")
         return res
     except:
         pass
@@ -50,7 +50,7 @@ def load(url, onreadystatechange=None, on_load_fn=None, async=False):
                     on_load_fn(evnt, req)
 
     # next line is in JS() for IE6
-    JS("@{{req}}.onreadystatechange = @{{onreadystatechange}};")
+    JS("@{{req}}['onreadystatechange'] = @{{onreadystatechange}};")
     req.open("GET", url , async)
     try:
         req.send(None)
@@ -72,7 +72,7 @@ def load(url, onreadystatechange=None, on_load_fn=None, async=False):
 def inject(values, namespace = None, names=None):
     if namespace is None:
         from __pyjamas__ import JS
-        namespace = JS("$pyjs.global_namespace")
+        namespace = JS("$pyjs['global_namespace']")
     values = dict(values)
     if names is None:
         for k in values:
@@ -85,10 +85,10 @@ def inject(values, namespace = None, names=None):
 
 #
 #  activate_css(str)
-# 
+#
 #  looks for any < link > in the input and sets up a corresponding link node
 #  in the main document.
-# 
+#
 
 def activate_css(targetnode):
     scriptnodes = list(targetnode.getElementsByTagName('link'))
@@ -110,10 +110,10 @@ def activate_css(targetnode):
 
 #
 #  activate_javascript(str)
-# 
+#
 #  looks for any < script > in the input text and sets up a corresponding
 #  script node in the main document.
-# 
+#
 
 def activate_javascript(txt):
     fileref = DOM.createElement('script')
@@ -167,7 +167,7 @@ def ajax_import(url, namespace=None, names=None):
             names = []
         for name in names:
             name_getter.append("$pyjs$moduleObject['%s'] = %s;" % (name, name))
-        
+
         script = """(function ( ) {
 $pyjs$moduleObject={};
 %s;
@@ -185,13 +185,13 @@ return $pyjs$moduleObject;
 
 # From here, just converted from dynamicajax.js
 
-# 
+#
 #  pyjs_load_script
 #
 #  @param url      load script url
 #  @param module   module name
 #  @param onload   text of function to be eval/executed on successful load
-# 
+#
 
 def load_script(url, onload, async):
     wnd().status = ('Loading ' + url)
@@ -213,12 +213,12 @@ def load_script(url, onload, async):
 
 #
 #  ajax_dlink_refresh(oj,url)
-# 
+#
 #  @param id    id of element for insert
 #  @param url   load url
 #  @param timeout   refresh timeout period, ms
 #  @returns     readyState
-# 
+#
 
 # use these to overrun an existing timeout, so that
 # we don't end up with several of them!

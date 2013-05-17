@@ -15,19 +15,19 @@
 
   You should have received a copy of the GNU Lesser General Public License
   along with this software; if not, write to the Free Software
-  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
+  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 """
 from jsonrpc import SimpleServiceHandler
 import socket
 
 from threading import Thread
-    
-    
+
+
 class SocketServiceHandler(SimpleServiceHandler):
     def __init__(self, socket, service, messageDelimiter=""):
         self.socket = socket
         SimpleServiceHandler.__init__(self, service, messageDelimiter=messageDelimiter)
-        
+
     def receiveForever(self):
         while 1:
             try:
@@ -41,10 +41,10 @@ class SocketServiceHandler(SimpleServiceHandler):
                 return
             else:
                 self.handlePartialData(data)
-            
+
     def send(self, data):
         self.socket.send(data)
-    
+
     def close(self):
         SimpleServiceHandler.close(self)
         if self.socket:
@@ -53,7 +53,7 @@ class SocketServiceHandler(SimpleServiceHandler):
                 self.socket = None
             except:
                 pass
-            
+
 
 
 class TCPServiceServer:
@@ -61,22 +61,22 @@ class TCPServiceServer:
         self.service = service
         self.ConnectionHandler = ConnectionHandler
         self.messageDelimiter=messageDelimiter
-        
+
     def serve(self, address):
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.socket.bind(address)        
+        self.socket.bind(address)
         self.socket.listen(5)
         print "serving", self.socket
         while 1:
             (conn,addr) = self.socket.accept()
             self.acceptConnection(conn)
-    
+
     def acceptConnection(self, conn):
         self.handleConnection(conn)
-    
+
     def handleConnection(self, conn):
         self.ConnectionHandler(conn, self.service, messageDelimiter=self.messageDelimiter).receiveForever()
-    
+
 
 
 class ThreadingMixin:
@@ -87,5 +87,5 @@ class ThreadingMixin:
 
 class ThreadedTCPServiceServer(ThreadingMixin, TCPServiceServer):
     pass
-        
-        
+
+

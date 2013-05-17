@@ -17,7 +17,7 @@ from pyjamas.ui.DialogWindow import DialogWindow
 from pyjamas.ui import HasAlignment
 from pyjamas.ui.HorizontalPanel import HorizontalPanel
 
-from pyjamas import DeferredCommand 
+from pyjamas import DeferredCommand
 from pyjamas.Timer import Timer
 from pyjamas import DOM
 

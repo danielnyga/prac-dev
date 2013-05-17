@@ -10,7 +10,7 @@ tasks =  {
     "Do some programming": "Remember to update your software",
     "Power up systems": "Turn on the client but leave the server",
     "Watch some tv": "Remember to catch ER"
-    } 
+    }
 
 class GUI_Controller:
     """ The GUI class is the controller for our application """
@@ -50,7 +50,7 @@ class InfoModel:
     def get_model(self):
         """ Returns the model """
         if self.tree_store:
-            return self.tree_store 
+            return self.tree_store
         else:
             return None
 
@@ -70,12 +70,12 @@ class DisplayModel:
         self.renderer1 = gtk.CellRendererToggle()
         self.renderer1.set_property('activatable', True)
         self.renderer1.connect( 'toggled', self.col1_toggled_cb, model )
-		
+
         # Connect column0 of the display with column 0 in our list model
         # The renderer will then display whatever is in column 0 of
         # our model .
         self.column0 = gtk.TreeViewColumn("Name", self.renderer, text=0)
-		
+
         # The columns active state is attached to the second column
         # in the model.  So when the model says True then the button
         # will show as active e.g on.
@@ -101,7 +101,7 @@ class DisplayModel:
         return
 
 if __name__ == '__main__':
-    Store = InfoModel()	
+    Store = InfoModel()
     Display = DisplayModel()
     myGUI = GUI_Controller()
     myGUI.run()

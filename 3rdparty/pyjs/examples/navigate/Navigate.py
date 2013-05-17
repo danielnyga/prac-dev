@@ -78,7 +78,7 @@ class Hovercraft(TabPanel):
     def set(self, parentBuoy):
         self.parent_buoy = parentBuoy
         params = parentBuoy.plan()
-        if params:    
+        if params:
             for n, tab in enumerate(self.tabs):
                 if tab['name'] in params['hovertype']:
                     self.selectTab(n)
@@ -142,8 +142,8 @@ class TopNav(TabPanel):
 
         buoy = self.parent_buoy.new(page_name,
                                     {page_name : None})
-        
-        
+
+
         if tabIndex == 0:
             buoy.navigate()
             self.tabs[tabIndex]['tab'].set(buoy)

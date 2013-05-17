@@ -23,9 +23,9 @@ class PushButton (CustomButton):
 
     CSS: .gwt-PushButton-
     up/down/up-hovering/down-hovering/up-disabled/down-disabled {.html-face}
-    """    
+    """
     STYLENAME_DEFAULT = "gwt-PushButton"
-    
+
     def __init__(self, upImageText = None, downImageText=None, handler = None,
                        **kwargs):
         """
@@ -35,19 +35,19 @@ class PushButton (CustomButton):
 
         CustomButton.__init__(self, upImageText, downImageText, handler,
                                     **kwargs)
-    
-    
+
+
     def onClick(self, sender=None):
         self.setDown(False)
         CustomButton.onClick(self)
-    
+
 
     def onClickCancel(self):
         self.setDown(False)
 
-    
+
     def onClickStart(self):
         self.setDown(True)
-    
+
 Factory.registerClass('pyjamas.ui.PushButton', 'PushButton', PushButton)
 

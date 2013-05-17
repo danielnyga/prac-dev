@@ -57,9 +57,9 @@ def exception(msg, *args):
 
 
 def write(text):
-    """@deprecated(since='0.8', replacement=logging.debug)"""
+    """@deprecated: (since='0.8', replacement=logging.debug)"""
     __logger.debug(text)
 
 def writebr(text):
-    """@deprecated(since='0.8', replacement=logging.debug)"""
+    """@deprecated: (since='0.8', replacement=logging.debug)"""
     write(text + "\n")

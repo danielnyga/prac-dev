@@ -23,14 +23,15 @@ class TextBox(TextBoxBase):
     Use Kind to set a HTML5 type
 
     Attributes supported:
-        Kind
-        MaxLength
-        Min
-        Max
-        Placeholder
-        Required
-        Step
-        VisibleLength
+
+    * Kind
+    * MaxLength
+    * Min
+    * Max
+    * Placeholder
+    * Required
+    * Step
+    * VisibleLength
     '''
 
     _props = [("kind", "Kind", "Kind", None),

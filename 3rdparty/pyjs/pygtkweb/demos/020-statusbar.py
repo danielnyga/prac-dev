@@ -24,12 +24,12 @@ class StatusbarExample:
         window.set_size_request(200, 100)
         window.set_title("PyGTK Statusbar Example")
         window.connect("delete_event", lambda w,e: gtk.main_quit())
- 
+
         vbox = gtk.VBox(False, 1)
         window.add(vbox)
         vbox.show()
-          
-        self.status_bar = gtk.Statusbar()      
+
+        self.status_bar = gtk.Statusbar()
         vbox.pack_start(self.status_bar, True, True, 0)
         self.status_bar.show()
 
@@ -38,12 +38,12 @@ class StatusbarExample:
         button = gtk.Button("push item")
         button.connect("clicked", self.push_item, context_id)
         vbox.pack_start(button, True, True, 2)
-        button.show()              
+        button.show()
 
         button = gtk.Button("pop last item")
         button.connect("clicked", self.pop_item, context_id)
         vbox.pack_start(button, True, True, 2)
-        button.show()              
+        button.show()
 
         # always display the window as the last step so it all splashes on
         # the screen at once.

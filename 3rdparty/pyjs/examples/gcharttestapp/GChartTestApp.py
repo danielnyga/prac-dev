@@ -11,15 +11,15 @@ from pyjamas.chart import GChart
 
 from pyjamas.Canvas.GWTCanvas import GWTCanvas
 
-from TestGChart00 import TestGChart00 
-from TestGChart01 import TestGChart01 
-from TestGChart02 import TestGChart02 
+from TestGChart00 import TestGChart00
+from TestGChart01 import TestGChart01
+from TestGChart02 import TestGChart02
 
-from TestGChart05 import TestGChart05 
+from TestGChart05 import TestGChart05
 
-from GChartExample00 import GChartExample00 
+from GChartExample00 import GChartExample00
 from GChartExample00a import GChartExample00a
-from GChartExample01 import GChartExample01 
+from GChartExample01 import GChartExample01
 from GChartExample02 import GChartExample02
 from GChartExample03 import GChartExample03
 from GChartExample04 import GChartExample04
@@ -61,7 +61,7 @@ from GChartExample25 import GChartExample25
 * the test should go through very quickly.
 *
 """
-    
+
 """ Linear congruent random number generator.
 *
 * Cannot use GWT's Math.random() because, for automated
@@ -99,7 +99,7 @@ def rnd():
 * HTML/hash code, so you must run the test via the Compile/Browse button.
 *
 """
- 
+
 from GChartTestAppUtil import getTitle
 
 class AddOneChart:
@@ -107,13 +107,13 @@ class AddOneChart:
         #gchart.setOptimizeForMemory(True)
         self.gchart = gchart
         self.needsUpdate = needsUpdate
-    
+
     def execute(self):
         RootPanel("testappcharts").add(HTML(getTitle(self.gchart)))
         RootPanel("testappcharts").add(self.gchart)
         if self.needsUpdate:
             self.gchart.update()
-        
+
 
 
 
@@ -129,10 +129,10 @@ class GWTCanvasBasedCanvasFactory(object):
 
 
 def onModuleLoad():
-    
+
     # TODO: port http://code.google.com/p/gwt-canvas
     GChart.setCanvasFactory(GWTCanvasBasedCanvasFactory())
-    
+
     # thinking about retiring these tests:
     #    addChart(GChartExample11(0,2,False))
     #    addChart(GChartExample11(0,3,False))
@@ -145,7 +145,7 @@ def onModuleLoad():
     #    DeferredCommand.add(Command() { void execute() {
     #    RootPanel.get().add(TestGChart41a())
     #  }})
-    
+
     # To focus on a single test, simply use Eclipse's Source, Toggle comment
     #addChart(GChartExample00())
     #addChart(GChartExample00a())
@@ -197,7 +197,7 @@ def onModuleLoad():
     #DeferredCommand.add(Command() {
     #    def execute(self):
     #        RootPanel.get().add(GChartExample25())
-    #    
+    #
     #)
     #    addChart(TestGChart00())
     #addChartNoUpdate(TestGChart01(0,0))
@@ -404,12 +404,12 @@ def onModuleLoad():
     #RootPanel.get().add(TestGChart58())
 
     #addChart(TestGChart00())
-    
+
     RootPanel("loadingMessage").setVisible(False)
-    
-    
-    
-    
+
+
+
+
 
 if __name__ == '__main__':
     onModuleLoad()

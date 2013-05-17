@@ -22,7 +22,7 @@ from pyjamas import DOM
 * An HTML5 VIDEO element
 """
 class Video(Media):
-    
+
     def __init__(self, src=None, **kwargs):
         self.setElement(DOM.createElement("video"))
         if src:
@@ -32,10 +32,10 @@ class Video(Media):
 
     def getVideoWidth(self):
         return self.getElement().videoWidth
-    
+
     def getVideoHeight(self):
         return self.getElement().videoHeight
-    
+
     def setPoster(self, url):
         self.getElement().poster = url
 

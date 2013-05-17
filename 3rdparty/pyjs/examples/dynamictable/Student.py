@@ -12,6 +12,6 @@ class Student(Person):
 
     def getSchedule(self, daysFilter):
         return self.classSchedule.getDescription(daysFilter)
-    
+
     def getClassSchedule(self):
         return self.classSchedule

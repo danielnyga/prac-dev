@@ -31,7 +31,7 @@ class UIMergeExample:
       </placeholder>
     </toolbar>
     </ui>'''
-      
+
     ui1 = '''<ui>
     <menubar name="MenuBar">
       <menu action="File">
@@ -58,7 +58,7 @@ class UIMergeExample:
       </placeholder>
     </toolbar>
     </ui>'''
-      
+
     def __init__(self):
         # Create the toplevel window
         window = gtk.Window()

@@ -43,7 +43,7 @@ class KitchenSink:
         self.description=HTML()
         self.sink_list=SinkList()
         self.panel=DockPanel()
-        
+
         self.loadSinks()
         self.sinkContainer = DockPanel()
         self.sinkContainer.setStyleName("ks-Sink")
@@ -94,7 +94,7 @@ class KitchenSink:
         self.sinkContainer.setCellHeight(self.curSink, "100%")
         self.sinkContainer.setCellVerticalAlignment(self.curSink, HasAlignment.ALIGN_TOP)
         self.curSink.onShow()
-        
+
     def loadSinks(self):
         self.sink_list.add(Info.init())
         self.sink_list.add(Buttons.init())

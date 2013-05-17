@@ -1,7 +1,7 @@
 # Create your views here.
 
 from django.pimentech.network import *
-from todo.models import Todo 
+from todo.models import Todo
 
 service = JSONRPCService()
 

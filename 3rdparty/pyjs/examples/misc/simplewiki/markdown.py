@@ -23,7 +23,7 @@ def urlmap(txt):
     txt = esc(beg) + "<a href='%s'>" % url
     txt += "%s</a>" % esc(url) + urlmap(end)
     return txt
- 
+
 def ts(txt):
     l = txt.split('\n')
     r = []
@@ -51,7 +51,7 @@ def makeHTML(text):
                 txt += line
             txt += "\n"
             continue
-            
+
         line = line.strip()
         ul_line = False
         ul_line2 = False

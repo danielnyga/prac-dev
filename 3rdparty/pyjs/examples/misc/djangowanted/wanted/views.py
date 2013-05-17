@@ -25,7 +25,7 @@ def index(request, path=None):
     try:
         p = Page.objects.get(name=path)
     except Page.DoesNotExist:
-        p = None 
+        p = None
     if not p and path == 'index':
         return render_to_response('index.html', {'title':'', 'noscript':''})
     args = {'title': p.name,

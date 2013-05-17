@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from django import forms 
+from django import forms
 from wanted.models import *
 
 class FlagForm(ModelForm):

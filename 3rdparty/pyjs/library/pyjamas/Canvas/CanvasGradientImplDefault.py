@@ -23,21 +23,21 @@
 * Native canvas gradients.
 """
 class CanvasGradientImplDefault:
-    
+
     def __init__(self):
         self.nativeGradient = None
-    
+
     def addColorStop(self, offset, color):
         self.addNativeColorStop(offset, str(color))
-    
+
     def getObject(self):
         return self.nativeGradient
-    
+
     def addNativeColorStop(self, offset, color):
         self.nativeGradient.addColorStop(offset, color);
-    
+
     def setNativeGradient(self, grad):
         self.nativeGradient = grad
-    
+
 
 

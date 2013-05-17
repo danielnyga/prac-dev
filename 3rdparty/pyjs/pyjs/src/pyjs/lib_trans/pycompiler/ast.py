@@ -41,7 +41,7 @@ class Node(object):
             self._lineno = lineno
             self._context = None
     lineno = property(_get_lineno, _set_lineno)
-    
+
     def __str__(self):
         return repr(self)
 
@@ -593,7 +593,7 @@ class Function(Node):
 
     def __repr__(self):
         return "Function(%s, %s, %s, %s, %s, %s, %s, %s)" % (repr(self.decorators), repr(self.name), repr(self.argnames), repr(self.defaults), repr(self.varargs), repr(self.kwargs), repr(self.doc), repr(self.code))
-    
+
 _Function = Function
 
 class GenExpr(Node):

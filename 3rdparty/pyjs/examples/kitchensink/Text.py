@@ -24,7 +24,7 @@ class Text(Sink):
         panel.add(self.createTextThing(self.fPasswordText))
         panel.add(HTML("Text area:"))
         panel.add(self.createTextThing(self.fTextArea))
-        
+
         panel.add(HTML("""Textarea below demos oninput event. oninput allows
 to detect when the content of an element has changed. This is different
 from examples above, where changes are detected only if they are made with
@@ -41,12 +41,12 @@ text-entry widget loses focus."""))
         vp.add(self.echo)
         textArea.addInputListener(self)
         panel.add(vp)
-        
+
         self.initWidget(panel)
 
     def onShow(self):
         pass
-    
+
     def onInput(self, sender):
         self.echo.setText(sender.getText())
 
@@ -60,7 +60,7 @@ text-entry widget loses focus."""))
         select_all = Button("select all")
         p.add(select_all)
         p.add(echo)
-        
+
         listener=TextBoxListener(self, textBox, echo, select_all)
         select_all.addClickListener(listener)
         textBox.addKeyboardListener(listener)
@@ -78,7 +78,7 @@ class TextBoxListener:
         self.echo=echo
         self.parent=parent
         self.select_all=select_all
-        
+
     def onClick(self, sender):
         if sender == self.select_all:
             self.textBox.selectAll()
@@ -91,11 +91,11 @@ class TextBoxListener:
 
     def onKeyDown(self, sender, keyCode, modifiers):
         pass
-    
+
     def onKeyPress(self, sender, keyCode, modifiers):
         pass
 
-    
+
 def init():
     text="GWT includes the standard complement of text-entry widgets, each of which "
     text+="supports keyboard and selection events you can use to control text entry.  "

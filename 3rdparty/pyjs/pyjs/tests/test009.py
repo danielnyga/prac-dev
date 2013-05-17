@@ -26,7 +26,7 @@ class ComplexPanel(Panel):
 
     def __init__(self):
         self.children = []
-    
+
     def add(self, widget):
         self.children.append(widget)
         widget.setParent(self)
@@ -39,7 +39,7 @@ class AbsolutePanel(ComplexPanel):
         ComplexPanel.__init__(self)
         self.setElement(DOM.createDiv())
         DOM.setStyleAttribute(self.getElement(), "overflow", "hidden")
-    
+
     def add(self, widget):
         ComplexPanel.add(self, widget)
         DOM.appendChild(self.getElement(), widget.getElement())
@@ -48,7 +48,7 @@ class AbsolutePanel(ComplexPanel):
 
 class RootPanel(AbsolutePanel):
 
-        
+
     def __init__(self):
         AbsolutePanel.__init__(self)
         element = self.getBodyElement()

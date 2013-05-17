@@ -20,5 +20,5 @@ if __name__ == "__main__":
     # To start a celeryd (celery worker) use:
     #   "python manage_celery.py celeryd --loglevel=INFO"
     # To start a flask server on localhost:5000 use:
-    #   "python manage_celery.py runserver" 
+    #   "python manage_celery.py runserver"
     manager.run()

@@ -39,7 +39,7 @@ class ImagesExample:
         button.show()
         hbox.pack_start(button)
         button.connect("clicked", self.button_clicked, "1")
-        
+
         # create several images with data from files and load images into
         # buttons
         image = gtk.Image()

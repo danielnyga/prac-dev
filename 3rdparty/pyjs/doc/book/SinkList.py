@@ -11,7 +11,7 @@ class SinkList(Composite):
         self.vp_list=VerticalPanel()
         self.sinks=[]
         self.selectedSink=-1
-        
+
         self.sp = ScrollPanel(self.vp_list)
         self.sp.setWidth("14em")
 

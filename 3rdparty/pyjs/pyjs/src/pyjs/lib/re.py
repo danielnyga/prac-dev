@@ -282,8 +282,8 @@ class SRE_Pattern:
             return None
         else:
             # Strickly, we shouldn't use string[pos:]
-            # The '^' pattern character should match at the real beginning of 
-            # the string and at positions just after a newline, but not 
+            # The '^' pattern character should match at the real beginning of
+            # the string and at positions just after a newline, but not
             # necessarily at the index where the search is to start.
             # Maybe, we should raise an error if there's a '^' in pat (not in [])
             groups = self.match_code.Exec(string[pos:])

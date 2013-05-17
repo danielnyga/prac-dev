@@ -13,7 +13,7 @@
 #
 #     def __init__(self, defaultPage):
 #         JSONRPCService.__init__(self, defaultPage)
-#         self.add_method(self.echo.__name__, self.echo)    
+#         self.add_method(self.echo.__name__, self.echo)
 #
 #     def echo(self, msg):
 #         return msg

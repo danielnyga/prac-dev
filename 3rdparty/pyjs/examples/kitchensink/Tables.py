@@ -17,13 +17,13 @@ class Tables(Sink):
         outer.setHTML(1, 0, "Look to the right...<br>That's a nested table component ->")
         outer.setWidget(1, 1, inner)
         outer.getCellFormatter().setColSpan(1, 1, 2)
-        
+
         for i in range(10):
             for j in range(5):
                 inner.setText(i, j, "%d" % i + ",%d" % j)
 
         self.initWidget(outer)
-        
+
     def onShow(self):
         pass
 

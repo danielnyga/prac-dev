@@ -187,7 +187,7 @@ class SymbolType:
     # symbols are part of the internals of a GChart,
     # so only we should instantiate them.
     def __init__(self, widthMultiplier, heightMultiplier,
-                        pixelPadLeft, pixelPadRight, 
+                        pixelPadLeft, pixelPadRight,
                         pixelPadTop, pixelPadBottom,
                         isHorizontallyBanded=None):
         AnnotationLocation.validateMultipliers(widthMultiplier,
@@ -1044,7 +1044,7 @@ class SymbolType:
 
         # if the image has an attached label, realize that
         if (annotation!=None  and  (annotation.getText() is not None  or
-            annotation.getWidget() is not None)  and  
+            annotation.getWidget() is not None)  and
             annotation.getVisible()):
             loc = annotation.getLocation()
             if None == loc:
@@ -1915,7 +1915,7 @@ class PieSliceSymbolType (SymbolType):
     # returns the x coordinate where a pie slice edge
     # intersects a given horizontal line, or NaN if none.
     def xWherePieEdgeIntersectsHorizontalLine(self, yOfHorizontalLine,
-                                             xPieCenter, yPieCenter, 
+                                             xPieCenter, yPieCenter,
                                              pieRadius, pieEdgeAngle):
         result = Double.NaN
         dyToArc = pieRadius*math.sin(pieEdgeAngle)
@@ -2115,9 +2115,9 @@ class PieSliceSymbolType (SymbolType):
             yAxisWidth = pp.getYAxisEnsembleWidth()
             titleThickness = pp.chartTitleThickness()
             if not SymbolType.intersects(self, 0.0 - yAxisWidth,
-                                         0.0 - titleThickness, 
-                            pp.getXChartSizeDecoratedQuickly()-yAxisWidth, 
-                            pp.getYChartSizeDecoratedQuickly()-titleThickness, 
+                                         0.0 - titleThickness,
+                            pp.getXChartSizeDecoratedQuickly()-yAxisWidth,
+                            pp.getYChartSizeDecoratedQuickly()-titleThickness,
                             xPx-r, yPx-r, xPx+r, yPx+r):
                 return; # rect containing pie is off decorated chart
 
@@ -2159,7 +2159,7 @@ class PieSliceSymbolType (SymbolType):
             """
             borderWidth = symbol.getBorderWidth()
             if borderWidth >= 0:
-                adjustedBorderWidth = borderWidth 
+                adjustedBorderWidth = borderWidth
             else:
                 adjustedBorderWidth = 2*abs(borderWidth)
 
@@ -2221,16 +2221,16 @@ class PieSliceSymbolType (SymbolType):
                 # non-negative borders fill before stroking (thus
                 # stroke overwrites internal half of border)
                 # GWTCanvas thows an exception w "transparent"
-                if (borderWidth >= 0  and  thickness > 0  and  
-                    GChartConsts.TRANSPARENT_BORDER_COLOR != backgroundColor  and  
+                if (borderWidth >= 0  and  thickness > 0  and
+                    GChartConsts.TRANSPARENT_BORDER_COLOR != backgroundColor  and
                     "transparent" != backgroundColor):
                     canvas.setFillStyle(backgroundColor)
                     canvas.fill()
 
 
                 # stroke whenever a border is present
-                if (borderWidth != 0  and  
-                    GChartConsts.TRANSPARENT_BORDER_COLOR != borderColor  and  
+                if (borderWidth != 0  and
+                    GChartConsts.TRANSPARENT_BORDER_COLOR != borderColor  and
                     "transparent" != borderColor):
                     canvas.setStrokeStyle(borderColor)
                     canvas.stroke()
@@ -2238,9 +2238,9 @@ class PieSliceSymbolType (SymbolType):
 
                 # negative borders fill AFTER stroking (thus zapping
                 # the internal half of the stroked border).
-                if (borderWidth < 0  and  
-                    thickness > 0  and  
-                    GChartConsts.TRANSPARENT_BORDER_COLOR != backgroundColor  and  
+                if (borderWidth < 0  and
+                    thickness > 0  and
+                    GChartConsts.TRANSPARENT_BORDER_COLOR != backgroundColor  and
                     "transparent" != backgroundColor):
                     canvas.setFillStyle(backgroundColor)
                     canvas.fill()
@@ -2279,9 +2279,9 @@ class PieSliceSymbolType (SymbolType):
             optimalIsVertical = (sl.yMax - sl.yMin) > (sl.xMax - sl.xMin)
             isFullPie = (symbol.getPieSliceSize() == 1.0)
             # perform any vertical shading that may be required:
-            if (nBands > 0  and  
-                 (self.verticallyShaded  or  
-                      (self.optimallyShaded  and  
+            if (nBands > 0  and
+                 (self.verticallyShaded  or
+                      (self.optimallyShaded  and
                            optimalIsVertical))):
                 for i in range(int(round(nBands*sl.xMin)),
                                int(sl.xMax*nBands)):
@@ -2356,7 +2356,7 @@ class PieSliceSymbolType (SymbolType):
                         # ALWAYS rely on the (mathematically correct)
                         # fact that problematic bars always connect p[1]
                         # and p[2].
-                        if (abs(theta0-theta1) <= math.pi  or  
+                        if (abs(theta0-theta1) <= math.pi  or
                             self.angleInRange(self.angle(xi-xPx,
                                                          yPx-(0.3*p[j]+0.7*p[j-1])),
                                               theta0,theta1)):
@@ -2383,8 +2383,8 @@ class PieSliceSymbolType (SymbolType):
             # Now do any required horizontal shading. This is
             # basically the same as the code for vertical shading
             # above (w appropriate transposition/adjustments).
-            if (nBands > 0  and  (self.horizontallyShaded  or  
-                    (self.optimallyShaded  and  
+            if (nBands > 0  and  (self.horizontallyShaded  or
+                    (self.optimallyShaded  and
                      not optimalIsVertical))):
                 for i in range( int ( round(-nBands*sl.yMax)),
                                 int ( -nBands * sl.yMin) ):

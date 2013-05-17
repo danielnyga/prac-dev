@@ -22,13 +22,13 @@ class FlowPanelDemo:
         IE, excluding IE8, doesn't support inline-blocks, so we have to use a CSS hack
         (see http://blog.mozilla.com/webdev/2009/02/20/cross-browser-inline-block/ for more on the hack)
         However, we use spans instead of divs for the Label by providing an 'element' argument."""
-       
+
     def __init__(self):
         self.root = RootPanel()
         #Flow panel taking up 70% of the page.  CSS centers it.
         self.flow = FlowPanel(Width="70%", StyleName='flow-panel')
-       
-       
+
+
         for x in range(0, 10):
             self.panel = VerticalPanel()
             #Label each image with its number in the sequence

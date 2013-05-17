@@ -21,7 +21,7 @@ class Lists(Sink):
         self.echo=Label()
 
         self.combo.addChangeListener(self)
-        
+
         for i in range(len(self.sStrings)):
             txt = "List %d" % i
             self.combo.addItem(txt)
@@ -31,19 +31,19 @@ class Lists(Sink):
         self.fillList(0)
         self.list.setItemSelected(0, False)
         self.list.setItemSelected(1, True)
-        
+
         self.list.addChangeListener(self)
-        
+
         horz = HorizontalPanel(VerticalAlignment=HasAlignment.ALIGN_TOP,
                                Spacing=8)
         horz.add(self.combo)
         horz.add(self.list)
-        
+
         panel = VerticalPanel(HorizontalAlignment=HasAlignment.ALIGN_LEFT)
         panel.add(horz)
         panel.add(self.echo)
         self.initWidget(panel)
-        
+
         self.echoSelection()
 
     def onChange(self, sender):
@@ -54,7 +54,7 @@ class Lists(Sink):
 
     def onShow(self):
         pass
-    
+
     def fillList(self, idx):
         self.list.clear()
         strings = self.sStrings[idx]

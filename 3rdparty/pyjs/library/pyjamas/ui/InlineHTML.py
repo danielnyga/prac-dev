@@ -18,10 +18,10 @@ from pyjamas.ui.HTML import HTML
 
 class InlineHTML(HTML):
     '''An HTML, but using <span> instead of <div>'''
-    
+
     def __init__(self, html=None, wordWrap=True, **kwargs):
         kwargs['StyleName'] = kwargs.get('StyleName', "gwt-InlineHTML")
         kwargs['Element'] = DOM.createSpan()
         HTML.__init__(self, html, wordWrap, **kwargs)
-        
+
 Factory.registerClass('pyjamas.ui.InlineHTML', 'InlineHTML', InlineHTML)

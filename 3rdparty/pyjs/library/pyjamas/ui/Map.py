@@ -39,7 +39,7 @@ class ImageMap(ComplexPanel):
     def insert(self, widget, beforeIndex):
         widget.removeFromParent()
         ComplexPanel.insert(self, widget, self.getElement(), beforeIndex)
-    
+
     def setName(self, name):
         DOM.setAttribute(self.getElement(), "name", name)
 
@@ -63,7 +63,7 @@ class MapArea(Widget, MouseHandler, ClickHandler):
         ClickHandler.__init__(self, preventDefault=True)
 
     def setShape(self, shape):
-        DOM.setAttribute(self.getElement(), "shape", shape) 
+        DOM.setAttribute(self.getElement(), "shape", shape)
 
     def setCoords(self, coords):
         DOM.setAttribute(self.getElement(), "coords", coords)

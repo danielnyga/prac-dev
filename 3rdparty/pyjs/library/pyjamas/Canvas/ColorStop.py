@@ -22,11 +22,11 @@ from pyjamas.Canvas.Color import Color
 * to a color stop for color gradients. Only needed for IE impl.
 """
 class ColorStop:
-    
+
     def __init__(self, myOffset, myColor):
         self.offset = myOffset
         self.color = myColor
-    
+
     def cloneColorStop(self):
         return ColorStop(self.offset, Color(str(self.color())))
 

@@ -17,7 +17,7 @@ class Widget:
             return
         self.attached = True
         DOM.setEventListener(self.getElement(), self)
-        
+
     def onDetach(self):
         if not self.attached:
             return

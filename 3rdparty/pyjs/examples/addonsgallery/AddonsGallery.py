@@ -32,7 +32,7 @@ class AddonsGallery:
         self.description=HTML()
         self.sink_list=SinkList()
         self.panel=DockPanel()
-        
+
         self.loadSinks()
         self.sinkContainer = DockPanel()
         self.sinkContainer.setStyleName("ks-Sink")
@@ -58,7 +58,7 @@ class AddonsGallery:
             self.onHistoryChanged(initToken)
         else:
             self.showIntro()
-    
+
     def show(self, info, affectHistory=None):
         if info == self.curInfo: return
         self.curInfo = info
@@ -79,7 +79,7 @@ class AddonsGallery:
         self.sinkContainer.setCellHeight(self.curSink, "100%")
         self.sinkContainer.setCellVerticalAlignment(self.curSink, HasAlignment.ALIGN_TOP)
         self.curSink.onShow()
-        
+
     def loadSinks(self):
         self.sink_list.add(IntroTab.init())
         self.sink_list.add(TooltipTab.init())

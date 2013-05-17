@@ -4,7 +4,7 @@ class TimeSlot:
         self.dayOfWeek = dayOfWeek
         self.startMinutes = startMinutes
         self.endMinutes = endMinutes
-    
+
     def compareTo(self, other):
         if self.dayOfWeek < other.dayOfWeek:
             return -1

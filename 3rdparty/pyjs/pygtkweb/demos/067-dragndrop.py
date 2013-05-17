@@ -50,7 +50,7 @@ class DragNDropExample:
         hScrollbar.show()
         table.attach(hScrollbar, 0, 1, 1, 2, gtk.FILL|gtk.SHRINK,
                      gtk.FILL|gtk.SHRINK,
-                     0, 0)	
+                     0, 0)
         # tell the scrollbars to use the layout widget's adjustments
         vAdjust = layout.get_vadjustment()
         vScrollbar.set_adjustment(vAdjust)

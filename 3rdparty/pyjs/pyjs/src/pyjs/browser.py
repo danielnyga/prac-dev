@@ -21,8 +21,9 @@ else:
     raise ValueError("unknown translator engine '%s'" % translator.name)
 
 from pyjs import util
+from pyjs import options
 from cStringIO import StringIO
-from optparse import OptionParser
+from optparse import OptionParser, OptionGroup
 import pyjs
 import re
 import traceback
@@ -30,6 +31,8 @@ try:
     from hashlib import md5
 except:
     from md5 import md5
+
+from pprint import pprint, pformat
 
 AVAILABLE_PLATFORMS = ('IE6', 'Opera', 'OldMoz', 'Safari', 'Mozilla')
 
@@ -135,6 +138,25 @@ class BrowserLinker(linker.BaseLinker):
                             util.copy_exists(lib, os.path.join(self.output, os.path.basename(lib)))
                             self.merged_public.add(lib)
                             break
+
+        # merge all output/css.d/* files into one output/base.css file
+        css_d_path = os.path.join(self.output, 'css.d')
+        base_css_path = os.path.join(self.output, 'base.css')
+
+        if os.path.exists(css_d_path):
+            hdr = '/* name: %s\n * md5: %s\n */\n'
+            with open(base_css_path, 'w') as base_css:
+                for root, dirs, files in os.walk(css_d_path):
+                    docroot = root.replace(root, '', 1).strip('/')
+                    for frag in files:
+                        frag_path = os.path.join(root, frag)
+                        with open(frag_path) as fd:
+                            csstxt = fd.read()
+                            base_css.write(hdr % (
+                                os.path.relpath(frag_path, self.output),
+                                md5(csstxt).hexdigest(),
+                                ))
+                            base_css.write(csstxt)
 
     def find_boilerplate(self, name):
         if not self.top_module_path:
@@ -267,8 +289,8 @@ class BrowserLinker(linker.BaseLinker):
             dynamic_modules = "['" + "','".join(dynamic_modules) + "']"
         else:
             dynamic_modules = "[]"
-        appscript = "<script><!--\n$wnd.__pygwt_modController.init($pyjs.appname, window)\n$wnd.__pygwt_modController.load($pyjs.appname, [\n'%s'\n])\n--></script>"
-        jsscript = """<script type="text/javascript" src="%(path)s" onload="$pyjs.script_onload('%(modname)s')" onreadystatechange="$pyjs.script_onreadystate('%(modname)s')"></script>"""
+        appscript = "<script><!--\n$wnd['__pygwt_modController']['init']($pyjs['appname'], window)\n$wnd['__pygwt_modController']['load']($pyjs['appname'], [\n'%s'\n])\n--></script>"
+        jsscript = """<script type="text/javascript" src="%(path)s" onload="$pyjs['script_onload']('%(modname)s')" onreadystatechange="$pyjs['script_onreadystate']('%(modname)s')"></script>"""
         dynamic_app_libs = appscript % "',\n'".join([lib[len_ouput_dir:].replace('\\', '/') for lib in dynamic_app_libs])
         dynamic_js_libs = '\n'.join([jsscript % {'path': lib, 'modname': js_modname(lib)} for lib in dynamic_js_libs])
         early_static_app_libs = static_code(early_static_app_libs)
@@ -277,7 +299,7 @@ class BrowserLinker(linker.BaseLinker):
         static_js_libs = static_code(static_js_libs, "javascript lib")
         late_static_js_libs = static_code(late_static_js_libs, "javascript lib")
 
-        setoptions = "\n".join([("$pyjs.options['%s'] = %s;" % (n, v)).lower() for n,v in self.runtime_options])
+        setoptions = "\n".join([("$pyjs['options']['%s'] = %s;" % (n, v)).lower() for n,v in self.runtime_options])
 
         file_contents = template % locals()
         if self.cache_buster:
@@ -325,7 +347,7 @@ class BrowserLinker(linker.BaseLinker):
         html_output_filename = os.path.join(self.output,
                                             self.top_module + '.html')
         if self.apploader_file is None:
-            file_name = html_output_filename 
+            file_name = html_output_filename
         else:
             file_name = self.apploader_file
 
@@ -405,11 +427,10 @@ def serve(path):
 
 def build(top_module, pyjs, options, app_platforms,
           runtime_options, args):
-    print "Building :", top_module
-    print "PYJSPATH :", '\n    '.join(['['] + [p for p in pyjs.path]) + '\n]'
-    
+    print "Building: %s\nPYJSPATH: %s" % (top_module, pformat(pyjs.path))
+
     translator_arguments= translator.get_compile_options(options)
-    
+
     l = BrowserLinker(args,
                       output=options.output,
                       platforms=app_platforms,
@@ -443,109 +464,31 @@ def build(top_module, pyjs, options, app_platforms,
 
 
 def build_script():
-    usage = """
-    usage: %prog [options] <application module name>
+    usage = """usage: %prog [OPTIONS...] APPLICATION [MODULE...]
 
-    This is the command line builder for the pyjamas project, which can
-    be used to build Ajax applications from Python.
-    For more information, see the website at http://pyjs.org/
-    """
+Command line interface to the pyjs.org suite: Python Application -> AJAX Application.
+APPLICATION is the translation entry point; it MUST be importable by the toolchain.
+MODULE(s) will also translate, if available; they MUST be importable by the toolchain."""
     global app_platforms
-    parser = OptionParser(usage = usage)
-    # TODO: compile options
-    translator.add_compile_options(parser)
-    linker.add_linker_options(parser)
-    parser.add_option("-P", "--platforms", dest="platforms",
-        help="platforms to build for, comma-separated")
-    parser.add_option("-l", "--log-level", dest="log_level",
-                      default=None,
-                      type="int",
-                      help="The python log level as an int")
-    parser.add_option(
-        "-m", "--multi-file", dest="multi_file",
-        default=False,
-        action="store_true",
-        help="Include each module via a script-tag instead of writing"
-              " the whole code into the main cache.html file")
 
-    parser.add_option("-A", "--auto-build", dest="auto_build",
-                      default=False,
-                      action="store_true",
-                      help="Runs continuous re-builds on file changes")
+    parser = OptionParser(usage=usage, epilog='For more information, see http://pyjs.org/')
+    parser_group_builder = OptionGroup(parser, 'Builder',
+                                      'Configures the high-level properties of current '
+                                      'command and final project assembly.')
+    parser_group_trans = OptionGroup(parser, 'Translator',
+                                    'Configures the semantics/expectations of '
+                                    'application code. Each --enable-* implies '
+                                    '--disable-*. Groups modify several options at once.')
+    parser_group_linker = OptionGroup(parser, 'Linker',
+                                      'Configures the includes/destination of application '
+                                      'code, static resources, and project support files.')
+    add_builder_options(parser_group_builder)
+    translator.add_compile_options(parser_group_trans)
+    linker.add_linker_options(parser_group_linker)
+    parser.add_option_group(parser_group_builder)
+    parser.add_option_group(parser_group_trans)
+    parser.add_option_group(parser_group_linker)
 
-    parser.add_option("-i", "--list-imports", dest="list_imports",
-                      default=False,
-                      action="store_true",
-                      help="List import dependencies (without compiling)")
-
-    parser.add_option(
-        "-c", "--cache-buster", action="store_true",
-        dest="cache_buster",
-        default=False,
-        help="Enable browser cache-busting (MD5 hash added to output filenames)",
-        )
-
-    parser.add_option(
-        "--apploader-file",
-        dest="apploader_file",
-        help="Specify the application html loader file."
-        )
-
-    parser.add_option(
-        "--bootstrap-file",
-        dest="bootstrap_file",
-        help="Specify the bootstrap code. (Used when application html file is generated)."
-        )
-
-    parser.add_option(
-        "--public-folder",
-        dest="public_folder",
-        help="Specifiy the public folder. (Contents copied into the output dir, see -o)."
-        )
-
-    parser.add_option(
-        "--dynamic",
-        dest="unlinked_modules",
-        action="append",
-        help="regular expression for modules that will not be linked and thus loaded dynamically"
-        )
-
-    parser.add_option(
-        "--no-compile-inplace", dest="compile_inplace",
-        action="store_false",
-        help="Store all js compiled files in output/lib"
-        )
-
-    parser.add_option(
-        "--no-keep-lib-files", dest="keep_lib_files",
-        action="store_false",
-        help="Deletes the js compiled files after linking"
-        )
-
-    parser.add_option(
-        "--compile-inplace", dest="compile_inplace",
-        default=True,
-        action="store_true",
-        help="Store js compiled files in the same place as the python source"
-        )
-
-    parser.add_option(
-        "--keep-lib-files", dest="keep_lib_files",
-        default=True,
-        action="store_true",
-        help="Keep the js compiled files"
-        )
-
-    parser.set_defaults(output="output",
-                        js_includes=[],
-                        js_static_includes=[],
-                        library_dirs=[],
-                        platforms=(','.join(AVAILABLE_PLATFORMS)),
-                        bootstrap_file="bootstrap.js",
-                        apploader_file=None,
-                        public_folder="public",
-                        unlinked_modules=[],
-                        )
     options, _args = parser.parse_args()
     args = []
     for a in _args:
@@ -627,3 +570,84 @@ def build_script():
         first_loop = False
         time.sleep(1)
 
+
+mappings = options.Mappings()
+add_builder_options = mappings.bind
+get_builder_options = mappings.link
+
+
+mappings.log_level = (
+    ['-v', '--verbosity'],
+    ['-l', '--log-level'],
+    [],
+    dict(help='numeric Python logging level',
+         type='int',
+         metavar='LEVEL')
+)
+mappings.platforms = (
+    ['-P', '--platforms'],
+    [],
+    [],
+    dict(help='comma-separated list of target platforms',
+         default=(','.join(AVAILABLE_PLATFORMS)))
+)
+mappings.list_imports = (
+    ['--list-imports'],
+    ['-i'],
+    [],
+    dict(help='list import dependencies (no translation)',
+         default=False)
+)
+mappings.apploader_file = (
+    ['--frame'],
+    ['--apploader-file'],
+    [],
+    dict(help='application html loader file',
+        type='string',
+         metavar='FILE',
+         default=None)
+)
+mappings.bootstrap_file = (
+    ['--bootloader'],
+    ['--bootstrap-file'],
+    [],
+    dict(help='application initial JS import/bootstrap code',
+         metavar='FILE',
+         default='bootstrap.js')
+)
+mappings.public_folder = (
+    ['--resources'],
+    ['--public-folder'],
+    [],
+    dict(help='application resource directory; contents copied to output dir',
+         metavar='PATH',
+         default='public')
+)
+mappings.auto_build = (
+    ['--enable-rebuilds'],
+    ['--auto-build', '-A'],
+    [],
+    dict(help='continuously rebuild on file changes',
+         default=False)
+)
+mappings.cache_buster = (
+    ['--enable-signatures'],
+    ['--cache-buster', '-c'],
+    [],
+    dict(help='enable browser cache-busting; append md5 hashes to filenames',
+         default=False)
+)
+mappings.compile_inplace = (
+    ['--enable-compile-inplace'],
+    ['--compile-inplace'],
+    [],
+    dict(help='store ouput JS in the same place as the Python source',
+         default=False)
+)
+mappings.keep_lib_files = (
+    ['--enable-preserve-libs'],
+    ['--keep-lib-files'],
+    [],
+    dict(help='do not remove intermediate compiled JS libs',
+        default=True)
+)

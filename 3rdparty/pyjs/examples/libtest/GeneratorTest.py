@@ -207,7 +207,7 @@ class GeneratorTest(UnitTest):
                              'finally 3 (1)',
                              'finally 3 (2)',
                              'else 4 (1)',
-                             'else 4 (2)', 
+                             'else 4 (2)',
                              'finally 4 (1)',
                              'finally 4 (2)'])
 
@@ -563,7 +563,7 @@ class GeneratorTest(UnitTest):
         self.assertEqual(r, [0, 1, None, 2, 2, 3, 4])
 
     def testGenExp(self):
-        
+
         g = (child for child in [1,2,3])
         self.assertEqual(g.next(), 1)
         self.assertEqual(g.next(), 2)

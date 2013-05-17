@@ -93,8 +93,8 @@ class XMLFile(object):
 
     def getTag(self, line, requiredTags=None):
         mTag = self.re_tag.match(line)
-        if ( not mTag 
-             or ( requiredTags is not None 
+        if ( not mTag
+             or ( requiredTags is not None
                  and mTag.group(1) not in requiredTags
                 )
            ):

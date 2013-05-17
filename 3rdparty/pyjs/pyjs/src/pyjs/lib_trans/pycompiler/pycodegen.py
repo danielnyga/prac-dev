@@ -487,7 +487,7 @@ class CodeGenerator:
 
     def visitBreak(self, node):
         if not self.setups:
-            raise SyntaxError("'break' outside loop (%s, %d)" % 
+            raise SyntaxError("'break' outside loop (%s, %d)" %
                   (node.filename, node.lineno))
         self.set_lineno(node)
         self.emit('BREAK_LOOP')

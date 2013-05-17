@@ -26,8 +26,8 @@ This will ensure that the form is submitted in a way that allows files to be
 uploaded.
 
 Also, note that FormPanel is a subclass of SimplePanel.  This means that if you
-want a form with more than one widget, you will need to add a subclass of 
-ComplexPanel as the child widget of the FormPanel.  An instance of 
+want a form with more than one widget, you will need to add a subclass of
+ComplexPanel as the child widget of the FormPanel.  An instance of
 VerticalPanel is used in this example.
 """
 from pyjamas.ui.SimplePanel import SimplePanel

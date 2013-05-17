@@ -645,7 +645,6 @@ _fe = @{{fcallext}} = function (module, lineno, obj, base /*, args, star_args, d
         }
         dstar = $new(@{{dict}}, dstar);
     }
-
     if (typeof f.func_args != "undefined") {
         var n_args = args.length;
         if (dstar === null && args.length < f.func_args.length) {
@@ -2154,7 +2153,6 @@ _me = @{{mcallext}} = function (module, lineno, obj, method /*, args, star_args,
         }
         dstar = $new(@{{dict}}, dstar);
     }
-
     if (typeof f.func_args != "undefined") {
         var n_args = args.length;
         if (dstar === null && args.length < f.func_args.length) {
@@ -2703,6 +2701,7 @@ var $new = m$['$new'] = @{{$new}} = function (cls/*, args*/) {
         instance['__class__'] = cls;
     } else {
         instance = @{{fcall}}.apply(module, [module, null, method$, cls, cls].concat(args));
+        instance['__class__'] = cls;
     }
     if (instance['$inst'] === true) {
         method$ = [][1];
@@ -3585,6 +3584,7 @@ var $newext = @{{$newext}} = func(m$, null, {}, '__call__', 0, ['cls'], null, nu
         instance['__class__'] = cls;
     } else {
         instance = @{{fcallext}}.apply(module, [module, null, method$, cls, cls].concat(args));
+        instance['__class__'] = cls;
     }
     if (instance['$inst'] === true) {
         method$ = [][1];
@@ -12246,7 +12246,7 @@ func(m$, null, @{{str}}, '__str__', 1, ['self'], null, null, null, function(self
     if (self.$inst === false) {
         return B$str("<type '" + self['$dict']['__name__'] + "'>");
     }
-    return self;
+    return B$str(self.valueOf());
 });
 
 func(m$, null, @{{str}}, '__repr__', 1, ['self'], null, null, null, function(self) {
@@ -17620,7 +17620,7 @@ func(m$, null, f$, 'op_is', 1, ['a', 'b'], null, null, null, function($a, $b) {
                 return @{{long}}['$dict'].__cmp__($a, $b) == 0 ? @{{True}} : @{{False}};
         }
     }
-    return @{{False}}
+    return @{{False}};
 });
 func(m$, null, f$, 'op_is_not', 1, ['a', 'b'], null, null, null, function($a, $b) {
     if ($a === $b) {
@@ -17636,7 +17636,7 @@ func(m$, null, f$, 'op_is_not', 1, ['a', 'b'], null, null, null, function($a, $b
                 return @{{long}}['$dict'].__cmp__($a, $b) == 0 ? @{{False}} : @{{True}};
         }
     }
-    return @{{True}}
+    return @{{True}};
 });
 func(m$, null, f$, 'op_eq', 1, ['a', 'b'], null, null, null, function($a, $b) {
     if ($a !== null && $b !== null) {
@@ -18281,7 +18281,6 @@ func(m$, null, f$, 'op_in', 1, ['a', 'b'], null, null, null, function($a, $b) {
             return @{{True}};
         }
     }
-
 });
 func(m$, null, f$, 'op_not_in', 1, ['a', 'b'], null, null, null, function($a, $b) {
     var i, mro$;
@@ -18764,7 +18763,6 @@ func(m$, null, f$, 'op_not_in', 1, ['a', 'b'], null, null, null, function($a, $b
             return @{{False}};
         }
     }
-
 });
 
 func(m$, null, f$, 'op_add', 1, ['x', 'y', 'i'], null, null, null, function($x, $y, $i) {

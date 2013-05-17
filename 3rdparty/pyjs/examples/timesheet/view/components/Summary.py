@@ -13,7 +13,7 @@ import time
 
 class Summary(FlexTable):
 
-    columns = [("Time", 5, 5), 
+    columns = [("Time", 5, 5),
                ("Description", None, 60),
               ]
     rows = 0

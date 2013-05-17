@@ -47,7 +47,7 @@ class Bookreader:
         self.description = HTML()
         self.sink_list = SinkList()
         self.panel = DockPanel()
-        
+
         self.loadSinks()
         self.sinkContainer = DockPanel()
         self.sinkContainer.setStyleName("ks-Sink")
@@ -134,7 +134,7 @@ class Bookreader:
         self.sinkContainer.setCellVerticalAlignment(self.curSink,
                                                     HasAlignment.ALIGN_TOP)
         self.curSink.onShow()
-        
+
     def loadSinks(self):
         HTTPRequest().asyncGet("contents.txt", ChapterListLoader(self))
 

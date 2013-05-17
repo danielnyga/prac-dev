@@ -18,7 +18,7 @@ class Application(DialogBoxModal):
         #log.debug("down %d %d" % (x, y))
         DialogBoxModal.onMouseDown(self, sender, x, y)
         self.dragged = False
-        
+
     def onMouseMove(self, sender, x, y):
         #log.debug("move %d %d" % (x, y))
         if self.dragStartX != x or self.dragStartY != y:
@@ -84,7 +84,7 @@ class Screen(AbsolutePanel):
         self.set_app_zindex(app.identifier, app_zi)
 
     def raise_or_lower(self, app):
-        
+
         app_zi = self.window_zindex[app.identifier]
         if app_zi != len(self.window)-1:
             self.raise_app(app)
@@ -92,7 +92,7 @@ class Screen(AbsolutePanel):
             self.lower_app(app)
 
     def close_app(self, app):
-        
+
         app_zi = self.window_zindex[app.identifier]
         for t in self.window_zindex.keys():
             w = self.window[t]

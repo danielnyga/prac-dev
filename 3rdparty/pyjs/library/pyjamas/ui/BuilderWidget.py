@@ -1,29 +1,30 @@
-""" Pyjamas UI BuilderWidget: takes a PyJsGlade builder spec
-    and creates a widget.
+"""
+Pyjamas UI BuilderWidget: takes a PyJsGlade builder spec
+and creates a widget.
 
 Copyright (C) 2010 Luke Kenneth Casson Leighton <lkcl@lkcl.net>
 
-Create a BuilderWidget as follows:
+Create a BuilderWidget as follows::
 
-from pyjamas.builder.Builder import Builder
-from pyjamas.ui.BuilderWidget import BuilderWidget
+    from pyjamas.builder.Builder import Builder
+    from pyjamas.ui.BuilderWidget import BuilderWidget
 
-either:
+either::
 
-class ApplicationEventReceivingClassWhatever:
+    class ApplicationEventReceivingClassWhatever:
 
-    def onSomeRandomClickThing(self, sender):
-        print "some random widget was clicked, it was this one:", sender
+        def onSomeRandomClickThing(self, sender):
+            print "some random widget was clicked, it was this one:", sender
 
-    app = ApplicationEventReceivingClassWhatever()
-    b = Builder()
-    xml = "<?xml .... ?><pyjsglade> .... </pyjsglade>"
-    bw = BuilderWidget(Builder=b,
-                       EventReceiver=app,
-                       BuilderText=xml_file,
-                       InstanceName="WidgetListedInXmlFile")
+        app = ApplicationEventReceivingClassWhatever()
+        b = Builder()
+        xml = "<?xml .... ?><pyjsglade> .... </pyjsglade>"
+        bw = BuilderWidget(Builder=b,
+                           EventReceiver=app,
+                           BuilderText=xml_file,
+                           InstanceName="WidgetListedInXmlFile")
 
-or:
+or::
 
     app = ApplicationEventReceivingClassWhatever()
     xml = "<?xml .... ?><pyjsglade> .... </pyjsglade>"
@@ -32,17 +33,17 @@ or:
                        EventReceiver=app,
                        InstanceName="WidgetListedInXmlFile")
 
-or:
+or::
 
-class BuilderWidgetWithIntegratedEventHandling(BuilderWidget):
-    def onSomeRandomClickThing(self, sender):
-        print "some random widget was clicked, it was this one:", sender
+    class BuilderWidgetWithIntegratedEventHandling(BuilderWidget):
+        def onSomeRandomClickThing(self, sender):
+            print "some random widget was clicked, it was this one:", sender
 
-    b = Builder(xml)
-    bw = BuilderWidgetWithIntegratedEventHandling(Builder=b,
-                       InstanceName="WidgetListedInXmlFile")
+        b = Builder(xml)
+        bw = BuilderWidgetWithIntegratedEventHandling(Builder=b,
+                           InstanceName="WidgetListedInXmlFile")
 
-or:
+or::
 
     b = Builder()
     bw = BuilderWidgetWithIntegratedEventHandling(Builder=b,
@@ -57,7 +58,7 @@ from pyjamas.ui.Composite import Composite
 class BuilderWidget(Composite):
 
     def __init__(self, **kwargs):
-        
+
         self.b = None
         self.text = None
         self.instance_name = None

@@ -43,7 +43,7 @@ class AutoTextArea(TextArea):
                 self.doneHandler.done()
             else:
                 self.autoHeight() #if not ctrl-enter, adjust height
-        
+
     def autoHeight(self):
         #here is some really weak code to calculate the height of the textarea.
         #its not very accurate, im sure you can do better! remember to "import math"

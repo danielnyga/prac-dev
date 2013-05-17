@@ -53,9 +53,9 @@ class HangManWidget(Composite):
         self.radLevel20 = RadioButton("group0", "20+ letters")
 
         self.radLevel5.addClickListener(self.onRadioSelect)
-        self.radLevel10.addClickListener(self.onRadioSelect) 
+        self.radLevel10.addClickListener(self.onRadioSelect)
         self.radLevel15.addClickListener(self.onRadioSelect)
-        self.radLevel20.addClickListener(self.onRadioSelect) 
+        self.radLevel20.addClickListener(self.onRadioSelect)
 
         self.rad_hp = HorizontalPanel()
         self.rad_hp.setSpacing(4)
@@ -82,7 +82,7 @@ class HangManWidget(Composite):
                  self.midrow.add(self.key_widgets[i])
             else:
                  self.botrow.add(self.key_widgets[i])
-        
+
         self.vp_main.add(self.hangdude)
         self.vp_main.add(self.puzzlestring)
         self.vp_main.add(self.toprow)
@@ -104,13 +104,13 @@ class HangManWidget(Composite):
             self.score = 0
             for i in range(len(self.key_widgets)):
                 self.key_widgets[i].setEnabled(True)
-            if self.level == 5: 
+            if self.level == 5:
                 words = Wordlist_5.words
-            elif self.level == 10: 
+            elif self.level == 10:
                 words = Wordlist_10.words
-            elif self.level == 15: 
+            elif self.level == 15:
                 words = Wordlist_15.words
-            elif self.level == 20: 
+            elif self.level == 20:
                 words = Wordlist_20.words
             #pick a random word
             g = random.Random()
@@ -163,7 +163,7 @@ class HangDude(HorizontalPanel):
 
     def draw(self, guesses):
         self.context.fillStyle = '#000'
-        self.context.lineWidth = 2 
+        self.context.lineWidth = 2
         if guesses == 1:
             self.context.fillRect(20, 280, 200,10)
         elif guesses == 2:

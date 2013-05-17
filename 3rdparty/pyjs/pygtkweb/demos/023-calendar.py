@@ -32,7 +32,7 @@ class CalendarExample:
 
     calendar_show_header = 0
     calendar_show_days = 1
-    calendar_month_change = 2 
+    calendar_month_change = 2
     calendar_show_week = 3
 
     def calendar_date_to_string(self):
@@ -107,18 +107,18 @@ class CalendarExample:
         self.font = self.font_dialog.get_font_name()
         if self.window:
             font_desc = pango.FontDescription(self.font)
-            if font_desc: 
+            if font_desc:
                 self.window.modify_font(font_desc)
 
     def calendar_select_font(self, button):
         if not self.font_dialog:
             window = gtk.FontSelectionDialog("Font Selection Dialog")
             self.font_dialog = window
-    
+
             window.set_position(gtk.WIN_POS_MOUSE)
-    
+
             window.connect("destroy", self.font_dialog_destroyed)
-    
+
             window.ok_button.connect("clicked",
                                      self.calendar_font_selection_ok)
             window.cancel_button.connect_object("clicked",
@@ -189,8 +189,8 @@ class CalendarExample:
 
         vbox2 = gtk.VBox(False, self.DEF_PAD)
         hbox.pack_start(vbox2, False, False, self.DEF_PAD)
-  
-        # Build the Right frame with the flags in 
+
+        # Build the Right frame with the flags in
         frame = gtk.Frame("Flags")
         vbox2.pack_start(frame, True, True, self.DEF_PAD)
         vbox3 = gtk.VBox(True, self.DEF_PAD_SMALL)
@@ -202,7 +202,7 @@ class CalendarExample:
             vbox3.pack_start(toggle, True, True, 0)
             self.flag_checkboxes[i] = toggle
 
-        # Build the right font-button 
+        # Build the right font-button
         button = gtk.Button("Font...")
         button.connect("clicked", self.calendar_select_font)
         vbox2.pack_start(button, False, False, 0)
@@ -213,7 +213,7 @@ class CalendarExample:
 
         vbox2 = gtk.VBox(True, self.DEF_PAD_SMALL)
         frame.add(vbox2)
-  
+
         hbox = gtk.HBox (False, 3)
         vbox2.pack_start(hbox, False, True, 0)
         label = gtk.Label("Signal:")

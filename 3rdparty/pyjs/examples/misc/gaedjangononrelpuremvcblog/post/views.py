@@ -21,7 +21,7 @@ def update_post(request, key, title, content):
     post = Post.objects.get(id=key)
     post = map_remote_post_to_local_post(title, content, post)
     post.save()
-    return get_post(request, post.pk) 
+    return get_post(request, post.pk)
 
 @jsonremote(service)
 def add_post(request, title, content):

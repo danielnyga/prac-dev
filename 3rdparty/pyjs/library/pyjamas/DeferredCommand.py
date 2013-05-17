@@ -14,7 +14,10 @@ def flushDeferredCommands():
         current = deferredCommands[0]
         del deferredCommands[0]
         if current:
-            current.execute()
+            if hasattr(current, "execute"):
+                current.execute()
+            else:
+                current()
 
 
 def maybeSetDeferredCommandTimer():
@@ -33,18 +36,3 @@ def onTimer(t):
     maybeSetDeferredCommandTimer()
 
 
-# a simple object to implement a deferred function/method call
-class DPC_Obj():
-    def __init__(self, func):
-        self._func = func
-
-    # the execute method is called by DeferredComand
-    def execute(self):
-        self._func()
-
-
-# a simple DPC mechanism
-# calls the specified routine (with no args)
-# after event stack is cleared
-def queue_Call(func):
-    add(DPC_Obj(func))

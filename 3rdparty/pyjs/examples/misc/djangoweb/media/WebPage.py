@@ -56,7 +56,7 @@ class WebApp:
         self.remote.getPageByName(token, self)
 
     def setPage(self, ref):
-        
+
         htp = self.pages[ref]
         if htp == self.current_page:
             return

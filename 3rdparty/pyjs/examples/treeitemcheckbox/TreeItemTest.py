@@ -1,5 +1,5 @@
 # Copyright (C) 2011 Vsevolod Fedorov <vsevolod.fedorov@gmail.com>
-# License: Apache2 
+# License: Apache2
 # demonstrates issue #628 http://code.google.com/p/pyjamas/issues/detail?id=638
 
 import pyjd # this is dummy in pyjs.

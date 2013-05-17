@@ -55,20 +55,26 @@ def get_prop_widget_function_names(props):
     return get_list_columns(props, (PROP_FNAM,))
 
 class Applier(object):
-             
+
     _props = []
     _elem_props = []
 
     def __init__(self, **kwargs):
-        """ use this to apply properties as a dictionary, e.g.
+        """ use this to apply properties as a dictionary, e.g.::
+
                 x = klass(..., StyleName='class-name')
-            will do:
+
+            will do::
+
                 x = klass(...)
                 x.setStyleName('class-name')
 
-            and:
+            and::
+
                 x = klass(..., Size=("100%", "20px"), Visible=False)
-            will do:
+
+            will do::
+
                 x = klass(...)
                 x.setSize("100%", "20px")
                 x.setVisible(False)
@@ -81,7 +87,7 @@ class Applier(object):
         for (prop, args) in kwargs.items():
             fn = getattr(self, "set%s" % prop, None)
             if not fn:
-                raise Exception("setter function for %s does not exist" % prop)
+                raise Exception("setter function for %s does not exist in %s" % (prop, self.__class__.__name__))
             args = kwargs[prop]
             if isinstance(args, tuple):
                 fn(*args)
@@ -111,7 +117,7 @@ class Applier(object):
         return self._elem_props
 
     def setDefaults(self, defaults):
-        divs = self.retrieveValues(wnames) 
+        divs = self.retrieveValues(wnames)
         for p in get_prop_widget_function_names(self._getProps()):
             defaults[p[PROP_NAME]] = divs[p[PROP_FNAM]]
 
@@ -124,7 +130,7 @@ class Applier(object):
                  val = convert_to_type(val) if val else None
             args[p[PROP_FNAM]] = val
 
-        self.applyValues(**args) 
+        self.applyValues(**args)
 
     def setElementProperties(self, context, elemProps):
         args = {}
@@ -140,5 +146,5 @@ class Applier(object):
                     continue
             args[p[ELPROP_FNAM]] = (context, val,)
 
-        self.applyValues(**args) 
+        self.applyValues(**args)
 

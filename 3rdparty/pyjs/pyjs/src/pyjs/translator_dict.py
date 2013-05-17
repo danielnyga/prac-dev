@@ -15,10 +15,6 @@ def sym_type(name):
 def new_node(name):
     return Node(sym_type(name), [])
 
-# use this now!
-import pycompiler as compiler
-from pycompiler.visitor import ASTVisitor
-
 import __Pyjamas__
 from __Future__ import __Future__
 
@@ -1842,8 +1838,8 @@ var %(module)s = %(module_store)s[%(module_name)r] = {
 ++      %(globals)s['__builtins__'] = %(module_store)s[%(__builtin__)r]
 ++      %(track)s['module'] = $name;""" % jsvars)
             if jsvars['module_name'] != jsvars['__builtin__']:
-                # Add builtins to the module object _and_ the globals. On 
-                # deletion of a global, the builtin (if any) has to be 
+                # Add builtins to the module object _and_ the globals. On
+                # deletion of a global, the builtin (if any) has to be
                 # copied back from module to global.
                 # TODO: restrict the number of 'copied' builtins
                 self.add_lines("""\
@@ -2111,7 +2107,7 @@ if (true) {""" % jsvars)
                     locals_init.append(
                         "%s['%s'] = $%s;" % (
                             jsvars['locals'],
-                            arg, 
+                            arg,
                             arg,
                         )
                     )
@@ -2450,7 +2446,7 @@ if (true) {""" % jsvars)
             jsvars.update(locals())
             if jsbool:
                 return "%(builtin)s['test_not'](%(value)s)" % jsvars
-            
+
             return "%(builtin)s['op_not'](%(value)s)" % jsvars
         self.not_implemented(node)
 
@@ -3126,7 +3122,7 @@ if (!(%(loop)s).valueOf()) {""" % jsvars, )
 ###
 
 from options import (all_compile_options, add_compile_options,
-                     get_compile_options, debug_options, speed_options, 
+                     get_compile_options, debug_options, speed_options,
                      pythonic_options)
 
 if os.environ.has_key('PYJS_SYSPATH'):

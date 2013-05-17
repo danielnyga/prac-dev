@@ -45,7 +45,7 @@ global sc
 sc = None
 def greet(fred):
     global sc
-    txt = fred.getText() 
+    txt = fred.getText()
     if txt == "Click me lots":
         sc = StyleSheetCssText(newcolours)
         fred.setText("Did it work?")

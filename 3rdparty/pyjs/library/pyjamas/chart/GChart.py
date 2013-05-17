@@ -71,7 +71,7 @@ from pyjamas.chart.GChartConsts import XLABEL_ID
 from pyjamas.chart.GChartConsts import FOOTNOTES_ID
 from pyjamas.chart.GChartConsts import HOVER_CURSOR_ID
 from pyjamas.chart.GChartConsts import HOVER_ANNOTATION_ID
-from pyjamas.chart.GChartConsts import N_PRE_SYSTEM_CURVES 
+from pyjamas.chart.GChartConsts import N_PRE_SYSTEM_CURVES
 from pyjamas.chart.GChartConsts import N_POST_SYSTEM_CURVES
 from pyjamas.chart.GChartConsts import DEFAULT_GRID_COLOR
 from pyjamas.chart.GChartConsts import GRID_BORDER_STYLE
@@ -81,10 +81,10 @@ from pyjamas.chart.GChartConsts import DEFAULT_GRID_HEIGHT
 from pyjamas.chart.GChartConsts import TICK_BORDER_STYLE
 from pyjamas.chart.GChartConsts import TICK_BORDER_WIDTH
 from pyjamas.chart.GChartConsts import Y2_AXIS
-from pyjamas.chart.GChartConsts import DEFAULT_TITLE_THICKNESS 
+from pyjamas.chart.GChartConsts import DEFAULT_TITLE_THICKNESS
 from pyjamas.chart.GChartConsts import DEFAULT_FOOTNOTES_THICKNESS
 from pyjamas.chart.GChartConsts import TICK_CHARWIDTH_TO_FONTSIZE_LOWERBOUND
-from pyjamas.chart.GChartConsts import TRANSPARENT_BORDER_COLOR 
+from pyjamas.chart.GChartConsts import TRANSPARENT_BORDER_COLOR
 from pyjamas.chart.GChartConsts import YAxisId
 
 from pyjamas.chart import Double
@@ -94,9 +94,9 @@ from pyjamas.chart import TickLocation
 from pyjamas.chart import TouchedPointUpdateOption
 
 from pyjamas.chart.Curve import Curve
-from pyjamas.chart import GChartUtil 
+from pyjamas.chart import GChartUtil
 from pyjamas.chart.GChartWidgets import PlotPanel
-from pyjamas.chart import GChartWidgets 
+from pyjamas.chart import GChartWidgets
 
 import pygwt
 from pyjamas.chart.Axis import XAxis, YAxis, Y2Axis
@@ -3483,7 +3483,7 @@ class GChart (Composite, FocusHandler, KeyboardHandler,
     # constructs the chart within the chart panel from current specs
     def assembleChart(self):
 
-        if (self.chartDecorationsChanged  or self.xAxis.limitsChanged()  or  
+        if (self.chartDecorationsChanged  or self.xAxis.limitsChanged()  or
             self.yAxis.limitsChanged()  or  self.y2Axis.limitsChanged()):
 
             self.plotPanel.reset(self.xChartSize, self.yChartSize,
@@ -3654,7 +3654,7 @@ class GChart (Composite, FocusHandler, KeyboardHandler,
     # renders the curve in the plot panel
     def realizeCurve(self, c):
         if c.isValidated():
-            return 
+            return
         internalIndex = self.getInternalCurveIndex(c)
         rpIndex = self.getRenderingPanelIndex(internalIndex)
         grp = self.plotPanel.getGraphicsRenderingPanel(rpIndex)
@@ -3669,8 +3669,8 @@ class GChart (Composite, FocusHandler, KeyboardHandler,
             c.setWasCanvasRendered(False)
 
         # continuous fill# non-empty fill# canvas available
-        elif (0 == c.getSymbol().getFillSpacing()  and  
-                 0 < c.getSymbol().getFillThickness()  and  
+        elif (0 == c.getSymbol().getFillSpacing()  and
+                 0 < c.getSymbol().getFillThickness()  and
                     None != self.getCanvasFactory()  and
                        c.isVisible()):
             grp.maybeAddCanvas()

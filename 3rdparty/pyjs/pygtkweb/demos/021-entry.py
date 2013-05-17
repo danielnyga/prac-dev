@@ -40,19 +40,19 @@ class EntryExample:
         hbox = gtk.HBox(False, 0)
         vbox.add(hbox)
         hbox.show()
-                                  
+
         check = gtk.CheckButton("Editable")
         hbox.pack_start(check, True, True, 0)
         check.connect("toggled", self.entry_toggle_editable, entry)
         check.set_active(True)
         check.show()
-    
+
         check = gtk.CheckButton("Visible")
         hbox.pack_start(check, True, True, 0)
         check.connect("toggled", self.entry_toggle_visibility, entry)
         check.set_active(True)
         check.show()
-                                   
+
         button = gtk.Button(stock=gtk.STOCK_CLOSE)
         button.connect("clicked", lambda w: gtk.main_quit())
         vbox.pack_start(button, True, True, 0)

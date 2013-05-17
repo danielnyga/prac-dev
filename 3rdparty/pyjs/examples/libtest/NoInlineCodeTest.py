@@ -1,4 +1,6 @@
 # Tests for the implementatuion of --no-inline-code
+# Note that the use of int/float/lon as variable 
+# is not allowed with google closure compile
 
 import sys
 import UnitTest
@@ -352,10 +354,10 @@ class NoInlineCodeTest(UnitTest.UnitTest):
         collection.append((0, args, kwargs))
         fn(1, *args, **kwargs)
         self.assertEqual(
-            collection, 
+            collection,
             [
-                (0, (2, 3), {'a': 'a', 'b': 'b'}), 
-                (2, (), {}), 
+                (0, (2, 3), {'a': 'a', 'b': 'b'}),
+                (2, (), {}),
                 (1, (2, 3), {'a': 'a', 'b': 'b'}),
             ],
         )

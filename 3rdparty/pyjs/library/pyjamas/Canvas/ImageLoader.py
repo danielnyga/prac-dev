@@ -30,16 +30,20 @@ imageLoaders = []
 * method once all specified Images are loaded.
 """
 class ImageLoader:
-    
-    
+
+
     def __init__(self):
-    
+
         self.images = []
         self.callBack = None
         self.loadedImages = 0
         self.totalImages = 0
-    
-    
+
+        #some listeners want to call onImageLoad, instead of onLoad
+        #fixes issue 746
+        self.onImageLoad = self.onLoad
+
+
     """*
     * Stores the ImageElement reference so that when all the images report
     * an onload, we can return the array of all the ImageElements.
@@ -48,8 +52,8 @@ class ImageLoader:
     def addHandle(self, img):
         self.totalImages += 1
         self.images.append(img)
-    
-    
+
+
     """*
     * Invokes the onImagesLoaded method in the CallBack if all the
     * images are loaded AND we have a CallBack specified.
@@ -61,9 +65,9 @@ class ImageLoader:
             self.callBack.onImagesLoaded(self.images)
             # remove the image loader
             imageLoaders.remove(self)
-        
-    
-    
+
+
+
     """*
     * Sets the callback object for the ImageLoader.
     * Once this is set, we may invoke the callback once all images that
@@ -73,16 +77,16 @@ class ImageLoader:
     """
     def finalize(self, cb):
         self.callBack = cb
-    
-    
+
+
     def incrementLoadedImages(self):
         self.loadedImages += 1
-    
-    
+
+
     def isAllLoaded(self):
         return (self.loadedImages == self.totalImages)
-    
-    
+
+
     """*
     * Returns a handle to an img object. Ties back to the ImageLoader instance
     """
@@ -97,24 +101,24 @@ class ImageLoader:
         DOM.setEventListener(img.getElement(), img)
         DOM.sinkEvents(img.getElement(), Event.ONLOAD)
         return img
-        
+
     def onLoad(self, img):
 
         if not img.__isLoaded:
-            
+
             # __isLoaded should be set for the first time here.
             # if for some reason img fires a second onload event
             # we do not want to execute the following again (hence the guard)
             img.__isLoaded = True;
             self.incrementLoadedImages();
             img.removeLoadListener(self)
-            
+
         # we call this function each time onload fires
         # It will see if we are ready to invoke the callback
         self.dispatchIfComplete();
-        
+
         return img;
-    
+
 
 
 """*
@@ -131,11 +135,11 @@ def loadImages(urls, cb):
     il = ImageLoader()
     for i in range(len(urls)):
         il.addHandle(il.prepareImage(urls[i]))
-    
+
     il.finalize(cb)
     imageLoaders.append(il)
     # Go ahead and fetch the images now
     for i in range(len(urls)):
         il.images[i].setUrl(urls[i])
-    
+
 

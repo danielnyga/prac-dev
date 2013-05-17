@@ -17,30 +17,30 @@ class Images(Sink):
 
         for i in range(len(self.sImages)):
             self.sImages[i]=self.baseURL() + self.sImages[i]
-        
+
         self.image.addLoadListener(self)
         self.prevButton.addClickListener(self)
         self.nextButton.addClickListener(self)
-        
+
         topPanel = DockPanel()
         topPanel.setVerticalAlignment(HasAlignment.ALIGN_MIDDLE)
         topPanel.add(self.prevButton, DockPanel.WEST)
         topPanel.add(self.nextButton, DockPanel.EAST)
         topPanel.add(self.loadingImage, DockPanel.CENTER)
-        
+
         panel = VerticalPanel()
         panel.setHorizontalAlignment(HasAlignment.ALIGN_CENTER)
         panel.add(HTML("<h2>A Bit of Rembrandt</h2>", True))
         panel.add(topPanel)
         panel.add(self.image)
-        
+
         panel.setWidth("100%")
         self.initWidget(panel)
         self.image.setStyleName("ks-images-Image")
         self.nextButton.setStyleName("ks-images-Button")
         self.prevButton.setStyleName("ks-images-Button")
-        
-        self.loadImage(0)           
+
+        self.loadImage(0)
 
     def onClick(self, sender):
         if sender==self.prevButton:

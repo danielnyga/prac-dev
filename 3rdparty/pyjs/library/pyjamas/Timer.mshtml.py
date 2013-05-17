@@ -16,14 +16,14 @@
 # call into comtypes to make windows happy with python threads.
 
 class Timer:
-        
+
     def __impl_init_hook(self):
 
         # we need windows to fire the function so it's happy with
         # python threads...so we wrap the function with this call
         def wrap():
             pyjd.add_timer_queue(onTimer)
-            
+
         onTimer = self.__onTimer
         self.__onTimer = wrap
 
@@ -31,10 +31,10 @@ class Timer:
         timer = pyjd.threading.Timer(delayMillis/1000.0, self.__fire)
         timer.start()
         return timer
-    
+
     def __clearTimeout(self, timer):
         timer.cancel()
-        
+
     def __setInterval(self, periodMillis):
 
         # wrap the call so we can repeat the interval

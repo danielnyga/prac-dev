@@ -66,10 +66,10 @@ def motion_notify_event(widget, event):
         x = event.x
         y = event.y
         state = event.state
-    
+
     if state & gtk.gdk.BUTTON1_MASK and pixmap is not None:
         draw_brush(widget, x, y)
-  
+
     return True
 
 def main():

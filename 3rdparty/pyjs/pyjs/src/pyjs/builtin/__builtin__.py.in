@@ -2513,7 +2513,7 @@ func(${0,module}$, null, @{{str}}, '__str__', ${0, function}$, ['self'], null, n
     if (self.$inst === false) {
         return B$str("<type '" + self['$dict']['__name__'] + "'>");
     }
-    return self;
+    return B$str(self.valueOf());
 });
 
 func(${0,module}$, null, @{{str}}, '__repr__', ${0, function}$, ['self'], null, null, null, function(self) {

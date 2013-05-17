@@ -34,7 +34,7 @@ class Slideshow:
         self.sink_list=SinkList()
         self.panel=DockPanel()
         self.b=Button("load", self)
-        
+
         self.sinkContainer = DockPanel()
         self.sinkContainer.setStyleName("ks-Sink")
 
@@ -99,7 +99,7 @@ class Slideshow:
         self.sinkContainer.setCellHeight(self.curSink, "100%")
         self.sinkContainer.setCellVerticalAlignment(self.curSink, HasAlignment.ALIGN_TOP)
         self.curSink.onShow()
-        
+
     def loadSinks(self):
         HTTPRequest().asyncGet("slides.txt", SlideListLoader(self))
 

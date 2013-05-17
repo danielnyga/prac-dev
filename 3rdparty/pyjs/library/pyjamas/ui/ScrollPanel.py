@@ -46,7 +46,7 @@ class ScrollPanel(SimplePanel):
     # next three functions are part of the standard Builder API for panels
     def addIndexedItem(self, index, item):
         self.setWidget(item)
-    
+
     def getWidgetIndex(self, index):
         return 0
 

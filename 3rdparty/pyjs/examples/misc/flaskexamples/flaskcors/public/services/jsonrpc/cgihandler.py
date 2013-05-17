@@ -15,7 +15,7 @@
 
   You should have received a copy of the GNU Lesser General Public License
   along with this software; if not, write to the Free Software
-  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
+  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 """
 
 from jsonrpc import SimpleServiceHandler
@@ -27,10 +27,10 @@ class CGIHandler(SimpleServiceHandler):
         self.sendData =[]
         SimpleServiceHandler.__init__(self, service, messageDelimiter=messageDelimiter)
 
-    
+
     def send(self, data):
         self.sendData.append(data)
-        
+
     def handle(self):
         try:
             contLen=int(os.environ['CONTENT_LENGTH'])
@@ -38,16 +38,16 @@ class CGIHandler(SimpleServiceHandler):
         except:
             data = ""
         #execute the request
-        self.handlePartialData(data) 
+        self.handlePartialData(data)
         self.sendReply()
         self.close()
-    
+
     def sendReply(self):
         data = "\n".join(self.sendData)
         response = "Content-Type: text/plain\n"
         response += "Content-Length: %d\n\n" % len(data)
         response += data
-        
+
         #on windows all \n are converted to \r\n if stdout is a terminal and  is not set to binary mode :(
         #this will then cause an incorrect Content-length.
         #I have only experienced this problem with apache on Win so far.
@@ -56,7 +56,7 @@ class CGIHandler(SimpleServiceHandler):
             msvcrt.setmode(sys.stdout.fileno(), os.O_BINARY)
         #put out the response
         sys.stdout.write(response)
-        
-        
+
+
 def handleCGIRequest(service):
     CGIHandler(service,messageDelimiter="\n").handle()

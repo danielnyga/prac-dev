@@ -29,7 +29,7 @@ class FocusPanel(SimplePanel, FocusHandler, KeyboardHandler,
                           FocusMixin):
 
     def __init__(self, **kwargs):
-        """ pass in Widget={the widget} so that Applier will call setWidget.  
+        """ pass in Widget={the widget} so that Applier will call setWidget.
         """
 
         SimplePanel.__init__(self, Focus.createFocusable(), **kwargs)

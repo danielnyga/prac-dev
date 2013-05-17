@@ -218,7 +218,7 @@ class Random(_random.Random):
         # in selection order so that all sub-slices will also be valid random
         # samples.  This allows raffle winners (the sample) to be partitioned
         # into grand prize and second place winners (the subslices).
-        # 
+        #
         # Members of the population need not be hashable or unique.  If the
         # population contains repeats, then each occurrence is a possible
         # selection in the sample.
@@ -564,12 +564,12 @@ class WichmannHill(Random):
 
     def seed(self, a=None):
         # """Initialize internal state from hashable object.
-# 
+#
         # None or no argument seeds from current time or from an operating
         # system specific randomness source if available.
-# 
+#
         # If a is not None or an int or long, hash(a) is used instead.
-# 
+#
         # If a is an int or long, a is used directly.  Distinct values between
         # 0 and 27814431486575L inclusive are guaranteed to yield distinct
         # internal states (this guarantee is specific to the default
@@ -640,9 +640,9 @@ class WichmannHill(Random):
 
     def jumpahead(self, n):
         # """Act as if n calls to random() were made, but quickly.
-        # 
+        #
         # n is an int, greater than or equal to 0.
-        # 
+        #
         # Example use:  If you have 2 threads and know that each will
         # consume no more than a million random numbers, create two Random
         # objects r1 and r2, then do

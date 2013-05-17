@@ -21,7 +21,7 @@
 * of the specified color for easy compatibility with various APIs
 """
 class Color:
-    
+
     """*
     * Create a using a valid CSSString.
     * We do not do any validation so be careful!
@@ -50,10 +50,10 @@ class Color:
             self.colorStr = "rgb(%d,%d,%d)" % (r, g, b)
         else:
             self.colorStr = "rgba(%d,%d,%d,%f)" % (r, g, b, a)
-    
+
     def __str__(self):
         return self.colorStr
-    
+
 
 
 """

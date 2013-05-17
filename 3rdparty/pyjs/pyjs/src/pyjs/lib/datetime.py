@@ -6,7 +6,7 @@ MINYEAR = 1
 MAXYEAR = 1000000
 
 # __Jan_01_0001 : local time for Mon Jan 01 0001 00:00:00
-__Jan_01_0001 = JS("""(new Date((new Date('Jan 1 1971')).getTime() - 62167132800000)).getTime()""")
+__Jan_01_0001 = JS("""(new Date((new Date('Jan 1 1971'))['getTime']() - 62167132800000))['getTime']()""")
 
 
 class date:
@@ -17,26 +17,26 @@ class date:
         self.year = d.getFullYear()
         self.month = d.getMonth() + 1.0
         self.day = d.getDate()
-    
+
     @classmethod
     def today(self):
         return date(d=JS("""new Date()"""))
-    
+
     @classmethod
     def fromtimestamp(self, timestamp):
         d = JS("""new Date()""")
         d.setTime(timestamp * 1000.0)
         return date(0, 0, 0, d=d)
-    
+
     @classmethod
     def fromordinal(self, ordinal):
         t = __Jan_01_0001 + (ordinal-1) * 86400000.0
         d = JS("""new Date(@{{t}})""")
         return date(0, 0, 0, d=d)
-    
+
     def ctime(self):
         return "%s %s %2d %02d:%02d:%02d %04d" % (__c__days[self._d.getDay()][:3], __c__months[self._d.getMonth()][:3], self._d.getDate(), self._d.getHours(), self._d.getMinutes(), self._d.getSeconds(), self._d.getFullYear())
-    
+
     def isocalendar(self):
         isoyear = isoweeknr = isoweekday = None
         _d = self._d
@@ -48,14 +48,14 @@ class date:
                     y--;
                     m += 12;
                 }
-                return Math.floor(365.25 * y) - Math.floor(y / 100) + Math.floor(y / 400) + Math.floor(30.6 * (m + 1)) + day - 62;
+                return Math['floor'](365.25 * y) - Math['floor'](y / 100) + Math['floor'](y / 400) + Math['floor'](30.6 * (m + 1)) + day - 62;
             };
-            
-            var year = @{{_d}}.getFullYear();
-            var month = @{{_d}}.getMonth();
-            var day = @{{_d}}.getDate();
-            var wday = @{{_d}}.getDay();
-            
+
+            var year = @{{_d}}['getFullYear']();
+            var month = @{{_d}}['getMonth']();
+            var day = @{{_d}}['getDate']();
+            var wday = @{{_d}}['getDay']();
+
             @{{isoweekday}} = ((wday + 6) % 7) + 1;
             @{{isoyear}} = year;
 
@@ -63,7 +63,7 @@ class date:
             var weekday0 = ((d0 + 4) % 7) + 1;
 
             var d = gregdaynumber(year, month + 1, day);
-            @{{isoweeknr}} = Math.floor((d - d0 + weekday0 + 6) / 7) - Math.floor((weekday0 + 3) / 7);
+            @{{isoweeknr}} = Math['floor']((d - d0 + weekday0 + 6) / 7) - Math['floor']((weekday0 + 3) / 7);
 
             if ((month == 11) && ((day - @{{isoweekday}}) > 27)) {
                 @{{isoweeknr}} = 1;
@@ -73,18 +73,18 @@ class date:
             if ((month == 0) && ((@{{isoweekday}} - day) > 3)) {
                 d0 = gregdaynumber(year - 1, 1, 0);
                 weekday0 = ((d0 + 4) % 7) + 1;
-                @{{isoweeknr}} = Math.floor((d - d0 + weekday0 + 6) / 7) - Math.floor((weekday0 + 3) / 7);
+                @{{isoweeknr}} = Math['floor']((d - d0 + weekday0 + 6) / 7) - Math['floor']((weekday0 + 3) / 7);
                 @{{isoyear}}--;
             }
         """)
         return (isoyear, isoweeknr, isoweekday)
-    
+
     def isoformat(self):
         return "%04d-%02d-%02d" % (self.year, self.month, self.day)
-    
+
     def isoweekday(self):
         return ((self._d.getDay() + 6) % 7) + 1
-    
+
     def replace(self, year=None, month=None, day=None):
         if year is None:
             year = self.year
@@ -93,18 +93,18 @@ class date:
         if day is None:
             day = self.day
         return date(year, month, day)
-    
+
     def strftime(self, format):
         return strftime(format, self.timetuple())
-    
+
     def timetuple(self):
         tm = localtime(int(self._d.getTime() / 1000.0))
         tm.tm_hour = tm.tm_min = tm.tm_sec = 0
         return tm
-    
+
     def toordinal(self):
         return 1 + int((self._d.getTime() - __Jan_01_0001) / 86400000.0)
-    
+
     def weekday(self):
         return (self._d.getDay() + 6) % 7
 
@@ -122,13 +122,13 @@ class date:
         else:
             raise TypeError("expected date or datetime object")
         return 1
-    
+
     def __add__(self, other):
         if isinstance(other, timedelta):
             return date(self.year, self.month, self.day + other.days)
         else:
             raise TypeError("expected timedelta object")
-    
+
     def __sub__(self, other):
         if isinstance(other, date) or isinstance(other, datetime):
             diff = self._d.getTime() - other._d.getTime()
@@ -151,16 +151,16 @@ class time:
         self.second = d.getSeconds()
         self.microsecond = d.getMilliseconds() * 1000.0
         self.tzinfo = None
-        
+
     def dst(self):
         raise NotImplementedError("dst")
-    
+
     def isoformat(self):
         t = "%02d:%02d:%02d" % (self.hour, self.minute, self.second)
         if self.microsecond:
             t += ".%06d" % self.microsecond
         return t
-    
+
     def replace(self, hour=None, minute=None, second=None, microsecond=None, tzinfo=None):
         if tzinfo != None:
             raise NotImplementedError("tzinfo")
@@ -173,13 +173,13 @@ class time:
         if microsecond is None:
             microsecond = self.microsecond
         return time(hour, minute, second, microsecond)
-    
+
     def strftime(self, format):
         return strftime(format, localtime(int(self._d.getTime() / 1000.0)))
-    
+
     def tzname(self):
         return None
-    
+
     def utcoffset(self):
         return None
 
@@ -193,11 +193,11 @@ class datetime(date, time):
             d = JS("""new Date(@{{year}}, @{{month}} - 1, @{{day}}, @{{hour}}, @{{minute}}, @{{second}}, 0.5 + @{{microsecond}} / 1000.0)""")
         date.__init__(self, 0, 0, 0, d=d)
         time.__init__(self, 0, d=d)
-    
+
     @classmethod
     def combine(self, date, time):
         return datetime(date.year, date.month, date.day, time.hour, time.minute, time.second, time.microsecond)
-    
+
     @classmethod
     def fromtimestamp(self, timestamp, tz=None):
         if tz != None:
@@ -205,45 +205,45 @@ class datetime(date, time):
         d = JS("""new Date()""")
         d.setTime(timestamp * 1000.0)
         return datetime(0, 0, 0, d=d)
-    
+
     @classmethod
     def fromordinal(self, ordinal):
         d = JS("""new Date()""")
         d.setTime((ordinal - 719163.0) * 86400000.0)
         return datetime(0, 0, 0, d=d)
-    
+
     @classmethod
     def now(self, tz=None):
         if tz != None:
             raise NotImplementedError("tz")
         return datetime(0, 0, 0, d=JS("""new Date()"""))
-    
+
     @classmethod
     def strptime(self, datestring, format):
         return self.fromtimestamp(_strptime(datestring, format))
-    
+
     @classmethod
     def utcfromtimestamp(self, timestamp):
         tm = gmtime(timestamp)
         return datetime(tm.tm_year, tm.tm_mon, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec)
-    
+
     @classmethod
     def utcnow(self):
         d = JS("""new Date()""")
         return datetime.utcfromtimestamp(int(d.getTime() / 1000.0))
-    
+
     def timetuple(self):
         return localtime(int(self._d.getTime() / 1000.0))
-    
+
     def astimezone(self, tz):
         raise NotImplementedError("astimezone")
-    
+
     def date(self):
         return date(self.year, self.month, self.day)
-    
+
     def time(self):
         return time(self.hour, self.minute, self.second, self.microsecond)
-    
+
     def replace(self, year=None, month=None, day=None, hour=None, minute=None, second=None, microsecond=None, tzinfo=None):
         if tzinfo != None:
             raise NotImplementedError("tzinfo")
@@ -262,13 +262,13 @@ class datetime(date, time):
         if microsecond is None:
             microsecond = self.microsecond
         return datetime(year, month, day, hour, minute, second, microsecond)
-    
+
     def timetz(self):
         raise NotImplementedError("timetz")
-    
+
     def utctimetuple(self):
         return gmtime(self._d.getTime() / 1000.0)
-    
+
     def isoformat(self, sep='T'):
         t = "%04d-%02d-%02d%s%02d:%02d:%02d" % (self.year, self.month, self.day, sep, self.hour, self.minute, self.second)
         if self.microsecond:

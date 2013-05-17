@@ -40,12 +40,11 @@ from pyjamas.chart import GChartUtil
 ** @see SymbolType SymbolType
 **
 *"""
-
 class Symbol(object):
-    
+
     def __init__(self, parent):
         self.parent = parent
-    
+
         self.annotation = None
         self.backgroundColor = GChartConsts.DEFAULT_SYMBOL_BACKGROUND_COLOR
         # same as backgroundColor, but with extended RGBA collapsed to plain RGA
@@ -110,51 +109,51 @@ class Symbol(object):
         self.width = GChartConsts.DEFAULT_SYMBOL_WIDTH
         self.xScaleFactor = 1.0
         self.yScaleFactor = 1.0
-    
-    
-    """* Returns the CSS background color of all the rectangular
-    ** elements used in rendering the symbol.
-    **
-    ** @return the CSS background color used to fill in the
-    **  central (non-border) part of each rectangular element
-    **  used to render a curve's symbol.
-    **
-    ** @see #setBackgroundColor(String) setBackgroundColor
-    *"""
+
+
     def getBackgroundColor(self):
+        """* Returns the CSS background color of all the rectangular
+        ** elements used in rendering the symbol.
+        **
+        ** @return the CSS background color used to fill in the
+        **  central (non-border) part of each rectangular element
+        **  used to render a curve's symbol.
+        **
+        ** @see #setBackgroundColor(String) setBackgroundColor
+        *"""
         return self.backgroundColor
-    
+
     def getBackgroundColorCSS(self):
         return self.backgroundColorCSS
-    
-    """* Returns the baseline value for this symbol,
-    ** previously specified via <tt>setBaseline</tt>
-    **
-    **
-    ** @return the previously specified baseline value for
-    **   this symbol.
-    **
-    ** @see #setBaseline setBaseline
-    *"""
+
     def getBaseline(self):
+        """* Returns the baseline value for this symbol,
+        ** previously specified via <tt>setBaseline</tt>
+        **
+        **
+        ** @return the previously specified baseline value for
+        **   this symbol.
+        **
+        ** @see #setBaseline setBaseline
+        *"""
         return self.baseline
-    
-    """* Returns the CSS border color of all the rectangular
-    ** elements used in rendering the symbol.
-    **
-    ** <p>
-    ** @return the color of the border of the rectangular elements
-    **   used to render the symbol, in standard CSS format
-    **
-    ** @see #setBorderColor setBorderColor
-    **
-    *"""
+
     def getBorderColor(self):
+        """* Returns the CSS border color of all the rectangular
+        ** elements used in rendering the symbol.
+        **
+        ** <p>
+        ** @return the color of the border of the rectangular elements
+        **   used to render the symbol, in standard CSS format
+        **
+        ** @see #setBorderColor setBorderColor
+        **
+        *"""
         return self.borderColor
-    
+
     def getBorderColorCSS(self):
         return self.borderColorCSS
-    
+
     """*
     ** Returns the border style of all of the rectangular
     ** elements from which this symbol is built.
@@ -166,8 +165,8 @@ class Symbol(object):
     *"""
     def getBorderStyle(self):
         return self.borderStyle
-    
-    
+
+
     """*
     ** Returns the width of the border around each
     ** rectangular element used to render this symbol,
@@ -180,7 +179,7 @@ class Symbol(object):
     """
     def getBorderWidth(self):
         return self.borderWidth
-    
+
     """*
     *
     * Returns the height of the rectangular "brush" that defines
@@ -196,8 +195,8 @@ class Symbol(object):
     """
     def getBrushHeight(self):
         return self.brushHeight
-    
-    
+
+
     """*
     *
     * Returns the location of the rectangular brush relative to
@@ -211,9 +210,9 @@ class Symbol(object):
     """
     def getBrushLocation(self):
         return self.brushLocation
-    
-    
-    
+
+
+
     """*
     *
     * Returns the width of the rectangular "brush" that defines
@@ -229,8 +228,8 @@ class Symbol(object):
     """
     def getBrushWidth(self):
         return self.brushWidth
-    
-    
+
+
     """*
     ** @deprecated
     **
@@ -241,9 +240,9 @@ class Symbol(object):
     *"""
     def getFillHasHovertext(self):
         return self.fillHasHovertext
-    
-    
-    
+
+
+
     """*
     ** Returns the spacing between successive rectangular
     ** elements used to emulate any required non-rectangular
@@ -262,12 +261,12 @@ class Symbol(object):
     def getFillSpacing(self):
         if Double.NaN==(self.fillSpacing):
             return self.symbolType.defaultFillSpacing()
-        
+
         else:
             return self.fillSpacing
-        
-    
-    
+
+
+
     """*
     ** Returns the "thickness" of rectangular elements used to
     ** emulate any required non-rectangular features of the symbol.
@@ -284,21 +283,21 @@ class Symbol(object):
     def getFillThickness(self):
         if self.fillThickness==GChartConsts.NAI:
             return self.symbolType.defaultFillThickness()
-        
+
         else:
             return self.fillThickness
-        
-    
-    
+
+
+
     """ Retrieves the annotation that defines the properties of
     * the internally generated annotations used to display
     * hover feedback. """
     def getHoverAnnotation(self):
         if self.hoverAnnotation is None:
             self.hoverAnnotation = Annotation()
-        
+
         return self.hoverAnnotation
-    
+
     """*
     * Retrieves a boolean that indicates if point-specific
     * annotations popup whenever you hover over a point on the
@@ -311,7 +310,7 @@ class Symbol(object):
     """
     def getHoverAnnotationEnabled(self):
         return self.hoverAnnotationEnabled
-    
+
     """*
     ** Retrieves the weight of the font that will be used
     ** with this symbol's hover annotations.
@@ -329,7 +328,7 @@ class Symbol(object):
     def getHoverFontWeight(self):
         result = self.getHoverAnnotation().getFontWeight()
         return result
-    
+
     """*
     ** Retrieves the font color of this symbol's hover
     ** annotations.
@@ -342,9 +341,9 @@ class Symbol(object):
     def getHoverFontColor(self):
         result = self.getHoverAnnotation().getFontColor()
         return result
-    
-    
-    
+
+
+
     """*
     ** Retrieves the CSS font-style used with this symbol's
     ** hover annotations.
@@ -358,7 +357,7 @@ class Symbol(object):
     def getHoverFontStyle(self):
         result = self.getHoverAnnotation().getFontStyle()
         return result
-    
+
     """*
     ** Retrieves the CSS font size used with this symbol's hover
     ** annotations, in pixels.
@@ -372,8 +371,8 @@ class Symbol(object):
     def getHoverFontSize(self):
         result = self.getHoverAnnotation().getFontSize()
         return result
-    
-    
+
+
     """*
     * Retrieves point-relative location of this symbol's hover
     * annotations.  <p>
@@ -389,9 +388,9 @@ class Symbol(object):
         result = self.getHoverAnnotation().getLocation()
         if None == result:
             result = self.getSymbolType().defaultHoverLocation()
-        
+
         return result
-    
+
     """*
     * Retrieves the symbol type that will determine how the
     * hover annotations for this symbol gets positioned.
@@ -406,7 +405,7 @@ class Symbol(object):
     """
     def getHoverAnnotationSymbolType(self):
         return self.hoverAnnotationSymbolType
-    
+
     """*
     * Retrieves the background color used to indicate that the mouse is
     * "touching" (hovering over) a point.
@@ -419,7 +418,7 @@ class Symbol(object):
     """
     def getHoverSelectionBackgroundColor(self):
         return self.hoverSelectionBackgroundColor
-    
+
     """*
     * Retrieves the border color used to indicate that the mouse is
     * "touching" (hovering over) a point.
@@ -432,7 +431,7 @@ class Symbol(object):
     """
     def getHoverSelectionBorderColor(self):
         return self.hoverSelectionBorderColor
-    
+
     """*
     * Retrieves the border style used to indicate that the mouse is
     * "touching" (hovering over) a point.
@@ -445,7 +444,7 @@ class Symbol(object):
     """
     def getHoverSelectionBorderStyle(self):
         return self.hoverSelectionBorderStyle
-    
+
     """*
     * Retrieves the width of the border around the perimeter of
     * rectangles used to indicate that the mouse is
@@ -462,7 +461,7 @@ class Symbol(object):
     """
     def getHoverSelectionBorderWidth(self):
         return self.hoverSelectionBorderWidth
-    
+
     """*
     * Retrieves a boolean that indicates if hover selection
     * feedback will be provided for this curve.  <p>
@@ -476,8 +475,8 @@ class Symbol(object):
     """
     def getHoverSelectionEnabled(self):
         return self.hoverSelectionEnabled
-    
-    
+
+
     """*
     * Returns the fill spacing that will be used when
     * rendering this curve's hover selection feedback.
@@ -493,7 +492,7 @@ class Symbol(object):
     """
     def getHoverSelectionFillSpacing(self):
         return self.hoverSelectionFillSpacing
-    
+
     """*
     * Returns the fill thickness that will be used when
     * rendering this curve's hover selection feedback.
@@ -509,8 +508,8 @@ class Symbol(object):
     """
     def getHoverSelectionFillThickness(self):
         return self.hoverSelectionFillThickness
-    
-    
+
+
     """*
     * Returns the height of the symbol used to indicate
     * when a given point is being "hovered over" with the
@@ -528,8 +527,8 @@ class Symbol(object):
     """
     def getHoverSelectionHeight(self):
         return self.hoverSelectionHeight
-    
-    
+
+
     """*
     * Returns the URL that will be used for all of the
     * images used in rendering this symbol's selection feedback.
@@ -542,14 +541,14 @@ class Symbol(object):
     * with this symbol.
     *
     """
-    
+
     def getHoverSelectionImageURL(self):
         if self.hoverSelectionImageURL:
             return self.hoverSelectionImageURL
         return self.parent.chart.getBlankImageURL()
-    
-    
-    
+
+
+
     """*
     *
     * Returns the symbol type that GChart will use when generating
@@ -568,7 +567,7 @@ class Symbol(object):
     """
     def getHoverSelectionSymbolType(self):
         return self.hoverSelectionSymbolType
-    
+
     """*
     * Returns the width of the symbol used to indicate
     * when a given point is being "hovered over" with the
@@ -587,8 +586,8 @@ class Symbol(object):
     """
     def getHoverSelectionWidth(self):
         return self.hoverSelectionWidth
-    
-    
+
+
     """*
     ** Returns the hovertextTemplate of this symbol.
     ** <p>
@@ -602,12 +601,12 @@ class Symbol(object):
     def getHovertextTemplate(self):
         if None == self.hovertextTemplate:
             return self.symbolType.defaultHovertextTemplate()
-        
+
         else:
             return self.hovertextTemplate
-        
-    
-    
+
+
+
     """*
     * When widget-based hover annotations are being used
     * by the curve associated with this symbol, this method returns
@@ -624,11 +623,11 @@ class Symbol(object):
     """
     def getHoverWidget(self):
         return self.getHoverAnnotation().getWidget()
-    
-    
-    
-    
-    
+
+
+
+
+
     """*
     * Retrieves the number of pixels (along the x-axis) that
     * this point's hover-annotation will be moved from its default,
@@ -643,8 +642,8 @@ class Symbol(object):
     def getHoverXShift(self):
         result = self.getHoverAnnotation().getXShift()
         return result
-    
-    
+
+
     """*
     * Retrieves the number of pixels (along the y-axis) that
     * this point's hover annotation will be moved from its default,
@@ -659,8 +658,8 @@ class Symbol(object):
     def getHoverYShift(self):
         result = self.getHoverAnnotation().getYShift()
         return result
-    
-    
+
+
     """*
     * Returns the URL that will be used for all of the
     * images used in rendering this symbol.
@@ -676,16 +675,16 @@ class Symbol(object):
         if self.imageURL:
             return self.imageURL
         return self.parent.chart.getBlankImageURL()
-    
+
     # returns an internal, parsed form of the hovertext template
     def getHovertextChunks(self):
         if None == self.hovertextChunks:
             self.hovertextChunks = HovertextChunk.parseHovertextTemplate(
                                             self.getHovertextTemplate())
-        
+
         return self.hovertextChunks
-    
-    
+
+
     """* Returns the <tt>GChart</tt> that contains this
     ** <tt>Symbol</tt>.
     **
@@ -695,7 +694,7 @@ class Symbol(object):
     *"""
     def getChart(self):
         return self.parent.chart
-    
+
     """* Returns the <tt>Curve</tt> that contains this
     ** <tt>Symbol</tt>.
     **
@@ -705,7 +704,7 @@ class Symbol(object):
     *"""
     def getParent(self):
         return self.parent
-    
+
     """*
     ** Returns the value, previously specified via
     ** <tt>setPieSliceOrientation</tt>, that defines the angular
@@ -725,28 +724,28 @@ class Symbol(object):
     """
     def getPieSliceOrientation(self):
         return self.pieSliceOrientation
-    
+
     # Used internally to translate <tt>Double.NaN</tt> into
     # an appropriate default slice orientation that, when pie
     # slice orientation isn't explicitly specified, results
     # in a series of adjacent slices that will form a pie
     # when the sum of the slice sizes equals 1.0
-    
+
     def getDecodedPieSliceOrientation(self):
         result = self.pieSliceOrientation
         if (Double.NaN==(result)):
             result = self.defaultPieSliceOrientation
-        
+
         return result
-    
-    
+
+
     def setDefaultPieSliceOrientation(self, defaultOrientation):
         self.defaultPieSliceOrientation = defaultOrientation
-    
+
     def getDefaultPieSliceOrientation(self):
         return self.defaultPieSliceOrientation
-    
-    
+
+
     """*
     ** Returns the value, previously specified via
     ** <tt>setPieSliceSize</tt>, that defines the size of
@@ -765,9 +764,9 @@ class Symbol(object):
     """
     def getPieSliceSize(self):
         return self.pieSliceSize
-    
-    
-    
+
+
+
     """
     * Returns the radius of the pie from which this
     * symbol's pie slice was extracted.
@@ -784,22 +783,22 @@ class Symbol(object):
         spacing = self.getFillSpacing()
         if 0 == spacing:
             spacing = 1
-        
+
         nBands = int ( round(result/spacing) )
         result = nBands * spacing
         return result
-    
-    
+
+
     # defines first, second edge angle in standard radian units
     def getPieSliceTheta0(self):
-        
+
         result = (0.75 - self.getDecodedPieSliceOrientation())*2*math.pi
         return result
-    
+
     def getPieSliceTheta1(self):
         return self.getPieSliceTheta0() - 2.*math.pi*self.getPieSliceSize()
-    
-    
+
+
     """*
     ** Returns this symbol's height as previously set by
     ** <tt>setModelHeight</tt>.
@@ -814,9 +813,9 @@ class Symbol(object):
     """
     def getModelHeight(self):
         return self.modelHeight
-    
-    
-    
+
+
+
     """*
     ** Returns this symbol's width as previously set by
     ** <tt>setModelWidth</tt>.
@@ -831,7 +830,7 @@ class Symbol(object):
     """
     def getModelWidth(self):
         return self.modelWidth
-    
+
     """* Returns this symbol's type.
     **
     ** @return the type of this symbol.
@@ -840,7 +839,7 @@ class Symbol(object):
     *"""
     def getSymbolType(self):
         return self.symbolType
-    
+
     """
     * Do points on the curve associated with this symbol
     * use a horizontal (or vertical) binning strategy for
@@ -852,15 +851,15 @@ class Symbol(object):
             # not fixed by symbol type: use brush shape determined banding
             # (we are guessing point distribution based on brush shape)
             result = self.brushHeight < self.brushWidth
-        
+
         else:
             result = bool(self.symbolType.isHorizontallyBanded())
-        
-        
+
+
         return result
-    
-    
-    
+
+
+
     """
     * If passed an rgba-like string (rgba(255,255,128,0.5))
     * returns the collapsed-to-rgb version (rgb(255,255,128)).
@@ -884,19 +883,19 @@ class Symbol(object):
                 FIRST_PAREN = 4
                 lastComma = rgba.rfind(",")
                 result = "rgb" + rgba[FIRST_PAREN:lastComma] + ")"
-            
+
             else:
                 raise IllegalArgumentException(
                 "Your RGBA color specification: '" + rgba + "'" +
                 " was not in the GChart-required form: rgba(Red,Green,Blue,Alpha)" +
                 " where Red, Green and Blue are integers in the range 0 to 255 and" +
                 " Alpha is a double in the range 0.0 to 1.0")
-            
-        
+
+
         # else special keyword or else some (unchecked) CSS color format
         return result
-    
-    
+
+
     """*
     ** Specifies the background or fill color of this symbol.
 
@@ -915,8 +914,8 @@ class Symbol(object):
         self.backgroundColor = backgroundColor
         # don't want to keep collapsing whenever we render, so save it:
         self.backgroundColorCSS = self.collapseRGBAToRGB(backgroundColor)
-    
-    
+
+
     """* Specifies the baseline value for this symbol. Use a
     ** baseline value when you need to create bar charts whose
     ** bars extend up/down to a specified y baseline value (for
@@ -939,9 +938,9 @@ class Symbol(object):
     def setBaseline(self, baseline):
         self.getParent().invalidate()
         self.baseline = baseline
-    
-    
-    
+
+
+
     """*
     ** Specifies the border color, as a CSS or RGBA color
     ** specification string.
@@ -967,8 +966,8 @@ class Symbol(object):
         self.getParent().invalidate()
         self.borderColor = borderColor
         self.borderColorCSS = self.collapseRGBAToRGB(borderColor)
-    
-    
+
+
     """*
     ** Sets the border style of the rectangular elements used
     ** to render this symbol.
@@ -986,7 +985,7 @@ class Symbol(object):
     def setBorderStyle(self, borderStyle):
         self.getParent().invalidate()
         self.borderStyle = borderStyle
-    
+
     """*
     ** Sets the width of the border around the graphical
     ** element(s) used to render this curve, in pixels.
@@ -997,8 +996,8 @@ class Symbol(object):
     def setBorderWidth(self, borderWidth):
         self.getParent().invalidate()
         self.borderWidth = borderWidth
-    
-    
+
+
     """*
     *
     * Sets the height of the rectangular point-selection
@@ -1025,8 +1024,8 @@ class Symbol(object):
     """
     def setBrushHeight(self, height):
         self.brushHeight = height
-    
-    
+
+
     """*
     * Sets the location of the brush relative to the mouse
     * x,y coordinates.
@@ -1041,10 +1040,10 @@ class Symbol(object):
     """
     def setBrushLocation(self, location):
         self.brushLocation = location
-    
-    
-    
-    
+
+
+
+
     """*
     *
     * Convenience method equivalent to:
@@ -1077,10 +1076,10 @@ class Symbol(object):
     def setBrushSize(self, width, height):
         self.setBrushWidth(width)
         self.setBrushHeight(height)
-    
-    
-    
-    
+
+
+
+
     """*
     *
     * Sets the width of the rectangular "brush" that defines how
@@ -1103,9 +1102,9 @@ class Symbol(object):
     """
     def setBrushWidth(self, width):
         self.brushWidth = width
-    
-    
-    
+
+
+
     """*
     *
     * Allows you to change the x,y scale factors that define
@@ -1129,8 +1128,8 @@ class Symbol(object):
     def setDistanceMetric(self, xScaleFactor, yScaleFactor):
         self.xScaleFactor = xScaleFactor
         self.yScaleFactor = yScaleFactor
-    
-    
+
+
     """*
     ** @deprecated
     **
@@ -1162,8 +1161,8 @@ class Symbol(object):
     *"""
     def setFillHasHovertext(self, fillHasHovertext):
         self.fillHasHovertext = fillHasHovertext
-    
-    
+
+
     """*
     ** Specifies the spacing between successive rectangular
     ** elements used to render any required non-rectangular
@@ -1190,16 +1189,16 @@ class Symbol(object):
     """
     def setFillSpacing(self, fillSpacing):
         self.getParent().invalidate()
-        if (not (Double.NaN==(fillSpacing))  and  
+        if (not (Double.NaN==(fillSpacing))  and
             fillSpacing != 0  and  fillSpacing < 1):
             raise IllegalArgumentException(
             "fillSpacing="+fillSpacing+"; "+
             "fillSpacing must either be >= 1, or else " +
             "equal to either 0 or Double.NaN.")
-        
+
         self.fillSpacing = fillSpacing
-    
-    
+
+
     """*
     ** Sets the "thickness" of the rectangular elements used to
     ** render any required non-rectangular features of this symbol.
@@ -1226,10 +1225,10 @@ class Symbol(object):
             "fillThickness="+self.fillThickness+"; "+
             "fillThickness must either be >= 0, or else " +
             "equal to GChartConsts.NAI.")
-        
+
         self.fillThickness = fillThickness
-    
-    
+
+
     """*
     * Sets a boolean that determines if point-specific
     * annotations will popup whenever you hover over a point on
@@ -1257,7 +1256,7 @@ class Symbol(object):
     """
     def setHoverAnnotationEnabled(self, hoverAnnotationEnabled):
         self.hoverAnnotationEnabled = hoverAnnotationEnabled
-    
+
     """*
     ** Specifies the weight of the font that will be used
     ** to render the text of this point's hover annotations.
@@ -1281,7 +1280,7 @@ class Symbol(object):
     *"""
     def setHoverFontWeight(self, cssWeight):
         self.getHoverAnnotation().setFontWeight(cssWeight)
-    
+
     """*
     ** Specifies the color of the hover annotations' font.
     **
@@ -1306,9 +1305,9 @@ class Symbol(object):
     *"""
     def setHoverFontColor(self, cssColor):
         self.getHoverAnnotation().setFontColor(cssColor)
-    
-    
-    
+
+
+
     """*
     ** Specifies the CSS font-style used by this symbol's hover
     ** annotations.
@@ -1327,7 +1326,7 @@ class Symbol(object):
     *"""
     def setHoverFontStyle(self, cssStyle):
         self.getHoverAnnotation().setFontStyle(cssStyle)
-    
+
     """*
     ** Specifies the CSS font size used in this symbol's hover
     ** annotations, in pixels.
@@ -1346,7 +1345,7 @@ class Symbol(object):
     *"""
     def setHoverFontSize(self, fontSize):
         self.getHoverAnnotation().setFontSize(fontSize)
-    
+
     """*
     *
     * Specifies the location of this point's hover annotations. Set
@@ -1404,8 +1403,8 @@ class Symbol(object):
     """
     def setHoverLocation(self, hoverLocation):
         self.getHoverAnnotation().setLocation(hoverLocation)
-    
-    
+
+
     """*
     *
     * Sets the symbol type that GChart will use when positioning
@@ -1469,7 +1468,7 @@ class Symbol(object):
     """
     def setHoverAnnotationSymbolType(self, hoverAnnotationSymbolType):
         self.hoverAnnotationSymbolType = hoverAnnotationSymbolType
-    
+
     """*
     * Specifies the background color used to indicate that the mouse is
     * "touching" (hovering over) a point.
@@ -1514,7 +1513,7 @@ class Symbol(object):
     """
     def setHoverSelectionBackgroundColor(self, hoverSelectionBackgroundColor):
         self.hoverSelectionBackgroundColor = hoverSelectionBackgroundColor
-    
+
     """*
     * Specifies the border color used to indicate that the mouse is
     * "touching" (hovering over) a point.
@@ -1550,8 +1549,8 @@ class Symbol(object):
     """
     def setHoverSelectionBorderColor(self, hoverSelectionBorderColor):
         self.hoverSelectionBorderColor = hoverSelectionBorderColor
-    
-    
+
+
     """*
     * Specifies the border style used to indicate that the mouse is
     * "touching" (hovering over) a point.
@@ -1586,9 +1585,9 @@ class Symbol(object):
     """
     def setHoverSelectionBorderStyle(self, hoverSelectionBorderStyle):
         self.hoverSelectionBorderStyle = hoverSelectionBorderStyle
-    
-    
-    
+
+
+
     """*
     * Sets the width of the border around the perimeter of
     * rectangles used to indicate that the mouse is
@@ -1623,11 +1622,11 @@ class Symbol(object):
     """
     def setHoverSelectionBorderWidth(self, borderWidth):
         self.hoverSelectionBorderWidth = borderWidth
-    
-    
-    
-    
-    
+
+
+
+
+
     """*
     * Specifies if hover selection feedback will be provided
     * for this curve.
@@ -1663,8 +1662,8 @@ class Symbol(object):
     """
     def setHoverSelectionEnabled(self, hoverSelectionEnabled):
         self.hoverSelectionEnabled = hoverSelectionEnabled
-    
-    
+
+
     """*
     * Specifies the fill spacing that will be used when
     * rendering this curve's hover selection feedback.
@@ -1683,10 +1682,10 @@ class Symbol(object):
     * @see #setFillSpacing setFillSpacing
     *
     """
-    
+
     def setHoverSelectionFillSpacing(self, selectionFillSpacing):
         self.hoverSelectionFillSpacing = selectionFillSpacing
-    
+
     """*
     * Specifies the fill thickness that will be used when
     * rendering this curve's hover selection feedback.
@@ -1707,9 +1706,9 @@ class Symbol(object):
     """
     def setHoverSelectionFillThickness(self, selectionFillThickness):
         self.hoverSelectionFillThickness = selectionFillThickness
-    
-    
-    
+
+
+
     """*
     * Sets the height of the symbol used to indicate
     * when a given point is being "hovered over" with the
@@ -1740,8 +1739,8 @@ class Symbol(object):
     """
     def setHoverSelectionHeight(self, selectionHeight):
         self.hoverSelectionHeight = selectionHeight
-    
-    
+
+
     """*
     * Specifies the URL that will define the image
     * used to render selection feedback for points on
@@ -1770,7 +1769,7 @@ class Symbol(object):
     * @see #getHoverSelectionImageURL getHoverSelectionImageURL
     * @see #setImageURL setImageURL
     * @see #setBlankImageURL setBlankImageURL
-    
+
     * @param imageURL the url that defines the image used to generate
     * selection feedback for points rendered with this symbol, or
     * <tt>None</tt> to to use GChart's default selection image URL (a
@@ -1779,8 +1778,8 @@ class Symbol(object):
     """
     def setHoverSelectionImageURL(self, imageURL):
         self.hoverSelectionImageURL = imageURL
-    
-    
+
+
     """*
     *
     * Sets the symbol type that GChart will use when
@@ -1834,7 +1833,7 @@ class Symbol(object):
     def setHoverSelectionSymbolType(self, hoverSelectionSymbolType):
         #       throwExceptionOnAnchorMouse(hoverSelectionSymbolType)
         self.hoverSelectionSymbolType = hoverSelectionSymbolType
-    
+
     """*
     * Sets the width of the symbol used to indicate
     * when a given point is being "hovered over" with the
@@ -1865,10 +1864,10 @@ class Symbol(object):
     """
     def setHoverSelectionWidth(self, selectionWidth):
         self.hoverSelectionWidth = selectionWidth
-    
-    
-    
-    
+
+
+
+
     """*
     ** Defines the "hover-text" that appears whenever the user
     ** points their mouse at a point on the curve.
@@ -1892,10 +1891,10 @@ class Symbol(object):
     def setHovertextTemplate(self, hovertextTemplate):
         if self.hovertextTemplate != hovertextTemplate:
             self.hovertextChunks = None; # invalidates prev chunk-parse
-        
+
         self.hovertextTemplate = hovertextTemplate
-    
-    
+
+
     """*
     * Specifies a <tt>HoverUpdateable</tt> widget that will be
     * used to display the hover annotations associated with this
@@ -1954,19 +1953,19 @@ class Symbol(object):
     * @see #setHoverYShift setHoverYShift
     *
     """
-    
-    
+
+
     def setHoverWidget(self, hoverWidget,
                 widthUpperBound=GChartConsts.DEFAULT_WIDGET_WIDTH_UPPERBOUND,
                 heightUpperBound=GChartConsts.DEFAULT_WIDGET_HEIGHT_UPPERBOUND):
         if None != hoverWidget  and  not isinstance(hoverWidget, Widget):
             raise IllegalArgumentException(
             "hoverWidget must either be None or a Widget.")
-        
+
         self.getHoverAnnotation().setWidget(hoverWidget,
                                             widthUpperBound, heightUpperBound)
-        
-    
+
+
     """*
     * Specifies the number of pixels (along the x-axis) to
     * move this symbol's hover annotations from their default,
@@ -1993,8 +1992,8 @@ class Symbol(object):
     """
     def setHoverXShift(self, xShift):
         self.getHoverAnnotation().setXShift(xShift)
-    
-    
+
+
     """*
     * Specifies the number of pixels (along the y-axis) to
     * move this symbol's hover annotations from their default,
@@ -2021,9 +2020,9 @@ class Symbol(object):
     """
     def setHoverYShift(self, yShift):
         self.getHoverAnnotation().setYShift(yShift)
-    
-    
-    
+
+
+
     """*
     * Specifies the URL that will define the image
     * used to represent the points on this curve.
@@ -2046,8 +2045,8 @@ class Symbol(object):
     """
     def setImageURL(self, imageURL):
         self.imageURL = imageURL
-    
-    
+
+
     """*
     ** Sets the height of this symbol (including any specified border)
     ** in pixels.
@@ -2069,7 +2068,7 @@ class Symbol(object):
         self.getParent().invalidate()
         self.height = height
         self.modelHeight = Double.NaN
-    
+
     """*
     ** Sets the height of this symbol (including any specified border)
     ** in model units (arbitrary, user-defined, units). Model
@@ -2099,7 +2098,7 @@ class Symbol(object):
     def setModelHeight(self, modelHeight):
         self.getParent().invalidate()
         self.modelHeight = modelHeight
-    
+
     """*
     ** Sets the width of this symbol (including any specified border)
     ** in model units. Model units are an arbitrary, user-defined
@@ -2129,8 +2128,8 @@ class Symbol(object):
     def setModelWidth(self, modelWidth):
         self.getParent().invalidate()
         self.modelWidth = modelWidth
-    
-    
+
+
     """*
     ** Specifies a value that defines the angular orientation of
     ** the first edge of the pie slice associated with this
@@ -2185,10 +2184,10 @@ class Symbol(object):
             "pieSliceOrientation="+str(self.pieSliceOrientation)+"; "+
             "pieSliceOrientation must be >=0 and < 1, or else " +
             "equal to Double.NaN.")
-        
+
         self.pieSliceOrientation = pieSliceOrientation
-    
-    
+
+
     """*
     ** Specifies a value that defines the angular size of
     ** any pie slice associated with this symbol.
@@ -2229,10 +2228,10 @@ class Symbol(object):
             raise IllegalArgumentException(
             "pieSliceSize="+self.pieSliceSize+"; the requirement: "+
             "0.0 <= pieSliceSize <= 1.0 must be satisfied.")
-        
+
         self.pieSliceSize = pieSliceSize
-    
-    
+
+
     """*
     ** Sets the type of this symbol.
     ** <p>
@@ -2261,9 +2260,9 @@ class Symbol(object):
         idx = self.getChart().getCurveIndex(self.getParent())
         self.getChart().invalidateDependentSlices(idx)
 
-    
-    
-    
+
+
+
     """*
     ** Sets the width of this symbol (including any specified border)
     ** in pixels.
@@ -2286,9 +2285,9 @@ class Symbol(object):
         self.getParent().invalidate()
         self.width = width
         self.modelWidth = Double.NaN
-    
-    
-    
+
+
+
     """
     * Copies properties of the "from" symbol to this symbol.
     *
@@ -2329,30 +2328,30 @@ class Symbol(object):
         # unsets the other, etc.). Logic below reflects this.
         if not Double.NaN==(fc.getModelHeight()):
             self.setModelHeight(fc.getModelHeight())
-        
+
         else:
             self.setHeight(fc.getHeight())
-        
+
         if not Double.NaN==(fc.getModelWidth()):
             self.setModelWidth(fc.getModelWidth())
-        
+
         else:
             self.setWidth(fc.getWidth())
-        
-        
+
+
         self.setPieSliceOrientation(fc.getPieSliceOrientation())
         self.setDefaultPieSliceOrientation(fc.getDefaultPieSliceOrientation())
         self.setPieSliceSize(fc.getPieSliceSize())
         self.setSymbolType(fc.getSymbolType())
-        
-    
+
+
     def getAnnotation(self):
         if self.annotation is None:
             self.annotation = Annotation()
-        
+
         return self.annotation
-    
-    
+
+
     """*
     ** Returns this symbol's height, as previously set by
     ** <tt>setHeight</tt>.
@@ -2361,23 +2360,23 @@ class Symbol(object):
     **
     ** @see #setHeight setHeight
     """
-    
+
     # Pixel height of symbol when rendered on given plot panel
     def getHeight(self, pp=None, onY2=None):
-        
+
         if pp is None and onY2 is None:
             return self.height
 
         mH = self.getModelHeight()
         if (Double.NaN==(mH)):
             result = self.getHeight()
-        
+
         else:
             result = pp.dyToPixel(mH,onY2)
-        
-        
+
+
         return result
-    
+
     """*
     ** Returns this symbol's width
     ** as previously set by <tt>setWidth</tt>.
@@ -2396,26 +2395,26 @@ class Symbol(object):
     ** @see #setWidth setWidth
     ** @see #setModelWidth setModelWidth
     """
-    
-    
+
+
     # Pixel width of symbol when rendered on given plot panel
     def getWidth(self, pp=None):
-        
+
         if pp is None:
             return self.width
 
         mW = self.getModelWidth()
         if (Double.NaN==(mW)):
             result = self.getWidth()
-        
+
         else:
             result = pp.dxToPixel(mW)
-        
-        
+
+
         return result
-    
-    
-    
+
+
+
     """ Renders the symbol at the specified position within the
     plot panel, by creating appropriately positioned Image
     and Grid (for any Annotation associated with this symbol
@@ -2423,7 +2422,7 @@ class Symbol(object):
     are used to represent: each point on a curve with any
     associated point annotations, axes, gridlines, ticks and
     their tick-labels. """
-    
+
     def realizeSymbol(self, pp, grp, arp, annotation,
                             onY2, clipPlotArea, clipDecoratedChart,
                             drawMainSymbol, x, y, prevX, prevY,
@@ -2435,13 +2434,13 @@ class Symbol(object):
                                             drawMainSymbol,
                                             x, y,
                                             prevX, prevY, nextX, nextY)
-                                            
-                                        
-    
-    
-    
-    
-    
+
+
+
+
+
+
+
  # end of class Symbol
 
 

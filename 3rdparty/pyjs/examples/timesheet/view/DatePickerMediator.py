@@ -27,5 +27,5 @@ class DatePickerMediator(Mediator):
 
     def displayDay(self, sender=None):
         self.viewComponent.displayDay()
-        self.sendNotification(Notification.DATE_SELECTED, 
+        self.sendNotification(Notification.DATE_SELECTED,
                               self.viewComponent.date)

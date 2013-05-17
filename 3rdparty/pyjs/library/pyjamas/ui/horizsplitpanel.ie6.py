@@ -4,13 +4,13 @@
 /*
  * Copyright 2008 Google Inc.
  * Copyright 2009 Luke Kenneth Casson Leighton <lkcl@lkcl.net>
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License") you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http:#www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -24,7 +24,7 @@ class ImplHorizontalSplitPanel:
     """
 
     def __init__(self, panel):
-        
+
         self.panel = panel
         self.isResizeInProgress = False
         self.splitPosition = 0
@@ -34,11 +34,11 @@ class ImplHorizontalSplitPanel:
         # Prevents inherited text-align settings from interfering with the
         # panel's layout. The setting we choose must be bidi-sensitive,
         # as left-alignment is the default with LTR directionality, and
-        # right-alignment is the default with RTL directionality.            
+        # right-alignment is the default with RTL directionality.
         if True: # TODO (LocaleInfo.getCurrentLocale().isRTL()) {
             DOM.setStyleAttribute(elem, "textAlign", "right")
         else:
-            DOM.setStyleAttribute(elem, "textAlign", "left")  
+            DOM.setStyleAttribute(elem, "textAlign", "left")
 
         DOM.setStyleAttribute(elem, "position", "relative")
 
@@ -52,8 +52,8 @@ class ImplHorizontalSplitPanel:
         self.panel.expandToFitParentUsingPercentages(panel.container)
 
         if True: # TODO (LocaleInfo.getCurrentLocale().isRTL()):
-        # Snap the left pane to the left edge of the container. We 
-        # only need to do this when layout is RTL if we don't, the 
+        # Snap the left pane to the left edge of the container. We
+        # only need to do this when layout is RTL if we don't, the
         # left pane will overlap the right pane.
             panel.setLeft(panel.getWidgetElement(0), "0px")
 
@@ -102,19 +102,19 @@ class ImplHorizontalSplitPanel:
             # Set the width of the right side.
             self.panel.setElemWidth(self.panel.getWidgetElement(1), newRightWidth + "px")
 
-            # Move the splitter to the right edge of the left element. 
-            self.panel.setLeft(splitElem, px + "px")    
+            # Move the splitter to the right edge of the left element.
+            self.panel.setLeft(splitElem, px + "px")
 
-            # Update the width of the left side        
+            # Update the width of the left side
             if (px == 0):
 
-              # This takes care of a qurky RTL layout bug with IE6. 
+              # This takes care of a qurky RTL layout bug with IE6.
               # During DOM construction and layout, onResize events
-              # are fired, and this method is called with px == 0. 
+              # are fired, and this method is called with px == 0.
               # If one tries to set the width of the 0 element to
               # before layout completes, the 1 element will
               # appear to be blanked out.
-              
+
                 DeferredCommand.add(self)
             else:
                 self.panel.setElemWidth(self.panel.getWidgetElement(0), px + "px")
@@ -133,7 +133,7 @@ class ImplHorizontalSplitPanel:
         resizefn = getattr(self, "onResize")
 
         JS("""
-            @{{container}}.onresize = function() {
+            @{{container}}['onresize'] = function() {
                @{{resizefn}}();
                                       }
         """)
@@ -146,5 +146,5 @@ class ImplHorizontalSplitPanel:
       self.panel.setElemHeight(rightElem, height)
       self.panel.setElemHeight(self.panel.getSplitElement(), height)
       self.panel.setElemHeight(leftElem, height)
-      self.setSplitPositionUsingPixels(self.panel.getOffsetWidth(leftElem))      
+      self.setSplitPositionUsingPixels(self.panel.getOffsetWidth(leftElem))
 

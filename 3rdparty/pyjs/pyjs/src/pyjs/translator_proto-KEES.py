@@ -27,7 +27,7 @@ import logging
 import compiler
 from compiler.visitor import ASTVisitor
 from options import (all_compile_options, add_compile_options,
-                     get_compile_options, debug_options, speed_options, 
+                     get_compile_options, debug_options, speed_options,
                      pythonic_options)
 
 escaped_subst = re.compile('@{{(!?[ a-zA-Z0-9_\.]*)}}')
@@ -764,7 +764,7 @@ class Translator(object):
         self.output = output
         self.dynamic = dynamic
         self.findFile = findFile
-        
+
         self.set_compile_options(kw)
         # compile options
 
@@ -937,7 +937,7 @@ class Translator(object):
             self.w( '/*')
             self.w( 'PYJS_JS: %s' % repr(self.imported_js))
             self.w( '*/')
-            
+
     def set_compile_options(self, opts):
         opts = dict(all_compile_options, **opts)
         for opt, value in opts.iteritems():
@@ -945,7 +945,7 @@ class Translator(object):
                 setattr(self, opt, value)
             else:
                 raise Exception("Translator got an unknown option %s" % opt)
-        
+
         self.ignore_debug = False
         self.inline_bool = self.inline_code
         self.inline_len = self.inline_code
@@ -953,7 +953,7 @@ class Translator(object):
         self.inline_cmp = self.inline_code
         self.inline_getitem = self.inline_code
         if self.number_classes:
-            self.operator_funcs = True        
+            self.operator_funcs = True
 
     def w(self, txt, newline=True, output=None, translate=True):
         if translate and txt:
@@ -2025,8 +2025,8 @@ var %s = arguments.length >= %d ? arguments[arguments.length-1] : arguments[argu
                         importName,
                         context,
                         self.modpfx()[:-1],
-                    )                        
-                        
+                    )
+
                 if not assignBase:
                     self.w( self.spacing() + import_stmt + ', null, false);')
                 self._lhsFromName(importName, current_klass, modtype)

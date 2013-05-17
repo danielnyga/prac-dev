@@ -52,21 +52,21 @@ class RaphaelEventHandler(object):
         onMouseEnter = getattr(self, "_onMouseEnter")
         onMouseLeave = getattr(self, "_onMouseLeave")
         onMouseOut   = getattr(self, "_onMouseOut")
-        onDblClick    = getattr(self, "_onDblClick")     
+        onDblClick    = getattr(self, "_onDblClick")
         onContextMenu =  getattr(self, "_onContextMenu")
         JS("""
-           this._event_element=@{{element}}; 
-           this._event_element.onclick      = @{{onClick}};
-           this._event_element.onmousedown  = @{{onMouseDown}};
-           this._event_element.onmouseup    = @{{onMouseUp}};
-           this._event_element.onmousemove  = @{{onMouseMove}};
-           this._event_element.onmouseenter = @{{onMouseEnter}};
-           this._event_element.onmouseout   = @{{onMouseOut}};
-           this._event_element.onmouseleave = @{{onMouseLeave}};
-           this._event_element.ondblclick   = @{{onDblClick}};
-           this._event_element.oncontextmenu= @{{onContextMenu}};
-        """)     
-        
+           this['_event_element']=@{{element}};
+           this['_event_element']['onclick']      = @{{onClick}};
+           this['_event_element']['onmousedown']  = @{{onMouseDown}};
+           this['_event_element']['onmouseup']    = @{{onMouseUp}};
+           this['_event_element']['onmousemove']  = @{{onMouseMove}};
+           this['_event_element']['onmouseenter'] = @{{onMouseEnter}};
+           this['_event_element']['onmouseout']   = @{{onMouseOut}};
+           this['_event_element']['onmouseleave'] = @{{onMouseLeave}};
+           this['_event_element']['ondblclick']   = @{{onDblClick}};
+           this['_event_element']['oncontextmenu']= @{{onContextMenu}};
+        """)
+
     def addListener(self, type, listener, sender=None):
         """ Add a listener function to this element.
 
@@ -102,8 +102,8 @@ class RaphaelEventHandler(object):
         i=self._listeners[type].index(listener)
 
         self._sender[type].delete(i)
-        self._listeners[type].remove(listener) 
-        
+        self._listeners[type].remove(listener)
+
     def _onClick(self, event):
         """ Respond to a mouse-click event.
         """
@@ -164,7 +164,7 @@ class RaphaelEventHandler(object):
         sender = self._sender['mouseout']
         for listener,send in zip(listeners,sender):
             listener(send or self, event)
-                    
+
     def _onDblClick(self, event):
         """ Respond to a Double Click event.
         """
@@ -172,7 +172,7 @@ class RaphaelEventHandler(object):
         sender = self._sender['mouseout']
         for listener,send in zip(listeners,sender):
             listener(send or self, event)
-             
+
     def _onContextMenu(self,event):
         """ Respond to a Context Menue event.
         """
@@ -181,7 +181,7 @@ class RaphaelEventHandler(object):
         for listener,send in zip(listeners,sender):
             listener(send or self, event)
 
-    
+
 class Raphael(Widget,RaphaelEventHandler):
     """ A Pyjamas wrapper around the Raphael canvas object.
     """
@@ -198,7 +198,7 @@ class Raphael(Widget,RaphaelEventHandler):
         self.setElement(element)
         self.setPixelSize(width, height)
         JS("""
-           this._canvas = $wnd.Raphael(@{{element}}, @{{width}}, @{{height}});
+           this['_canvas'] = $wnd['Raphael'](@{{element}}, @{{width}}, @{{height}});
         """)
         RaphaelEventHandler.__init__(self,self.element)
 
@@ -216,7 +216,7 @@ class Raphael(Widget,RaphaelEventHandler):
         """ Change the dimensions of the canvas.
         """
         JS("""
-           this._canvas.setSize(@{{width}}, @{{height}});
+           this['_canvas']['setSize'](@{{width}}, @{{height}});
         """)
 
 
@@ -224,7 +224,7 @@ class Raphael(Widget,RaphaelEventHandler):
         """ Return the next colour to use in the spectrum.
         """
         JS("""
-           @{{colour}} = this._canvas.getColor();
+           @{{colour}} = this['_canvas']['getColor']();
         """)
         return colour
 
@@ -233,7 +233,7 @@ class Raphael(Widget,RaphaelEventHandler):
         """ Reset getColor() so that it will start from the beginning.
         """
         JS("""
-           this._canvas.getColor().reset();
+           this['_canvas']['getColor']()['reset']();
         """)
 
 
@@ -246,8 +246,8 @@ class Raphael(Widget,RaphaelEventHandler):
             We return a RaphaelElement object representing the circle.
         """
         JS("""
-           this._element = this._canvas.circle(@{{x}}, @{{y}}, @{{radius}});
-           this._canvas.safari();
+           this['_element'] = this['_canvas']['circle'](@{{x}}, @{{y}}, @{{radius}});
+           this['_canvas']['safari']();
         """)
         return RaphaelElement(self._element)
 
@@ -262,7 +262,7 @@ class Raphael(Widget,RaphaelEventHandler):
             We return a RaphaelElement object representing the rectangle.
         """
         JS("""
-           this._element = this._canvas.rect(@{{x}}, @{{y}}, @{{width}}, @{{height}},
+           this['_element'] = this['_canvas']['rect'](@{{x}}, @{{y}}, @{{width}}, @{{height}},
                                              @{{cornerRadius}});
         """)
         return RaphaelElement(self._element)
@@ -277,7 +277,7 @@ class Raphael(Widget,RaphaelEventHandler):
             We return a RaphaelElement object representing the ellipse.
         """
         JS("""
-           this._element = this._canvas.ellipse(@{{x}}, @{{y}}, @{{xRadius}}, @{{yRadius}});
+           this['_element'] = this['_canvas']['ellipse'](@{{x}}, @{{y}}, @{{xRadius}}, @{{yRadius}});
         """)
         return RaphaelElement(self._element)
 
@@ -292,7 +292,7 @@ class Raphael(Widget,RaphaelEventHandler):
             We return a RaphaelElement object representing the image.
         """
         JS("""
-           this._element = this._canvas.image(@{{src}}, @{{x}}, @{{y}}, @{{width}}, @{{height}});
+           this['_element'] = this['_canvas']['image'](@{{src}}, @{{x}}, @{{y}}, @{{width}}, @{{height}});
         """)
         return RaphaelElement(self._element)
 
@@ -306,7 +306,7 @@ class Raphael(Widget,RaphaelEventHandler):
             We return a RaphaelSetElement representing the set.
         """
         JS("""
-           this._element = this._canvas.set();
+           this['_element'] = this['_canvas']['set']();
         """)
         return RaphaelSetElement(self._element)
 
@@ -321,7 +321,7 @@ class Raphael(Widget,RaphaelEventHandler):
             We return a RaphaelElement representing the text.
         """
         JS("""
-           this._element = this._canvas.text(@{{x}}, @{{y}}, @{{text}});
+           this['_element'] = this['_canvas']['text'](@{{x}}, @{{y}}, @{{text}});
         """)
         return RaphaelElement(self._element)
 
@@ -338,26 +338,26 @@ class Raphael(Widget,RaphaelEventHandler):
         """
         if data != None:
             JS("""
-               this._element = this._canvas.path(@{{data}});
+               this['_element'] = this['_canvas']['path'](@{{data}});
             """)
         else:
             JS("""
-               this._element = this._canvas.path("");
+               this['_element'] = this['_canvas']['path']("");
             """)
 
         if attrs != None:
             for attr in attrs.keys():
                 value = attrs[attr]
                 JS("""
-                    this._element.attr(@{{attr}}, @{{value}});
+                    this['_element']['attr'](@{{attr}}, @{{value}});
                 """)
         return RaphaelPathElement(self._element)
-    
+
     def connection(self,obj1,obj2=None,line=None,bg=None,cp1=None,cp2=None,p1=None,p2=None):
         line_path=self.path(None,{'stroke-width':5})
         bg_path=self.path(None,{'stroke-width':5})
         return RaphaelConnectionElement(line_path,bg_path,obj1,obj2,line,bg,cp1,cp2,p1,p2)
-    
+
 
 
 class RaphaelElement(object,RaphaelEventHandler):
@@ -387,7 +387,7 @@ class RaphaelElement(object,RaphaelEventHandler):
             You can't use the element after you call this method.
         """
         JS("""
-           this._element.remove();
+           this['_element']['remove']();
         """)
 
 
@@ -395,7 +395,7 @@ class RaphaelElement(object,RaphaelEventHandler):
         """ Make this element invisible.
         """
         JS("""
-           this._element.hide();
+           this['_element']['hide']();
         """)
 
 
@@ -403,7 +403,7 @@ class RaphaelElement(object,RaphaelEventHandler):
         """ Make this element visible.
         """
         JS("""
-           this._element.show();
+           this['_element']['show']();
         """)
 
 
@@ -430,11 +430,11 @@ class RaphaelElement(object,RaphaelEventHandler):
         if cy == None:
             isAbsolute = cx
             JS("""
-               this._element.rotate(@{{angle}}, @{{isAbsolute}});
+               this['_element']['rotate'](@{{angle}}, @{{isAbsolute}});
             """)
         else:
             JS("""
-               this._element.rotate(@{{angle}}, @{{cx}}, @{{cy}});
+               this['_element']['rotate'](@{{angle}}, @{{cx}}, @{{cy}});
             """)
 
 
@@ -442,7 +442,7 @@ class RaphaelElement(object,RaphaelEventHandler):
         """ Move the element around the canvas by the given number of pixels.
         """
         JS("""
-           this._element.translate(@{{dx}}, @{{dy}});
+           this['_element']['translate'](@{{dx}}, @{{dy}});
         """)
 
 
@@ -450,7 +450,7 @@ class RaphaelElement(object,RaphaelEventHandler):
         """ Resize the element by the given horizontal and vertical multiplier.
         """
         JS("""
-           this._element.scale(@{{xtimes}}, @{{ytimes}});
+           this['_element']['scale'](@{{xtimes}}, @{{ytimes}});
         """)
 
 
@@ -495,7 +495,7 @@ class RaphaelElement(object,RaphaelEventHandler):
             attributes and how to use them.
         """
         JS("""
-           this._element.attr(@{{attr}}, @{{value}});
+           this['_element']['attr'](@{{attr}}, @{{value}});
         """)
 
 
@@ -509,7 +509,7 @@ class RaphaelElement(object,RaphaelEventHandler):
         """
         for attr,value in attrs.items():
             JS("""
-               this._element.attr(@{{attr}}, @{{value}});
+               this['_element']['attr'](@{{attr}}, @{{value}});
             """)
 
 
@@ -517,7 +517,7 @@ class RaphaelElement(object,RaphaelEventHandler):
         """ Return the current value for the given attribute.
         """
         JS("""
-           var value = this._element.attr(@{{attr}});
+           var value = this['_element']['attr'](@{{attr}});
         """)
         return value
 
@@ -564,7 +564,7 @@ class RaphaelElement(object,RaphaelEventHandler):
             """)
 
         JS("""
-           this._element.animate(jsAttrs, @{{duration}});
+           this['_element']['animate'](jsAttrs, @{{duration}});
         """)
 
     def animatewith(self, element, attrs, duration):
@@ -578,7 +578,7 @@ class RaphaelElement(object,RaphaelEventHandler):
             """)
 
         JS("""
-           this._element.animate(@{{otherElement}},@{{jsAttrs}}, @{{duration}});
+           this['_element']['animate'](@{{otherElement}},@{{jsAttrs}}, @{{duration}});
         """)
 
     def getBBox(self):
@@ -592,11 +592,11 @@ class RaphaelElement(object,RaphaelEventHandler):
         width=0
         height=0
         JS("""
-           var bounds = this._element.getBBox();
-           @{{x}} = bounds.x;
-           @{{y}} = bounds.y;
-           @{{width}} = bounds.width;
-           @{{height}} = bounds.height;
+           var bounds = this['_element']['getBBox']();
+           @{{x}} = bounds['x'];
+           @{{y}} = bounds['y'];
+           @{{width}} = bounds['width'];
+           @{{height}} = bounds['height'];
         """)
         return {'x'      : x,
                 'y'      : y,
@@ -608,7 +608,7 @@ class RaphaelElement(object,RaphaelEventHandler):
         """ Move the element in front of all other elements on the canvas.
         """
         JS("""
-           this._element.toFront();
+           this['_element']['toFront']();
         """)
 
 
@@ -616,7 +616,7 @@ class RaphaelElement(object,RaphaelEventHandler):
         """ Move the element behind all the other elements on the canvas.
         """
         JS("""
-           this._element.toBack();
+           this['_element']['toBack']();
         """)
 
 
@@ -627,7 +627,7 @@ class RaphaelElement(object,RaphaelEventHandler):
         """
         otherElement = element.getElement()
         JS("""
-           this._element.insertBefore(@{{otherElement}});
+           this['_element']['insertBefore'](@{{otherElement}});
         """)
 
 
@@ -636,9 +636,9 @@ class RaphaelElement(object,RaphaelEventHandler):
         """
         otherElement = element.getElement()
         JS("""
-           this._element.insertAfter(@{{otherElement}});
+           this['_element']['insertAfter'](@{{otherElement}});
         """)
-    
+
     def drag(self,move,start,up):
         onMove  = getattr(self, "_onMove")
         onStart = getattr(self, "_onStart")
@@ -647,18 +647,21 @@ class RaphaelElement(object,RaphaelEventHandler):
         self.onMoveFunction=move
         self.onStartFunction=start
         self.onUpFunction=up
+
         JS("""
-           this._element.drag(@{{onMove}},@{{onStart}},@{{onUp}});
+           this['_element']['drag'](@{{onMove}},@{{onStart}},@{{onUp}});
         """)
 
-    def _onMove(self,dx,dy,a,b):
+    #todo
+    #check these args and see if they are correct
+    def _onMove(self,dx,dy,x,y,event):
         self.onMoveFunction(self,dx,dy,x,y)
 
-    def _onStart(self,x,y):
+    def _onStart(self,x,y,event):
         self.onStartFunction(self,x,y)
 
-    def _onUp(self):
-        self.onUpFunction(self)
+    def _onUp(self, event):
+        self.onUpFunction(self, event)
 
 #############################################################################
 
@@ -667,30 +670,30 @@ class RaphaelSetElement(RaphaelElement):
     """
 
     def __init__(self, raphaelElement):
-        """ 
-        Needs a custom init, since the event handling does not work on set 
-        (since no element is created for Set) 
+        """
+        Needs a custom init, since the event handling does not work on set
+        (since no element is created for Set)
         """
         self._element   = raphaelElement
         self.raphael_elements=[]
-         
+
     def add(self, element):
         """ Add an element to this set.
         """
         self.raphael_elements.append(element)
         otherElement = element.getElement()
         JS("""
-           this._element.push(@{{otherElement}});
+           this['_element']['push'](@{{otherElement}});
         """)
 
     def addListener(self,type,listener):
         for element in self.raphael_elements:
             element.addListener(type,listener,self)
 
-            
+
     def removeListener(self,type,listener):
         for element in self.raphael_elements:
-            element.removeListener(type,listener)        
+            element.removeListener(type,listener)
 
 #############################################################################
 
@@ -712,7 +715,7 @@ class RaphaelConnectionElement(RaphaelElement):
     '''
     The connection logic is taken from the Graffle Example at the Raphael Examples
     '''
-    
+
     def __init__(self,line_path, bg_path,obj1=None,obj2=None, line={},bg={}, cp1=None, cp2=None,p1=None,p2=None):
         self.obj1=obj1
         self.obj2=obj2
@@ -721,32 +724,32 @@ class RaphaelConnectionElement(RaphaelElement):
         self.cp1=cp1
         self.cp2=cp2
         self.p1=p1
-        self.p2=p2 
-        
+        self.p2=p2
+
         self.draw()
-        
+
         line=line or {}
         bg=bg or {}
         if line:
             self.setLineAttrs(line)
         if bg:
             self.setBackGroundAttrs(bg)
-       
-        
-    
+
+
+
     def _getPath(self):
         p=[]
         d={}
-        dis=[]        
+        dis=[]
         #cp_map={0:0,90:3,180:1,270:2}
-        #counter_map={0:1,1:0,2:3,3:2}           
+        #counter_map={0:1,1:0,2:3,3:2}
         if self.obj1 and self.obj2:
             bb1=self.obj1.getBBox()
             bb2=self.obj2.getBBox()
             p=[ {'x':bb1['x']+bb1['width']/2,'y':bb1['y']-1},               #0:  object 1, Top,Middle
                 {'x':bb1['x']+bb1['width']/2,'y':bb1['y']+bb1['height']+1}, #1:  object 1, Bottom,Middle
                 {'x':bb1['x']-1,             'y':bb1['y']+bb1['height']/2}, #2:  object 1, Left, Middle
-                {'x':bb1['x']+bb1['width']+1,'y':bb1['y']+bb1['height']/2}, #3:  object 1, Right, Middle            
+                {'x':bb1['x']+bb1['width']+1,'y':bb1['y']+bb1['height']/2}, #3:  object 1, Right, Middle
                 {'x':bb2['x']+bb2['width']/2,'y':bb2['y']-1},               #4/0:object 2, Top, Middle
                 {'x':bb2['x']+bb2['width']/2,'y':bb2['y']+bb2['height']+1}, #5/1:object 2, Bottom, Middle
                 {'x':bb2['x']-1,             'y':bb2['y']+bb2['height']/2}, #6/2:object 2, Left, Middle
@@ -757,10 +760,10 @@ class RaphaelConnectionElement(RaphaelElement):
             p=[ {'x':bb1['x']+bb1['width']/2,'y':bb1['y']-1},               #0:  object 1, Top,Middle
                 {'x':bb1['x']+bb1['width']/2,'y':bb1['y']+bb1['height']+1}, #1:  object 1, Bottom,Middle
                 {'x':bb1['x']-1,             'y':bb1['y']+bb1['height']/2}, #2:  object 1, Left, Middle
-                {'x':bb1['x']+bb1['width']+1,'y':bb1['y']+bb1['height']/2}]#3:  object 1, Right, Middle            
+                {'x':bb1['x']+bb1['width']+1,'y':bb1['y']+bb1['height']/2}]#3:  object 1, Right, Middle
 
         if not self.obj1 and self.obj2:
-            bb2=self.obj2.getBBox()  
+            bb2=self.obj2.getBBox()
             p=[ {'x':bb2['x']+bb2['width']/2,'y':bb2['y']-1},               #4/0:object 2, Top, Middle
                 {'x':bb2['x']+bb2['width']/2,'y':bb2['y']+bb2['height']+1}, #5/1:object 2, Bottom, Middle
                 {'x':bb2['x']-1,             'y':bb2['y']+bb2['height']/2}, #6/2:object 2, Left, Middle
@@ -773,7 +776,7 @@ class RaphaelConnectionElement(RaphaelElement):
                     if ((i==j-4) or (((i<>3 and j<>6) or p[i]['x'] < p[j]['x']) and ((i<>2 and j<>7) or p[i]['x'] > p[j]['x']) and ((i<>0 and j<>5) or p[i]['y'] > p[j]['y']) and ((i<>1 and j<>4) or p[i]['y'] < p[j]['y'] ))):
                         dis.append(dy+dy)
                         d[dis[len(dis)-1]]=[i,j]
-    
+
             if len(dis)==0:
                 res=[0,4]
             else:
@@ -785,13 +788,13 @@ class RaphaelConnectionElement(RaphaelElement):
         else:
             if self.cp1:
                 x1,y1=p[self.cp1]['x'],p[self.cp1]['y']
-                res1=self.cp1                
+                res1=self.cp1
             else:
                 x1=self.p1[0]
                 y1=self.p1[1]
                 res1=None
             if self.cp2:
-                x4,y4=p[self.cp2+4]['x'],p[self.cp2+4]['y']  
+                x4,y4=p[self.cp2+4]['x'],p[self.cp2+4]['y']
                 res2=self.cp2+4
             else:
                 x4=self.p2[0]
@@ -803,12 +806,12 @@ class RaphaelConnectionElement(RaphaelElement):
             elif res1<>None and res2==None:
                 if res1<4:
                     res2=COUNTER_MAP[res1]+4
-                else: 
+                else:
                     res2=COUNTER_MAP[res1]-4
             elif res1==None and res2<>None:
                 if res2<4:
                     res1=COUNTER_MAP[res2]+4
-                else: 
+                else:
                     res1=COUNTER_MAP[res2]-4
             res=[res1,res2]
         dx=max(abs(x1-x4)/2,10)
@@ -816,45 +819,45 @@ class RaphaelConnectionElement(RaphaelElement):
         x2=[x1,x1,x1-dx,x1+dx][res[0]]
         y2=[y1-dy,y1+dy,y1,y1][res[0]]
         x3=[0,0,0,0,x4,x4,x4-dx,x4+dx][res[1]]
-        y3=[0,0,0,0,y1+dy,y1-dy,y4,y4][res[1]]  
+        y3=[0,0,0,0,y1+dy,y1-dy,y4,y4][res[1]]
         return ','.join(['M',str(x1),str(y1),'C',str(x2),str(y2),str(x3),str(y3),str(x4),str(y4)])
 
 
     def draw(self,p1=None,p2=None):
-        self.p1=p1 or self.p1 
-        self.p2=p2 or self.p2 
+        self.p1=p1 or self.p1
+        self.p2=p2 or self.p2
         path=self._getPath()
         self.line_path.setAttr('path',path)
-        self.bg_path.setAttr('path',path)        
+        self.bg_path.setAttr('path',path)
 
     def setLineAttrs(self,attrs):
-        self.line_path.setAttrs(attrs) 
-        
+        self.line_path.setAttrs(attrs)
+
     def setBackGroundAttrs(self,attrs):
-        self.bg_path.setAttrs(attrs) 
+        self.bg_path.setAttrs(attrs)
 
     def toFront(self):
         self.line_path.toFront()
         self.bg_path.toFront()
-    
+
     def toBack(self):
         self.line_path.toBack()
         self.bg_path.toBack()
-    
+
     def remove(self):
         self.line_path.remove()
         self.bg_path.remove()
-        
+
     def addListener(self,type,listener):
         self.line_path.addListener(type,listener,self)
-        self.bg_path.addListener(type,listener,self)        
+        self.bg_path.addListener(type,listener,self)
 
     def removeListener(self,type,listener):
         self.line_path.removeListener(type,listener)
         self.bg_path.removeListener(type,listener)
 
 ###########################################################################
-        
+
 class RaphaelPathElement(RaphaelElement):
     """ A RaphaelElement that represents a path.
 
@@ -869,7 +872,7 @@ class RaphaelPathElement(RaphaelElement):
 ##            Coordinates are absolute by default.
 ##        """
 ##        JS("""
-##            this._element.absolutely();
+##            this['_element']['absolutely']();
 ##        """)
 ##        return self
 ##
@@ -880,7 +883,7 @@ class RaphaelPathElement(RaphaelElement):
 ##            Coordinates are absolute by default.
 ##        """
 ##        JS("""
-##            this._element.relatively();
+##            this['_element']['relatively']();
 ##        """)
 ##        return self
 ##
@@ -889,7 +892,7 @@ class RaphaelPathElement(RaphaelElement):
 ##        """ Move the drawing point to the given coordinates.
 ##        """
 ###        JS("""
-###            this._element.moveTo(@{{x}}, @{{y}});
+###            this['_element']['moveTo'](@{{x}}, @{{y}});
 ###        """)
 ##        self.setAttr('path','m'+str(x)+','+str(y))
 ##        return self
@@ -899,7 +902,7 @@ class RaphaelPathElement(RaphaelElement):
 ##        """ Draw a straight line to the given coordinates.
 ##        """
 ###        JS("""
-###            this._element.lineTo(@{{x}}, @{{y}});
+###            this['_element']['lineTo'](@{{x}}, @{{y}});
 ###        """)
 ##        self.setAttr('path','l'+str(x)+','+str(y))
 ##        return self
@@ -914,11 +917,11 @@ class RaphaelPathElement(RaphaelElement):
 ##        """
 ##        if width != None:
 ##            JS("""
-##               this._element.cplineTo(@{{x}}, @{{y}}, @{{width}});
+##               this['_element']['cplineTo'](@{{x}}, @{{y}}, @{{width}});
 ##            """)
 ##        else:
 ##            JS("""
-##               this._element.cplineTo(@{{x}}, @{{y}});
+##               this['_element']['cplineTo'](@{{x}}, @{{y}});
 ##            """)
 ##        return self
 ##
@@ -927,7 +930,7 @@ class RaphaelPathElement(RaphaelElement):
 ##        """ Draw a bicubic curve to the given coordinates.
 ##        """
 ##        JS("""
-##            this._element.curveTo(@{{x1}}, @{{y1}}, @{{x}}, @{{y2}}, @{{x3}}, @{{y3}});
+##            this['_element']['curveTo'](@{{x1}}, @{{y1}}, @{{x}}, @{{y2}}, @{{x3}}, @{{y3}});
 ##        """)
 ##        return self
 ##
@@ -936,7 +939,7 @@ class RaphaelPathElement(RaphaelElement):
 ##        """ Draw a quadratic curve to the given coordinates.
 ##        """
 ##        JS("""
-##            this._element.qcurveTo(@{{x1}}, @{{y1}}, @{{x}}, @{{y2}}, @{{x3}}, @{{y3}});
+##            this['_element']['qcurveTo'](@{{x1}}, @{{y1}}, @{{x}}, @{{y2}}, @{{x3}}, @{{y3}});
 ##        """)
 ##        return self
 ##
@@ -957,7 +960,7 @@ class RaphaelPathElement(RaphaelElement):
 ##                "dl"   Down left.
 ##        """
 ##        JS("""
-##            this._element.addRoundedCorner(@{{radius}}, @{{direction}});
+##            this['_element']['addRoundedCorner'](@{{radius}}, @{{direction}});
 ##        """)
 ##        return self
 ##
@@ -966,9 +969,9 @@ class RaphaelPathElement(RaphaelElement):
 ##        """ Close the path being drawn.
 ##        """
 ##        JS("""
-##            this._element.andClose();
+##            this['_element']['andClose']();
 ##        """)
 ##        return self
 
 
-                     
+

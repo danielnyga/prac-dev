@@ -12,8 +12,8 @@ DEPT_SHIPPING          = 'Shipping'
 DEPT_QC                = 'Quality Control'
 
 DeptList =  [ DEPT_NONE_SELECTED,
-            DEPT_ACCT, 
-            DEPT_SALES, 
+            DEPT_ACCT,
+            DEPT_SALES,
             DEPT_PLANT
             ]
 
@@ -34,11 +34,11 @@ ROLE_SHIPPING         = 'Shipping'
 ROLE_RETURNS          = 'Returns'
 
 RoleList =  [ ROLE_NONE_SELECTED,
-            ROLE_ADMIN, 
-            ROLE_ACCT_PAY, 
-            ROLE_ACCT_RCV, 
-            ROLE_EMP_BENEFITS, 
-            ROLE_GEN_LEDGER, 
+            ROLE_ADMIN,
+            ROLE_ACCT_PAY,
+            ROLE_ACCT_RCV,
+            ROLE_EMP_BENEFITS,
+            ROLE_GEN_LEDGER,
             ROLE_PAYROLL,
             ROLE_INVENTORY,
             ROLE_PRODUCTION,

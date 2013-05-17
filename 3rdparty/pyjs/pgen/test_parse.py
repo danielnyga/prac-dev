@@ -32,7 +32,7 @@ def compare_compilers(fname):
             ys1 = getAststr(compiler.ast, x1)
         except SyntaxError:
             ys1 = traceback.format_exc(limit=0)
-            
+
     if test_pyjs:
         try:
             y = test_compiler.parseFile(fname)
