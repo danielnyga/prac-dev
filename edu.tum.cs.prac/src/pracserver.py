@@ -38,7 +38,7 @@ class static:
             "gif":"image/gif",
             "ico":"image/x-icon"            }
     
-        static_location = '/home/nyga/code/prac/pracviz/src/output'
+        static_location = os.path.join('.', 'pracviz', 'src', 'output')
         if name in os.listdir(static_location):
             web.header("Content-Type", cType[ext])
             return open('%s/%s' % (static_location, name), "rb").read()
@@ -51,14 +51,6 @@ class PracRpcService(JSONRPCService):
     def __init__(self):
         JSONRPCService.__init__(self)
         
-#     def action_cores(self, request, msg):
-#         return map(lambda x: x.name, self.prac.action_cores)
-        
-#     def __getattr__(self, name):
-#         if self.prac is None:
-#             web.notfound()
-#         return getattr(self.prac, name)
-
 prac_server = PracRpcService()
 prac_server.prac = PRAC()
 
