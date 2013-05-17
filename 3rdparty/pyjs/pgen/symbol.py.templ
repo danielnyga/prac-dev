@@ -1,0 +1,17 @@
+# This module is automatically generated from symbol.py.templ,
+#      at ${gen_date}, with python ${python_version}.
+#
+# Modified by Daniel Kluev, Pyjamas project, 2011
+#
+# Copyright 2006 Google, Inc. All Rights Reserved.
+# Licensed to PSF under a Contributor Agreement.
+
+"""Export the Python grammar and symbols."""
+
+${symbols_assign}
+
+sym_name = {}
+for _name, _value in globals().items():
+    if type(_value) is type(0):
+            sym_name[_value] = _name
+

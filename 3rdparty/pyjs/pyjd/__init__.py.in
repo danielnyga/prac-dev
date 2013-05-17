@@ -1,0 +1,78 @@
+
+pyjdversion = r'%s'
+pyjdinitpth = r'%s'
+
+# Flag indicating we're in desktop
+is_desktop = True
+
+import os
+import sys
+import ConfigParser
+
+if "--version" in sys.argv:
+    print "Version:", pyjdversion
+    sys.exit(0)
+
+
+sys.path += [os.path.join(pyjdinitpth, 'library')]
+
+cp = os.environ.get('HOME', '.')
+cp = os.path.join(cp, ".pyjd")
+cp = os.path.join(cp, "pyjdrc")
+cfg = ConfigParser.ConfigParser()
+try:
+    cfg.read(cp)
+    try:
+        engine = cfg.get('gui', 'engine')
+    except ConfigParser.NoOptionError:
+        engine = None
+except:
+    engine = None
+if engine is None:
+    if sys.platform == 'win32':
+        engine = 'mshtml'
+    else:
+        engine = 'hulahop'
+if engine == 'pyqt4':
+    from pyqt4 import *
+if engine == 'pywebkitgtk':
+    from pywebkitgtknew import *
+elif engine == 'hulahop':
+    from hula import *
+elif engine == 'mshtml':
+    from mshtml import *
+elif engine == 'pywebkitdfb':
+    from pywebkitdfb import *
+
+native_dnd = False
+try:
+    native_dnd = cfg.getboolean('gui', 'native_dnd')
+except:
+    native_dnd = True
+
+sys.path = [os.path.join(pyjdinitpth, 'pygtkweb', 'library')] + sys.path
+
+import importers
+importers._test_revamp()
+
+setup_callbacks = []
+
+def add_setup_callback(cb):
+    setup_callbacks.append(cb)
+
+run_callbacks = []
+
+def add_pre_run_callback(cb):
+    run_callbacks.append(cb)
+
+_run = run
+def run(*args, **kwargs):
+    for cb in run_callbacks:
+        cb()
+    _run(*args, **kwargs)
+
+_setup = setup
+def setup(*args, **kwargs):
+    _setup(*args, **kwargs)
+    for cb in setup_callbacks:
+        cb()

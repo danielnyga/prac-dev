@@ -1,5 +1,6 @@
 import os
 import sys
+import runpy
 sys.path.append(os.path.join('edu.tum.cs.prac', 'src'))
 from utils import bash
 from subprocess import Popen
@@ -29,13 +30,17 @@ fi
 ''')
 f.close()
 os.system("chmod a+x %s" % filepath)
-
+print os.getcwd()
 print '\t Wrote app %s%s%s' % (bash.BOLD, 'knowrob', bash.END)
 
+print '\t Building %spyjamas%s...' % (bash.BOLD, bash.END)
+# runpy.run_module(os.path.join('3rdparty', 'pyjs', 'bootstrap'), run_name='__main__')
+cwd = os.path.join('3rdparty', 'pyjs')
+Popen('python bootstrap.py', shell=True, cwd=cwd).wait()
 print '\t Building %spracviz%s...' % (bash.BOLD, bash.END)
-cmd = 'pyjsbuild --output=%s pracviz.py' % (os.path.join('output'))
+cmd = '%s --output=%s pracviz.py' % (os.path.join('..', '..', '3rdparty', 'pyjs', 'bin', 'pyjsbuild'), os.path.join('output'))
 print cmd
-Popen(cmd, shell=True, cwd=os.path.join('pracviz', 'src')).wait()
+Popen(cmd, cwd=os.path.join('pracviz', 'src'), shell=True).wait()
 
 f = file("env.sh", "w+")
 f.write("#!/bin/sh\n")
