@@ -2,13 +2,13 @@ import os
 import sys
 sys.path.append(os.path.join('edu.tum.cs.prac', 'src'))
 from utils import bash
-
+from subprocess import Popen
 home = os.path.abspath(".")
 appfolder = "apps"
 
 if not os.path.exists(appfolder):
     os.mkdir(appfolder)
-for app in ("pracinfer", "praclearn", 'pracparse', 'senses'):
+for app in ("pracinfer", "praclearn", 'pracparse', 'senses', 'pracserver'):
     filepath = os.path.join(appfolder, app)
     f = file(filepath, "w+")
     f.write("#!/bin/sh\n")
@@ -17,7 +17,7 @@ for app in ("pracinfer", "praclearn", 'pracparse', 'senses'):
     f.close()
     print '\t Wrote app %s%s%s' % (bash.BOLD, app, bash.END)
     os.system("chmod a+x %s" % filepath)
-    
+
 filepath = os.path.join(appfolder, "knowrob")
 f = file(filepath, "w+")
 f.write("#!/bin/sh\n")
@@ -32,9 +32,15 @@ os.system("chmod a+x %s" % filepath)
 
 print '\t Wrote app %s%s%s' % (bash.BOLD, 'knowrob', bash.END)
 
+print '\t Building %spracviz%s...' % (bash.BOLD, bash.END)
+cmd = 'pyjsbuild --output=%s pracviz.py' % (os.path.join('output'))
+print cmd
+Popen(cmd, shell=True, cwd=os.path.join('pracviz', 'src')).wait()
+
 f = file("env.sh", "w+")
 f.write("#!/bin/sh\n")
-f.write("export PYTHONPATH=%s\n" % os.path.pathsep.join(["$PYTHONPATH", os.path.join(home, "edu.tum.cs.prac", "src"), os.path.join(home, "semcore_annotation_tool", "src")]))
+f.write("export PYTHONPATH=%s\n" % os.path.pathsep.join(["$PYTHONPATH", os.path.join(home, "edu.tum.cs.prac", "src"), 
+                                                        os.path.join(home, "semcore_annotation_tool", "src"), os.path.join('3rdparty', 'webpy_jsonrpc')]))
 f.write("export PATH=%s\n" % os.path.pathsep.join(["$PATH", os.path.join(home, appfolder)]))
 f.write("export PRAC_HOME=%s\n" % home)
 f.write("export SWI_HOME_DIR=%s\n" % os.path.join('/', 'usr', 'lib', 'swi-prolog'))
