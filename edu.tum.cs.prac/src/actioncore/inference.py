@@ -37,6 +37,7 @@ import os
 import re
 import math
 import operator
+from wcsp.branchandbound import FormulaGrounding
 
 class PRACInit(PRACReasoner):
     
@@ -83,6 +84,18 @@ class PRACInit(PRACReasoner):
         # ground the MRF        
         watch.tag('MRF Construction')
         mrf = mln.groundMRF(db, simplify=True, method='WCSPGroundingFactory')
+        mln.mrf = mrf
+#        
+#        ##############################################
+#        # start experimental code
+#        ##############################################
+#        
+#        gnd_formula = FormulaGrounding(mln.formulas[0], mrf)
+#        
+#        ##############################################
+#        # start experimental code
+#        ##############################################
+        
         
         # convert to WCSP
         watch.tag('WCSP Construction & Inference')
@@ -250,9 +263,66 @@ class PRACInference(object):
         
         grammarPath = os.path.join('3rdparty', 'stanford-parser-2012-02-03', 'grammar', 'englishPCFG.ser.gz')
         self.synParser = Parser(grammarPath)
- 
-
-
+        
+    def to_syntactic_graph(self):
+        '''
+        Returns a json dump of a directed graph representing
+        the syntactic structure of the instruction under consideration.
+        '''
+        # nodes
+        mln = self.mlns['pracinit'].mrf
+        nodes = [{'id': word} for word in mln.domains['word']]
+        # links
+        links = []
+        for dep in self.features.get('syntax').deps:
+            atom = parsePracFormula(dep)
+            print atom
+            links.append({'target': atom.params[1], 'source': atom.params[0], 'label': atom.predName})
+        return {'type': 'graph', 'nodes': nodes, 'links': links}
+    
+    def to_word_senses(self):
+        sensesFeat = self.features.get('wordsenses')
+        mln = self.mlns['pracinit'].mrf
+        nodes = set([sense for sense in mln.domains['sense_id'] if sense != 'Nullsense'])
+        for paths in sensesFeat.senses2hypernyms.values():
+            for path in paths:
+                nodes.update(path)
+        nodes = [{'id': n} for n in nodes]
+        links = []
+        for word, senses in sensesFeat.words2senses.iteritems():
+            for sense in senses:
+                links.append({'target': sense, 'source': word, 'label': 'has_sense'})
+        for sense in sensesFeat.senses2hypernyms:
+            for hypernym_path in sensesFeat.senses2hypernyms[sense]:
+                links.append({'source': sense, 'target': hypernym_path[-1], 'label': 'is_a'})
+                previous_concept = None
+                for concept in hypernym_path:
+                    if previous_concept is None:
+                        previous_concept = concept
+                        continue
+                    links.append({'source': concept, 'target': previous_concept, 'label': 'is_a'})
+                    previous_concept = concept
+        return {'type': 'graph', 'nodes': nodes, 'links': links}
+    
+    def to_possible_roles(self):
+        sensesFeat = self.features.get('wordsenses')
+        mln = self.mlns['pracinit'].mrf
+        roles = [role for role in mln.domains['role'] if role != 'NULL']
+        links = []
+        nodes = []
+        for word in sensesFeat.words2senses:
+            for role in roles:
+                nodeid = role+word
+                nodes.append({'id': nodeid, 'label': role})
+                links.append({'source': word, 'target': nodeid, 'label': 'has_role'})
+        return {'type': 'graph', 'nodes': nodes, 'links': links}
+    
+    def to_senses_and_roles(self):
+        resultDB = self.databases['core']
+        sensesAndRoles = []
+        for s in resultDB.query('has_sense(?w, ?s) ^ !is_a(?s, NULL) ^ action_role(?w, ?r) ^ !(?r=NULL)'):
+            sensesAndRoles.append([s['?w'], s['?s'], s['?r']+s['?w']])
+        return {'type': 'colors', 'clusters': sensesAndRoles}
 
 def printWordSenses(senses, tickIdx):
     '''

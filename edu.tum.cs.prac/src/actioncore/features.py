@@ -149,8 +149,10 @@ class WordSenses(FeatureExtractor):
         
         # map from word constants to possible senses
         self.words2senses = {}
-        # amp from sense constants to taxonomic concepts
+        # map from sense constants to taxonomic concepts
         self.senses2concepts = {}
+        # map from sense constants to hypernym paths
+        self.senses2hypernyms = {}
         for i, word in enumerate(database.domains['word']):
             disjuncts = []
             tokens = word.rsplit('-', 1)
@@ -168,8 +170,12 @@ class WordSenses(FeatureExtractor):
                 self.senses2concepts[sense_id] = synset.name
                 
                 # add class hierarchy to the database
+                paths = []
                 for s in synset.hypernym_paths():
-                    senses.update([x.name for x in s])
+                    path = [x.name for x in s]
+                    senses.update(path)
+                    paths.append(path)
+                self.senses2hypernyms[sense_id] = paths
                 for concept in senses:    
                     atomStr = 'is_a(%s,%s)' % (sense_id, concept)
                     FeatureExtractor.addEvidence(database, mln, atomStr)

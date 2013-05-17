@@ -37,7 +37,7 @@ if __name__ == '__main__':
     parser.add_option('-m', '--map', dest='semanticMap')
     (options, args) = parser.parse_args()
     
-    if not len(sys.argv) == 4 or len(sys.argv) == 3:
+    if not (len(sys.argv) == 4 or len(sys.argv) == 3):
         print 'Usage: pracinfer <action core name> <sentence> <reply (optional)>\nExample: $pracinfer Flipping "Flip the pancake." "with the spatula"'
         exit(1)
     else: 

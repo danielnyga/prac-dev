@@ -37,7 +37,26 @@ class StopWatch(object):
     def printSteps(self):
         for t in self.tags:
             print '%s%s%s took %f sec.' % (bash.BOLD, t[1], bash.END, t[0])
-            
+
+def powerset(seq):
+    '''
+    Returns all the subsets of this set.
+    '''
+    if len(seq) <= 1:
+        yield seq
+        yield [] 
+    else: 
+        for item in powerset(seq[1:]):
+            yield [seq[0]]+item 
+            yield item
+
+def unifyDicts(d1, d2):
+    '''
+    Adds all key-value pairs from d2 to d1.
+    '''
+    for key in d2:
+        d1[key] = d2[key]
+
 def dict_get(d, entry):
     e = d.get(entry, None)
     if e is None:
