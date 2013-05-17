@@ -1,0 +1,98 @@
+body, html {
+  height: 100%;
+}
+body {
+  background: #E9E9E9;
+  color: black;
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: small;
+  margin: 10px;
+  margin-top: 0px;
+}
+
+a { 
+  color: blue;
+}
+
+a:visited {
+  color: #000; 
+}
+
+.gwt-Label{
+  background-color: white;
+}
+
+.gwt-DialogBox {
+  background-color: #FFFFFF;
+  box-shadow: 3px 3px 10px 0px #AAAAAA;
+  border-radius: 10px;
+  opacity: 0.7;
+}
+
+.gwt-DialogBox .Caption {
+  background: #444444;
+  font-weight: bold;
+  font-color: #E6E6FA;
+  cursor: default;
+  padding: 5px 10px;
+  border: 1px solid #666;
+  text-align: left;
+}
+
+.gwt-DialogBox .dialogContent {
+  border: 2px solid black;
+  border-top: 0;
+}
+
+.gwt-DialogBox td {
+  text-align: right;
+}
+
+.gwt-Button {
+  margin: 10px;
+  font-size: 100%;
+  margin: 0px;
+  padding: 5px;
+  background-color: #EFEFEF;
+  box-shadow: inset 0px 0px 1px #000000;
+  //border-radius: 5px;
+}
+
+/*
+.gwt-DialogBox .gwt-Button {
+  margin: 10px;
+  font-size: 100%;
+  margin: 3px;
+  padding: 7px;
+  background-color: #E6E6FA;
+  box-shadow: inset 0px 0px 1px #000000;
+}
+*/
+.mail-AboutText {
+  width: 24em;
+  font-size: 80%;
+  padding: 10px;
+  text-align: left;
+  background-color: white;
+}
+
+.gwt-TextBox-custom {
+	font-size: 200%;
+}
+
+.popup-Dialog {
+	font-size: 150%;
+	text-align: center;
+	opacity: 0.7;
+	box-shadow: inset 0px 0px 1px #000000;
+	background-color: #EEEEEE;
+}
+
+.prac-PopupText {
+	width: 24em;
+	font-size: 150%;
+	padding: 10px;
+	text-align: center;
+	background-color: white;
+}
+
