@@ -19,15 +19,13 @@ class ForceLayout(object):
     Implementation of a gravity force layouting algorithm.
     '''
     
-    def __init__(self, cog, graph, redraw, friction=.8, gravity=0.5, theta=.5):
+    def __init__(self, cog, graph, redraw, friction=.6, gravity=0.5, theta=.8):
         self.cog = cog # the center of gravity
         self.alpha = 0
         self.friction = friction
         self.gravity = gravity
         self.theta = theta
         self.graph = graph
-        self.nodes = graph.nodes
-        self.links = graph.links
         self.distances = None
         self.running = False
         self.timer = Timer(notify=self.tick)
@@ -42,17 +40,17 @@ class ForceLayout(object):
             # compute distance
             dx = quad.x - node.x
             dy = quad.y - node.y
-            if dx == 0 and dy == 0:
-                return True
+#             d = node.distance(quad.point)
+#             if d < 1e-3: return True
             dn = 1 / math.sqrt(dx * dx + dy * dy)
-            dn = min(100,dn)
+#             print 'dist', dx, dy, dn
             # Barnes-Hut criterion:
-            if (x2-x1) * dn < self.theta:
+            if (x2 - x1) * dn < self.theta:
                 k = quad.charge * dn * dn
                 node.px -= dx * k
                 node.py -= dy * k
                 return True
-            if quad.point != None:
+            if quad.point != None and dx < 1e4 or dy < 1e4:
                 k = quad.pointCharge * dn * dn
                 node.px -= dx * k
                 node.py -= dy * k
@@ -67,14 +65,14 @@ class ForceLayout(object):
             # end animation here
             return
         # gauss-seidel relaxation for links
-        for i, l in enumerate(self.links):
+        for i, l in enumerate(self.graph.links):
             s = l.source
             t = l.target
             x = t.x - s.x
             y = t.y - s.y
             length = x * x + y * y
             if length != 0:
-                l_ = math.sqrt(length)
+                l_ = l.source.distance(l.target)#math.sqrt(length)
                 l = self.alpha * l.strength * (l_ - l.distance) / length
                 x *= l
                 y *= l
@@ -89,14 +87,15 @@ class ForceLayout(object):
 #         print 'link computation took', (datetime.now() - now).microseconds
 #         now = datetime.now()
         # compute the quadtree center of mass and apply mass forces
-        if len(self.nodes) != 0:
-            qt = QuadTree(self.nodes)
+        if len(self.graph.nodes) != 0:
+            qt = QuadTree(self.graph.nodes)
+            self.quadTree = qt
 #             print 'quad tree computation took', (datetime.now() - now).microseconds
 #             now = datetime.now()
             self.accumulate_forces(qt.root)
 #             print 'force accumulation computation took', (datetime.now() - now).microseconds
 #             now = datetime.now()
-            for n in self.nodes:
+            for n in self.graph.nodes:
                 if not n.fixed:
                     qt.repulse(self, n, qt.root, qt.x1_, qt.y1_, qt.x2_, qt.y2_)
 #             print 'repulse computation took', (datetime.now() - now).microseconds
@@ -105,7 +104,7 @@ class ForceLayout(object):
         x = self.cog[0]
         y = self.cog[1]
         k = self.alpha * self.gravity
-        for n in self.nodes:
+        for n in self.graph.nodes:
             if n.fixed:
                 continue
             dx = (x - n.x)
@@ -115,25 +114,35 @@ class ForceLayout(object):
             # apply boundary forces
             x_ = n.x
             y_ = n.y
-            scale = 0.01
-            scale2 = 3
-            const = 50
-            n.x += scale2 * math.exp(scale*(-x_+const))
-            n.x -= scale2 * math.exp(scale*(-(self.width-x_-const))) 
-            n.y += scale2 * math.exp(scale*(-y_+const)) 
-            n.y -= scale2 * math.exp(scale*(-(self.height-y_-const))) 
+            padding = 50
+            if x_ < padding:
+                n.x += (padding-x_) #* self.alpha
+            elif x_ > self.width-padding:
+                n.x += (self.width-padding - x_) #* self.alpha
+            if y_ < padding:
+                n.y += (padding-y_) #* self.alpha
+            elif y_ > self.height-padding:
+                n.y += (self.height-padding - y_) #* self.alpha
+#             scale = 0.01
+#             scale2 = 1
+#             const = 50
+#             n.x += scale2 * max(0, abs(scale*(-x_+const)))
+#             n.x -= scale2 * max(0, abs(scale*(-(self.width-x_-const)))) 
+#             n.y += scale2 * max(0, abs(scale*(-y_+const)))
+#             n.y -= scale2 * max(0, abs(scale*(-(self.height-y_-const)))) 
 #         print 'gravity computation took', (datetime.now() - now).microseconds
 #         now = datetime.now()
+
         # position verlet integration
-        for n in self.nodes:
+        for n in self.graph.nodes:
             if not hasattr(n, 'px'): n.px = n.x
             if not hasattr(n, 'py'): n.py = n.y
             if n.fixed:
                 continue
             x_ = n.x
             y_ = n.y
-            n.x -= (n.px - x_) * self.friction
-            n.y -= (n.py - y_) * self.friction
+            n.x -= ((n.px - x_) * self.friction)
+            n.y -= ((n.py - y_) * self.friction)
             n.px = x_
             n.py = y_
 #         print 'application computation took', (datetime.now() - now).microseconds
@@ -144,18 +153,17 @@ class ForceLayout(object):
                     
     def start(self):
         # start the simulation
-        for i, n in enumerate(self.nodes):
+        for i, n in enumerate(self.graph.nodes):
             n.index = i
             n.weight = 0.
         # count number of links for each node
-        for i, l in enumerate(self.links):
+        for i, l in enumerate(self.graph.links):
             l.source.weight += 1
             l.target.weight += 1         
 
-        for n in self.nodes:
+        for n in self.graph.nodes:
             if n.x is None: n.x = self.cog[0]#position('x', 900)
             if n.y is None: n.y = self.cog[1]#position('y', 900)
-#             print n.x, n.y
             if not hasattr(n, 'px'): n.px = n.x
             if not hasattr(n, 'py'): n.py = n.y
         self.resume()
@@ -164,15 +172,12 @@ class ForceLayout(object):
 #         return self.cog
         
     def setAlpha(self, val):
-#         if val == 0:
-#             self.timer.cancel()
-        if self.alpha > 0:
+        if self.alpha > 0.05: # the animation is still running, just update alpha
             if val > 0: 
                 self.alpha = val
             else: 
                 self.alpha = 0
-                self.timer.cancel()
-        else:
+        else: # start over with the animation
             self.alpha = val
             self.tick()
             
@@ -199,8 +204,8 @@ class ForceLayout(object):
         if quad.point != None:
             # jitter internal nodes that are coincident
             if not quad.leaf:
-                quad.point.x += (random() - .5)
-                quad.point.y += (random() - .5)
+                quad.point.x += (random() - .5) * 20
+                quad.point.y += (random() - .5) * 20
             k = self.alpha * quad.point.charge
             quad.pointCharge = k
             quad.charge += k

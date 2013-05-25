@@ -4,7 +4,7 @@ Created on Apr 23, 2013
 @author: nyga
 '''
 from random import random
-from graph import Node
+from graph.graph import Node
 
 class QuadTreeNode(object):
    
@@ -63,7 +63,7 @@ class QuadTree(object):
                     self.insertChild(n, d, x, y, x1, y1, x2, y2)
             else:
                 n.x = x
-                n.y = y 
+                n.y = y
                 n.point = d
         else:
             self.insertChild(n, d, x, y, x1, y1, x2, y2)
@@ -104,6 +104,46 @@ class QuadTree(object):
                 self.repulse(layout, node, children[2], x1, sy, sx, y2)
             if 3 in children.keys(): 
                 self.repulse(layout, node, children[3], sx, sy, x2, y2)
+    
+    def getEmptyQuadForPoint(self, x, y):
+        return self._getQuadForPoint(self.root, x, y, self.x1_, self.y1_, self.x2_, self.y2_)
+    
+    def _getQuadForPoint(self, quad, x, y, x1, y1, x2, y2):
+        print quad, x, y, x1, y1, x2, y2
+        if quad is None:
+#             print 'found an empty quad'
+            return [None, x1, y1, x2, y2]
+        # if there is too little space, skip subtree
+        space = abs(x1 - x2)
+        if space < 50: return None 
+        if not quad.leaf:
+            sx = (x1 + x2) * .5
+            sy = (y1 + y2) * .5
+            
+            right = (x >= sx)
+            bottom = (y >= sy)
+            i = (bottom << 1) + right
+            queue = []
+            queue.append(i)
+            queue.extend(filter(lambda x: x != i, range(4)))
+
+            children = quad.nodes
+            for i in queue:
+#                 print 'going into recursion with %d' % i
+                if i == 0: 
+                    res = self._getQuadForPoint(children.get(0, None), x, y, x1, y1, sx, sy)
+                elif i == 1:
+                    res = self._getQuadForPoint(children.get(1, None), x, y, sx, y1, x2, sy)
+                elif i == 2: 
+                    res = self._getQuadForPoint(children.get(2, None), x, y, x1, sy, sx, y2)
+                elif i == 3: 
+                    res = self._getQuadForPoint(children.get(3, None), x, y, sx, sy, x2, y2)
+                if res is not None:
+                    return res
+            return None
+        else:
+#             print 'found a non-empty quad'
+            return [quad, x1, y1, x2, y2]
         
 if __name__ == '__main__':
     

@@ -28,6 +28,7 @@ class PopupDialog(DialogWindow):
         
         # Use this opportunity to set the dialog's caption.
         self.setText("Probabilistic Action Cores (PRAC)")
+#         self.setStyleName('popup-Dialog')
         
         # Create a DockPanel to contain the 'about' label and the 'OK' button.
         outer = DockPanel()

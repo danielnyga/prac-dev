@@ -19,11 +19,11 @@ a:visited {
 }
 
 .gwt-Label{
-  background-color: white;
+  background-color: #dedede;
 }
 
 .gwt-DialogBox {
-  background-color: #FFFFFF;
+  background-color: #dedede;
   box-shadow: 3px 3px 10px 0px #AAAAAA;
   border-radius: 10px;
   opacity: 0.7;
@@ -83,9 +83,8 @@ a:visited {
 .popup-Dialog {
 	font-size: 150%;
 	text-align: center;
-	opacity: 0.7;
 	box-shadow: inset 0px 0px 1px #000000;
-	background-color: #EEEEEE;
+	background-color: #dedede;
 }
 
 .prac-PopupText {
@@ -93,6 +92,12 @@ a:visited {
 	font-size: 150%;
 	padding: 10px;
 	text-align: center;
-	background-color: white;
+	background-color: #dedede;
+}
+
+.prac-panel {
+	opacity: 0.;
+	padding: 0px;
+	margin: 0px;
 }
 

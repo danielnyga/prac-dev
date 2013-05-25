@@ -26,6 +26,8 @@ import pyjd # this is dummy in pyjs.
 from pyjamas.ui.RootPanel import RootPanel
 from pyjamas.ui.DockPanel import DockPanel
 from pyjamas.ui.HorizontalPanel import HorizontalPanel
+from pyjamas.ui.FlexTable import FlexTable
+from pyjamas.ui.FlowPanel import FlowPanel
 from pyjamas.ui import HasAlignment
 from pyjamas.ui.Widget import Widget
 from pyjamas.ui.Button import Button
@@ -34,6 +36,7 @@ from pyjamas.ui.Composite import Composite
 from pyjamas.ui.TextBox import TextBox
 from pyjamas.ui.Label import Label
 from pyjamas.ui.HTML import HTML
+from pyjamas.ui.AbsolutePanel import AbsolutePanel
 from pyjamas.raphael.raphael import Raphael,DOCK_CONNECTION
 from pyjamas import DOM
 from pyjamas.Timer import Timer
@@ -43,118 +46,23 @@ from pyjamas import Window
 from pyjamas import DeferredCommand
 from about import AboutDialog
 from force import ForceLayout
-from graph import Node, Link, Graph
 import random
 import time
 from PopupDialog import PopupDialog
 from processingcanvas import ProcessingCanvas
+from SVGWindow import SVGWidget
+from LogoPanel import LogoPanel
+from pracremote import PRACRemoteHandler
+from graph.graph import Graph
+from widgets import CondProbWidget
 
 
-# define some aesthetic colors for filling and stroking nodes
-
-colors_fill = ['#ff9a8d', # red 
-               '#66c0ff', # blue
-               '#9cf4a1', # green
-               '#fff48d', # yellow
-               '#ecb5f2', # magenta
-               '#ffd28f'  # orange
-               ] 
-colors_stroke = ['#c55454', # red
-                 '#304e7c', # blue
-                 '#209e1f', # green
-                 '#b9b15b', # yellow
-                 '#ae32ac', # magenta
-                 '#b38520'  # orange
-                 ]
-
-
-def about(fred):
+def about():
     box = AboutDialog()
     left = (Window.getClientWidth() - 512) / 2
     top = (Window.getClientHeight() - 256) / 2
     box.setPopupPosition(left, top)
     box.show()
-    
-class PRACRemote(JSONProxy):
-    def __init__(self):
-        JSONProxy.__init__(self, "prac", ["action_cores", 
-                                          "get_syntactic_atoms", 
-                                          "get_wordsenses", 
-                                          "get_possible_roles", 
-                                          "get_senses_and_roles"])
-        self.handler = self
-#         self.timer = Timer(notify=self.addNode)
-#     
-#     def addNode(self):
-#         print 'timer'
-#         node = self.nodes.pop()
-#         id = node['id']
-#         if self.pracviz.g.getNodeById(id) != None:
-#             continue
-#         rand = 500 if len(self.pracviz.g.nodes) else 0
-#         new_node = Node(pos=(self.pracviz.layout.cog[0]+(random.random()-.5)*rand, 
-#                              self.pracviz.layout.cog[1]+(random.random()-.5)*rand), charge=-1000, id=id)
-#         new_node.text = id
-#         self.pracviz.g.addNode(new_node)
-#         if len(self.pracviz.g.nodes) == 1:
-#             new_node.fixed = True
-#         if len(self.nodes) > 0:
-#             self.timer.schedule(200)
-    
-    def onRemoteResponse(self, response, request_info):
-        print response
-        type = response.get('type', None)
-        if type == 'colors':
-            clusters = response.get('clusters')
-            if clusters is None: return
-            for color, nodes in enumerate(clusters):
-                for node in nodes:
-                    n = self.pracviz.g.getNodeById(node)
-                    if n is None: continue
-                    n.fill = colors_fill[color % len(colors_fill)]
-                    n.stroke = colors_stroke[color % len(colors_stroke)]
-            self.pracviz.layout.start()
-        elif type == 'graph':
-            nodes = response.get('nodes', None)
-    #         for n in self.pracviz.g.nodes:
-    #             n.fixed = True
-            if nodes is not None:
-    #             self.nodes = nodes
-    #             self.timer.schedule(200)
-                for node in nodes:
-                    id = node['id']
-                    if self.pracviz.g.getNodeById(id) != None:
-                        continue
-                    rand = 500 if len(self.pracviz.g.nodes) else 0
-                    new_node = Node(pos=(self.pracviz.layout.cog[0]+(random.random()-.5)*rand, 
-                                         self.pracviz.layout.cog[1]+(random.random()-.5)*rand), charge=-1000, id=id)
-                    if node.get('label', None) is None:
-                        new_node.text = id
-                    else:
-                        new_node.text = node['label']
-                    self.pracviz.g.addNode(new_node)
-                    if len(self.pracviz.g.nodes) == 1:
-                        new_node.fixed = True
-                    
-            links = response.get('links', None)
-            if links is not None:
-                for link in links:
-                    if self.pracviz.g.containsLink(link): continue
-                    sourceId = link['source']
-                    targetId = link['target']
-                    label = link.get('label', '')
-                    source = self.pracviz.g.getNodeById(sourceId, None)
-                    target = self.pracviz.g.getNodeById(targetId, None)
-                    if source is None or target is None:
-                        continue
-                    new_link = Link(source=source, target=target, strength=1000, label=label, directed=True, dist=120)
-                    self.pracviz.g.links.append(new_link)
-                     
-            self.pracviz.layout.start()
-        
-    def onRemoteError(self, code, errobj, request_info):
-        Window.alert(code)
-
     
 class PRACViz():
     
@@ -166,55 +74,101 @@ class PRACViz():
         outer = DockPanel()
         outer.setWidth('100%')
 #        outer.setHeight('100%')
-        self.pracRemote = PRACRemote()
-        self.pracRemote.pracviz = self
+
+        self.logo_panel = LogoPanel()
         
-        self.popupDialogs = [PopupDialog('Obtaining syntactic features from Stanford Parser...', 2000),
-                             PopupDialog('Obtaining possible word senses from WordNet...', 2000),
-                             PopupDialog('Obtaining possible action roles from FrameNet...', 2000),
-                             PopupDialog('Simultaneous word sense disambiguation & action role labeling...', 2000),
-                             PopupDialog('Obtaining missing action roles from PRAC...', 2000),
-                             PopupDialog('Inferring object types of missing roles...', 2000)]
+        self.popupDialogs = [PopupDialog('Obtaining Syntactic Features from Stanford Parser...', 10),
+                             PopupDialog('Obtaining Possible Word Senses from WordNet...', 2000),
+                             PopupDialog('Obtaining Possible Action Roles from FrameNet...', 2000),
+                             PopupDialog('Simultaneous Word Disambiguation & Action Role Labeling...', 2000),
+                             PopupDialog('Removing Inapplicable Senses and Roles...', 2000),
+                             PopupDialog('Obtaining Missing Action Roles from PRAC...', 2000),
+                             PopupDialog('Obtaining Possible Word Senses from WordNet...', 2000),
+                             PopupDialog('Inferring Object Types of Missing Roles...', 2000)]
         self.step_i = 0
         self.steps = [self.addSyntacticFeatures,
                       self.addWordSenses,
                       self.addPossibleRoles,
                       self.addSensesAndRoles,
+                      self.removeInapplicableNodes,
                       self.addMissingRoles,
-                      self.addMissingRoleConcepts]
+                      self.addMissingRoleConcepts,
+                      self.addMissingRoleSenses]
+
+        # graph maintaining all the nodes
+        self.g = Graph()
+        # create gravity force layout        
+        self.layout = ForceLayout((800,400), self.g, self.redraw, gravity=-0.0001)
         
-        welcomePanel = Composite()
-        l = Image('prac_logo.png')
-        l.setStyleAttribute('margin', '10px')
-        welcomePanel.initWidget(l)
-        welcomePanel.setHeight('50px')
+        self.controlPanel = AbsolutePanel()
+        self.controlPanel.setStyleName('prac-panel')
+        self.controlPanel.add(SVGWidget('prac_panel.svg'))
         
         queryPanel = HorizontalPanel()
+        queryPanel.setStyleAttribute('background', '#dedede')
         queryTxt = TextBox()
         queryTxt.setStyleName('gwt-TextBox-custom')
-        queryTxt.setVisibleLength('50')
+        queryTxt.setVisibleLength('30')
         queryTxt.setText('Flip the pancake around.')
         queryTxt.defaultTxt = True
         queryTxt.addClickListener(getattr(self, "eraseTxt"))
-        queryPanel.setHorizontalAlignment(HasAlignment.ALIGN_CENTER)
-        queryPanel.setHorizontalAlignment(HasAlignment.ALIGN_CENTER)
+#         queryPanel.setHorizontalAlignment(HasAlignment.ALIGN_CENTER)
+#         queryPanel.setHorizontalAlignment(HasAlignment.ALIGN_CENTER)
         queryPanel.add(Label('Natural-language Instruction:'))
         queryPanel.add(queryTxt)
-        nextBtn = Button('Next >')
-        nextBtn.addClickListener(self.nextStep)
-        queryPanel.add(nextBtn)
+        
+        #
+        # Button Panel
+        #
+        btnPanel = FlexTable()
+        btnPanel.setWidth('100px')
+        queryPanel.add(btnPanel)
+        
         b = Button('Query PRAC!')
         b.addClickListener(self.sendQuery)
-        queryPanel.add(b)
+        btnPanel.setWidget(0, 0, b)
+
+        nextBtn = Button('Next >')
+        nextBtn.addClickListener(self.nextStep)
+        btnPanel.setWidget(0, 1, nextBtn)
+
         resetBtn = Button('Reset')
         resetBtn.addClickListener(self.reset)
-        queryPanel.add(resetBtn)
+        btnPanel.setWidget(1, 0, resetBtn)
+        
+        aboutBtn = Button('About...')
+        aboutBtn.addClickListener(about)
+        btnPanel.setWidget(1, 1, aboutBtn)
+
+        layoutBtn = Button('Layout!')
+        layoutBtn.addClickListener(self.layout.start)
+        btnPanel.setWidget(1, 2, layoutBtn)
+
+        queryPanel.setWidth('100%')
+        
+        
+        #
+        # Info Panel
+        #
+        infoPanel = FlexTable()
+        infoPanel.setWidth('200px')
+        queryPanel.add(infoPanel)
+        
+        infoPanel.setText(0, 0, '# Variables:')
+        infoPanel.setText(0, 1, 'N/A')
+        infoPanel.setText(1, 0, '# Ground Formulas:')
+        infoPanel.setText(1, 1, 'N/A')
+
+        infoPanel.prob = CondProbWidget()
+        infoPanel.setWidget(2, 0, infoPanel.prob)
+        infoPanel.getFlexCellFormatter().setColSpan(2, 0, 2)
+        self.infoPanel = infoPanel
         
 #         center.initWidget(self.canvas)
         self.canvas = ProcessingCanvas(self.redraw)
 #         self.canvas.setBackground(255,255,255)
 #         self.canvas.setSize('100', '100')
-        self.canvas.setFrameRate(15)
+#         self.canvas.setFrameRate(15)
         self.canvas.textAlign('CENTER')
         self.canvas.noLoop()
         self.canvas.setMouseMove(self.onMouseMove)
@@ -223,8 +177,8 @@ class PRACViz():
         self.canvas.setMouseDrag(self.onMouseDrag)
 #         self.canvas.noLoop()
 #         self.canvas.text('Hello, PRAC!', 300, 300)
-        outer.setBorderWidth(1)
-        outer.add(welcomePanel, DockPanel.NORTH)
+        outer.setBorderWidth(0)
+#         outer.add(welcomePanel, DockPanel.NORTH)
         outer.add(self.canvas, DockPanel.CENTER)
         outer.add(queryPanel, DockPanel.SOUTH)
         
@@ -236,19 +190,20 @@ class PRACViz():
         self.queryTxt = queryTxt
 #         self.center = center
         self.queryPanel = queryPanel
-        self.welcomePanel = welcomePanel
+#         self.welcomePanel = welcomePanel
 #         self.viz = viz
 #         self.viz.addListener('mousewheel', self.onMouseWheel)
 #         self.canvas.addListener('mousemove', self.onMouseMove)
 #         self.viz.addListener('mousedown', self.onMouseDown)
         Window.addWindowResizeListener(self)
         DeferredCommand.add(self)
-        self.g = Graph()
-        self.layout = ForceLayout((800,400), self.g, self.redraw, gravity=-0.0001)
+        self.pracRemote = PRACRemoteHandler(self.g)
+        self.pracRemote.pracviz = self
         self.translation = (0, 0)
         self.mouse_x = self.mouse_y = 0
         self.scrolling = False
         self.i = 0
+        self.logo_panel.moveIn()
     
     def onMouseDown(self, sender, event):
         self.mouse_x = self.canvas._p.mouseX
@@ -287,20 +242,20 @@ class PRACViz():
             
     def redraw(self): 
         self.canvas.setBackground(255, 255, 255)
-        self.canvas.text('redraw: %d, x=%d, y=%d' % (self.i, self.mouse_x, self.mouse_y), 20, 20)
+#         self.canvas.text('redraw: %d, x=%d, y=%d' % (self.i, self.mouse_x, self.mouse_y), 20, 20)
         self.i+=1
-        print self.translation
+#         print self.translation
 #         self.canvas.translate(self.translation[0], self.translation[1])
-        for n in self.g.nodes:
-            n.drawProc(self.canvas)
         for l in self.g.links:
-            l.drawProc(self.canvas)
-
+            l.draw(self.canvas)
+        for n in self.g.nodes:
+            n.draw(self.canvas)
+        
     def execute(self):
         self.onWindowResized(Window.getClientWidth(), Window.getClientHeight())
         
     def onWindowResized(self, width, height):
-        new_height = height - self.canvas.getAbsoluteTop() - 80
+        new_height = height - self.canvas.getAbsoluteTop() - 90
         if new_height < 1:
             new_height = 1
 #         width = self.canvas.getOffsetWidth()
@@ -322,6 +277,8 @@ class PRACViz():
     
     def nextStep(self):
         self.layout.stop()
+        self.infoPanel.setText(0, 1, 'N/A')
+        self.infoPanel.setText(1, 1, 'N/A')
         step = self.steps[self.step_i]
         d = self.popupDialogs[self.step_i]
         d.addCloseListener(step)
@@ -338,11 +295,23 @@ class PRACViz():
         self.pracRemote.get_possible_roles(self.pracRemote, None)
         
     def addSensesAndRoles(self):
+        self.pracRemote.get_no_variables(self.pracRemote, 'pracinit')
+        self.pracRemote.get_no_gnd_formulas(self.pracRemote, 'pracinit')
         self.pracRemote.get_senses_and_roles(self.pracRemote, None)
     
-    def addMissingRoles(self): pass
+    def removeInapplicableNodes(self):
+        self.pracRemote.get_removed_nodes(self.pracRemote, None)
     
-    def addMissingRoleConcepts(self): pass
+    def addMissingRoles(self):
+        self.pracRemote.get_missing_roles(self.pracRemote, None)
+    
+    def addMissingRoleConcepts(self):
+        self.pracRemote.get_possible_missing_roles(self.pracRemote, None)
+        
+    def addMissingRoleSenses(self):
+        self.pracRemote.get_no_variables(self.pracRemote, 'missingroles')
+        self.pracRemote.get_no_gnd_formulas(self.pracRemote, 'missingroles')
+        self.pracRemote.get_missing_role_senses(self.pracRemote, None)
         
     def reset(self):
         self.step_i = 0
