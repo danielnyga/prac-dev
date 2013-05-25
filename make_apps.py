@@ -34,11 +34,10 @@ print os.getcwd()
 print '\t Wrote app %s%s%s' % (bash.BOLD, 'knowrob', bash.END)
 
 print '\t Building %spyjamas%s...' % (bash.BOLD, bash.END)
-# runpy.run_module(os.path.join('3rdparty', 'pyjs', 'bootstrap'), run_name='__main__')
 cwd = os.path.join('3rdparty', 'pyjs')
 Popen('python bootstrap.py', shell=True, cwd=cwd).wait()
 print '\t Building %spracviz%s...' % (bash.BOLD, bash.END)
-cmd = '%s --output=%s pracviz.py' % (os.path.join('..', '..', '3rdparty', 'pyjs', 'bin', 'pyjsbuild'), os.path.join('output'))
+cmd = 'PYJSPATH=$PYJSPATH:./edu.tum.cs.prac/src %s --output=%s pracviz.py' % (os.path.join('..', '..', '3rdparty', 'pyjs', 'bin', 'pyjsbuild'), os.path.join('output'))
 print cmd
 Popen(cmd, cwd=os.path.join('pracviz', 'src'), shell=True).wait()
 
