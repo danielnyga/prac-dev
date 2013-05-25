@@ -59,8 +59,18 @@ class PRACMLN(MLN):
         assert type(domains) == list
         self.predicates[name] = domains
         if functional is not None:
-            func = [i in functional for i, d in enumerate(domains)]
+            func = [(i in functional) for i, d in enumerate(domains)]
             self.blocks[name] = func
+            
+    def addDomainValue(self, domain, value):
+        '''
+        Appends a new value to the specified domain.
+        '''
+        dom = self.domains.get(domain, None)
+        if dom is None:
+            dom = []
+            self.domains[domain] = dom
+        dom.append(value)
     
     def loadPRACDatabases(self, dbPath):
         '''

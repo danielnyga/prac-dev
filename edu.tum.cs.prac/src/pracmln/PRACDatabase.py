@@ -52,7 +52,6 @@ class PRACDatabase(Database):
         params = f.params
         isTrue = not f.negated
         atomString = "%s(%s)" % (predName, ",".join(params))
-        plAtomString = "%s(%s)" % (predName, ",".join(map(lambda x: "'%s'" % x, params)))
         self.evidence[atomString] = isTrue
         domNames = self.mln.predicates[predName]
         for i, v in enumerate(params):

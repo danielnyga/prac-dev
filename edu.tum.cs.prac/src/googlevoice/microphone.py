@@ -74,7 +74,7 @@ if __name__ == '__main__':
     def end():
         print 'now it stopped.'
     
-    l = MicLevelController(start, end)
+    l = MicLevelController(start, end, sensitivity=1200)
     l.listen()
     
     while True:

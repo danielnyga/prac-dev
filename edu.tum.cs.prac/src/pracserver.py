@@ -8,6 +8,7 @@ from actioncore import PRAC
 from actioncore.inference import *
 import jpype
 import json
+from nltk.corpus import wordnet as wn
 
 urls = (
     '/prac/', 'pracserver',
@@ -19,6 +20,8 @@ class pracserver:
     def POST(self):
         reply = prac_server(web.webapi.data())
         return reply
+
+static_location = os.path.join('.', 'pracviz', 'src', 'output')
 
 class static:
     def GET(self, name):
@@ -36,9 +39,10 @@ class static:
             "png":"images/png",
             "jpg":"image/jpeg",
             "gif":"image/gif",
-            "ico":"image/x-icon"            }
+            "ico":"image/x-icon",
+            "svg": "image/svg+xml"}
     
-        static_location = os.path.join('.', 'pracviz', 'src', 'output')
+#         static_location = os.path.join('.', 'pracviz', 'src', 'output')
         if name in os.listdir(static_location):
             web.header("Content-Type", cType[ext])
             return open('%s/%s' % (static_location, name), "rb").read()
@@ -91,8 +95,51 @@ def get_senses_and_roles(request, msg):
     print sensesAndRoles
     return sensesAndRoles
 
+@jsonremote(prac_server)
+def get_removed_nodes(request, msg):
+    removeNodes = prac_server.result.pracinference.to_inapplicable_nodes()
+    print removeNodes
+    return removeNodes
+
+@jsonremote(prac_server)
+def get_missing_roles(request, msg):
+    prac_server.actionroles = actionroles
+    prac_server.result >> actionroles >> prac_server.result
+    missingRoles = prac_server.result.pracinference.to_missing_roles()
+    print missingRoles
+    return missingRoles
+
+@jsonremote(prac_server)
+def get_possible_missing_roles(request, msg):
+    possibleMissingRoles = prac_server.result.pracinference.to_possible_missing_roles()
+    print possibleMissingRoles
+    return possibleMissingRoles
+
+@jsonremote(prac_server)
+def get_missing_role_senses(request, msg):
+    possibleMissingRoles = prac_server.result.pracinference.to_missing_role_senses()
+    print possibleMissingRoles
+    return possibleMissingRoles
+
+@jsonremote(prac_server)
+def get_no_variables(request, msg):
+    count = len(prac_server.result.pracinference.mlns[msg].mrf.gndAtoms)
+    return {'no_variables': count}
+
+@jsonremote(prac_server)
+def get_no_gnd_formulas(request, msg):
+    mln = prac_server.result.pracinference.mlns[msg]
+    count = 0
+    for f in mln.formulas:
+        vars = f.getVariables(mln.mrf)
+        if len(vars) == 0: continue
+        gndFormulaCount = reduce(lambda x, y: x*y, [len(mln.mrf.domains[f.getVarDomain(v, mln.mrf)]) for v in vars])
+        count += gndFormulaCount
+    return {'no_gnd_formulas': count}
+
 # start me!
 if __name__ == "__main__":
     java.startJvm()
+    print 'running in ', static_location
     web.application(urls, globals()).run()
     java.shutdownJvm()

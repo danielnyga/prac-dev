@@ -204,7 +204,6 @@ class MissingRoles(FeatureExtractor):
         
         self.missingRoles.difference_update(['NULL'])
         specifiedRoles = set()
-        coreDB = pracinference.databases['core']
         for sol in coreDB.query('action_role(?w, ?r) ^ has_pos(?w, ?pos) ^ has_sense(?w, ?s) ^ !(?r = NULL)'):
             specifiedRoles.add(sol['?r'])
             db.addGroundAtom('has_pos(%s, %s)' % (sol['?w'], sol['?pos']))
@@ -221,6 +220,7 @@ class MissingRoles(FeatureExtractor):
         
         # get all concepts that are known by the action core
         known_concepts = actioncore.known_concepts
+        self.sense2concepts = {}
         for c in known_concepts:
             if c == 'NULL':
                 continue
@@ -233,10 +233,10 @@ class MissingRoles(FeatureExtractor):
             # add class hierarchy to the database
             for s in synset.hypernym_paths():
                 senses.update([x.name for x in s])
-            for concept in senses:    
+            for concept in senses:
                 atomStr = 'is_a(%s,%s)' % (sense_id, concept)
                 FeatureExtractor.addEvidence(db, mln, atomStr)
-        
+            self.sense2concepts[c] = list(senses)
         # for each missing role, add a virtual word
         for role in self.missingRoles:
             word_id = '%s' % role

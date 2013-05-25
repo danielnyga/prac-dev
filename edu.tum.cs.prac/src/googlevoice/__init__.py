@@ -1,35 +1,51 @@
 from recognize import Voice
 from microphone import MicLevelController
+from threading import Timer
 
+
+class VoiceRecorder():
+    
+    def __init__(self):
+        self.voices = []
+        self.voip = 0
+        self.counter = 0
+        self.recording = False
+
+    def startListenerThread(self):
+        
+        newVoice = Voice(str(self.counter))
+        if len(self.voices) < 2:
+            self.voices.append(newVoice)
+        else:
+            if self.recording:
+                Timer(0.6, self.startListenerThread).start()
+                return
+            self.voices[self.voip].stopRecording()
+            self.voices[self.voip] = newVoice
+            self.voip = (self.voip + 1) % 2
+        newVoice.startRecording()
+        self.counter += 1
+        if self.counter < 20:
+            Timer(0.6, self.startListenerThread).start()
+        else:
+            for v in self.voices:
+                v.stopRecording()
+        
+    def start(self):
+        self.startListenerThread()
+        
+    def record(self):
+        self.recording = True
+
+    def stop(self):
+        self.recording = False
+        self.counter = 0
+        print self.voices[self.voip].analyze()
+        
 
 if __name__ == '__main__':
-#    wavFileName = '/home/nyga/tmp/speech.wav'
-#    flacFileName = '/home/nyga/tmp/speech.flac'
-#    
-#    wavFile = open(wavFileName, 'w')
-#    process = Popen(['/usr/bin/arecord', '-f', 'S16_LE', '-t', 'wav', '-d', '5', '-c', '1', '-r', '16000'], stdout=wavFile)
-#    time.sleep(7)
-#    process.kill()
-#    wavFile.close()
-#    process = Popen(['/usr/bin/ffmpeg', '-i', wavFileName, '-y', flacFileName])
-#    process.wait()
-#    
-#    url = "https://www.google.com/speech-api/v1/recognize?xjerr=1&client=chromium&lang=en-US"
-#    flac = open(flacFileName,'r').read()
-#    header = {'Content-Type' : 'audio/x-flac; rate=16000'}
-#    req = urllib2.Request(url, flac, header)
-#    data = urllib2.urlopen(req)
-#    print data.read()
-    voice = Voice()
-    
-    def analyze():
-        voice.stopRecording()
-        print voice.analyze()
-        
-    mic = MicLevelController(sensitivity=900)
-    mic.registerStartCallback(voice.startRecording)
-    mic.registerEndCallback(analyze)
+
+    v = VoiceRecorder()
+    mic = MicLevelController(sensitivity=1200, startCallback=v.record, endCallback=v.stop)
     mic.listen()
-    
-    while True:
-        pass
+    v.start()

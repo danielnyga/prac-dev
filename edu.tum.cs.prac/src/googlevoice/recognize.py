@@ -7,7 +7,10 @@ from subprocess import Popen
 import urllib2
 from tempfile import mkstemp
 
+import atexit
 
+
+    
 class Voice(object):
     '''
         Implements an interface to the Google Speech Recognition API.
@@ -15,12 +18,14 @@ class Voice(object):
         and sending it to the Google API.
     '''
     
-    def __init__(self):
+    def __init__(self, name):
         self.arecord = None
         self.url = "https://www.google.com/speech-api/v1/recognize?xjerr=1&client=chromium&lang=en-US"
+#        self.url = "https://www.google.com/speech-api/v1/recognize?xjerr=1&client=chromium&lang=de-DE"
         self.header = {'Content-Type' : 'audio/x-flac; rate=16000'}
         self.wavFile = None
         self.wavName = None
+        self.name = name
     
     def startRecording(self, duration=None):
         '''
@@ -28,8 +33,8 @@ class Voice(object):
         If the duration parameter is set, this method will block until the given 
         time of recording is up.
         '''
-        _, self.wavName = mkstemp('wavFile.wav')
-        self.wavFile = open(self.wavName, 'w')
+        self.wavName = '/tmp/wavFile_%s.wav' % self.name
+        self.wavFile = open(self.wavName, 'w+')
         cmdLine = ['/usr/bin/arecord']
         cmdLine.extend(['-f', 'S16_LE'])
         cmdLine.extend(['-t', 'wav'])
