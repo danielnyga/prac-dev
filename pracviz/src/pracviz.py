@@ -62,6 +62,7 @@ def about():
     left = (Window.getClientWidth() - 512) / 2
     top = (Window.getClientHeight() - 256) / 2
     box.setPopupPosition(left, top)
+    box.prob
     box.show()
     
 class PRACViz():
@@ -73,18 +74,17 @@ class PRACViz():
     def onModuleLoad(self):
         outer = DockPanel()
         outer.setWidth('100%')
-#        outer.setHeight('100%')
 
         self.logo_panel = LogoPanel()
         
-        self.popupDialogs = [PopupDialog('Obtaining Syntactic Features from Stanford Parser...', 10),
-                             PopupDialog('Obtaining Possible Word Senses from WordNet...', 2000),
-                             PopupDialog('Obtaining Possible Action Roles from FrameNet...', 2000),
-                             PopupDialog('Simultaneous Word Disambiguation & Action Role Labeling...', 2000),
-                             PopupDialog('Removing Inapplicable Senses and Roles...', 2000),
-                             PopupDialog('Obtaining Missing Action Roles from PRAC...', 2000),
-                             PopupDialog('Obtaining Possible Word Senses from WordNet...', 2000),
-                             PopupDialog('Inferring Object Types of Missing Roles...', 2000)]
+        self.popupDialogs = [PopupDialog('Obtaining syntactic features from Stanford Parser...', 1000),
+                             PopupDialog('Obtaining possible word senses from WordNet...', 1000),
+                             PopupDialog('Obtaining possible action roles from FrameNet*...', 1000),
+                             PopupDialog('Simultaneous word disambiguation & action role labelling...', 1000),
+                             PopupDialog('Removing inapplicable senses and roles...', 1000),
+                             PopupDialog('Adding constants for missing roles...', 1000),
+                             PopupDialog('Obtaining possible word senses from WordNet...', 1000),
+                             PopupDialog('Inferring object types of missing roles...', 1000)]
         self.step_i = 0
         self.steps = [self.addSyntacticFeatures,
                       self.addWordSenses,
@@ -104,7 +104,7 @@ class PRACViz():
         self.controlPanel.setStyleName('prac-panel')
         self.controlPanel.add(SVGWidget('prac_panel.svg'))
         
-        queryPanel = HorizontalPanel()
+        queryPanel = FlexTable()
         queryPanel.setStyleAttribute('background', '#dedede')
         queryTxt = TextBox()
         queryTxt.setStyleName('gwt-TextBox-custom')
@@ -114,17 +114,24 @@ class PRACViz():
         queryTxt.addClickListener(getattr(self, "eraseTxt"))
 #         queryPanel.setHorizontalAlignment(HasAlignment.ALIGN_CENTER)
 #         queryPanel.setHorizontalAlignment(HasAlignment.ALIGN_CENTER)
-        queryPanel.add(Label('Natural-language Instruction:'))
-        queryPanel.add(queryTxt)
+        queryPanel.setWidth('100%')
+        queryPanel.setWidget(0, 0, Label('Instruction:'))
+        queryPanel.setWidget(1, 0, queryTxt)
+
+#         queryPanel.prob = CondProbWidget()
+#         queryPanel.setWidget(0, 1, queryPanel.prob)
+        queryPanel.getFlexCellFormatter().setColSpan(0, 1, 2)
+        queryPanel.getFlexCellFormatter().setWidth(1, 0, '40%')
+        queryPanel.getFlexCellFormatter().setVerticalAlignment(1, 0, 'top')
         
         #
         # Button Panel
         #
         btnPanel = FlexTable()
-        btnPanel.setWidth('100px')
-        queryPanel.add(btnPanel)
+        btnPanel.setWidth('50%')
+        queryPanel.setWidget(1, 1, btnPanel)
         
-        b = Button('Query PRAC!')
+        b = Button('Start')
         b.addClickListener(self.sendQuery)
         btnPanel.setWidget(0, 0, b)
 
@@ -134,34 +141,33 @@ class PRACViz():
 
         resetBtn = Button('Reset')
         resetBtn.addClickListener(self.reset)
-        btnPanel.setWidget(1, 0, resetBtn)
+        btnPanel.setWidget(0, 2, resetBtn)
         
-        aboutBtn = Button('About...')
-        aboutBtn.addClickListener(about)
-        btnPanel.setWidget(1, 1, aboutBtn)
+        aboutBtn = Button('?')
+        aboutBtn.addClickListener(self.symbolicQuery)
+        btnPanel.setWidget(0, 3, aboutBtn)
 
-        layoutBtn = Button('Layout!')
+        layoutBtn = Button('Layout')
         layoutBtn.addClickListener(self.layout.start)
-        btnPanel.setWidget(1, 2, layoutBtn)
+        btnPanel.setWidget(0, 4, layoutBtn)
 
-        queryPanel.setWidth('100%')
+        btnPanel.getRowFormatter().setAttr(0, 'width', '100px')
         
         
         #
         # Info Panel
         #
         infoPanel = FlexTable()
-        infoPanel.setWidth('200px')
-        queryPanel.add(infoPanel)
+#         infoPanel.setWidth('100%')
+        queryPanel.setWidget(1, 2, infoPanel)
         
         infoPanel.setText(0, 0, '# Variables:')
         infoPanel.setText(0, 1, 'N/A')
         infoPanel.setText(1, 0, '# Ground Formulas:')
         infoPanel.setText(1, 1, 'N/A')
 
-        infoPanel.prob = CondProbWidget()
-        infoPanel.setWidget(2, 0, infoPanel.prob)
-        infoPanel.getFlexCellFormatter().setColSpan(2, 0, 2)
+        queryPanel.getFlexCellFormatter().setWidth(1, 2, '20%')
+
         self.infoPanel = infoPanel
         
 #         center.initWidget(self.canvas)
@@ -204,6 +210,9 @@ class PRACViz():
         self.scrolling = False
         self.i = 0
         self.logo_panel.moveIn()
+    
+    def symbolicQuery(self):
+        self.pracRemote.get_symbolic_query(self.pracRemote, None)
     
     def onMouseDown(self, sender, event):
         self.mouse_x = self.canvas._p.mouseX
@@ -298,6 +307,7 @@ class PRACViz():
         self.pracRemote.get_no_variables(self.pracRemote, 'pracinit')
         self.pracRemote.get_no_gnd_formulas(self.pracRemote, 'pracinit')
         self.pracRemote.get_senses_and_roles(self.pracRemote, None)
+        
     
     def removeInapplicableNodes(self):
         self.pracRemote.get_removed_nodes(self.pracRemote, None)

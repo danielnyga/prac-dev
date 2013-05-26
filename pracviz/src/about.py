@@ -14,6 +14,7 @@ from pyjamas.ui.Image import Image
 from pyjamas.ui.Widget import Widget
 from pyjamas.ui import HasAlignment
 from pyjamas.ui.Label import Label
+from widgets import CondProbWidget
 
 class AboutDialog(DialogBox):
     
@@ -28,7 +29,7 @@ class AboutDialog(DialogBox):
         outer = DockPanel()
         outer.setSpacing(4)
         
-        outer.add(Image('logo.svg'), DockPanel.WEST)
+#         outer.add(Image('logo.svg'), DockPanel.WEST)
         
         # Create the 'OK' button, along with a listener that hides the dialog
         # when the button is clicked. Adding it to the 'south' position within
@@ -42,15 +43,17 @@ class AboutDialog(DialogBox):
         outer.setStyleAttribute('background-color', 'blue')
         buttonPanel.setStyleAttribute('background-color', 'blue')
         
+        
         # Create the 'about' label. Placing it in the 'rest' position within the
         # dock causes it to take up any remaining space after the 'OK' button
         # has been laid out.
         
-        textplain = '''<b>Probabilistic Robot Action Cores</b><br><br>
-        (C) 2013 by Daniel Nyga (<a href="mailto:nyga@cs.tum.edu">nyga@cs.tum.edu</a>)'''
-        text = HTML(textplain)
-        text.setStyleName("mail-AboutText")
-        outer.add(text, DockPanel.CENTER)
+#         textplain = '''<b>Probabilistic Robot Action Cores</b><br><br>
+#         (C) 2013 by Daniel Nyga (<a href="mailto:nyga@cs.tum.edu">nyga@cs.tum.edu</a>)'''
+#         text = HTML(textplain)
+#         text.setStyleName("mail-AboutText")
+        self.prob = CondProbWidget()
+        outer.add(self.prob, DockPanel.CENTER)
         
         # Add a bit of spacing and margin to the dock to keep the components from
         # being placed too closely together.

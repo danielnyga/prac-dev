@@ -24,8 +24,9 @@
 from pyjamas.Timer import Timer
 from pyjamas.JSONService import JSONProxy
 from pyjamas import Window
-from graph.graph import Node, Link, Graph
+from graph.graph import *
 from random import random
+from about import AboutDialog
 
 
 
@@ -48,13 +49,15 @@ class PRACRemoteHandler(JSONProxy):
                                           'get_possible_missing_roles',
                                           'get_missing_role_senses',
                                           'get_no_variables',
-                                          'get_no_gnd_formulas'])
+                                          'get_no_gnd_formulas',
+                                          'get_symbolic_query'])
         self.handler = self
         self.color_idx = 0
         self.timer = Timer(notify=self.processNode)
         self.graph = graph
         self.processedNodes = []
         self.mode = None
+        self.newNodes = []
         
     def processNode(self):
         graph = self.graph
@@ -75,12 +78,13 @@ class PRACRemoteHandler(JSONProxy):
                 # we add it and all links to existing nodes
                 if node is None:
                     node = self.addNodeAndLinks(processedNode, new_graph)
+                    self.newNodes.append(node)
+                    node.new = True
                 # if does exist, adapt all attributes from the new node
                 else:
-                    if node.equalAttrs(processedNode):
-                        skip = True
-                    else:
-                        node.adaptAttributes(processedNode)
+                    skip = True
+                    node.adaptAttributes(processedNode)
+                    
                 self.processedNodes.append(node)
 #                 print 'processed:', self.processedNodes
 #                 print 'nodes:', self.nodes
@@ -90,14 +94,13 @@ class PRACRemoteHandler(JSONProxy):
                     self.mode = PRACRemoteHandler.REMOVE_NODES
                     self.nodes = [n for n in self.graph.nodes if not n in self.processedNodes]
                     self.processedNodes = []
-                    print 'tbr', self.nodes
             elif self.mode == PRACRemoteHandler.REMOVE_NODES:
 #                 print 'removing', processedNode
                 self.graph.removeNodeById(processedNode.id)
             if not skip: 
                 break
         if len(self.nodes) > 0:
-            self.timer.schedule(500)
+            self.timer.schedule(300)
         self.pracviz.layout.start()
         
         
@@ -129,7 +132,7 @@ class PRACRemoteHandler(JSONProxy):
             total += 1
             link.source = source
             link.target = target
-            link.strength = 1500
+            link.strength = 1000
             link.directed = True
             link.distance = 50
             if self.graph.containsLink(link): continue
@@ -222,6 +225,17 @@ class PRACRemoteHandler(JSONProxy):
     def onRemoteResponse(self, response, request_info):
         print response
         print request_info
+        
+        query = response.get('query', None)
+        if query is not None:
+            box = AboutDialog()
+            left = (Window.getClientWidth() - 512) / 2
+            top = (Window.getClientHeight() - 256) / 2
+            box.setPopupPosition(left, top)
+            box.prob.setQuery(query)
+            box.prob.setEvidence(response['evidence'])
+            box.show()
+            
         vars = response.get('no_variables', None)
         if vars is not None:
             self.pracviz.infoPanel.setText(0, 1, '%s' % vars)
@@ -232,6 +246,8 @@ class PRACRemoteHandler(JSONProxy):
             return
         self.mode = PRACRemoteHandler.ADD_NODES
         self.new_graph = Graph.fromJSON(response)
+        for n in self.graph.nodes:
+            n.new = False
         self.rankNodes(self.new_graph)
         self.timer.schedule(200)
                     

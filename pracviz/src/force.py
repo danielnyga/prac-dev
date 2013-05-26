@@ -41,8 +41,8 @@ class ForceLayout(object):
             dx = quad.x - node.x
             dy = quad.y - node.y
 #             d = node.distance(quad.point)
-#             if d < 1e-3: return True
-            dn = 1 / math.sqrt(dx * dx + dy * dy)
+            d = math.sqrt(max(1, dx * dx + dy * dy - 20))
+            dn = 1 / d
 #             print 'dist', dx, dy, dn
             # Barnes-Hut criterion:
             if (x2 - x1) * dn < self.theta:

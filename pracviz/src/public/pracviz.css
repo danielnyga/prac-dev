@@ -26,7 +26,8 @@ a:visited {
   background-color: #dedede;
   box-shadow: 3px 3px 10px 0px #AAAAAA;
   border-radius: 10px;
-  opacity: 0.7;
+  opacity: 1;
+  width: 800px;
 }
 
 .gwt-DialogBox .Caption {
