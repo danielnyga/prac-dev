@@ -272,6 +272,9 @@ class PRACInference(object):
         grammarPath = os.path.join('3rdparty', 'stanford-parser-2012-02-03', 'grammar', 'englishPCFG.ser.gz')
         self.synParser = Parser(grammarPath)
         self.color_idx = -1
+        self.query = []
+        self.evidence = []
+        self.atom2color = {}
         
     def to_syntactic_graph(self):
         '''
@@ -309,7 +312,7 @@ class PRACInference(object):
             graph.addNode(Node(id=n))
         for word, senses in sensesFeat.words2senses.iteritems():
             for sense in senses:
-                graph.addLink(Link(graph.getNodeById(word), graph.getNodeById(sense), label='has_sense'))
+                graph.addLink(Link(graph.getNodeById(word), graph.getNodeById(sense), label='hasSense'))
         for sense in sensesFeat.senses2hypernyms:
             for hypernym_path in sensesFeat.senses2hypernyms[sense]:
                 graph.addLink(Link(graph.getNodeById(sense), graph.getNodeById(hypernym_path[-1]), label='isa'))
@@ -332,18 +335,43 @@ class PRACInference(object):
             for role in roles:
                 nodeid = role+word
                 self.graph.addNode(Node(id=nodeid, label=role))
-                self.graph.addLink(Link(self.graph.getNodeById(word), self.graph.getNodeById(nodeid), label='has_role'))
+                self.graph.addLink(Link(self.graph.getNodeById(word), self.graph.getNodeById(nodeid), label='actionRole'))
         return self.graph.toJSON()
     
     def to_senses_and_roles(self):
         resultDB = self.databases['core']
-        sensesAndRoles = []
+        sensesFeat = self.features.get('wordsenses')
+        self.atom2color = {}
+        
         for s in resultDB.query('has_sense(?w, ?s) ^ !is_a(?s, NULL) ^ action_role(?w, ?r) ^ !(?r=NULL)'):
             self.color_idx += 1
-            self.graph.getNodeById(s['?w']).color = self.color_idx
-            self.graph.getNodeById(s['?s']).color = self.color_idx
-            self.graph.getNodeById(s['?r']+s['?w']).color = self.color_idx
+            color = self.color_idx
+            self.graph.getNodeById(s['?w']).color = color
+            self.graph.getNodeById(s['?s']).color = color
+            self.graph.getNodeById(s['?r']+s['?w']).color = color
+            self.atom2color[(s['?w'], s['?s'])] = color
+            self.atom2color[(s['?w'], s['?r'])] = color
+        for word, senses in sensesFeat.words2senses.iteritems():
+            for sense in senses:
+                q = {'label': 'hasSense(%s, %s)' % (word, sense)}
+                if self.atom2color.get((word, sense), None) is not None:
+                    q['color'] = self.atom2color[(word, sense)]
+                self.query.append(q)
+            for r in [role for role in self.mlns['pracinit'].mrf.domains['role'] if role != 'NULL']:
+                q = {'label': 'actionRole(%s, %s)' % (word, r)}
+                if self.atom2color.get((word, r), None) is not None:
+                    q['color'] = self.atom2color[(word, r)]
+                self.query.append(q)
+        for dep in self.features.get('syntax').deps:
+            atom = parsePracFormula(dep)
+            self.evidence.append({'label': '%s(%s, %s)' % (atom.predName, atom.params[0], atom.params[1])})
+        self.evidence.append({'label': 'isa'})
+        self.evidence.append({'label': '...'})
         return self.graph.toJSON()
+    
+#     def get_sr_symbolic(self):
+#         if len(self.query) == 0:
+            
     
     def to_inapplicable_nodes(self):
         resultDB = self.databases['core']
@@ -372,7 +400,7 @@ class PRACInference(object):
             roleNode = Node(id=role)
             roleNode.color = self.color_idx
             self.graph.addNode(roleNode)
-            self.graph.addLink(Link(skolemWord, roleNode, label='action_role'))
+            self.graph.addLink(Link(skolemWord, roleNode, label='actionRole'))
             
         return self.graph.toJSON()
     
@@ -394,7 +422,7 @@ class PRACInference(object):
         for role in roleFeature.missingRoles:
             for concept in [x for x in self.actioncore.known_concepts if x != 'NULL']:
                 senseNode = g.getNodeById(concept+'_sense')
-                g.addLink(Link(g.getNodeById(role+role), senseNode, label='has_sense'))
+                g.addLink(Link(g.getNodeById(role+role), senseNode, label='hasSense'))
                 for path in wn.synset(concept).hypernym_paths():
                     previous = None
                     for c in path:
@@ -407,26 +435,42 @@ class PRACInference(object):
     
     def to_missing_role_senses(self):
         keepNodes = []
+        self.evidence = []
+        self.query = []
         for role in self.inferredMissingRoles:
             concept = self.inferredMissingRoles[role]
             keepNodes.append(concept)
             node = self.graph.getNodeById(concept+'_sense')
             node.color = self.color_idx
+            self.atom2color[concept] = self.color_idx
         removeNodes = set()
         for concept in [x for x in self.actioncore.known_concepts if x != 'NULL' and not x in keepNodes]:
             removeNodes.add(concept+'_sense')
         db = self.databases['missingroles']
-        for e in db.evidence:
-            print e
         for s in db.query('has_sense(?w, ?s) ^ is_a(?s, ?c) ^ !is_a(?s, NULL)'):
-            print s['?w'], s['?s'], s['?c']
+#             print s['?w'], s['?s'], s['?c']
+            if self.atom2color.get(s['?c'], None) is not None:
+                q = {'label': 'hasSense(%s, %s)' % (s['?w'], s['?s']), 'color': self.atom2color.get(s['?c'], None)}
+                if q not in self.query:
+                    self.query.append(q)
             keepNodes.extend([s['?c']])
         for s in db.query('!has_sense(?w, ?s) ^ is_a(?s, ?c) ^ !is_a(?s, NULL)'):
+            q = {'label': 'hasSense(%s, %s)' % (s['?w'], s['?s'])}
+            if q not in self.query:
+                self.query.append(q)
             removeNodes.update([s['?c']])
         removeNodes.difference_update(keepNodes)
         print removeNodes
         for n in removeNodes:
             self.graph.removeNodeById(n)
+            
+        for s in db.query('has_sense(?w, ?s) ^ action_role(?w, ?r) ^ !(?r=NULL) ^ !is_a(?s, NULL)'):
+            if self.atom2color.get((s['?w'], s['?r']), None) is None:
+                continue
+            self.evidence.append({'label': 'hasSense(%s, %s)' % (s['?w'], s['?s']), 'color': self.atom2color[(s['?w'], s['?s'])]})
+            self.evidence.append({'label': 'actionRole(%s, %s)' % (s['?w'], s['?r']), 'color': self.atom2color[(s['?w'], s['?r'])]})
+        self.evidence.append({'label': 'isa'})
+        self.evidence.append({'label': '...'})
         return self.graph.toJSON()
         
 

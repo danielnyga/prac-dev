@@ -41,6 +41,9 @@ colors_stroke = ['#c55454', # red
 node_gray_fill = '#dedede'
 node_gray_stroke = '#777777'
 
+node_gray_dark_fill = '#bfbfbf'
+node_gray_dark_stroke = '#5d5d5d'
+
 class Node(object):
     
     json_node_attributes = ['id', 'label', 'color', 'fixed']
@@ -81,11 +84,11 @@ class Node(object):
     def draw(self, p):
         p.setStrokeWeight(1)
         if not hasattr(self, 'color'):
-            p.setFillHex(node_gray_fill)
+            p.setFillHex(node_gray_fill if not self.new else node_gray_dark_fill)
         else:
             p.setFillHex(colors_fill[self.color % len(colors_fill)])
         if not hasattr(self, 'stroke'):
-            p.setStrokeHex(node_gray_stroke)
+            p.setStrokeHex(node_gray_stroke if not self.new else node_gray_dark_stroke)
         else:
             p.setStrokeHex(colors_stroke[self.color % len(colors_fill)])
         p.setTextSize(self.textheight)

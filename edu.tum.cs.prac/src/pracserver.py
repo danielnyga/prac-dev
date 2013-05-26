@@ -137,6 +137,14 @@ def get_no_gnd_formulas(request, msg):
         count += gndFormulaCount
     return {'no_gnd_formulas': count}
 
+@jsonremote(prac_server)
+def get_symbolic_query(request, msg):
+    pracinfer = prac_server.result.pracinference
+    prob = {'query': pracinfer.query, 'evidence': pracinfer.evidence}
+    print prob
+    return prob
+
+
 # start me!
 if __name__ == "__main__":
     java.startJvm()
