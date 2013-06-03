@@ -7,15 +7,13 @@ PRAC: Probabilistic Action Cores
 =======================================
 
 Welcome to the documentation of the *Probabilistic Action Cores* Implementation
-by Daniel Nyga. ::
-   make html
-
-
+by Daniel Nyga.
 
 Contents:
  
 .. toctree::
    setup
+   pracviz
    :maxdepth: 2
 
 
