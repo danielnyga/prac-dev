@@ -3,10 +3,10 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Probabilistic Robot Action Cores (PRAC)
+PRAC: Probabilistic Action Cores
 =======================================
 
-This is the documentation of the *Probabilistic Robot Action Cores* Implementation
+Welcome to the documentation of the *Probabilistic Action Cores* Implementation
 by Daniel Nyga. ::
    make html
 
@@ -15,6 +15,7 @@ by Daniel Nyga. ::
 Contents:
  
 .. toctree::
+   setup
    :maxdepth: 2
 
 
