@@ -8,7 +8,6 @@ from MLN.MarkovLogicNetwork import Database
 from FOL import *
 import math 
 import time
-import FOL
 
 class StopWatch(object):
     
@@ -71,7 +70,13 @@ def list_get(d, entry):
         d[entry] = e
     return e
 
-        
+def difference_update(l1, l2):
+    '''
+    Removes all elements in l1 from l2.
+    '''
+    for e in l2:
+        if e in l1:
+            l1.remove(e)
         
 class bash:
     HEADER = '\033[95m'
@@ -95,7 +100,7 @@ def orange(s):
     return bash.ORANGE + s + bash.END
 
 def isConjunctionOfLiterals(f):
-    if not type(f) is FOL.Conjunction:
+    if not type(f) is Conjunction:
         return False
     for child in f.children:
         if not isinstance(child, Lit) and not isinstance(child, GroundLit) and not isinstance(child, GroundAtom):
@@ -103,7 +108,7 @@ def isConjunctionOfLiterals(f):
     return True
 
 def isDisjunctionOfLiterals(f):
-    if not type(f) is FOL.Disjunction:
+    if not type(f) is Disjunction:
         return False
     for child in f.children:
         if not isinstance(child, Lit) and not isinstance(child, GroundLit) and not isinstance(child, GroundAtom):
