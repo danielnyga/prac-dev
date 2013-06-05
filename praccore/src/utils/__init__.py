@@ -75,8 +75,7 @@ def difference_update(l1, l2):
     Removes all elements in l1 from l2.
     '''
     for e in l2:
-        if e in l1:
-            l1.remove(e)
+        l1.remove(e)
         
 class bash:
     HEADER = '\033[95m'

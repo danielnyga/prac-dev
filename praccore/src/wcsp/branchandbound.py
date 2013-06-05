@@ -25,9 +25,6 @@ from pracmln.PRACMLN import PRACMLN
 from pracmln.PRACDatabase import PRACDatabase
 from grammar import *
 from random import shuffle
-import copy
-import math
-import sys
 import utils
 from utils import difference_update
 
@@ -54,28 +51,14 @@ class FormulaGrounding(object):
         '''
         self.mrf = mrf
         self.formula = formula
-        self.parent = parent
+#         self.parent = parent
         if parent is None:
             self.depth = 0
         else:
             self.depth = parent.depth + 1
         self.children = []
         self.assignment = assignment
-        self.groundings = []
-        
-    def deepcopy(self, parent, groundingFactory):
-        new_node = FormulaGrounding(self.formula, self.mrf, parent, self.assignment)
-        depth2nodes = groundingFactory.depth2nodes
-        nodelist = depth2nodes.get(new_node.depth, None)
-        if nodelist is None:
-            nodelist = []
-            depth2nodes[new_node.depth] = nodelist
-        nodelist.append(new_node)
-        for child in self.children:
-            new_child = child.deepcopy(new_node, groundingFactory)
-            if new_child is not None:
-                new_node.children.append(new_child)
-        return new_node
+#         self.groundings = []
         
         
     def ground(self, assignment):
@@ -89,7 +72,7 @@ class FormulaGrounding(object):
         for var in set(self.formula.getVariables(self.mrf)).difference(assignment.keys()):
             domain = mrf.domains[self.formula.getVarDomain(var, self.mrf)]
             gf_count *= len(domain)
-        gf = self.formula.ground(mrf, assignment, allowPartialGroundings=True, simplify=False)
+        gf = self.formula.ground(mrf, assignment, allowPartialGroundings=True, simplify=True)
         gf.weight = self.formula.weight
         
         # if the simplified gf reduces to a TrueFalse instance, then
@@ -114,9 +97,9 @@ class FormulaGrounding(object):
 
 class GroundingFactory(object):
     '''
-    Implements a factory for generating the groundings of a formula wrt. one
-    specific predicate. The groundings are created successively with one
-    particular ground atom of the predicate being presented at a time.
+    Implements a factory for generating the groundings of one formula. 
+    The groundings are created successively with one
+    particular ground atom being presented at a time.
     fields:
     - formula:    the (ungrounded) formula representing the root of the
                   search tree
@@ -145,14 +128,11 @@ class GroundingFactory(object):
         elif isinstance(formula, FormulaGrounding):
             self.root = formula
             self.formula = formula.formula
-        variables = formula.getVariables(mrf)
         self.values_processed = {}
-        for var in variables:
-            self.values_processed[var] = []
-        self.vars_processed = []
-        self.depth2fgs = {0: [self.root]}
+        self.variable_stack = [None]
+        self.var2fgs = {None: [self.root]}
         # initialize the stacks
-        self.depth2fgsStack = []
+        self.var2fgsStack = []
         self.values_processedStack = []
         self.costStack = []
         
@@ -160,94 +140,107 @@ class GroundingFactory(object):
         '''
         Undoes the most recent grounding action.
         '''
-        cost = self.costStack.pop()
-        values_processed = self.values_processedStack.pop()
-        depth2fgs = self.depth2fgsStack.pop()
-        self.costs -= cost
-        for d in depth2fgs:
-            fgs = self.depth2fgs.get(d, None)
+        costs2remove = self.costStack.pop()
+        values_processed2remove = self.values_processedStack.pop()
+        var2fgs2remove = self.var2fgsStack.pop()
+        self.costs -= costs2remove
+        for d in var2fgs2remove:
+            fgs = self.var2fgs.get(d, None)
             if fgs is not None:
-                difference_update(fgs, depth2fgs[d])
-                if len(fgs) == 0: del self.depth2fgs[d]
-        for var in values_processed:
-            self.vars_processed.remove(var)
+                difference_update(fgs, var2fgs2remove[d])
+                if len(fgs) == 0: self.var2fgs.pop(d)
+        for var in values_processed2remove:
             values = self.values_processed.get(var, None)
             if values is not None:
-                difference_update(values, values_processed[var])
+#                 print var, ': removing', values_processed2remove[var], 'from', values
+                difference_update(values, values_processed2remove[var])
+                if len(values) == 0:
+#                     print self.variable_stack
+#                     print var
+                    if var in self.variable_stack:
+                        self.variable_stack.remove(var)
+                    self.values_processed.pop(var)
             
     def ground(self, gndAtom):
         '''
-        Expects a ground atom from the predicate of this GroundingFactory
-        and creates all groundings that can be derived by it in terms of
-        FormulaGroundings.
+        Expects a ground atom and creates all groundings 
+        that can be derived by it in terms of FormulaGroundings.
         '''
-        # get all var assignments of matching literals in the formula 
+        # get all variable assignments of matching literals in the formula 
         var_assignments = {}
         for lit in self.formula.iterLiterals():
             assignment = self.gndAtom2Assignment(lit, gndAtom)
             if assignment is not None:
                 utils.unifyDicts(var_assignments, assignment)
-        # remove the variables that have already been processed
-        for var in var_assignments.keys():
-            if var_assignments[var] in self.values_processed[var]:
-                del var_assignments[var]
-        vars_processed = []
-        for var in var_assignments:
-            if not var in self.vars_processed:
-                vars_processed.append(var)
-        self.vars_processed.extend(vars_processed)
-        vars = var_assignments.keys()
-        
         cost = .0
+        var2fgs = {}
         values_processed = {}
-        depth2fgs = {}
-        for var in vars:
-            values_processed[var] = []
-            val = var_assignments[var]
-            depth = self.vars_processed.index(var) + 1
-            queue = list(self.depth2fgs[depth-1])
+        for var, value in var_assignments.iteritems():
+            # skip the variables with values that have already been processed
+            if var in self.values_processed and var_assignments[var] in self.values_processed[var]:
+                continue
+            # in case this is a previously unseen variable, assign it a depth
+            if not var in values_processed:
+                values_processed[var] = []
+            if not var in self.variable_stack:
+                self.values_processed[var] = []
+                depth = len(self.variable_stack)
+            else:
+                depth = self.variable_stack.index(var)
+            indent = ''
+            for _ in range(depth):
+                indent += '  '
+            print indent+'binding', var,'to', value,'depth:', depth
+            # first hinge the new variable grounding to all possible parents,
+            # i.e. all FormulaGroundings with depth - 1.
+            # Then hinge all previously seen subtrees to the newly created formula groundings.
+            queue = list(self.var2fgs[self.variable_stack[depth - 1]])
             while len(queue) > 0:
                 fg = queue.pop()
-                if fg.depth >= depth and fg.depth < len(self.vars_processed):
-                    vars_values = [{self.vars_processed[fg.depth]: v} 
-                                   for v in self.values_processed[self.vars_processed[fg.depth]]]
-                elif fg.depth < depth:
-                    vars_values = [{var: val}]
-                else: vars_values = []
-                for var_value in vars_values:
+                if fg.depth < depth:
+                    vars_and_values = [{var: value}]
+                elif fg.depth >= depth and fg.depth < len(self.variable_stack) - 1:
+                    vars_and_values = [{self.variable_stack[fg.depth + 1]: v} 
+                                   for v in self.values_processed[self.variable_stack[fg.depth + 1]]]
+                else: vars_and_values = []
+                for var_value in vars_and_values:
+                    for var_name, _ in var_value.iteritems(): break
                     gnd_result = fg.ground(var_value)
                     if isinstance(gnd_result, FormulaGrounding):
-                        if len(gnd_result.formula.getVariables(self.mrf)) == 0:
-                            print 'ground formula:', gnd_result.formula
-                        if not gnd_result.depth in depth2fgs:
-                            depth2fgs[gnd_result.depth] = []
-                        if not gnd_result.depth in self.depth2fgs:
-                            self.depth2fgs[gnd_result.depth] = []
-                        depth2fgs[gnd_result.depth].append(gnd_result)
-                        self.depth2fgs[gnd_result.depth].append(gnd_result)
+#                         if len(gnd_result.formula.getVariables(self.mrf)) == 0:
+#                             print gnd_result.formula
+                        if not var in self.variable_stack:
+                            self.variable_stack.append(var)
+                        if not var_name in self.var2fgs:
+                            self.var2fgs[self.variable_stack[gnd_result.depth]] = []
+                        if not var_name in var2fgs:
+                            var2fgs[self.variable_stack[gnd_result.depth]] = []
+                        self.var2fgs[self.variable_stack[gnd_result.depth]].append(gnd_result)
+                        var2fgs[self.variable_stack[gnd_result.depth]].append(gnd_result)
                         queue.append(gnd_result)
                     else: # ...otherwise it's true/false; add its costs and discard it.
+                        print indent+'caused %.2f costs' % gnd_result
                         cost += gnd_result
-            values_processed[var].append(val)
-            self.values_processed[var].append(val)
-        # update the global tree
+            self.values_processed[var].append(value)
+            values_processed[var].append(value)
+        # update the stacks
         self.costs += cost
         self.costStack.append(cost)
-        self.depth2fgsStack.append(depth2fgs)
         self.values_processedStack.append(values_processed)
+        self.var2fgsStack.append(var2fgs)
     
     def printTree(self):
-        print self.depth2fgs
-        print self.vars_processed
-        print self.values_processed
+#         print self.depth2fgs
+#         print self.variable_stack
+#         print self.values_processed
         
-#        queue = [self.root]
-#        while len(queue) > 0:
-#            n = queue.pop()
-#            space = ''
-#            for _ in range(n.depth): space += '--'
-#            print space + str(n)
-#            queue.extend(n.children)
+        queue = [self.root]
+        while len(queue) > 0:
+            n = queue.pop()
+            space = ''
+            for _ in range(n.depth): space += '--'
+            print space + str(n)
+            queue.extend(n.children)
         
     def gndAtom2Assignment(self, lit, atom):
         '''
@@ -322,52 +315,97 @@ class BranchAndBound():
         
     def search(self):
         self.factories = [GroundingFactory(f, self.mrf) for f in self.mrf.formulas]
-        self._recursive_expand(self.mrf.gndAtoms.values(), [], .0, None)
+        self._recursive_expand(self.varIdx2GndAtom.keys(), 0.)
         
-    def _recursive_expand(self, gndAtoms, assignment, lowerbound, lastpredicate):
+    def _recursive_expand(self, variables, lowerbound):
         # if we have found a solution, update the global upper bound
-        space = ''
-        for _ in range(len(self.mrf.gndAtoms)-len(gndAtoms)):
-            space += '    '
-        if len(gndAtoms) == 0: # all gndAtoms have been assigned
+        indent = ''
+        for _ in range(len(self.varIdx2GndAtom)-len(variables)): indent += '    '
+        if len(variables) == 0: # all gndAtoms have been assigned
             if lowerbound <= self.upperbound:
-                print space + 'new solution:', assignment
-                print space + 'costs:', lowerbound
+                solution = dict([(str(a), self.mrf.evidence[a.idx]) for a in self.mrf.gndAtoms.values()])
+                print indent + 'New solution:', solution
+                print indent + 'costs:', lowerbound
                 self.upperbound = lowerbound
-                self.best_solution = assignment
-                return
+                self.best_solution = solution
+                return 
         if lowerbound >= self.upperbound:
-            print space+'backtracking for LB=%f >= UB=%f' % (lowerbound, self.upperbound)
+            print indent + 'backtracking for LB=%f >= UB=%f' % (lowerbound, self.upperbound)
             return
-        gndAtom = gndAtoms[0]
-        print gndAtom
-#        atom = self.varIdx2GndAtom[var][0]
-        for factory in self.factories:
-            factory.ground(gndAtom)
-        self._recursive_expand(gndAtoms[1:], assignment, lowerbound, lastpredicate)
-           
+        # generate the truth assignments to be tested
+        variable = variables[0]
+        gndAtoms = self.varIdx2GndAtom[variable]
+        truthAssignments = []
+        if len(gndAtoms) == 1: # binary variable
+            truthAssignments.append({gndAtoms[0]: False})
+            truthAssignments.append({gndAtoms[0]: True})
+        elif len(gndAtoms) > 1: # mutex constraint
+            for trueGndAtom in gndAtoms:
+                assignment = dict([(gndAtom, False) for gndAtom in gndAtoms])
+                truthAssignments.append(assignment)
+                assignment[trueGndAtom] = True
+        # test the assignments
+        for truthAssignment in truthAssignments:
+            print indent+'testing', truthAssignment
+            # set the temporary evidence
+            self.setEvidence(truthAssignment)
+            backtrack = []
+            doBacktracking = False
+            for gndAtom in truthAssignment:
+                costs = .0
+                for factory in self.factories:
+                    factory.ground(gndAtom)
+                    costs += factory.costs
+                    backtrack.append(factory) 
+                    print indent+'costs:'+str(costs)
+                    if costs >= self.upperbound:
+                        print indent+'backtracking (C=%.2f >= %.2f=UB)' % (costs, self.upperbound)
+                        doBacktracking = True
+                        break
+                else:
+                    self._recursive_expand(variables[1:], costs)
+                if doBacktracking: break
+            # revoke the groundings of the already grounded factories
+            for f in backtrack: 
+                f.unground()
+            # remove the evidence
+            self.neutralizeEvidence(truthAssignment)
+    
+    def setEvidence(self, assignment):
+        for gndAtom in assignment:
+            self.mrf._setEvidence(gndAtom.idx, assignment[gndAtom])
+            
+    def neutralizeEvidence(self, assignment):
+        for gndAtom in assignment:
+            self.mrf._setEvidence(gndAtom.idx, None)
             
 if __name__ == '__main__':
     
     mln = PRACMLN()
-    mln.declarePredicate('foo', ['x', 'y'], functional=[1])
+    mln.declarePredicate('foo', ['x', 'y'])#, functional=[1])
     mln.declarePredicate('bar', ['y','z'])
     
-    f = parsePracFormula('foo(?x1,?y1) ^ foo(?x2,?y1) ^ bar(?y3,Y) ^ bar(?y3, ?z2)')
+    f = parsePracFormula('foo(?x1,?y1) ^ foo(?x2,?y1) ^ bar(?y3,?z) ^ bar(?y3, ?z2)')
     mln.addFormula(f, 1.5)
 #    mln.addDomainValue('x', 'Z')
     
     db = PRACDatabase(mln)
     db.addGroundAtom('!foo(X, Fred)')
-    db.addGroundAtom('!foo(X, Daniel)')
+    db.addGroundAtom('!foo(X, Ann)')
     db.addGroundAtom('!bar(Fred, Z)')
     db.addGroundAtom('bar(Bob, Y)')
     
     
     mrf = mln.groundMRF(db, simplify=False)
     
+    bnb = BranchAndBound(mrf)
+    bnb.search()
+    for s in bnb.best_solution:
+        print s, ':', bnb.best_solution[s]
+     
+    exit(0)
     groundingFactories = [GroundingFactory(f, mrf) for f in mrf.formulas]
-    
+     
     atoms = list(mrf.gndAtoms.keys())
     shuffle(atoms)
     for f in mrf.formulas: print f
@@ -376,170 +414,6 @@ if __name__ == '__main__':
         print 'grounding with', atom
         for factory in groundingFactories:
             factory.ground(mrf.gndAtoms[atom])
-            factory.printTree()
-            factory.unground()
-            factory.printTree()
-    
-#    bnb = BranchAndBound(mrf)
-#    print bnb.vars
-#    bnb.search()
-#    print 
-#    print 'Optimal solution found:', bnb.best_solution
-#    print 'Costs: %.2f' % bnb.upperbound
-#    exit(0)
-#    
-#    formulas = mrf.formulas
-#    grounding_factories = []
-#    previous = None
-#    for gndAtom in sorted(mrf.gndAtoms):
-#        gndAtom = mrf.gndAtoms[gndAtom]
-#        print gndAtom
-#        if gndAtom.predName != previous:
-#            print gndAtom.predName 
-#            new_grounding_factories = []
-#            for f in formulas:
-#                if type(f) is FormulaGrounding:
-#                    print f.formula
-#                    f = f.formula
-#                gf = GroundingFactory(f, gndAtom.predName, mrf)
-#                new_grounding_factories.append(gf)
-#            grounding_factories = new_grounding_factories
-#            previous = gndAtom.predName
-#        new_formulas = []
-#        for gf in grounding_factories:
-#            gf.ground(gndAtom)
-#            gf.printTree()
-#            new_formulas.extend(gf.get_all_groundings())
-#        formulas = new_formulas
-
-#    print 'old', fg.seen_assignments
-#    print 'ground formulas:'
-#    for gf in formulas:
-#        print gf.formula
-#    print len(formulas), 'ground formulas'
-
-
-
-
-
-#class FormulaGrounding(object):
-#    
-#    def __init__(self, formula, mrf, forbidden=None, groundings_count=None):
-#        self.formula = formula
-#        self.mrf = mrf
-#        if groundings_count is None:
-#            # calculate the number of ground formulas resulting from
-#            # the remaining set of free variables
-#            groundings_count = 1
-#            for var in self.formula.getVariables(self.mrf):
-#                domain = mrf.domains[self.formula.getVarDomain(var, self.mrf)]
-#                groundings_count *= len(domain)
-#        self.groundings_count = groundings_count
-#        if forbidden is None:
-#            self.forbidden = []
-#        else:
-#            self.forbidden = forbidden
-#    
-#    def __str__(self):
-#        return str(self.formula) + '\n\tforbidden:' + str(self.forbidden) + '\n\tgroundings: %d' % self.groundings_count
-#    
-#    def gndAtom2Assignment(self, lit, atom):
-#        '''
-#        Returns None if the literal and the atom do not match; Or
-#        an empty dict if they match but no variable is present.
-#        Otherwise it returns a tuple of a list of variable names and a
-#        dict containing their assignments.
-#        '''
-#        if type(lit) is FOL.GroundLit:
-#            lit = lit.gndAtom
-#        if lit.predName != atom.predName: return None
-#        varset = []
-#        assignment = {}
-#        for p1, p2 in zip(lit.params, atom.params):
-#            if FOL.isVar(p1):
-#                varset.append(p1)
-#                assignment[p1] = p2
-#            elif p1 != p2: return None
-#        return (varset, assignment)
-#    
-#    def spawn(self, gndAtom):
-#        '''
-#        Returns a list of formula groundings that can be derived using
-#        this formula grounding and the given ground atom.
-#        '''
-#        f = self.formula
-#        # get all var assignments of matching literals in the formula 
-#        lit_assignments = []
-#        for lit in f.iterLiterals():
-#            match = self.gndAtom2Assignment(lit, gndAtom)
-#            if match is not None:
-#                (_, lit_assignment) = match
-#                lit_assignments.append(lit_assignment)
-#        # none of the literal assignment may be a subset or superset of another
-#        q = list(lit_assignments)
-##        print lit_assignments
-#        while len(q) > 0:
-#            a1 = q.pop()
-#            if len(a1) == 0: lit_assignments.remove(a1)
-#            for a2 in list(lit_assignments):
-#                if set(a1.keys()).issubset(a2.keys()) and not a1 == a2:
-#                    lit_assignments.remove(a1)
-#        
-#        print 'spawning:', f, 'with', lit_assignments
-#        # create a list of all possible groundings that can be derived
-#        # given the ground atom.
-#        new_groundings = []
-##        if reduce(sum, map(len, lit_assignments)) == 0:
-##            print 'nothing to spawn'
-##            return [self]
-#        sizes = []
-#        for subset in utils.powerset(lit_assignments):
-#            assignment = {}
-#            forbidden_assignments = []
-##            print '    ', c
-#            for assign_it, lit_assignment in zip(c, lit_assignments):
-#                if assign_it: 
-#                    utils.unifyDicts(assignment, lit_assignment)
-#                else:
-#                    forbidden_assignment = copy.copy(lit_assignment)
-#                    forbidden_assignments.append(forbidden_assignment)
-##            print '    ', assignment
-#            # check if the assignment is legal
-#            if not self.isAssignmentValid(assignment):
-#                continue
-#            print assignment.keys()
-#            new_grounding = FormulaGrounding(f.ground(mrf, assignment, simplify=False, allowPartialGroundings=True), 
-#                                             mrf, forbidden_assignments)
-#            new_grounding.forbidden.extend(self.forbidden) # inherit forbidden assignments
-#            # update all forbidden combinations
-#            for forbidden in new_grounding.forbidden:
-#                for a in assignment:
-#                    if a in forbidden:
-#                        del forbidden[a]
-#                if len(forbidden) == 0: # remove if empty
-#                    new_grounding.forbidden.remove(forbidden)
-#            new_groundings.append(new_grounding)
-#            print '    ', new_grounding
-#        return new_groundings
-#    
-#    def isAssignmentValid(self, assignment):
-#        if len(assignment) == 0:
-#            return True
-#        for invalid in self.forbidden:
-#            valid = False
-#            for a in assignment:
-#                if invalid.get(a, None) != assignment[a]:
-#                    valid = True
-#                    break
-#            if not valid:
-#                return False
-#        return True        
-
-
-
-
-
-
-
-
-    
+#             factory.printTree()
+#             factory.unground()
+#             factory.printTree()
