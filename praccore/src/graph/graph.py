@@ -95,7 +95,7 @@ class Node(object):
         bbox = self.getBBox(p)
         p.rect(bbox['x'], bbox['y'], bbox['width'], bbox['height'])
         p.setFill(0, 0, 0)
-        p.text(self.label, self.x, self.y + round(5 * .6))
+        p.text(self.label, self.x, self.y + round(self.textheight * .4))
         
     def getBBox(self, p):
         textwidth = p.getTextWidth(self.label)

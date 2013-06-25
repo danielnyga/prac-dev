@@ -51,30 +51,38 @@ class FormulaGrounding(object):
         '''
         self.mrf = mrf
         self.formula = formula
-#         self.parent = parent
+        self.parent = parent
         if parent is None:
             self.depth = 0
         else:
             self.depth = parent.depth + 1
         self.children = []
         self.assignment = assignment
-#         self.groundings = []
+        self.domains = {}
+        if parent is None:
+            for var in self.formula.getVariables(self.mrf):
+                self.domains[var] = list(self.mrf.domains[self.formula.getVarDomain(var, self.mrf)])
+        else:
+            for (v, d) in parent.domains.iteritems():
+                self.domains[v] = list(d)
         
-        
-    def ground(self, assignment):
+    def ground(self, assignment=None):
         '''
-        Takes an assignment of _one_ particular set of independent variables and
-        returns a new FormulaGrounding with that assignment.
+        Takes an assignment of _one_ particular variable and
+        returns a new FormulaGrounding with that assignment. If
+        the assignment renders the formula false or true, then
+        the costs are returned.
         '''
         # calculate the number of ground formulas resulting from
         # the remaining set of free variables
+        if assignment is None:
+            assignment = {}
         gf_count = 1
         for var in set(self.formula.getVariables(self.mrf)).difference(assignment.keys()):
-            domain = mrf.domains[self.formula.getVarDomain(var, self.mrf)]
+            domain = self.domains[var]#self.mrf.domains[self.formula.getVarDomain(var, self.mrf)]
             gf_count *= len(domain)
         gf = self.formula.ground(mrf, assignment, allowPartialGroundings=True, simplify=True)
         gf.weight = self.formula.weight
-        
         # if the simplified gf reduces to a TrueFalse instance, then
         # we return the costs if it's false, or 0 otherwise.
         if isinstance(gf, FOL.TrueFalse):
@@ -131,6 +139,7 @@ class GroundingFactory(object):
         self.values_processed = {}
         self.variable_stack = [None]
         self.var2fgs = {None: [self.root]}
+        self.gndAtom2fgs = {}
         # initialize the stacks
         self.var2fgsStack = []
         self.values_processedStack = []
@@ -160,7 +169,17 @@ class GroundingFactory(object):
                     if var in self.variable_stack:
                         self.variable_stack.remove(var)
                     self.values_processed.pop(var)
-            
+    
+    def getVariableDepth(self, varname):
+        if not varname in self.values_processed:
+            self.values_processed[varname] = []
+        if not varname in self.variable_stack:
+            self.values_processed[varname] = []
+            depth = len(self.variable_stack)
+        else:
+            depth = self.variable_stack.index(varname)
+        return depth
+    
     def ground(self, gndAtom):
         '''
         Expects a ground atom and creates all groundings 
@@ -175,11 +194,16 @@ class GroundingFactory(object):
         cost = .0
         var2fgs = {}
         values_processed = {}
+        # first evaluate formula groundings that contain this gnd atom
+        for fg in self.gndAtom2fgs.get(gndAtom, []):
+            simplified_fg = fg.ground()
+            if isinstance(simplified_fg, FormulaGrounding):
+                pass
+            
         for var, value in var_assignments.iteritems():
             # skip the variables with values that have already been processed
             if var in self.values_processed and var_assignments[var] in self.values_processed[var]:
                 continue
-            # in case this is a previously unseen variable, assign it a depth
             if not var in values_processed:
                 values_processed[var] = []
             if not var in self.variable_stack:
@@ -190,23 +214,43 @@ class GroundingFactory(object):
             indent = ''
             for _ in range(depth):
                 indent += '  '
-            print indent+'binding', var,'to', value,'depth:', depth
+            print indent+'binding', var,'to', value,'@depth:', depth
             # first hinge the new variable grounding to all possible parents,
             # i.e. all FormulaGroundings with depth - 1.
             # Then hinge all previously seen subtrees to the newly created formula groundings.
             queue = list(self.var2fgs[self.variable_stack[depth - 1]])
             while len(queue) > 0:
                 fg = queue.pop()
+                
                 if fg.depth < depth:
                     vars_and_values = [{var: value}]
                 elif fg.depth >= depth and fg.depth < len(self.variable_stack) - 1:
                     vars_and_values = [{self.variable_stack[fg.depth + 1]: v} 
                                    for v in self.values_processed[self.variable_stack[fg.depth + 1]]]
-                else: vars_and_values = []
+                else:
+                    vars_and_values = []
+                    for varNotInTree in [v for v in self.values_processed.keys() if v not in self.variable_stack]:
+                        values = self.values_processed[varNotInTree]
+                        for v in values:
+                            vars_and_values.append({varNotInTree: v})
                 for var_value in vars_and_values:
-                    for var_name, _ in var_value.iteritems(): break
+                    for var_name, val in var_value.iteritems(): break
+                    if not fg.domains.get(var_name, None) or not val in fg.domains[var_name]: continue
+                    fg.domains[var_name].remove(val)
+                    print var_name+'='+val,
                     gnd_result = fg.ground(var_value)
                     if isinstance(gnd_result, FormulaGrounding):
+                        # collect all ground atoms that have been created as 
+                        # as artifacts for future evaluation
+                        artifactGndAtoms = []
+                        gnd_result.getGroundAtoms(artifactGndAtoms)
+                        for artGndAtom in artifactGndAtoms:
+                            artFgs = self.gndAtom2fgs.get(artGndAtom, None)
+                            if artFgs is None:
+                                artFgs = []
+                                self.gndAtom2fgs[artFgs] = artFgs
+                            artFgs.append(gnd_result)
+                                
 #                         if len(gnd_result.formula.getVariables(self.mrf)) == 0:
 #                             print gnd_result.formula
                         if not var in self.variable_stack:
@@ -221,6 +265,8 @@ class GroundingFactory(object):
                     else: # ...otherwise it's true/false; add its costs and discard it.
                         print indent+'caused %.2f costs' % gnd_result
                         cost += gnd_result
+                        
+            self.printTree()
             self.values_processed[var].append(value)
             values_processed[var].append(value)
         # update the stacks
@@ -337,8 +383,8 @@ class BranchAndBound():
         gndAtoms = self.varIdx2GndAtom[variable]
         truthAssignments = []
         if len(gndAtoms) == 1: # binary variable
-            truthAssignments.append({gndAtoms[0]: False})
             truthAssignments.append({gndAtoms[0]: True})
+            truthAssignments.append({gndAtoms[0]: False})
         elif len(gndAtoms) > 1: # mutex constraint
             for trueGndAtom in gndAtoms:
                 assignment = dict([(gndAtom, False) for gndAtom in gndAtoms])
@@ -386,7 +432,7 @@ if __name__ == '__main__':
     mln.declarePredicate('bar', ['y','z'])
     
     f = parsePracFormula('foo(?x1,?y1) ^ foo(?x2,?y1) ^ bar(?y3,?z) ^ bar(?y3, ?z2)')
-    mln.addFormula(f, 1.5)
+    mln.addFormula(f, 1)
 #    mln.addDomainValue('x', 'Z')
     
     db = PRACDatabase(mln)
@@ -402,7 +448,7 @@ if __name__ == '__main__':
     bnb.search()
     for s in bnb.best_solution:
         print s, ':', bnb.best_solution[s]
-     
+      
     exit(0)
     groundingFactories = [GroundingFactory(f, mrf) for f in mrf.formulas]
      
