@@ -98,7 +98,7 @@ class PRACViz():
         # graph maintaining all the nodes
         self.g = Graph()
         # create gravity force layout        
-        self.layout = ForceLayout((800,400), self.g, self.redraw, gravity=-0.0001)
+        self.layout = ForceLayout((650,450), self.g, self.redraw, gravity=-0.0001)
         
         self.controlPanel = AbsolutePanel()
         self.controlPanel.setStyleName('prac-panel')
