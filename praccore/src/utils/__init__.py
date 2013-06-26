@@ -1,11 +1,4 @@
-#from Features import KeyIdentifier
-#from nltk.corpus import wordnet as wn 
-#from DAG import Node, DAG
-#from nltk.corpus.reader.wordnet import Synset
-#from Graph import DAG, Node, VarSet
 import os
-from MLN.MarkovLogicNetwork import Database
-from FOL import *
 import math 
 import time
 
@@ -98,21 +91,7 @@ def green(s):
 def orange(s):
     return bash.ORANGE + s + bash.END
 
-def isConjunctionOfLiterals(f):
-    if not type(f) is Conjunction:
-        return False
-    for child in f.children:
-        if not isinstance(child, Lit) and not isinstance(child, GroundLit) and not isinstance(child, GroundAtom):
-            return False
-    return True
 
-def isDisjunctionOfLiterals(f):
-    if not type(f) is Disjunction:
-        return False
-    for child in f.children:
-        if not isinstance(child, Lit) and not isinstance(child, GroundLit) and not isinstance(child, GroundAtom):
-            return False
-    return True
 
 #def getMostSpecificSenses(synsets):
 #    concepts = set(synsets)
@@ -198,11 +177,6 @@ def logx(x):
     else:
         return math.log(x)
         
-def addWeightsToTaxonomyGraph(mln, g, word):
-    pass
-
-
-
 def combinations(domains):
     return _combinations(domains, [])
 

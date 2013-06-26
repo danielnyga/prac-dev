@@ -22,7 +22,7 @@
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 from MLN.MarkovLogicNetwork import Database
-from FOL import Lit
+from logic.FOL import Lit
 from grammar import parsePracFormula
 #from pyswip.prolog import Prolog
 

@@ -26,10 +26,10 @@ import bisect
 from wcsp import WCSP
 import sys
 from wcsp import Constraint
-from FOL import Negation, GroundAtom, GroundLit
+from logic.FOL import Negation, GroundAtom, GroundLit
 import utils
-from utils import isConjunctionOfLiterals
-from utils import isDisjunctionOfLiterals
+from logic.FOL import isConjunctionOfLiterals
+from logic.FOL import isDisjunctionOfLiterals
 
 class WCSPConverter(object):
     '''

@@ -25,7 +25,7 @@ import java
 import os
 from grammar import parsePracFormula 
 from nltk.corpus import wordnet as wn
-import FOL
+from logic import FOL
 from utils import list_get
 
 

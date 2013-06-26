@@ -55,18 +55,17 @@ if __name__ == '__main__':
 #         integrator = PRACIntegrator()
         pracinit(sentence) >> actionroles >> result# >> verbalizer >> integrator
         
-        mln = result.pracinference.mlns['pracinit']
-        count = 0
-        for f in mln.formulas:
-            print f
-            vars = f.getVariables(mln.mrf)
-            if len(vars) == 0: continue
-            print vars
-            print mln.mrf.domains
-            
-            gndFormulaCount = reduce(lambda x, y: x*y, [len(mln.mrf.domains[f.getVarDomain(v, mln.mrf)]) for v in vars])
-            count += gndFormulaCount
-        print count
+#         mln = result.pracinference.mlns['pracinit']
+#         count = 0
+#         for f in mln.formulas:
+#             print f
+#             vars = f.getVariables(mln.mrf)
+#             if len(vars) == 0: continue
+#             print vars
+#             print mln.mrf.domains
+#             
+#             gndFormulaCount = reduce(lambda x, y: x*y, [len(mln.mrf.domains[f.getVarDomain(v, mln.mrf)]) for v in vars])
+#             count += gndFormulaCount
 #         print result.pracinference.to_syntactic_graph()
 #         print result.pracinference.to_word_senses()
 #         print result.pracinference.to_possible_roles()

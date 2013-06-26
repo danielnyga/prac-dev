@@ -23,7 +23,8 @@
 
 from pracmln.PRACMLN import PRACMLN
 from pracmln.PRACDatabase import PRACDatabase
-from grammar import *
+from logic import FOL
+from logic import grammar
 from random import shuffle
 import utils
 from utils import difference_update
@@ -295,7 +296,7 @@ class GroundingFactory(object):
         if lit.predName != atom.predName: return None
         assignment = {}
         for p1, p2 in zip(lit.params, atom.params):
-            if FOL.isVar(p1):
+            if grammar.isVar(p1):
                 assignment[p1] = p2
             elif p1 != p2: return None
         return assignment
@@ -431,7 +432,7 @@ if __name__ == '__main__':
     mln.declarePredicate('foo', ['x', 'y'])#, functional=[1])
     mln.declarePredicate('bar', ['y','z'])
     
-    f = parsePracFormula('foo(?x1,?y1) ^ foo(?x2,?y1) ^ bar(?y3,?z) ^ bar(?y3, ?z2)')
+    f = grammar.parseFormula('foo(?x1,?y1) ^ foo(?x2,?y1) ^ bar(?y3,?z) ^ bar(?y3, ?z2)')
     mln.addFormula(f, 1)
 #    mln.addDomainValue('x', 'Z')
     

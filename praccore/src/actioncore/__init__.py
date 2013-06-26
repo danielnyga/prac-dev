@@ -27,14 +27,14 @@ import nltk.data
 nltk.data.path = [os.path.join('.', 'data', 'nltk_data')]
 
 from MLN.MarkovLogicNetwork import MLN
-from FOL import *
+from logic.FOL import *
 from utils.Graph import processNode
 from itertools import *
 from pracmln.PRACDatabase import countTrueGroundings
 from nltk.corpus import wordnet as wn
 import yaml
 import os
-from grammar import parsePracFormula
+from logic.grammar import parseFormula
 from pracmln.PRACMLN import *
 from mlnLearningTool import MLNLearn
 from MLN.methods import ParameterLearningMeasures

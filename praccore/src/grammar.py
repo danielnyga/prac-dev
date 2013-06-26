@@ -21,37 +21,19 @@
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-import FOL
-from FOL import *
+from logic.FOL import *
 from pyparsing import *
 
 '''
 CAUTION: PRAC uses a slightly different FOL syntax than common MLN implementations.
 The most important differences are the following:
-    - TODO
+    - variables start with a question mark (?), anything else is considered a constant
 For further information we refer to the PRAC documentation Wiki.
 '''
+
 def isPracVar(symbol):
     return symbol[0] == '?' or symbol[0] == "+"
-# use the customized variable check
-FOL.isVar = isPracVar
 
-class TaxLit(Lit):
-    def __str__(self):
-        return {True:"!", False:""}[self.negated] + '[' + self.predName + "(" + ", ".join(self.params) + ")]"
-    
-    def _getTemplateVariables(self, mln, vars = None):
-        if vars is None:
-            return {}
-        return vars
-    
-    def _groundTemplate(self, assignment):
-#        print 'TaxLit._groundTemplate'
-        params = map(lambda x: assignment.get(x, x), self.params)
-        if self.negated == 2: # template
-            return [TaxLit(False, self.predName, params), TaxLit(True, self.predName, params)]
-        else:
-            return [TaxLit(self.negated, self.predName, params)]
                 
 class PRACTreeBuilder(object):
     def __init__(self):
@@ -68,9 +50,7 @@ class PRACTreeBuilder(object):
                 toks = toks[1]
             else:
                 toks = toks[0]
-            if op == 'tax':
-                lit = TaxLit(negated, toks[0], toks[1])
-            else:
+            if op == 'lit':
                 lit = Lit(negated, toks[0], toks[1])
             self.stack.append(lit)
         elif op == '!':
@@ -149,7 +129,6 @@ predName = Word(identifierCharacter)
 
 atom = Group(predName + openRB + atomArgs + closeRB)
 literal = Optional(Literal("!") | Literal("*")) + atom
-taxliteral = openSB + Optional(Literal("!") | Literal("*")) + atom + closeSB
 
 predDecl = Group(predName + openRB + predDeclArgs + closeRB) + StringEnd()
 
@@ -160,7 +139,7 @@ formula = Forward()
 exist = Literal("EXIST ").suppress() + Group(delimitedList(variable)) + openRB + Group(formula) + closeRB
 equality = (constant|variable) + Literal("=").suppress() + (constant|variable)
 negation = Literal("!").suppress() + openRB + Group(formula) + closeRB
-item = (literal | taxliteral) | exist | equality | openRB + formula + closeRB | negation
+item = literal | exist | equality | openRB + formula + closeRB | negation
 disjunction = Group(item) + ZeroOrMore(Literal("v").suppress() + Group(item))
 conjunction = Group(disjunction) + ZeroOrMore(Literal("^").suppress() + Group(disjunction))
 implication = Group(conjunction) + Optional(Literal("=>").suppress() + Group(conjunction))
@@ -171,7 +150,6 @@ formula << constraint
 def parsePracFormula(input):
     tree = PRACTreeBuilder()
     literal.setParseAction(lambda a,b,c: tree.trigger(a,b,c,'lit'))
-    taxliteral.setParseAction(lambda a,b,c: tree.trigger(a,b,c,'tax'))
     negation.setParseAction(lambda a,b,c: tree.trigger(a,b,c,'!'))
     #item.setParseAction(lambda a,b,c: foo(a,b,c,'item'))
     disjunction.setParseAction(lambda a,b,c: tree.trigger(a,b,c,'v'))
@@ -189,5 +167,5 @@ def parsePracFormula(input):
 
 if __name__ == '__main__':
     
-    parsePracFormula("!action_role(w, ?sid) ^ [isa(?sid, +?sense)]").printStructure()
+    parsePracFormula("!(action_role(w, ?sid) ^ isa(sid, sense))").printStructure()
 
