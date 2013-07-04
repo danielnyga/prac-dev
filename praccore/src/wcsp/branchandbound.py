@@ -53,6 +53,7 @@ class FormulaGrounding(object):
         self.mrf = mrf
         self.formula = formula
         self.parent = parent
+        self.costs = 0.
         if parent is None:
             self.depth = 0
         else:
@@ -66,7 +67,18 @@ class FormulaGrounding(object):
         else:
             for (v, d) in parent.domains.iteritems():
                 self.domains[v] = list(d)
-        
+    
+    def countGroundings(self):
+        '''
+        Computes the number of ground formulas subsumed by this FormulaGrounding
+        based on the domain sizes of the free (unbound) variables.
+        '''
+        gf_count = 1
+        for var in self.formula.getVariables(self.mrf):
+            domain = self.domains[var]
+            gf_count *= len(domain)
+        return gf_count
+    
     def ground(self, assignment=None):
         '''
         Takes an assignment of _one_ particular variable and
@@ -82,15 +94,18 @@ class FormulaGrounding(object):
         for var in set(self.formula.getVariables(self.mrf)).difference(assignment.keys()):
             domain = self.domains[var]#self.mrf.domains[self.formula.getVarDomain(var, self.mrf)]
             gf_count *= len(domain)
-        gf = self.formula.ground(mrf, assignment, allowPartialGroundings=True, simplify=True)
+        gf = self.formula.ground(self.mrf, assignment, allowPartialGroundings=True, simplify=True)
+#         self.mrf.printEvidence()
+#         print 'grounded', gf
         gf.weight = self.formula.weight
         # if the simplified gf reduces to a TrueFalse instance, then
         # we return the costs if it's false, or 0 otherwise.
         if isinstance(gf, FOL.TrueFalse):
-            if gf.value: return 0.0 
+            if gf.value: costs = 0.0
             else:
                 costs = self.formula.weight * gf_count
-                return costs
+            self.costs += costs
+            return costs
         # if the truth value cannot be determined yet, we return
         # a new formula grounding with the given assignment
         else:
@@ -195,12 +210,44 @@ class GroundingFactory(object):
         cost = .0
         var2fgs = {}
         values_processed = {}
-        # first evaluate formula groundings that contain this gnd atom
+        # first evaluate formula groundings that contain 
+        # this gnd atom as an artifact
+        min_depth = None
+        min_depth_fgs = []
         for fg in self.gndAtom2fgs.get(gndAtom, []):
-            simplified_fg = fg.ground()
-            if isinstance(simplified_fg, FormulaGrounding):
-                pass
-            
+            # yes, this is a dirty hack; but it needs substantial amount of 
+            # refactoring of the FOL.isTrue method to resolve it:
+            tmpGrounding = fg.formula.ground(fg.mrf, {}, allowPartialGroundings=True)
+            tmpGrounding.weight = fg.formula.weight
+            fg.formula = tmpGrounding
+            truth = fg.formula.isTrue(fg.mrf.evidence)
+            if truth is not None:
+                self.costs -= fg.costs
+                print 'processing artifact:', fg, fg.depth, self.variable_stack[fg.depth]
+                self.var2fgs[self.variable_stack[fg.depth]].remove(fg)
+                fg.parent.children.remove(fg) # this is just for the visualization/ no real functionality
+                if fg.depth == min_depth or min_depth is None:
+                    min_depth_fgs.append(fg)
+                    min_depth = fg.depth
+                if fg.depth < min_depth:
+                    min_depth = fg.depth
+                    min_depth_fgs = []
+                    min_depth_fgs.append(fg)
+        for fg in min_depth_fgs:
+            # remove all variable values from the domain that
+            # have been already processed for this subtree
+            for var in self.variable_stack[min_depth+1:]:
+                for val in self.values_processed[var]:
+                    fg.parent.domains[var].remove(val)
+            # add the costs which are aggregated by the root of the subtree 
+            if not fg.formula.isTrue(fg.mrf.evidence):
+                cost += fg.formula.weight * fg.countGroundings()
+        # straighten up the variable stack and formula groundings
+        # since they might have become empty
+        for var in self.var2fgs.keys():
+            if len(self.var2fgs[var]) == 0:
+                del self.var2fgs[var]
+                self.variable_stack.remove(var)
         for var, value in var_assignments.iteritems():
             # skip the variables with values that have already been processed
             if var in self.values_processed and var_assignments[var] in self.values_processed[var]:
@@ -216,18 +263,19 @@ class GroundingFactory(object):
             for _ in range(depth):
                 indent += '  '
             print indent+'binding', var,'to', value,'@depth:', depth
-            # first hinge the new variable grounding to all possible parents,
-            # i.e. all FormulaGroundings with depth - 1.
-            # Then hinge all previously seen subtrees to the newly created formula groundings.
             queue = list(self.var2fgs[self.variable_stack[depth - 1]])
             while len(queue) > 0:
                 fg = queue.pop()
-                
+                # first hinge the new variable grounding to all possible parents,
+                # i.e. all FormulaGroundings with depth - 1...
                 if fg.depth < depth:
                     vars_and_values = [{var: value}]
+                # ...then hinge all previously seen subtrees to the newly created formula groundings...    
                 elif fg.depth >= depth and fg.depth < len(self.variable_stack) - 1:
                     vars_and_values = [{self.variable_stack[fg.depth + 1]: v} 
                                    for v in self.values_processed[self.variable_stack[fg.depth + 1]]]
+                # ...and finally all variable values that are not part of the subtrees
+                # (since they have been removed due to falsity of a formula grounding).
                 else:
                     vars_and_values = []
                     for varNotInTree in [v for v in self.values_processed.keys() if v not in self.variable_stack]:
@@ -238,20 +286,21 @@ class GroundingFactory(object):
                     for var_name, val in var_value.iteritems(): break
                     if not fg.domains.get(var_name, None) or not val in fg.domains[var_name]: continue
                     fg.domains[var_name].remove(val)
-                    print var_name+'='+val,
+                    print var_name+'='+val, 'in', fg
                     gnd_result = fg.ground(var_value)
                     if isinstance(gnd_result, FormulaGrounding):
                         # collect all ground atoms that have been created as 
                         # as artifacts for future evaluation
                         artifactGndAtoms = []
-                        gnd_result.getGroundAtoms(artifactGndAtoms)
+                        gnd_result.formula.getGroundAtoms(artifactGndAtoms)
                         for artGndAtom in artifactGndAtoms:
                             artFgs = self.gndAtom2fgs.get(artGndAtom, None)
                             if artFgs is None:
                                 artFgs = []
-                                self.gndAtom2fgs[artFgs] = artFgs
+                                self.gndAtom2fgs[artGndAtom] = artFgs
+                            gnd_result.mrf.printEvidence()
+                            print 'artifact in', gnd_result
                             artFgs.append(gnd_result)
-                                
 #                         if len(gnd_result.formula.getVariables(self.mrf)) == 0:
 #                             print gnd_result.formula
                         if not var in self.variable_stack:
@@ -432,7 +481,7 @@ if __name__ == '__main__':
     mln.declarePredicate('foo', ['x', 'y'])#, functional=[1])
     mln.declarePredicate('bar', ['y','z'])
     
-    f = grammar.parseFormula('foo(?x1,?y1) ^ foo(?x2,?y1) ^ bar(?y3,?z) ^ bar(?y3, ?z2)')
+    f = grammar.parseFormula('foo(?x1,?y1) ^ foo(?x2,?y1) ^ bar(?y3,Y) ^ bar(?y3, ?z2)')
     mln.addFormula(f, 1)
 #    mln.addDomainValue('x', 'Z')
     
