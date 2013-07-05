@@ -74,9 +74,16 @@ class Undoable(object):
             action.undo()
     
     def do(self, action, *args):
+        '''
+        Executes the action and pushes it onto the stack of actions.
+        *args is the arguments to the action.
+        '''
         self.actionStack.append(action)
         action.do(*args)
-            
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# Undoable Actions - General
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 class UndoableAction(object):
     '''
@@ -97,6 +104,10 @@ class UndoableAction(object):
         Called when the action should be undone.
         '''
         pass
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# Undoable Actions - Lists
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         
 class ListAppend(UndoableAction):
     
@@ -105,7 +116,17 @@ class ListAppend(UndoableAction):
         
     def undo(self):
         del self.struct[-1]
+        
+class ListExtend(UndoableAction):
+    
+    def do(self, seq):
+        self.elCount = len(seq)
+        self.struct.list.extend(seq)
 
+    def undo(self):
+        for _ in range(self.elCount):
+            self.struct.list.pop()
+    
 class ListRemove(UndoableAction):
     
     def do(self, el):
@@ -114,7 +135,11 @@ class ListRemove(UndoableAction):
     
     def undo(self):
         self.struct.insert(self.idx, self.el)
-        
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# Undoable Actions - ListDict
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
 class ListDictPut(UndoableAction):
     
     def do(self, key, el):
@@ -168,7 +193,71 @@ class ListDictRemove(UndoableAction):
         if l is None:
             self.struct.d[self.key] = self.l
         self.l.insert(self.idx, self.el)
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# Undoable Actions - Numbers
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
+class Addition(UndoableAction):
+    
+    def do(self, value):
+        self.struct.value += value
+        self.addend = value
         
+    def undo(self):
+        self.struct.value -= self.addend
+        
+class Multiplication(UndoableAction):
+    
+    def do(self, value):
+        self.struct.value *= value
+        self.muliplicand = value
+        
+    def undo(self):
+        self.struct.value /= self.multiplicand
+    
+class Assignment(UndoableAction):
+    
+    def do(self, value):
+        self.oldValue = self.struct.value
+        self.struct.value = value
+        
+    def undo(self):
+        self.struct.value = self.oldValue
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# Undoable Actions - Numbers
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
+class SetReference(UndoableAction):
+    
+    def do(self, obj):
+        self.oldObj = self.struct.obj
+        self.struct.obj = obj
+        
+    def undo(self):
+        self.struct.obj = self.oldObj
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# Undoable Structures - Reference
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
+class Ref(Undoable):
+    
+    def __init__(self, obj):
+        Undoable.__init__(self)
+        self.obj = obj
+        
+    def set(self, obj):
+        self.do(SetReference(self), obj)
+        
+    def __str__(self):
+        return str(self.obj)
+        
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# Undoable Structures - ListDict
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
 class ListDict(Undoable):
     '''
     A dictionary mapping to lists of items. The main difference to the 
@@ -205,9 +294,7 @@ class ListDict(Undoable):
         Undoable putting action of an element to the list associated to
         the key. If the list doesn't exist, it's created.
         '''
-        a = ListDictPut(self)
-        self.actionStack.append(a)
-        a.do(key, element)
+        self.do(ListDictPut(self), key, element)
         
     def drop(self, key, element):
         '''
@@ -215,9 +302,7 @@ class ListDict(Undoable):
         associated to the key. If the list gets empty, it's being
         deleted from the dict.
         '''
-        a = ListDictRemove(self)
-        self.actionStack.append(a)
-        a.do(key, element)
+        self.do(ListDictRemove(self), key, element)
     
     def __iter__(self):
         return self.d.keys
@@ -238,7 +323,11 @@ class ListDict(Undoable):
         
     def __str__(self):
         return str(self.d)
-    
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# Undoable Structures - Numbers
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
 class Number(Undoable):
     '''
     Represents a numeric value, which keeps track of all changes made to it.
@@ -303,38 +392,42 @@ class Number(Undoable):
     def __str__(self):
         return str(self.value)
                 
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# Undoable Structures - List
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-class Addition(UndoableAction):
+class List(Undoable):
+    '''
+    List supporting undo operations.
+    '''
     
-    def do(self, value):
-        self.struct.value += value
-        self.addend = value
+    def __init__(self, *args):
+        Undoable.__init__(self)
+        self.list = [x for x in args]
         
-    def undo(self):
-        self.struct.value -= self.addend
+    def append(self, element):
+        self.do(ListAppend(self), element)
+
+    def extend(self, sequence):
+        for el in sequence: self.append(el)
+
+    def remove(self, element):
+        self.do(ListRemove(self), element)
         
-class Multiplication(UndoableAction):
+    def pop(self):
+        self.remove(self[-1])
     
-    def do(self, value):
-        self.struct.value *= value
-        self.muliplicand = value
-        
-    def undo(self):
-        self.struct.value /= self.multiplicand
+    def __getitem__(self, index):
+        return self.list[index]
     
-class Assignment(UndoableAction):
+    def __getslice__(self, i, j):
+        return self.list[i:j]
     
-    def do(self, value):
-        self.oldValue = self.struct.value
-        self.struct.value = value
-        
-    def undo(self):
-        self.struct.value = self.oldValue
 
 # for testing purposes only
 if __name__ == '__main__':
     
-    # test the ListDict history
+    # test the ListDict history and epochs
     d = ListDict()
     print d
     d.put('a', 1)
@@ -362,6 +455,16 @@ if __name__ == '__main__':
     while not n.isReset():
         n.undo()
         print n
+        
+    # test the Ref history
+    r = Ref('Hello, world!')
+    print len(r.obj)
+    print r
+    l = [1,2,3]
+    r.set(l)
+    print r.obj
+    r.undo()
+    print r
    
         
         
