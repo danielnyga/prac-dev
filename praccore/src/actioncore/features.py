@@ -23,7 +23,7 @@
 
 import java
 import os
-from grammar import parsePracFormula 
+from logic.grammar import parseFormula 
 from nltk.corpus import wordnet as wn
 from logic import FOL
 from utils import list_get
@@ -91,7 +91,7 @@ class FeatureExtractor(object):
         or a formula.
         '''
         if isinstance(evidence, basestring):
-            evidence = parsePracFormula(evidence)
+            evidence = parseFormula(evidence)
         if isinstance(evidence, FOL.Lit):
             db.addGroundAtom(str(evidence))
         elif isinstance(evidence, FOL.Formula):
@@ -113,7 +113,7 @@ class Syntax(FeatureExtractor):
         self.deps = map(str, deps)
         words = set()
         for d in deps:
-            f = parsePracFormula(str(d))
+            f = parseFormula(str(d))
             words.update(f.params)
         self.posTags = self.parser.getPOS()
         self.pos = []

@@ -24,12 +24,11 @@
 from actioncore.features import FeatureManager, Syntax, WordSenses, MissingRoles
 from pracmln.PRACDatabase import PRACDatabase
 from wcsp.converter import WCSPConverter
-from utils import StopWatch, red, bold
-from utils import bash
-from grammar import parsePracFormula
+from utils import bash, bold, StopWatch
+from logic.grammar import parseFormula
 from actioncore import PRAC, PRACReasoner, PRACPIPE
 from nltk.corpus import wordnet as wn
-from StanfordParser import Parser
+from linguistics.parsing import Parser
 #from linguistics.verbalizer import PRACVerbalizer
 #from linguistics import NLISentence
 from linguistics import HRIDialog
@@ -37,8 +36,8 @@ import os
 import re
 import math
 import operator
-from wcsp.branchandbound import FormulaGrounding
 from graph.graph import Graph, Node, Link
+from wcsp.converter import WCSPConverter
 
 class PRACInit(PRACReasoner):
     
@@ -92,8 +91,11 @@ class PRACInit(PRACReasoner):
 #        # start experimental code
 #        ##############################################
 #        
-#        gnd_formula = FormulaGrounding(mln.formulas[0], mrf)
-#        
+#         bnb = BranchAndBound(mrf)
+#         bnb.search()
+#         for s in bnb.best_solution:
+#             print s, ':', bnb.best_solution[s]
+#         exit(0)
 #        ##############################################
 #        # start experimental code
 #        ##############################################
@@ -289,7 +291,7 @@ class PRACInference(object):
         # links
         links = []
         for dep in self.features.get('syntax').deps:
-            atom = parsePracFormula(dep)
+            atom = parseFormula(dep)
             word1 = graph.getNodeById(atom.params[0])
             word2 = graph.getNodeById(atom.params[1])
             if word1 is None or word2 is None: continue
@@ -363,7 +365,7 @@ class PRACInference(object):
                     q['color'] = self.atom2color[(word, r)]
                 self.query.append(q)
         for dep in self.features.get('syntax').deps:
-            atom = parsePracFormula(dep)
+            atom = parseFormula(dep)
             self.evidence.append({'label': '%s(%s, %s)' % (atom.predName, atom.params[0], atom.params[1])})
         self.evidence.append({'label': 'isa'})
         self.evidence.append({'label': '...'})

@@ -122,11 +122,11 @@ class PRAC(object):
                             f = None
                             if type(formula) is dict:
                                 for fstring in formula.keys(): pass
-                                f = parsePracFormula(fstring)
+                                f = parseFormula(fstring)
                                 f.weight = formula[fstring]
                                 f.isHard = False
                             else:
-                                f = parsePracFormula(formula)
+                                f = parseFormula(formula)
                                 f.isHard = True
                             acore.learnedMLN.addFormula(f, f.weight, f.isHard)
                     known_concepts = ac_prob.get('known_concepts', None)
@@ -148,11 +148,11 @@ class PRAC(object):
                             f = None
                             if type(formula) is dict:
                                 for fstring in formula.keys(): pass
-                                f = parsePracFormula(fstring)
+                                f = parseFormula(fstring)
                                 f.weight = formula[fstring]
                                 f.isHard = False
                             else:
-                                f = parsePracFormula(formula)
+                                f = parseFormula(formula)
                                 f.isHard = True
                             acore.learnedMLN_spatial.addFormula(f, f.weight, f.isHard)
                     known_concepts = ac_spat_prob.get('known_concepts', None)
@@ -229,13 +229,13 @@ class ActionCore(object):
         self.formula_spatial_templates = set()
         if args.get('formula_templates', None) is not None:
             for templ in args.get('formula_templates',[]):
-                f = parsePracFormula(templ)
+                f = parseFormula(templ)
                 self.formula_templates.add(f)
                 self.mln.addFormulaTemplate(f)
         # load spatial_relations formulas
         if args.get('spatial_templates', None) is not None:
             for templ in args.get('spatial_templates',[]):
-                f = parsePracFormula(templ)
+                f = parseFormula(templ)
                 self.formula_spatial_templates.add(f)
                 self.mln_spatial.addFormulaTemplate(f)
         self.action_verbs = []

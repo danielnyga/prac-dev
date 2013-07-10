@@ -23,7 +23,7 @@
 
 from MLN.MarkovLogicNetwork import Database
 from logic.FOL import Lit
-from grammar import parsePracFormula
+from logic.grammar import parseFormula
 #from pyswip.prolog import Prolog
 
 class PRACDatabase(Database):
@@ -46,7 +46,7 @@ class PRACDatabase(Database):
         The domains in the associated MLN instance are updated 
         accordingly, if necessary. 
         '''
-        f = parsePracFormula(gndAtom)
+        f = parseFormula(gndAtom)
         assert isinstance(f, Lit)
         predName = f.predName
         params = f.params
@@ -67,7 +67,7 @@ class PRACDatabase(Database):
         Returns a dictionary with variable-value assignments for which the formula is true.
         ''' 
         pseudoMRF = Database.PseudoMRF(self)
-        formula = parsePracFormula(formula)
+        formula = parseFormula(formula)
         for varAssignment in pseudoMRF.iterTrueVariableAssignments(formula):
             yield varAssignment
 
@@ -78,7 +78,7 @@ def countTrueGroundings(dbs, f):
     - f:      formula of which the groundings shall be counted. Formula object or string.
     '''
     if type(f) is str:
-        f = parsePracFormula(f)
+        f = parseFormula(f)
     pseudoMRFs = [db.getPseudoMRF() for db in dbs]
     numTrue = 0
     numTotal = 0
