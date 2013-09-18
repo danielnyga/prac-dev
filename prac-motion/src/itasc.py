@@ -42,6 +42,9 @@ class ITaSCObject():
             pos = (rot_mat * pos)[:3]
             dir = rot_mat[0:3,0:3].transpose() * feature.dir
             yield ITaSCFeature(feature.name, feature.type, pos, dir)
+            
+    def __repr__(self):
+        return 'iTaSC-Obj: %s' % self.name
 
 class ITaSCFeature():
     '''
