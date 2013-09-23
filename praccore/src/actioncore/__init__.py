@@ -27,7 +27,7 @@ import nltk.data
 nltk.data.path = [os.path.join('.', 'data', 'nltk_data')]
 
 from MLN.MarkovLogicNetwork import MLN
-from logic.FOL import *
+from logic.fol import *
 from utils.Graph import processNode
 from itertools import *
 from pracmln.PRACDatabase import countTrueGroundings

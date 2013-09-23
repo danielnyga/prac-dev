@@ -23,15 +23,9 @@
 
 from copy import deepcopy
 import os
-from itertools import product
-from MLN.MarkovLogicNetwork import MLN
-from logic.grammar import parseFormula
+from mln.MarkovLogicNetwork import MLN
 from pracmln.PRACDatabase import *
-from MLN.methods import InferenceMethods
-from MLN.util import mergeDomains, logx, strFormula
-import logic.FOL
-from nltk.corpus import wordnet as wn
-import sys
+from mln.methods import InferenceMethods
 
 class PRACMLN(MLN):
     '''
@@ -59,7 +53,7 @@ class PRACMLN(MLN):
         assert type(domains) == list
         self.predicates[name] = domains
         if functional is not None:
-            func = [(i in functional) for i, d in enumerate(domains)]
+            func = [(i in functional) for i, _ in enumerate(domains)]
             self.blocks[name] = func
             
     def addDomainValue(self, domain, value):
@@ -109,7 +103,7 @@ class PRACMLN(MLN):
         if self.materializedTemplates:
             raise Exception('Formula templates have already been materialized. Adding new formulas is no longer possible.')
         if type(formula) is str:
-            formula = parsePracFormula(formula)
+            formula = parseFormula(formula)
         formula.weight = weight
         formula.isHard = hard
         idxTemplate = len(formulaSet)
