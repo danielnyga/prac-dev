@@ -7,10 +7,12 @@ import logging
 import os
 import fnmatch
 import scipy.io as scipy
-from itasc import ITaSCObject
+import numpy as np
+from itasc import ITaSCObject, ITaSCFeature
 import matplotlib.pyplot as plt
 from trajectories import Trajectory
 from numpy.linalg import inv
+from subprocess import PIPE, Popen
 
 
 class TrajReader(object):
@@ -22,6 +24,8 @@ class TrajReader(object):
                'spatula.obj': "'http://ias.cs.tum.edu/kb/knowrob.owl#Spatula'",
                'pancake.obj': "'http://ias.cs.tum.edu/kb/knowrob.owl#Pancake'",
                'mixer.obj': "'http://ias.cs.tum.edu/kb/knowrob.owl#PancakeMaker'"}
+    
+    obj2CadPath = {'spatula.obj': '../models/spatula_forth.dae'}
     
     def __init__(self, path):
         self.log = logging.getLogger('traj')
@@ -75,7 +79,14 @@ class TrajReader(object):
             if not o_type in TrajReader.concept_map: 
                 self.log.debug('skipping %s (idx: %d) since not mapped to knowrob' % (o_type, object2matIdx[o]))
                 continue
-            obj = ITaSCObject(o)
+            features = None
+            if o_type in TrajReader.obj2CadPath:
+                self.log.debug('reading CAD model for %s' % o_type)
+                cadModel = TrajReader.obj2CadPath[o_type]
+                features = ModelReader().extractFeatures(o, cadModel)
+            else:
+                self.log.warning('no CAD model found for %s' % o_type)
+            obj = ITaSCObject(o, features)
             self.itascObjStore[obj.name] = obj
             self.log.debug('Object: %s (idx: %d)' % (obj, object2matIdx[o]))
         
@@ -88,25 +99,49 @@ class TrajReader(object):
             for obj in self.itascObjStore.values():
                 rot_mat = rot_mats[object2matIdx[obj.name]]
                 rot_mat[0:3,0:3] = inv(rot_mat[0:3, 0:3]).transpose()
-                position = rot_mat[0:3,3].tolist()
-                orientation = rot_mat[0:3,0:3]
+#                 position = rot_mat[0:3,3].tolist()
+#                 orientation = rot_mat[0:3,0:3]
                 traj = self.obj2traj.get(obj, Trajectory())
                 self.obj2traj[obj] = traj
                 traj.points.append(rot_mat)
                 
-#         for o, t in self.obj2traj.iteritems():
-#             self.log.debug('obj: %s %s' % (o, str(t.points)))
-            
-#         fig = plt.figure()
-#         ax = fig.gca(projection='3d')
-#         colors = ['red', 'blue', 'green', 'orange', 'yellow']
-#         for c, (o, t) in enumerate(self.obj2traj.iteritems()):
-#             x = t.getProjection(0)
-#             y = t.getProjection(1)
-#             z = t.getProjection(2)
-#             self.log.debug('%s: %s' % (colors[c], o))
-#             ax.plot(x, y, z, color=colors[c])
-#         
-#         plt.show()
+class ModelReader():
+    '''
+    Extracts iTaSC features out of CAD models.
+    '''    
+    
+    def __init__(self):
+        pass
+    
+    
+    def extractFeatures(self, objectID, cadModelPath):
+        '''
+        Loads the CAD-Model specified by the given path and runs mesh reasoning
+        for extracting iTaSC features from it.
+        '''
+        cmd = 'java -jar ../lib/meshreasoning.jar %s' % cadModelPath
+        p = Popen(cmd, shell=True, stderr=PIPE, stdout=PIPE)
+        features = []
+        feat_counter = {}
+        while True:
+            l = p.stdout.readline().strip()
+            logging.getLogger('cad').debug(l)
+            if l == 'finished': break
+            tokens = l.split()
+            feat_type = tokens[0]
+            feat_name = '%s/%s%d' % (objectID, feat_type, feat_counter.get(feat_type, 0))
+            feat_counter[feat_type] = feat_counter.get(feat_type, 0) + 1
+            if feat_type == 'plane' or feat_type == 'line':
+                pos = np.array([float(n) for n in tokens[1:4]]) * 10. 
+                ori = np.array([float(n) for n in tokens[4:]])
+                ori = ori / np.linalg.norm(ori)
+                f = ITaSCFeature(feat_name, feat_type, pos, ori)
+                features.append(f)
+            elif feat_type == 'point':
+                pos = [float(n) for n in tokens[1:4]]
+                f = ITaSCFeature(feat_name, feat_type, pos, None)
+                features.append(f)
+        p.terminate()
+        return features
 
         
