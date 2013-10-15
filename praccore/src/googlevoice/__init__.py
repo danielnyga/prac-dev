@@ -1,6 +1,7 @@
 from recognize import Voice
 from microphone import MicLevelController
 from threading import Timer
+import logging
 
 
 class VoiceRecorder():
@@ -32,6 +33,7 @@ class VoiceRecorder():
                 v.stopRecording()
         
     def start(self):
+        logging.getLogger('REC').debug('Start recording...')
         self.startListenerThread()
         
     def record(self):
@@ -40,7 +42,8 @@ class VoiceRecorder():
     def stop(self):
         self.recording = False
         self.counter = 0
-        print self.voices[self.voip].analyze()
+        logging.getLogger('REC').debug('Stop recording.')
+        print '"%s"' % self.voices[self.voip].analyze()
         
 
 if __name__ == '__main__':

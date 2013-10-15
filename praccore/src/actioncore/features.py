@@ -25,8 +25,8 @@ import java
 import os
 from logic.grammar import parseFormula 
 from nltk.corpus import wordnet as wn
-from logic import FOL
-from utils import list_get
+from logic import fol
+from pracutils import list_get
 
 
 
@@ -92,9 +92,9 @@ class FeatureExtractor(object):
         '''
         if isinstance(evidence, basestring):
             evidence = parseFormula(evidence)
-        if isinstance(evidence, FOL.Lit):
+        if isinstance(evidence, fol.Lit):
             db.addGroundAtom(str(evidence))
-        elif isinstance(evidence, FOL.Formula):
+        elif isinstance(evidence, fol.Formula):
             mln.addFormula(evidence, hard=True)
             
         

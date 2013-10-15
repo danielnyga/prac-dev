@@ -3,11 +3,12 @@ Created on Aug 24, 2012
 
 @author: nyga
 '''
-from subprocess import Popen
+from subprocess import Popen, PIPE
 import urllib2
 from tempfile import mkstemp
 
 import atexit
+import json
 
 
     
@@ -42,7 +43,7 @@ class Voice(object):
         cmdLine.extend(['-r', '16000'])
         if duration != None:
             cmdLine.extend(['-d', str(duration)])
-        self.arecord = Popen(cmdLine, stdout=self.wavFile)
+        self.arecord = Popen(cmdLine, stdout=self.wavFile, stderr=PIPE)
         if duration:
             self.arecord.wait()
         
@@ -70,11 +71,15 @@ class Voice(object):
         cmdLine.extend(['-i', self.wavName])
         cmdLine.extend(['-y'])
         cmdLine.extend([flacName])
-        ffmpeg = Popen(cmdLine)
+        ffmpeg = Popen(cmdLine, stderr=PIPE)
         ffmpeg.wait()
         flacData = open(flacName, 'r').read()
         header = {'Content-Type' : 'audio/x-flac; rate=16000'}
         req = urllib2.Request(self.url, flacData, header)
         answer = urllib2.urlopen(req)
         self.wavName = None
-        return answer.read()
+        jsonResult = json.loads(answer.read())
+        sentence = jsonResult.get('hypothesis', None)
+        if sentence == '':
+            sentence = None
+        return sentence

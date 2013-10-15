@@ -124,7 +124,6 @@ class PRACMLN(MLN):
         mln = PRACMLN()
         mln.domains = deepcopy(self.domains)
         mln.predicates = deepcopy(self.predicates)
-        mln.rigidPredicates = deepcopy(self.rigidPredicates)
         mln.formulas = deepcopy(self.formulas)
         mln.blocks = deepcopy(self.blocks)
         mln.domDecls = deepcopy(self.domDecls)

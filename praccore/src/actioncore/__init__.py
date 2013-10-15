@@ -26,20 +26,18 @@ import os
 import nltk.data
 nltk.data.path = [os.path.join('.', 'data', 'nltk_data')]
 
-from MLN.MarkovLogicNetwork import MLN
+from mln.MarkovLogicNetwork import MLN
 from logic.fol import *
-from utils.Graph import processNode
+from pracutils.Graph import processNode
 from itertools import *
-from pracmln.PRACDatabase import countTrueGroundings
 from nltk.corpus import wordnet as wn
 import yaml
-import os
 from logic.grammar import parseFormula
-from pracmln.PRACMLN import *
 from mlnLearningTool import MLNLearn
-from MLN.methods import ParameterLearningMeasures
+from mln.methods import ParameterLearningMeasures
 from sys import stdout
-from MLN.util import strFormula
+from mln.util import strFormula
+
 core_definitions = os.path.join('models', 'core.yaml')
 action_cores_path = os.path.join('models', 'actioncores.yaml')
 action_cores_probs = os.path.join('models', 'probabilities.yaml')
@@ -59,9 +57,10 @@ class PRAC(object):
         self.spat_predicates = []
         for pred in core_params['spatial_predicates']:
             self.spat_predicates.append(pred)
-        self.mln = PRACMLN()
+        self.mln = MLN()
+        
         # mln for spatial_relation learning
-        self.mln_spatial = PRACMLN()
+        self.mln_spatial = MLN()
         for pred in self.predicates + self.syn_predicates:
             assert(len(pred.keys()) == 1 and len(pred.values()) == 1)
             for name in pred.keys(): pass
@@ -80,6 +79,7 @@ class PRAC(object):
             self.mln.predicates[name] = args
             if reduce(lambda x, y: x or y, functional):
                 self.mln.blocks[name] = functional
+                
         # initialization of spatial predicates
         for pred in self.spat_predicates:
             assert(len(pred.keys()) == 1 and len(pred.values()) == 1)
@@ -231,13 +231,13 @@ class ActionCore(object):
             for templ in args.get('formula_templates',[]):
                 f = parseFormula(templ)
                 self.formula_templates.add(f)
-                self.mln.addFormulaTemplate(f)
+                self.mln.addFormula(f)
         # load spatial_relations formulas
         if args.get('spatial_templates', None) is not None:
             for templ in args.get('spatial_templates',[]):
                 f = parseFormula(templ)
                 self.formula_spatial_templates.add(f)
-                self.mln_spatial.addFormulaTemplate(f)
+                self.mln_spatial.addFormula(f)
         self.action_verbs = []
         if args.get('action_verbs', None) is not None:
             for av in args.get('action_verbs',[]):

@@ -22,16 +22,28 @@
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 import os
 from nltk.corpus import wordnet as wn
+import fnmatch
+from mln.database import readDBFromFile
+import logging
 
 class PRACLearner(object):
+    '''
+    Wrapper class facilitating PRAC learning.
+    '''
     
     def __init__(self, actioncore):
         self.actioncore = actioncore
+        self.log = logging.getLogger('PRACLearner')
         self.loadDatabases()
         
     def loadDatabases(self):
         actioncore = self.actioncore
-        self.dbs = actioncore.mln.loadPRACDatabases(os.path.join('models', actioncore.name, 'db'))
+        path = os.path.join('models', actioncore.name, 'db')
+        dbfiles = fnmatch.filter(os.listdir(path), '*.db')
+        self.log.debug('Loading databases from %s' % path)
+        self.log.debug('Database files: %s' % map(str, dbfiles))
+        self.dbs = readDBFromFile(actioncore.mln, map(lambda s: os.path.join(path, s), dbfiles))
+        
         actioncore.known_concepts = set()
         for d in self.dbs:
             actioncore.known_concepts.update(d.domains['sense'])

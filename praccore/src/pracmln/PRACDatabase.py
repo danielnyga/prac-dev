@@ -21,7 +21,7 @@
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-from MLN.MarkovLogicNetwork import Database
+from mln.database import Database
 from logic.fol import Lit
 from logic.grammar import parseFormula
 #from pyswip.prolog import Prolog
@@ -33,12 +33,12 @@ class PRACDatabase(Database):
     '''
     def __init__(self, mln, db=None):
         if isinstance(db, Database):
-            super(PRACDatabase, self).__init__(mln, None)
+            super(PRACDatabase, self).__init__(mln)
             self.domains = dict(db.domains)
             self.evidence = dict(db.evidence)
             self.softEvidence = list(db.softEvidence)
         else:
-            super(PRACDatabase, self).__init__(mln, db)
+            super(PRACDatabase, self).__init__(mln)
     
     def addGroundAtom(self, gndAtom):
         '''

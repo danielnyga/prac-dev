@@ -24,7 +24,7 @@
 from actioncore.features import FeatureManager, Syntax, WordSenses, MissingRoles
 from pracmln.PRACDatabase import PRACDatabase
 from wcsp.converter import WCSPConverter
-from utils import bash, bold, StopWatch
+from pracutils import bash, bold, StopWatch
 from logic.grammar import parseFormula
 from actioncore import PRAC, PRACReasoner, PRACPIPE
 from nltk.corpus import wordnet as wn
@@ -84,7 +84,7 @@ class PRACInit(PRACReasoner):
 
         # ground the MRF        
         watch.tag('MRF Construction')
-        mrf = mln.groundMRF(db, simplify=True, method='WCSPGroundingFactory')
+        mrf = mln.groundMRF(db, simplify=True, method='DefaultGroundingFactory')
         mln.mrf = mrf
 #        
 #        ##############################################
@@ -137,7 +137,6 @@ class PRACInit(PRACReasoner):
         watch.finish()
         watch.printSteps()
         print
-	       
         
     @PRACPIPE    
     def __call__(self, *args):
@@ -209,7 +208,7 @@ class ActionRoles(PRACReasoner):
             if not pred in queryPreds:
                 mln.closedWorldPreds.append(pred)
         
-        mrf = mln.groundMRF(db, method='WCSPGroundingFactory')
+        mrf = mln.groundMRF(db)
         converter = WCSPConverter(mrf)
         
 #         resultDB = PRACDatabase(mln, db=converter.getMostProbableWorldDB())
