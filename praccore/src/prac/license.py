@@ -47,7 +47,7 @@ yaml_license_notice = '''# PROBABILISTIC ROBOT ACTION CORES
 ''' % str(datetime.date.today().year)
 
 mln_license_notice = '''/* **************************************************************************** 
- * PROBABILISTIC ROBOT ACTION CORES SYNTACTIC PREDICATE DEFINITIONS
+ * PROBABILISTIC ROBOT ACTION CORES
  * 
  * (C) 2011-%s by Daniel Nyga (nyga@cs.uni-bremen.de)
  *

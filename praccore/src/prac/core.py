@@ -27,6 +27,8 @@ import nltk.data
 from string import whitespace, strip
 import time
 import datetime
+import pickle
+import sys
 nltk.data.path = [os.path.join('.', 'data', 'nltk_data')]
 
 from mln.MarkovLogicNetwork import readMLNFromFile
@@ -41,6 +43,7 @@ import praclog
 # action_cores_probs = os.path.join('models', 'probabilities.yaml')
 # action_cores_spat_probs = os.path.join('models', 'spatial_relation.yaml')
 
+prac_module_path = os.path.join('pracmodules')
 
 class PRAC(object):
     '''
@@ -204,7 +207,6 @@ def PRACPIPE(method):
     return wrapper
 
 class PRACReasoner(object):
-    
     def __init__(self, name):
         self.name = name
     
@@ -216,15 +218,90 @@ class PRACReasoner(object):
         '''    
         raise NotImplemented()
     
-#    def _addEvidence(self, e, db, mln):
-#        if type(e) == str:
-#            db.addGroundAtom(e)
-#        else:
-#            mln.addFormula(e, 0, True)
-    
     def __rshift__(self, other):
         other.pracinference = self.pracinference
         return other.run()
+
+
+class PRACModule(object):
+    '''
+    Base class for all PRAC reasoning modules. Provides 
+    some basic functionality for serializing, deserializing
+    and running PRAC modules. Every PRAC module must subclass this.
+    '''
+    
+    
+    NAME = 'module_name'
+    DESCRIPTION = 'description'
+    UNIVERSAL = 'is_universal'
+    DEPENDENCIES = 'depends_on'
+    MAIN_CLASS = 'class_name'
+    
+    def __init__(self, prac_instance):
+        self.prac = prac_instance
+    
+    def initialized(self):
+        '''
+        Called after the PRAC module has been loaded.
+        Every PRAC module can do some initialization stuff in here.
+        The default implementation does nothing.
+        '''
+        pass
+    
+    @staticmethod
+    def fromDefinition(stream, prac):
+        '''
+        Read a PRAC module definition (yaml) file and return
+        an empty PRACModule object.
+        '''
+        yamlData = yaml.load(stream, prac)
+        classname = yamlData[PRACModule.MAIN_CLASS]
+        module = eval('%s()' % classname)
+        module.name = yamlData[PRACModule.NAME]
+        module.description = yamlData[PRACModule.DESCRIPTION]
+        module.is_universal = yamlData.get(PRACModule.UNIVERSAL, False)
+        module.depends_on = yamlData.get(PRACModule.DEPENDENCIES, [])
+        module.default_mln = readMLNFromFile(os.path.join(prac_module_path, 
+                                                          module.name, 'mln', 
+                                                          '%s.mln' % module.name))
+        return module
+    
+    def loadExecutable(self, action_core_name=None):
+        '''
+        Loads a pickled PRAC module for the given action core.
+        If the specified action core name is None, the module must be universal
+        and the pickled module is named after the modules name.
+        '''
+        if action_core_name is None:
+            binaryFileName = '%s.prac' % self.name
+        else:
+            binaryFileName = '%s.prac' % action_core_name
+        return pickle.load(os.path.join(prac_module_path, self.name, 'bin', binaryFileName))
+    
+    def __getstate__(self):
+        odict = self.__dict__.copy()
+        del odict[self.prac]
+        return odict
+    
+    def __setstate__(self, d):
+        self.__dict__.update(d)
+        
+    @PRACPIPE
+    def run(self):
+        '''
+        Run this module. Facts collected so far are stored 
+        in the self.pracinference attribute. 
+        '''    
+        raise NotImplemented()
+    
+    def __rshift__(self, other):
+        '''
+        Allows concatenated execution of multiple PRAC module in a series
+        using the '>>' operator.
+        '''
+        other.pracinference = self.pracinference
+        return other.run()
+
 
     
 if __name__ == '__main__':
@@ -232,7 +309,12 @@ if __name__ == '__main__':
     main routine for testing and debugging purposes only!.
     '''
     log = logging.getLogger('PRAC')
-    ac = ActionCore.readFromFile('/home/nyga/code/prac/models/Flipping/actioncore.yaml')
+#     ac = ActionCore.readFromFile('/home/nyga/code/prac/models/Flipping/actioncore.yaml')
+    
+    mod = PRACModule.fromDefinition(open('/home/nyga/code/prac/pracmodules/nl_parsing/pracmodule.yaml', 'r'))
+    print mod.name
+    print mod.description
+    mod.default_mln.write(sys.stdout)
     
     
     
