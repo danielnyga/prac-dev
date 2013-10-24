@@ -29,6 +29,7 @@ import time
 import datetime
 import pickle
 import sys
+from actioncore.inference import PRACInference, PRACInferenceStep
 nltk.data.path = [os.path.join('.', 'data', 'nltk_data')]
 
 from mln.MarkovLogicNetwork import readMLNFromFile
@@ -47,46 +48,44 @@ prac_module_path = os.path.join('pracmodules')
 
 class PRAC(object):
     '''
-    Represents the PRAC knowledge base.
+    The PRAC reasoning system.
     '''    
     
-    def __init__(self):
-        
-        
-        # load all action cores
-        self.action_cores = {}
-        ac_params = yaml.load_all(open(action_cores_path))
-        self.concepts = set()
-           
-        for params in ac_params:
-            action_core = ActionCore(params, self)
-            self.action_cores[action_core.name] = action_core
-        if os.path.exists(action_cores_probs):
-            ac_probs = yaml.load_all(open(action_cores_probs))
-            for ac_prob in ac_probs:
-                if ac_prob is None:
-                    continue
-                name = ac_prob.get('action_core', None)
-                acore = self.action_cores.get(name, None)
-                acore.learnedMLN = self.mln.duplicate()
-                if acore is not None:
-                    formulas = ac_prob.get('weighted_formulas', None)
-                    if formulas is not None:
-                        for formula in formulas:
-                            f = None
-                            if type(formula) is dict:
-                                for fstring in formula.keys(): pass
-                                f = parseFormula(fstring)
-                                f.weight = formula[fstring]
-                                f.isHard = False
-                            else:
-                                f = parseFormula(formula)
-                                f.isHard = True
-                            acore.learnedMLN.addFormula(f, f.weight, f.isHard)
-                    known_concepts = ac_prob.get('known_concepts', None)
-                    if known_concepts is not None:
-                        acore.known_concepts = set(known_concepts)
+    log = logging.getLogger('PRAC')
     
+    def __init__(self):
+        self.modules = []
+        self.moduleByName = {}
+        for module_path in os.listdir(prac_module_path):
+            module_filename = os.path.join(prac_module_path, module_path, 'pracmodule.yaml')
+            if not os.path.exists(module_filename):
+                PRAC.log.warning('No module definition in path "%s".' % module_path)
+                continue
+            module_file = open(module_filename, 'r')
+            d = os.path.abspath(os.path.join(prac_module_path, module_path, 'src'))
+            sys.path.append(d)
+            module = PRACModule.fromDefinition(module_file, self)
+            self.modules.append(module)
+            self.moduleByName[module.name] = module
+            PRAC.log.info('Read module definition "%s".' % module.name)
+            
+    def infer(self, modulename, pracinference):
+        '''
+        Runs module with the given module name on the given PRACInference object.
+        '''
+        if not modulename in self.moduleByName:
+            raise Exception('No such module: %s' % modulename)
+        inferenceStep = self.moduleByName[modulename].run(pracinference)
+        if inferenceStep is None:
+            PRAC.log.exception('%s.run() must return a PRACInferenceStep object.' % type(self.moduleByName[modulename]))
+        pracinference.inference_steps.append(inferenceStep)
+        steps = pracinference.module2infSteps.get(modulename, None)
+        if steps is None:
+            steps = []
+            pracinference.module2infSteps[modulename] = steps
+        steps.append(inferenceStep)
+
+        
     def write(self):
         f = open(action_cores_probs, 'w+')
         for ac in self.action_cores.values():
@@ -202,25 +201,29 @@ class ActionCore(object):
 
 def PRACPIPE(method):
     def wrapper(self,*args,**kwargs):
-        method(self,*args,**kwargs)
-        return self
+        if not hasattr(self, '_initialized'):
+            raise Exception('PRACModule subclasses must call their super constructor of PRACModule (%s)' % type(self))
+        if not self._initialized:
+            self.initialized()
+            self._initialized = True
+        return method(self,*args,**kwargs)
     return wrapper
 
-class PRACReasoner(object):
-    def __init__(self, name):
-        self.name = name
-    
-    @PRACPIPE
-    def run(self):
-        '''
-        Perform PRAC reasoning using this reasoner. Facts collected so far are stored 
-        in the self.pracinference attribute. 
-        '''    
-        raise NotImplemented()
-    
-    def __rshift__(self, other):
-        other.pracinference = self.pracinference
-        return other.run()
+# class PRACReasoner(object):
+#     def __init__(self, name):
+#         self.name = name
+#     
+#     @PRACPIPE
+#     def run(self):
+#         '''
+#         Perform PRAC reasoning using this reasoner. Facts collected so far are stored 
+#         in the self.pracinference attribute. 
+#         '''    
+#         raise NotImplemented()
+#     
+#     def __rshift__(self, other):
+#         other.pracinference = self.pracinference
+#         return other.run()
 
 
 class PRACModule(object):
@@ -228,6 +231,14 @@ class PRACModule(object):
     Base class for all PRAC reasoning modules. Provides 
     some basic functionality for serializing, deserializing
     and running PRAC modules. Every PRAC module must subclass this.
+    
+    Attribute you might want to use in your subclasses:
+    - name:    the name of the module
+    - description; the natural-language description of what this module does 
+    - module_path: the path where the module is located (for loading local files)
+    - is_universal: (bool) if this module is universal of if there is an 
+                           individual module for each action core.
+    - depends_on: (list) a list of PRAC module names this module depends on.
     '''
     
     
@@ -236,9 +247,11 @@ class PRACModule(object):
     UNIVERSAL = 'is_universal'
     DEPENDENCIES = 'depends_on'
     MAIN_CLASS = 'class_name'
+    TRAINABLE = 'trainable'
     
     def __init__(self, prac_instance):
         self.prac = prac_instance
+        self._initialized = False
     
     def initialized(self):
         '''
@@ -248,25 +261,34 @@ class PRACModule(object):
         '''
         pass
     
+    def shutdown(self):
+        '''
+        Called when the PRAC reasoning system is to be
+        shut down. Here modules can do some cleaning up.
+        The default does nothing.
+        '''
+        pass
+    
     @staticmethod
     def fromDefinition(stream, prac):
         '''
         Read a PRAC module definition (yaml) file and return
         an empty PRACModule object.
         '''
-        yamlData = yaml.load(stream, prac)
-        classname = yamlData[PRACModule.MAIN_CLASS]
-        module = eval('%s()' % classname)
+        yamlData = yaml.load(stream)
+        (modulename, classname) = yamlData[PRACModule.MAIN_CLASS].split('.')
+        pymod = __import__(modulename)
+        clazz = getattr(pymod, classname)
+        module = clazz(prac)
         module.name = yamlData[PRACModule.NAME]
+        module.module_path = os.path.join(prac_module_path, module.name)
         module.description = yamlData[PRACModule.DESCRIPTION]
         module.is_universal = yamlData.get(PRACModule.UNIVERSAL, False)
         module.depends_on = yamlData.get(PRACModule.DEPENDENCIES, [])
-        module.default_mln = readMLNFromFile(os.path.join(prac_module_path, 
-                                                          module.name, 'mln', 
-                                                          '%s.mln' % module.name))
+        module.is_trainable = yamlData.get(PRACModule.TRAINABLE, False)
         return module
     
-    def loadExecutable(self, action_core_name=None):
+    def fromBinary(self, action_core_name=None):
         '''
         Loads a pickled PRAC module for the given action core.
         If the specified action core name is None, the module must be universal
@@ -294,14 +316,20 @@ class PRACModule(object):
         '''    
         raise NotImplemented()
     
-    def __rshift__(self, other):
-        '''
-        Allows concatenated execution of multiple PRAC module in a series
-        using the '>>' operator.
-        '''
-        other.pracinference = self.pracinference
-        return other.run()
+#     def __rshift__(self, other):
+#         '''
+#         Allows concatenated execution of multiple PRAC module in a series
+#         using the '>>' operator.
+#         '''
+#         other.pracinference = self.pracinference
+#         return other.run()
 
+# append all PRAC reasoning modules to the PYTHONPATH
+# for d in os.listdir(prac_module_path):
+#     try:
+#         if os.path.exists(os.path.join(d, 'pracmodule.yaml')):
+#             sys.path.append(os.path.join(d, 'src'))
+#     except: pass
 
     
 if __name__ == '__main__':
@@ -310,11 +338,18 @@ if __name__ == '__main__':
     '''
     log = logging.getLogger('PRAC')
 #     ac = ActionCore.readFromFile('/home/nyga/code/prac/models/Flipping/actioncore.yaml')
-    
-    mod = PRACModule.fromDefinition(open('/home/nyga/code/prac/pracmodules/nl_parsing/pracmodule.yaml', 'r'))
-    print mod.name
-    print mod.description
-    mod.default_mln.write(sys.stdout)
+    prac = PRAC()   
+    infer = PRACInference(prac, ['Flip the pancake around.', 'Put on a plate.'])
+    prac.infer('nl_parsing', infer)
+    prac.infer('wn_senses', infer)
+    for i, db in enumerate(infer.inference_steps[-1].output_dbs):
+        log.debug('\nInstruction #%d\n' % (i+1))
+        for lit in db.iterGroundLiteralStrings():
+            log.debug(lit)
+#     mod = PRACModule.fromDefinition(open('/home/nyga/code/prac/pracmodules/nl_parsing/pracmodule.yaml', 'r'))
+#     print mod.name
+#     print mod.description
+#     mod.default_mln.write(sys.stdout)
     
     
     

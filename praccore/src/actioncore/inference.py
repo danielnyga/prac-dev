@@ -256,26 +256,45 @@ class PRACResult(PRACReasoner):
 actioncores = ActionCores('actioncores')
 actionroles = ActionRoles('actionroles')
 
+
+class PRACInferenceStep(object):
+    '''
+    Wrapper class encapsulating a single inference step in the PRAC
+    pipeline. It consists of n input databases and m output databases.
+    '''
     
+    def __init__(self, pracinfer, module, input_dbs=None):
+        if input_dbs is None:
+            self.input_dbs = []
+        else:
+            self.input_dbs = input_dbs
+        self.module = module
+        self.prac = pracinfer.prac
+        self.pracinference = pracinfer
+        self.output_dbs = []
+        self.watch = StopWatch()
+
 class PRACInference(object):
     
-    def __init__(self, prac):
+    def __init__(self, prac, instructions):
         self.prac = prac
-        self.features = FeatureManager(prac)
-        self.possibleWorlds = []
-        self.sentence = None
-        self.hriDialog = HRIDialog()
+#         self.features = FeatureManager(prac)
+#         self.possibleWorlds = []
+        self.instructions = instructions
+        self.inference_steps = []
+        self.module2infSteps = {}
+#         self.hriDialog = HRIDialog()
         self.watch = StopWatch()
         self.databases = {}
         self.mlns = {}
         self.ctrlStatement = []
-        self.graph = Graph()
-        grammarPath = os.path.join('3rdparty', 'stanford-parser-2012-02-03', 'grammar', 'englishPCFG.ser.gz')
-        self.synParser = Parser(grammarPath)
-        self.color_idx = -1
-        self.query = []
-        self.evidence = []
-        self.atom2color = {}
+#         self.graph = Graph()
+#         grammarPath = os.path.join('3rdparty', 'stanford-parser-2012-02-03', 'grammar', 'englishPCFG.ser.gz')
+#         self.synParser = Parser(grammarPath)
+#         self.color_idx = -1
+#         self.query = []
+#         self.evidence = []
+#         self.atom2color = {}
         
     def to_syntactic_graph(self):
         '''
