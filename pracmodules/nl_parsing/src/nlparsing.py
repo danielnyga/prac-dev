@@ -26,10 +26,8 @@ import jpype
 import java
 import re
 import os
-from mln.MarkovLogicNetwork import readMLNFromFile
-from logic.grammar import parseFormula
+from mln import readMLNFromFile
 import logging
-import sys
 from mln.database import Database
 from actioncore.inference import PRACInferenceStep
 
@@ -139,30 +137,34 @@ class StanfordParser(object):
 
 class NLParsing(PRACModule):
     '''
-    Extracts syntactic features that are obtained by the parser, such as
+    Extracts syntactic features that are obtained from the parser, such as
     'has_pos' and the stanford dependencies.
     '''
     
-    stanford_parser = None
+    def __init__(self, prac):
+        PRACModule.__init__(self, prac)
+        self.stanford_parser = None
     
-#     def __init__(self, prac):
-#         PRACModule.__init__(self, prac)
-    
-    def initialized(self):
-        java.startJvm()
-        self.prac.log.debug('initializing nl_parsing')
-        if NLParsing.stanford_parser is None:
-            NLParsing.stanford_parser = StanfordParser(grammarPath)
+    def initialize(self):
+        if not java.isJvmRunning():
+            java.startJvm()
+        logging.getLogger().info('initializing nl_parsing')
+        if self.stanford_parser is None:
+            self.stanford_parser = StanfordParser(grammarPath)
         # this fixes some multithreading issues with jpype
         if not jpype.isThreadAttachedToJVM():
             jpype.attachThreadToJVM()
-        self.syntax_mln = readMLNFromFile(os.path.join(self.module_path, 'mln', 'nl_parsing.mln'))
+        self.syntax_mln = readMLNFromFile(os.path.join(self.module_path, 'mln', 'nl_parsing.mln'), grammar='PRACGrammar', logic='FuzzyLogic')
+
+    def shutdown(self):
+        if java.isJvmRunning():
+            java.shutdownJvm()
 
     @PRACPIPE
-    def run(self, pracinference):
-        log = logging.getLogger('NLP')
-        log.debug('Running %s' % self.name)
-        parser = NLParsing.stanford_parser
+    def infer(self, pracinference):
+        log = logging.getLogger()
+        log.info('Running %s' % self.name)
+        parser = self.stanford_parser
         inferenceStep = PRACInferenceStep(pracinference, self)
         for instr in inferenceStep.pracinference.instructions:
             db = Database(self.syntax_mln)
@@ -171,7 +173,7 @@ class NLParsing(PRACModule):
             words = set()
             for d in deps:
                 db.addGroundAtom(d)
-                f = parseFormula(str(d))
+                f = self.syntax_mln.logic.parseFormula(str(d))
                 words.update(f.params)
                 log.debug(f)
             self.posTags = self.stanford_parser.getPOS()
@@ -183,10 +185,7 @@ class NLParsing(PRACModule):
                 self.pos.append(posTagAtom)
                 db.addGroundAtom(posTagAtom)
                 self.posTags[pos[0]] = pos[1]
-            for e, t in db.evidence.iteritems():
-                log.debug((e, t))
             inferenceStep.output_dbs.append(db)
         return inferenceStep
-            
-            
+
             
