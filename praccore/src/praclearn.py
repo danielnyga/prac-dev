@@ -21,18 +21,33 @@
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-import sys
-import os
-from actioncore import PRAC
-from actioncore.learning import PRACLearner
+from actioncore.learning import PRACLearning
+from optparse import OptionParser
+from prac.core import PRAC
+import logging
+
+usage = 'Usage: praclearn [--core <actioncore1>[,<actioncore2>[,...]]] [--module <module1>[,<module2>[,...]]]'
+
+def parse_list(option, opt, value, parser):
+    setattr(parser.values, option.dest, value.split(','))
+
+parser = OptionParser(usage=usage)
+parser.add_option('--mt', action='callback', type='string', callback=parse_list, dest='microtheories')
+parser.add_option('--module', action='callback', type='string', callback=parse_list, dest='modules')
+
 
 if __name__ == '__main__':
-    
-    args = sys.argv[1:]
+    (options, args) = parser.parse_args()
     prac = PRAC()
-    action_core = prac.action_cores[args[0]]
-    learner = PRACLearner(action_core)
-    learner.run()
-    prac.write()
-    exit(0)
-
+    logging.getLogger().setLevel(logging.DEBUG)
+    praclearn = PRACLearning(prac)
+    praclearn.microtheories = parser.values.microtheories
+    praclearn.modules = parser.values.modules
+    
+    if praclearn.microtheories is None:
+        praclearn.microtheories = prac.microtheories
+    
+    for m in praclearn.modules:
+        module = prac.getModuleByName(m)
+        module.train(praclearn)
+    

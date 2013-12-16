@@ -20,47 +20,28 @@
 # CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
 import os
 from nltk.corpus import wordnet as wn
 import fnmatch
 from mln.database import readDBFromFile
 import logging
 
-class PRACLearner(object):
+class PRACLearning(object):
     '''
     Wrapper class facilitating PRAC learning.
     '''
     
-    def __init__(self, actioncore):
-        self.actioncore = actioncore
-        self.log = logging.getLogger('PRACLearner')
-        self.loadDatabases()
-        
-    def loadDatabases(self):
-        actioncore = self.actioncore
-        path = os.path.join('models', actioncore.name, 'db')
-        dbfiles = fnmatch.filter(os.listdir(path), '*.db')
-        self.log.debug('Loading databases from %s' % path)
-        self.log.debug('Database files: %s' % map(str, dbfiles))
-        self.dbs = readDBFromFile(actioncore.mln, map(lambda s: os.path.join(path, s), dbfiles))
-        
-        actioncore.known_concepts = set()
-        for d in self.dbs:
-            actioncore.known_concepts.update(d.domains['sense'])
-            # load the super-concepts into the database
-            for s in d.query('is_a(?s, ?c)'):
-                superconcepts = set()
-                if s['?c'] == 'NULL': continue
-                for path in wn.synset(s['?c']).hypernym_paths():
-                    superconcepts.update(map(lambda x: x.name, path))
-                superconcepts.difference_update(actioncore.known_concepts)
-                for c in superconcepts:
-                    d.addGroundAtom('is_a(%s,%s)' % (s['?s'], c))
-        print actioncore.known_concepts
+    def __init__(self, prac):
+        self.prac = prac
+        self.log = logging.getLogger('PRACLearning')
+        self.modules = []
+        self.actioncores = []
                 
     def run(self):
-        self.actioncore.learnedMLN = self.actioncore.mln.duplicate()
-        for f_templ in self.actioncore.formula_templates:
-            self.actioncore.learnedMLN.addFormula(f_templ, hard=f_templ.isHard)
-        self.actioncore.learnedMLN.learnWeights(self.dbs)
+        
+        for module_name in self.modules:
+            self.log.info('Performing training on module "%s"' % module_name)
+            module = self.prac.getModuleByName(module_name)
+            module.train(self)
     

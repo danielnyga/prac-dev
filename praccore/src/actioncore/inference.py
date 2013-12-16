@@ -21,240 +21,237 @@
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-from actioncore.features import FeatureManager, Syntax, WordSenses, MissingRoles
-from pracmln.PRACDatabase import PRACDatabase
-from wcsp.converter import WCSPConverter
+# from actioncore.features import FeatureManager, Syntax, WordSenses, MissingRoles
 from pracutils import bash, bold, StopWatch
-from logic.grammar import parseFormula
-from actioncore import PRAC, PRACReasoner, PRACPIPE
-from nltk.corpus import wordnet as wn
-from linguistics.parsing import Parser
+# from actioncore import PRAC, PRACReasoner, PRACPIPE
+# from nltk.corpus import wordnet as wn
+# from linguistics.parsing import Parser
 #from linguistics.verbalizer import PRACVerbalizer
 #from linguistics import NLISentence
-from linguistics import HRIDialog
+# from linguistics import HRIDialog
 import os
 import re
 import math
 import operator
-from graph.graph import Graph, Node, Link
-from wcsp.converter import WCSPConverter
+# from graph.graph import Graph, Node, Link
+# from wcsp.converter import WCSPConverter
 
-class PRACInit(PRACReasoner):
-    
-    def __init__(self, actioncore):
-#         super(PRACInit, self).__init__('init')
-        PRACReasoner.__init__(self, 'init')
-        self.prac = PRAC()
-        self.actioncore = self.prac.action_cores[actioncore]
-    
-    @PRACPIPE
-    def run(self):
-        watch = self.pracinference.watch
-        actioncore = self.actioncore
-        self.pracinference.actioncore = actioncore
-        mln = actioncore.learnedMLN.duplicate()
-        self.pracinference.mlns['pracinit'] = mln
-        
-        # generate the feature extractors 
-        features = self.pracinference.features
+# class PRACInit(PRACReasoner):
+#     
+#     def __init__(self, actioncore):
+# #         super(PRACInit, self).__init__('init')
+#         PRACReasoner.__init__(self, 'init')
+#         self.prac = PRAC()
+#         self.actioncore = self.prac.action_cores[actioncore]
+#     
+#     @PRACPIPE
+#     def run(self):
+#         watch = self.pracinference.watch
+#         actioncore = self.actioncore
+#         self.pracinference.actioncore = actioncore
+#         mln = actioncore.learnedMLN.duplicate()
+#         self.pracinference.mlns['pracinit'] = mln
+#         
+#         # generate the feature extractors 
+#         features = self.pracinference.features
+# 
+#         synParser = Syntax(features)
+#         features.add(synParser)
+#         features.add(WordSenses(features))
+#         
+#         # feed evidence into the database
+#         db = PRACDatabase(mln)
+#         self.pracinference.databases['core'] = db
+#         feat = []
+#         feat.append(features.get('syntax'))
+#         feat.append(features.get('wordsenses'))
+#         for f in feat:
+# #            print "PRINTING F" + f
+#             f.run(self.pracinference)
+# 
+# #        print 
+# #        print bash.BOLD + 'Evidence' + bash.END
+# #        for e in sorted(db.evidence):
+# #            print e
+# #        
+#         queryPreds = ['has_sense', 'action_role']
+#         for pred in mln.predicates:
+#             if not pred in queryPreds:
+#                 mln.closedWorldPreds.append(pred)
+# 
+#         # ground the MRF        
+#         watch.tag('MRF Construction')
+#         mrf = mln.groundMRF(db, simplify=True, method='DefaultGroundingFactory')
+#         mln.mrf = mrf
+# #        
+# #        ##############################################
+# #        # start experimental code
+# #        ##############################################
+# #        
+# #         bnb = BranchAndBound(mrf)
+# #         bnb.search()
+# #         for s in bnb.best_solution:
+# #             print s, ':', bnb.best_solution[s]
+# #         exit(0)
+# #        ##############################################
+# #        # start experimental code
+# #        ##############################################
+#         
+#         
+#         # convert to WCSP
+#         watch.tag('WCSP Construction & Inference')
+#         conv = WCSPConverter(mrf)
+# 
+#         resultDB = PRACDatabase(mln, db=conv.getMostProbableWorldDB())
+#         self.pracinference.databases['core'] = resultDB
+#         
+#         
+#         print 
+#         print bash.BOLD + 'Syntactic Parser Features:' + bash.END
+#         print 
+#         for f in synParser.deps:
+#             print f
+#         
+#         print
+#         print bash.BOLD + 'Word Sense Disambiguation' + bash.END
+#         print bash.BOLD + '=========================' + bash.END
+#         for s in resultDB.query('has_sense(?w, ?s) ^ !is_a(?s, NULL)'):
+#             print bash.BOLD + s['?w'] + bash.END
+#             feature = features.get('wordsenses')
+#             senses = feature.words2senses[s['?w']]
+#             tick = senses.index(s['?s'])
+#             printWordSenses(map(lambda x: feature.senses2concepts[x], senses), tick)
+#             print
+#         print
+#         print
+#         print bash.BOLD + 'Action Role Assignment' + bash.END
+#         print bash.BOLD + '======================' + bash.END
+#         print
+#         print bash.BOLD + 'Action Core:' + bash.END + ' ' + actioncore.name
+#         print bash.BOLD + 'Roles:' + bash.END
+#         printRoles(resultDB, actioncore)
+#         print
+#         watch.finish()
+#         watch.printSteps()
+#         print
+#         
+#     @PRACPIPE    
+#     def __call__(self, *args):
+#         self.pracinference = PRACInference(self.prac)
+#         self.pracinference.sentence = args[0]
+#         self.run()
+#         
+#     def getWordSenses(self, world):
+#         """Return the word senses as a dictionary."""
+# 
+#         result = dict()
+#         feature = self.features.get('wordsenses')        
+#         for i, word in enumerate(self.database.domains['word']):
+#             senseAtoms = feature.senseAtoms.get(word, None)
+#             result[word] = dict()
+#             if senseAtoms is None:
+#                 result[word]['sense'] = 'NULL'
+#                 continue
+#             for senseAtom in senseAtoms:
+#                 tick = world[self.mrf.gndAtoms[senseAtom].idx]
+#                 if tick: result[word]['sense'] = re.findall(r"[^(),]+",
+#                         senseAtom)[2]
+#         return result
+#     
+#     
+# 
+# class ActionCores(PRACReasoner):
+#     
+#     @PRACPIPE
+#     def run(self):
+#         pass
 
-        synParser = Syntax(features)
-        features.add(synParser)
-        features.add(WordSenses(features))
-        
-        # feed evidence into the database
-        db = PRACDatabase(mln)
-        self.pracinference.databases['core'] = db
-        feat = []
-        feat.append(features.get('syntax'))
-        feat.append(features.get('wordsenses'))
-        for f in feat:
-#            print "PRINTING F" + f
-            f.run(self.pracinference)
-
-#        print 
-#        print bash.BOLD + 'Evidence' + bash.END
-#        for e in sorted(db.evidence):
-#            print e
-#        
-        queryPreds = ['has_sense', 'action_role']
-        for pred in mln.predicates:
-            if not pred in queryPreds:
-                mln.closedWorldPreds.append(pred)
-
-        # ground the MRF        
-        watch.tag('MRF Construction')
-        mrf = mln.groundMRF(db, simplify=True, method='DefaultGroundingFactory')
-        mln.mrf = mrf
-#        
-#        ##############################################
-#        # start experimental code
-#        ##############################################
-#        
-#         bnb = BranchAndBound(mrf)
-#         bnb.search()
-#         for s in bnb.best_solution:
-#             print s, ':', bnb.best_solution[s]
-#         exit(0)
-#        ##############################################
-#        # start experimental code
-#        ##############################################
-        
-        
-        # convert to WCSP
-        watch.tag('WCSP Construction & Inference')
-        conv = WCSPConverter(mrf)
-
-        resultDB = PRACDatabase(mln, db=conv.getMostProbableWorldDB())
-        self.pracinference.databases['core'] = resultDB
-        
-        
-        print 
-        print bash.BOLD + 'Syntactic Parser Features:' + bash.END
-        print 
-        for f in synParser.deps:
-            print f
-        
-        print
-        print bash.BOLD + 'Word Sense Disambiguation' + bash.END
-        print bash.BOLD + '=========================' + bash.END
-        for s in resultDB.query('has_sense(?w, ?s) ^ !is_a(?s, NULL)'):
-            print bash.BOLD + s['?w'] + bash.END
-            feature = features.get('wordsenses')
-            senses = feature.words2senses[s['?w']]
-            tick = senses.index(s['?s'])
-            printWordSenses(map(lambda x: feature.senses2concepts[x], senses), tick)
-            print
-        print
-        print
-        print bash.BOLD + 'Action Role Assignment' + bash.END
-        print bash.BOLD + '======================' + bash.END
-        print
-        print bash.BOLD + 'Action Core:' + bash.END + ' ' + actioncore.name
-        print bash.BOLD + 'Roles:' + bash.END
-        printRoles(resultDB, actioncore)
-        print
-        watch.finish()
-        watch.printSteps()
-        print
-        
-    @PRACPIPE    
-    def __call__(self, *args):
-        self.pracinference = PRACInference(self.prac)
-        self.pracinference.sentence = args[0]
-        self.run()
-        
-    def getWordSenses(self, world):
-        """Return the word senses as a dictionary."""
-
-        result = dict()
-        feature = self.features.get('wordsenses')        
-        for i, word in enumerate(self.database.domains['word']):
-            senseAtoms = feature.senseAtoms.get(word, None)
-            result[word] = dict()
-            if senseAtoms is None:
-                result[word]['sense'] = 'NULL'
-                continue
-            for senseAtom in senseAtoms:
-                tick = world[self.mrf.gndAtoms[senseAtom].idx]
-                if tick: result[word]['sense'] = re.findall(r"[^(),]+",
-                        senseAtom)[2]
-        return result
-    
-    
-
-class ActionCores(PRACReasoner):
-    
-    @PRACPIPE
-    def run(self):
-        pass
-
-class ActionRoles(PRACReasoner):
-    
-    @PRACPIPE
-    def run(self):
-        infer = self.pracinference
-        features = infer.features
-        features.add(MissingRoles(features))
-        
-        watch = infer.watch
-        prac = infer.prac
-        watch.reset()
-        watch.tag('Inferring missing roles')
-        actioncore = infer.actioncore
-        
-        mln = actioncore.learnedMLN.duplicate()
-        db = PRACDatabase(mln)
-        infer.mlns['missingroles'] = mln
-        infer.databases['missingroles'] = db
-        
-        feature = features.get('missingroles')
-        feature.run(infer)
-        
-        print 
-        
-        print bash.BOLD + 'Instruction Completion' + bash.END
-        print bash.BOLD + '======================' + bash.END
-
-        print
-        print bash.BOLD + 'Missing Roles:' + bash.END
-        for role in feature.missingRoles:
-            print '    ' + bash.BOLD + bash.RED + role + bash.END, '--', actioncore.action_roles[role].definition
-        print
-        if len(feature.missingRoles) == 0:
-            print '    none'
-        queryPreds = ['has_sense', 'has_pos']
-        for pred in mln.predicates:
-            if not pred in queryPreds:
-                mln.closedWorldPreds.append(pred)
-        
-        mrf = mln.groundMRF(db)
-        converter = WCSPConverter(mrf)
-        
-#         resultDB = PRACDatabase(mln, db=converter.getMostProbableWorldDB())
-#         infer.databases['missingroles'] = resultDB
-        
-        self.pracinference.role_distribution = {}
-        self.pracinference.inferredMissingRoles = {}
-        for role in feature.missingRoles:
-            for concept in actioncore.known_concepts: break
-            self.pracinference.role_distribution[role] = converter.getPseudoDistributionForGndAtom('has_sense(%s,%s)' % (role, concept))
-            sortedList = sorted([(str(l.params[1]),v) for l, v in self.pracinference.role_distribution[role].iteritems()], key=operator.itemgetter(1), reverse=True)
-            printDistribution(sortedList)
-            infer.databases['missingroles'].addGroundAtom('action_role(%s,%s)' % (role, role))
-            infer.databases['missingroles'].addGroundAtom('has_sense(%s,%s)' % (role, sortedList[0][0]))
-            infer.databases['missingroles'].addGroundAtom('is_a(%s,%s)' % (sortedList[0][0], sortedList[0][0]))
-            for c in feature.sense2concepts[sortedList[0][0]]:
-                infer.databases['missingroles'].addGroundAtom('is_a(%s,%s)' % (sortedList[0][0], c))
-                
-            self.pracinference.inferredMissingRoles[role] = sortedList[0][0]
-            print 
-            print 'Most likely %s: ' % (role) + bash.OKGREEN + bash.BOLD + sortedList[0][0] + bash.END
-            print
-            print
-            
-                
-        
-#        for atom, prob in dist.iteritems():
-#            print str(atom) + '\t' + str(prob)
-        print
-        print
-        print bold('Instruction completed.')
-        print
-        print 
-        
-class PRACResult(PRACReasoner):
-    
-    def __init__(self):
-#         super(PRACResult, self).__init__('result')
-        PRACReasoner.__init__(self, 'result')
-    
-    @PRACPIPE
-    def run(self):
-        pass
-
-actioncores = ActionCores('actioncores')
-actionroles = ActionRoles('actionroles')
+# class ActionRoles(PRACReasoner):
+#     
+#     @PRACPIPE
+#     def run(self):
+#         infer = self.pracinference
+#         features = infer.features
+#         features.add(MissingRoles(features))
+#         
+#         watch = infer.watch
+#         prac = infer.prac
+#         watch.reset()
+#         watch.tag('Inferring missing roles')
+#         actioncore = infer.actioncore
+#         
+#         mln = actioncore.learnedMLN.duplicate()
+#         db = PRACDatabase(mln)
+#         infer.mlns['missingroles'] = mln
+#         infer.databases['missingroles'] = db
+#         
+#         feature = features.get('missingroles')
+#         feature.run(infer)
+#         
+#         print 
+#         
+#         print bash.BOLD + 'Instruction Completion' + bash.END
+#         print bash.BOLD + '======================' + bash.END
+# 
+#         print
+#         print bash.BOLD + 'Missing Roles:' + bash.END
+#         for role in feature.missingRoles:
+#             print '    ' + bash.BOLD + bash.RED + role + bash.END, '--', actioncore.action_roles[role].definition
+#         print
+#         if len(feature.missingRoles) == 0:
+#             print '    none'
+#         queryPreds = ['has_sense', 'has_pos']
+#         for pred in mln.predicates:
+#             if not pred in queryPreds:
+#                 mln.closedWorldPreds.append(pred)
+#         
+#         mrf = mln.groundMRF(db)
+#         converter = WCSPConverter(mrf)
+#         
+# #         resultDB = PRACDatabase(mln, db=converter.getMostProbableWorldDB())
+# #         infer.databases['missingroles'] = resultDB
+#         
+#         self.pracinference.role_distribution = {}
+#         self.pracinference.inferredMissingRoles = {}
+#         for role in feature.missingRoles:
+#             for concept in actioncore.known_concepts: break
+#             self.pracinference.role_distribution[role] = converter.getPseudoDistributionForGndAtom('has_sense(%s,%s)' % (role, concept))
+#             sortedList = sorted([(str(l.params[1]),v) for l, v in self.pracinference.role_distribution[role].iteritems()], key=operator.itemgetter(1), reverse=True)
+#             printDistribution(sortedList)
+#             infer.databases['missingroles'].addGroundAtom('action_role(%s,%s)' % (role, role))
+#             infer.databases['missingroles'].addGroundAtom('has_sense(%s,%s)' % (role, sortedList[0][0]))
+#             infer.databases['missingroles'].addGroundAtom('is_a(%s,%s)' % (sortedList[0][0], sortedList[0][0]))
+#             for c in feature.sense2concepts[sortedList[0][0]]:
+#                 infer.databases['missingroles'].addGroundAtom('is_a(%s,%s)' % (sortedList[0][0], c))
+#                 
+#             self.pracinference.inferredMissingRoles[role] = sortedList[0][0]
+#             print 
+#             print 'Most likely %s: ' % (role) + bash.OKGREEN + bash.BOLD + sortedList[0][0] + bash.END
+#             print
+#             print
+#             
+#                 
+#         
+# #        for atom, prob in dist.iteritems():
+# #            print str(atom) + '\t' + str(prob)
+#         print
+#         print
+#         print bold('Instruction completed.')
+#         print
+#         print 
+#         
+# class PRACResult(PRACReasoner):
+#     
+#     def __init__(self):
+# #         super(PRACResult, self).__init__('result')
+#         PRACReasoner.__init__(self, 'result')
+#     
+#     @PRACPIPE
+#     def run(self):
+#         pass
+# 
+# actioncores = ActionCores('actioncores')
+# actionroles = ActionRoles('actionroles')
 
 
 class PRACInferenceStep(object):

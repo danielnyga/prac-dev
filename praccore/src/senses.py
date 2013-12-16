@@ -4,8 +4,11 @@ Created on Dec 4, 2012
 @author: nyga
 '''
 from nltk.corpus import wordnet as wn
-from utils import bash
 import sys
+import nltk
+import os
+
+nltk.data.path = [os.path.join('.', 'data', 'nltk_data')]
 
 if __name__ == '__main__':
     args = sys.argv[1:]
@@ -21,7 +24,7 @@ if __name__ == '__main__':
     if len(args) == 3 and args[0] == 'all':
         synsets = wn.synsets(args[1], args[2])
         for s in synsets:
-            print bash.BOLD + s.name + bash.ENDC + ": " + s.definition + ' (' + ';'.join(s.examples) + ')'
+            print  s.name + ": " + s.definition + ' (' + ';'.join(s.examples) + ')'
         print
     
     

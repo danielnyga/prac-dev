@@ -22,13 +22,13 @@
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 import sys
-import java
-from actioncore import PRAC
-from actioncore.inference import *
 from optparse import OptionParser
-import linguistics
-from linguistics.verbalizer import *
-from linguistics.integrator import *
+from prac.core import PRAC
+import logging
+from actioncore.inference import PRACInference
+# import linguistics
+# from linguistics.verbalizer import *
+# from linguistics.integrator import *
 
 if __name__ == '__main__':
     
@@ -37,25 +37,36 @@ if __name__ == '__main__':
     parser.add_option('-m', '--map', dest='semanticMap')
     (options, args) = parser.parse_args()
     
-    if not (len(sys.argv) == 4 or len(sys.argv) == 3):
-        print 'Usage: pracinfer <action core name> <sentence> <reply (optional)>\nExample: $pracinfer Flipping "Flip the pancake." "with the spatula"'
-        exit(1)
-    else: 
-        java.startJvm()
-        sentence = sys.argv[2]
-        intReply = False
-        if len(sys.argv) == 4:
-            intReply = True
-            reply = sys.argv[3]
-
-        print 'Running PRAC inference on sentence "%s"' % sentence
-        pracinit = PRACInit(sys.argv[1])
-        result = PRACResult()
-#         verbalizer = PRACVerbalizer()
-#         integrator = PRACIntegrator()
-        pracinit(sentence) >> actionroles >> result# >> verbalizer >> integrator
+#     if not (len(sys.argv) == 4 or len(sys.argv) == 3):
+#         print 'Usage: pracinfer <action core name> <sentence> <reply (optional)>\nExample: $pracinfer Flipping "Flip the pancake." "with the spatula"'
+#         exit(1)
+#     else:        
+    log = logging.getLogger()
+    log.setLevel(logging.INFO)
+    prac = PRAC()
+    infer = PRACInference(prac, sys.argv[1:])
+    for arg in sys.argv[1:]:
+        log.info(arg)
+        prac.infer('nl_parsing', infer)
+        prac.infer('wn_senses', infer)
+        prac.infer('ac_recognition', infer)
+        prac.infer('senses_and_roles', infer)
         
-        java.shutdownJvm()
-        
-        exit(0)
+#         java.startJvm()
+#         sentence = sys.argv[2]
+#         intReply = False
+#         if len(sys.argv) == 4:
+#             intReply = True
+#             reply = sys.argv[3]
+# 
+#         print 'Running PRAC inference on sentence "%s"' % sentence
+#         pracinit = PRACInit(sys.argv[1])
+#         result = PRACResult()
+# #         verbalizer = PRACVerbalizer()
+# #         integrator = PRACIntegrator()
+#         pracinit(sentence) >> actionroles >> result# >> verbalizer >> integrator
+#         
+#         java.shutdownJvm()
+#         
+#         exit(0)
             

@@ -1,6 +1,6 @@
 # PROBABILISTIC ROBOT ACTION CORES 
 #
-# (C) 2012 by Daniel Nyga (nyga@cs.tum.edu)
+# (C) 2012-2013 by Daniel Nyga (nyga@cs.tum.edu)
 #
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
@@ -27,17 +27,18 @@ import nltk.data
 from string import whitespace, strip
 import time
 import datetime
-import pickle
+import dill as pickle
 import sys
 from actioncore.inference import PRACInference, PRACInferenceStep
+import fnmatch
 nltk.data.path = [os.path.join('.', 'data', 'nltk_data')]
 
-from mln.MarkovLogicNetwork import readMLNFromFile
+from mln import readMLNFromFile
 import yaml
-from logic.grammar import parseFormula
-from mln.util import strFormula
 import logging
 import praclog
+
+logging.getLogger('dill').setLevel(logging.WARNING)
 
 # core_definitions = os.path.join('models', 'core.yaml')
 # action_cores_path = os.path.join('models', 'actioncores.yaml')
@@ -54,29 +55,70 @@ class PRAC(object):
     log = logging.getLogger('PRAC')
     
     def __init__(self):
-        self.modules = []
-        self.moduleByName = {}
+        # read all the manifest files.
+        self.moduleManifests = []
+        self.moduleManifestByName = {}
         for module_path in os.listdir(prac_module_path):
-            module_filename = os.path.join(prac_module_path, module_path, 'pracmodule.yaml')
-            if not os.path.exists(module_filename):
-                PRAC.log.warning('No module definition in path "%s".' % module_path)
+            manifest_file_name = os.path.join(prac_module_path, module_path, 'pracmodule.yaml')
+            if not os.path.exists(manifest_file_name):
+                PRAC.log.warning('No module manifest file in path "%s".' % module_path)
                 continue
-            module_file = open(module_filename, 'r')
+            manifest_file = open(manifest_file_name, 'r')
             d = os.path.abspath(os.path.join(prac_module_path, module_path, 'src'))
             sys.path.append(d)
-            module = PRACModule.fromDefinition(module_file, self)
-            self.modules.append(module)
-            self.moduleByName[module.name] = module
-            PRAC.log.info('Read module definition "%s".' % module.name)
-            
+            module = PRACModuleManifest.read(manifest_file, self)
+            self.moduleManifests.append(module)
+            self.moduleManifestByName[module.name] = module
+            PRAC.log.info('Read manifest file for module "%s".' % module.name)
+        self.moduleByName = {}
+        self.modules = []
+        #TODO: replace this by real action core definitions
+        self.action_cores = ['Flipping', 'Filling', 'BeingLocated']
+        self.microtheories = self.action_cores
+    
+    def getModuleByName(self, modulename):
+        '''
+        Returns a loaded and initialized module given by the module name.
+        '''
+        if not modulename in self.moduleManifestByName:
+            raise Exception('No such module: %s' % modulename)
+        # lazily load the module
+        if not modulename in self.moduleByName:
+            module = PRACModule.fromManifest(self.moduleManifestByName[modulename], self)
+            module.initialize()
+            self.moduleByName[modulename] = module
+        return self.moduleByName[modulename]
+        
+    def getActionCoreTrainingDBs(self, actioncore_name=None):
+        '''
+        Returns the list of training database file names associated to the
+        given action core. Returns all training databases if actioncore_name is None.
+        '''
+        if actioncore_name is None:
+            dbfiles = []
+            for root, folder, files in os.walk('models'):
+                dbfiles.extend(map(lambda x: os.path.join(root, x), fnmatch.filter(files, '*.db')))
+            return dbfiles
+        else:
+            path = os.path.join('models', actioncore_name, 'db')
+            dbfiles = fnmatch.filter(os.listdir(path), '*.db')
+            dbfiles = map(lambda x: os.path.join(path, x), dbfiles)
+            return dbfiles
+    
     def infer(self, modulename, pracinference):
         '''
         Runs module with the given module name on the given PRACInference object.
         '''
-        if not modulename in self.moduleByName:
+        if not modulename in self.moduleManifestByName:
             raise Exception('No such module: %s' % modulename)
-        inferenceStep = self.moduleByName[modulename].run(pracinference)
-        if inferenceStep is None:
+        # lazily load the module
+        if not modulename in self.moduleByName:
+            module = PRACModule.fromManifest(self.moduleManifestByName[modulename], self)
+#             module.initialize()
+            self.moduleByName[modulename] = module
+        module = self.moduleByName[modulename]
+        inferenceStep = module.infer(pracinference)
+        if inferenceStep is None or type(inferenceStep) != PRACInferenceStep:
             PRAC.log.exception('%s.run() must return a PRACInferenceStep object.' % type(self.moduleByName[modulename]))
         pracinference.inference_steps.append(inferenceStep)
         steps = pracinference.module2infSteps.get(modulename, None)
@@ -85,35 +127,6 @@ class PRAC(object):
             pracinference.module2infSteps[modulename] = steps
         steps.append(inferenceStep)
 
-        
-    def write(self):
-        f = open(action_cores_probs, 'w+')
-        for ac in self.action_cores.values():
-            f.write('action_core: %s\n' % ac.name)
-            f.write('known_concepts: %s\n' % str(list(ac.known_concepts)))
-            f.write('weighted_formulas:\n')
-            if ac.mln is not None:
-                for formula in ac.learnedMLN.formulas:
-                    if not formula.isHard and abs(formula.weight) <= 1e-6:
-                        continue
-                    f.write('    - "%s": %f\n' % (strFormula(formula), formula.weight))
-            f.write('---\n')
-            
-    def write_spatial(self, actioncore):
-        f = open(action_cores_spat_probs, 'w+')
-        for ac in self.action_cores.values():
-            if ac.name == 'Filling' or ac.name == 'Flipping' :
-                f.write('action_core: %s\n' % ac.name)
-                f.write('known_concepts: %s\n' % str(list(ac.known_concepts)))
-                f.write('weighted_formulas:\n')
-                if ac.mln is not None:
-                    for formula in ac.learnedMLN_spatial.formulas:
-                        if not formula.isHard and abs(formula.weight) <= 1e-6:
-                            continue
-                        f.write('    - "%s": %f\n' % (strFormula(formula), formula.weight))
-                f.write('---\n')
-        
-            
 class ActionRole(object):
     '''
     Represents a deserialized action role.
@@ -204,37 +217,18 @@ def PRACPIPE(method):
         if not hasattr(self, '_initialized'):
             raise Exception('PRACModule subclasses must call their super constructor of PRACModule (%s)' % type(self))
         if not self._initialized:
-            self.initialized()
+            self.initialize()
             self._initialized = True
         return method(self,*args,**kwargs)
     return wrapper
 
-# class PRACReasoner(object):
-#     def __init__(self, name):
-#         self.name = name
-#     
-#     @PRACPIPE
-#     def run(self):
-#         '''
-#         Perform PRAC reasoning using this reasoner. Facts collected so far are stored 
-#         in the self.pracinference attribute. 
-#         '''    
-#         raise NotImplemented()
-#     
-#     def __rshift__(self, other):
-#         other.pracinference = self.pracinference
-#         return other.run()
-
-
-class PRACModule(object):
+class PRACModuleManifest(object):
     '''
-    Base class for all PRAC reasoning modules. Provides 
-    some basic functionality for serializing, deserializing
-    and running PRAC modules. Every PRAC module must subclass this.
-    
-    Attribute you might want to use in your subclasses:
+    Represents a PRAC module manifest description usually
+    stored in a pracmodule.yaml file.
+    Members:
     - name:    the name of the module
-    - description; the natural-language description of what this module does 
+    - description: the natural-language description of what this module does 
     - module_path: the path where the module is located (for loading local files)
     - is_universal: (bool) if this module is universal of if there is an 
                            individual module for each action core.
@@ -242,6 +236,7 @@ class PRACModule(object):
     '''
     
     
+    # YAML tags
     NAME = 'module_name'
     DESCRIPTION = 'description'
     UNIVERSAL = 'is_universal'
@@ -249,13 +244,55 @@ class PRACModule(object):
     MAIN_CLASS = 'class_name'
     TRAINABLE = 'trainable'
     
-    def __init__(self, prac_instance):
-        self.prac = prac_instance
+    @staticmethod
+    def read(stream, prac):
+        '''
+        Read a PRAC module manifest (yaml) file and return
+        a respective PRACModuleDefinition object.
+        '''
+        yamlData = yaml.load(stream)
+        manifest = PRACModuleManifest()
+        (manifest.modulename, manifest.classname) = yamlData[PRACModuleManifest.MAIN_CLASS].split('.')
+        manifest.name = yamlData[PRACModuleManifest.NAME]
+        manifest.module_path = os.path.join(prac_module_path, manifest.name)
+        manifest.description = yamlData[PRACModuleManifest.DESCRIPTION]
+        manifest.is_universal = yamlData.get(PRACModuleManifest.UNIVERSAL, False)
+        manifest.depends_on = yamlData.get(PRACModuleManifest.DEPENDENCIES, [])
+        manifest.is_trainable = yamlData.get(PRACModuleManifest.TRAINABLE, False)
+        return manifest
+
+class PRACKnowledgeBase(object):
+    '''
+    Base class for PRAC microtheroies. Every subclass must ensure
+    that it is pickleable.
+    '''
+    
+    def __init__(self, module, name):
+        self.module = module
+        self.name = name
+    
+    def __getstate__(self):
+        odict = self.__dict__.copy()
+        del odict['module']
+        return odict
+    
+    def __setstate__(self, d):
+        self.__dict__.update(d)
+        
+class PRACModule(object):
+    '''
+    Base class for all PRAC reasoning modules. Provides 
+    some basic functionality for serializing, deserializing
+    and running PRAC modules. Every PRAC module must subclass this.    
+    '''
+    
+    def __init__(self, prac):
+        self.prac = prac
         self._initialized = False
     
-    def initialized(self):
+    def initialize(self):
         '''
-        Called after the PRAC module has been loaded.
+        Called after the PRAC module has been loaded. 
         Every PRAC module can do some initialization stuff in here.
         The default implementation does nothing.
         '''
@@ -270,67 +307,58 @@ class PRACModule(object):
         pass
     
     @staticmethod
-    def fromDefinition(stream, prac):
+    def fromManifest(manifest, prac):
         '''
-        Read a PRAC module definition (yaml) file and return
-        an empty PRACModule object.
+        Loads a Module from a given manifest.
+        - manifest:    a PRACModuleManifest instance
         '''
-        yamlData = yaml.load(stream)
-        (modulename, classname) = yamlData[PRACModule.MAIN_CLASS].split('.')
+        modulename = manifest.modulename
+        classname = manifest.classname
         pymod = __import__(modulename)
         clazz = getattr(pymod, classname)
         module = clazz(prac)
-        module.name = yamlData[PRACModule.NAME]
-        module.module_path = os.path.join(prac_module_path, module.name)
-        module.description = yamlData[PRACModule.DESCRIPTION]
-        module.is_universal = yamlData.get(PRACModule.UNIVERSAL, False)
-        module.depends_on = yamlData.get(PRACModule.DEPENDENCIES, [])
-        module.is_trainable = yamlData.get(PRACModule.TRAINABLE, False)
+        module.manifest = manifest
+        module.module_path = manifest.module_path
+        module.name = manifest.name
         return module
     
-    def fromBinary(self, action_core_name=None):
+    def load_pracmt(self, mt_name):
         '''
-        Loads a pickled PRAC module for the given action core.
+        Loads a pickled PRAC microtheory for the given action core.
         If the specified action core name is None, the module must be universal
         and the pickled module is named after the modules name.
         '''
-        if action_core_name is None:
-            binaryFileName = '%s.prac' % self.name
-        else:
-            binaryFileName = '%s.prac' % action_core_name
-        return pickle.load(os.path.join(prac_module_path, self.name, 'bin', binaryFileName))
+        binaryFileName = '%s.prac' % mt_name
+        return pickle.load(open(os.path.join(prac_module_path, self.name, 'bin', binaryFileName), 'r'))
     
-    def __getstate__(self):
-        odict = self.__dict__.copy()
-        del odict[self.prac]
-        return odict
+    def save_pracmt(self, prac_mt):
+        '''
+        Pickles the state of the given microtheory in its binary folder.
+        - prac_mt:    instance of a PRACKnowledgeBase
+        '''
+        binaryFileName = '%s.prac' % prac_mt.name
+        binPath = os.path.join(prac_module_path, self.name, 'bin')
+        if not os.path.exists(binPath):
+            os.mkdir(binPath)
+        pickle.dump(prac_mt, open(os.path.join(prac_module_path, self.name, 'bin', binaryFileName), 'w+'))
     
-    def __setstate__(self, d):
-        self.__dict__.update(d)
-        
     @PRACPIPE
-    def run(self):
+    def infer(self, pracinference):
         '''
         Run this module. Facts collected so far are stored 
         in the self.pracinference attribute. 
         '''    
         raise NotImplemented()
     
-#     def __rshift__(self, other):
-#         '''
-#         Allows concatenated execution of multiple PRAC module in a series
-#         using the '>>' operator.
-#         '''
-#         other.pracinference = self.pracinference
-#         return other.run()
-
-# append all PRAC reasoning modules to the PYTHONPATH
-# for d in os.listdir(prac_module_path):
-#     try:
-#         if os.path.exists(os.path.join(d, 'pracmodule.yaml')):
-#             sys.path.append(os.path.join(d, 'src'))
-#     except: pass
-
+    @PRACPIPE
+    def train(self, praclearn):
+        '''
+        Run the learning process for this module.
+        - microtheories:    specifies the microtheories which are to be (re)learned.
+        '''
+        pass
+    
+ 
     
 if __name__ == '__main__':
     '''
@@ -338,7 +366,7 @@ if __name__ == '__main__':
     '''
     log = logging.getLogger('PRAC')
 #     ac = ActionCore.readFromFile('/home/nyga/code/prac/models/Flipping/actioncore.yaml')
-    prac = PRAC()   
+    prac = PRAC()
     infer = PRACInference(prac, ['Flip the pancake around.', 'Put on a plate.'])
     prac.infer('nl_parsing', infer)
     prac.infer('wn_senses', infer)

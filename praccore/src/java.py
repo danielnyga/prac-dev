@@ -5,6 +5,7 @@ Created on Apr 21, 2012
 '''
 import jpype
 import platform
+import logging
 
 arch = {'x86_64': 'amd64', 'i686': 'i386'}
 classpath = []
@@ -20,6 +21,8 @@ def startJvm():
     java_home += '/jre/lib/%s/libjava.so' % arch[machine_arch]   
     #print java_home
     #print 'classpath=', classpath
+    log = logging.getLogger('java')
+    log.debug(jpype.getDefaultJVMPath())
     jpype.startJVM(jpype.getDefaultJVMPath(), '-ea', '-Djava.class.path=%s' % (':'.join(classpath)))
     print 'starting JVM...'
 #    jpype.startJVM(java_home, '-ea', '-Djava.class.path=%s' % (':'.join(classpath)))

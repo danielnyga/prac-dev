@@ -23,21 +23,22 @@
 
 
 import sys
-import java
-from actioncore.features import FeatureManager, Syntax
-from actioncore import PRAC
+from prac.core import PRAC
+import logging
 
 if __name__ == '__main__':
     args = sys.argv[1:]
     
-    java.startJvm()
     
-    featureManager = FeatureManager(PRAC())
-    syntax = Syntax(featureManager)
-    syntax.run(None, args[0])
-    
-    for e in syntax.evidence:
-        print e
+    prac = PRAC()
+#     java.startJvm()
+    logging.getLogger().setLevel(logging.DEBUG)
+    parsing = prac.getModuleByName('nl_parsing')
+    parsing.initialize()
+    parser = parsing.stanford_parser
+    deps = parser.getDependencies(args[0])
+    for d in deps:
+        print d
         
-    java.shutdownJvm()
+#     java.shutdownJvm()
     
