@@ -1,5 +1,7 @@
 // "Flip the burgers over using barbecue tongs."
 
+action_core(Flipping)
+
 has_pos(Flip-1,VB)
 has_pos(the-2,DT)
 has_pos(burgers-3,NNS)

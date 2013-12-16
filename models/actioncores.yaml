@@ -76,23 +76,6 @@ formula_templates:
     - "dobj(?w1, ?w2) ^ prep_from(?w1, ?w3) ^ action_role(?w1, +?r1) ^ action_role(?w2, +?r2) ^ action_role(?w3, +?r3)"
     - "dobj(?w1, ?w2) ^ prep_with(?w1, ?w3) ^ action_role(?w1, +?r1) ^ action_role(?w2, +?r2) ^ action_role(?w3, +?r3)"
     - "dobj(?w1, ?w2) ^ prep_into(?w1, ?w3) ^ action_role(?w1, +?r1) ^ action_role(?w2, +?r2) ^ action_role(?w3, +?r3)"
-trajectory_templates:
-    # these formulas model the probabilities for spatial relations to still hold after a state transition
-    - "p_pointing_towards(?w1, ?w2) ^ s_pointing_towards(?w1, ?w2)"
-    - "p_next_to(?w1, ?w2) ^ s_next_to(?w1, ?w2)"
-    - "p_underneath(?w1, ?w2) ^ s_underneath(?w1, ?w2)"
-    - "p_orientation(?w1, ?w2, +?o1) ^ s_orientation(?w1, ?w2, +?o2)"
-    - "p_above(?w1, ?w2) ^ s_above(?w1, ?w2)" 
-    - "p_in_contact(?w1, ?w2) ^ s_in_contact(?w1, ?w2)"
-spatial_templates:
-    - "begin_state(YES) ^ contact(?w1, ?w2) ^ has_role(?w2, FixedLocation) => contact_next(?w1, ?w3) ^ has_role(?w3, Instrument)"
-    - "begin_state(YES) ^ contact(?w1, ?w2) ^ has_role(?w2, FixedLocation) => contact_next(?w1, ?w2) ^ has_role(?w1, Theme)"
-    - "begin_state(YES) ^ contact(?w1, ?w2) ^ has_role(?w2, FixedLocation) => !contact_next(?w1, ?w2) ^ has_role(?w1, Theme)"
-    - "contact(?w1, ?w2)  ^ !on(?w1, ?w2) => contact_next(?w1, ?w2) ^ has_role(?w2, Instrument)"
-    - "contact(?w1, ?w2)  ^  has_role(?w2, Instrument) => tilted_next(?w1) ^ has_role(?w1, Theme)"
-    - "contact(?w1, ?w2)  ^ tilted(?w1) ^ !on(?w1, ?w2) => on_next(?w1, ?w2)"
-    - "tilted(?w1) ^ !contact(?w1, ?w2) ^ has_role(?w2, Instrument) => contact_next(?w1, ?w3) ^ has_role(?w3, FixedLocation)"
-    - "!begin_state(YES) ^ contact(?w1, ?w2) ^ has_role(?w2, FixedLocation) => end_state(YES)"
 
 ---
 action_core: LocativeRelation
@@ -195,24 +178,6 @@ formula_templates:
     #- "dobj(?w1, ?w2) ^ prep_from(?w1, ?w3) ^ action_role(?w1, +?r1) ^ action_role(?w2, +?r2) ^ action_role(?w3, +?r3)"
     #- "dobj(?w1, ?w2) ^ prep_with(?w1, ?w3) ^ action_role(?w1, +?r1) ^ action_role(?w2, +?r2) ^ action_role(?w3, +?r3)"
     #- "dobj(?w1, ?w2) ^ prep_into(?w1, ?w3) ^ action_role(?w1, +?r1) ^ action_role(?w2, +?r2) ^ action_role(?w3, +?r3)"
-spatial_templates:
-    - "in(?w1, ?w2) ^ has_role(?w2, Goal)  ^ has_role(?w1, Theme) ^ in_next(?w1, ?w2)"
-    - "in(?w1, ?w2) ^ has_role(?w2, Source) ^ !tilted(?w2) ^ !over(?w2, ?w3) ^ has_role(?w3, Goal) => begin_state(YES)"
-    - "in(?w1, ?w2)  ^ begin_state(YES) ^ !tilted(?w2) ^ has_role(?w2, Source) => tilted_next(?w2)"
-    - "in(?w1, ?w2)  ^ begin_state(YES) ^ !over(?w2, ?w3) ^ has_role(?w2, Source) ^ has_role(?w3, Goal) => over_next(?w2, ?w3)"
-    - "in(?w1, ?w2)  ^ begin_state(YES)  ^ !tilted(?w2) ^ has_role(?w2, Source) => !tilted_next(?w2)"
-    - "in(?w1, ?w2)  ^ begin_state(YES) ^ !over(?w2, ?w3) ^ has_role(?w2, Source) ^ has_role(?w3, Goal) => !over_next(?w2, ?w3)" 
-    - "tilted(?w1) ^ has_role(?w1, Source) ^ in(?w3, ?w1) ^ has_role(?w2, Goal) => over_next(?w1, ?w2)"
-    - "over(?w1, ?w2)  ^ has_role(?w1, Source) ^ has_role(?w2, Goal) ^ in(?w3, ?w1) => tilted_next(?w1)"
-    - "over(?w1, ?w2) ^ tilted(?w1) ^ has_role(?w2, Goal)  ^ in_next(?w3, ?w2) ^ has_role(?w3, Theme)"
-    - "in(?w1, ?w2) ^ has_role(?w2, Source) ^ !in(?w1, ?w3) ^ has_role(?w3, Goal)  => in_next(?w1, ?w2)"
-    - "tilted(?w1) ^ has_role(?w1, Source) ^ in(?w3, ?w1) ^ has_role(?w2, Goal) => tilted_next(?w1)"  
-    - "over(?w1, ?w2)  ^ has_role(?w1, Source) ^ has_role(?w2, Goal) ^ in(?w3, ?w1) => over_next(?w1, ?w2)"
-    - "!in(?w1, ?w3) ^ tilted(?w3) ^ has_role(?w2, Goal) ^ has_role(?w3, Source) ^ in(?w1, ?w2) => !over_next(?w3, ?w2)"
-    - "!in(?w1, ?w3) ^ tilted(?w3) ^ has_role(?w2, Goal) ^ has_role(?w3, Source) ^ in(?w1, ?w2)=> over_next(?w3, ?w2)"
-    - "!in(?w1, ?w3) ^ over(?w3, ?w2) ^ has_role(?w2, Goal) ^ has_role(?w3, Source) ^ in(?w1, ?w2) => !tilted_next(?w3)"
-    - "!in(?w1, ?w3) ^ over(?w3, ?w2) ^ has_role(?w2, Goal) ^ has_role(?w3, Source) ^ in(?w1, ?w2) => tilted_next(?w3)"
-    - "in(?w3, ?w2) ^ !over(?w1, ?w2) ^ !tilted(?w1) ^ has_role(?w2, Goal) ^ has_role(?w1, Source) => end_state(YES)"
 ---
 action_core: Quantity
 definition: This frame contains nouns denoting Quantities of a specified Entity and their numerical Values. Note that the nouns in this frame DO NOT convey a gradable amount on thier own. 

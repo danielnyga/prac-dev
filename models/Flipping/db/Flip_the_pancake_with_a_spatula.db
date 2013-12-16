@@ -1,5 +1,7 @@
 // "Flip the pancake with a spatula."
 
+action_core(Flipping)
+
 has_pos(flip-1,VB)
 has_pos(the-2,DT)
 has_pos(pancake-3,NN)

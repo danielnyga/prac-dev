@@ -1,5 +1,6 @@
 // Milk can be found in the refrigerator.
 
+action_core(BeingLocated)
 
 has_pos(Milk-1,NN)
 has_pos(can-2,MD)
@@ -16,7 +17,8 @@ det(refrigerator-7, the-6)
 prep_in(found-4, refrigerator-7)
 
 has_sense(Milk-1, milk-1-sense)
-is_a(milk-1-sense, part.n.01)
+
+/* is_a(milk-1-sense, part.n.01)
 is_a(milk-1-sense, beverage.n.01)
 is_a(milk-1-sense, food.n.01)
 is_a(milk-1-sense, physical_entity.n.01)
@@ -29,17 +31,18 @@ is_a(milk-1-sense, matter.n.03)
 is_a(milk-1-sense, dairy_product.n.01)
 is_a(milk-1-sense, liquid.n.01)
 is_a(milk-1-sense, substance.n.07)
-is_a(milk-1-sense, substance.n.01)
+is_a(milk-1-sense, substance.n.01) */
 is_a(milk-1-sense, milk.n.01)
 
 has_sense(found-4, found-4-sense)
 is_a(found-4-sense, find.v.03)
-is_a(found-4-sense, get.v.01)
+
+// is_a(found-4-sense, get.v.01)
 
 has_sense(refrigerator-7, refrigerator-7-sense)
-is_a(refrigerator-7-sense, appliance.n.02)
-is_a(refrigerator-7-sense, physical_entity.n.01)
 is_a(refrigerator-7-sense, refrigerator.n.01)
+/* is_a(refrigerator-7-sense, appliance.n.02)
+is_a(refrigerator-7-sense, physical_entity.n.01)
 is_a(refrigerator-7-sense, home_appliance.n.01)
 is_a(refrigerator-7-sense, artifact.n.01)
 is_a(refrigerator-7-sense, entity.n.01)
@@ -48,7 +51,8 @@ is_a(refrigerator-7-sense, object.n.01)
 is_a(refrigerator-7-sense, durables.n.01)
 is_a(refrigerator-7-sense, white_goods.n.01)
 is_a(refrigerator-7-sense, commodity.n.01)
-is_a(refrigerator-7-sense, whole.n.02)
+is_a(refrigerator-7-sense, whole.n.02) */
+
 
 has_sense(can-2, Nullsense)
 has_sense(be-3, Nullsense)
