@@ -1,8 +1,0 @@
-instanceOf(ID_D2, SD2)
-
-isa(SD2,D)
-isa(SD2,B)
-isa(SD2,A)
-
-
-

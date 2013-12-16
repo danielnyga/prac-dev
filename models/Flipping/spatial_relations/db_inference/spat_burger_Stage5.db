@@ -1,7 +1,0 @@
-has_role(The,Null)
-has_role(Push,Null)
-has_role(Pan,FixedLocation)
-has_role(Burger,Theme)
-has_role(Spatula,Instrument)
-contact(Burger,Pan)
-end_state(YES)

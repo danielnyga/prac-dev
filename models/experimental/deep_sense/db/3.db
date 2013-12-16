@@ -1,5 +1,0 @@
-instanceOf(ID_F, SF)
-
-isa(SF,F)
-isa(SF,C)
-isa(SF,A)
