@@ -34,18 +34,22 @@ def parse_list(option, opt, value, parser):
 parser = OptionParser(usage=usage)
 parser.add_option('--mt', action='callback', type='string', callback=parse_list, dest='microtheories')
 parser.add_option('--module', action='callback', type='string', callback=parse_list, dest='modules')
+parser.add_option('--dbs', action='callback', type='string', callback=parse_list, dest='training_dbs')
 
 
 if __name__ == '__main__':
     (options, args) = parser.parse_args()
     prac = PRAC()
-    logging.getLogger().setLevel(logging.DEBUG)
+    logging.getLogger().setLevel(logging.INFO)
     praclearn = PRACLearning(prac)
     praclearn.microtheories = parser.values.microtheories
     praclearn.modules = parser.values.modules
     
     if praclearn.microtheories is None:
         praclearn.microtheories = prac.microtheories
+    if parser.values.training_dbs is not None:
+        dbnames = parser.values.training_dbs
+        praclearn.training_dbs = dbnames
     
     for m in praclearn.modules:
         module = prac.getModuleByName(m)
