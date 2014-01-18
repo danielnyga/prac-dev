@@ -45,24 +45,26 @@ class PRACWSD(PRACModule):
         inf_step = PRACInferenceStep(pracinference, self)
         mt = self.load_pracmt('wsd')
         mln = mt.learned_mln
+#         mln.addConstant('concept', 'NULL')
+#         mln.addConstant('sense', 'Nullsense')
         for input_db in pracinference.module2infSteps['wn_senses'][0].output_dbs:
-            evidence = Database(mln)
+            evidence = input_db.duplicate(mln)
 #             input_db.printEvidence()
-            for s in input_db.query('has_sense(?w, ?s) ^ is_a(?s, ?c)', truthThreshold=1):
-                if s['?s'] == 'Nullsense': continue
-                if not s['?c'] in mln.domains['concept'] or not s['?c'] in mt.wn.known_concepts: continue
-                is_a = 'is_a(%s,%s)' % (s['?s'], s['?c'])
-                has_sense = 'has_sense(%s,%s)' % (s['?w'], s['?s'])
-                if is_a in input_db.evidence:
-                    evidence.addGroundAtom(is_a, input_db.evidence[is_a])
-                if has_sense in input_db.evidence:
-                    evidence.addGroundAtom(has_sense, input_db.evidence[has_sense])
-            self.prac.getModuleByName('wn_senses').addPossibleWordSensesToDBs(evidence)
-            evidence.printEvidence()
+#             for s in input_db.query('has_sense(?w, ?s) ^ is_a(?s, ?c)', truthThreshold=1):
+#                 if s['?s'] == 'Nullsense': continue
+#                 if not s['?c'] in mln.domains['concept']: continue
+#                 is_a = 'is_a(%s,%s)' % (s['?s'], s['?c'])
+#                 has_sense = 'has_sense(%s,%s)' % (s['?w'], s['?s'])
+#                 if is_a in input_db.evidence:
+#                     evidence.addGroundAtom(is_a, input_db.evidence[is_a])
+#                 if has_sense in input_db.evidence:
+#                     evidence.addGroundAtom(has_sense, input_db.evidence[has_sense])
+# #             self.prac.getModuleByName('wn_senses').addPossibleWordSensesToDBs(evidence)
+#             evidence.printEvidence()
             inf_step.input_dbs.append(evidence)
             mrf = mln.groundMRF(evidence)
-            result = mrf.inferFuzzyMCSAT(['has_sense', 'action_role'], None)
-            result.writeResult(sys.stdout)
+            result = mrf.inferEnumerationAsk(['has_sense', 'action_role'], None,verbose=True,shortOutput=True)
+#             result.writeResult(sys.stdout)
         return inf_step
 
     
@@ -89,7 +91,7 @@ class WSD(PRACKnowledgeBase):
         queryPreds.remove('is_a')
         params = {}
         params['optimizer'] = 'bfgs'
-        params['gaussianPriorSigma'] = 2.
+        params['gaussianPriorSigma'] = 10.
         self.learned_mln = mln.learnWeights(training_dbs, ParameterLearningMeasures.BPLL_CG, **params)
         self.wn = WordNet(self.learned_mln.domains['concept'] + [])
         self.learned_mln.write(sys.stdout, color=True)

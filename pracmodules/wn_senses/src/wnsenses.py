@@ -69,7 +69,7 @@ class WNSenses(PRACModule):
                 sense = res['?sense']
                 concept = res['?concept']
                 for c in concepts:
-                    similarity = wordnet.wup_similarity(concept, c)
+                    similarity = wordnet.semilarity(concept, c)
                     log.info('%s ~ %s = %.2f' % (concept, c, similarity))
                     db.addGroundAtom('is_a(%s,%s)' % (sense, c), similarity)
         return dbs
@@ -82,12 +82,12 @@ class WNSenses(PRACModule):
         wordnet = WordNet()
         for db in dbs:
             word2senses = defaultdict(list)
-            db.addGroundAtom('is_a(Nullsense,NULL)')
+#             db.addGroundAtom('is_a(Nullsense,NULL)')
             for res in db.query('has_pos(?word,?pos)'):
                 word_const = res['?word']
                 pos = posMap.get(res['?pos'], None)
                 if pos is None:
-                    db.addGroundAtom('has_sense(%s,Nullsense)' % word_const)
+#                     db.addGroundAtom('has_sense(%s,Nullsense)' % word_const)
                     continue
                     #raise Exception('Invalid POS tag: %s' % res['?pos'])
                 word = word_const.split('-')[0]
@@ -96,8 +96,8 @@ class WNSenses(PRACModule):
                     word2senses[word_const].append(sense_id)
 #                     print db.mln.domains['concept']
                     for concept in db.mln.domains['concept']:
-                        logging.getLogger('wn').info('%s -- %s' % (concept, synset.name))
-                        sim = wordnet.wup_similarity(synset, concept)
+#                         logging.getLogger('wn').info('%s -- %s' % (concept, synset.name))
+                        sim = wordnet.semilarity(synset, concept)
                         db.addGroundAtom('is_a(%s,%s)' % (sense_id, concept), sim) 
             for word in word2senses:
                 for word2, senses in word2senses.iteritems():
@@ -119,17 +119,22 @@ class WNSenses(PRACModule):
                 database.addGroundAtom(gndLit, truth)
             
             # default sense is the NULL-sense
-            database.addGroundAtom('is_a(Nullsense, NULL)')
+#             database.addGroundAtom('is_a(Nullsense, NULL)')
             self.addPossibleWordSensesToDBs(database)
             inf_step.output_dbs.append(database)
         return inf_step
     
     @PRACPIPE
     def train(self, prac_learning):
+        
         training_dbs = []
-        for dbfile in self.prac.getActionCoreTrainingDBs():
-            db = readDBFromFile(self.decls_mln, dbfile, ignoreUnknownPredicates=True)
-            training_dbs.append(db)
+        if hasattr(prac_learning, 'training_dbs') and prac_learning.training_dbs is not None:
+            for dbfile in prac_learning.training_dbs:
+                training_dbs.extend(readDBFromFile(self.decls_mln, dbfile, ignoreUnknownPredicates=True))
+        else:
+            for dbfile in self.prac.getActionCoreTrainingDBs():
+                db = readDBFromFile(self.decls_mln, dbfile, ignoreUnknownPredicates=True)
+                training_dbs.append(db)
         mt = WordSensesMT(self, 'word_senses')
         mt.train(training_dbs)
         self.save_pracmt(mt)
