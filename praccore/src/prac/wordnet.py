@@ -54,6 +54,7 @@ class WordNet(object):
         if os.path.exists(self.subtree_cache_path):
             self.subtree_cache = pickle.load(open(self.subtree_cache_path, 'r'))
         else:
+            self.subtree_cache_path = os.path.join('.', 'wordnet.cache') 
             self.subtree_cache = {}
 
             
@@ -108,7 +109,10 @@ class WordNet(object):
         '''
         if not pos in NLTK_POS:
             logging.getLogger('WordNet').exception('Unknown POS tag: %s' % pos)
-        return wordnet.synsets(word, pos)
+        synsets = wordnet.synsets(word, pos)
+        if self.core_taxonomy is not None:
+            synsets = filter(lambda s: s.name in self.known_concepts, synsets)
+        return synsets
 
 
     def synset(self, synset_id):
@@ -191,6 +195,9 @@ class WordNet(object):
 
         synsets = set(s for synsets in self_hypernyms for s in synsets)
         others = set(s for synsets in other_hypernyms for s in synsets)
+        if self.core_taxonomy is not None:
+            synsets.intersection_update(map(lambda syn: wordnet.synset(syn), self.known_concepts))
+            others.intersection_update(map(lambda syn: wordnet.synset(syn), self.known_concepts))
         synsets.intersection_update(others)
 
         try:
@@ -217,7 +224,6 @@ class WordNet(object):
             return 0.
         if synset1 == synset2:
             return 1.0
-        print synset1, synset2
         h_r = self.get_subtree_height('entity.n.01')
         h_a = self.get_subtree_height(synset1)
         h_b = self.get_subtree_height(synset2)
@@ -235,7 +241,7 @@ class WordNet(object):
         if synset.name in self.subtree_cache:
             return self.subtree_cache[synset.name]
         else:
-            height = self.__get_subtree_height(synset)
+            height = self.__get_subtree_height(synset.name)
             self.subtree_cache[synset.name] = height
             f = open(self.subtree_cache_path, 'w+')
             pickle.dump(self.subtree_cache, f)
@@ -244,7 +250,9 @@ class WordNet(object):
         
         
     def __get_subtree_height(self, synset, current_height=0):
-        hypos = synset.hyponyms()
+        hypos = self.synset(synset).hyponyms()
+        if self.core_taxonomy is not None:
+            hypos = set(map(lambda s: s.name, hypos)).intersection(self.known_concepts)
         if len(hypos) == 0: # we have a leaf node
             return current_height
         children_heights = []
@@ -302,8 +310,8 @@ class WordNet(object):
             for kwn in known_concepts:
                 print '%.4f is_a(sense_%s, %s)' % (self.semilarity(unkwn, kwn), self.synset(unkwn).lemmas[0].name, kwn)
             print
-            
-    def asGraphML(self, stream):
+    
+    def asGraphML(self):
         '''
         Prints a GraphML string to the specified stream.
         '''
@@ -314,7 +322,7 @@ class WordNet(object):
         processed = {}
         for c in tax.traverse():
             if c.data in processed: continue
-            n_child = GMLNode(g, label=c.data, color=(.55,1,1), model='hsv')
+            n_child = GMLNode(g, label=c.data, color='#dddddd', model='rgb')
             for p in c.parents:
                 if not p.data in processed: 
                     n_parent = GMLNode(g, label=p.data)
@@ -323,13 +331,12 @@ class WordNet(object):
                 Edge(g, n_child, n_parent)
                 processed[p.data] = n_parent
             processed[c.data] = n_child
-        g.write(stream)
-            
+        return g
         
 
 if __name__ == '__main__':
-    known_concepts = ['glass.n.02', 'water.n.06', 'milk.n.01', 'bowl.n.01', 'cup.n.01']
-    unknown_concepts = ['mug.n.04', 'jar.n.01', 'tea.n.01', 'batter.n.02']
+    known_concepts = ['milk.n.01', 'bowl.n.01', 'bowl.n.04', 'cup.n.01', ]
+    unknown_concepts = ['mug.n.04', 'glass.n.02', 'tea.n.01', 'milk.n.01', 'cup.n.02']
     wn = WordNet(list(set(known_concepts + unknown_concepts)))
     wn.asGraphML(file('/home/nyga/tmp/wordnet.graphml', 'w+'))
     wn.get_mln_similarity_and_sense_assertions(known_concepts, unknown_concepts)
