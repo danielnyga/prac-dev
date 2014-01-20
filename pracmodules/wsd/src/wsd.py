@@ -77,6 +77,7 @@ class PRACWSD(PRACModule):
             db.printEvidence() 
         kb = WSD(self, 'wsd')
         kb.train(dbs)
+        kb.learned_mln.write(open(os.path.join(self.module_path, 'mln', 'learned.mln'), 'w+'))
         self.save_pracmt(kb)
         
 
@@ -91,7 +92,7 @@ class WSD(PRACKnowledgeBase):
         queryPreds.remove('is_a')
         params = {}
         params['optimizer'] = 'bfgs'
-        params['gaussianPriorSigma'] = 10.
+        params['gaussianPriorSigma'] = 5.
         self.learned_mln = mln.learnWeights(training_dbs, ParameterLearningMeasures.BPLL_CG, **params)
         self.wn = WordNet(self.learned_mln.domains['concept'] + [])
         self.learned_mln.write(sys.stdout, color=True)
