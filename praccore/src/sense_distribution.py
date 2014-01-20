@@ -45,7 +45,8 @@ def get_prob_color(p):
     Returns an HTML-hex string color value for the given probability
     between green (p=1.0) and red (p=0.0).
     ''' 
-    return to_html_hex(p / 3., 1., 1., 'hsv')
+    return to_html_hex(.3, p * .75, 1., 'hsv')
+#     return to_html_hex(p / 3., 1., 1., 'hsv')
 
 
 def add_word_evidence_complete(db, word, pos, wn):
@@ -58,10 +59,13 @@ def add_word_evidence_complete(db, word, pos, wn):
     If a word is is not contained in wordnet (ie. has no applicable sense)
     then it is ignored.
     '''
+    log = logging.getLogger()
+    log.setLevel(logging.INFO)
     # collect a complete list of concepts
     if pos is not None:
         if len(wn.synsets(word, pos)) == 0: return
     all_concepts = map(lambda c: wn.synset(c), wn.known_concepts)
+    log.info(all_concepts)
 #     mln_concepts = db.mln.domains['concept']
 #     for concept in mln_concepts:
 #         synset = wn.synset(concept)
@@ -96,9 +100,15 @@ def add_similarities(db, word, sense, concept, wn):
 if __name__ == '__main__':
     
     log = logging.getLogger(__name__)
-    sentence = 'fill batter with bowl.'
+    
+    
+    
+    sentence = 'add a bowl of sugar.'
+    
+    
+    
     log.setLevel(logging.DEBUG)
-    wn_concepts = ['batter.n.02', 'milk.n.01', 'water.n.06', 'cup.n.01', 'cup.n.02', 'glass.n.02', 'bowl.n.01', 'bowl.n.03', 'coffee.n.01', 'bowl.n.04']
+#     wn_concepts = ['batter.n.02', 'milk.n.01', 'water.n.06', 'cup.n.01', 'cup.n.02', 'glass.n.02', 'bowl.n.01', 'bowl.n.03', 'coffee.n.01', 'bowl.n.04']
     
     if not java.isJvmRunning():
             java.startJvm()
@@ -129,7 +139,7 @@ if __name__ == '__main__':
 
     # # # # # # # # # # # # # # # # # # # # # #
     # create a WordNet taxonomy
-    wn = WordNet(wn_concepts)
+    wn = WordNet()
     g = wn.asGraphML()
     inf_mln = readMLNFromFile(os.path.join('..', '..', 'pracmodules', 'wsd', 'mln', 'learned.mln'), logic='FuzzyLogic', grammar='PRACGrammar')
 #     mln.declarePredicate('is_a', ['sense', 'concept'])
@@ -143,12 +153,15 @@ if __name__ == '__main__':
     # add possible word senses
     word2senses = defaultdict(list)
     word2hypernyms = defaultdict(list)
-    ev_db.addGroundAtom('action_role(w1, Goal)')
-    ev_db.addGroundAtom('has_sense(w1, s1)')
-    add_similarities(ev_db, 'w1', 's1', wn.synset('bowl.n.01'), wn)
-    ev_db.addGroundAtom('action_role(w2, Theme)')
-    add_word_evidence_complete(ev_db, 'w2', None, wn)
+    ev_db.addGroundAtom('action_role(w1-cond, Goal)')
+#     ev_db.addGroundAtom('has_sense(w1-cond, s1)')
+#     add_similarities(ev_db, 'w1', 's1', wn.synset('bowl.n.01'), wn)
+    ev_db.addGroundAtom('action_role(w2-cond, Theme)')
+    add_word_evidence_complete(ev_db, 'w1-cond', None, wn)
+    add_word_evidence_complete(ev_db, 'w2-cond', None, wn)
+    
 #     for res in db.query('has_pos(?word,?pos)'):
+#         log.info('preparing query for %s' % str(res))
 #         word_const = res['?word']
 #         pos = posMap.get(res['?pos'], None)
 #         if pos is None:
@@ -157,9 +170,9 @@ if __name__ == '__main__':
 #         add_word_evidence_complete(ev_db, word, pos, wn)
 
 
-    ev_db.printEvidence()
+#     ev_db.printEvidence()
     mrf = inf_mln.groundMRF(ev_db, method='FastConjunctionGrounding')
-    result = mrf.inferEnumerationAsk(['has_sense', 'action_role'], None, shortOutput=True, useMultiCPU=True)
+    result = mrf.inferEnumerationAsk(['has_sense'], None, shortOutput=True, useMultiCPU=True)
     colors = {}
     for word in mrf.domains['word']:
         max_prob = 0
@@ -175,13 +188,13 @@ if __name__ == '__main__':
             colors[conceptname] = color
         for c, p in colors.iteritems():
             colors[c] = get_prob_color(p / float(max_prob))
-        print colors
+#         print colors
         for n in g.nodes:
             label = n.label
             if colors.get(label, None) is not None:
                 n.color = colors[label]
                 print n.label, colors[label]
-        print word
+#         print word
         g.write(open('%s.graphml' % word, 'w+'))
     
     
