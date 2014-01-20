@@ -25,7 +25,7 @@ import os
 from nltk.corpus import wordnet
 from pracutils.graph import DAG , Node
 import nltk
-import logging
+import logging 
 import pickle
 from itertools import chain
 from nltk.corpus.reader.wordnet import Synset
@@ -33,10 +33,27 @@ from utils.graphml import Graph, Node as GMLNode, Edge
 import sys
 # nltk.data.path = [os.path.join('data', 'nltk_data')]
 # wordnet_data_path = os.path.join('data', 'wordnet')
-nltk.data.path = [os.path.join('data', 'nltk_data')]
-wordnet_data_path = os.path.join('data', 'wordnet')
+# nltk.data.path = [os.path.join('data', 'nltk_data')]
+# wordnet_data_path = os.path.join('data', 'wordnet')
 
 NLTK_POS = ['n', 'v', 'a', 'r']
+
+
+known_concepts = ['batter.n.02', 
+                  'milk.n.01', 
+                  'water.n.06', 
+                  'cup.n.01', 
+                  'cup.n.02', 
+                  'glass.n.02', 
+                  'bowl.n.03', 
+                  'coffee.n.01', 
+                  'bowl.n.04',
+                  'spoon.n.01',
+                  'spoon.n.02',
+                  'sugar.n.01',
+                  'fill.v.01',
+                  'add.v.01',
+                  ]
 
 class WordNet(object):
     '''
@@ -45,17 +62,18 @@ class WordNet(object):
     concept taxonomy.
     '''
     
-    def __init__(self, concepts=None):
+    
+    def __init__(self, concepts=known_concepts):
         self.core_taxonomy = None
         if concepts is not None:
             self.initialize_taxonomy(concepts)
-        self.subtree_cache_path = os.path.join(wordnet_data_path, 'subtrees')
-        self.dirty_cache = False
-        if os.path.exists(self.subtree_cache_path):
-            self.subtree_cache = pickle.load(open(self.subtree_cache_path, 'r'))
-        else:
-            self.subtree_cache_path = os.path.join('.', 'wordnet.cache') 
-            self.subtree_cache = {}
+#         self.subtree_cache_path = os.path.join(wordnet_data_path, 'subtrees')
+#         self.dirty_cache = False
+#         if os.path.exists(self.subtree_cache_path):
+#             self.subtree_cache = pickle.load(open(self.subtree_cache_path, 'r'))
+#         else:
+#             self.subtree_cache_path = os.path.join('.', 'wordnet.cache') 
+#             self.subtree_cache = {}
 
             
     def initialize_taxonomy(self, concepts=None, collapse=True):
@@ -66,25 +84,40 @@ class WordNet(object):
         log = logging.getLogger('WordNet')
         entity_name = 'entity.n.01'
         self.core_taxonomy = DAG(root=Node(entity_name, entity_name))
-        self.known_concepts = [entity_name]
+        self.known_concepts = {entity_name: self.core_taxonomy.root}
         if concepts is None:
             self.core_taxonomy = None
         else:
-            for concept in concepts:
-                log.debug(concept)
-                if concept == 'NULL': continue
-                synset = wordnet.synset(concept)
-                paths = synset.hypernym_paths()
-                for path in paths:
-                    WordNet.__extend_taxonomy_graph(self.core_taxonomy.root, path[1:])
+            for direction in ('down', 'up'):
+                for concept in concepts:
+    #                 log.debug(concept)
+                    if concept == 'NULL': continue
+                    synset = wordnet.synset(concept)
+                    paths = synset.hypernym_paths()
+#                     log.warning(synset)
+                    for path in paths:
+#                         log.warning(path)
+                        if not path[0].name in self.known_concepts:
+                            if direction == 'up':
+                                self.known_concepts[path[-1].name] = Node(path[-1].name, path[-1].name)
+                            continue
+                        if direction == 'up':
+                            path = list(reversed(path))
+                        first = self.known_concepts[path[0].name]
+                        self.__extend_taxonomy_graph(first, path[1:], direction=direction)
+            log.warning(self.known_concepts)
             # collapse the taxonomy
+            if not collapse: return
             queue = list(self.core_taxonomy.root.children)
             while len(queue) > 0:
                 node = queue.pop()
                 if collapse:
-                    keepThisNode = len(node.children) == 0 or len(node.children) > 1
-                    keepThisNode |= len(node.parents) > 1 
-                    keepThisNode |= len(node.siblings()) >= 1
+                    # we keep the current node if it is a leaf or a fork (zero or more than one children)
+                    keepThisNode = not (len(node.children) == 1 and len(node.parents) == 1)
+#                     keepThisNode = len(node.children) == 0 or len(node.children) > 1
+                    # also keep it it inherits from more than one concepts
+#                     keepThisNode |= len(node.parents) > 1 
+#                     keepThisNode |= len(node.siblings()) >= 1
 #                     keepThisNode |= node.data in concepts
                     for c in node.children:
                         keepThisNode |= len(c.parents) > 1
@@ -95,12 +128,37 @@ class WordNet(object):
                         for c in node.children:
                             c.parents.remove(node)
                             c.parents.update(node.parents)
-                    else:
-                        self.known_concepts.append(node.data)
-                else:
-                    self.known_concepts.append(node.data)
+#                     else:
+#                         self.known_concepts(node.data)
+#                 else:
+#                     self.known_concepts.append(node.data)
                 queue.extend(node.children)
     
+    def __extend_taxonomy_graph(self, concept, synset_path, direction):
+        '''
+        Takes a node of the taxonomy graph and a hypernymy path
+        of a concept and extends the graph with the given path.
+        - concept:     (Node) concept node to be extended (the root in most cases)
+        - synset_path: a path as it is return by Synset.hypernym_paths(), for instance.
+        '''
+        log = logging.getLogger(__name__)
+        if len(synset_path) == 0:
+            return
+        synset = synset_path[0]
+        if synset.name not in self.known_concepts:
+            node = Node(synset.name, synset.name)
+            self.known_concepts[synset.name] = node
+        else:
+            node = self.known_concepts[synset.name]
+        if direction == 'down':
+            concept.addChild(node)
+        elif direction == 'up':
+            concept.addParent(node)
+        else:
+            raise Exception('Unkown direction: %s' % direction)
+        self.__extend_taxonomy_graph(node, synset_path[1:], direction)
+
+
     def synsets(self, word, pos):
         '''
         Returns the set of synsets from NLTK.
@@ -227,7 +285,11 @@ class WordNet(object):
         h_r = self.get_subtree_height('entity.n.01')
         h_a = self.get_subtree_height(synset1)
         h_b = self.get_subtree_height(synset2)
-        s = self.lowest_common_hypernyms(synset1, synset2, use_min_depth=True, simulate_root=True)[0]
+        s = self.lowest_common_hypernyms(synset1, synset2, use_min_depth=True, simulate_root=True)
+        if len(s) == 0:
+            return 0.
+        else:
+            s = s[0]
         if s.name is None: return 0.
         h_s = self.get_subtree_height(s)
         return (h_r - h_s) / (h_r - .5 * (h_a + h_b))
@@ -238,15 +300,15 @@ class WordNet(object):
         '''
         if type(synset) is str:
             synset = self.synset(synset)
-        if synset.name in self.subtree_cache:
-            return self.subtree_cache[synset.name]
-        else:
-            height = self.__get_subtree_height(synset.name)
-            self.subtree_cache[synset.name] = height
-            f = open(self.subtree_cache_path, 'w+')
-            pickle.dump(self.subtree_cache, f)
-            f.close()
-            return height
+#         if synset.name in self.subtree_cache:
+#             return self.subtree_cache[synset.name]
+        
+        height = self.__get_subtree_height(synset.name)
+#             self.subtree_cache[synset.name] = height
+#             f = open(self.subtree_cache_path, 'w+')
+#             pickle.dump(self.subtree_cache, f)
+#             f.close()
+        return height
         
         
     def __get_subtree_height(self, synset, current_height=0):
@@ -284,26 +346,6 @@ class WordNet(object):
         return paths
     
     
-    @staticmethod
-    def __extend_taxonomy_graph(concept, synset_path):
-        '''
-        Takes a node of the taxonomy graph and a hypernymy path
-        of a concept and extends the graph with the given path.
-        - concept:     (Node) concept node to be extended (the root in most cases)
-        - synset_path: a path as it is return by Synset.hypernym_paths(), for instance.
-        '''
-        if len(synset_path) == 0:
-            return
-        synset = synset_path[0]
-        hyponyms = synset_path[1:]
-        for hyponym_node in concept.children:
-            if hyponym_node.id == synset.name:
-                WordNet.__extend_taxonomy_graph(hyponym_node, hyponyms)
-                return
-        node = Node(synset.name, synset.name)
-        concept.addChild(node)
-        WordNet.__extend_taxonomy_graph(node, synset_path[1:])
-
     
     def get_mln_similarity_and_sense_assertions(self, known_concepts, unknown_concepts):
         for i, unkwn in enumerate(unknown_concepts):
@@ -315,31 +357,32 @@ class WordNet(object):
         '''
         Prints a GraphML string to the specified stream.
         '''
+        log = logging.getLogger(self.__class__.__name__)
         if self.core_taxonomy is None:
             raise Exception('Need a collapsed taxonomy')
         tax = self.core_taxonomy
         g = Graph()
         processed = {}
-        for c in tax.traverse():
-            if c.data in processed: continue
-            n_child = GMLNode(g, label=c.data, color='#dddddd', model='rgb')
-            for p in c.parents:
-                if not p.data in processed: 
-                    n_parent = GMLNode(g, label=p.data)
-                else:
-                    n_parent = processed[p.data]
-                Edge(g, n_child, n_parent)
-                processed[p.data] = n_parent
-            processed[c.data] = n_child
+        for c in tax.traverse(algo='BFS'):
+            node = GMLNode(g, label=c.data, color='#dddddd', model='rgb')
+            log.info('adding node: %s' % node)
+            processed[c.data] = node
+        for p in tax.traverse(algo='BFS'):
+            p_node = processed[p.data]
+            for c in p.children:
+                c_node = processed[c.data]
+                Edge(g, c_node, p_node)
+                log.info('adding edge %s ---> %s' % (c_node, p_node))
         return g
         
 
 if __name__ == '__main__':
-    known_concepts = ['milk.n.01', 'bowl.n.01', 'bowl.n.04', 'cup.n.01', ]
-    unknown_concepts = ['mug.n.04', 'glass.n.02', 'tea.n.01', 'milk.n.01', 'cup.n.02']
-    wn = WordNet(list(set(known_concepts + unknown_concepts)))
-    wn.asGraphML(file('/home/nyga/tmp/wordnet.graphml', 'w+'))
-    wn.get_mln_similarity_and_sense_assertions(known_concepts, unknown_concepts)
+#     known_concepts = ['milk.n.01', 'bowl.n.01', 'bowl.n.04', 'cup.n.01', ]
+#     unknown_concepts = ['mug.n.04', 'glass.n.02', 'tea.n.01', 'milk.n.01', 'cup.n.02']
+    logging.getLogger().setLevel(logging.INFO)
+    wn = WordNet()
+    wn.asGraphML().write(file('/home/nyga/tmp/wordnet.graphml', 'w+'))
+#     wn.get_mln_similarity_and_sense_assertions(known_concepts, unknown_concepts)
     
 #     print 'semil: %.3f' % wn.semilarity(c1, c2)
 #     print 'wup:   %.3f' % wn.wup_similarity(c1, c2)
