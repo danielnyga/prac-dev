@@ -84,8 +84,8 @@ class Node(object):
     Represents a node in a graph
     '''
     
-    def __init__(self, id, data=None):
-        self.id = id
+    def __init__(self, node_id, data=None):
+        self.id = node_id
         self.data = data
         self.children = set()
         self.parents = set()
@@ -162,7 +162,7 @@ class DAG(object):
     def __init__(self, root):
         self.root = root
     
-    def traverse(self, algo='DFS', id=None, method='graph', direction='down', root=None):
+    def traverse(self, algo='DFS', direction='down', root=None):
         '''
         Iterates over the graph nodes according to the given strategy. 
         Currently, depth-first search (DFS) and breadth first search 
@@ -174,31 +174,29 @@ class DAG(object):
             root = self.root
         queue = [root]
         processed = set()
+        processed.add(root)
         while len(queue) > 0:
             n = queue.pop()
-            if id != None and id == n.id: 
-                yield n
-                return
-            if method == 'graph':
-                processed.add(n)
+            yield n
             if algo == 'BFS':
                 queue = self.bfsEnqueue(n, queue, processed, direction)
             elif algo == 'DFS':
                 queue = self.dfsEnqueue(n, queue, processed, direction)
-            yield n
     
     def dfsEnqueue(self, node, queue, processed, direction):
         if direction == 'up':
-            nodes = filter(lambda x: not x in processed, node.parents)
+            nodes = sorted(filter(lambda x: x not in processed, node.parents))
         elif direction == 'down':
-            nodes = filter(lambda x: not x in processed, node.children)
+            nodes = sorted(filter(lambda x: x not in processed, node.children))
+        processed.update(nodes)
         return queue + nodes
 
     def bfsEnqueue(self, node, queue, processed, direction):
         if direction == 'up':
-            nodes = filter(lambda x: not x in processed, node.parents)
+            nodes = sorted(filter(lambda x: x not in processed, node.parents))
         elif direction == 'down':
-            nodes = filter(lambda x: not x in processed, node.children)
+            nodes = sorted(filter(lambda x: x not in processed, node.children))
+        processed.update(nodes)
         return nodes + queue
     
     def getLeafNodes(self):
@@ -252,8 +250,8 @@ class DAG(object):
             closure.update([n])
         return closure
     
-    def findNodeByID(self, id):
-        for n in self.traverse(id=id,algo='DFS'): pass
+    def findNodeByID(self, node_id):
+        for n in self.traverse(id=node_id,algo='DFS'): pass
         return n
     
 def processNode(dag, node):
