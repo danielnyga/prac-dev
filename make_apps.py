@@ -1,6 +1,6 @@
 import os
 import sys
-sys.path.append(os.path.join('praccore', 'src'))
+sys.path.append(os.path.join('praccore'))
 from utils import colorize
 from subprocess import Popen
 home = os.path.abspath(".")
@@ -15,7 +15,7 @@ for app in ("pracinfer", "praclearn", 'pracparse', 'senses', 'pracserver'):
     f = file(filepath, "w+")
     f.write("#!/bin/sh\n")
     f.write('cd %s\n' % home)
-    f.write("python %s \"$@\"\n" % os.path.join(home, "praccore", "src", "%s.py" % app))
+    f.write("python %s \"$@\"\n" % os.path.join(home, "praccore", "%s.py" % app))
     f.close()
     print '\t Wrote app %s' % colorize(app, BOLD, True)
     os.system("chmod a+x %s" % filepath)
@@ -47,7 +47,7 @@ Popen(cmd, cwd=os.path.join('pracviz', 'src'), shell=True).wait()
 
 f = file("env.sh", "w+")
 f.write("#!/bin/sh\n")
-f.write("export PYTHONPATH=%s\n" % os.path.pathsep.join(["$PYTHONPATH", os.path.join(home, "praccore", "src"), 
+f.write("export PYTHONPATH=%s\n" % os.path.pathsep.join(["$PYTHONPATH", os.path.join(home, "praccore"), 
                                                         os.path.join(home, "semcore_annotation_tool", "src"), 
                                                         os.path.join('3rdparty', 'webpy_jsonrpc'),
                                                         os.path.join('3rdparty', 'dill-0.2b1')]))
