@@ -21,12 +21,10 @@
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-from prac.core import PRACModule, PRACPIPE, PRACKnowledgeBase
+from prac.core import PRACModule, PRACPIPE, PRACKnowledgeBase, DB_TRANSFORM
 from nltk.corpus import wordnet as wn
-import copy
 import logging
-from pracutils import list_get
-from actioncore.inference import PRACInferenceStep
+from prac.inference import PRACInferenceStep
 from mln import readMLNFromFile
 import os
 from mln.database import Database, readDBFromFile
@@ -50,9 +48,59 @@ class WNSenses(PRACModule):
     '''
     
     def initialize(self):
-        self.decls_mln = readMLNFromFile(os.path.join(self.module_path, 'mln', 'decls.mln'), logic='FuzzyLogic', grammar='PRACGrammar')
+        self.mln = readMLNFromFile(os.path.join(self.module_path, 'mln', 'decls.mln'), logic='FuzzyLogic', grammar='PRACGrammar')
         self.wordnetKBs = {}
-        
+        self.wordnet = self.prac.wordnet
+    
+    
+    @DB_TRANSFORM
+    def get_senses_and_similarities(self, db, concepts):
+        '''
+        Returns a new database with possible senses and the pairwise
+        semantic similarities asserted.
+        '''
+        log = logging.getLogger(self.__class__.__name__)
+        wordnet = self.wordnet
+        word2senses = defaultdict(list)
+        db_ = Database(self.mln)
+        for res in db.query('has_pos(?word,?pos)'):
+            word_const = res['?word']
+            pos = posMap.get(res['?pos'], None)
+            if pos is None:
+                continue
+            word = word_const.split('-')[0]
+            for i, synset in enumerate(wordnet.synsets(word, pos)):
+                sense_id = '%s-%.2d' % (word_const, i+1)
+                word2senses[word_const].append(sense_id)
+                for concept in concepts:
+#                     sim = wordnet.semilarity(synset, concept)
+                    sim = wordnet.wup_similarity(synset, concept)
+                    db_.addGroundAtom('is_a(%s,%s)' % (sense_id, concept), sim) 
+        for word in word2senses:
+            for word2, senses in word2senses.iteritems():
+                if word2 == word: continue
+                else: 
+                    for s in senses: db_.addGroundAtom('!has_sense(%s,%s)' % (word, s))
+            db_.addGroundAtom('!has_sense(%s,null)' % (word))
+        for c in concepts:
+            db_.addGroundAtom('!is_a(null,%s)' % c)
+        return db_
+    
+    def get_similarities(self, *dbs):
+        log = logging.getLogger(self.__class__.__name__)
+        wordnet = self.wordnet
+        full_domain = mergeDomains(*[db.domains for db in dbs])
+        for db in dbs:
+            db_ = Database(self.mln)
+            for q in db.query('has_sense(?w, ?s) ^ is_a(?s, ?c)'):
+                sense = q['?s']
+                concept = q['?c']
+                for c in full_domain['concept']:
+                    sim = wordnet.wup_similarity(c, concept)
+                    db_.addGroundAtom('is_a(%s,%s)' % (sense, c), sim)
+            yield db_
+            
+    
     def addFuzzyEvidenceToDBs(self, *dbs):
         '''
         Adds to the databases dbs all fuzzy 'is_a' relationships
@@ -79,10 +127,12 @@ class WNSenses(PRACModule):
         Adds to the databases dbs all possible word senses (and fuzzy meanings)
         based on their part of speech.
         '''
+        log = logging.getLogger(self.__class__.__name__)
         wordnet = WordNet()
         for db in dbs:
             word2senses = defaultdict(list)
 #             db.addGroundAtom('is_a(Nullsense,NULL)')
+            log.info(db.mln.domains['concept'])
             for res in db.query('has_pos(?word,?pos)'):
                 word_const = res['?word']
                 pos = posMap.get(res['?pos'], None)
@@ -112,14 +162,15 @@ class WNSenses(PRACModule):
         log = logging.getLogger('wnsenses')
         inf_step = PRACInferenceStep(pracinference, self)
         mt = self.load_pracmt('word_senses')
-        for db in pracinference.module2infSteps['nl_parsing'][0].output_dbs:
+        for db in pracinference.get_inference_steps_of_module('nl_parsing').output_dbs:
             
             database = Database(mt.mln)
             for truth, gndLit in db.iterGroundLiteralStrings():
                 database.addGroundAtom(gndLit, truth)
-            
+                log.info(gndLit)
             # default sense is the NULL-sense
 #             database.addGroundAtom('is_a(Nullsense, NULL)')
+            log.info('Adding all similarities...')
             self.addPossibleWordSensesToDBs(database)
             inf_step.output_dbs.append(database)
         return inf_step
@@ -130,10 +181,10 @@ class WNSenses(PRACModule):
         training_dbs = []
         if hasattr(prac_learning, 'training_dbs') and prac_learning.training_dbs is not None:
             for dbfile in prac_learning.training_dbs:
-                training_dbs.extend(readDBFromFile(self.decls_mln, dbfile, ignoreUnknownPredicates=True))
+                training_dbs.extend(readDBFromFile(self.mln, dbfile, ignoreUnknownPredicates=True))
         else:
             for dbfile in self.prac.getActionCoreTrainingDBs():
-                db = readDBFromFile(self.decls_mln, dbfile, ignoreUnknownPredicates=True)
+                db = readDBFromFile(self.mln, dbfile, ignoreUnknownPredicates=True)
                 training_dbs.append(db)
         mt = WordSensesMT(self, 'word_senses')
         mt.train(training_dbs)
@@ -146,7 +197,7 @@ class WordSensesMT(PRACKnowledgeBase):
     '''
     
     def train(self, training_dbs):
-        self.mln = self.module.decls_mln.duplicate()
+        self.mln = self.module.mln.duplicate()
         full_domains = mergeDomains(*[db.domains for db in training_dbs])
         logging.getLogger('wnsenses').debug('known concepts: %s' % full_domains['concept'])
         self.mln.domains['concept'] = full_domains['concept']
