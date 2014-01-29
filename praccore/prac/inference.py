@@ -292,6 +292,17 @@ class PRACInference(object):
 #         self.query = []
 #         self.evidence = []
 #         self.atom2color = {}
+    
+    def get_inference_steps_of_module(self, module_name, index=-1):
+        '''
+        Returns the list of InferenceStep instances, which have been
+        performed by the module with the given name at the time point
+        index, where index=-1 stands for the most recent step.
+        '''
+        inf_steps = self.module2infSteps.get(module_name, None)
+        if inf_steps is None:
+            raise Exception('There is no inference steps by the module "%s"' % module_name)
+        return inf_steps[index]
         
     def to_syntactic_graph(self):
         '''
