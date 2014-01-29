@@ -22,30 +22,29 @@
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 import os
-
-import nltk.data
-from string import whitespace, strip
-import time
-import datetime
-import dill as pickle
 import sys
-from actioncore.inference import PRACInference, PRACInferenceStep
-import fnmatch
-nltk.data.path = [os.path.join('.', 'data', 'nltk_data')]
+from prac.wordnet import WordNet
+from mln.mln import MLN
+from mln.database import Database
 
+# adapt PYTHONPATH where necessary
+PRAC_HOME = os.environ['PRAC_HOME']
+prac_module_path = os.path.join(PRAC_HOME, 'pracmodules')
+
+# add 3rd party components to pythonpath, if necessary
+dill_path = os.path.join(PRAC_HOME, '3rdparty', 'dill-0.2b1')
+if dill_path not in sys.path:
+    sys.path.append(dill_path)
+
+from string import whitespace, strip
+import dill as pickle
+from inference import PRACInference, PRACInferenceStep
+import fnmatch
 from mln import readMLNFromFile
 import yaml
-import logging
-import praclog
+from praclog import logging
 
-logging.getLogger('dill').setLevel(logging.WARNING)
 
-# core_definitions = os.path.join('models', 'core.yaml')
-# action_cores_path = os.path.join('models', 'actioncores.yaml')
-# action_cores_probs = os.path.join('models', 'probabilities.yaml')
-# action_cores_spat_probs = os.path.join('models', 'spatial_relation.yaml')
-
-prac_module_path = os.path.join('pracmodules')
 
 class PRAC(object):
     '''
@@ -59,6 +58,8 @@ class PRAC(object):
         self.moduleManifests = []
         self.moduleManifestByName = {}
         for module_path in os.listdir(prac_module_path):
+            if not os.path.isdir(os.path.join(prac_module_path, module_path)):
+                continue
             manifest_file_name = os.path.join(prac_module_path, module_path, 'pracmodule.yaml')
             if not os.path.exists(manifest_file_name):
                 PRAC.log.warning('No module manifest file in path "%s".' % module_path)
@@ -75,6 +76,10 @@ class PRAC(object):
         #TODO: replace this by real action core definitions
         self.action_cores = ['Flipping', 'Filling', 'BeingLocated']
         self.microtheories = self.action_cores
+        self.wordnet = WordNet()
+        
+    def setKnownConcepts(self, concepts):
+        self.wordnet = WordNet(concepts)
     
     def getModuleByName(self, modulename):
         '''
@@ -211,6 +216,21 @@ class ActionCore(object):
         '''
         Write this action core into files.
         '''
+
+def DB_TRANSFORM(method):
+    '''
+    DB_TRANSFORM is a decorator which automates Database duplication with
+    adaptation to a new MLN.
+    '''
+    def wrapper(self, *args, **kwargs):
+        db = args[0]
+        if not isinstance(db, Database):
+            raise Exception('First argument must be a Database object.')
+        db_ = db.duplicate(self.mln)
+        args = list(args)
+        args[0] = db_
+        return method(self, *args, **kwargs)
+    return wrapper
 
 def PRACPIPE(method):
     def wrapper(self,*args,**kwargs):
