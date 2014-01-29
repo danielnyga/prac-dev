@@ -20,14 +20,14 @@
 # CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-from prac.core import PRACModule, PRACPIPE, PRACKnowledgeBase
+from prac.core import PRACModule, PRACPIPE, PRACKnowledgeBase, DB_TRANSFORM
 from mln.mln import readMLNFromFile
 import os
 from mln.database import readDBFromFile, Database
 import logging
 from mln.methods import ParameterLearningMeasures
 import sys
-from actioncore.inference import PRACInferenceStep
+from prac.inference import PRACInferenceStep
 from prac.wordnet import WordNet
 
 class PRACWSD(PRACModule):
@@ -37,7 +37,30 @@ class PRACWSD(PRACModule):
     
     def initialize(self): 
         log = logging.getLogger(self.__class__.__name__)
+        self.learned_mln = None
         self.mln = readMLNFromFile(os.path.join(self.module_path, 'mln', 'wsd.mln'), grammar='PRACGrammar', logic='FuzzyLogic')
+    
+    
+    def get_known_concepts(self):
+        if self.mln is None:
+            raise Exception('Load an MLN first.')
+        return self.mln.domains['concept']
+        
+    
+    @DB_TRANSFORM
+    def get_most_probable_senses(self, db):
+        log = logging.getLogger(self.__class__.__name__)
+        log.info(self.mln.domains)
+        mrf = self.mln.groundMRF(db, method='FastConjunctionGrounding')
+#         result = mrf.inferEnumerationAsk(['has_sense'], None,verbose=True,shortOutput=True, useMultiCPU=True)
+        result = mrf.inferWCSP(['has_sense'], None,verbose=True,shortOutput=True, useMultiCPU=True)
+#         result = mrf.inferMCSAT(['has_sense'], None,verbose=True,shortOutput=True, useMultiCPU=True)       
+        db_ = Database(self.mln)
+        for atom, truth in result.iteritems():
+            if truth == 1:
+                db_.addGroundAtom(str(atom))
+        return db_
+        
     
     @PRACPIPE
     def infer(self, pracinference): 
@@ -47,7 +70,7 @@ class PRACWSD(PRACModule):
         mln = mt.learned_mln
 #         mln.addConstant('concept', 'NULL')
 #         mln.addConstant('sense', 'Nullsense')
-        for input_db in pracinference.module2infSteps['wn_senses'][0].output_dbs:
+        for input_db in pracinference.get_inference_steps_of_module('wn_senses').output_dbs:
             evidence = input_db.duplicate(mln)
 #             input_db.printEvidence()
 #             for s in input_db.query('has_sense(?w, ?s) ^ is_a(?s, ?c)', truthThreshold=1):
@@ -66,6 +89,10 @@ class PRACWSD(PRACModule):
             result = mrf.inferEnumerationAsk(['has_sense', 'action_role'], None,verbose=True,shortOutput=True)
 #             result.writeResult(sys.stdout)
         return inf_step
+
+
+    def load_mln(self, path):
+        self.mln = readMLNFromFile(path, logic='FuzzyLogic', grammar='PRACGrammar')
 
     
     @PRACPIPE
@@ -92,7 +119,7 @@ class WSD(PRACKnowledgeBase):
         queryPreds.remove('is_a')
         params = {}
         params['optimizer'] = 'bfgs'
-        params['gaussianPriorSigma'] = 5.
+        params['gaussianPriorSigma'] = 1.
         self.learned_mln = mln.learnWeights(training_dbs, ParameterLearningMeasures.BPLL_CG, **params)
         self.wn = WordNet(self.learned_mln.domains['concept'] + [])
         self.learned_mln.write(sys.stdout, color=True)
