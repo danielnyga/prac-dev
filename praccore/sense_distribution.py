@@ -21,24 +21,25 @@
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 import java
-from praclog import  logging
+from praclog import logging
 import jpype
 from nlparsing import StanfordParser
 import os
 from prac.wordnet import WordNet
 from mln.mln import readMLNFromFile
-from mln.database import Database
+from mln.database import Database, readDBFromFile
 from wnsenses import posMap
 from itertools import chain
 import nltk
 from collections import defaultdict
 import sys
 from utils.graphml import to_html_hex
+from prac.core import PRAC
 
-nltk.data.path = [os.path.join('..', '..', 'data', 'nltk_data')]
-wordnet_data_path = os.path.join('..', '..', 'data', 'wordnet')
-java.classpath.append(os.path.join('..', '..', '3rdparty', 'stanford-parser-2012-02-03', 'stanford-parser.jar'))
-grammar_path = grammarPath = os.path.join('..', '..', '3rdparty', 'stanford-parser-2012-02-03', 'grammar', 'englishPCFG.ser.gz')
+# nltk.data.path = [os.path.join('..', '..', 'data', 'nltk_data')]
+# wordnet_data_path = os.path.join('..', '..', 'data', 'wordnet')
+# java.classpath.append(os.path.join('..', '..', '3rdparty', 'stanford-parser-2012-02-03', 'stanford-parser.jar'))
+# grammar_path = grammarPath = os.path.join('..', '..', '3rdparty', 'stanford-parser-2012-02-03', 'grammar', 'englishPCFG.ser.gz')
 
 def get_prob_color(p):
     '''
@@ -88,6 +89,7 @@ def add_word_evidence_complete(db, word, pos, wn):
         if concept in appl_hypernyms: continue
         db.addGroundAtom('!has_sense(%s,%s)' % (word, concept.name))
 
+
 def add_similarities(db, word, sense, concept, wn):
     
     mln_concepts = map(lambda c: wn.synset(c), db.mln.domains['concept'])
@@ -99,15 +101,53 @@ def add_similarities(db, word, sense, concept, wn):
                 
 if __name__ == '__main__':
     
-    log = logging.getLogger(__name__)
+    prac = PRAC()
+    prac.wordnet = WordNet(None)
+    parser = prac.getModuleByName('nl_parsing')
+    senses = prac.getModuleByName('wn_senses')
+    wsd = prac.getModuleByName('wsd')
+    
+    logging.getLogger().setLevel(logging.INFO)
+    
+    learned_mln_path = os.path.join('/', 'home', 'nyga', 'work', 'nl_corpora', 'wikihow', 'wts.pybpll_cg.Filling-new-1.mln') 
+    
+    # inference
+    sentence = 'fill a saucepan with water.'
+    wsd.load_mln(learned_mln_path)
+    for db in parser.parse(sentence):
+        db_ = senses.get_senses_and_similarities(db, wsd.get_known_concepts())
+        db_.printEvidence()
+        evidence = db_.union(None, db)
+        evidence.printEvidence()
+        senses_db = wsd.get_most_probable_senses(evidence)
+        senses_db.printEvidence()
+          
+     
+    
+#     # learning
+#     mln = readMLNFromFile(os.path.join('/', 'home', 'nyga', 'work', 'nl_corpora', 'wikihow', 'new-1.mln'), logic='FuzzyLogic', grammar='PRACGrammar')
+#     dbs = readDBFromFile(mln, os.path.join('/', 'home', 'nyga', 'work', 'nl_corpora', 'wikihow', 'Filling.db'))
+#     training_dbs = []
+#     for db, sim in zip(dbs, senses.get_similarities(*dbs)):
+#         db_ = db.union(None, sim)
+#         training_dbs.append(db_)
+#         db_.printEvidence()
+#         print '+++++++++'
+#     learned_mln = mln.learnWeights(training_dbs, method='BPLL_CG', gaussianPriorSigma=5., useMultiCPU=True)
+#     learned_mln.writeToFile(learned_mln_path)
     
     
     
-    sentence = 'add a bowl of sugar.'
+    exit(0)
     
-    
-    
+    log = logging.getLogger()
     log.setLevel(logging.DEBUG)
+    
+    
+    
+    
+    
+    
 #     wn_concepts = ['batter.n.02', 'milk.n.01', 'water.n.06', 'cup.n.01', 'cup.n.02', 'glass.n.02', 'bowl.n.01', 'bowl.n.03', 'coffee.n.01', 'bowl.n.04']
     
     if not java.isJvmRunning():
@@ -141,7 +181,7 @@ if __name__ == '__main__':
     # create a WordNet taxonomy
     wn = WordNet()
     g = wn.asGraphML()
-    inf_mln = readMLNFromFile(os.path.join('..', '..', 'pracmodules', 'wsd', 'mln', 'learned.mln'), logic='FuzzyLogic', grammar='PRACGrammar')
+    inf_mln = readMLNFromFile(os.path.join('/', 'home', 'nyga', 'work', 'nl_corpora', 'wikihow', 'wts.pybpll_cg.Filling-new-1.mln'), logic='FuzzyLogic', grammar='PRACGrammar')
 #     mln.declarePredicate('is_a', ['sense', 'concept'])
 #     mln.declarePredicate('has_sense', ['sense', 'concept'], [False, True])
     print inf_mln.predicates
@@ -153,25 +193,28 @@ if __name__ == '__main__':
     # add possible word senses
     word2senses = defaultdict(list)
     word2hypernyms = defaultdict(list)
-    ev_db.addGroundAtom('action_role(w1-cond, Goal)')
-#     ev_db.addGroundAtom('has_sense(w1-cond, s1)')
-#     add_similarities(ev_db, 'w1', 's1', wn.synset('bowl.n.01'), wn)
-    ev_db.addGroundAtom('action_role(w2-cond, Theme)')
-    add_word_evidence_complete(ev_db, 'w1-cond', None, wn)
-    add_word_evidence_complete(ev_db, 'w2-cond', None, wn)
+#     ev_db.addGroundAtom('action_role(w1-cond, Goal)')
+#     ev_db.domains['word'] = ['w1']
+#     ev_db.addGroundAtom('has_sense(w2, s1)')
+#     add_similarities(ev_db, 'w2', 's1', wn.synset('fill.v.01'), wn)
+# #     ev_db.addGroundAtom('action_role(w2-cond, Theme)')
+# #     add_word_evidence_complete(ev_db, 'w1', None, wn)
+#     add_word_evidence_complete(ev_db, 'w1', None, wn)
     
-#     for res in db.query('has_pos(?word,?pos)'):
-#         log.info('preparing query for %s' % str(res))
-#         word_const = res['?word']
-#         pos = posMap.get(res['?pos'], None)
-#         if pos is None:
-#             continue
-#         word = word_const.split('-')[0]
-#         add_word_evidence_complete(ev_db, word, pos, wn)
+    for res in db.query('has_pos(?word,?pos)'):
+        log.info('preparing query for %s' % str(res))
+        word_const = res['?word']
+        pos = posMap.get(res['?pos'], None)
+        if pos is None:
+            continue
+        word = word_const.split('-')[0]
+        add_word_evidence_complete(ev_db, word, pos, wn)
 
 
-#     ev_db.printEvidence()
-    mrf = inf_mln.groundMRF(ev_db, method='FastConjunctionGrounding')
+    ev_db.printEvidence()
+    
+    mrf = inf_mln.groundMRF(ev_db, method='FastConjunctionGrounding', useMultiCPU=True)
+    log.info(mrf.evidence)
     result = mrf.inferEnumerationAsk(['has_sense'], None, shortOutput=True, useMultiCPU=True)
     colors = {}
     for word in mrf.domains['word']:
