@@ -50,7 +50,8 @@ f.write("#!/bin/sh\n")
 f.write("export PYTHONPATH=%s\n" % os.path.pathsep.join(["$PYTHONPATH", os.path.join(home, "praccore"), 
                                                         os.path.join(home, "semcore_annotation_tool", "src"), 
                                                         os.path.join('3rdparty', 'webpy_jsonrpc'),
-                                                        os.path.join('3rdparty', 'dill-0.2b1')]))
+                                                        os.path.join('3rdparty', 'dill-0.2b1'),
+                                                        os.path.join('3rdparty', 'urwid-1.2.0')]))
 f.write("export PATH=%s\n" % os.path.pathsep.join(["$PATH", os.path.join(home, appfolder)]))
 f.write("export PRAC_HOME=%s\n" % home)
 # f.write("export SWI_HOME_DIR=%s\n" % os.path.join('/', 'usr', 'lib', 'swi-prolog'))
