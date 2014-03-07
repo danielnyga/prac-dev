@@ -25,7 +25,7 @@ from praclog import logging
 import jpype
 from nlparsing import StanfordParser
 import os
-from prac.wordnet import WordNet
+from prac.wordnet import WordNet, known_concepts
 from mln.mln import readMLNFromFile
 from mln.database import Database, readDBFromFile
 from wnsenses import posMap
@@ -63,6 +63,7 @@ def add_word_evidence_complete(db, word, pos, wn):
     log = logging.getLogger()
     log.setLevel(logging.INFO)
     # collect a complete list of concepts
+    pos = posMap.get(pos, None)
     if pos is not None:
         if len(wn.synsets(word, pos)) == 0: return
     all_concepts = map(lambda c: wn.synset(c), wn.known_concepts)
@@ -91,50 +92,86 @@ def add_word_evidence_complete(db, word, pos, wn):
 
 
 def add_similarities(db, word, sense, concept, wn):
-    
     mln_concepts = map(lambda c: wn.synset(c), db.mln.domains['concept'])
     for knwn_concept in mln_concepts:
-        sim = wn.semilarity(concept, knwn_concept)
+        sim = wn.wup_similarity(concept, knwn_concept)
         db.addGroundAtom('is_a(%s,%s)' % (sense, knwn_concept.name), sim)
-    
     
                 
 if __name__ == '__main__':
     
     prac = PRAC()
-    prac.wordnet = WordNet(None)
+    prac.wordnet = WordNet(known_concepts)
     parser = prac.getModuleByName('nl_parsing')
     senses = prac.getModuleByName('wn_senses')
     wsd = prac.getModuleByName('wsd')
     
-    logging.getLogger().setLevel(logging.INFO)
+    logging.getLogger().setLevel(logging.DEBUG)
+    gaussianPriorSigma=2
+    learned_mln_path = os.path.join('/', 'home', 'nyga', 'work', 'code', 'prac', 'tmp', 'model-learned.mln') 
     
-    learned_mln_path = os.path.join('/', 'home', 'nyga', 'work', 'nl_corpora', 'wikihow', 'wts.pybpll_cg.Filling-new-1.mln') 
+    learn = True
+    learn = False
     
     # inference
-    sentence = 'fill a saucepan with water.'
-    wsd.load_mln(learned_mln_path)
-    for db in parser.parse(sentence):
-        db_ = senses.get_senses_and_similarities(db, wsd.get_known_concepts())
-        db_.printEvidence()
-        evidence = db_.union(None, db)
-        evidence.printEvidence()
-        senses_db = wsd.get_most_probable_senses(evidence)
-        senses_db.printEvidence()
-          
-     
-    
-#     # learning
-#     mln = readMLNFromFile(os.path.join('/', 'home', 'nyga', 'work', 'nl_corpora', 'wikihow', 'new-1.mln'), logic='FuzzyLogic', grammar='PRACGrammar')
-#     dbs = readDBFromFile(mln, os.path.join('/', 'home', 'nyga', 'work', 'nl_corpora', 'wikihow', 'Filling.db'))
-#     training_dbs = []
-#     for db, sim in zip(dbs, senses.get_similarities(*dbs)):
-#         db_ = db.union(None, sim)
-#         training_dbs.append(db_)
-#         db_.printEvidence()
-#         print '+++++++++'
-#     learned_mln = mln.learnWeights(training_dbs, method='BPLL_CG', gaussianPriorSigma=5., useMultiCPU=True)
-#     learned_mln.writeToFile(learned_mln_path)
+    if not learn:
+        sentence = 'fill the water into a bowl.'
+        
+        wsd.load_mln(learned_mln_path)
+        g = prac.wordnet.asGraphML()
+        for db in parser.parse(sentence):
+#             db_ = senses.get_senses_and_similarities(db, wsd.get_known_concepts())
+#             db_.printEvidence()
+            evidence = db.union(wsd.mln, db)
+#             senses_db = wsd.get_most_probable_senses(evidence)
+            
+            for q in db.query('has_pos(?w,?pos)'):
+                w = q['?w'].split('-')[0]
+                pos = q['?pos']
+#                 if pos != 'NN': continue
+                add_word_evidence_complete(evidence, w, pos, prac.wordnet)
+            evidence.printEvidence()
+            mrf = wsd.mln.groundMRF(evidence, method='FastConjunctionGrounding', useMultiCPU=True)
+            result = mrf.inferEnumerationAsk(['has_sense'], None, shortOutput=True, useMultiCPU=True)
+            colors = {}
+#             senses_db.printEvidence()
+            for word in mrf.domains['word']:
+                max_prob = 0
+                for q, v in result.iteritems():
+                    pred, args = wsd.mln.logic.parseAtom(str(q))
+                    if pred != 'has_sense': continue
+                    w = args[0]
+                    if w != word: continue
+                    conceptname = args[1]
+                    if v > max_prob: max_prob = v
+                    color = v
+        #             print v, q, color
+                    colors[conceptname] = color
+                for c, p in colors.iteritems():
+                    colors[c] = get_prob_color(p / float(max_prob))
+        #         print colors
+                for n in g.nodes:
+                    label = n.label
+                    if colors.get(label, None) is not None:
+                        n.color = colors[label]
+                        print n.label, colors[label]
+        #         print word
+                graphpath = os.path.join('/', 'home', 'nyga', 'work', 'code', 'prac', 'tmp', '%s.graphml' % word)
+                print ('writing %s' % graphpath)
+                g.write(open(graphpath, 'w+'))
+    else:    
+        # learning
+        mln = readMLNFromFile(os.path.join('/', 'home', 'nyga', 'work', 'code', 'prac', 'tmp', 'model.mln'), logic='FuzzyLogic', grammar='PRACGrammar')
+        dbs = readDBFromFile(mln, os.path.join('/', 'home', 'nyga', 'work', 'code', 'prac', 'tmp', 'training.db'))
+        training_dbs = []
+        for db, sim in zip(dbs, senses.get_similarities(*dbs)):
+            db_ = db.union(None, sim)
+#             db_ = db
+            training_dbs.append(db_)
+            db_.printEvidence()
+            print '+++++++++'
+        learned_mln = mln.learnWeights(training_dbs, method='BPLL_CG', gaussianPriorSigma=gaussianPriorSigma, useMultiCPU=True)
+        learned_mln.writeToFile(learned_mln_path)
     
     
     

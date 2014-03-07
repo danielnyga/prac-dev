@@ -24,49 +24,75 @@
 import sys
 from optparse import OptionParser
 from prac.core import PRAC
-import logging
-from actioncore.inference import PRACInference
-# import linguistics
-# from linguistics.verbalizer import *
-# from linguistics.integrator import *
+from praclog import logging
+from prac.inference import PRACInference
+
+dbs = '''
+// Stir everything with a spoon .
+has_sense(spoon-5,spoon-5-sense)
+is_a(spoon-5-sense,spoon.n.01)
+root(ROOT-0, Stir-1)
+dobj(Stir-1, everything-2)
+det(spoon-5, a-4)
+prep_with(Stir-1, spoon-5)
+has_pos(Stir-1,VB)
+has_pos(everything-2,NN)
+has_pos(a-4,DT)
+has_pos(spoon-5,NN)
+has_sense(Stir-1, Stir-1-sense)
+has_sense(everything-2, null)
+has_sense(a-4, null)
+is_a(Stir-1-sense, stir.v.01)
+---
+// fill the pot up with water .
+has_sense(fill-1,fill-1-sense)
+is_a(fill-1-sense,fill.v.01)
+has_sense(pot-3,pot-3-sense)
+is_a(pot-3-sense,pot.n.01)
+has_sense(up-4,up-4-sense)
+is_a(up-4-sense,up.r.01)
+has_sense(water-6,water-6-sense)
+is_a(water-6-sense,water.n.06)
+root(ROOT-0, fill-1)
+det(pot-3, the-2)
+npadvmod(up-4, pot-3)
+advmod(fill-1, up-4)
+prep_with(fill-1, water-6)
+has_pos(fill-1,VB)
+has_pos(the-2,DT)
+has_pos(pot-3,NN)
+has_pos(up-4,RB)
+has_pos(water-6,NN)
+has_sense(the-2, null)
+'''
 
 if __name__ == '__main__':
     
     parser = OptionParser()
-    parser.add_option('-a', '--add', action='store_true', dest='addToModels')
-    parser.add_option('-m', '--map', dest='semanticMap')
     (options, args) = parser.parse_args()
     
-#     if not (len(sys.argv) == 4 or len(sys.argv) == 3):
-#         print 'Usage: pracinfer <action core name> <sentence> <reply (optional)>\nExample: $pracinfer Flipping "Flip the pancake." "with the spatula"'
-#         exit(1)
-#     else:        
+    sentences = ["Pour the mix into the pan.", "Flip the pancake around."]
+    
     log = logging.getLogger()
     log.setLevel(logging.INFO)
+
     prac = PRAC()
-    infer = PRACInference(prac, sys.argv[1:])
-    for arg in sys.argv[1:]:
-        log.info(arg)
-        prac.infer('nl_parsing', infer)
-        prac.infer('wn_senses', infer)
-        prac.infer('ac_recognition', infer)
-        prac.infer('senses_and_roles', infer)
-        
-#         java.startJvm()
-#         sentence = sys.argv[2]
-#         intReply = False
-#         if len(sys.argv) == 4:
-#             intReply = True
-#             reply = sys.argv[3]
-# 
-#         print 'Running PRAC inference on sentence "%s"' % sentence
-#         pracinit = PRACInit(sys.argv[1])
-#         result = PRACResult()
-# #         verbalizer = PRACVerbalizer()
-# #         integrator = PRACIntegrator()
-#         pracinit(sentence) >> actionroles >> result# >> verbalizer >> integrator
-#         
-#         java.shutdownJvm()
-#         
-#         exit(0)
+    parsing = prac.getModuleByName('nl_parsing')
+    actioncore_recognititon = prac.getModuleByName('ac_recognition')
+    
+    inf = PRACInference(prac, sentences)
+
+    # do the NL parsing
+    prac.run(inf, parsing)
+    prac.run(inf, parsing.dbfromstring, dbs)
+    
+    # add all possible word meanings
+#     prac.run(inf, actioncore_recognititon, )
+#     
+    step = inf.inference_steps[-1]
+    for db in step.output_dbs:
+        db.write(sys.stdout, color=True)
+        print '---'
+    
+    
             

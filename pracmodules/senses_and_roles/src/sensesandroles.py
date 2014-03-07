@@ -119,7 +119,11 @@ class SensesAndRolesMT(PRACKnowledgeBase):
         mln = self.module.mlns[self.name]
         self.training_dbs = training_dbs
         mln.write(sys.stdout, color=True)
-        self.learned_mln = mln.learnWeights(training_dbs, ParameterLearningMeasures.BPLL_CG, optimizer='bfgs', verbose=True)#, gaussianPriorSigma=1.)
+        queryPreds = list(mln.predicates)
+        queryPreds.remove('is_a')
+        self.learned_mln = mln.learnWeights(training_dbs, ParameterLearningMeasures.BPLL_CG, 
+                                            optimizer='bfgs', verbose=True, 
+                                            maxSteps=100, learningRate=0.01, queryPreds=queryPreds)#, gaussianPriorSigma=1.)
         
         
         
