@@ -49,8 +49,8 @@ known_concepts = ['soup.n.01',
 #                   'sugar.n.01',
                   'fill.v.01',
                   'add.v.01',
-                  'fruit_juice.n.01',
-                  'juice.n.03'
+#                   'fruit_juice.n.01',
+#                   'juice.n.03'
                   ]
 
 class WordNet(object):
@@ -104,6 +104,7 @@ class WordNet(object):
                     for c in node.children:
                         keepThisNode |= len(c.parents) > 1
                     if not keepThisNode:
+                        del self.known_concepts[node.data]
                         for p in node.parents:
                             p.children.remove(node)
                             p.children.update(node.children)
@@ -148,6 +149,7 @@ class WordNet(object):
         synsets = wordnet.synsets(word, pos)
         if self.core_taxonomy is not None:
             synsets = filter(lambda s: s.name in self.known_concepts, synsets)
+#         logging.getLogger().warning(synsets)
         return synsets
 
 
@@ -347,14 +349,14 @@ class WordNet(object):
         processed = {}
         for c in tax.traverse(algo='BFS'):
             node = GMLNode(g, label=c.data, color='#dddddd', model='rgb')
-            log.info('adding node: %s' % node)
+#             log.info('adding node: %s' % node)
             processed[c.data] = node
         for p in tax.traverse(algo='BFS'):
             p_node = processed[p.data]
             for c in p.children:
                 c_node = processed[c.data]
                 Edge(g, c_node, p_node)
-                log.info('adding edge %s ---> %s' % (c_node, p_node))
+#                 log.info('adding edge %s ---> %s' % (c_node, p_node))
         return g
         
 

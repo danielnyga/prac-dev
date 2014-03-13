@@ -70,7 +70,7 @@ class WNSenses(PRACModule):
                 continue
             word = word_const.split('-')[0]
             for i, synset in enumerate(wordnet.synsets(word, pos)):
-                sense_id = '%s-%.2d' % (word_const, i+1)
+                sense_id = synset.name #'%s-%.2d' % (word_const, i+1)
                 word2senses[word_const].append(sense_id)
                 for concept in concepts:
 #                     sim = wordnet.semilarity(synset, concept)

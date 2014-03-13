@@ -27,8 +27,8 @@ from mln import readMLNFromFile, readDBFromFile, Database
 import logging
 from mln.methods import ParameterLearningMeasures
 from prac.wordnet import WordNet
-from actioncore.inference import PRACInferenceStep
 from wcsp.converter import WCSPConverter
+from prac.inference import PRACInferenceStep
 
 # mapping from PennTreebank POS tags to NLTK POS Tags
 nounTags = ['NN', 'NNS', 'NNP']
@@ -45,8 +45,9 @@ class ActionCoreIdentification(PRACModule):
     def initialize(self):
         self.mln = readMLNFromFile(os.path.join(self.module_path, 'mln', 'action_cores.mln'), logic='FuzzyLogic', grammar='PRACGrammar')
     
+    
     @PRACPIPE
-    def infer(self, pracinference):
+    def __call__(self, pracinference):
         log = logging.getLogger('acid')
         log.debug('inference on %s' % self.name)
         
@@ -69,13 +70,14 @@ class ActionCoreIdentification(PRACModule):
             inf_step.output_dbs.append(db)
         return inf_step
     
+    
     def train(self, praclearning):
         log = logging.getLogger('prac')
         prac = praclearning.prac
         # get all the relevant training databases
         db_files = prac.getActionCoreTrainingDBs()
         nl_module = prac.getModuleByName('nl_parsing')
-        syntactic_preds = nl_module.syntax_mln.predicates
+        syntactic_preds = nl_module.mln.predicates
         log.debug(db_files)
         dbs = filter(lambda x: type(x) is Database, map(lambda name: readDBFromFile(self.mln, name, True), db_files))
         log.debug(dbs)

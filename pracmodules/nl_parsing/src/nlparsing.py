@@ -157,7 +157,7 @@ class NLParsing(PRACModule):
         self.mln = readMLNFromFile(os.path.join(self.module_path, 'mln', 'nl_parsing.mln'), grammar='PRACGrammar', logic='FuzzyLogic')
 
     
-    def parse(self, *sentences):
+    def parse_without_prac(self, *sentences):
         '''
         Returns a Database or a list of Databases with the syntactic dependencies
         and part-of-speech tags from the natural-language parser.
@@ -191,12 +191,13 @@ class NLParsing(PRACModule):
             java.shutdownJvm()
 
     @PRACPIPE
-    def infer(self, pracinference):
+    def __call__(self, pracinference):
         log = logging.getLogger()
         log.info('Running %s' % self.name)
         parser = self.stanford_parser
         inferenceStep = PRACInferenceStep(pracinference, self)
-        for instr in inferenceStep.pracinference.instructions:
+        
+        for instr in pracinference.instructions:
             db = Database(self.mln)
             deps = parser.getDependencies(instr, True)
             deps = map(str, deps)

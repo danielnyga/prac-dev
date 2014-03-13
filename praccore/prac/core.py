@@ -25,7 +25,7 @@ import os
 import sys
 from prac.wordnet import WordNet
 from mln.mln import MLN
-from mln.database import Database
+from mln.database import Database, readDBFromString
 
 # adapt PYTHONPATH where necessary
 PRAC_HOME = os.environ['PRAC_HOME']
@@ -77,9 +77,11 @@ class PRAC(object):
         self.action_cores = ['Flipping', 'Filling', 'BeingLocated']
         self.microtheories = self.action_cores
         self.wordnet = WordNet()
+#         self.mln = MLN(logic='FuzzyLogic', grammar='PRACGrammar')
         
     def setKnownConcepts(self, concepts):
         self.wordnet = WordNet(concepts)
+    
     
     def getModuleByName(self, modulename):
         '''
@@ -93,6 +95,7 @@ class PRAC(object):
             module.initialize()
             self.moduleByName[modulename] = module
         return self.moduleByName[modulename]
+    
         
     def getActionCoreTrainingDBs(self, actioncore_name=None):
         '''
@@ -110,27 +113,20 @@ class PRAC(object):
             dbfiles = map(lambda x: os.path.join(path, x), dbfiles)
             return dbfiles
     
-    def infer(self, modulename, pracinference):
+    
+    def run(self, pracinfer, inference, *args, **kwargs):
         '''
         Runs module with the given module name on the given PRACInference object.
+        - pracinfer:    the PRACInference object.
+        - inference:    any callable object returning a PRACInferenceStep instance.
+        - *args:        the arguments passed to the inference callable.
+        - **kwargs:     the keyword arguments passed to the inference callable.
         '''
-        if not modulename in self.moduleManifestByName:
-            raise Exception('No such module: %s' % modulename)
-        # lazily load the module
-        if not modulename in self.moduleByName:
-            module = PRACModule.fromManifest(self.moduleManifestByName[modulename], self)
-#             module.initialize()
-            self.moduleByName[modulename] = module
-        module = self.moduleByName[modulename]
-        inferenceStep = module.infer(pracinference)
+        inferenceStep = inference(pracinfer, *args, **kwargs)
         if inferenceStep is None or type(inferenceStep) != PRACInferenceStep:
-            PRAC.log.exception('%s.run() must return a PRACInferenceStep object.' % type(self.moduleByName[modulename]))
-        pracinference.inference_steps.append(inferenceStep)
-        steps = pracinference.module2infSteps.get(modulename, None)
-        if steps is None:
-            steps = []
-            pracinference.module2infSteps[modulename] = steps
-        steps.append(inferenceStep)
+            PRAC.log.exception('%s.__call__() must return a PRACInferenceStep object.' % type(callable))
+        pracinfer.inference_steps.append(inferenceStep)
+
 
 class ActionRole(object):
     '''
@@ -281,23 +277,27 @@ class PRACModuleManifest(object):
         manifest.is_trainable = yamlData.get(PRACModuleManifest.TRAINABLE, False)
         return manifest
 
+
 class PRACKnowledgeBase(object):
     '''
     Base class for PRAC microtheroies. Every subclass must ensure
     that it is pickleable.
     '''
     
-    def __init__(self, module, name):
-        self.module = module
+    def __init__(self, name, mln=None):
         self.name = name
+        self.mln = None
+        self.params = None
+        self.learned_mln = None
     
-    def __getstate__(self):
-        odict = self.__dict__.copy()
-        del odict['module']
-        return odict
-    
-    def __setstate__(self, d):
-        self.__dict__.update(d)
+#     def __getstate__(self):
+#         odict = self.__dict__.copy()
+#         del odict['module']
+#         return odict
+#     
+#     def __setstate__(self, d):
+#         self.__dict__.update(d)
+
         
 class PRACModule(object):
     '''
@@ -344,11 +344,9 @@ class PRACModule(object):
     
     def load_pracmt(self, mt_name):
         '''
-        Loads a pickled PRAC microtheory for the given action core.
-        If the specified action core name is None, the module must be universal
-        and the pickled module is named after the modules name.
+        Loads a pickled PRAC microtheory with given name.
         '''
-        binaryFileName = '%s.prac' % mt_name
+        binaryFileName = '%s.pracmt' % mt_name
         return pickle.load(open(os.path.join(prac_module_path, self.name, 'bin', binaryFileName), 'r'))
     
     def save_pracmt(self, prac_mt):
@@ -356,7 +354,7 @@ class PRACModule(object):
         Pickles the state of the given microtheory in its binary folder.
         - prac_mt:    instance of a PRACKnowledgeBase
         '''
-        binaryFileName = '%s.prac' % prac_mt.name
+        binaryFileName = '%s.pracmt' % prac_mt.name
         binPath = os.path.join(prac_module_path, self.name, 'bin')
         if not os.path.exists(binPath):
             os.mkdir(binPath)
@@ -377,6 +375,20 @@ class PRACModule(object):
         - microtheories:    specifies the microtheories which are to be (re)learned.
         '''
         pass
+    
+    @PRACPIPE
+    def dbfromstring(self, pracinference, dbstring):
+        '''
+        Parses a database which is given by a string. Returns a PRACInferenceStep
+        instance.
+        '''
+        mln = MLN(logic='FuzzyLogic', grammar='PRACGrammar')
+        inf_step = PRACInferenceStep(pracinference, self)
+        if len(pracinference.inference_steps) > 0:
+            inf_step.input_dbs = list(pracinference.inference_steps[-1].output_dbs)
+        dbs = readDBFromString(mln, dbstring, ignoreUnknownPredicates=True)
+        inf_step.output_dbs = dbs
+        return inf_step
     
  
     
