@@ -10,15 +10,10 @@
  ******************************************************************************/
 package org.eclipse.rap.addons.d3chart.demo;
 
-import org.eclipse.rap.addons.d3chart.BarChart;
-import org.eclipse.rap.addons.d3chart.ChartItem;
-import org.eclipse.rap.addons.d3chart.ColorStream;
-import org.eclipse.rap.addons.d3chart.Colors;
 import org.eclipse.rap.addons.d3chart.ForceDirectedGraph;
 import org.eclipse.rap.rwt.application.AbstractEntryPoint;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 
 
@@ -26,29 +21,8 @@ public class ForceDirectedGraphSnippet extends AbstractEntryPoint {
 
   @Override
   protected void createContents( Composite parent ) {
-	  
-	 parent.setLayout(new FillLayout());
-	ForceDirectedGraph fdg = new ForceDirectedGraph(parent, SWT.NONE);
-	  
-//    BarChart pieChart = new BarChart( parent, SWT.NONE );
-//    pieChart.setLayoutData( new GridData( 300, 300 ) );
-//    pieChart.setBarWidth( 25 );
-//    ColorStream colors = Colors.cat10Colors( parent.getDisplay() ).loop();
-//
-//    ChartItem item1 = new ChartItem( pieChart );
-//    item1.setText( "Chrome" );
-//    item1.setColor( colors.next() );
-//    item1.setValue( 0.4f );
-//
-//    ChartItem item2 = new ChartItem( pieChart );
-//    item2.setText( "Firefox" );
-//    item2.setColor( colors.next() );
-//    item2.setValue( 0.2f );
-//
-//    ChartItem item3 = new ChartItem( pieChart );
-//    item3.setText( "IE" );
-//    item3.setColor( colors.next() );
-//    item3.setValue( 0.3f );
+	parent.setLayout(new FillLayout());
+	new ForceDirectedGraph(parent, SWT.NONE);
   }
 
 }

@@ -1,7 +1,19 @@
+/*******************************************************************************
+ * Copyright (c) 2013 EclipseSource and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    Ralf Sternberg - initial API and implementation
+ ******************************************************************************/
 
 d3graph = {};
 
 d3graph.ForceDirectedGraph = function( parent ) {
+	this._nodes = []
+	this._links = []
 	this._width = 960,
     this._height = 500;
     this._color = d3.scale.category20();	
@@ -22,7 +34,7 @@ d3graph.ForceDirectedGraph = function( parent ) {
     .attr("width", this._width)
     .attr("height", this._height)
     .attr( "class", "chart");
-    
+	this._layer = this.getLayer("layer");    
     
     
     rap.on( "render", function() {
@@ -47,6 +59,56 @@ d3graph.ForceDirectedGraph = function( parent ) {
 
 d3graph.ForceDirectedGraph.prototype = {
 
+  sayHello: function() {
+	  alert("hello");
+  },
+  
+  addNode: function( node ) {
+	  this._nodes.push(node);
+  },
+  
+  addLink: function( link ) {
+	  this._links.push(link);
+  },
+  
+  showGraph: function () {
+	  this._force
+      .nodes(this._nodes)
+      .links(this._links)
+      .start();
+
+	  var node = this._layer.selectAll(".node")
+	      .data(this._nodes)
+	    .enter().append("circle")
+	      .attr("class", "node")
+	      .attr("r", 5)
+	      .style("fill", function(d) { return "#DC143C"; })
+	      .style("stroke", function(d) { return "#fff"; })
+	      .style("stroke-width", function(d) { return "1.5px"; })
+	      .call(this._force.drag);
+	  
+	  var link = this._layer.selectAll(".link")
+	  	 	.data(this._links)
+	  	.enter().append("line")
+	  		.attr("class", "link")
+	  		.style("stroke-width", function(d) { return Math.sqrt(d.value); })
+	  		.style("stroke", function(d) { return "#999"; })
+	  		.style("stroke-opacity", function(d) { return ".6"; });
+
+	  node.append("title")
+	  	.text(function(d) { return d.name; });
+  
+	  this._force.on("tick", function() {
+		    link.attr("x1", function(d) { return d.source.x; })
+		        .attr("y1", function(d) { return d.source.y; })
+		        .attr("x2", function(d) { return d.target.x; })
+		        .attr("y2", function(d) { return d.target.y; });
+	
+		    node.attr("cx", function(d) { return d.x; })
+		        .attr("cy", function(d) { return d.y; });
+		  });
+  },
+  
   createElement: function( parent ) {
     var element = document.createElement( "div" );
     element.style.position = "absolute";
@@ -91,91 +153,14 @@ d3graph.ForceDirectedGraph.prototype = {
   initialize: function( chart ) {
 	    this._chart = chart;
 	    this._layer = chart.getLayer( "layer" );
-	  },
+  },
 	  
   render: function( chart ) {
-	  graph = {
-		  "nodes":[
-		           {"name":"Myriel","group":1}  ],
-		  "links": []
-	  };
-	  
-	  this._force
-	      .nodes(graph.nodes)
-	      .links(graph.links)
-	      .start();
-	  
-	  var node = this._layer.selectAll(".node")
-	      .data(graph.nodes)
-	    .enter().append("circle")
-	      .attr("class", "node")
-	      .attr("r", 5)
-	      .style("fill", "#000000" )
-	      .call(this._force.drag);
-	  
-	  this._force.on("tick", function() {
-//  	    link.attr("x1", function(d) { return d.source.x; })
-//  	        .attr("y1", function(d) { return d.source.y; })
-//  	        .attr("x2", function(d) { return d.target.x; })
-//  	        .attr("y2", function(d) { return d.target.y; });
-
-  	    node.attr("cx", function(d) { return d.x; })
-  	        .attr("cy", function(d) { return d.y; });
-  	  });
-	  d3.json("miserables.json", function(error, graph) {
-		  alert("processing " + graph.nodes);
-    	  this._force
-    	      .nodes(graph.nodes)
-    	      .links(graph.links)
-    	      .start();
-    	  var link = this._layer.selectAll(".link")
-    	      .data(graph.links)
-    	    .enter().append("line")
-    	      .attr("class", "link")
-    	      .style("stroke-width", function(d) { return Math.sqrt(d.value); });
-
-    	  var node = this._layer.selectAll(".node")
-    	      .data(graph.nodes)
-    	    .enter().append("circle")
-    	      .attr("class", "node")
-    	      .attr("r", 5)
-    	      .style("fill", "#000000" )
-    	      .call(force.drag);
-
-    	  node.append("title")
-    	      .text(function(d) { return d.name; });
-
-    	  this._force.on("tick", function() {
-    	    link.attr("x1", function(d) { return d.source.x; })
-    	        .attr("y1", function(d) { return d.source.y; })
-    	        .attr("x2", function(d) { return d.target.x; })
-    	        .attr("y2", function(d) { return d.target.y; });
-
-    	    node.attr("cx", function(d) { return d.x; })
-    	        .attr("cy", function(d) { return d.y; });
-    	  });
-    });
+	  this.showGraph();
   }
-//	  alert("render")
-//	  chart._svg.append( "svg:rect" )
-//      	.attr( "x", 0)
-//      	.attr( "y", 0 )
-//      	.attr( "width", "100%" )
-//      	.attr( "height", "100%")
-//      	.attr("fill", "#000000")
-//	  }
 };
 
-//d3graph.ForceDirectedGraph.prototype = {
-//
-//  destroy: function() {
-//    this._chart.destroy();
-//  }
-//}
-//
-//
-//// TYPE HANDLER
-//
+// TYPE HANDLER
 
 rap.registerTypeHandler( "d3graph.ForceDirectedGraph", {
   factory: function( properties ) {
@@ -185,6 +170,8 @@ rap.registerTypeHandler( "d3graph.ForceDirectedGraph", {
   
   destructor: "destroy",
  
+  methods: ["showGraph", "render", "sayHello", "addNode", "addLink"],
+  
   properties: [],
 
   events: [ "Selection" ]
