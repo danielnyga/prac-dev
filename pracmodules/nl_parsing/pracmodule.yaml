@@ -23,7 +23,7 @@
 
 module_name: "nl_parsing"
 description: "Takes an empty pracinference object and adds to it a database with the syntactic dependencies obtained by the NL Parser."
-depends_on: []
-is_universal: true
+dependencies: []
 class_name: "nlparsing.NLParsing" 
+declarations: ["predicates.mln"]
 

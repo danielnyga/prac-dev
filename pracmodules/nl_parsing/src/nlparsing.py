@@ -154,7 +154,7 @@ class NLParsing(PRACModule):
         # this fixes some multithreading issues with jpype
         if not jpype.isThreadAttachedToJVM():
             jpype.attachThreadToJVM()
-        self.mln = readMLNFromFile(os.path.join(self.module_path, 'mln', 'nl_parsing.mln'), grammar='PRACGrammar', logic='FuzzyLogic')
+        self.mln = readMLNFromFile(os.path.join(self.module_path, 'mln', 'predicates.mln'), grammar='PRACGrammar', logic='FuzzyLogic')
 
     
     def parse_without_prac(self, *sentences):
