@@ -25,10 +25,11 @@ from prac.core import PRACModule, PRACKnowledgeBase, PRACPIPE
 import os
 from mln import readMLNFromFile, readDBFromFile, Database
 import logging
-from mln.methods import ParameterLearningMeasures
+from mln.methods import LearningMethods
 from prac.wordnet import WordNet
-from wcsp.converter import WCSPConverter
 from prac.inference import PRACInferenceStep
+import StringIO
+import sys
 
 # mapping from PennTreebank POS tags to NLTK POS Tags
 nounTags = ['NN', 'NNS', 'NNP']
@@ -43,31 +44,31 @@ class ActionCoreIdentification(PRACModule):
     
 
     def initialize(self):
-        self.mln = readMLNFromFile(os.path.join(self.module_path, 'mln', 'action_cores.mln'), logic='FuzzyLogic', grammar='PRACGrammar')
-    
+        pass
+#         self.mln = readMLNFromFile(os.path.join(self.module_path, 'mln', 'action_cores.mln'), logic='FuzzyLogic', grammar='PRACGrammar')
     
     @PRACPIPE
-    def __call__(self, pracinference):
-        log = logging.getLogger('acid')
+    def __call__(self, pracinference, **params):
+        log = logging.getLogger(self.name)
         log.debug('inference on %s' % self.name)
         
-        kb = self.load_pracmt('action_cores')
-        wordnet = kb.wordnet
-        mln = kb.trained_mln
+        if params.get('kb', None) is None:
+            # load the default arguments
+            dbs = pracinference.inference_steps[-1].output_dbs
+            kb = self.load_pracmt('default')
+            kb.dbs = dbs
+        else:
+            kb = params['kb']
+        mln = kb.query_mln
+        known_concepts = mln.domains.get('concept', [])
         inf_step = PRACInferenceStep(pracinference, self)
-        for input_db in pracinference.module2infSteps['wn_senses'][0].output_dbs:
-             
-            db = Database(self.mln)
-            for truth, lit in input_db.iterGroundLiteralStrings():
-                db.addGroundAtom(lit, truth)
-            # add the possible word senses
-#             inf_step.input_dbs.append(db)
-#             mrf = mln.groundMRF(db)
-#             wcsp = WCSPConverter(mrf)
-#             result_db = wcsp.getMostProbableWorldDB()
-#             result_db.printEvidence()
-            db.addGroundAtom('action_core(Filling)')
-            inf_step.output_dbs.append(db)
+        wordnet_module = self.prac.getModuleByName('wn_senses')
+        for db in kb.dbs:
+            db = wordnet_module.get_senses_and_similarities(db, known_concepts)
+            db.write(sys.stdout, color=True)
+            print '---'
+            result_db = list(kb.infer(db))
+            inf_step.output_dbs.extend(result_db)
         return inf_step
     
     
@@ -111,6 +112,7 @@ class ActionCoreIdentification(PRACModule):
         actioncore_KB.train(training_dbs)
         self.save_pracmt(actioncore_KB)
         
+        
 class ActionCoreKB(PRACKnowledgeBase):
     '''
     Represents the probabilistic KB for learning and inferring
@@ -120,7 +122,7 @@ class ActionCoreKB(PRACKnowledgeBase):
     def train(self, training_dbs):
         mln = self.module.mln
         self.training_dbs = training_dbs
-        self.trained_mln = mln.learnWeights(training_dbs, ParameterLearningMeasures.BPLL_CG, verbose=True, optimizer='bfgs')
+        self.trained_mln = mln.learnWeights(training_dbs, LearningMethods.BPLL_CG, verbose=True, optimizer='bfgs')
         
         
         
