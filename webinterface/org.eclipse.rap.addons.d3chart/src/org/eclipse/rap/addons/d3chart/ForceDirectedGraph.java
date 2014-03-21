@@ -25,11 +25,6 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.rap.json.JsonObject;
 import org.eclipse.swt.widgets.Item;
 
-import org.python.core.Py;
-import org.python.core.PyString;
-import org.python.core.PySystemState;
-import org.python.util.PythonInterpreter;
-
 
 public class ForceDirectedGraph extends Canvas {
 	
@@ -56,46 +51,34 @@ public class ForceDirectedGraph extends Canvas {
 		    
 		    ChartResources.ensureJavaScriptResources();
 		    
-			JsonObject oldMan = new JsonObject();
-		    oldMan.add("name", "jeff");
-		    oldMan.add("group", 1);		    
-		    this.addNode(oldMan);
+//			JsonObject oldMan = new JsonObject();
+//		    oldMan.add("name", "jeff");
+//		    oldMan.add("group", 1);		    
+//		    this.addNode(oldMan);
+//		    
+//		    JsonObject Labarre = new JsonObject();
+//		    Labarre.add("name", "jeff");
+//		    Labarre.add("group", 2);		    
+//		    this.addNode(Labarre);
+//
+//		    JsonObject Fauchelevent = new JsonObject();
+//		    Fauchelevent.add("name", "daniel");
+//		    Fauchelevent.add("group", 0);		    
+//		    this.addNode(Fauchelevent);
+//		    
+//		    JsonObject oneToZero = new JsonObject();
+//		    oneToZero.add("source", 1);
+//		    oneToZero.add("target", 0);	
+//		    oneToZero.add("value", 1);	
+//		    this.addLink(oneToZero);
+//		    
+//		    JsonObject twoToZero = new JsonObject();
+//		    twoToZero.add("source", 2);
+//		    twoToZero.add("target", 0);	
+//		    twoToZero.add("value", 1);	
+//		    this.addLink(twoToZero);
 		    
-		    JsonObject Labarre = new JsonObject();
-		    Labarre.add("name", "jeff");
-		    Labarre.add("group", 2);		    
-		    this.addNode(Labarre);
-
-		    JsonObject Fauchelevent = new JsonObject();
-		    Fauchelevent.add("name", "jeff");
-		    Fauchelevent.add("group", 0);		    
-		    this.addNode(Fauchelevent);
-		    
-		    JsonObject oneToZero = new JsonObject();
-		    oneToZero.add("source", 1);
-		    oneToZero.add("target", 0);	
-		    oneToZero.add("value", 1);	
-		    this.addLink(oneToZero);
-		    
-		    JsonObject twoToZero = new JsonObject();
-		    twoToZero.add("source", 2);
-		    twoToZero.add("target", 0);	
-		    twoToZero.add("value", 1);	
-		    this.addLink(twoToZero);
-		    
-		    runPython();
-	}
-	
-	public void runPython() {
-        String prac = "/home/ai/Documents/Aptana_Studio_3_Workspace/prac/";
-
-	    PythonInterpreter interp = new PythonInterpreter();
-	    interp.exec("import sys");
-	    
-        PySystemState sys = Py.getSystemState();
-        sys.path.append(new PyString(prac + "pracmodules"));	        
-        sys.path.append(new PyString(prac + "praccore"));	        
-
+//		    runPython();
 	}
 	
 	public void addNode(JsonObject jsonNode) {
@@ -104,6 +87,14 @@ public class ForceDirectedGraph extends Canvas {
 	
 	public void addLink(JsonObject jsonLink) {
 		remoteObject.call("addLink", jsonLink);
+	}
+	
+	public void showGraph() {
+		remoteObject.call("showGraph", new JsonObject());
+	}
+	
+	public void restart() {
+		remoteObject.call("restart", new JsonObject());
 	}
 }
 
