@@ -33,7 +33,7 @@ from mln.util import mergeDomains
 from collections import defaultdict
 
 # mapping from PennTreebank POS tags to NLTK POS Tags
-nounTags = ['NN', 'NNS', 'NNP']
+nounTags = ['NN', 'NNS', 'NNP', 'CD']
 verbTags = ['VB', 'VBG', 'VBZ', 'VBD', 'VBN', 'VBP', 'MD']
 posMap = {}
 for n in nounTags:
@@ -48,7 +48,7 @@ class WNSenses(PRACModule):
     '''
     
     def initialize(self):
-        self.mln = readMLNFromFile(os.path.join(self.module_path, 'mln', 'decls.mln'), logic='FuzzyLogic', grammar='PRACGrammar')
+        self.mln = readMLNFromFile(os.path.join(self.module_path, 'mln', 'predicates.mln'), logic='FuzzyLogic', grammar='PRACGrammar')
         self.wordnetKBs = {}
         self.wordnet = self.prac.wordnet
     
@@ -57,12 +57,30 @@ class WNSenses(PRACModule):
     def get_senses_and_similarities(self, db, concepts):
         '''
         Returns a new database with possible senses and the pairwise
-        semantic similarities asserted.
+        semantic similarities asserted. Assumes the part-of-speeches
+        "has_pos" and the syntactic predicates from the parsing module
+        to be given. Also asserts all negative evidences which cannot
+        be true given the word senses from WordNet (eg, 'pancake' cannot
+        have any meaning of milk).
+        
+        Example: "Flip the pancake."
+        
+        has_pos(pancake-3,NN) ---> 0.0  has_sense(pancake-3, Flip-1-sense-1)
+                                   ....
+                                   1.0  is_a(pancake-1-sense, pancake.n.01)
+                                   0.6  is_a(pancake-1-sense, milk.n.01)
+                                   ....
+                                   
+        All the reference concepts which are supposed to be considered
+        need to be given by means of the 'concept' argument.
+        NB: The existing databases are _not_ modified. Instead, copies
+        of them are created and returned.
+        
         '''
         log = logging.getLogger(self.__class__.__name__)
         wordnet = self.wordnet
         word2senses = defaultdict(list)
-        db_ = Database(self.mln)
+        db_ = db.duplicate()
         for res in db.query('has_pos(?word,?pos)'):
             word_const = res['?word']
             pos = posMap.get(res['?pos'], None)
@@ -70,7 +88,7 @@ class WNSenses(PRACModule):
                 continue
             word = word_const.split('-')[0]
             for i, synset in enumerate(wordnet.synsets(word, pos)):
-                sense_id = synset.name #'%s-%.2d' % (word_const, i+1)
+                sense_id = '%s-%.2d' % (word_const, i+1)
                 word2senses[word_const].append(sense_id)
                 for concept in concepts:
 #                     sim = wordnet.semilarity(synset, concept)

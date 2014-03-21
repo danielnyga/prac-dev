@@ -23,6 +23,6 @@
 
 module_name: "wn_senses"
 description: "Provides word senses from WordNet."
-depends_on: ['nl_parsing']
-is_universal: true
+dependencies: ['nl_parsing']
 class_name: "wnsenses.WNSenses" 
+declarations: ['predicates.mln']
