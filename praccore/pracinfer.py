@@ -26,6 +26,8 @@ from optparse import OptionParser
 from prac.core import PRAC
 from praclog import logging
 from prac.inference import PRACInference
+from gui.querytool import PRACQueryGUI
+from prac.wordnet import WordNet
 
 dbs = '''
 // Stir everything with a spoon .
@@ -71,12 +73,13 @@ if __name__ == '__main__':
     parser = OptionParser()
     (options, args) = parser.parse_args()
     
-    sentences = ["Pour the mix into the pan.", "Flip the pancake around."]
+    sentences = ["Add sugar."]
     
     log = logging.getLogger()
     log.setLevel(logging.INFO)
 
     prac = PRAC()
+    prac.wordnet = WordNet(concepts=None)
     parsing = prac.getModuleByName('nl_parsing')
     actioncore_recognititon = prac.getModuleByName('ac_recognition')
     
@@ -84,7 +87,12 @@ if __name__ == '__main__':
 
     # do the NL parsing
     prac.run(inf, parsing)
-    prac.run(inf, parsing.dbfromstring, dbs)
+    gui = PRACQueryGUI(inf)
+    gui.open()
+    
+#     prac.run(inf, actioncore_recognititon)
+    
+#     prac.run(inf, parsing.dbfromstring, dbs)
     
     # add all possible word meanings
 #     prac.run(inf, actioncore_recognititon, )

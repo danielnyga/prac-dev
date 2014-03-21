@@ -24,8 +24,8 @@
 import os
 import sys
 from prac.wordnet import WordNet
-from mln.mln import MLN
 from mln.database import Database, readDBFromString
+from mln.mln import readMLNFromString, MLN
 
 # adapt PYTHONPATH where necessary
 PRAC_HOME = os.environ['PRAC_HOME']
@@ -37,7 +37,7 @@ if dill_path not in sys.path:
     sys.path.append(dill_path)
 
 from string import whitespace, strip
-import dill as pickle
+import pickle
 from inference import PRACInference, PRACInferenceStep
 import fnmatch
 from mln import readMLNFromFile
@@ -68,6 +68,7 @@ class PRAC(object):
             d = os.path.abspath(os.path.join(prac_module_path, module_path, 'src'))
             sys.path.append(d)
             module = PRACModuleManifest.read(manifest_file, self)
+            module.module_path = os.path.join(prac_module_path, module_path)
             self.moduleManifests.append(module)
             self.moduleManifestByName[module.name] = module
             PRAC.log.info('Read manifest file for module "%s".' % module.name)
@@ -77,7 +78,27 @@ class PRAC(object):
         self.action_cores = ['Flipping', 'Filling', 'BeingLocated']
         self.microtheories = self.action_cores
         self.wordnet = WordNet()
-#         self.mln = MLN(logic='FuzzyLogic', grammar='PRACGrammar')
+        self.mln = self.readAllMLNDeclarations()
+        
+
+    def readAllMLNDeclarations(self):
+        '''
+        Reads all predicte declaration MLNs of all modules and returns an MLN
+        with all predicates declared.
+        '''
+        mln = MLN(logic='FuzzyLogic', grammar='PRACGrammar')
+        for name, manifest in self.moduleManifestByName.iteritems():
+            module_path = manifest.module_path
+            decl_mlns = manifest.pred_decls
+            for mlnfile in decl_mlns:
+                tmpmln = readMLNFromFile(os.path.join(prac_module_path, module_path, 'mln', mlnfile), logic='FuzzyLogic', grammar='PRACGrammar')
+                mln.update_predicates(tmpmln)
+        return mln
+    
+    
+    def getManifestByName(self, modulename):
+        return self.moduleManifestByName.get(modulename, None)
+        
         
     def setKnownConcepts(self, concepts):
         self.wordnet = WordNet(concepts)
@@ -157,6 +178,7 @@ class ActionCore(object):
     ACTION_VERBS = 'action_verbs'
     TEMPLATE_MLN = 'template_mln'
     LEARNED_MLN = 'learned_mln'
+    PRED_DECL = 'predicates'
     
     def __init__(self):
         pass
@@ -255,10 +277,11 @@ class PRACModuleManifest(object):
     # YAML tags
     NAME = 'module_name'
     DESCRIPTION = 'description'
-    UNIVERSAL = 'is_universal'
-    DEPENDENCIES = 'depends_on'
+#     UNIVERSAL = 'is_universal'
+    DEPENDENCIES = 'dependencies'
     MAIN_CLASS = 'class_name'
-    TRAINABLE = 'trainable'
+#     TRAINABLE = 'trainable'
+    PRED_DECLS = 'declarations'
     
     @staticmethod
     def read(stream, prac):
@@ -272,9 +295,10 @@ class PRACModuleManifest(object):
         manifest.name = yamlData[PRACModuleManifest.NAME]
         manifest.module_path = os.path.join(prac_module_path, manifest.name)
         manifest.description = yamlData[PRACModuleManifest.DESCRIPTION]
-        manifest.is_universal = yamlData.get(PRACModuleManifest.UNIVERSAL, False)
+#         manifest.is_universal = yamlData.get(PRACModuleManifest.UNIVERSAL, False)
         manifest.depends_on = yamlData.get(PRACModuleManifest.DEPENDENCIES, [])
-        manifest.is_trainable = yamlData.get(PRACModuleManifest.TRAINABLE, False)
+    #         manifest.is_trainable = yamlData.get(PRACModuleManifest.TRAINABLE, False)
+        manifest.pred_decls = yamlData.get(PRACModuleManifest.PRED_DECLS, [])
         return manifest
 
 
@@ -284,19 +308,48 @@ class PRACKnowledgeBase(object):
     that it is pickleable.
     '''
     
-    def __init__(self, name, mln=None):
-        self.name = name
-        self.mln = None
-        self.params = None
-        self.learned_mln = None
+    def __init__(self, prac):
+        self.prac = prac
+#         self.__prac_mln = prac.mln.duplicate()
+        self.learn_mln = prac.mln.duplicate()
+        self.learn_mln_str = ''
+        self.learn_params = {}
+        self.query_mln = prac.mln.duplicate()
+        self.query_mln_str = ''
+        self.query_params = {}
+        self.dbs = []
+        self.path = PRAC_HOME
+        self.filename = None
+        
+        
+    def set_querymln(self, mln_text, path='.'):
+        self.query_mln_str = mln_text
+        mln = self.prac.mln.duplicate()
+        self.query_mln = readMLNFromString(mln_text, searchPath=path, logic=self.query_params.get('logic', 'FirstOrderLogic'), mln=mln)
+        self.query_mln.write(sys.stdout, color=True)
+        
+        
+    def infer(self, *dbs):
+        '''
+        Runs MLN inference on the given database using this KB.
+        Yields all resulting databases.
+        '''
+        for db in dbs:
+            yield self.query_mln.infer(evidence_db=db, **self.query_params)
+
     
-#     def __getstate__(self):
-#         odict = self.__dict__.copy()
-#         del odict['module']
-#         return odict
-#     
-#     def __setstate__(self, d):
-#         self.__dict__.update(d)
+    def __getstate__(self): # do not store
+        odict = self.__dict__.copy()
+        del odict['dbs']
+        del odict['path']
+        del odict['prac']
+        del odict['query_mln']
+        del odict['learn_mln']
+        return odict
+      
+      
+    def __setstate__(self, d):
+        self.__dict__.update(d)
 
         
 class PRACModule(object):
@@ -342,23 +395,42 @@ class PRACModule(object):
         module.name = manifest.name
         return module
     
+    
+    def create_pracmt(self):
+        '''
+        Creates a new PRACKnowledgeBase instance initialized by PRAC.
+        '''
+        kb = PRACKnowledgeBase(self.prac)
+    
+    
     def load_pracmt(self, mt_name):
         '''
         Loads a pickled PRAC microtheory with given name.
         '''
-        binaryFileName = '%s.pracmt' % mt_name
-        return pickle.load(open(os.path.join(prac_module_path, self.name, 'bin', binaryFileName), 'r'))
+        binaryFileName = '%s.pracmln' % mt_name
+        filepath = os.path.join(self.module_path, 'bin')
+        f = open(os.path.join(filepath, binaryFileName), 'r')
+        kb = pickle.load(f)
+        kb.prac = self.prac
+        kb.set_querymln(kb.query_mln_str, os.path.join(self.module_path, 'mln'))
+        f.close()
+        
+        return kb
     
-    def save_pracmt(self, prac_mt):
+    def save_pracmt(self, prac_mt, name=None):
         '''
         Pickles the state of the given microtheory in its binary folder.
         - prac_mt:    instance of a PRACKnowledgeBase
         '''
-        binaryFileName = '%s.pracmt' % prac_mt.name
+        if name is None and not hasattr(prac_mt, 'name'):
+            raise Exception('No module name specified.')
+        binaryFileName = '%s.pracmln' % (name if name is not None else prac_mt.name)
         binPath = os.path.join(prac_module_path, self.name, 'bin')
         if not os.path.exists(binPath):
             os.mkdir(binPath)
-        pickle.dump(prac_mt, open(os.path.join(prac_module_path, self.name, 'bin', binaryFileName), 'w+'))
+        f = open(os.path.join(prac_module_path, self.name, 'bin', binaryFileName), 'w+')
+        pickle.dump(prac_mt, f)
+        f.close()
     
     @PRACPIPE
     def infer(self, pracinference):
@@ -382,11 +454,10 @@ class PRACModule(object):
         Parses a database which is given by a string. Returns a PRACInferenceStep
         instance.
         '''
-        mln = MLN(logic='FuzzyLogic', grammar='PRACGrammar')
         inf_step = PRACInferenceStep(pracinference, self)
         if len(pracinference.inference_steps) > 0:
             inf_step.input_dbs = list(pracinference.inference_steps[-1].output_dbs)
-        dbs = readDBFromString(mln, dbstring, ignoreUnknownPredicates=True)
+        dbs = readDBFromString(self.prac.mln, dbstring, ignoreUnknownPredicates=True)
         inf_step.output_dbs = dbs
         return inf_step
     
