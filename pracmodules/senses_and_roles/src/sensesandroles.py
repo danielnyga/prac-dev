@@ -57,6 +57,7 @@ class SensesAndRoles(PRACModule):
         inf_step = PRACInferenceStep(pracinference, self)
         for db in dbs:
             db_ = db.duplicate()
+            db_.write(sys.stdout, color=True)
             for q in db.query('action_core(?w, ?ac)'):
                 actioncore = q['?ac']
                 if kb is None:
@@ -64,16 +65,23 @@ class SensesAndRoles(PRACModule):
                 else:
                     useKB = kb
             roles = useKB.query_mln.domains.get('role', [])
+            log.info('roles: %s' % roles)
             specified_roles = []
             for q in db.query('action_role(?w, ?r)'):
                 specified_roles.append(q['?r'])
-            unknown_roles = set(roles).difference(specified_roles)
+            unknown_roles = set(roles).difference(set(specified_roles))
+            log.info('unknown roles: %s' % unknown_roles)
             for i, role in enumerate(unknown_roles):
                 if role == 'null': continue
+                log.info('adding %s' % ('action_role(skolem-%s, %s)' % (role, role)))
                 db_.addGroundAtom('action_role(skolem-%s, %s)' % (role, role))
-            db_.write(sys.stdout, color=True)
-#                 result = list(useKB.infer(db))
-#             inf_step.output_dbs.extend(result_db)
+            concepts = useKB.query_mln.domains['concept']
+            log.info('adding senses. concepts=%s' % concepts)
+            db_ = self.prac.getModuleByName('wn_senses').add_senses_and_similiarities_for_concepts(db_, concepts)
+            result_db = list(useKB.infer(db_))
+            db_ = db_.union(None, *result_db)
+#             db_.write(sys.stdout, color=True)
+            inf_step.output_dbs.append(db_)
         return inf_step
         
         
