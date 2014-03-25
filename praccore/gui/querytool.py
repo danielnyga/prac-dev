@@ -188,7 +188,7 @@ class PRACQueryGUI(object):
         self.prac = pracinference.prac
         prac = self.prac
         self.prac_inference = pracinference
-        self.inference_step = None
+        self.infStep = None
 
         self.initialized = False
         self.directory = directory
@@ -343,7 +343,7 @@ class PRACQueryGUI(object):
         start_button = Button(self.btn_container, text="Start Inference", command=self.start)
         start_button.grid(row=0, column=1, sticky='E')
         
-        continue_button = Button(self.btn_container, text="Continue >", command=self.start)
+        continue_button = Button(self.btn_container, text="Continue >", command=self.onContinue)
         continue_button.grid(row=0, column=2, sticky='W')
 
         self.initialized = True
@@ -520,10 +520,10 @@ class PRACQueryGUI(object):
         
         
     def onContinue(self):
-        if self.inference_step is None:
+        if self.infStep is None:
             self.start()
-        self.pracinference.inference_steps.append(self.inference_step)
-        self.setDatabases(*readDBFromString(self.prac.mln, self.selected_db.get_text()))
+        self.prac_inference.inference_steps.append(self.infStep)
+        self.setDatabases(*self.infStep.output_dbs)
         print 'Input databases have been replaced by the latest results.'
         
         
