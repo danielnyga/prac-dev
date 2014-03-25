@@ -461,6 +461,19 @@ class PRACModule(object):
         inf_step.output_dbs = dbs
         return inf_step
     
+    @PRACPIPE
+    def insertdbs(self, pracinference, *dbs):
+        '''
+        Creates a new inference step with the given dbs as output dbs and
+        appends it to the pracinference chain.
+        '''
+        inf_step = PRACInferenceStep(pracinference, self)
+        if len(pracinference.inference_steps) > 0:
+            inf_step.input_dbs = list(pracinference.inference_steps[-1].output_dbs)
+        inf_step.output_dbs = dbs
+        pracinference.inference_steps.append(inf_step)
+        return inf_step
+    
  
     
 if __name__ == '__main__':
