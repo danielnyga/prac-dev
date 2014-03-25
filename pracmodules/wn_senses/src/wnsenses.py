@@ -104,6 +104,37 @@ class WNSenses(PRACModule):
             db_.addGroundAtom('!is_a(null,%s)' % c)
         return db_
     
+#     @DB_TRANSFORM
+    def add_senses_and_similiarities_for_concepts(self, db, concepts):
+        '''
+        Adds for each concept in concepts a constant to the 'sense' domain
+        and asserts all similarities to the other concepts for the 'is_a'
+        predicate.
+        Example:
+        
+        ``concepts = [pancake.n.01, spatula.n.01]``
+        
+        will be transformed into
+        
+        ``1.000  is_a(pancake-s-1, pancake.n.01)
+          0.300  is_a(pancake-s-1, spatula.n.01)
+          0.300  is_a(spatula-s-1, pancake.n.01)
+          1.000  is_a(spatula-s-1, spatula.n.01)``
+        '''
+        db = db.duplicate()
+        concepts = list(concepts)
+        if 'null' in concepts:
+            concepts.remove('null')
+        for c in concepts:
+            synset = self.wordnet.synset(c)
+            sense_id = synset.name.lower().rsplit('.', 2)[0]
+            for c2 in concepts:
+                synset2 = self.wordnet.synset(c2)
+                db.addGroundAtom('is_a(%s-sense, %s)' % (sense_id, synset2.name), synset.wup_similarity(synset2))
+        return db
+            
+    
+    
     def get_similarities(self, *dbs):
         log = logging.getLogger(self.__class__.__name__)
         wordnet = self.wordnet
