@@ -12,6 +12,7 @@ package org.eclipse.rap.addons.d3chart;
 
 import static org.eclipse.rap.rwt.lifecycle.WidgetUtil.getId;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -31,7 +32,10 @@ public class ForceDirectedGraph extends Canvas {
 	private static final String REMOTE_TYPE = "d3graph.ForceDirectedGraph";
 	private final RemoteObject remoteObject;
 	private final List<Item> items = new LinkedList<Item>();
-
+	
+	public List<Node> nodes = new ArrayList<Node>();
+	public List<Link> links = new ArrayList<Link>();
+	
 	public ForceDirectedGraph( Composite parent, int style ) {
 		    super( parent, style );
 
@@ -50,43 +54,33 @@ public class ForceDirectedGraph extends Canvas {
 		    } );
 		    
 		    ChartResources.ensureJavaScriptResources();
-		    
-//			JsonObject oldMan = new JsonObject();
-//		    oldMan.add("name", "jeff");
-//		    oldMan.add("group", 1);		    
-//		    this.addNode(oldMan);
-//		    
-//		    JsonObject Labarre = new JsonObject();
-//		    Labarre.add("name", "jeff");
-//		    Labarre.add("group", 2);		    
-//		    this.addNode(Labarre);
-//
-//		    JsonObject Fauchelevent = new JsonObject();
-//		    Fauchelevent.add("name", "daniel");
-//		    Fauchelevent.add("group", 0);		    
-//		    this.addNode(Fauchelevent);
-//		    
-//		    JsonObject oneToZero = new JsonObject();
-//		    oneToZero.add("source", 1);
-//		    oneToZero.add("target", 0);	
-//		    oneToZero.add("value", 1);	
-//		    this.addLink(oneToZero);
-//		    
-//		    JsonObject twoToZero = new JsonObject();
-//		    twoToZero.add("source", 2);
-//		    twoToZero.add("target", 0);	
-//		    twoToZero.add("value", 1);	
-//		    this.addLink(twoToZero);
-		    
-//		    runPython();
 	}
 	
-	public void addNode(JsonObject jsonNode) {
-		remoteObject.call("addNode", jsonNode);
+	public void addNode(Node node) {
+		JsonObject json = new JsonObject();
+		json.add("label", node.label);
+		json.add("color", node.color);
+		node.idx = this.nodes.size();
+		remoteObject.call("addNode", json);
+		nodes.add(node);
 	}
 	
-	public void addLink(JsonObject jsonLink) {
-		remoteObject.call("addLink", jsonLink);
+	public void addLink(Link link) {
+		JsonObject json = new JsonObject();
+		json.add("label", link.label);
+		json.add("source", link.source.idx);
+		json.add("target", link.target.idx);
+		json.add("directed", link.directed);
+		json.add("strength", link.strength);
+		link.idx = this.links.size();
+		remoteObject.call("addLink", json);
+		links.add(link);
+	}
+	
+	public Link addLink(Node source, Node target, String label, boolean directed, float strength) {
+		Link l = new Link(source, target, label, directed, strength);
+		this.addLink(l);
+		return l;
 	}
 	
 	public void showGraph() {
@@ -96,5 +90,42 @@ public class ForceDirectedGraph extends Canvas {
 	public void restart() {
 		remoteObject.call("restart", new JsonObject());
 	}
+	
+	public void setCharge(float charge) {
+		JsonObject params = new JsonObject();
+		params.add("charge", charge);
+		remoteObject.call("setCharge", params);
+	}
+	
+	public void setLinkDistance(int distance) {
+		JsonObject params = new JsonObject();
+		params.add("linkdist", distance);
+		remoteObject.call("setLinkDistance", params);
+	}
+	
+	public void setFriction(int friction) {
+		JsonObject params = new JsonObject();
+		params.add("p", friction);
+		remoteObject.call("setFriction", params);
+	}
+	
+	public void setChargeDistance(int chargeDistance) {
+		JsonObject params = new JsonObject();
+		params.add("p", chargeDistance);
+		remoteObject.call("setChargeDistance", params);
+	}
+	
+	public void setGravity(float gravity) {
+		JsonObject params = new JsonObject();
+		params.add("p", gravity);
+		remoteObject.call("setGravity", params);
+	}
+	
+	public void removeAllNodes() {
+		remoteObject.call("removeAllNodes", new JsonObject());
+		this.nodes.clear();
+		this.links.clear();
+	}
+	
 }
 

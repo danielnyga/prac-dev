@@ -35,10 +35,15 @@ d3graph.ForceDirectedGraph = function( parent ) {
     	.attr("height", this._height)
     	.attr("class", "chart");
 
-    node = this._svg.selectAll(".node");
-    link = this._svg.selectAll(".link");
+//    var linkG = this._svg.append("g")
+//    var nodeG = this._svg.append("g")
+//    this._layer = this.getLayer("layer");    
+    this.link_layer = this.getLayer("links")
+    this.node_layer = this.getLayer("nodes")
+    
+    link = this.link_layer.selectAll(".link")
+    node = this.node_layer.selectAll(".node")
 
-    this._layer = this.getLayer("layer");    
 	
     rap.on( "render", function() {
       if( that._needsRender ) {
@@ -72,32 +77,57 @@ d3graph.ForceDirectedGraph.prototype = {
   },
   
   restart: function () {
-	var node = this._layer.selectAll(".node");
-	var link = this._layer.selectAll(".link");
-		
-	node = node.data(this._nodes)
-	  .enter().append("g")
+	var link = this.link_layer.selectAll(".link");
+	var node = this.node_layer.selectAll(".node");
+
+	link = link.data(this._links)
+	  	.enter()
+	  	.insert("line", ".line")
+		.attr("class", "link")
+		.style("stroke-width", function(d) { return 2.; })
+		.style("stroke", function(d) { return "black"; })
+		.style("stroke-opacity", function(d) { return Math.max(0.2, d.strength); })
+		.style({"z-index":"0"})
+	
+	link.insert("text")
+		.style("stroke", function(d) { return "#000"; })
+		.text(function(d) {return d.label})
+		.style("stroke-width", .2)
+	    .style({"font-family":"Arial, Helvetica, sans-serif","font-size":"12px"}) //,"z-index":"999999999"
+	    .style("text-anchor", "middle");
+	
+	g = node.data(this._nodes)
+	  .enter().insert("g")
       .attr("class", "node")
+//	  .style({"z-index": "99999"})
     
-    node.append("rect")//.transition().duration(500).attr('width', 150)
+	g.insert("rect")//.transition().duration(500).attr('width', 150)
+//		.attr("class", "node")
       	.style("stroke", "#000")
-      	.style("stroke-width", .1)
-      	.style("fill", function(d) { return "#eeeeee"; })
+      	.style("stroke-width", .2)
+      	.style({"z-index":"999999"})
+      	.style("fill", function(d) { return d.color; })
       	.attr("width", function(d) { return 100;})
       	.attr("height", 20)
 		.attr("transform", "translate(-50, -13)")
-    	.call(this._force.drag);
-//	node.append("circle")
-//		.attr("r", 5);
-	
-    node.append("text")
-      	.style("stroke", function(d) { return "#000"; })
-		.text(function(d) {return d.name})
-//		.call(this._force.drag)
-		.style("stroke-width", .2)
-	    .style({"font-family":"Arial, Helvetica, sans-serif","font-size":"12px","z-index":"999999999"})
-	    .style("text-anchor", "middle");
+    	.call(this._force.drag)
+//		.enter()
+//		.append("circle")
 //		.attr("class", "node")
+//		.attr("r", 5)
+//		.style("fill", "green")
+//		.style("stroke", "white");
+	
+    g.insert("text")
+      	.style("stroke", function(d) { return "#000"; })
+		.text(function(d) {return d.label})
+		.call(this._force.drag)
+		.style("stroke-width", .2)
+	    .style({"font-family":"Arial, Helvetica, sans-serif","font-size":"12px"}) //,"z-index":"999999999"
+	    .style("text-anchor", "middle");
+
+    
+ //		.attr("class", "node")
 //		.attr("width", 100)
 //		.attr("height", 50)
 //		.style("fill", function(d) { return "#DC143C"; })
@@ -105,24 +135,23 @@ d3graph.ForceDirectedGraph.prototype = {
 //		.call(this._force.drag)
 //		.insert("text").text("hello")
 	
-	link = link.data(this._links)
-	  .enter().append("line")
-		.attr("class", "link")
-		.style("stroke-width", function(d) { return Math.sqrt(d.value); })
-		.style("stroke", function(d) { return "#999"; })
-		.style("stroke-opacity", function(d) { return ".6"; });
-	
-	node = this._layer.selectAll(".node");
-	link = this._layer.selectAll(".link");
+	link = this.link_layer.selectAll(".link");
+	node = this.node_layer.selectAll(".node");
 	  
 	this._force.on("tick", function() {
 		link.attr("x1", function(d) { return d.source.x; })
 			.attr("y1", function(d) { return d.source.y; })
 			.attr("x2", function(d) { return d.target.x; })
 			.attr("y2", function(d) { return d.target.y; });
-//		node.attr("dx", function(d) { return d.x; })
-//		    .attr("dy", function(d) { return d.y; });
+//		link.attr("x", function(d) { return Math.min(d.source.x, d.target.x); })
+//		.attr("y", function(d) { return Math.min(d.source.y, d.target.y); })
+//		.attr("width", function(d) { return Math.max(d.source.x, d.target.x) - Math.min(d.source.x, d.target.x); })
+//		.attr("height", function(d) { return Math.max(d.source.y, d.target.y) - Math.min(d.source.y, d.target.y); });
+//		link.style({"z-index": "0"})
 		node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+//		node.style({"z-index": "999"})
+//		node.attr("cx", function(d) { return d.x; })
+//		    .attr("cy", function(d) { return d.y; });
 	});
 	
 	this._force.start();
@@ -142,7 +171,7 @@ d3graph.ForceDirectedGraph.prototype = {
   getLayer: function( name ) {
     var layer = this._svg.select( "g." + name );
     if( layer.empty() ) {
-      this._svg.append( "svg:g" ).attr( "class", name );
+      this._svg.append( "g" ).attr( "class", name );
       layer = this._svg.select( "g." + name );
     }
     return layer;
@@ -180,8 +209,35 @@ d3graph.ForceDirectedGraph.prototype = {
   },
   
   setCharge: function(charge) {
-	  this._force.charge(charge);
-  }
+	  this._force.charge(charge['charge']);
+	  this.restart();
+  },
+  
+  setLinkDistance: function(params) {
+	  this._force.linkDistance(params['linkdist']);
+	  this.restart();
+  },
+  
+  setFriction: function(params) {
+	  this._force.friction(params['linkdist']);
+	  this.restart();
+  },
+  
+  setChargeDistance: function(params) {
+	  this._force.chargeDistance(params['linkdist']);
+	  this.restart();
+  },
+  
+  setGravity: function(params) {
+	  this._force.gravity(params['linkdist']);
+	  this.restart();
+  },
+  
+  removeAllNodes: function(params) {
+	  this._nodes.length = 0;
+	  this._links.length = 0;
+	  this.restart();
+  },
 };
 
 // TYPE HANDLER
@@ -194,7 +250,8 @@ rap.registerTypeHandler( "d3graph.ForceDirectedGraph", {
   
   destructor: "destroy",
  
-  methods: ["render", "addNode", "addLink", "restart", "setCharge"],
+  methods: ["render", "addNode", "addLink", "restart", "setCharge", "setLinkDistance", "setFriction", 
+            "setChargeDistance", "setGravity", "removeAllNodes"],
   
   properties: [],
 

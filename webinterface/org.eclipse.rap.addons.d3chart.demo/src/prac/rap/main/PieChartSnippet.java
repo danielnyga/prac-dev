@@ -8,7 +8,7 @@
  * Contributors:
  *    Ralf Sternberg - initial API and implementation
  ******************************************************************************/
-package org.eclipse.rap.addons.d3chart.demo;
+package prac.rap.main;
 
 import org.eclipse.rap.addons.d3chart.ChartItem;
 import org.eclipse.rap.addons.d3chart.ColorStream;

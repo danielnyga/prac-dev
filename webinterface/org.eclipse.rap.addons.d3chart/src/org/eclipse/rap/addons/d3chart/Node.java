@@ -8,22 +8,19 @@
  * Contributors:
  *    Ralf Sternberg - initial API and implementation
  ******************************************************************************/
-package org.eclipse.rap.addons.d3chart.demo;
+package org.eclipse.rap.addons.d3chart;
 
-import org.eclipse.rap.rwt.widgets.DialogCallback;
-import org.eclipse.swt.SWT;
+public class Node {
 
-public class PRACDialogUtils {
-	public static class ReturnCodeDlgCallback implements DialogCallback {
-		
-		int returnCode = -1;
-		
-		public void dialogClosed(int returnCode) {
-			this.returnCode = returnCode;
-		}
-		
-		public int getReturnCode() {
-			return this.returnCode;
-		}
+	public String color = "#DDDDDD";
+	public String label = "";
+	public int idx = -1;
+	public String tooltip = "";
+	
+	public Node(String label, String color, String tooltip) {
+		this.color = color;
+		this.label = label;
+		this.tooltip = tooltip;
 	}
+	
 }
