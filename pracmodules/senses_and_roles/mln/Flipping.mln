@@ -31,7 +31,15 @@ role = {Theme, Instrument}
 has_sense(?w, ?s) ^ is_a(?s, null) => action_role(?w, null).
 
 // weighted formulas
-0 action_role(?word, +?role) ^ has_sense(?word, ?sense) ^ is_a(?sense, +?concept)
+5 action_role(?word, Instrument) ^ has_sense(?word, ?sense) ^ is_a(?sense, spatula.n.01)
+-2 action_role(?word, Instrument) ^ has_sense(?word, ?sense) ^ is_a(?sense, knife.n.01)
+-2 action_role(?word, Instrument) ^ has_sense(?word, ?sense) ^ is_a(?sense, tongs.n.01)
+-2 action_role(?word, Instrument) ^ has_sense(?word, ?sense) ^ is_a(?sense, fork.n.01)
+-2 action_role(?word, Instrument) ^ has_sense(?word, ?sense) ^ is_a(?sense, spoon.n.01)
+5 action_role(?word, Theme) ^ has_sense(?word, ?sense) ^ is_a(?sense, pancake.n.01)
+
+
+
 
 
 

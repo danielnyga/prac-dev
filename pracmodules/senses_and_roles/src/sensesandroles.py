@@ -53,7 +53,7 @@ class SensesAndRoles(PRACModule):
         else:
             kb = params['kb']
             dbs = kb.dbs
-        
+        self.kbs = []
         inf_step = PRACInferenceStep(pracinference, self)
         for db in dbs:
             db_ = db.duplicate()
@@ -64,6 +64,7 @@ class SensesAndRoles(PRACModule):
                     useKB = self.load_pracmt(actioncore)
                 else:
                     useKB = kb
+            self.kbs.append(useKB)
             roles = useKB.query_mln.domains.get('role', [])
             log.info('roles: %s' % roles)
             specified_roles = []
