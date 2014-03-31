@@ -334,6 +334,7 @@ class PRACKnowledgeBase(object):
         Runs MLN inference on the given database using this KB.
         Yields all resulting databases.
         '''
+        self.dbs = dbs
         for db in dbs:
             yield self.query_mln.infer(evidence_db=db, **self.query_params)
 
