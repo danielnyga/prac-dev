@@ -26,6 +26,7 @@ import sys
 from prac.wordnet import WordNet
 from mln.database import Database, readDBFromString
 from mln.mln import readMLNFromString, MLN
+from mln.util import mergeDomains
 
 # adapt PYTHONPATH where necessary
 PRAC_HOME = os.environ['PRAC_HOME']
@@ -397,6 +398,15 @@ class PRACModule(object):
         return module
     
     
+    def merge_all_domains(self, pracinference):
+        all_dbs = []
+        for step in pracinference.inference_steps:
+            all_dbs.extend(step.input_dbs)
+            all_dbs.extend(step.output_dbs)
+        fullDomain =  mergeDomains(*[db.domains for db in all_dbs])
+        return fullDomain
+        
+            
     def create_pracmt(self):
         '''
         Creates a new PRACKnowledgeBase instance initialized by PRAC.
