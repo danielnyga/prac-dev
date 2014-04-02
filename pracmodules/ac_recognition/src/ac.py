@@ -59,6 +59,8 @@ class ActionCoreIdentification(PRACModule):
             kb.dbs = dbs
         else:
             kb = params['kb']
+        if not hasattr(kb, 'dbs'):
+            kb.dbs = pracinference.inference_steps[-1].output_dbs
         mln = kb.query_mln
         known_concepts = mln.domains.get('concept', [])
         inf_step = PRACInferenceStep(pracinference, self)

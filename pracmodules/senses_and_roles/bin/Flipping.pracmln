@@ -23,32 +23,31 @@ p10
 S'cwPreds'
 p12
 (lp13
-sS'closedWorld'
+sS'verbose'
 p14
+I00
+sS'closedWorld'
+p15
 I1
 sS'queries'
-p15
-S'has_sense'
 p16
-sS'logic'
+S'has_sense, action_role'
 p17
-S'FuzzyLogic'
+sS'logic'
 p18
-sS'debug'
+S'FuzzyLogic'
 p19
-S'INFO'
-p20
 sS'useMultiCPU'
-p21
+p20
 I0
 sS'method'
-p22
+p21
 S'WCSP'
-p23
+p22
 ssS'filename'
-p24
+p23
 NsS'query_mln_str'
+p24
+V/* **************************************************************************** \u000a * PROBABILISTIC ROBOT ACTION CORES\u000a * \u000a * (C) 2011-2013 by Daniel Nyga (nyga@cs.tum.edu)\u000a *\u000a * Permission is hereby granted, free of charge, to any person obtaining\u000a * a copy of this software and associated documentation files (the\u000a * "Software"), to deal in the Software without restriction, including\u000a * without limitation the rights to use, copy, modify, merge, publish,\u000a * distribute, sublicense, and/or sell copies of the Software, and to\u000a * permit persons to whom the Software is furnished to do so, subject to\u000a * the following conditions:\u000a *\u000a * The above copyright notice and this permission notice shall be\u000a * included in all copies or substantial portions of the Software.\u000a *\u000a * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,\u000a * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF\u000a * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.\u000a * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY\u000a * CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,\u000a * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE\u000a * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.\u000a ******************************************************************************/\u000a\u000a#include predicates.mln\u000a\u000arole = {Theme, Instrument}\u000a\u000aconcept = {flip.v.08}\u000a\u000a// hard fomulas \u000ahas_sense(?w, null) => action_role(?w, null).\u000a\u000a// weighted formulas\u000a5 action_role(?word, Instrument) ^ has_sense(?word, ?sense) ^ is_a(?sense, spatula.n.01)\u000a-1 action_role(?word, Instrument) ^ has_sense(?word, ?sense) ^ is_a(?sense, knife.n.01)\u000a-1 action_role(?word, Instrument) ^ has_sense(?word, ?sense) ^ is_a(?sense, tongs.n.01)\u000a-1 action_role(?word, Instrument) ^ has_sense(?word, ?sense) ^ is_a(?sense, fork.n.01)\u000a-1 action_role(?word, Instrument) ^ has_sense(?word, ?sense) ^ is_a(?sense, spoon.n.01)\u000a-1 action_role(?word, Instrument) ^ has_sense(?word, ?sense) ^ is_a(?sense, fish_slice.n.01)\u000a5 action_role(?word, Theme) ^ has_sense(?word, ?sense) ^ is_a(?sense, pancake.n.01)\u000a5 action_role(?word, ActionVerb) ^ has_sense(?word, ?sense) ^ is_a(?sense, flip.v.08)\u000a\u000a\u000a\u000a\u000a\u000a\u000a\u000a\u000a\u000a\u000a\u000a\u000a\u000a\u000a\u000a\u000a\u000a
 p25
-V/* **************************************************************************** \u000a * PROBABILISTIC ROBOT ACTION CORES\u000a * \u000a * (C) 2011-2013 by Daniel Nyga (nyga@cs.tum.edu)\u000a *\u000a * Permission is hereby granted, free of charge, to any person obtaining\u000a * a copy of this software and associated documentation files (the\u000a * "Software"), to deal in the Software without restriction, including\u000a * without limitation the rights to use, copy, modify, merge, publish,\u000a * distribute, sublicense, and/or sell copies of the Software, and to\u000a * permit persons to whom the Software is furnished to do so, subject to\u000a * the following conditions:\u000a *\u000a * The above copyright notice and this permission notice shall be\u000a * included in all copies or substantial portions of the Software.\u000a *\u000a * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,\u000a * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF\u000a * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.\u000a * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY\u000a * CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,\u000a * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE\u000a * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.\u000a ******************************************************************************/\u000a\u000a#include predicates.mln\u000a\u000arole = {Theme, Instrument}\u000a\u000a// hard fomulas \u000ahas_sense(?w, ?s) ^ is_a(?s, null) => action_role(?w, null).\u000a\u000a// weighted formulas\u000a5 action_role(?word, Instrument) ^ has_sense(?word, ?sense) ^ is_a(?sense, spatula.n.01)\u000a-1 action_role(?word, Instrument) ^ has_sense(?word, ?sense) ^ is_a(?sense, knife.n.01)\u000a-1 action_role(?word, Instrument) ^ has_sense(?word, ?sense) ^ is_a(?sense, tongs.n.01)\u000a-1 action_role(?word, Instrument) ^ has_sense(?word, ?sense) ^ is_a(?sense, fork.n.01)\u000a-1 action_role(?word, Instrument) ^ has_sense(?word, ?sense) ^ is_a(?sense, spoon.n.01)\u000a-1 action_role(?word, Instrument) ^ has_sense(?word, ?sense) ^ is_a(?sense, fish_slice.n.01)\u000a5 action_role(?word, Theme) ^ has_sense(?word, ?sense) ^ is_a(?sense, pancake.n.01)\u000a\u000a\u000a\u000a\u000a\u000a\u000a\u000a\u000a\u000a\u000a
-p26
 sb.
