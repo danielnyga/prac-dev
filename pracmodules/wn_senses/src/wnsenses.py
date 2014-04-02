@@ -84,7 +84,8 @@ class WNSenses(PRACModule):
         for res in db.query('has_pos(?word,?pos)'):
             word_const = res['?word']
             pos = posMap.get(res['?pos'], None)
-            if pos is None:
+            if pos is None: # if no possible sense can be determined by WordNet, assert null
+                db_.addGroundAtom('has_sense(%s,null)' % word_const)
                 continue
             word = word_const.split('-')[0]
             for i, synset in enumerate(wordnet.synsets(word, pos)):
@@ -130,7 +131,7 @@ class WNSenses(PRACModule):
             sense_id = synset.name.lower().rsplit('.', 2)[0]
             for c2 in concepts:
                 synset2 = self.wordnet.synset(c2)
-                db.addGroundAtom('is_a(%s-sense, %s)' % (sense_id, synset2.name), synset.wup_similarity(synset2))
+                db.addGroundAtom('is_a(%s-sense, %s)' % (sense_id, synset2.name), self.wordnet.wup_similarity(synset, synset2))
         return db
             
     
