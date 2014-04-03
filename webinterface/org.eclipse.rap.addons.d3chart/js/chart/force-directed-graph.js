@@ -12,7 +12,7 @@ var that;
 
 d3graph.ForceDirectedGraph = function( parent ) {
     this._width = 900;
-    this._height = 900;
+    this._height = 700;
     this._color = d3.scale.category20();	
     
     this._renderer = this;
@@ -34,14 +34,32 @@ d3graph.ForceDirectedGraph = function( parent ) {
     	.attr("width", this._width)
     	.attr("height", this._height)
     	.attr("class", "chart");
+    
+    this._svg.append('defs').append('marker')
+    .attr({
+      id: 'arrowhead',
+      refX: 13,
+      refY: 4,
+      markerUnits: 'strokeWidth',
+      markerWidth: 10,
+      markerHeight: 8,
+      orient: 'auto'
+    }).append('path').attr({
+      d: 'M 0 0 L 10 4 L 0 8 Z',
+      fill: 'black'
+    });
+    
+
 
 //    var linkG = this._svg.append("g")
 //    var nodeG = this._svg.append("g")
 //    this._layer = this.getLayer("layer");    
     this.link_layer = this.getLayer("links")
     this.node_layer = this.getLayer("nodes")
+    this.label_layer = this.getLayer("labels")
     
     link = this.link_layer.selectAll(".link")
+    		.attr('marker-end', 'url(#arrowhead)');
     node = this.node_layer.selectAll(".node")
 
 	
@@ -77,18 +95,26 @@ d3graph.ForceDirectedGraph.prototype = {
   },
   
   restart: function () {
-	var link = this.link_layer.selectAll(".link");
+	var link = this.link_layer.selectAll("line.link")
+				.attr('marker-end', 'url(#arrowhead)');
+		
 	var node = this.node_layer.selectAll(".node");
 
+	var label = this.label_layer.selectAll("text.label");
+	
+	node.append("title")
+      .text(function(d) { return d.name; });
+	
 	link = link.data(this._links)
 	  	.enter()
-	  	.insert("line", ".line")
+	  	.append("line")
 		.attr("class", "link")
+		.attr('marker-end', 'url(#arrowhead)')
 		.style("stroke-width", function(d) { return 2.; })
 		.style("stroke", function(d) { return "black"; })
 		.style("stroke-opacity", function(d) { return Math.max(0.2, d.strength); })
-		.style({"z-index":"0"})
-	
+		.style({"z-index":"0"});
+		
 	link.insert("text")
 		.style("stroke", function(d) { return "#000"; })
 		.text(function(d) {return d.label})
@@ -96,6 +122,14 @@ d3graph.ForceDirectedGraph.prototype = {
 	    .style({"font-family":"Arial, Helvetica, sans-serif","font-size":"12px"}) //,"z-index":"999999999"
 	    .style("text-anchor", "middle");
 	
+	label = label.data(this._links)
+	  .enter().append('text')
+	  .attr("class", "label")
+	    .attr("x", function(d) { return (d.source.y + d.target.y) / 2; }) 
+	    .attr("y", function(d) { return (d.source.x + d.target.x) / 2; }) 
+	    .attr("text-anchor", "middle") 
+	    .text(function(d) {return d.label;});  
+
 	g = node.data(this._nodes)
 	  .enter().insert("g")
       .attr("class", "node")
@@ -137,6 +171,8 @@ d3graph.ForceDirectedGraph.prototype = {
 	
 	link = this.link_layer.selectAll(".link");
 	node = this.node_layer.selectAll(".node");
+	label = this.label_layer.selectAll(".label");
+
 	  
 	this._force.on("tick", function() {
 		link.attr("x1", function(d) { return d.source.x; })
@@ -152,6 +188,16 @@ d3graph.ForceDirectedGraph.prototype = {
 //		node.style({"z-index": "999"})
 //		node.attr("cx", function(d) { return d.x; })
 //		    .attr("cy", function(d) { return d.y; });
+		
+//		labels = link.data(this._links)
+//	  	.enter().append('text')
+//	    .attr("x", function(d) { return (d.source.y + d.target.y) / 2; }) 
+//	    .attr("y", function(d) { return (d.source.x + d.target.x) / 2; }) 
+//	    .attr("text-anchor", "middle") 
+//	    .text(function(d) {return 2;}); 
+	
+		label.attr("x", function(d) { return (d.source.x + d.target.x) / 2; }) 
+        	.attr("y", function(d) { return (d.source.y + d.target.y) / 2; }) 
 	});
 	
 	this._force.start();
