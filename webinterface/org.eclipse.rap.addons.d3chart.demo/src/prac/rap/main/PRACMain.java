@@ -46,18 +46,27 @@ import org.eclipse.swt.widgets.Text;
 //import org.python.util.PythonInterpreter;
 
 
+
+
+
 import prac.rap.data.MLNDB;
 import prac.rap.data.MLNDB.Atom;
 import ros.NodeHandle;
 import ros.Ros;
 import ros.RosException;
+import ros.ServiceClient;
 import ros.Subscriber;
+import ros.pkg.rosmln.msg.AtomProbPair;
 import ros.pkg.rosmln.msg.MLNDatabase;
+import ros.pkg.rosprac.srv.PRACInfer;
+import ros.pkg.rosprac.srv.PRACInfer.Response;
 
 //import ros.pkg.rosmln.msg.MLNInference;
 
 public class PRACMain extends AbstractEntryPoint {
 
+	private int dbIndex = 0;
+	
 	public ForceDirectedGraph graph = null;
 
 	public List<MLNDB> dbs = new ArrayList<MLNDB>();
@@ -65,7 +74,18 @@ public class PRACMain extends AbstractEntryPoint {
 	int nodeCounter = 0;
 	public Map<String, Node> id2node = new HashMap<String, Node>();
 	public Map<String[], Link> nodes2link = new HashMap<String[], Link>();
+	public List<String> pracModules = new ArrayList<String>();
+	
+	private static final String PRAC_INFER = "PRACInfer";
 
+	
+	private static final int ROS_EXCEPTION = -1;
+
+	public void initPracModules() {
+		pracModules.add("nl_parsing");
+		pracModules.add("ac_recognition");
+		pracModules.add("senses_and_roles");
+	}
 	@Override
 	protected void createContents(Composite parent) {
 		parent.setLayout(new GridLayout(1, true));
@@ -152,6 +172,46 @@ public class PRACMain extends AbstractEntryPoint {
 			}
 		});
 
+		Button btnPrev = new Button(controlPanel, SWT.PUSH);
+		btnPrev.setText("< Prev");
+		btnPrev.addSelectionListener(new SelectionListener() {
+			public void widgetSelected(SelectionEvent e) {
+						if (dbIndex == 0) 
+							return;
+						dbIndex--;
+						final MLNDB db = dbs.get(dbIndex);
+						graph.removeAllNodes();
+						id2node.clear();
+						// nodes2link.clear();
+						for (String dom : db.domains.keySet()) {
+							for (String value : db.domains.get(dom)) {
+								String id = "" + dbCounter + dom + value;
+								if (!id2node.containsKey(id)) {
+									Node n = new Node(value, "#dddddd", "");
+									id2node.put(id, n);
+									graph.addNode(n);
+								}
+							}
+						}
+
+						for (Atom a : db.getAtoms()) {
+							assert (a.args.length == 2);
+							String dom1 = db.predicates.get(a.predName)[0];
+							String dom2 = db.predicates.get(a.predName)[1];
+							final String id1 = dbCounter + dom1 + a.args[0];
+							final String id2 = dbCounter + dom2 + a.args[1];
+							System.out.println(id1);
+							System.out.println(id2);
+							final Atom atom = a;
+							graph.addLink(id2node.get(id1), id2node.get(id2), atom.predName, true, db.get(atom));
+						}
+					}
+
+			public void widgetDefaultSelected(SelectionEvent e) {
+			}
+		});
+
+
 		Button btnNext = new Button(controlPanel, SWT.PUSH);
 		btnNext.setText("Next >");
 		final Display display = Display.getCurrent();
@@ -160,12 +220,12 @@ public class PRACMain extends AbstractEntryPoint {
 
 //				(new Thread() {
 //					public void run() {
-						if (dbs.size() == 0)
+						if (dbIndex == dbs.size()) 
 							return;
-						final MLNDB db = dbs.get(0);
-						dbs.remove(0);
-						// graph.removeAllNodes();
-						// id2node.clear();
+						dbIndex++;
+						final MLNDB db = dbs.get(dbIndex);
+						graph.removeAllNodes();
+						id2node.clear();
 						// nodes2link.clear();
 						for (String dom : db.domains.keySet()) {
 							for (String value : db.domains.get(dom)) {
@@ -193,7 +253,7 @@ public class PRACMain extends AbstractEntryPoint {
 //									main.graph.addLink(newNode, prevNode, "", false, 1f);
 								}
 //							});
-//						}
+						}
 //						try {
 //							Thread.sleep(300);
 //						} catch (InterruptedException e) {
@@ -202,12 +262,33 @@ public class PRACMain extends AbstractEntryPoint {
 //						}
 //					}
 //				}).start();
-			}
+			//}
+			
 
 			public void widgetDefaultSelected(SelectionEvent e) {
 			}
 		});
 
+		(new Label(controlPanel, SWT.NONE)).setText("Instruction :");
+
+		final Text txtInstruction = new Text(controlPanel, SWT.BORDER);
+
+		Button btnInstruction = new Button(controlPanel, SWT.PUSH);
+		btnInstruction.setText("Parse");
+		btnInstruction.addSelectionListener(new SelectionListener() {
+			public void widgetSelected(SelectionEvent e) {
+				graph.removeAllNodes();
+				id2node.clear();
+				String instruction = txtInstruction.getText();
+				System.out.println("instruction " + instruction);
+				queryPracRos(instruction);
+			}
+
+			public void widgetDefaultSelected(SelectionEvent e) {
+			}
+		});
+		
+		
 		final ServerPushSession pushSession = new ServerPushSession();
 		pushSession.start();
 		// Start the ROS node
@@ -287,8 +368,50 @@ public class PRACMain extends AbstractEntryPoint {
 		DialogUtil.open(messageBox, callback);
 		return callback.getReturnCode();
 	}
+	
+	/**
+	 * Method for querying the ros service that performs the prac inference
+	 */
+	
+	public void queryPracRos(String instruction) {
+		// initialize the list of prac modules to be called
+		initPracModules();
+		Ros ros = Ros.getInstance();
+		NodeHandle n = ros.createNodeHandle();
+		ServiceClient<PRACInfer.Request, PRACInfer.Response, PRACInfer> sc =
+				          n.serviceClient(PRAC_INFER , new PRACInfer(), false);
+		
+		PRACInfer.Request rq = new PRACInfer.Request();
+		Response response = null;
+		ArrayList<String> instructions = new ArrayList<String>();
+		instructions.add(instruction);
+		 
+		dbs.clear();
+		try {
+			ROSPRAC rosprac = new ROSPRAC(Display.getCurrent(), this);
+			// call different modules of prac in the order that is set by initPracModules()
+			for (String module : pracModules) {
+				rq.instructions = instructions;
+				rq.pracmodule = module;
+				if (response != null) {
+					rq.input_dbs = response.output_dbs;
+					rq.instructions.clear();
+				}
+				response = sc.call(rq);
+				for (MLNDatabase dbmsg : response.output_dbs) {
+					rosprac.call(dbmsg);
+				}
+
+			}
+		}
+		catch(RosException rex){
+			rex.printStackTrace();
+			System.exit(ROS_EXCEPTION);
+		}	
+	}
 
 	// public static void main(String[] args) {
 	// runPython();
 	// }
 }
+
