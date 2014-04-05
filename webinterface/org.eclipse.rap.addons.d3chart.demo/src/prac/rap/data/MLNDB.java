@@ -16,15 +16,28 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.swt.widgets.Display;
+
+import prac.rap.main.ROSPRAC;
+import ros.NodeHandle;
+import ros.Ros;
+import ros.RosException;
+import ros.ServiceClient;
+import ros.pkg.rosprac.srv.PRACInfer;
+import ros.pkg.rosprac.srv.PRACInfer.Response;
+import ros.pkg.mlnpredicates.msg.MLNPredicate;
+import ros.pkg.mlnpredicates.srv.MLNPredicates;
 
 /**
  * Represents a Database in MLNs.
  */
 public class MLNDB {
+	private static Map<String, String[]> predicatesFromPrac = null;
 	
 	protected Map<String, Float> evidence = new HashMap<String, Float>();
 	public Map<String, String[]> predicates = new HashMap<String, String[]>();
 	public Map<String, String[]> domains = new HashMap<String, String[]>();
+	
 	
 	/**
 	 * Expects a list atom string specifying the predicate
@@ -40,9 +53,19 @@ public class MLNDB {
 			Atom a = new Atom(atom);
 			String[] argList = this.predicates.get(a.predName);
 			if (argList != null && ! Arrays.equals(argList, a.args))
-				throw new Exception("Inconsistent predicate decalarations: " + atom + " <-->" + new Atom(a.predName, argList));
+				throw new Exception("Inconsistent predicate declarations: " + atom + " <-->" + new Atom(a.predName, argList));
 			else
 				this.predicates.put(a.predName, a.args);
+		}
+		// fill in the missing predicates using information from prac
+		if (predicatesFromPrac == null) {
+			predicatesFromPrac = getMLNPredicatesFromPrac();
+		}
+		
+		for (Map.Entry<String, String[]> entry : predicatesFromPrac.entrySet()) {
+			if (!this.predicates.containsKey(entry.getKey())) {
+				this.predicates.put(entry.getKey(), entry.getValue());
+			}
 		}
 	}
 	
@@ -64,22 +87,27 @@ public class MLNDB {
 	}
 	
 	public void put(Atom atom, float truth) {
+//		System.out.println("\n predicates : " + predicates.keySet());
+//		System.out.println("atom.predName : " + atom.predName);
 		String[] domainNames = this.predicates.get(atom.predName);
 		assert (domainNames != null);
-		for (int i = 0; i < domainNames.length; ++i) {
-			String domName = domainNames[i];
-			String[] domain = this.domains.get(domName);
-			if (domain == null)
-				domain = new String[0];
-			List<String> values = new ArrayList<String>(Arrays.asList(domain));
-			System.out.println(values);
-			if (! values.contains(atom.args[i])) {
-				System.out.println(atom.args[i]);
-				values.add(atom.args[i]);
-				this.domains.put(domName, values.toArray(new String[0]));
+//		if (this.predicates.containsKey(atom.predName)) {
+			for (int i = 0; i < domainNames.length; ++i) {
+				String domName = domainNames[i];
+				String[] domain = this.domains.get(domName);
+				if (domain == null)
+					domain = new String[0];
+				List<String> values = new ArrayList<String>(Arrays.asList(domain));
+				System.out.println(values);
+				if (! values.contains(atom.args[i])) {
+					System.out.println(atom.args[i]);
+					values.add(atom.args[i]);
+					this.domains.put(domName, values.toArray(new String[0]));
+				}
 			}
-		}
-		this.evidence.put(atom.toString(), truth);
+			this.evidence.put(atom.toString(), truth);
+//		}
+//		System.out.println("Put returned");
 	}
 	
 	public void put(Atom atom) {
@@ -136,6 +164,37 @@ public class MLNDB {
 		
 	}
 	
+	public static Map<String, String[]> getMLNPredicatesFromPrac() {
+		Ros ros = Ros.getInstance();
+		NodeHandle n = ros.createNodeHandle();
+		ServiceClient<MLNPredicates.Request, MLNPredicates.Response, MLNPredicates> sc =
+				          n.serviceClient("MLNPredicates" , new MLNPredicates(), false);
+	
+		Map<String, String[]> pracPredicates = new HashMap<String, String[]>();
+		
+		MLNPredicates.Request rq = new MLNPredicates.Request();
+		try {
+			MLNPredicates.Response response = sc.call(rq);
+			for (MLNPredicate predicate : response.predicates) {
+				if (!pracPredicates.containsKey(predicate.name)) {
+					int domainSize = predicate.domain.size();
+					String [] domains = new String[domainSize];
+					for (int i = 0; i < domainSize; i++) {
+						domains[i] = predicate.domain.get(i);
+					}
+					pracPredicates.put(predicate.name, domains);
+				}
+			}
+			return pracPredicates;
+			
+		}
+		catch(RosException ex) {
+			ex.printStackTrace();
+			return null;
+		}
+
+	}
+	
 	public static void main(String[] args) {
 		MLNDB db;
 		try {
@@ -160,3 +219,4 @@ public class MLNDB {
 	}
 
 }
+
