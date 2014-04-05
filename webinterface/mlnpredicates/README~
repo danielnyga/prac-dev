@@ -1,0 +1,8 @@
+This package essentially supplies the predicates that
+can be used in an mln. It simply calls and returns
+prac.mln.predicates.
+
+The client to this service should expect a return value
+of type "list of predicates, domain pairs".
+
+See example client inside "scripts/".

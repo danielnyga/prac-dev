@@ -1,0 +1,2 @@
+- setup-file:
+    local-name: /home/ai/rosbuild_ws/mlnpredicates/build/devel/setup.sh
