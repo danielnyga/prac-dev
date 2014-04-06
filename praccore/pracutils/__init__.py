@@ -1,6 +1,7 @@
 import os
 import math 
 import time
+from utils import colorize
 
 class StopWatch(object):
     
@@ -69,6 +70,13 @@ def difference_update(l1, l2):
     '''
     for e in l2:
         l1.remove(e)
+        
+        
+def printListAndTick(l, t):
+    if type(t) is str:
+        t = l.index(t)
+    for idx, item in enumerate(l):
+        print '    [%s] %s' % ('X' if t==idx else ' ', colorize(item, (None, {True: 'yellow', False: 'white'}[t==idx], True), True))  
         
 class bash:
     HEADER = '\033[95m'

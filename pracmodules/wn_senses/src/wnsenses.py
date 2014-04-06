@@ -31,6 +31,8 @@ from mln.database import Database, readDBFromFile
 from prac.wordnet import WordNet
 from mln.util import mergeDomains
 from collections import defaultdict
+from nltk.corpus.reader.wordnet import Synset
+from utils import colorize
 
 # mapping from PennTreebank POS tags to NLTK POS Tags
 nounTags = ['NN', 'NNS', 'NNP', 'CD']
@@ -89,7 +91,7 @@ class WNSenses(PRACModule):
                 continue
             word = word_const.split('-')[0]
             for i, synset in enumerate(wordnet.synsets(word, pos)):
-                sense_id = '%s-%.2d' % (word_const, i+1)
+                sense_id = synset.name#'%s-%.2d' % (word_const, i+1)
                 word2senses[word_const].append(sense_id)
                 for concept in concepts:
 #                     sim = wordnet.semilarity(synset, concept)
@@ -101,8 +103,8 @@ class WNSenses(PRACModule):
                 else: 
                     for s in senses: db_.addGroundAtom('!has_sense(%s,%s)' % (word, s))
             db_.addGroundAtom('!has_sense(%s,null)' % (word))
-        for c in concepts:
-            db_.addGroundAtom('!is_a(null,%s)' % c)
+#         for c in concepts:
+#             db_.addGroundAtom('!is_a(null,%s)' % c)
         return db_
     
 #     @DB_TRANSFORM
@@ -131,9 +133,42 @@ class WNSenses(PRACModule):
             sense_id = synset.name.lower().rsplit('.', 2)[0]
             for c2 in concepts:
                 synset2 = self.wordnet.synset(c2)
-                db.addGroundAtom('is_a(%s-sense, %s)' % (sense_id, synset2.name), self.wordnet.wup_similarity(synset, synset2))
+#                 db.addGroundAtom('is_a(%s-sense, %s)' % (sense_id, synset2.name), self.wordnet.wup_similarity(synset, synset2))
+                db.addGroundAtom('is_a(%s, %s)' % (synset.name, synset2.name), self.wordnet.wup_similarity(synset, synset2))
         return db
             
+    def printWordSenses(self, synsets, tick):
+        '''
+        Prints the list of synsets or synset ids and ticks the one specified by the given index.
+        tick may be either the index or the sense id itself or the synset instance.
+        '''
+        if type(tick) is str:
+            tick = self.prac.wordnet.synset(tick)
+        synsets_ = []
+        for idx, sense in enumerate(synsets):
+            if isinstance(sense, str):
+                sense = self.prac.wordnet.synset(sense)
+            synsets_.append(sense)
+        if isinstance(tick, Synset):
+            tick = synsets_.index(tick) 
+        for idx, sense in enumerate(synsets_):
+            print '    [%s] %s: %s (%s)' % ('X' if tick==idx else ' ', colorize(sense.name, (None, {True: 'yellow', False: 'white'}[tick==idx], 
+                                                                                             True), True), sense.definition, ';'.join(sense.examples))  
+
+    
+    def get_possible_meanings_of_word(self, db, word):
+        '''
+        Returns a list of synsets for the given word (the constant with index) in the
+        given database. Assumes that parts-of-speech are known.
+        '''
+        for q in db.query('has_sense(%s, ?s) ^ has_pos(%s, ?pos)' % (word, word)):
+            s = q['?s']
+            pos = q['?pos']
+            pos = posMap.get(pos, None)
+            if pos is None: continue
+            word = word.split('-')[0]
+            return self.prac.wordnet.synsets(word, pos)
+        return None
     
     
     def get_similarities(self, *dbs):

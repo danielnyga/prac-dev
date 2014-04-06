@@ -327,7 +327,7 @@ class PRACKnowledgeBase(object):
         self.query_mln_str = mln_text
         mln = self.prac.mln.duplicate()
         self.query_mln = readMLNFromString(mln_text, searchPath=path, logic=self.query_params.get('logic', 'FirstOrderLogic'), mln=mln)
-        self.query_mln.write(sys.stdout, color=True)
+#         self.query_mln.write(sys.stdout, color=True)
         
         
     def infer(self, *dbs):

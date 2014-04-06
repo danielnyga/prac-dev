@@ -30,6 +30,7 @@ from prac.wordnet import WordNet
 from prac.inference import PRACInferenceStep
 import StringIO
 import sys
+from utils import colorize
 
 # mapping from PennTreebank POS tags to NLTK POS Tags
 nounTags = ['NN', 'NNS', 'NNP']
@@ -52,6 +53,11 @@ class ActionCoreIdentification(PRACModule):
         log = logging.getLogger(self.name)
         log.debug('inference on %s' % self.name)
         
+        print colorize('+==========================================+', (None, 'green', True), True)
+        print colorize('| PRAC INFERENCE: RECOGNIZING ACTION CORES |', (None, 'green', True), True)
+        print colorize('+==========================================+', (None, 'green', True), True)
+        print
+        print colorize('Inferring most probable ACTION CORE + simulteous WORD SENSE DISMABIGUATION...', (None, 'white', True), True)
         if params.get('kb', None) is None:
             # load the default arguments
             dbs = pracinference.inference_steps[-1].output_dbs
@@ -67,10 +73,23 @@ class ActionCoreIdentification(PRACModule):
         wordnet_module = self.prac.getModuleByName('wn_senses')
         for db in kb.dbs:
             db = wordnet_module.get_senses_and_similarities(db, known_concepts)
-            db.write(sys.stdout, color=True)
-            print '---'
+#             db.write(sys.stdout, color=True)
+#             print '---'
             result_db = list(kb.infer(db))
             inf_step.output_dbs.extend(result_db)
+            print
+            for r_db in result_db:
+                for q in r_db.query('action_core(?w, ?ac)'):
+                    if q['?ac'] == 'null': continue
+                    print 'Identified Action Core(s):', colorize(q['?ac'], (None, 'white', True), True)
+                print
+                print 'Inferred most probable word senses:'
+                for q in r_db.query('has_sense(?w, ?s)'):
+                    if q['?s'] == 'null': continue
+                    print '%s:' % q['?w']
+                    wordnet_module.printWordSenses(wordnet_module.get_possible_meanings_of_word(r_db, q['?w']), q['?s'])
+                    print 
+                    
         return inf_step
     
     

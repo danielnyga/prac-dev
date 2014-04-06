@@ -30,6 +30,8 @@ import os
 from mln import readMLNFromFile
 import logging
 from mln.database import Database
+from utils import colorize
+import sys
 
 java.classpath.append(os.path.join(PRAC_HOME, '3rdparty', 'stanford-parser-2012-02-03', 'stanford-parser.jar'))
 grammarPath = os.path.join(PRAC_HOME, '3rdparty', 'stanford-parser-2012-02-03', 'grammar', 'englishPCFG.ser.gz')
@@ -197,7 +199,13 @@ class NLParsing(PRACModule):
         parser = self.stanford_parser
         inferenceStep = PRACInferenceStep(pracinference, self)
         
+        print colorize('+==========================================+', (None, 'green', True), True)
+        print colorize('| PRAC INFERENCE: PARSING NATURAL LANGUAGE |', (None, 'green', True), True)
+        print colorize('+==========================================+', (None, 'green', True), True)
+        print 
         for instr in pracinference.instructions:
+            print colorize('Parsing NL instruction:', (None, 'white', True), True), instr
+        
             db = Database(self.mln)
             deps = parser.getDependencies(instr, True)
             deps = map(str, deps)
@@ -217,6 +225,12 @@ class NLParsing(PRACModule):
                 db.addGroundAtom(posTagAtom)
                 self.posTags[pos[0]] = pos[1]
             inferenceStep.output_dbs.append(db)
+            
+            print
+            print colorize('Syntactic evidence:', (None, 'white', True), True)
+            db.write(sys.stdout, True)
+            
+            
         return inferenceStep
 
             
