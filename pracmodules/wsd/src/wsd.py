@@ -32,21 +32,18 @@ class PRACWSD(PRACModule):
             if not hasattr(kb, 'dbs'):
                 kb.dbs = pracinference.inference_steps[-1].output_dbs
             mln = kb.query_mln
-            print 'FINISHED INFERENCE'
-            '''
+            
             known_concepts = mln.domains.get('concept', [])
             inf_step = PRACInferenceStep(pracinference, self)
             wordnet_module = self.prac.getModuleByName('wn_senses')
+  
+            
             for db in kb.dbs:
                 db = wordnet_module.get_senses_and_similarities(db, known_concepts)
                 result_db = list(kb.infer(db))
                 inf_step.output_dbs.extend(result_db)
                 print
                 for r_db in result_db:
-                    for q in r_db.query('action_core(?w, ?ac)'):
-                        if q['?ac'] == 'null': continue
-                        print 'Identified Action Core(s):', colorize(q['?ac'], (None, 'white', True), True)
-                    print
                     print 'Inferred most probable word senses:'
                     for q in r_db.query('has_sense(?w, ?s)'):
                         if q['?s'] == 'null': continue
@@ -55,4 +52,4 @@ class PRACWSD(PRACModule):
                         print
 
             return inf_step
-            '''
+            
