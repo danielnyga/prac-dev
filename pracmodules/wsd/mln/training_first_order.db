@@ -1,0 +1,23 @@
+// fill a pan with water .
+1.0 has_sense(fill-1,fill-1-sense)
+1.0 is_a(fill-1-sense,fill.v.01)
+0 is_a(fill-1-sense,fill.v.09)
+1.0 has_sense(pan-3,pan-3-sense)
+0.95 is_a(pan-3-sense,cooking_utensil.n.01)
+0.67 is_a(pan-3-sense,container.n.01)
+0.35 is_a(pan-3-sense,opening.n.01)
+1.0 has_pos(fill-1,VB)
+1.0 has_pos(pan-3,NN)
+
+//If you put in too little batter to begin with , pour in some extra batter to fill in the gap .
+1.0 has_sense(fill-18,fill-18-sense)
+1.0 has_sense(gap-21,gap-21-sense)
+1.0 is_a(fill-18-sense,fill.v.09)
+1.0 is_a(gap-21-sense,opening.n.01)
+0.46 is_a(gap-21-sense,container.n.01)
+0.38 is_a(gap-21--sense,cooking_utensil.n.01)
+0 is_a(fill-18-sense,fill.v.01)
+1.0 has_pos(fill-18,VB)
+1.0 has_pos(gap-21,NN)
+
+//flip the pancake around .
