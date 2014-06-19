@@ -10,7 +10,7 @@ BOLD = (None, None, True)
 
 if not os.path.exists(appfolder):
     os.mkdir(appfolder)
-for app in ("pracinfer", "praclearn", 'pracparse', 'senses', 'pracserver'):
+for app in ("pracinfer", "praclearn", 'pracparse', 'senses', 'pracserver', 'pracobjrec'):
     filepath = os.path.join(appfolder, app)
     f = file(filepath, "w+")
     f.write("#!/bin/sh\n")
@@ -41,7 +41,7 @@ print '\t Building %s...' % colorize('pracviz', BOLD, True)
 cmd = 'PYJSPATH=$PYJSPATH:../../praccore/src %s --output=%s pracviz.py' % (os.path.join('..', '..', '3rdparty', 'pyjs', 'bin', 'pyjsbuild'), 
                                                                            os.path.join('output'))
 print cmd
-Popen(cmd, cwd=os.path.join('pracviz', 'src'), shell=True).wait()
+#Popen(cmd, cwd=os.path.join('pracviz', 'src'), shell=True).wait()
 
 
 

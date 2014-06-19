@@ -37,11 +37,14 @@ from utils import colorize
 # mapping from PennTreebank POS tags to NLTK POS Tags
 nounTags = ['NN', 'NNS', 'NNP', 'CD']
 verbTags = ['VB', 'VBG', 'VBZ', 'VBD', 'VBN', 'VBP', 'MD']
+adjTags = ['JJ', 'JJR', 'JJS']
 posMap = {}
 for n in nounTags:
     posMap[n] = 'n'
 for v in verbTags:
     posMap[v] = 'v'
+for a in adjTags:
+    posMap[a] = 'a'
 
 class WNSenses(PRACModule):
     '''

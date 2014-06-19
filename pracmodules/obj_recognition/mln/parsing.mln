@@ -1,0 +1,10 @@
+#include predicates.mln
+
+0 prep_with(?word1, ?word2) ^ has_sense(?word2, ?sense2) ^ is_a(?sense2, ?+concept) ^ relation(object, hasA,  ?sense2)
+0 nsubj(?word3, ?word1) ^ has_pos(?word1, NN) ^ has_sense(?word1, ?sense1) ^ has_pos(?word2, NN) ^ has_sense(?word2, ?sense2) ^ dobj(?word3, ?word2) ^ is_a(?sense2, ?+concept) ^ relation(?sense1, hasA, ?concept)
+
+0 has_pos(?word1, JJ) ^ has_sense(?word1, ?sense1) ^ is_a(?sense1, ?+concept) ^ relation(object, isA, ?sense1)
+
+0 has_pos(?word1, JJ) ^ has_sense(?word1, ?sense1) ^ is_a(?sense1, ?+concept) ^ size(object, ?sense1)
+0 has_pos(?word1, JJ) ^ has_sense(?word1, ?sense1) ^ is_a(?sense1, ?+concept) ^ color(object, ?sense1)
+0 has_pos(?word1, JJ) ^ has_sense(?word1, ?sense1) ^ is_a(?sense1, ?+concept) ^ shape(object, ?sense1) 
