@@ -47,11 +47,9 @@ if __name__ == '__main__':
     log.setLevel(logging.ERROR)
 
     prac = PRAC()
-#     actionCore = prac.getModuleByName('ac_recognition')
     prac.wordnet = WordNet(concepts=None)
     
     infer = PRACInference(prac, sentences)
-#     actionCore.insertdbs(infer, *readDBFromString(prac.mln, dbs))
     
     # in case we have natural-language parameters, parse them
     if len(infer.instructions) > 0:

@@ -39,7 +39,7 @@ S'relation, color, size, shape'
 p19
 sS'debug'
 p20
-S'ERROR'
+S'INFO'
 p21
 sS'useMultiCPU'
 p22
@@ -52,6 +52,6 @@ ssS'filename'
 p25
 NsS'query_mln_str'
 p26
-V#include predicates.mln\u000a\u000a1 prep_with(?word1,?word2) ^ has_sense(?word2,?sense2) ^ is_a(?sense2,appendage.n.01) ^ relation(object,hasA,?sense2)\u000a1 nsubj(?word3,?word1) ^ has_sense(?word1,?sense1) ^ is_a(?sense1,appendage.n.01) ^ relation(object,hasA,?sense1)\u000a\u000a1 has_pos(?word1, ?pos) ^ has_sense(?word1,?sense1) ^ is_a(?sense1,container.n.01) ^ relation(object,isA,container.n.01)\u000a\u000a1 has_pos(?word1, ?pos) ^ has_sense(?word1,?sense1) ^ is_a(?sense1,size.n.01) ^ size(object,?sense1)\u000a1 has_pos(?word1, ?pos) ^ has_sense(?word1,?sense1) ^ is_a(?sense1,color.n.01) ^ color(object,?sense1)\u000a1 has_pos(?word1, ?pos) ^ has_sense(?word1,?sense1) ^ is_a(?sense1,shape.n.01) ^ shape(object,?sense1)\u000a\u000a
+V#include predicates.mln\u000a\u000a1 prep_with(?word1,?word2) ^ has_sense(?word2,?sense2) ^ is_a(?sense2,appendage.n.01) ^ relation(object,hasA,?sense2)\u000a1 nsubj(?word3,?word1) ^ has_sense(?word1,?sense1) ^ is_a(?sense1,appendage.n.01) ^ relation(object,hasA,?sense1)\u000a\u000a1 has_pos(?word1, ?pos) ^ has_sense(?word1,?sense1) ^ is_a(?sense1,container.n.01) ^ relation(object,isA,container.n.01)\u000a\u000a1 has_pos(?word1, ?pos) ^ has_sense(?word1,?sense1) ^ is_a(?sense1,size.n.01) ^ size(object,?sense1)\u000a1 has_pos(?word1, ?pos) ^ has_sense(?word1,?sense1) ^ is_a(?sense1,color.n.01) ^ color(object,?sense1)\u000a1 has_pos(?word1, ?pos) ^ has_sense(?word1,?sense1) ^ is_a(?sense1,shape.n.01) ^ shape(object,?sense1)\u000a\u000a\u000a
 p27
 sb.
