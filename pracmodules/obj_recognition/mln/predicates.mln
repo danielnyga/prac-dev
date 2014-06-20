@@ -28,9 +28,9 @@
 has_sense(word, sense!)
 is_a(sense, concept)
 
-size(sense, concept)
-color(sense, concept)
-shape(sense, concept)
-relation(sense, relation, concept)
+size(object, sense)
+color(object, sense)
+shape(object, sense)
+relation(object, relation, sense)
 
 concept = {null}
