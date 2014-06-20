@@ -28,6 +28,7 @@ import logging
 from itertools import chain
 from nltk.corpus.reader.wordnet import Synset
 from utils.graphml import Graph, Node as GMLNode, Edge
+import itertools
 import os
 
 PRAC_HOME = os.environ['PRAC_HOME']
@@ -46,10 +47,6 @@ known_concepts = ['soup.n.01',
                   'bowl.n.04',
                   'spoon.n.01',
                   'spoon.n.02',
-#                   'sugar.n.01',
-                  'fill.v.01',
-                  'add.v.01',
-                  'add.v.04',
                   'one.n.01',
                   'two.n.01',
                   'three.n.01',
@@ -59,8 +56,8 @@ known_concepts = ['soup.n.01',
                   'seven.n.01',
                   'eight.n.01',
                   'nine.n.01',
-#                   'fruit_juice.n.01',
-#                   'juice.n.03'
+                  'orange.n.01',
+                  'handle.n.01',
                   ]
 
 class WordNet(object):
@@ -259,6 +256,87 @@ class WordNet(object):
         except ValueError:
             return []
     
+
+    # returns generator of 1-dimensional list
+    def flatten(self, iterable):
+        it = iter(iterable)
+        while 1:
+            try:
+                item = it.next()
+            except StopIteration:
+                break
+
+            try:
+                data = iter(item)
+                it = itertools.chain(data, iterable)
+            except:
+                yield item
+
+    # gets the synsets of the derivationally related forms of adjSynsets' Lemmas
+    # flattens the list to get one-dimensional list without duplicates as result
+    def unpackNoun(self, adjSynset):
+        return list(set(self.flatten([drf.synset for drf in self.flatten([lemma.derivationally_related_forms() for lemma in adjSynset.lemmas])])))
+
+
+    def similarity(self, synset1, synset2):
+        '''
+        Returns a custom semantic similarity for adjectives
+
+        Note: the similarity between an adjective and another
+        object is always None. To be able to supply information
+        about the similarity of adjectives, the derivationally 
+        related forms (= nltk.corpus.reader.wordnet.Lemma)
+        of the respecting Lemmas are retrieved. 
+        The synsets of the resulting list of Lemmas have generally
+        NLTK_POS 'n', and can therefore be used for a modified WUP 
+        similarity, which adds a penalizing factor for inferring 
+        another synset from adjectives.
+        '''
+
+        ADJ_POS = ['s','a']
+        if type(synset1) is str:
+            synset1 = self.synset(synset1)
+        if type(synset2) is str:
+            synset2 = self.synset(synset2)
+        if synset1 is None or synset2 is None:
+            return 0.
+        if synset1 == synset2:
+            return 1.0
+
+        syns1 = [synset1]
+        syns2 = [synset2]
+
+        posDiff = 0.
+        if synset1.pos in ADJ_POS:
+            syns1 = self.unpackNoun(synset1)
+            posDiff += .5
+        if synset2.pos in ADJ_POS:
+            syns2 = self.unpackNoun(synset2)
+            posDiff += .5
+
+        similarity = 0.
+        for s1 in syns1:
+            for s2 in syns2:
+                # equates WUP Similarity: 2 * depth(lowestCommonHypernym) / depth(s1) + depth(s2) because:
+                # depth(X) == X.max_depth() + 1
+                # posDiff is used to decrease the similarity if one of the synsets is an adjective, to punish
+                # inferring another synset which is used for similarity check
+                lcs = s1.lowest_common_hypernyms(s2)
+                if lcs:
+                    dlcs = lcs[0].max_depth() + 1
+                    ds1 = s1.max_depth() + 1
+                    ds2 = s2.max_depth() + 1
+
+                    adjWupSim = 2 * dlcs / (ds1 + ds2 + posDiff)
+                    similarity = max(similarity, adjWupSim) # or avg?
+                else:
+                    similarity = 0.
+                #similarity = max(similarity, s1.wup_similarity(s2)) # or avg?
+        
+        return max(0.001, 0. if similarity is None else similarity)
+
+
+
     def semilarity(self, synset1, synset2):
         '''
         Returns the our custom semantic similarity by Daniel Nyga and Dominik
