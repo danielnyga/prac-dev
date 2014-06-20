@@ -259,22 +259,24 @@ class WordNet(object):
 
     # returns generator of 1-dimensional list
     def flatten(self, iterable):
-        it = iter(iterable)
+        iterable = iter(iterable)
+
         while 1:
             try:
-                item = it.next()
+                item = iterable.next()
             except StopIteration:
                 break
 
             try:
                 data = iter(item)
-                it = itertools.chain(data, iterable)
+                iterable = itertools.chain(data, iterable)
             except:
                 yield item
 
     # gets the synsets of the derivationally related forms of adjSynsets' Lemmas
     # flattens the list to get one-dimensional list without duplicates as result
     def unpackNoun(self, adjSynset):
+        print "unpack---.."
         return list(set(self.flatten([drf.synset for drf in self.flatten([lemma.derivationally_related_forms() for lemma in adjSynset.lemmas])])))
 
 
@@ -313,6 +315,7 @@ class WordNet(object):
         if synset2.pos in ADJ_POS:
             syns2 = self.unpackNoun(synset2)
             posDiff += .5
+
 
         similarity = 0.
         for s1 in syns1:
