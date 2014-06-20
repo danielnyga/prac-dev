@@ -98,7 +98,8 @@ class WNSenses(PRACModule):
                 word2senses[word_const].append(sense_id)
                 for concept in concepts:
 #                     sim = wordnet.semilarity(synset, concept)
-                    sim = wordnet.wup_similarity(synset, concept)
+                    sim = wordnet.similarity(synset,concept)
+                    #sim = wordnet.wup_similarity(synset, concept)
                     db_.addGroundAtom('is_a(%s,%s)' % (sense_id, concept), sim) 
         for word in word2senses:
             for word2, senses in word2senses.iteritems():
