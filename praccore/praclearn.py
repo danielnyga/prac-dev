@@ -21,7 +21,7 @@
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-from actioncore.learning import PRACLearning
+from prac.learning import PRACLearning
 from optparse import OptionParser
 from prac.core import PRAC
 import logging
@@ -47,6 +47,8 @@ if __name__ == '__main__':
     
     if praclearn.microtheories is None:
         praclearn.microtheories = prac.microtheories
+    if praclearn.modules is None:
+        praclearn.modules = ['obj_recognition']
     if parser.values.training_dbs is not None:
         dbnames = parser.values.training_dbs
         praclearn.training_dbs = dbnames

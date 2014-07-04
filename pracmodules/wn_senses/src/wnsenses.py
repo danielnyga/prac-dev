@@ -105,7 +105,8 @@ class WNSenses(PRACModule):
             for word2, senses in word2senses.iteritems():
                 if word2 == word: continue
                 else: 
-                    for s in senses: db_.addGroundAtom('!has_sense(%s,%s)' % (word, s))
+                    for s in senses: 
+                        db_.addGroundAtom('!has_sense(%s,%s)' % (word, s))
             db_.addGroundAtom('!has_sense(%s,null)' % (word))
 #         for c in concepts:
 #             db_.addGroundAtom('!is_a(null,%s)' % c)
@@ -138,7 +139,8 @@ class WNSenses(PRACModule):
             for c2 in concepts:
                 synset2 = self.wordnet.synset(c2)
 #                 db.addGroundAtom('is_a(%s-sense, %s)' % (sense_id, synset2.name), self.wordnet.wup_similarity(synset, synset2))
-                db.addGroundAtom('is_a(%s, %s)' % (synset.name, synset2.name), self.wordnet.wup_similarity(synset, synset2))
+                #db.addGroundAtom('is_a(%s, %s)' % (synset.name, synset2.name), self.wordnet.wup_similarity(synset, synset2))
+                db.addGroundAtom('is_a(%s, %s)' % (synset.name, synset2.name), self.wordnet.similarity(synset, synset2))
         return db
             
     def printWordSenses(self, synsets, tick):
@@ -185,7 +187,8 @@ class WNSenses(PRACModule):
                 sense = q['?s']
                 concept = q['?c']
                 for c in full_domain['concept']:
-                    sim = wordnet.wup_similarity(c, concept)
+                    #sim = wordnet.wup_similarity(c, concept)
+                    sim = wordnet.similarity(c, concept)
                     db_.addGroundAtom('is_a(%s,%s)' % (sense, c), sim)
             yield db_
             

@@ -40,16 +40,17 @@ if __name__ == '__main__':
     (options, args) = parser.parse_args()
     
     interactive = options.interactive
-    
     sentences = args
     
     log = logging.getLogger()
-    log.setLevel(logging.ERROR)
+    log.setLevel(logging.INFO)
 
     prac = PRAC()
     prac.wordnet = WordNet(concepts=None)
     
     infer = PRACInference(prac, sentences)
+
+    
     
     # in case we have natural-language parameters, parse them
     if len(infer.instructions) > 0:
@@ -60,8 +61,27 @@ if __name__ == '__main__':
         gui = PRACQueryGUI(infer)
         gui.open()
     else: # regular PRAC pipeline
-        # get the action cores activated
-        actionCore = prac.getModuleByName('obj_recognition')
-        prac.run(infer,actionCore,kb=actionCore.load_pracmt('obj_recog'))
+        objRecog = prac.getModuleByName('obj_recognition')
+        prac.run(infer,objRecog,kb=objRecog.load_pracmt('obj_recog'))
+
+
+    step = infer.inference_steps[-1]
+    print infer.inference_steps
+    print
+    print colorize('+========================+',  (None, 'green', True), True)
+    print colorize('| PRAC INFERENCE RESULTS |',  (None, 'green', True), True)
+    print colorize('+========================+',  (None, 'green', True), True)
+    evidences = ['color', 'size', 'shape', 'isARelation', 'hasARelation']
+    for db in step.output_dbs:
+        # print colorize('+===DB=======+',  (None, 'green', True), True) 
+        # db.write(sys.stdout, color=True)
+        # print colorize('+===EVIDENCE KEYS=======+',  (None, 'green', True), True) 
+        # print db.evidence.keys()
+        # print colorize('+===EVIDENCE=======+',  (None, 'green', True), True) 
+        # db.printEvidence()
+        for ek in sorted(db.evidence.keys()):
+            e = db.evidence[ek]
+            if e > 0.001 and any(ek.startswith(ev) for ev in evidences):
+                print '%.3f    %s' % (e, ek)
+        print '---'
         
-    

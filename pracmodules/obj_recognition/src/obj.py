@@ -104,11 +104,11 @@ class NLObjectRecognition(PRACModule):
         log.debug(db_files)
         kb = self.load_pracmt('obj_recog')
         mln = kb.query_mln
-        mln.printFormulas()
+        mln.write(sys.stdout)
         inputfile = '/win/common/Uni/semester10_sose14/prac/pracmodules/obj_recognition/mln/ts_stanford_wn_man.db'
         dbs = readDBFromFile(mln, inputfile, True)
-
-        learnedMLN = mln.learnWeights([inputfile], LearningMethods.BPLL_CG, verbose=True, optimizer='bfgs',maxSteps=100,debug='debug',learningRate=1)
+        
+        learnedMLN = mln.learnWeights(dbs, LearningMethods.BPLL_CG, verbose=True, optimizer='bfgs',maxSteps=100,debug='debug',learningRate=1)
         learnedMLN.printFormulas() 
         
 #         new_dbs = []
