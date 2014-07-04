@@ -1,7 +1,7 @@
 /* **************************************************************************** 
  * PROBABILISTIC ROBOT ACTION CORES -- ACTION CORE PREDICATE DEFINITIONS
  * 
- * (C) 2011-2013 by Daniel Nyga (nyga@cs.tum.edu)
+ * (C) 2011-2013 by Mareike Picklum (mareikep@cs.uni-bremen.de)
  *
  * Permission is hereby granted, free of charge, to any person obtaining
  * a copy of this software and associated documentation files (the
@@ -28,9 +28,10 @@
 has_sense(word, sense!)
 is_a(sense, concept)
 
-size(object, sense)
-color(object, sense)
-shape(object, sense)
-relation(object, relation, sense)
+size(cluster, sense)
+color(cluster, sense)
+shape(cluster, sense)
+has_a(cluster, sense)
+object(cluster, concept!)
 
 concept = {null}

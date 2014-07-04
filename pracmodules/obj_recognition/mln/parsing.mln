@@ -1,10 +1,23 @@
 #include predicates.mln
 
-1 prep_with(?word1,?word2) ^ has_sense(?word2,?sense2) ^ is_a(?sense2,appendage.n.01) ^ relation(object,hasA,?sense2)
-1 nsubj(?word3,?word1) ^ has_sense(?word1,?sense1) ^ is_a(?sense1,appendage.n.01) ^ relation(object,hasA,?sense1)
+0 prep_with(?w1,?w2) ^ has_sense(?w2,?s2) ^ is_a(?s2,appendage.n.01) ^ has_a(?cluster,?s2)
+0 dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, own.v.01) ^ is_a(?s2, appendage.n.01) ^ has_a(?cluster, ?s2)
+0 nsubj(?w1,?w2) ^ has_sense(?w2,?s2) ^ is_a(?s2,appendage.n.01) ^ has_a(?cluster,?s2)
 
-1 has_pos(?word1, ?pos) ^ has_sense(?word1,?sense1) ^ is_a(?sense1,container.n.01) ^ relation(object,isA,container.n.01)
+0 root(?w1, ?w2) ^ has_sense(?w2, ?s2) ^ is_a(?s2, +?concept)
 
-1 has_pos(?word1, ?pos) ^ has_sense(?word1,?sense1) ^ is_a(?sense1,size.n.01) ^ size(object,?sense1)
-1 has_pos(?word1, ?pos) ^ has_sense(?word1,?sense1) ^ is_a(?sense1,color.n.01) ^ color(object,?sense1)
-1 has_pos(?word1, ?pos) ^ has_sense(?word1,?sense1) ^ is_a(?sense1,shape.n.01) ^ shape(object,?sense1)
+0 nsubj(?w1, ?w2) ^ has_sense(?w1,?s1) ^ is_a(?s1, own.v.01) ^ amod(?w2, ?w3) ^ has_sense(?w3, ?s3) ^ is_a(?s3, size.n.01) ^ size(?cluster, ?s3)
+0 prep_with(?w1, ?w2) ^ amod(?w2, ?w3) ^ has_sense(?w3, ?s3) ^ is_a(?s3, size.n.01) ^ size(?cluster, ?s3)
+0 root(?w1, ?w2) ^ amod(?w2, ?w3) ^ has_sense(?w3,?s3) ^ is_a(?s3,size.n.01) ^ size(?cluster,?s3)
+
+0 nsubj(?w1, ?w2) ^ has_sense(?w1,?s1) ^ is_a(?s1, own.v.01) ^ amod(?w2, ?w3) ^ has_sense(?w3, ?s3) ^ is_a(?s3, shape.n.01) ^ shape(?cluster, ?s3)
+0 prep_with(?w1, ?w2) ^ amod(?w2, ?w3) ^ has_sense(?w3, ?s3) ^ is_a(?s3, shape.n.01) ^ shape(?cluster, ?s3)
+0 root(?w1, ?w2) ^ amod(?w2, ?w3) ^ has_sense(?w3,?s3) ^ is_a(?s3,shape.n.01) ^ shape(?cluster,?s3)
+
+0 amod(?w2, ?w1) ^ has_sense(?w1,?s1) ^ is_a(?s1,color.n.01) ^ color(?cluster,?s1)
+
+0 color(?cluster,?s1) ^ object(?cluster, ?concept)
+0 size(?cluster,?s1) ^ object(?cluster, ?concept)
+0 shape(?cluster,?s1) ^ object(?cluster, ?concept)
+0 is_a(?s3, size.n.01) ^ object(?cluster, ?concept)
+0 has_a(?cluster,?s1) ^ object(?cluster, ?concept)
