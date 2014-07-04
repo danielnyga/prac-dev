@@ -1,6 +1,6 @@
 # PROBABILISTIC ROBOT ACTION CORES 
 #
-# (C) 2012-2013 by Daniel Nyga (nyga@cs.tum.edu)
+# (C) 2012-2013 by Mareike Picklum (mareikep@cs.tum.edu)
 #
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
@@ -22,17 +22,14 @@
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 from prac.core import PRACModule, PRACKnowledgeBase, PRACPIPE
-import os
 from mln import readMLNFromFile, readDBFromFile, Database
 import logging
 from mln.methods import LearningMethods
 from prac.wordnet import WordNet
 from prac.inference import PRACInferenceStep
-import StringIO
 import sys
 from utils import colorize
 
-   
 class NLObjectRecognition(PRACModule):    
 
     def initialize(self):
@@ -41,7 +38,7 @@ class NLObjectRecognition(PRACModule):
     @PRACPIPE
     def __call__(self, pracinference, **params):
         log = logging.getLogger(self.name)
-        log.debug('inference on %s' % self.name)
+        log.info('Running %s' % self.name)
         
         print colorize('+=============================================+', (None, 'green', True), True)
         print colorize('| PRAC OBJECT RECOGNITION: RECOGNIZING OBJECTS|', (None, 'green', True), True)
@@ -59,59 +56,45 @@ class NLObjectRecognition(PRACModule):
         if not hasattr(kb, 'dbs'):
             kb.dbs = pracinference.inference_steps[-1].output_dbs
         mln = kb.query_mln
-        #known_concepts = mln.domains.get('concept', [])
-        known_concepts = ['color.n.01','size.n.01','shape.n.01', 'part.n.01', 'peel.n.01', 'container.n.01']
+
+        known_concepts = mln.domains.get('concept', [])
         inf_step = PRACInferenceStep(pracinference, self)
         wordnet_module = self.prac.getModuleByName('wn_senses')
         for db in kb.dbs:
             db = wordnet_module.get_senses_and_similarities(db, known_concepts)
             db.write(sys.stdout, color=True)
-            print '---'
+
+            if 'cluster' in db.domains:
+                domains = db.domains['cluster']
+                domains.append('cluster')
+            else:
+                db.domains['cluster'] = ['cluster']
+
             result_db = list(kb.infer(db))
+            print colorize('+============Result DB=================+', (None, 'green', True), True)
+            result_db[0].write(sys.stdout, color=True)
             inf_step.output_dbs.extend(result_db)
-            print
+
             for r_db in result_db:
-                for q in r_db.query('color(?w, ?color)'):
-                    print q['?color']
-                    if q['?color'] == 'null': continue
-                    print 'Identified color(s):', colorize(q['?color'], (None, 'white', True), True)
-                print
-
-                for q in r_db.query('size(?w, ?size)'):
-                    print q['?size']
-                    if q['?size'] == 'null': continue
-                    print 'Identified size(s):', colorize(q['?size'], (None, 'white', True), True)
-                print
-
-                for q in r_db.query('shape(?w, ?shape)'):
-                    print q['?shape']
-                    if q['?shape'] == 'null': continue
-                    print 'Identified shape(s):', colorize(q['?shape'], (None, 'white', True), True)
-                print
-
-                for q in r_db.query('relation(?w, isA, ?concept)'):
-                    print q['?concept']
-                    if q['?concept'] == 'null': continue
-                    print 'Identified relation(s):', colorize(q['?concept'], (None, 'white', True), True)
-                print
-
-                for q in r_db.query('relation(?w, hasA, ?concept)'):
-                    print q['?concept']
-                    if q['?concept'] == 'null': continue
-                    print 'Identified relation(s):', colorize(q['?concept'], (None, 'white', True), True)
-                print
-
+                for annot in ['is_a', 'has_a', 'color', 'shape', 'size', 'object']:
+                    for q in r_db.query('{}(?o, ?c)'.format(annot)):
+                        if q['?c'] == 'null': continue
+                        print '{}({},{})'.format(colorize(annot, (None, 'yellow', True), True)  , q['?o'], colorize(q['?c'], (None, 'white', True), True))
+                    print
                 print 'Inferred most probable word senses:'
                 for q in r_db.query('has_sense(?w, ?s)'):
                     if q['?s'] == 'null': continue
                     print '%s:' % q['?w']
                     wordnet_module.printWordSenses(wordnet_module.get_possible_meanings_of_word(r_db, q['?w']), q['?s'])
-                    print 
                     
         return inf_step
-    
-    
+
+
     def train(self, praclearning):
+        print colorize('+=============================================+', (None, 'green', True), True)
+        print colorize('| DnD... learning in progress...              |', (None, 'green', True), True)
+        print colorize('+=============================================+', (None, 'green', True), True)
+
         log = logging.getLogger('prac')
         prac = praclearning.prac
         # get all the relevant training databases
@@ -119,49 +102,74 @@ class NLObjectRecognition(PRACModule):
         nl_module = prac.getModuleByName('nl_parsing')
         syntactic_preds = nl_module.mln.predicates
         log.debug(db_files)
-        dbs = filter(lambda x: type(x) is Database, map(lambda name: readDBFromFile(self.mln, name, True), db_files))
-        log.debug(dbs)
-        new_dbs = []
-        training_dbs = []
-        known_concepts = []
-        log.debug(self.mln.domains)
-        for db in dbs:
-            if not 'actioncore' in db.domains: continue
-            if not 'concept' in db.domains: continue
-            for c in db.domains['concept']:
-                known_concepts.append(c)
-            new_dbs.append(db)
-        wordnet = WordNet()
-        for db in new_dbs:
-            new_db = db.duplicate()
-            for sol in db.query('has_sense(?w, ?s) ^ is_a(?s, ?c)'):
-                word = sol['?w']
-                sense = sol['?s']
-                concept = sol['?c']
-                synset = wordnet.synset(concept)
-                for known_concept in known_concepts:
-                    known_synset = wordnet.synset(known_concept)
-                    if known_synset is None or synset is None: sim = 0
-                    else: sim = wordnet.wup_similarity(synset, known_synset)
-                    new_db.addGroundAtom('is_a(%s,%s)' % (sense, known_concept), sim)
-            training_dbs.append(new_db)
-        log.info('Starting training with %d databases' % len(training_dbs))
-        actioncore_KB = ActionCoreKB(self, 'action_cores')
-        actioncore_KB.wordnet = wordnet
-        actioncore_KB.train(training_dbs)
-        self.save_pracmt(actioncore_KB)
+        kb = self.load_pracmt('obj_recog')
+        mln = kb.query_mln
+        mln.printFormulas()
+        inputfile = '/win/common/Uni/semester10_sose14/prac/pracmodules/obj_recognition/mln/ts_stanford_wn_man.db'
+        dbs = readDBFromFile(mln, inputfile, True)
+
+        learnedMLN = mln.learnWeights([inputfile], LearningMethods.BPLL_CG, verbose=True, optimizer='bfgs',maxSteps=100,debug='debug',learningRate=1)
+        learnedMLN.printFormulas() 
         
-        
-class ActionCoreKB(PRACKnowledgeBase):
-    '''
-    Represents the probabilistic KB for learning and inferring
-    the correct action core.
-    '''
-    
-    def train(self, training_dbs):
-        mln = self.module.mln
-        self.training_dbs = training_dbs
-        self.trained_mln = mln.learnWeights(training_dbs, LearningMethods.BPLL_CG, verbose=True, optimizer='bfgs')
-        
-        
+#         new_dbs = []
+#         training_dbs = []
+#         known_concepts = []
+#         log.info(mln.domains)
+#         for db in dbs:
+#             if not 'concept' in db.domains: continue
+#             if not 'cluster' in db.domains: continue
+#             for c in db.domains['concept']:
+#                 known_concepts.append(c)
+#             new_dbs.append(db)
+#         wordnet = WordNet()
+#         for db in new_dbs:
+#             new_db = db.duplicate()
+# 
+#             # begin adding ground atoms...
+#             for sol in db.query('is_a(?sense,?concept)'):
+#                 sense = sol['?sense']
+#                 concept = sol['?concept']
+#                 sense = sol['?sense'] # TODO! 
+#                 synset = wordnet.synset(concept)
+#                 for known_concept in known_concepts:
+#                     known_synset = wordnet.synset(known_concept)
+#                     if known_synset is None or synset is None: sim = 0
+#                     else: sim = wordnet.similarity(synset, known_synset)
+#                     new_db.addGroundAtom('is_a(%s,%s)' % (sense, concept), sim)
+# 
+# 
+#             annotations = ['size', 'shape', 'color', 'has_a']
+#             for annot in annotations:
+#                 for sol in db.query('has_sense(?word,?concept) ^ {}(?object,?concept)'.format(annot)):
+#                     object_ = sol['?object']
+#                     sense = sol['?concept']
+#                     word = sol['?word']
+#                     synset = wordnet.synset(sense)
+#                     for known_concept in known_concepts:
+#                         known_synset = wordnet.synset(known_concept)
+#                         if known_synset is None or synset is None: sim = 0
+#                         else: sim = wordnet.similarity(synset, known_synset)
+#                         new_db.addGroundAtom('{}({},{})'.format(annot, object_, sense), sim)
+# 
+#             # finish adding ground atoms...
+#             #new_db.write(sys.stdout, color=True)
+#             training_dbs.append(new_db)
+#         log.info('Starting training with %d databases' % len(training_dbs))
+# 
+#         # actioncore_KB = ActionCoreKB(self, 'action_cores')
+#         # actioncore_KB.wordnet = wordnet
+#         training_dbs[0].write(sys.stdout, color=True)
+# #         trained_mln = mln.learnWeights(training_dbs, LearningMethods.PLL, verbose=True, optimizer='bfgs')
+#         #trained_mln = mln.learnWeights(training_dbs, LearningMethods.BPLL_CG, verbose=True, optimizer='bfgs',maxSteps=100,debug='debug',learningRate=1)
+#         #trained_mln = mln.learnWeights(training_dbs, LearningMethods.BPLL, verbose=True, optimizer='bfgs')
+#         trained_mln.printFormulas() 
+#         outputfile = '/win/common/Uni/semester10_sose14/prac/pracmodules/obj_recognition/mln/wts_pll_ts_stanford_wn_man.db'
+#         trained_mln.write(file(outputfile, "w"))
+#         # self.save_pracmt(actioncore_KB)
+#         #verbose=False,debug='ERROR'
+
+
+        print colorize('+=============================================+', (None, 'green', True), True)
+        print colorize('| Learnt:                                     |', (None, 'green', True), True)
+        print colorize('+=============================================+', (None, 'green', True), True)
         
