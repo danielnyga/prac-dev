@@ -1,0 +1,161 @@
+// -------------------------------------------------------------------------------
+// spoon.n.01 / spoon%1:06:00::
+// WORDNET: a piece of cutlery with a shallow bowl-shaped container and a handle; used to stir or serve or take up food
+
+// STANFORD:
+has_pos(bowl-shaped-8,JJ)
+xcomp(used-14,stir-16)
+has_pos(shallow-7,JJ)
+has_pos(serve-18,VB)
+prep_of(piece-2,cutlery-4)
+has_pos(piece-2,NN)
+prep_with(piece-2,container-9)
+conj_and(container-9,handle-12)
+amod(container-9,shallow-7)
+det(piece-2,a-1)
+has_pos(used-14,VBD)
+has_pos(to-15,TO)
+conj_or(stir-16,serve-18)
+has_pos(a-6,DT)
+det(container-9,a-6)
+amod(container-9,bowl-shaped-8)
+has_pos(container-9,NN)
+prt(take-20,up-21)
+conj_or(stir-16,take-20)
+has_pos(cutlery-4,NN)
+root(ROOT-0,used-14)
+has_pos(food-22,NN)
+dobj(take-20,food-22)
+nsubj(used-14,piece-2)
+has_pos(up-21,RP)
+aux(stir-16,to-15)
+has_pos(stir-16,VB)
+has_pos(a-1,DT)
+has_pos(take-20,VB)
+has_pos(handle-12,NN)
+has_pos(a-11,DT)
+det(handle-12,a-11)
+
+// WORDNET ANNOTATED:
+has_sense(a-1,NullSense)
+has_sense(piece-2,NullSense)
+has_sense(of-3,NullSense)
+has_sense(cutlery-4,cutlery.n.02)
+has_sense(with-5,NullSense)
+has_sense(a-6,NullSense)
+has_sense(shallow-7,shallow.a.01)
+has_sense(bowl-shaped-8,bowl-shaped.s.01)
+has_sense(container-9,container.n.01)
+has_sense(and-10,NullSense)
+has_sense(a-11,NullSense)
+has_sense(used-14,used.a.01)
+has_sense(to-15,NullSense)
+has_sense(stir-16,NullSense)
+has_sense(or-17,NullSense)
+has_sense(serve-18,NullSense)
+has_sense(or-19,NullSense)
+has_sense(take-20,scoop.v.01)
+has_sense(up-21,NullSense)
+has_sense(food-22,NullSense)
+
+// MANUALLY ANNOTATED:
+has_sense(handle-12,handle.n.01)
+is_a(container.n.01,container.n.01)
+is_a(cutlery.n.02,cutlery.n.02)
+shape(c0,bowl-shaped.s.01)
+size(c0,shallow.a.01)
+has_a(c0,handle.n.01)
+object(c0,spoon.n.01)
+
+
+---
+// -------------------------------------------------------------------------------
+// cup.n.01:
+// WORDNET: a small open container usually used for drinking; usually has a handle
+
+// STANFORD:
+root(ROOT-0,used-6)
+prep_for(used-6,drinking-8)
+has_pos(used-6,VBN)
+has_pos(has-11,VBZ)
+det(container-4,a-1)
+has_pos(a-12,DT)
+has_pos(usually-10,RB)
+has_pos(small-2,JJ)
+parataxis(used-6,has-11)
+amod(container-4,open-3)
+has_pos(drinking-8,NN)
+advmod(used-6,usually-5)
+advmod(has-11,usually-10)
+has_pos(usually-5,RB)
+dobj(has-11,handle-13)
+has_pos(open-3,JJ)
+has_pos(a-1,DT)
+det(handle-13,a-12)
+amod(container-4,small-2)
+has_pos(handle-13,NN)
+has_pos(container-4,NN)
+nsubj(used-6,container-4)
+
+// WORDNET ANNOTATED:
+has_sense(a-1,NullSense)
+has_sense(small-2,small.a.01)
+has_sense(open-3,open.s.07)
+has_sense(container-4,container.n.01)
+has_sense(usually-5,normally.r.01)
+has_sense(used-6,NullSense)
+has_sense(for-7,NullSense)
+has_sense(drinking-8,drinking.n.01)
+has_sense(usually-10,normally.r.01)
+has_sense(has-11,NullSense)
+has_sense(a-12,NullSense)
+
+// MANUALLY ANNOTATED:
+has_sense(handle-13,handle.n.01) 
+is_a(container.n.01,container.n.01)
+size(c1,small.a.01)
+has_a(c1,handle.n.01)
+object(c1,cup.n.01)
+
+---
+// -------------------------------------------------------------------------------
+// orange.n.01 / orange%1:13:00::
+// WORDNET: round yellow to orange fruit of any of several citrus trees
+
+// STANFORD:
+has_pos(yellow-2,JJ)
+amod(trees-11,yellow-2)
+has_pos(fruit-5,NN)
+prep_of(fruit-5,any-7)
+has_pos(orange-4,JJ)
+prep_of(any-7,citrus-10)
+has_pos(citrus-10,NNS)
+amod(citrus-10,several-9)
+has_pos(any-7,DT)
+has_pos(several-9,JJ)
+has_pos(trees-11,NNS)
+amod(fruit-5,orange-4)
+prep_to(yellow-2,fruit-5)
+root(ROOT-0,round-1)
+dobj(round-1,trees-11)
+has_pos(round-1,VB)
+
+// WORDNET ANNOTATED:
+has_sense(round-1,round.a.01)
+has_sense(yellow-2,yellow.s.01)
+has_sense(to-3,NullSense)
+has_sense(orange-4,orange.s.01)
+has_sense(fruit-5,fruit.n.01)
+has_sense(of-6,NullSense)
+has_sense(any-7,NullSense)
+has_sense(of-8,NullSense)
+has_sense(several-9,NullSense)
+has_sense(citrus-10,citrus.n.02)
+has_sense(trees-11,NullSense)
+
+// MANUALLY ANNOTATED:
+shape(c2,round.a.01)
+color(c2,yellow.s.01)
+color(c2,orange.s.01)
+is_a(fruit.n.01,fruit.n.01)
+object(c2,orange.n.01)
