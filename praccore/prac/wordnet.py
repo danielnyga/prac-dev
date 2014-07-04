@@ -56,9 +56,8 @@ known_concepts = ['soup.n.01',
                   'seven.n.01',
                   'eight.n.01',
                   'nine.n.01',
-                  'orange.n.01',
-                  'handle.n.01',
                   ]
+
 
 class WordNet(object):
     '''
@@ -276,7 +275,6 @@ class WordNet(object):
     # gets the synsets of the derivationally related forms of adjSynsets' Lemmas
     # flattens the list to get one-dimensional list without duplicates as result
     def unpackNoun(self, adjSynset):
-        print "unpack---.."
         return list(set(self.flatten([drf.synset for drf in self.flatten([lemma.derivationally_related_forms() for lemma in adjSynset.lemmas])])))
 
 
