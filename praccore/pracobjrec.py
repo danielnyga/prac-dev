@@ -66,19 +66,12 @@ if __name__ == '__main__':
 
 
     step = infer.inference_steps[-1]
-    print infer.inference_steps
     print
     print colorize('+========================+',  (None, 'green', True), True)
     print colorize('| PRAC INFERENCE RESULTS |',  (None, 'green', True), True)
     print colorize('+========================+',  (None, 'green', True), True)
-    evidences = ['color', 'size', 'shape', 'isARelation', 'hasARelation']
+    evidences = ['color', 'size', 'shape', 'is_a', 'has_a', 'coRef', 'object']
     for db in step.output_dbs:
-        # print colorize('+===DB=======+',  (None, 'green', True), True) 
-        # db.write(sys.stdout, color=True)
-        # print colorize('+===EVIDENCE KEYS=======+',  (None, 'green', True), True) 
-        # print db.evidence.keys()
-        # print colorize('+===EVIDENCE=======+',  (None, 'green', True), True) 
-        # db.printEvidence()
         for ek in sorted(db.evidence.keys()):
             e = db.evidence[ek]
             if e > 0.001 and any(ek.startswith(ev) for ev in evidences):
