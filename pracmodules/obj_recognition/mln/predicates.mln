@@ -33,5 +33,6 @@ color(cluster, sense)
 shape(cluster, sense)
 has_a(cluster, sense)
 object(cluster, concept!)
+coRef(sense, concept)
 
 concept = {null}
