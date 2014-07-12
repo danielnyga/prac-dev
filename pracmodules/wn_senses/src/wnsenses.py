@@ -97,9 +97,7 @@ class WNSenses(PRACModule):
                 sense_id = synset.name#'%s-%.2d' % (word_const, i+1)
                 word2senses[word_const].append(sense_id)
                 for concept in concepts:
-#                     sim = wordnet.semilarity(synset, concept)
                     sim = wordnet.similarity(synset,concept)
-                    #sim = wordnet.wup_similarity(synset, concept)
                     db_.addGroundAtom('is_a(%s,%s)' % (sense_id, concept), sim) 
         for word in word2senses:
             for word2, senses in word2senses.iteritems():
@@ -138,11 +136,10 @@ class WNSenses(PRACModule):
             sense_id = synset.name.lower().rsplit('.', 2)[0]
             for c2 in concepts:
                 synset2 = self.wordnet.synset(c2)
-#                 db.addGroundAtom('is_a(%s-sense, %s)' % (sense_id, synset2.name), self.wordnet.wup_similarity(synset, synset2))
-                #db.addGroundAtom('is_a(%s, %s)' % (synset.name, synset2.name), self.wordnet.wup_similarity(synset, synset2))
                 db.addGroundAtom('is_a(%s, %s)' % (synset.name, synset2.name), self.wordnet.similarity(synset, synset2))
         return db
-            
+
+           
     def printWordSenses(self, synsets, tick):
         '''
         Prints the list of synsets or synset ids and ticks the one specified by the given index.

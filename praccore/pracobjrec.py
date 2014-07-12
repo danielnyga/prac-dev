@@ -74,7 +74,8 @@ if __name__ == '__main__':
     for db in step.output_dbs:
         for ek in sorted(db.evidence.keys()):
             e = db.evidence[ek]
-            if e > 0.001 and any(ek.startswith(ev) for ev in evidences):
-                print '%.3f    %s' % (e, ek)
+            # if e > 0.001 and ek.startswith('object'):
+            if e > 0.001 and any(ek.startswith(ev) for ev in evidences):# todo: remove
+                print '{0:.2f}    {1}'.format(e, ek)
         print '---'
         

@@ -1,23 +1,26 @@
 #include predicates.mln
 
-0 prep_with(?w1,?w2) ^ has_sense(?w2,?s2) ^ is_a(?s2,appendage.n.01) ^ has_a(?cluster,?s2)
-0 dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, own.v.01) ^ is_a(?s2, appendage.n.01) ^ has_a(?cluster, ?s2)
-0 nsubj(?w1,?w2) ^ has_sense(?w2,?s2) ^ is_a(?s2,appendage.n.01) ^ has_a(?cluster,?s2)
 
-0 root(?w1, ?w2) ^ has_sense(?w2, ?s2) ^ is_a(?s2, +?concept)
 
-0 nsubj(?w1, ?w2) ^ has_sense(?w1,?s1) ^ is_a(?s1, own.v.01) ^ amod(?w2, ?w3) ^ has_sense(?w3, ?s3) ^ is_a(?s3, size.n.01) ^ size(?cluster, ?s3)
-0 prep_with(?w1, ?w2) ^ amod(?w2, ?w3) ^ has_sense(?w3, ?s3) ^ is_a(?s3, size.n.01) ^ size(?cluster, ?s3)
-0 root(?w1, ?w2) ^ amod(?w2, ?w3) ^ has_sense(?w3,?s3) ^ is_a(?s3,size.n.01) ^ size(?cluster,?s3)
+//0 prep_with(?w1,?w2) ^ has_sense(?w2,?s2) ^ has_a(?cluster,?s2)
+//0 prep_with(?w1,?w2) ^ has_sense(?w2,?s2) ^ has_a(?cluster,null)
+//0 dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1,+?c) ^ has_sense(?w2, ?s2) ^ has_a(?cluster, ?s2)
+//0 dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1,+?c) ^ has_sense(?w2, ?s2) ^ has_a(?cluster, null)
 
-0 nsubj(?w1, ?w2) ^ has_sense(?w1,?s1) ^ is_a(?s1, own.v.01) ^ amod(?w2, ?w3) ^ has_sense(?w3, ?s3) ^ is_a(?s3, shape.n.01) ^ shape(?cluster, ?s3)
-0 prep_with(?w1, ?w2) ^ amod(?w2, ?w3) ^ has_sense(?w3, ?s3) ^ is_a(?s3, shape.n.01) ^ shape(?cluster, ?s3)
-0 root(?w1, ?w2) ^ amod(?w2, ?w3) ^ has_sense(?w3,?s3) ^ is_a(?s3,shape.n.01) ^ shape(?cluster,?s3)
+0 has_sense(?w2, ?s2) ^ is_a(?s2, +?c) ^ size(?cluster,?s2)
+0 has_sense(?w2, ?s2) ^ is_a(?s2, +?c) ^ size(?cluster,null)
+0 !(has_sense(?w2, ?s2) ^ is_a(?s2, +?c)) ^ size(?cluster,?s2)
 
-0 amod(?w2, ?w1) ^ has_sense(?w1,?s1) ^ is_a(?s1,color.n.01) ^ color(?cluster,?s1)
+0 has_sense(?w2, ?s2) ^ is_a(?s2, +?c) ^ color(?cluster,?s2)
+0 has_sense(?w2, ?s2) ^ is_a(?s2, +?c) ^ color(?cluster,null)
+0 !(has_sense(?w2, ?s2) ^ is_a(?s2, +?c)) ^ color(?cluster,?s2)
 
-0 color(?cluster,?s1) ^ object(?cluster, ?concept)
-0 size(?cluster,?s1) ^ object(?cluster, ?concept)
-0 shape(?cluster,?s1) ^ object(?cluster, ?concept)
-0 is_a(?s3, size.n.01) ^ object(?cluster, ?concept)
-0 has_a(?cluster,?s1) ^ object(?cluster, ?concept)
+0 has_sense(?w2, ?s2) ^ is_a(?s2, +?c) ^ shape(?cluster,?s2)
+0 !(has_sense(?w2, ?s2) ^ is_a(?s2, +?c)) ^ shape(?cluster,?s2)
+0 has_sense(?w2, ?s2) ^ is_a(?s2, +?c) ^ shape(?cluster,null)
+
+//0 has_sense(?w1, ?s1) ^ is_a(?s1,?c1) ^ coRef(?s1, ?c1)
+//0 has_sense(?w1, ?s1) ^ is_a(?s1,?c1) ^ coRef(?s1, null)
+
+
+0 EXIST ?s (has_sense(?w, ?s) ^ is_a(?s, +?c) ^ shape(?cluster, ?s))

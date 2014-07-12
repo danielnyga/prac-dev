@@ -38,7 +38,7 @@ class NLObjectRecognition(PRACModule):
     @PRACPIPE
     def __call__(self, pracinference, **params):
         log = logging.getLogger(self.name)
-        log.info('Running %s' % self.name)
+        log.info('Running {}'.format(self.name))
         
         print colorize('+=============================================+', (None, 'green', True), True)
         print colorize('| PRAC OBJECT RECOGNITION: RECOGNIZING OBJECTS|', (None, 'green', True), True)
@@ -60,33 +60,56 @@ class NLObjectRecognition(PRACModule):
         known_concepts = mln.domains.get('concept', [])
         inf_step = PRACInferenceStep(pracinference, self)
         wordnet_module = self.prac.getModuleByName('wn_senses')
+        
+        # process databases
         for db in kb.dbs:
-            db = wordnet_module.get_senses_and_similarities(db, known_concepts)
-            db.write(sys.stdout, color=True)
+            print colorize('+============DB=================+', (None, 'green', True), True)
+            db.write(sys.stdout,color=True)
 
+            db = wordnet_module.get_senses_and_similarities(db, known_concepts)
+            print colorize('+============DB after get senses and similarities=================+', (None, 'green', True), True)
+            db.write(sys.stdout,color=True)
+            
+            # add cluster to domains
             if 'cluster' in db.domains:
                 domains = db.domains['cluster']
                 domains.append('cluster')
             else:
                 db.domains['cluster'] = ['cluster']
 
+            # infer and update output dbs
             result_db = list(kb.infer(db))
-            print colorize('+============Result DB=================+', (None, 'green', True), True)
-            result_db[0].write(sys.stdout, color=True)
             inf_step.output_dbs.extend(result_db)
 
             for r_db in result_db:
-                for annot in ['is_a', 'has_a', 'color', 'shape', 'size', 'object']:
-                    for q in r_db.query('{}(?o, ?c)'.format(annot)):
-                        if q['?c'] == 'null': continue
-                        print '{}({},{})'.format(colorize(annot, (None, 'yellow', True), True)  , q['?o'], colorize(q['?c'], (None, 'white', True), True))
+                print colorize('+============Result DB=================+', (None, 'green', True), True)
+                r_db.write(sys.stdout, color=True)
+                
+                # print annotations found in result db
+                for annot in ['has_a', 'color', 'shape', 'size']:
+                    for q in r_db.query('{}(?cluster, ?sense)'.format(annot)):
+                        if q['?sense'] == 'null': continue
+                        print '{}({},{})'.format(colorize(annot, (None, 'yellow', True), True)  , q['?cluster'], colorize(q['?sense'], (None, 'white', True), True))
                     print
+
+                for annot in ['is_a', 'coRef']:
+                    for q in r_db.query('{}(?sense, ?concept)'.format(annot)):
+                        if q['?concept'] == 'null': continue
+                        print '{}({},{})'.format(colorize(annot, (None, 'yellow', True), True)  , q['?concept'], colorize(q['?concept'], (None, 'white', True), True))
+ 
+                for q in r_db.query('object(?cluster, ?concept)'):
+                    if q['?concept'] == 'null': continue
+                    print '{}({},{})'.format(colorize('object', (None, 'yellow', True), True)  , q['?cluster'], colorize(q['?concept'], (None, 'white', True), True))
+
                 print 'Inferred most probable word senses:'
+                wordSenses = {}
                 for q in r_db.query('has_sense(?w, ?s)'):
                     if q['?s'] == 'null': continue
-                    print '%s:' % q['?w']
+                    print '{}:'.format(q['?w'])
+                    wordSenses[q['?w']] = q['?s']
                     wordnet_module.printWordSenses(wordnet_module.get_possible_meanings_of_word(r_db, q['?w']), q['?s'])
-                    
+                    print
+                # print wordSenses
         return inf_step
 
 
@@ -96,80 +119,55 @@ class NLObjectRecognition(PRACModule):
         print colorize('+=============================================+', (None, 'green', True), True)
 
         log = logging.getLogger('prac')
-        prac = praclearning.prac
+        # prac = praclearning.prac
         # get all the relevant training databases
-        db_files = prac.getActionCoreTrainingDBs()
-        nl_module = prac.getModuleByName('nl_parsing')
-        syntactic_preds = nl_module.mln.predicates
-        log.debug(db_files)
-        kb = self.load_pracmt('obj_recog')
-        mln = kb.query_mln
-        mln.write(sys.stdout)
-        inputfile = '/win/common/Uni/semester10_sose14/prac/pracmodules/obj_recognition/mln/ts_stanford_wn_man.db'
-        dbs = readDBFromFile(mln, inputfile, True)
+        # kb = self.load_pracmt('obj_recog')
+        # mln = kb.query_mln
+        logging.getLogger().setLevel(logging.DEBUG)
         
-        learnedMLN = mln.learnWeights(dbs, LearningMethods.BPLL_CG, verbose=True, optimizer='bfgs',maxSteps=100,debug='debug',learningRate=1)
-        learnedMLN.printFormulas() 
+        mln = readMLNFromFile('/win/common/Uni/semester10_sose14/prac/pracmodules/obj_recognition/mln/parsing.mln')
+        dbFile = '/win/common/Uni/semester10_sose14/prac/pracmodules/obj_recognition/mln/ts_stanford_wn_man0.db'
+        outputfile = '/win/common/Uni/semester10_sose14/prac/pracmodules/obj_recognition/mln/bpll_cg_parsing_stanford_wn_man.mln'
+        inputdbs = readDBFromFile(mln, dbFile)
         
-#         new_dbs = []
-#         training_dbs = []
-#         known_concepts = []
-#         log.info(mln.domains)
-#         for db in dbs:
-#             if not 'concept' in db.domains: continue
-#             if not 'cluster' in db.domains: continue
-#             for c in db.domains['concept']:
-#                 known_concepts.append(c)
-#             new_dbs.append(db)
-#         wordnet = WordNet()
-#         for db in new_dbs:
-#             new_db = db.duplicate()
-# 
-#             # begin adding ground atoms...
-#             for sol in db.query('is_a(?sense,?concept)'):
-#                 sense = sol['?sense']
-#                 concept = sol['?concept']
-#                 sense = sol['?sense'] # TODO! 
-#                 synset = wordnet.synset(concept)
-#                 for known_concept in known_concepts:
-#                     known_synset = wordnet.synset(known_concept)
-#                     if known_synset is None or synset is None: sim = 0
-#                     else: sim = wordnet.similarity(synset, known_synset)
-#                     new_db.addGroundAtom('is_a(%s,%s)' % (sense, concept), sim)
-# 
-# 
-#             annotations = ['size', 'shape', 'color', 'has_a']
-#             for annot in annotations:
-#                 for sol in db.query('has_sense(?word,?concept) ^ {}(?object,?concept)'.format(annot)):
-#                     object_ = sol['?object']
-#                     sense = sol['?concept']
-#                     word = sol['?word']
-#                     synset = wordnet.synset(sense)
-#                     for known_concept in known_concepts:
-#                         known_synset = wordnet.synset(known_concept)
-#                         if known_synset is None or synset is None: sim = 0
-#                         else: sim = wordnet.similarity(synset, known_synset)
-#                         new_db.addGroundAtom('{}({},{})'.format(annot, object_, sense), sim)
-# 
-#             # finish adding ground atoms...
-#             #new_db.write(sys.stdout, color=True)
-#             training_dbs.append(new_db)
-#         log.info('Starting training with %d databases' % len(training_dbs))
-# 
-#         # actioncore_KB = ActionCoreKB(self, 'action_cores')
-#         # actioncore_KB.wordnet = wordnet
-#         training_dbs[0].write(sys.stdout, color=True)
-# #         trained_mln = mln.learnWeights(training_dbs, LearningMethods.PLL, verbose=True, optimizer='bfgs')
-#         #trained_mln = mln.learnWeights(training_dbs, LearningMethods.BPLL_CG, verbose=True, optimizer='bfgs',maxSteps=100,debug='debug',learningRate=1)
-#         #trained_mln = mln.learnWeights(training_dbs, LearningMethods.BPLL, verbose=True, optimizer='bfgs')
-#         trained_mln.printFormulas() 
-#         outputfile = '/win/common/Uni/semester10_sose14/prac/pracmodules/obj_recognition/mln/wts_pll_ts_stanford_wn_man.db'
-#         trained_mln.write(file(outputfile, "w"))
-#         # self.save_pracmt(actioncore_KB)
-#         #verbose=False,debug='ERROR'
+        known_concepts = mln.domains.get('concept', [])
+        wordnet_module = self.prac.getModuleByName('wn_senses')
+        training_dbs = []
+        for db in inputdbs:
+            db = wordnet_module.add_senses_and_similiarities_for_concepts(db, known_concepts)
+            db.write(sys.stdout, color=True)
+            training_dbs.append(db)
 
-
+        # train parsing mln
+        log.info('Starting training with {} databases'.format(len(training_dbs)))
+        # trainedMLN = mln.learnWeights(training_dbs, LearningMethods.BPLL_CG, partSize=8, gaussianPriorSigma=10, verbose=False, optimizer='bfgs')
+        # trainedMLN = mln.learnWeights(training_dbs, LearningMethods.DBPLL_CG, evidencePreds=['is_a'],  partSize=4, verbose=False, optimizer='bfgs')
+        trainedMLN = mln.learnWeights(training_dbs, LearningMethods.DCLL, evidencePreds=['is_a'], partSize=1, verbose=False, optimizer='bfgs')
+        trainedMLN.write(file(outputfile, "w"))
+        
         print colorize('+=============================================+', (None, 'green', True), True)
-        print colorize('| Learnt:                                     |', (None, 'green', True), True)
+        print colorize('| Learnt Formulas:                            |', (None, 'green', True), True)
         print colorize('+=============================================+', (None, 'green', True), True)
         
+        trainedMLN.printFormulas()
+
+        # annotationKB = AnnotationKB(prac)
+        # annotationKB.train(dbs)
+        # log.info('Saving KB of type {} in {}'.format(kb.__class__.__name__, 'annotations'))
+        # self.save_pracmt(annotationKB,'annotations')
+
+
+
+
+class AnnotationKB(PRACKnowledgeBase):
+    '''
+    Represents the probabilistic KB for learning and inferring
+    the correct annotations.
+    '''
+    
+    def train(self, training_dbs):
+        mln = readMLNFromFile('/win/common/Uni/semester10_sose14/prac/pracmodules/obj_recognition/mln/parsing.mln')
+        self.dbs = training_dbs
+        self.learn_mln = mln.learnWeights(training_dbs, LearningMethods.BPLL_CG, verbose=True, optimizer='bfgs')
+        outputfile = '/win/common/Uni/semester10_sose14/prac/pracmodules/obj_recognition/mln/wts_pll_ts_stanford_wn_man.db'
+        # self.learn_mln.write(file(outputfile, "w"))
