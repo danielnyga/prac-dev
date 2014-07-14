@@ -125,9 +125,9 @@ class NLObjectRecognition(PRACModule):
         # mln = kb.query_mln
         logging.getLogger().setLevel(logging.DEBUG)
         
-        mln = readMLNFromFile('/win/common/Uni/semester10_sose14/prac/pracmodules/obj_recognition/mln/parsing.mln')
-        dbFile = '/win/common/Uni/semester10_sose14/prac/pracmodules/obj_recognition/mln/ts_stanford_wn_man0.db'
-        outputfile = '/win/common/Uni/semester10_sose14/prac/pracmodules/obj_recognition/mln/bpll_cg_parsing_stanford_wn_man.mln'
+        mln = readMLNFromFile('/home/mareikep/prac_repos/prac/pracmodules/obj_recognition/mln/parsing.mln')
+        dbFile = '/home/mareikep/prac_repos/prac/pracmodules/obj_recognition/mln/ts_stanford_wn_man.db'
+        outputfile = '/home/mareikep/prac_repos/prac/pracmodules/obj_recognition/mln/bpll_cg_parsing_stanford_wn_man.mln'
         inputdbs = readDBFromFile(mln, dbFile)
         
         known_concepts = mln.domains.get('concept', [])
@@ -166,8 +166,8 @@ class AnnotationKB(PRACKnowledgeBase):
     '''
     
     def train(self, training_dbs):
-        mln = readMLNFromFile('/win/common/Uni/semester10_sose14/prac/pracmodules/obj_recognition/mln/parsing.mln')
+        mln = readMLNFromFile('/home/mareikep/prac_repos/prac/pracmodules/obj_recognition/mln/parsing.mln')
         self.dbs = training_dbs
         self.learn_mln = mln.learnWeights(training_dbs, LearningMethods.BPLL_CG, verbose=True, optimizer='bfgs')
-        outputfile = '/win/common/Uni/semester10_sose14/prac/pracmodules/obj_recognition/mln/wts_pll_ts_stanford_wn_man.db'
+        outputfile = '/home/mareikep/prac_repos/prac/pracmodules/obj_recognition/mln/wts_pll_ts_stanford_wn_man.db'
         # self.learn_mln.write(file(outputfile, "w"))
