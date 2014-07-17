@@ -35,6 +35,7 @@ PRAC_HOME = os.environ['PRAC_HOME']
 nltk.data.path = [os.path.join(PRAC_HOME, 'data', 'nltk_data')]
 
 NLTK_POS = ['n', 'v', 'a', 'r']
+TAXONOMY_BRANCHES = ['color.n.01','size.n.01','shape.n.01']
 
 known_concepts = ['soup.n.01', 
                   'milk.n.01', 
@@ -318,25 +319,31 @@ class WordNet(object):
         similarity = 0.
         for s1 in syns1:
             for s2 in syns2:
-                # equates WUP Similarity: 2 * depth(lowestCommonHypernym) / depth(s1) + depth(s2) because:
-                # depth(X) == X.max_depth() + 1
-                # posDiff is used to decrease the similarity if one of the synsets is an adjective, to punish
-                # inferring another synset which is used for similarity check
-                lcs = s1.lowest_common_hypernyms(s2)
-                if lcs:
-                    dlcs = lcs[0].max_depth() + 1
-                    ds1 = s1.max_depth() + 1
-                    ds2 = s2.max_depth() + 1
-
-                    adjWupSim = 2 * dlcs / (ds1 + ds2 + posDiff)
-                    similarity = max(similarity, adjWupSim) # or avg?
-                else:
+                # add additional knowledge: colors are maximally dissimilar to shapes or sizes and vice versa
+                if not self.synsInSameTaxonomyBranch(s1, s2):
                     similarity = 0.
-                #similarity = max(similarity, s1.wup_similarity(s2)) # or avg?
-        
-        return max(0.001, 0. if similarity is None else similarity)
+                else:
+                    # equates WUP Similarity: 2 * depth(lowestCommonHypernym) / depth(s1) + depth(s2) because:
+                    # depth(X) == X.max_depth() + 1
+                    # posDiff is used to decrease the similarity if one of the synsets is an adjective, to punish
+                    # inferring another synset which is used for similarity check
+                    lcs = s1.lowest_common_hypernyms(s2)
+                    if lcs:
+                        dlcs = lcs[0].max_depth() + 1
+                        ds1 = s1.max_depth() + 1
+                        ds2 = s2.max_depth() + 1
+
+                        adjWupSim = 2 * dlcs / (ds1 + ds2 + posDiff)
+                        similarity = max(similarity, adjWupSim) # or avg?
+                        
+                    else:
+                        similarity = 0.
+        return 0. if similarity is None else similarity
 
 
+    def synsInSameTaxonomyBranch(self, synset1, synset2):
+        for tb in TAXONOMY_BRANCHES:
+            return tb in [hyp.name for hyp in self.flatten(synset1.hypernym_paths())] and tb in [hyp.name for hyp in self.flatten(synset2.hypernym_paths())]
 
     def semilarity(self, synset1, synset2):
         '''
