@@ -1,0 +1,12 @@
+#include predicates.mln
+
+
+0 prep_with(?w1,?w2) ^ has_sense(?w2,?s2) ^ property(?w2, HASA)
+0 prep_with(?w1,?w2) ^ has_sense(?w2,?s2) ^ !property(?w2, HASA)
+
+0 has_sense(?w1, ?s1) ^ is_a(?s1,?c1) ^ coRef(?s1, +?c2)
+
+0 amod(?w1,?w2) ^ has_sense(?w2, ?s2) ^ is_a(?s2, +?c) ^ property(?w2, +?prop) ^ ?w1 =/= ?w2
+0 has_pos(?w2, NN) ^ root(?w1, ?w2) ^ has_sense(?w2, ?s2) ^ property(?w2, +?prop)
+
+//0 has_sense(?w2, ?s2) ^ property(?w2, +?prop) ^ coRef(?s2, ?c)
