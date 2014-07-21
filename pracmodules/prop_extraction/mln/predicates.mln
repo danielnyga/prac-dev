@@ -28,8 +28,8 @@
 has_sense(word, sense!)
 is_a(sense, concept)
 
-property(word, property!)
-has_a(sense)
+property(word, property!) 
+
 object(concept!)
 coRef(sense, concept)
 

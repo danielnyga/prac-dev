@@ -63,55 +63,34 @@ class PropExtraction(PRACModule):
         
         # process databases
         for db in kb.dbs:
-            print colorize('+============DB=================+', (None, 'green', True), True)
-            db.write(sys.stdout,color=True)
-
             db = wordnet_module.get_senses_and_similarities(db, known_concepts)
-            print colorize('+============DB after get senses and similarities=================+', (None, 'green', True), True)
-            db.write(sys.stdout,color=True)
-            
-            # # add cluster to domains
-            # if 'cluster' in db.domains:
-            #     domains = db.domains['cluster']
-            #     domains.append('cluster')
-            # else:
-            #     db.domains['cluster'] = ['cluster']
+            # db.write(sys.stdout,color=True)
 
             # infer and update output dbs
             result_db = list(kb.infer(db))
             inf_step.output_dbs.extend(result_db)
 
             for r_db in result_db:
-                print colorize('+============Result DB=================+', (None, 'green', True), True)
-                r_db.write(sys.stdout, color=True)
-                r_db.writeToFile('/home/mareikep/prac_repos/prac/pracmodules/prop_extraction/mln/result.db')
+                r_db.writeToFile('/home/mareikep/prac_repos/prac/pracmodules/prop_extraction/db/inferenceResult.db')
                 
                 # print annotations found in result db
-                for q in r_db.query('has_a(?sense)'):
-                    if q['?sense'] == 'null': continue
-                    print 'has_a({})'.format(colorize(q['?sense'], (None, 'white', True), True))
                 print
-                
+                print 'Inferred properties:'
                 for q in r_db.query('property(?word, ?prop) ^ has_sense(?word, ?sense)'):
                     if q['?prop'] == 'null': continue
                     if q['?sense'] == 'null': continue
-                    print '{}({})'.format(colorize(q['?prop'].lower(),(None, 'yellow', True), True), colorize(q['?sense'], (None, 'white', True), True))
+                    print '{}({},{})'.format(colorize('property', (None, 'white', True), True), q['?sense'], colorize(q['?prop'], (None, 'yellow', True), True))
                 print
 
-                for annot in ['is_a', 'coRef']:
-                    for q in r_db.query('{}(?sense, ?concept)'.format(annot)):
-                        if q['?concept'] == 'null': continue
-                        print '{}({},{})'.format(colorize(annot, (None, 'yellow', True), True)  , q['?concept'], colorize(q['?concept'], (None, 'white', True), True))
+                for q in r_db.query('coRef(?sense, ?concept)'):
+                    if q['?concept'] == 'null': continue
+                    print '{}({},{})'.format(colorize('coRef', (None, 'white', True), True), q['?concept'], colorize(q['?concept'], (None, 'yellow', True), True))
 
                 print 'Inferred most probable word senses:'
-                wordSenses = {}
                 for q in r_db.query('has_sense(?w, ?s)'):
                     if q['?s'] == 'null': continue
                     print '{}:'.format(q['?w'])
-                    wordSenses[q['?w']] = q['?s']
                     wordnet_module.printWordSenses(wordnet_module.get_possible_meanings_of_word(r_db, q['?w']), q['?s'])
-                    print
-                # print wordSenses
         return inf_step
 
 
@@ -128,8 +107,8 @@ class PropExtraction(PRACModule):
         logging.getLogger().setLevel(logging.DEBUG)
         
         mln = readMLNFromFile('/home/mareikep/prac_repos/prac/pracmodules/prop_extraction/mln/parsing.mln')
-        dbFile = '/home/mareikep/prac_repos/prac/pracmodules/prop_extraction/mln/ts_stanford_wn_man.db'
-        outputfile = '/home/mareikep/prac_repos/prac/pracmodules/prop_extraction/mln/bpll_cg_parsing_stanford_wn_man.mln'
+        dbFile = '/home/mareikep/prac_repos/prac/pracmodules/prop_extraction/db/ts_stanford_wn_man.db'
+        outputfile = '/home/mareikep/prac_repos/prac/pracmodules/prop_extraction/mln/dcll_parsing_stanford_wn_man.mln'
         inputdbs = readDBFromFile(mln, dbFile)
         
         known_concepts = mln.domains.get('concept', [])
@@ -144,7 +123,7 @@ class PropExtraction(PRACModule):
         log.info('Starting training with {} databases'.format(len(training_dbs)))
         # trainedMLN = mln.learnWeights(training_dbs, LearningMethods.BPLL_CG, partSize=8, gaussianPriorSigma=10, verbose=False, optimizer='bfgs')
         # trainedMLN = mln.learnWeights(training_dbs, LearningMethods.DBPLL_CG, evidencePreds=['is_a'],  partSize=4, verbose=False, optimizer='bfgs')
-        trainedMLN = mln.learnWeights(training_dbs, LearningMethods.DCLL, evidencePreds=['is_a','amod','prep_with','root','has_pos'], partSize=1, verbose=False, optimizer='bfgs')
+        trainedMLN = mln.learnWeights(training_dbs, LearningMethods.DCLL, evidencePreds=['is_a','amod','prep_with','root','has_pos','conj_and','conj_or','dobj'], partSize=1, verbose=False, optimizer='bfgs')
         trainedMLN.write(file(outputfile, "w"))
         
         print colorize('+=============================================+', (None, 'green', True), True)

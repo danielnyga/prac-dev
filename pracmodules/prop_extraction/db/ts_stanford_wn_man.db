@@ -425,3 +425,423 @@ property(lid-18,HASA)
 
 coRef(vessel.n.01,pot.n.01)
 object(pot.n.01)
+
+
+---
+// -------------------------------------------------------------------------------
+// car.n.01:
+// WORDNET: a motor vehicle with four wheels; usually propelled by an internal combustion engine
+
+// STANFORD:
+advmod(propelled-9, usually-8)
+agent(propelled-9, engine-14)
+amod(engine-14, internal-12)
+dep(vehicle-3, with-4)
+det(engine-14, an-11)
+det(vehicle-3, a-1)
+has_pos(a-1, DT)
+has_pos(an-11, DT)
+has_pos(combustion-13, NN)
+has_pos(engine-14, NN)
+has_pos(four-5, CD)
+has_pos(internal-12, JJ)
+has_pos(motor-2, NN)
+has_pos(propelled-9, VBN)
+has_pos(usually-8, RB)
+has_pos(vehicle-3, NN)
+has_pos(wheels-6, NNS)
+has_pos(with-4, IN)
+nn(engine-14, combustion-13)
+nn(vehicle-3, motor-2)
+num(wheels-6, four-5)
+partmod(wheels-6, propelled-9)
+pobj(with-4, wheels-6)
+root(ROOT-0, vehicle-3)
+
+// WORDNET ANNOTATED:
+has_sense(a-1,null)
+has_sense(motor-2,motor_vehicle.n.01)
+has_sense(vehicle-3,null)
+has_sense(with-4,null)
+has_sense(four-5,null)
+has_sense(wheels-6,wheel.n.01)
+has_sense(usually-8,normally.r.01)
+has_sense(propelled-9,propel.v.01)
+has_sense(by-10,null)
+has_sense(an-11,null)
+has_sense(internal-12,internal-combustion_engine.n.01)
+has_sense(combustion-13,null)
+has_sense(engine-14,null)
+
+// MANUALLY ANNOTATED:
+property(a-1,null)
+property(motor-2,HYPERNYM)
+property(vehicle-3,HYPERNYM)
+property(with-4,null)
+property(four-5,null)
+property(wheels-6,HASA)
+property(usually-8,null)
+property(propelled-9,null)
+property(by-10,null)
+property(an-11,null)
+property(internal-12,HASA)
+property(combustion-13,HASA)
+property(engine-14,HASA)
+
+is_a(motor_vehicle.n.01,motor_vehicle.n.01)
+is_a(wheel.n.01,wheel.n.01)
+is_a(normally.r.01,normally.r.01)
+is_a(propel.v.01,propel.v.01)
+is_a(internal-combustion_engine.n.01,internal-combustion_engine.n.01)
+is_a(null,null)
+
+coRef(motor_vehicle.n.01,car.n.01)
+object(car.n.01)
+
+---
+// -------------------------------------------------------------------------------
+// box.n.01:
+// WORDNET: a usually rectangular container; may have a lid
+
+// STANFORD:
+advmod(container-4, usually-2)
+amod(container-4, rectangular-3)
+aux(have-7, may-6)
+dep(container-4, have-7)
+det(container-4, a-1)
+det(lid-9, a-8)
+dobj(have-7, lid-9)
+has_pos(a-1, DT)
+has_pos(a-8, DT)
+has_pos(container-4, NN)
+has_pos(have-7, VB)
+has_pos(lid-9, NN)
+has_pos(may-6, MD)
+has_pos(rectangular-3, JJ)
+has_pos(usually-2, RB)
+root(ROOT-0, container-4)
+
+// WORDNET ANNOTATED:
+has_sense(a-1,null)
+has_sense(usually-2,normally.r.01)
+has_sense(rectangular-3,rectangular.s.01)
+has_sense(container-4,container.n.01)
+has_sense(may-6,null)
+has_sense(have-7,null)
+has_sense(a-8,null)
+has_sense(lid-9,lid.n.02)
+
+// MANUALLY ANNOTATED:
+property(a-1,null)
+property(usually-2,null)
+property(rectangular-3,SHAPE)
+property(container-4,HYPERNYM)
+property(may-6,null)
+property(have-7,null)
+property(a-8,null)
+property(lid-9,HASA)
+
+is_a(normally.r.01,normally.r.01)
+is_a(rectangular.s.01,rectangular.s.01)
+is_a(container.n.01,container.n.01)
+is_a(lid.n.02,lid.n.02)
+is_a(null,null)
+
+coRef(container.n.01,box.n.01)
+object(box.n.01)
+
+---
+// -------------------------------------------------------------------------------
+// balloon.n.02:
+// WORDNET: small thin inflatable rubber bag with narrow neck
+
+// STANFORD:
+amod(inflatable-3, small-1)
+amod(inflatable-3, thin-2)
+amod(neck-8, narrow-7)
+dep(inflatable-3, bag-5)
+has_pos(bag-5, NN)
+has_pos(inflatable-3, NN)
+has_pos(narrow-7, JJ)
+has_pos(neck-8, NN)
+has_pos(rubber-4, NN)
+has_pos(small-1, JJ)
+has_pos(thin-2, JJ)
+nn(bag-5, rubber-4)
+prep_with(bag-5, neck-8)
+root(ROOT-0, inflatable-3)
+
+// WORDNET ANNOTATED:
+has_sense(small-1,small.a.01)
+has_sense(thin-2,null)
+has_sense(inflatable-3,inflatable.a.01)
+has_sense(rubber-4,rubber.n.02)
+has_sense(bag-5,bag.n.01)
+has_sense(with-6,null)
+has_sense(narrow-7,null)
+has_sense(neck-8,null)
+
+// MANUALLY ANNOTATED:
+property(small-1,SIZE)
+property(thin-2,SIZE)
+property(inflatable-3,null)
+property(rubber-4,null)
+property(bag-5,HYPERNYM)
+property(with-6,null)
+property(narrow-7,null)
+property(neck-8,HASA)
+
+is_a(small.a.01,small.a.01)
+is_a(rubber.n.0,rubber.n.0)
+is_a(bag.n.01,bag.n.01)
+is_a(null,null)
+
+coRef(bag.n.01,balloon.n.02)
+object(balloon.n.02)
+
+---
+// -------------------------------------------------------------------------------
+// avocado.n.01:
+// WORDNET: a pear-shaped tropical fruit with green or blackish skin and rich yellowish pulp enclosing a single large seed
+
+// STANFORD:
+amod(fruit-4, pear-shaped-2)
+amod(fruit-4, tropical-3)
+amod(pulp-13, rich-11)
+amod(seed-18, large-17)
+amod(seed-18, single-16)
+amod(skin-9, green-6)
+conj_and(skin-9, pulp-13)
+conj_or(green-6, blackish-8)
+det(fruit-4, a-1)
+det(seed-18, a-15)
+dobj(enclosing-14, seed-18)
+has_pos(a-1, DT)
+has_pos(a-15, DT)
+has_pos(blackish-8, JJ)
+has_pos(enclosing-14, VBG)
+has_pos(fruit-4, NN)
+has_pos(green-6, JJ)
+has_pos(large-17, JJ)
+has_pos(pear-shaped-2, JJ)
+has_pos(pulp-13, NN)
+has_pos(rich-11, JJ)
+has_pos(seed-18, NN)
+has_pos(single-16, JJ)
+has_pos(skin-9, NN)
+has_pos(tropical-3, JJ)
+has_pos(yellowish-12, NN)
+nn(pulp-13, yellowish-12)
+partmod(pulp-13, enclosing-14)
+prep_with(fruit-4, skin-9)
+root(ROOT-0, fruit-4)
+
+
+// WORDNET ANNOTATED:
+has_sense(a-1,null)
+has_sense(pear-shaped-2,pear-shaped.s.01)
+has_sense(tropical-3,null)
+has_sense(fruit-4,fruit.n.01)
+has_sense(with-5,null)
+has_sense(green-6,green.s.01)
+has_sense(or-7,null)
+has_sense(blackish-8,blackish.s.01)
+has_sense(skin-9,peel.n.02)
+has_sense(and-10,null)
+has_sense(rich-11,null)
+has_sense(yellowish-12,yellow.s.01)
+has_sense(pulp-13,pulp.n.02)
+has_sense(enclosing-14,envelop.v.01)
+has_sense(a-15,null)
+has_sense(single-16,null)
+has_sense(large-17,large.a.01)
+has_sense(seed-18,seed.n.02)
+
+
+// MANUALLY ANNOTATED:
+property(a-1,null)
+property(pear-shaped-2,SHAPE)
+property(tropical-3,null)
+property(fruit-4,HYPERNYM)
+property(with-5,null)
+property(green-6,COLOR)
+property(or-7,null)
+property(blackish-8,COLOR)
+property(skin-9,HASA)
+property(and-10,null)
+property(rich-11,null)
+property(yellowish-12,COLOR)
+property(pulp-13,HASA)
+property(enclosing-14,null)
+property(a-15,null)
+property(single-16,null)
+property(large-17,null)
+property(seed-18,HASA)
+
+is_a(pear-shaped.s.01,pear-shaped.s.01)
+is_a(fruit.n.01,fruit.n.01)
+is_a(green.s.01,green.s.01)
+is_a(blackish.s.01,blackish.s.01)
+is_a(peel.n.02,peel.n.02)
+is_a(yellow.s.01,yellow.s.01)
+is_a(pulp.n.02,pulp.n.02)
+is_a(envelop.v.01,envelop.v.01)
+is_a(large.a.01,large.a.01)
+is_a(seed.n.02,seed.n.02)
+is_a(null,null)
+
+coRef(fruit.n.01,avocado.n.01)
+object(avocado.n.01)
+
+
+---
+// -------------------------------------------------------------------------------
+// peach.n.03:
+// WORDNET: downy juicy fruit with sweet yellowish or whitish flesh
+
+// STANFORD:
+amod(flesh-9, sweet-5)
+amod(flesh-9, yellowish-6)
+amod(fruit-3, juicy-2)
+conj_or(yellowish-6, whitish-8)
+dobj(downy-1, fruit-3)
+has_pos(downy-1, VB)
+has_pos(flesh-9, NN)
+has_pos(fruit-3, NN)
+has_pos(juicy-2, JJ)
+has_pos(sweet-5, JJ)
+has_pos(whitish-8, JJ)
+has_pos(yellowish-6, JJ)
+prep_with(downy-1, flesh-9)
+root(ROOT-0, downy-1)
+
+
+// MANUALLY ANNOTATED:
+has_sense(downy-1,downy.s.02)
+has_sense(juicy-2,juicy.a.01)
+has_sense(fruit-3,fruit.n.01)
+has_sense(with-4,null)
+has_sense(sweet-5,null)
+has_sense(yellowish-6,yellow.s.01)
+has_sense(or-7,null)
+has_sense(whitish-8,whitish.s.02)
+has_sense(flesh-9,pulp.n.02)
+
+property(downy-1,null)
+property(juicy-2,null)
+property(fruit-3,HYPERNYM)
+property(with-4,null)
+property(sweet-5,null)
+property(yellowish-6,COLOR)
+property(or-7,null)
+property(whitish-8,COLOR)
+property(flesh-9,HASA)
+
+is_a(downy.s.02,downy.s.02)
+is_a(juicy.a.01,juicy.a.01)
+is_a(fruit.n.01,fruit.n.01)
+is_a(yellow.s.01,yellow.s.01)
+is_a(whitish.s.02,whitish.s.02)
+is_a(pulp.n.02,pulp.n.02)
+is_a(null,null)
+
+coRef(fruit.n.01,peach.n.03)
+object(peach.n.03)
+
+
+
+
+---
+// -------------------------------------------------------------------------------
+// plum.n.02:
+// WORDNET: any of numerous varieties of small to medium-sized round or oval fruit having a smooth skin and a single pit
+
+// STANFORD:
+amod(fruit-12, oval-11)
+amod(medium-sized-8, small-6)
+amod(pit-20, single-19)
+amod(round-9, medium-sized-8)
+amod(skin-16, smooth-15)
+amod(varieties-4, numerous-3)
+conj_and(skin-16, pit-20)
+conj_or(varieties-4, fruit-12)
+dep(medium-sized-8, to-7)
+det(pit-20, a-18)
+det(skin-16, a-14)
+dobj(having-13, skin-16)
+has_pos(a-14, DT)
+has_pos(a-18, DT)
+has_pos(any-1, DT)
+has_pos(fruit-12, NN)
+has_pos(having-13, VBG)
+has_pos(medium-sized-8, JJ)
+has_pos(numerous-3, JJ)
+has_pos(oval-11, JJ)
+has_pos(pit-20, NN)
+has_pos(round-9, NN)
+has_pos(single-19, JJ)
+has_pos(skin-16, NN)
+has_pos(small-6, JJ)
+has_pos(smooth-15, JJ)
+has_pos(to-7, TO)
+has_pos(varieties-4, NNS)
+partmod(fruit-12, having-13)
+prep_of(any-1, varieties-4)
+prep_of(varieties-4, round-9)
+root(ROOT-0, any-1)
+
+// MANUALLY ANNOTATED:
+has_sense(any-1,null)
+has_sense(of-2,null)
+has_sense(numerous-3,numerous.s.01)
+has_sense(varieties-4,null)
+has_sense(of-5,null)
+has_sense(small-6,small.a.01)
+has_sense(to-7,null)
+has_sense(medium-sized-8,medium-sized.s.01)
+has_sense(round-9,round.a.01)
+has_sense(or-10,null)
+has_sense(oval-11,egg-shaped.s.01)
+has_sense(fruit-12,fruit.n.01)
+has_sense(having-13,null)
+has_sense(a-14,null)
+has_sense(smooth-15,null)
+has_sense(skin-16,peel.n.02)
+has_sense(and-17,null)
+has_sense(a-18,null)
+has_sense(single-19,null)
+has_sense(pit-20,stone.n.06)
+
+property(any-1,null)
+property(of-2,null)
+property(numerous-3,null)
+property(varieties-4,null)
+property(of-5,null)
+property(small-6,SIZE)
+property(to-7,null)
+property(medium-sized-8,SIZE)
+property(round-9,SHAPE)
+property(or-10,null)
+property(oval-11,SHAPE)
+property(fruit-12,HYPERNYM)
+property(having-13,null)
+property(a-14,null)
+property(smooth-15,null)
+property(skin-16,HASA)
+property(and-17,null)
+property(a-18,null)
+property(single-19,null)
+property(pit-20,HASA)
+
+is_a(numerous.s.01,numerous.s.01)
+is_a(small.a.01,small.a.01)
+is_a(medium-sized.s.01,medium-sized.s.01)
+is_a(round.a.01,round.a.01)
+is_a(egg-shaped.s.01,egg-shaped.s.01)
+is_a(fruit.n.01,fruit.n.01)
+is_a(peel.n.02,peel.n.02)
+is_a(stone.n.06,stone.n.06)
+is_a(null,null)
+
+coRef(fruit.n.01,plum.n.02)
+object(plum.n.02)
