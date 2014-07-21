@@ -61,8 +61,11 @@ if __name__ == '__main__':
         gui = PRACQueryGUI(infer)
         gui.open()
     else: # regular PRAC pipeline
-        objRecog = prac.getModuleByName('obj_recognition')
-        prac.run(infer,objRecog,kb=objRecog.load_pracmt('obj_recog'))
+        propExtract = prac.getModuleByName('prop_extraction')
+        prac.run(infer,propExtract,kb=propExtract.load_pracmt('prop_extract'))
+
+        objRec = prac.getModuleByName('obj_recognition')
+        prac.run(infer,objRec,kb=objRec.load_pracmt('obj_recog'))
 
 
     step = infer.inference_steps[-1]
@@ -70,12 +73,11 @@ if __name__ == '__main__':
     print colorize('+========================+',  (None, 'green', True), True)
     print colorize('| PRAC INFERENCE RESULTS |',  (None, 'green', True), True)
     print colorize('+========================+',  (None, 'green', True), True)
-    evidences = ['color', 'size', 'shape', 'is_a', 'has_a', 'coRef', 'object']
-    for db in step.output_dbs:
-        for ek in sorted(db.evidence.keys()):
-            e = db.evidence[ek]
-            # if e > 0.001 and ek.startswith('object'):
-            if e > 0.001 and any(ek.startswith(ev) for ev in evidences):# todo: remove
-                print '{0:.2f}    {1}'.format(e, ek)
-        print '---'
+    if step is not None:
+        for db in step.output_dbs:
+            for ek in sorted(db.evidence.keys()):
+                e = db.evidence[ek]
+                if e > 0.001 and ek.startswith('object'):
+                    print '{0:.2f}    {1}'.format(e, ek)
+            print '---'
         

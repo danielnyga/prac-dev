@@ -48,7 +48,7 @@ if __name__ == '__main__':
     if praclearn.microtheories is None:
         praclearn.microtheories = prac.microtheories
     if praclearn.modules is None:
-        praclearn.modules = ['obj_recognition']
+        praclearn.modules = ['prop_extraction']
     if parser.values.training_dbs is not None:
         dbnames = parser.values.training_dbs
         praclearn.training_dbs = dbnames
