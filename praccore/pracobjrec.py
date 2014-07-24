@@ -31,17 +31,24 @@ from prac.wordnet import WordNet
 from mln.database import readDBFromString
 from utils import colorize
 
-parser = OptionParser()
-parser.add_option("-i", "--interactive", dest="interactive", default=False, action='store_true',
-                  help="Starts PRAC object recognition with an interactive GUI tool.")
 
 if __name__ == '__main__':
     print "Running main..."
+
+    parser = OptionParser()
+    parser.add_option("-i", "--interactive", dest="interactive", default=False, action='store_true',
+                      help="Starts PRAC object recognition with an interactive GUI tool.")
+    parser.add_option("-k", "--knowledgebase", dest="dkb", default='fruit',
+                      help="Knowledge base to be used for inference. Options: all, kitchenware, fruit, misc")
+    parser.add_option("-c", "--createdbs", dest="createdbs", default=False, 
+                      help="Creates dkb file with given name. Name must be filename (w\o extension) of existing .db file in db folder of module")
     (options, args) = parser.parse_args()
-    
+
     interactive = options.interactive
     sentences = args
-    
+
+    dkbname = options.dkb
+
     log = logging.getLogger()
     log.setLevel(logging.INFO)
 
@@ -60,12 +67,17 @@ if __name__ == '__main__':
     if interactive: # use the GUI
         gui = PRACQueryGUI(infer)
         gui.open()
+    elif options.createdbs:
+        objRec = prac.getModuleByName('obj_recognition')
+        dkb = objRec.create_dkb(options.createdbs)
+        objRec.save_dkb(dkb, options.createdbs)
+        sys.exit(0)
     else: # regular PRAC pipeline
         propExtract = prac.getModuleByName('prop_extraction')
         prac.run(infer,propExtract,kb=propExtract.load_pracmt('prop_extract'))
 
         objRec = prac.getModuleByName('obj_recognition')
-        prac.run(infer,objRec,kb=objRec.load_pracmt('obj_recog'))
+        prac.run(infer,objRec,kb=objRec.load_pracmt('obj_recog'),dkb=objRec.load_dkb(dkbname))
 
 
     step = infer.inference_steps[-1]
@@ -73,11 +85,12 @@ if __name__ == '__main__':
     print colorize('+========================+',  (None, 'green', True), True)
     print colorize('| PRAC INFERENCE RESULTS |',  (None, 'green', True), True)
     print colorize('+========================+',  (None, 'green', True), True)
+    print
     if step is not None:
         for db in step.output_dbs:
             for ek in sorted(db.evidence.keys()):
                 e = db.evidence[ek]
                 if e > 0.001 and ek.startswith('object'):
                     print '{0:.2f}    {1}'.format(e, ek)
-            print '---'
+            print
         

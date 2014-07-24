@@ -24,7 +24,7 @@
 import os
 import sys
 from prac.wordnet import WordNet
-from mln.database import Database, readDBFromString
+from mln.database import Database, readDBFromString, readDBFromFile
 from mln.mln import readMLNFromString, MLN
 from mln.util import mergeDomains
 
@@ -353,6 +353,26 @@ class PRACKnowledgeBase(object):
     def __setstate__(self, d):
         self.__dict__.update(d)
 
+
+
+class DescriptionKnowledgeBase(object):
+    '''
+    Base class for descriptions of wordnet concepts. 
+    '''
+    
+    def __init__(self, prac):
+        self.prac = prac
+        self.descriptions = {} # dictionary of type {concept:description,...}, where description = inference result of pracmodule prop_extraction
+        
+    def __getstate__(self): # do not store
+        odict = self.__dict__.copy()
+        del odict['prac']
+        return odict
+      
+      
+    def __setstate__(self, d):
+        self.__dict__.update(d)
+
         
 class PRACModule(object):
     '''
@@ -441,6 +461,52 @@ class PRACModule(object):
             os.mkdir(binPath)
         f = open(os.path.join(prac_module_path, self.name, 'bin', binaryFileName), 'w+')
         pickle.dump(prac_mt, f)
+        f.close()
+
+    def create_dkb(self, name=None):
+        '''
+        Creates a new DescriptionKnowledgeBase instance from db file and returns it.
+        '''
+        dkb = DescriptionKnowledgeBase(self.prac)
+        if name is not None:
+            mln = readMLNFromFile(os.path.join(self.module_path, 'mln/objectinference.mln'))
+            kbfile = os.path.join(self.module_path, 'db/{}.db'.format(name))
+            inputdbs = readDBFromFile(mln, kbfile)
+            for db in inputdbs:
+                for q in db.query('object(?cluster, ?word)'):
+                    val = []
+                    word = q['?word']
+                    for qr in db.query('property(?cluster, ?w, ?prop)'):
+                        if qr['?prop'] == 'null': continue
+                        val.append('property({},{},{})'.format(qr['?cluster'],qr['?w'],qr['?prop']))
+                    dkb.descriptions[word] = val
+        return dkb
+
+    def load_dkb(self, dkb_name):
+        '''
+        Loads a pickled DescriptionKnowledgeBase with given name.
+        '''
+        binaryFileName = '{}.dkb'.format(dkb_name)
+        filepath = os.path.join(self.module_path, 'kb')
+        f = open(os.path.join(filepath, binaryFileName), 'r')
+        dkb = pickle.load(f)
+        f.close()
+        
+        return dkb
+    
+    def save_dkb(self, dkb, name):
+        '''
+        Pickles the state of the given DescriptionKnowledgeBase in its kb folder.
+        - dkb_name:    instance of a DescriptionKnowledgeBase
+        '''
+        if name is None and not hasattr(dkb, 'name'):
+            raise Exception('No module name specified.')
+        kbFileName = '{}.dkb'.format(name)
+        kbPath = os.path.join(prac_module_path, self.name, 'kb')
+        if not os.path.exists(kbPath):
+            os.mkdir(kbPath)
+        f = open(os.path.join(prac_module_path, self.name, 'kb', kbFileName), 'w+')
+        pickle.dump(dkb, f)
         f.close()
     
     @PRACPIPE
