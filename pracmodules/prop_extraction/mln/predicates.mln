@@ -28,9 +28,10 @@
 has_sense(word, sense!)
 is_a(sense, concept)
 
-property(word, property!) 
+//property(cluster, sense, property!) 
+property(cluster, word, property!) 
 
-object(concept!)
+object(cluster, concept!)
 coRef(sense, concept)
 
 concept = {null}
