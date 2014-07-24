@@ -27,7 +27,7 @@ import logging
 from mln.methods import LearningMethods
 from prac.wordnet import WordNet
 from prac.inference import PRACInferenceStep
-import sys
+import sys, os
 from utils import colorize
 
 class PropExtraction(PRACModule):    
@@ -39,6 +39,7 @@ class PropExtraction(PRACModule):
     def __call__(self, pracinference, **params):
         log = logging.getLogger(self.name)
         log.info('Running {}'.format(self.name))
+        print os.path.join(self.module_path, 'mln/parsing.mln')
         
         print colorize('+=============================================+', (None, 'green', True), True)
         print colorize('| PRAC PROPERTY EXTRACTION                    |', (None, 'green', True), True)
@@ -65,21 +66,30 @@ class PropExtraction(PRACModule):
         for db in kb.dbs:
             db = wordnet_module.get_senses_and_similarities(db, known_concepts)
             # db.write(sys.stdout,color=True)
+            
+            # add cluster to domains
+            if 'cluster' in db.domains:
+                domains = db.domains['cluster']
+                domains.append('cluster')
+            else:
+                db.domains['cluster'] = ['cluster']
 
             # infer and update output dbs
             result_db = list(kb.infer(db))
             inf_step.output_dbs.extend(result_db)
 
             for r_db in result_db:
-                r_db.writeToFile('/home/mareikep/prac_repos/prac/pracmodules/prop_extraction/db/inferenceResult.db')
-                
-                # print annotations found in result db
+                r_db.writeToFile(os.path.join(self.module_path, 'db/inferenceResult.db'))
                 print
-                print 'Inferred properties:'
-                for q in r_db.query('property(?word, ?prop) ^ has_sense(?word, ?sense)'):
+
+                # print annotations found in result db
+                for instr in pracinference.instructions:
+                    print colorize('Inferred properties for instruction:', (None, 'white', True), True), instr
+                    print
+                for q in r_db.query('property(?cluster, ?word, ?prop) ^ has_sense(?word, ?sense)'):
                     if q['?prop'] == 'null': continue
                     if q['?sense'] == 'null': continue
-                    print '{}({},{})'.format(colorize('property', (None, 'white', True), True), q['?sense'], colorize(q['?prop'], (None, 'yellow', True), True))
+                    print '{}({}, {}, {})'.format(colorize('property', (None, 'white', True), True), q['?cluster'], q['?sense'], colorize(q['?prop'], (None, 'yellow', True), True))
                 print
 
                 for q in r_db.query('coRef(?sense, ?concept)'):
@@ -106,9 +116,9 @@ class PropExtraction(PRACModule):
         # mln = kb.query_mln
         logging.getLogger().setLevel(logging.DEBUG)
         
-        mln = readMLNFromFile('/home/mareikep/prac_repos/prac/pracmodules/prop_extraction/mln/parsing.mln')
-        dbFile = '/home/mareikep/prac_repos/prac/pracmodules/prop_extraction/db/ts_stanford_wn_man.db'
-        outputfile = '/home/mareikep/prac_repos/prac/pracmodules/prop_extraction/mln/dcll_parsing_stanford_wn_man.mln'
+        mln = readMLNFromFile(os.path.join(self.module_path, 'mln/parsing.mln'))
+        dbFile = os.path.join(self.module_path, 'db/ts_stanford_wn_man.db')
+        outputfile = os.path.join(self.module_path, 'mln/dcll_parsing_stanford_wn_man.mln')
         inputdbs = readDBFromFile(mln, dbFile)
         
         known_concepts = mln.domains.get('concept', [])
@@ -138,8 +148,6 @@ class PropExtraction(PRACModule):
         # self.save_pracmt(annotationKB,'annotations')
 
 
-
-
 class AnnotationKB(PRACKnowledgeBase):
     '''
     Represents the probabilistic KB for learning and inferring
@@ -147,8 +155,8 @@ class AnnotationKB(PRACKnowledgeBase):
     '''
     
     def train(self, training_dbs):
-        mln = readMLNFromFile('/home/mareikep/prac_repos/prac/pracmodules/prop_extraction/mln/parsing.mln')
+        mln = readMLNFromFile(os.path.join(self.module_path, 'mln/parsing.mln'))
         self.dbs = training_dbs
         self.learn_mln = mln.learnWeights(training_dbs, LearningMethods.BPLL_CG, verbose=True, optimizer='bfgs')
-        outputfile = '/home/mareikep/prac_repos/prac/pracmodules/prop_extraction/mln/wts_pll_ts_stanford_wn_man.db'
+        outputfile = os.path.join(self.module_path, 'mln/wts_pll_ts_stanford_wn_man.db')
         # self.learn_mln.write(file(outputfile, "w"))
