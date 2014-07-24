@@ -37,7 +37,6 @@ class PRACWSD(PRACModule):
             inf_step = PRACInferenceStep(pracinference, self)
             wordnet_module = self.prac.getModuleByName('wn_senses')
   
-            
             for db in kb.dbs:
                 db = wordnet_module.get_senses_and_similarities(db, known_concepts)
                 result_db = list(kb.infer(db))
