@@ -43,13 +43,7 @@
 //fill
 1.00 has_pos(fill-2,VB)
 1.00 has_sense(fill-2,fill.v.09)
-
 // the following are not necessary for these will be asserted by the closed-world assumption:
-// 0.00 has_sense(fill-2,pan.n.01)
-// 0.00 has_sense(fill-2,mug.n.04)
-// 0.00 has_sense(fill-2,opening.n.01)
-// 0.00 has_sense(fill-2,water.n.06)
-// 0.00 has_sense(fill-2,fill.v.01)
 0.00 is_a(fill.v.09,fill.v.01)
 1.00 is_a(fill.v.09,fill.v.09) // <- fill.v.09 does not appear in the MLN
 0.00 is_a(fill.v.09,mug.n.04)
@@ -62,11 +56,6 @@
 //gap
 1.00 has_pos(gap,NN)
 1.00 has_sense(gap,opening.n.01)
-/* 0.00 has_sense(gap,fill.v.09)
-0.00 has_sense(gap,pan.n.01)
-0.00 has_sense(gap,mug.n.04)
-0.00 has_sense(gap,water.n.06)
-0.00 has_sense(gap,fill.v.01)*/
 1.00 is_a(opening.n.01,opening.n.01) // <- this one was missing
 0.35 is_a(opening.n.01,pan.n.01)
 0.38 is_a(opening.n.01,mug.n.04)
@@ -79,12 +68,6 @@
 //batter
 1.00 has_pos(batter,NN)
 1.00 has_sense(batter,batter.n.01)
-/* 0.00 has_sense(batter,opening.n.01)
-0.00 has_sense(batter,fill.v.09)
-0.00 has_sense(batter,pan.n.01)
-0.00 has_sense(batter,mug.n.04)
-0.00 has_sense(batter,water.n.06)
-0.00 has_sense(batter,fill.v.01) */
 1.00 is_a(batter.n.01,batter.n.01) // <- this one was missing
 0.36 is_a(batter.n.01,pan.n.01)
 0.38 is_a(batter.n.01,mug.n.04)
@@ -106,19 +89,9 @@
 0.00 is_a(fill.v.01,pan.n.01)
 0.00 is_a(fill.v.01,mug.n.04)
 
-/* 0.00 has_sense(fill-3,opening.n.01)
-0.00 has_sense(fill-3,fill.v.09)
-0.00 has_sense(fill-3,pan.n.01)
-0.00 has_sense(fill-3,mug.n.04)
-0.00 has_sense(fill-3,water.n.06)*/
 //mug
 1.00 has_pos(mug,NN)
 1.00 has_sense(mug,mug.n.04)
-/* 0.00 has_sense(mug,fill.v.01)
-0.00 has_sense(mug,opening.n.01)
-0.00 has_sense(mug,fill.v.09)
-0.00 has_sense(mug,pan.n.01)
-0.00 has_sense(mug,water.n.06) */
 1.00 is_a(mug.n.04,mug.n.04) // <- this one was missing
 0.57 is_a(mug.n.04,pan.n.01)
 0.38 is_a(mug.n.04,opening.n.01)
@@ -127,15 +100,10 @@
 0.00 is_a(mug.n.04,fill.v.09)
 0.00 is_a(mug.n.04,batter.n.01)
 0.00 is_a(mug.n.04,froth.n.01)
+
 //froth
 1.00 has_pos(froth,NN)
 1.00 has_sense(froth,froth.n.01)
-/* 0.00 has_sense(froth,mug.n.04)
-0.00 has_sense(froth,fill.v.01)
-0.00 has_sense(froth,opening.n.01)
-0.00 has_sense(froth,fill.v.09)
-0.00 has_sense(froth,pan.n.01)
-0.00 has_sense(froth,water.n.06) */
 1.00 is_a(froth.n.01,froth.n.01) // <- this one was missing
 0.10 is_a(froth.n.01,pan.n.01)
 0.10 is_a(froth.n.01,mug.n.04)
@@ -144,9 +112,3 @@
 0.00 is_a(froth.n.01,fill.v.01)
 0.00 is_a(froth.n.01,fill.v.09)
 0.00 is_a(froth.n.01,batter.n.01)
-
-
-
-
-
-
