@@ -95,7 +95,7 @@ if __name__ == '__main__':
                 for q in db.query('property(?cluster, ?word, ?prop) ^ has_sense(?word, ?sense)'):
                     if q['?sense'] == 'null': continue
                     if q['?prop'] == 'null': continue
-                    formula.append('property({}, {}, {})'.format(q['?cluster'], q['?word'].split('-')[0], q['?prop']))
+                    formula.append('property({}, {}, {})'.format(q['?cluster'], q['?sense'], q['?prop']))
             newformula = ' ^ '.join(formula) # conjunct all properties inferred from input sentence
             formula = 'object(?c, {}) <=> '.format(conceptname) + newformula
             

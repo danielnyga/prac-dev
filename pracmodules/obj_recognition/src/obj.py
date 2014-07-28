@@ -22,7 +22,7 @@
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 from prac.core import PRACModule, PRACKnowledgeBase, PRACPIPE, DescriptionKnowledgeBase
-from mln import readMLNFromFile, readMLNFromString, readDBFromFile, Database
+from mln import readMLNFromFile, readDBFromFile, Database
 import logging
 from mln.methods import LearningMethods
 from prac.wordnet import WordNet
