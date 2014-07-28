@@ -1,6 +1,5 @@
 #include predicates.mln
 
-
 0 prep_with(?w1,?w2) ^ has_sense(?w2,?s2) ^ property(?cluster, ?w2, HASA)
 0 prep_with(?w1,?w2) ^ has_sense(?w2,?s2) ^ !property(?cluster, ?w2, HASA)
 
@@ -18,3 +17,4 @@
 
 0 amod(?w1,?w2) ^ dobj(?w3, ?w1) ^ has_sense(?w3, ?s3) ^ is_a(?s3, +?c) ^ property(?cluster, ?w2, HASA) ^ ?w1 =/= ?w2
 0 amod(?w1,?w2) ^ dobj(?w3, ?w1) ^ has_sense(?w3, ?s3) ^ is_a(?s3, +?c) ^ !property(?cluster, ?w2, HASA) ^ ?w1 =/= ?w2
+

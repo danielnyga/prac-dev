@@ -39,7 +39,6 @@ class PropExtraction(PRACModule):
     def __call__(self, pracinference, **params):
         log = logging.getLogger(self.name)
         log.info('Running {}'.format(self.name))
-        print os.path.join(self.module_path, 'mln/parsing.mln')
         
         print colorize('+=============================================+', (None, 'green', True), True)
         print colorize('| PRAC PROPERTY EXTRACTION                    |', (None, 'green', True), True)
@@ -91,10 +90,6 @@ class PropExtraction(PRACModule):
                     if q['?sense'] == 'null': continue
                     print '{}({}, {}, {})'.format(colorize('property', (None, 'white', True), True), q['?cluster'], q['?sense'], colorize(q['?prop'], (None, 'yellow', True), True))
                 print
-
-                for q in r_db.query('coRef(?sense, ?concept)'):
-                    if q['?concept'] == 'null': continue
-                    print '{}({},{})'.format(colorize('coRef', (None, 'white', True), True), q['?concept'], colorize(q['?concept'], (None, 'yellow', True), True))
 
                 print 'Inferred most probable word senses:'
                 for q in r_db.query('has_sense(?w, ?s)'):

@@ -360,15 +360,14 @@ class DescriptionKnowledgeBase(object):
     Base class for descriptions of wordnet concepts. 
     '''
     
-    def __init__(self, prac):
-        self.prac = prac
-        self.descriptions = {} # dictionary of type {concept:description,...}, where description = inference result of pracmodule prop_extraction
-        
+    def __init__(self):
+        self.name = ''
+        self.kbmln = MLN(logic='FuzzyLogic', grammar='PRACGrammar')
+        self.concepts = [] # List of concept names described in the DKB
+
     def __getstate__(self): # do not store
         odict = self.__dict__.copy()
-        del odict['prac']
         return odict
-      
       
     def __setstate__(self, d):
         self.__dict__.update(d)
@@ -463,28 +462,20 @@ class PRACModule(object):
         pickle.dump(prac_mt, f)
         f.close()
 
-    def create_dkb(self, name=None):
+    def create_dkb(self, name):
         '''
-        Creates a new DescriptionKnowledgeBase instance from db file and returns it.
+        Creates a new DescriptionKnowledgeBase instance
+        - name:  The name of the dkb to be created
         '''
-        dkb = DescriptionKnowledgeBase(self.prac)
-        if name is not None:
-            mln = readMLNFromFile(os.path.join(self.module_path, 'mln/objectinference.mln'))
-            kbfile = os.path.join(self.module_path, 'db/{}.db'.format(name))
-            inputdbs = readDBFromFile(mln, kbfile)
-            for db in inputdbs:
-                for q in db.query('object(?cluster, ?word)'):
-                    val = []
-                    word = q['?word']
-                    for qr in db.query('property(?cluster, ?w, ?prop)'):
-                        if qr['?prop'] == 'null': continue
-                        val.append('property({},{},{})'.format(qr['?cluster'],qr['?w'],qr['?prop']))
-                    dkb.descriptions[word] = val
+        dkb = DescriptionKnowledgeBase()#self.prac)
+        dkb.name = name
+
         return dkb
 
     def load_dkb(self, dkb_name):
         '''
         Loads a pickled DescriptionKnowledgeBase with given name.
+        - dkb_name:  The name of the dkb to be loaded
         '''
         binaryFileName = '{}.dkb'.format(dkb_name)
         filepath = os.path.join(self.module_path, 'kb')
@@ -496,16 +487,23 @@ class PRACModule(object):
     
     def save_dkb(self, dkb, name):
         '''
-        Pickles the state of the given DescriptionKnowledgeBase in its kb folder.
-        - dkb_name:    instance of a DescriptionKnowledgeBase
+        Pickles the state of the given DescriptionKnowledgeBase in its mln folder.
+        - dkb:    instance of a DescriptionKnowledgeBase
+        - name:   name of DescriptionKnowledgeBase
         '''
         if name is None and not hasattr(dkb, 'name'):
             raise Exception('No module name specified.')
+        
+        # update predicates
+        tmpmln = readMLNFromFile(os.path.join(self.module_path, 'mln', 'predicates.mln'), logic='FuzzyLogic', grammar='PRACGrammar')
+        dkb.kbmln.update_predicates(tmpmln)
+        
         kbFileName = '{}.dkb'.format(name)
         kbPath = os.path.join(prac_module_path, self.name, 'kb')
+
         if not os.path.exists(kbPath):
             os.mkdir(kbPath)
-        f = open(os.path.join(prac_module_path, self.name, 'kb', kbFileName), 'w+')
+        f = open(os.path.join(kbPath, kbFileName), 'w+')
         pickle.dump(dkb, f)
         f.close()
     

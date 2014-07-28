@@ -25,11 +25,11 @@
  
 #include ../../nl_parsing/mln/predicates.mln
 
-has_sense(word, sense!)
-is_a(sense, concept)
-
 property(cluster, word, property!) 
 object(cluster, concept!)
 
 concept = {null}
 property = {null}
+
+
+//1 object(?cluster, cup.n.01) <=> property(?cluster01, small,SIZE) ^ property(?cluster01, container,HYPERNYM) ^ property(?cluster01, handle,HASA)// & similarity

@@ -47,7 +47,8 @@ class NLObjectRecognition(PRACModule):
         print colorize('Inferring most probable object based on nl description properties...', (None, 'white', True), True)
         
         dkb = params.get('dkb')
-        print 'using knowledge base: ', dkb.descriptions
+        print 'Using DKB {}:\n'.format(colorize(dkb.name, (None, 'yellow', True), True))
+        dkb.kbmln.write(sys.stdout, color=True) # todo remove, debugging only
         print 
 
         if params.get('kb', None) is None:
@@ -59,27 +60,32 @@ class NLObjectRecognition(PRACModule):
             kb = params['kb']
         if not hasattr(kb, 'dbs'):
             kb.dbs = pracinference.inference_steps[-1].output_dbs
-        mln = kb.query_mln
+        mln = dkb.kbmln
 
         known_concepts = mln.domains.get('concept', [])
         inf_step = PRACInferenceStep(pracinference, self)
         wordnet_module = self.prac.getModuleByName('wn_senses')
         
+        result_dbs = []
         # process databases
         for db in kb.dbs:
-            #db.write(sys.stdout, color=True)
-            print 
-            print
+            res_db = Database(mln)
 
-            # infer and update output dbs
-            result_db = list(kb.infer(db))
-            inf_step.output_dbs.extend(result_db)
+            for res in db.query('property(?cluster, ?word, ?prop) ^ has_sense(?word, ?sense)'):
+                if res['?prop'] == 'null': continue
+                if res['?sense'] == 'null': continue
+                atom = 'property({}, {}, {})'.format(res['?cluster'], res['?word'].split('-')[0], res['?prop'])
+                res_db.addGroundAtom(atom)
+            # res_db.write(sys.stdout,color=True)
 
-            for r_db in result_db:
+            for r_db in res_db.query('object(?cluster, ?concept)'):
                 # print annotations found in result db
-                for q in r_db.query('object(?cluster, ?concept)'):
-                    if q['?concept'] == 'null': continue
-                    print 'object({}, {})'.format(q['?cluster'], colorize(q['?concept'], (None, 'white', True), True))
+                if q['?concept'] == 'null': continue
+                print 'object({}, {})'.format(q['?cluster'], colorize(q['?concept'], (None, 'white', True), True))
+            
+            # infer and update output dbs
+            inferred_db = list(kb.infer(res_db))
+            inf_step.output_dbs.extend(inferred_db)
         return inf_step
 
 
