@@ -287,7 +287,7 @@ if __name__ == '__main__':
     log.info('Results will be written into %s' % directory)
 
     # preparations: Read the MLN and the databases 
-    mln_ = readMLNFromFile(mlnfile, verbose=verbose)
+    mln_ = readMLNFromFile(mlnfile, verbose=verbose, logic='FuzzyLogic', grammar='PRACGrammar')
     log.info('Read MLN %s.' % mlnfile)
     dbs = []
     for dbfile in dbfiles:
