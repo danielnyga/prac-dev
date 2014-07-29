@@ -92,7 +92,6 @@ property(cluster00, up-21,null)
 property(cluster00, food-22,null)
 
 object(cluster00, spoon.n.01)
-coRef(cutlery.n.02,spoon.n.01)
 
 
 ---
@@ -162,7 +161,6 @@ property(cluster01, a-12,null)
 property(cluster01, handle-13,HASA)
 
 object(cluster01, cup.n.01)
-coRef(container.n.01,cup.n.01)
 
 ---
 // -------------------------------------------------------------------------------
@@ -222,7 +220,6 @@ is_a(citrus.n.02,citrus.n.02)
 is_a(null,null)
 
 object(cluster02, orange.n.01)
-coRef(fruit.n.01,orange.n.01)
 
 ---
 // -------------------------------------------------------------------------------
@@ -270,7 +267,6 @@ property(cluster03, acidic-6,null)
 property(cluster03, flesh-7,HASA)
 
 object(cluster03, lemon.n.01)
-coRef(fruit.n.01,lemon.n.01)
 
 ---
 // -------------------------------------------------------------------------------
@@ -334,7 +330,6 @@ is_a(fruit.n.01,fruit.n.01)
 is_a(vegetable.n.01,vegetable.n.01)
 is_a(null,null)
 
-coRef(fruit.n.01,tomato.n.01)
 object(cluster04, tomato.n.01)
 
 ---
@@ -423,7 +418,6 @@ property(cluster05, handle-16,HASA)
 property(cluster05, and-17,null)
 property(cluster05, lid-18,HASA)
 
-coRef(vessel.n.01,pot.n.01)
 object(cluster05, pot.n.01)
 
 
@@ -495,7 +489,6 @@ is_a(propel.v.01,propel.v.01)
 is_a(internal-combustion_engine.n.01,internal-combustion_engine.n.01)
 is_a(null,null)
 
-coRef(motor_vehicle.n.01,car.n.01)
 object(cluster06, car.n.01)
 
 ---
@@ -547,7 +540,6 @@ is_a(container.n.01,container.n.01)
 is_a(lid.n.02,lid.n.02)
 is_a(null,null)
 
-coRef(container.n.01,box.n.01)
 object(cluster07, box.n.01)
 
 ---
@@ -596,7 +588,6 @@ is_a(rubber.n.0,rubber.n.0)
 is_a(bag.n.01,bag.n.01)
 is_a(null,null)
 
-coRef(bag.n.01,balloon.n.02)
 object(cluster08, balloon.n.02)
 
 ---
@@ -690,7 +681,6 @@ is_a(large.a.01,large.a.01)
 is_a(seed.n.02,seed.n.02)
 is_a(null,null)
 
-coRef(fruit.n.01,avocado.n.01)
 object(cluster09, avocado.n.01)
 
 
@@ -745,7 +735,6 @@ is_a(whitish.s.02,whitish.s.02)
 is_a(pulp.n.02,pulp.n.02)
 is_a(null,null)
 
-coRef(fruit.n.01,peach.n.03)
 object(cluster10, peach.n.03)
 
 
@@ -843,7 +832,6 @@ is_a(peel.n.02,peel.n.02)
 is_a(stone.n.06,stone.n.06)
 is_a(null,null)
 
-coRef(fruit.n.01,plum.n.02)
 object(cluster11, plum.n.02)
 
 
@@ -892,7 +880,6 @@ is_a(fruit.n.01,fruit.n.01)
 is_a(stone.n.06,stone.n.06)
 is_a(null,null)
 
-coRef(fruit.n.01,cherry.n.03)
 object(cluster12, cherry.n.03)
 
 ---
@@ -943,7 +930,6 @@ is_a(fruit.n.01,fruit.n.01)
 is_a(pulp.n.02,pulp.n.02)
 is_a(null,null)
 
-coRef(fruit.n.01,banana.n.02)
 object(cluster13,banana.n.02)
 
 ---
@@ -1030,7 +1016,6 @@ is_a(related.a.02,related.a.02)
 is_a(melon.n.01,melon.n.01)
 is_a(null,null)
 
-coRef(fruit.n.01,cucumber.n.02)
 object(cluster14,cucumber.n.02)
 
 ---
@@ -1091,5 +1076,4 @@ is_a(large.a.01,large.a.01)
 is_a(sturdy.s.03,sturdy.s.03)
 is_a(null,null)
 
-coRef(box.n.01,chest.n.02)
 object(cluster15,chest.n.02)

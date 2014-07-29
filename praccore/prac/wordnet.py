@@ -35,7 +35,7 @@ PRAC_HOME = os.environ['PRAC_HOME']
 nltk.data.path = [os.path.join(PRAC_HOME, 'data', 'nltk_data')]
 
 NLTK_POS = ['n', 'v', 'a', 'r']
-TAXONOMY_BRANCHES = ['color.n.01','size.n.01','shape.n.01']
+TAXONOMY_BRANCHES = ['color.n.01','size.n.01','shape.n.01','object.n.01']
 
 known_concepts = ['soup.n.01', 
                   'milk.n.01', 
@@ -279,7 +279,7 @@ class WordNet(object):
         return list(set(self.flatten([drf.synset for drf in self.flatten([lemma.derivationally_related_forms() for lemma in adjSynset.lemmas])])))
 
 
-    def similarity(self, synset1, synset2):
+    def similarity(self, synset1, synset2, checkSameTaxBranch=True):
         '''
         Returns a custom semantic similarity for adjectives
 
@@ -320,8 +320,7 @@ class WordNet(object):
         for s1 in syns1:
             for s2 in syns2:
                 # add additional knowledge: colors are maximally dissimilar to shapes or sizes and vice versa
-                if not self.synsInSameTaxonomyBranch(s1, s2):
-                    similarity = 0.
+                if checkSameTaxBranch and not self.synsInSameTaxonomyBranch(s1, s2): continue
                 else:
                     # equates WUP Similarity: 2 * depth(lowestCommonHypernym) / depth(s1) + depth(s2) because:
                     # depth(X) == X.max_depth() + 1
@@ -335,15 +334,11 @@ class WordNet(object):
 
                         adjWupSim = 2 * dlcs / (ds1 + ds2 + posDiff)
                         similarity = max(similarity, adjWupSim) # or avg?
-                        
-                    else:
-                        similarity = 0.
         return 0. if similarity is None else similarity
 
 
     def synsInSameTaxonomyBranch(self, synset1, synset2):
-        for tb in TAXONOMY_BRANCHES:
-            return tb in [hyp.name for hyp in self.flatten(synset1.hypernym_paths())] and tb in [hyp.name for hyp in self.flatten(synset2.hypernym_paths())]
+        return any(tb in [hyp.name for hyp in self.flatten(synset1.hypernym_paths())] and tb in [hyp.name for hyp in self.flatten(synset2.hypernym_paths())] for tb in TAXONOMY_BRANCHES)            
 
     def semilarity(self, synset1, synset2):
         '''

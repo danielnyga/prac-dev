@@ -68,16 +68,18 @@ class NLObjectRecognition(PRACModule):
         result_dbs = []
         # process databases
         for db in kb.dbs:
-            # adding evidence properties to database
+            # adding evidence properties to new query db
             res_db = Database(mln)
+            words = []
             for res in db.query('property(?cluster, ?word, ?prop) ^ has_sense(?word, ?sense)'):
                 if res['?prop'] == 'null': continue
                 if res['?sense'] == 'null': continue
+                words.append(res['?sense'])
                 atom = 'property({}, {}, {})'.format(res['?cluster'], res['?sense'], res['?prop'])
                 res_db.addGroundAtom(atom)
 
             # adding word similarities
-            words = mln.domains.get('word', []) # + words from database
+            words += mln.domains.get('word', []) # + words from database
             res_db = wordnet_module.add_senses_and_similiarities_for_words(res_db, words)
             
             # todo: remove
@@ -86,11 +88,11 @@ class NLObjectRecognition(PRACModule):
             print
             
             # infer and update output dbs
-            #mln.domains['concept'] = dkb.concepts
             print mln.domains
             inferred_db = mln.infer(evidence_db=res_db, **kb.query_params)
             # inferred_db = list(kb.infer(res_db))
-            db.write(sys.stdout,color=True)
+            print colorize('Inferred DB...', (None, 'green', True), True) 
+            inferred_db.write(sys.stdout,color=True)
             inf_step.output_dbs.extend([inferred_db])
 
             for r_db in res_db.query('object(?cluster, ?concept)'):

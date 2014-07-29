@@ -111,12 +111,14 @@ class PropExtraction(PRACModule):
         # mln = kb.query_mln
         logging.getLogger().setLevel(logging.DEBUG)
         
-        mln = readMLNFromFile(os.path.join(self.module_path, 'mln/parsing.mln'))
+        mln = readMLNFromFile(os.path.join(self.module_path, 'mln/parsing.mln'), logic='FuzzyLogic', )
         dbFile = os.path.join(self.module_path, 'db/ts_stanford_wn_man.db')
         outputfile = os.path.join(self.module_path, 'mln/dcll_parsing_stanford_wn_man.mln')
         inputdbs = readDBFromFile(mln, dbFile, ignoreUnknownPredicates=True)
         
         known_concepts = mln.domains.get('concept', [])
+        known_concepts = ['red.s.01', 'yellow.s.01', 'container.n.01', 'handle.n.01']
+        print mln.domains
         wordnet_module = self.prac.getModuleByName('wn_senses')
         training_dbs = []
         for db in inputdbs:
@@ -128,8 +130,7 @@ class PropExtraction(PRACModule):
         log.info('Starting training with {} databases'.format(len(training_dbs)))
         # trainedMLN = mln.learnWeights(training_dbs, LearningMethods.BPLL_CG, partSize=8, gaussianPriorSigma=10, verbose=False, optimizer='bfgs')
         # trainedMLN = mln.learnWeights(training_dbs, LearningMethods.DBPLL_CG, evidencePreds=['is_a'],  partSize=4, verbose=False, optimizer='bfgs')
-        # trainedMLN = mln.learnWeights(training_dbs, LearningMethods.DCLL, evidencePreds=['is_a','amod','prep_with','root','has_pos','conj_and','conj_or','dobj'], partSize=1, verbose=False, optimizer='bfgs')
-        trainedMLN = mln.learnWeights(training_dbs, LearningMethods.CLL, evidencePreds=['is_a','amod','prep_with','root','has_pos','conj_and','conj_or','dobj'], partSize=1, verbose=False, optimizer='bfgs')
+        trainedMLN = mln.learnWeights(training_dbs, LearningMethods.DCLL, evidencePreds=['is_a','amod','prep_with','root','has_pos','conj_and','conj_or','dobj'], partSize=1, verbose=False, optimizer='bfgs')
         trainedMLN.write(file(outputfile, "w"))
         
         print colorize('+=============================================+', (None, 'green', True), True)
@@ -137,22 +138,3 @@ class PropExtraction(PRACModule):
         print colorize('+=============================================+', (None, 'green', True), True)
         
         trainedMLN.printFormulas()
-
-        # annotationKB = AnnotationKB(prac)
-        # annotationKB.train(dbs)
-        # log.info('Saving KB of type {} in {}'.format(kb.__class__.__name__, 'annotations'))
-        # self.save_pracmt(annotationKB,'annotations')
-
-
-class AnnotationKB(PRACKnowledgeBase):
-    '''
-    Represents the probabilistic KB for learning and inferring
-    the correct annotations.
-    '''
-    
-    def train(self, training_dbs):
-        mln = readMLNFromFile(os.path.join(self.module_path, 'mln/parsing.mln'))
-        self.dbs = training_dbs
-        self.learn_mln = mln.learnWeights(training_dbs, LearningMethods.BPLL_CG, verbose=True, optimizer='bfgs')
-        outputfile = os.path.join(self.module_path, 'mln/wts_pll_ts_stanford_wn_man.db')
-        # self.learn_mln.write(file(outputfile, "w"))
