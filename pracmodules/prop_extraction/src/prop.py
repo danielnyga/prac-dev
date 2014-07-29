@@ -114,7 +114,7 @@ class PropExtraction(PRACModule):
         mln = readMLNFromFile(os.path.join(self.module_path, 'mln/parsing.mln'))
         dbFile = os.path.join(self.module_path, 'db/ts_stanford_wn_man.db')
         outputfile = os.path.join(self.module_path, 'mln/dcll_parsing_stanford_wn_man.mln')
-        inputdbs = readDBFromFile(mln, dbFile)
+        inputdbs = readDBFromFile(mln, dbFile, ignoreUnknownPredicates=True)
         
         known_concepts = mln.domains.get('concept', [])
         wordnet_module = self.prac.getModuleByName('wn_senses')
@@ -128,7 +128,8 @@ class PropExtraction(PRACModule):
         log.info('Starting training with {} databases'.format(len(training_dbs)))
         # trainedMLN = mln.learnWeights(training_dbs, LearningMethods.BPLL_CG, partSize=8, gaussianPriorSigma=10, verbose=False, optimizer='bfgs')
         # trainedMLN = mln.learnWeights(training_dbs, LearningMethods.DBPLL_CG, evidencePreds=['is_a'],  partSize=4, verbose=False, optimizer='bfgs')
-        trainedMLN = mln.learnWeights(training_dbs, LearningMethods.DCLL, evidencePreds=['is_a','amod','prep_with','root','has_pos','conj_and','conj_or','dobj'], partSize=1, verbose=False, optimizer='bfgs')
+        # trainedMLN = mln.learnWeights(training_dbs, LearningMethods.DCLL, evidencePreds=['is_a','amod','prep_with','root','has_pos','conj_and','conj_or','dobj'], partSize=1, verbose=False, optimizer='bfgs')
+        trainedMLN = mln.learnWeights(training_dbs, LearningMethods.CLL, evidencePreds=['is_a','amod','prep_with','root','has_pos','conj_and','conj_or','dobj'], partSize=1, verbose=False, optimizer='bfgs')
         trainedMLN.write(file(outputfile, "w"))
         
         print colorize('+=============================================+', (None, 'green', True), True)

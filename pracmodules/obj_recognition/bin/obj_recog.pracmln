@@ -52,6 +52,6 @@ ssS'filename'
 p25
 NsS'query_mln_str'
 p26
-V// domain declarations\u000aconcept = {null}\u000aproperty = {null}\u000a\u000a\u000a// predicate declarations\u000acoRef(sense, concept)\u000ahas_sense(word, sense!)\u000aproperty(cluster, word, property!)\u000ahas_pos(word, pos!)\u000aobject(cluster, concept!)\u000a\u000a// formulas\u000a3.731046    has_pos(?w2, NN) ^ has_sense(?w2, ?s2) ^ property(?cluster, ?w2, HYPERNYM) ^ coRef(?s2, ?c) ^ object(?cluster, ?c)\u000a-25.150877  has_pos(?w2, NN) ^ has_sense(?w2, ?s2) ^ !property(?cluster, ?w2, HYPERNYM) ^ coRef(?s2, ?c) ^ object(?cluster, ?c)\u000a\u000a
+V// domain declarations\u000aconcept = {null}\u000aproperty = {null}\u000a\u000a\u000a// predicate declarations\u000acoRef(sense, concept)\u000ahas_sense(word, sense!)\u000aproperty(cluster, word, prop!)\u000ahas_pos(word, pos!)\u000aobject(cluster, concept!)\u000a\u000a// formulas\u000a3.731046    has_pos(?w2, NN) ^ has_sense(?w2, ?s2) ^ property(?cluster, ?w2, HYPERNYM) ^ coRef(?s2, ?c) ^ object(?cluster, ?c)\u000a-25.150877  has_pos(?w2, NN) ^ has_sense(?w2, ?s2) ^ !property(?cluster, ?w2, HYPERNYM) ^ coRef(?s2, ?c) ^ object(?cluster, ?c)\u000a\u000a
 p27
 sb.

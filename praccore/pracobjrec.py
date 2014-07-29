@@ -75,13 +75,13 @@ if __name__ == '__main__':
         objRec = prac.getModuleByName('obj_recognition')
         
         # create or load dkb
-        filepath = os.path.join(objRec.module_path, 'mln', '{}.mln'.format(kbname))
+        filepath = os.path.join(objRec.module_path, 'kb', '{}.dkb'.format(kbname))
         if not os.path.isfile(filepath):
             dkb = objRec.create_dkb(kbname)
         else:
             dkb = objRec.load_dkb(kbname)
 
-
+        # infer properties from nl sentence
         propExtract = prac.getModuleByName('prop_extraction')
         prac.run(infer,propExtract,kb=propExtract.load_pracmt('prop_extract'))
 
@@ -95,15 +95,16 @@ if __name__ == '__main__':
                 for q in db.query('property(?cluster, ?word, ?prop) ^ has_sense(?word, ?sense)'):
                     if q['?sense'] == 'null': continue
                     if q['?prop'] == 'null': continue
-                    formula.append('property({}, {}, {})'.format(q['?cluster'], q['?sense'], q['?prop']))
+                    formula.append('property(?c, {}, {})'.format(q['?sense'], q['?prop']))
             newformula = ' ^ '.join(formula) # conjunct all properties inferred from input sentence
-            formula = 'object(?c, {}) <=> '.format(conceptname) + newformula
+            formula = 'object(?c, {}) <=> {}'.format(conceptname, newformula)
             
             dkb.kbmln.addFormula(formula, weight=1, hard=False, fixWeight=True)
             objRec.save_dkb(dkb, kbname)
 
-            sys.exit(0)
-        else: # todo: maybe overwrite formula?
+            dkb.kbmln.write(sys.stdout, color=True)
+            print colorize('Domains:',  (None, 'green', True), True), dkb.kbmln.domains # todo check why domains are empty after adding formula
+        else: # todo: update (= overwrite) formula that contains concept in object?
             pass
     else: # regular PRAC pipeline
         propExtract = prac.getModuleByName('prop_extraction')

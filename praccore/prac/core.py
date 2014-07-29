@@ -363,6 +363,7 @@ class DescriptionKnowledgeBase(object):
     def __init__(self):
         self.name = ''
         self.kbmln = MLN(logic='FuzzyLogic', grammar='PRACGrammar')
+        # self.kbmln = readMLNFromFile(os.path.join(prac_module_path, 'obj_recognition/mln/predicates.mln'), logic='FuzzyLogic', grammar='PRACGrammar')
         self.concepts = [] # List of concept names described in the DKB
 
     def __getstate__(self): # do not store
@@ -470,6 +471,11 @@ class PRACModule(object):
         dkb = DescriptionKnowledgeBase()#self.prac)
         dkb.name = name
 
+        # declare predicates
+        dkb.kbmln.declarePredicate('property', ['cluster','word','prop'],[False,False,True])
+        dkb.kbmln.declarePredicate('object', ['cluster','concept'],[False,True])
+        dkb.kbmln.declarePredicate('similar', ['word','word'])
+
         return dkb
 
     def load_dkb(self, dkb_name):
@@ -487,16 +493,12 @@ class PRACModule(object):
     
     def save_dkb(self, dkb, name):
         '''
-        Pickles the state of the given DescriptionKnowledgeBase in its mln folder.
+        Pickles the state of the given DescriptionKnowledgeBase in its kb folder.
         - dkb:    instance of a DescriptionKnowledgeBase
         - name:   name of DescriptionKnowledgeBase
         '''
         if name is None and not hasattr(dkb, 'name'):
             raise Exception('No module name specified.')
-        
-        # update predicates
-        tmpmln = readMLNFromFile(os.path.join(self.module_path, 'mln', 'predicates.mln'), logic='FuzzyLogic', grammar='PRACGrammar')
-        dkb.kbmln.update_predicates(tmpmln)
         
         kbFileName = '{}.dkb'.format(name)
         kbPath = os.path.join(prac_module_path, self.name, 'kb')

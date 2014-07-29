@@ -47,7 +47,7 @@ class NLObjectRecognition(PRACModule):
         print colorize('Inferring most probable object based on nl description properties...', (None, 'white', True), True)
         
         dkb = params.get('dkb')
-        print 'Using DKB {}:\n'.format(colorize(dkb.name, (None, 'yellow', True), True))
+        print 'Using DKB: {}'.format(colorize(dkb.name, (None, 'yellow', True), True))
         dkb.kbmln.write(sys.stdout, color=True) # todo remove, debugging only
         print 
 
@@ -62,90 +62,45 @@ class NLObjectRecognition(PRACModule):
             kb.dbs = pracinference.inference_steps[-1].output_dbs
         mln = dkb.kbmln
 
-        known_concepts = mln.domains.get('concept', [])
         inf_step = PRACInferenceStep(pracinference, self)
         wordnet_module = self.prac.getModuleByName('wn_senses')
         
         result_dbs = []
         # process databases
         for db in kb.dbs:
+            # adding evidence properties to database
             res_db = Database(mln)
-
             for res in db.query('property(?cluster, ?word, ?prop) ^ has_sense(?word, ?sense)'):
                 if res['?prop'] == 'null': continue
                 if res['?sense'] == 'null': continue
-                atom = 'property({}, {}, {})'.format(res['?cluster'], res['?word'].split('-')[0], res['?prop'])
+                atom = 'property({}, {}, {})'.format(res['?cluster'], res['?sense'], res['?prop'])
                 res_db.addGroundAtom(atom)
-            # res_db.write(sys.stdout,color=True)
+
+            # adding word similarities
+            words = mln.domains.get('word', []) # + words from database
+            res_db = wordnet_module.add_senses_and_similiarities_for_words(res_db, words)
+            
+            # todo: remove
+            print colorize('Using database...', (None, 'green', True), True) 
+            res_db.write(sys.stdout,color=True)
+            print
+            
+            # infer and update output dbs
+            #mln.domains['concept'] = dkb.concepts
+            print mln.domains
+            inferred_db = mln.infer(evidence_db=res_db, **kb.query_params)
+            # inferred_db = list(kb.infer(res_db))
+            db.write(sys.stdout,color=True)
+            inf_step.output_dbs.extend([inferred_db])
 
             for r_db in res_db.query('object(?cluster, ?concept)'):
                 # print annotations found in result db
                 if q['?concept'] == 'null': continue
                 print 'object({}, {})'.format(q['?cluster'], colorize(q['?concept'], (None, 'white', True), True))
-            
-            # infer and update output dbs
-            inferred_db = list(kb.infer(res_db))
-            inf_step.output_dbs.extend(inferred_db)
         return inf_step
 
 
     def train(self, praclearning):
-        print colorize('+=============================================+', (None, 'green', True), True)
-        print colorize('| DnD... learning in progress...              |', (None, 'green', True), True)
-        print colorize('+=============================================+', (None, 'green', True), True)
-
-        log = logging.getLogger('prac')
-        logging.getLogger().setLevel(logging.DEBUG)
-        # prac = praclearning.prac
-        
-        # get all the relevant training databases
-        kb = self.load_pracmt('obj_recog')
-
-        # mln = readMLNFromString(kb.query_mln_str)
-        mln = readMLNFromFile(os.path.join(self.module_path, 'mln/objectinference.mln'))
-
-        dbFile = os.path.join(self.module_path, 'db/ts_stanford_wn_man.db')
-        outputfile = os.path.join(self.module_path, 'mln/dcll_objectinference_stanford_wn_man.mln')
-        inputdbs = readDBFromFile(mln, dbFile)
-        
-        known_concepts = mln.domains.get('concept', [])
-        wordnet_module = self.prac.getModuleByName('wn_senses')
-        training_dbs = []
-        for db in inputdbs:
-            db = wordnet_module.add_senses_and_similiarities_for_concepts(db, known_concepts)
-            db.write(sys.stdout, color=True)
-            training_dbs.append(db)
-
-        # train parsing mln
-        log.info('Starting training with {} databases'.format(len(training_dbs)))
-        # trainedMLN = mln.learnWeights(training_dbs, LearningMethods.BPLL_CG, partSize=8, gaussianPriorSigma=10, verbose=False, optimizer='bfgs')
-        # trainedMLN = mln.learnWeights(training_dbs, LearningMethods.DBPLL_CG, evidencePreds=['is_a'],  partSize=4, verbose=False, optimizer='bfgs')
-        trainedMLN = mln.learnWeights(training_dbs, LearningMethods.DCLL, evidencePreds=['is_a', 'has_sense', 'property','has_pos'], partSize=1, verbose=False, optimizer='bfgs')
-        trainedMLN.write(file(outputfile, "w"))
-        
-        print colorize('+=============================================+', (None, 'green', True), True)
-        print colorize('| Learnt Formulas:                            |', (None, 'green', True), True)
-        print colorize('+=============================================+', (None, 'green', True), True)
-        
-        trainedMLN.printFormulas()
-
-        # annotationKB = AnnotationKB(prac)
-        # annotationKB.train(dbs)
-        # log.info('Saving KB of type {} in {}'.format(kb.__class__.__name__, 'annotations'))
-        # self.save_pracmt(annotationKB,'annotations')
-
-
-
-
-class AnnotationKB(PRACKnowledgeBase):
-    '''
-    Represents the probabilistic KB for learning and inferring
-    the correct annotations.
-    '''
-    
-    def train(self, training_dbs):
-        mln = readMLNFromFile(os.path.join(self.module_path, 'mln/parsing.mln'))
-        self.dbs = training_dbs
-        self.learn_mln = mln.learnWeights(training_dbs, LearningMethods.BPLL_CG, verbose=True, optimizer='bfgs')
-        outputfile = os.path.join(self.module_path, 'mln/wts_pll_ts_stanford_wn_man.db')
-        # self.learn_mln.write(file(outputfile, "w"))
+        print colorize('+===================+', (None, 'green', True), True)
+        print colorize('| No training used  |', (None, 'green', True), True)
+        print colorize('+===================+', (None, 'green', True), True)
