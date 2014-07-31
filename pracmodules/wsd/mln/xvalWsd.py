@@ -167,8 +167,8 @@ class XValFold(object):
             log.debug('Starting learning...')
             learnedMLN = mln.learnWeights(learnDBs_, method=self.params.learningMethod,
                                           verbose=verbose,
-                                          evidencePreds=["is_a,","prep_with"],
-                                          partSize=2)
+                                          evidencePreds=["is_a","has_pos"],
+                                          partSize=4)
             
             # store the learned MLN in a file
             learnedMLN.writeToFile(os.path.join(directory, 'run_%d.mln' % self.params.foldIdx))
