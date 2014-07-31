@@ -28,7 +28,10 @@ from praclog import logging
 from prac.inference import PRACInference
 from gui.querytool import PRACQueryGUI
 from prac.wordnet import WordNet
-from mln.database import readDBFromString
+from mln.database import readDBFromString, readDBFromFile
+from mln import readMLNFromFile
+from mln.mln import MLN
+
 from utils import colorize
 
 
@@ -39,9 +42,11 @@ if __name__ == '__main__':
     parser.add_option("-i", "--interactive", dest="interactive", default=False, action='store_true',
                       help="Starts PRAC object recognition with an interactive GUI tool.")
     parser.add_option("-k", "--knowledgebase", dest="dkb", default='all',
-                      help="Knowledge base to be used for inference. Options: all, kitchenware, fruit, misc")
+                      help="Knowledge base to be used for inference. Options: all, kitchenware, fruit, misc. Example: pracobjrec -k kitchen 'container with a handle'")
     parser.add_option("-c", "--createkbentry", nargs=2, dest="kbentry", default=False, 
                       help="Creates KBMLN with given name or adds entry to existing KBMLN. Example: pracobjrec -c kitchen cup.n.01 'container with a handle'")
+    parser.add_option("-d", "--createkbentryFromDB", nargs=2, dest="kbentrydb", default=False, 
+                      help="Creates KBMLN with given name from db file")
     (options, args) = parser.parse_args()
 
     interactive = options.interactive
@@ -52,6 +57,10 @@ if __name__ == '__main__':
     if options.kbentry:
         kbname = options.kbentry[0]
         conceptname = options.kbentry[1]
+
+    if options.kbentrydb:
+        kbname = options.kbentrydb[0]
+        dbfile = options.kbentrydb[1]
 
     log = logging.getLogger()
     log.setLevel(logging.INFO)
@@ -71,7 +80,36 @@ if __name__ == '__main__':
     if interactive: # use the GUI
         gui = PRACQueryGUI(infer)
         gui.open()
-    elif options.kbentry: # create initial DKB or load and update existing
+    elif options.kbentrydb: # create initial DKB from db file
+        objRec = prac.getModuleByName('obj_recognition')
+
+        # create dkb
+        filepath = os.path.join(objRec.module_path, 'kb', '{}.dkb'.format(kbname))
+        dkb = objRec.create_dkb(kbname)
+        mln = readMLNFromFile(os.path.join(os.path.dirname(os.path.realpath(__file__)), '../pracmodules/prop_extraction/mln/predicates.mln'), logic='FirstOrderLogic', )
+        kbdb = readDBFromFile(mln, dbfile)
+        conceptname = ''
+        for db in kbdb:
+            db.write(sys.stdout,color=True)
+            formula = []
+            for q in db.query('property(?cluster, ?word, ?prop) ^ has_sense(?word,?sense) ^ object(?cluster, ?obj)'):
+                if q['?sense'] == 'null': continue
+                if q['?prop'] == 'null': continue
+                conceptname = q['?obj']
+                formula.append('property(?c, {0}, {1}) ^ similar({0}, ?w)'.format(q['?sense'], q['?prop']))
+            newformula = ' ^ '.join(formula) # conjunct all properties inferred from input sentence
+            f = 'object(?c, {}) <=> {}'.format(conceptname, newformula)
+
+            # several definitions of one concept may be in the kbmln, but it is only listed once
+            if conceptname not in dkb.concepts:
+                dkb.concepts.append(conceptname)
+
+            dkb.kbmln.addFormula(f, weight=1, hard=False, fixWeight=True)
+        objRec.save_dkb(dkb, kbname)
+
+        dkb.kbmln.write(sys.stdout, color=True)
+        sys.exit(0)
+    elif options.kbentry: # create initial DKB or load and update existing with given concept description
         objRec = prac.getModuleByName('obj_recognition')
         
         # create or load dkb
@@ -85,27 +123,25 @@ if __name__ == '__main__':
         propExtract = prac.getModuleByName('prop_extraction')
         prac.run(infer,propExtract,kb=propExtract.load_pracmt('prop_extract'))
 
+        # several definitions of one concept may be in the kbmln, but it is only listed once
         if conceptname not in dkb.concepts:
             dkb.concepts.append(conceptname)
             
-            # create formula to be added
-            formula = []
-            dbs = infer.inference_steps[-1].output_dbs
-            for db in dbs:
-                for q in db.query('property(?cluster, ?word, ?prop) ^ has_sense(?word, ?sense)'):
-                    if q['?sense'] == 'null': continue
-                    if q['?prop'] == 'null': continue
-                    formula.append('property(?c, {0}, {1}) ^ similar({0}, ?w)'.format(q['?sense'], q['?prop']))
-            newformula = ' ^ '.join(formula) # conjunct all properties inferred from input sentence
-            formula = 'object(?c, {}) <=> {}'.format(conceptname, newformula)
-            
-            dkb.kbmln.addFormula(formula, weight=1, hard=False, fixWeight=True)
-            objRec.save_dkb(dkb, kbname)
+        # create formula to be added
+        formula = []
+        dbs = infer.inference_steps[-1].output_dbs
+        for db in dbs:
+            for q in db.query('property(?cluster, ?word, ?prop) ^ has_sense(?word, ?sense)'):
+                if q['?sense'] == 'null': continue
+                if q['?prop'] == 'null': continue
+                formula.append('property(?c, {0}, {1}) ^ similar({0}, ?w)'.format(q['?sense'], q['?prop']))
+        newformula = ' ^ '.join(formula) # conjunct all properties inferred from input sentence
+        formula = 'object(?c, {}) <=> {}'.format(conceptname, newformula)
+        
+        dkb.kbmln.addFormula(formula, weight=1, hard=False, fixWeight=True)
+        objRec.save_dkb(dkb, kbname)
 
-            dkb.kbmln.write(sys.stdout, color=True)
-            print colorize('Domains:',  (None, 'green', True), True), dkb.kbmln.domains # todo check why domains are empty after adding formula
-        else: # todo: update (= overwrite) formula that contains concept in object?
-            pass
+        dkb.kbmln.write(sys.stdout, color=True)
     else: # regular PRAC pipeline
         propExtract = prac.getModuleByName('prop_extraction')
         prac.run(infer,propExtract,kb=propExtract.load_pracmt('prop_extract'))
