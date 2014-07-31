@@ -7,7 +7,6 @@
 
 0 has_pos(?w2, NN) ^ root(?w1, ?w2) ^ has_sense(?w2, ?s2) ^ property(?cluster, ?w2, HYPERNYM)
 0 has_pos(?w2, NN) ^ root(?w1, ?w2) ^ has_sense(?w2, ?s2) ^ !property(?cluster, ?w2, HYPERNYM)
-//0 has_pos(?w2, ?p) ^ root(?w1, ?w2) ^ has_sense(?w2, ?s2) ^ property(?cluster, ?w2, +?prop)
 
 //experimental
 0 conj_or(?w1, ?w2) ^ prep_with(?w3, ?w1) ^ has_sense(?w1, ?s1) ^ property(?cluster, ?w1, HASA) ^ property(?cluster, ?w2, HASA)
@@ -18,3 +17,5 @@
 0 amod(?w1,?w2) ^ dobj(?w3, ?w1) ^ has_sense(?w3, ?s3) ^ is_a(?s3, +?c) ^ property(?cluster, ?w2, HASA) ^ ?w1 =/= ?w2
 0 amod(?w1,?w2) ^ dobj(?w3, ?w1) ^ has_sense(?w3, ?s3) ^ is_a(?s3, +?c) ^ !property(?cluster, ?w2, HASA) ^ ?w1 =/= ?w2
 
+0 nsubj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, own.v.01) ^ has_sense(?w2, ?s2) ^ property(?cluster, ?w2, HASA)
+0 nsubj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, own.v.01) ^ has_sense(?w2, ?s2) ^ !property(?cluster, ?w2, HASA)

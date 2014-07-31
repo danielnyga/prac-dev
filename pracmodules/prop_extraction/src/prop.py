@@ -111,18 +111,17 @@ class PropExtraction(PRACModule):
         # mln = kb.query_mln
         logging.getLogger().setLevel(logging.DEBUG)
         
-        mln = readMLNFromFile(os.path.join(self.module_path, 'mln/parsing.mln'), logic='FuzzyLogic', )
+        mln = readMLNFromFile(os.path.join(self.module_path, 'mln/parsing.mln'), logic='FirstOrderLogic', )
         dbFile = os.path.join(self.module_path, 'db/ts_stanford_wn_man.db')
         outputfile = os.path.join(self.module_path, 'mln/dcll_parsing_stanford_wn_man.mln')
         inputdbs = readDBFromFile(mln, dbFile, ignoreUnknownPredicates=True)
         
         known_concepts = mln.domains.get('concept', [])
-        known_concepts = ['red.s.01', 'yellow.s.01', 'container.n.01', 'handle.n.01']
         print mln.domains
         wordnet_module = self.prac.getModuleByName('wn_senses')
         training_dbs = []
         for db in inputdbs:
-            db = wordnet_module.add_senses_and_similiarities_for_concepts(db, known_concepts)
+            # db = wordnet_module.add_senses_and_similiarities_for_concepts(db, known_concepts)
             db.write(sys.stdout, color=True)
             training_dbs.append(db)
 
@@ -130,7 +129,7 @@ class PropExtraction(PRACModule):
         log.info('Starting training with {} databases'.format(len(training_dbs)))
         # trainedMLN = mln.learnWeights(training_dbs, LearningMethods.BPLL_CG, partSize=8, gaussianPriorSigma=10, verbose=False, optimizer='bfgs')
         # trainedMLN = mln.learnWeights(training_dbs, LearningMethods.DBPLL_CG, evidencePreds=['is_a'],  partSize=4, verbose=False, optimizer='bfgs')
-        trainedMLN = mln.learnWeights(training_dbs, LearningMethods.DCLL, evidencePreds=['is_a','amod','prep_with','root','has_pos','conj_and','conj_or','dobj'], partSize=1, verbose=False, optimizer='bfgs')
+        trainedMLN = mln.learnWeights(training_dbs, LearningMethods.DCLL, evidencePreds=['nsubj','is_a','amod','prep_with','root','has_pos','conj_and','conj_or','dobj'], partSize=1, verbose=False, optimizer='bfgs')
         trainedMLN.write(file(outputfile, "w"))
         
         print colorize('+=============================================+', (None, 'green', True), True)
