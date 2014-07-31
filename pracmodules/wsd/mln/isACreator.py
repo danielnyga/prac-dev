@@ -9,8 +9,12 @@ def workUpDb(db,f,concepts):
         query = 'has_sense(?w,?s)'
         for result in db.query(query):
             word = result['?s']
-            for concept in concepts:
-                db.addGroundAtom('is_a('+word+","+concept+')',prac.wordnet.wup_similarity(word,concept))
+            #TODO add parameter which defines which is_a concepts should be created
+            ###FUZZY###
+            #for concept in concepts:
+                #db.addGroundAtom('is_a('+word+","+concept+')',prac.wordnet.wup_similarity(word,concept))
+            ###FOL###
+            db.addGroundAtom('is_a('+word+","+word+')')
         db.write(f)
 
 if __name__ == '__main__':

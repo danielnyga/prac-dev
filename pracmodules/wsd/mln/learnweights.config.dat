@@ -4,11 +4,11 @@ p1
 I0
 sS'priorStdDev'
 p2
-S'100'
+S'20'
 p3
 sS'evidencePreds'
 p4
-S'is_a'
+S'is_a, has_pos'
 p5
 sS'output_filename'
 p6
@@ -26,14 +26,14 @@ S''
 p11
 sS'params1'
 p12
-S"partSize=2,debug='DEBUG',optimizer='bfgs'"
+S"partSize=6,debug='DEBUG',optimizer='bfgs'"
 p13
 sS'pattern'
 p14
 g11
 sS'usePrior'
 p15
-I0
+I1
 sS'engine'
 p16
 S'PRACMLNs'
@@ -76,7 +76,7 @@ S'wsd.mln'
 p33
 sS'logic'
 p34
-S'FuzzyLogic'
+S'FirstOrderLogic'
 p35
 sS'use_initial_weights'
 p36
