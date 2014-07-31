@@ -26,7 +26,7 @@
 
 //batter
 1.00 has_pos(batter,NN)
-1.00 has_sense(batter,batter.n.01)
+1.00 has_sense(batter,batter.n.02)
 
 --- // <- DB separator
 
