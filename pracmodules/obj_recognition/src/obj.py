@@ -82,11 +82,6 @@ class NLObjectRecognition(PRACModule):
             words += mln.domains.get('word', []) # + words from database
             res_db = wordnet_module.add_senses_and_similiarities_for_words(res_db, words)
             
-            # todo: remove
-            print colorize('Using database...', (None, 'green', True), True) 
-            res_db.write(sys.stdout,color=True)
-            print
-            
             # infer and update output dbs
             print mln.domains
             inferred_db = mln.infer(evidence_db=res_db, **kb.query_params)

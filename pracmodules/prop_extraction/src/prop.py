@@ -129,7 +129,7 @@ class PropExtraction(PRACModule):
         log.info('Starting training with {} databases'.format(len(training_dbs)))
         # trainedMLN = mln.learnWeights(training_dbs, LearningMethods.BPLL_CG, partSize=8, gaussianPriorSigma=10, verbose=False, optimizer='bfgs')
         # trainedMLN = mln.learnWeights(training_dbs, LearningMethods.DBPLL_CG, evidencePreds=['is_a'],  partSize=4, verbose=False, optimizer='bfgs')
-        trainedMLN = mln.learnWeights(training_dbs, LearningMethods.DCLL, evidencePreds=['nsubj','is_a','amod','prep_with','root','has_pos','conj_and','conj_or','dobj'], partSize=1, verbose=False, optimizer='bfgs')
+        trainedMLN = mln.learnWeights(training_dbs, LearningMethods.DCLL, evidencePreds=['pobj', 'nsubj','is_a','amod','prep_with','root','has_pos','conj_and','conj_or','dobj'], partSize=1, verbose=False, optimizer='bfgs')
         trainedMLN.write(file(outputfile, "w"))
         
         print colorize('+=============================================+', (None, 'green', True), True)

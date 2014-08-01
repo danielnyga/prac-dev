@@ -46,7 +46,7 @@ if __name__ == '__main__':
     parser.add_option("-c", "--createkbentry", nargs=2, dest="kbentry", default=False, 
                       help="Creates KBMLN with given name or adds entry to existing KBMLN. Example: pracobjrec -c kitchen cup.n.01 'container with a handle'")
     parser.add_option("-d", "--createkbentryFromDB", nargs=2, dest="kbentrydb", default=False, 
-                      help="Creates KBMLN with given name from db file")
+                      help="Creates KBMLN with given name from db file. Example: pracobjrec -d kitchen path/to/dbfile/with/kitchenware/entries.db")
     (options, args) = parser.parse_args()
 
     interactive = options.interactive
@@ -156,11 +156,16 @@ if __name__ == '__main__':
     print colorize('| PRAC INFERENCE RESULTS |',  (None, 'green', True), True)
     print colorize('+========================+',  (None, 'green', True), True)
     print
+    print 'Object description: {}'.format(colorize(''.join(sentences),  (None, 'green', True), True))
+    print
     if step is not None:
         for db in step.output_dbs:
-            for ek in sorted(db.evidence.keys()):
-                e = db.evidence[ek]
-                if e > 0.001 and ek.startswith('object'):
-                    print '{0:.2f}    {1}'.format(e, ek)
+            for q in db.query('object(?cluster, ?object)'):
+                if q['?object'] is 'null': continue
+                print 'Inferred object: {}'.format(colorize(q['?object'],  (None, 'green', True), True))
+            # for ek in sorted(db.evidence.keys()):
+                # e = db.evidence[ek]
+                # if e > 0.001 and ek.startswith('object'):
+                    # print '{0:.2f}    {1}'.format(e, ek)
             print
         
