@@ -30,12 +30,34 @@ from nltk.corpus.reader.wordnet import Synset
 from utils.graphml import Graph, Node as GMLNode, Edge
 import itertools
 import os
+from scipy import spatial
 
 PRAC_HOME = os.environ['PRAC_HOME']
 nltk.data.path = [os.path.join(PRAC_HOME, 'data', 'nltk_data')]
 
 NLTK_POS = ['n', 'v', 'a', 'r']
-TAXONOMY_BRANCHES = ['color.n.01','size.n.01','shape.n.01']
+TAXONOMY_BRANCHES = ['color.n.01','size.n.01','shape.n.01','plant_organ.n.01']
+colorsims = {}
+colorspecs = {  'pink.s.01': (335,87,87),
+                'purple.s.01': (290,87,87),
+                'blue.s.01': (235,87,87),
+                'cyan.s.01': (150,87,87),
+                'light-blue.s.01': (175,87,87),
+                'green.s.01': (115,87,87),
+                'yellow.s.01': (50,87,87),
+                'orange.s.01': (20,87,87),
+                'brown.s.01': (20,87,97),
+                'red.s.01': (0,87,87),
+                'blood-red.s.01': (0,89,55),
+                'black.a.01': (500,55,5), 
+                'blackish.s.01': (500,55,5), 
+                'white.a.01': (500,5,95),
+                'whitish.s.02': (500,5,95),
+                'grey.s.01': (500,5,50),
+                'greyish.s.01': (500,5,50),
+                'gray.s.01': (500,5,50),
+                'grayish.s.01': (500,5,50)
+                }
 
 known_concepts = ['soup.n.01', 
                   'milk.n.01', 
@@ -72,6 +94,23 @@ class WordNet(object):
         self.core_taxonomy = None
         if concepts is not None:
             self.initialize_taxonomy(concepts)
+            self.initialize_colorsimilarities()
+
+
+    def initialize_colorsimilarities(self):
+        # calculate euclidean distance between HSV values
+        maxDist = 0.
+        for k in colorspecs.keys():
+            colorsims[k] = {}
+            for c in colorspecs.keys():
+                colorsims[k][c] = spatial.distance.euclidean(colorspecs[k],colorspecs[c])
+                maxDist = max(maxDist,colorsims[k][c])
+
+        # normalize
+        for x in colorsims:
+            for y in colorsims:
+                colorsims[x][y] = 1-(colorsims[x][y]/maxDist)
+
 
             
     def initialize_taxonomy(self, concepts=None, collapse=True):
@@ -283,7 +322,7 @@ class WordNet(object):
         '''
         Returns a custom semantic similarity for adjectives
 
-        Note: the similarity between an adjective and another
+        Note: the original wordnet similarity between an adjective and another
         object is always None. To be able to supply information
         about the similarity of adjectives, the derivationally 
         related forms (= nltk.corpus.reader.wordnet.Lemma)
@@ -294,6 +333,7 @@ class WordNet(object):
         another synset from adjectives.
         '''
 
+
         ADJ_POS = ['s','a']
         if type(synset1) is str:
             synset1 = self.synset(synset1)
@@ -303,6 +343,10 @@ class WordNet(object):
             return 0.
         if synset1 == synset2:
             return 1.0
+
+        # separate check for color similarity
+        if synset1.name in colorsims and synset2.name in colorsims:
+            return colorsims[synset1.name][synset2.name]
 
         syns1 = [synset1]
         syns2 = [synset2]
@@ -319,7 +363,7 @@ class WordNet(object):
         similarity = 0.
         for s1 in syns1:
             for s2 in syns2:
-                # add additional knowledge: colors are maximally dissimilar to shapes or sizes and vice versa:
+                # add additional knowledge: colors are dissimilar to shapes or sizes and vice versa:
                 # decrease similarity of synsets from different taxonomy branches
                 if checkSameTaxBranch and not self.synsInSameTaxonomyBranch(s1, s2): posDiff += .5
                 # equates WUP Similarity: 2 * depth(lowestCommonHypernym) / depth(s1) + depth(s2) because:

@@ -136,18 +136,20 @@ if __name__ == '__main__':
                 if q['?prop'] == 'null': continue
                 formula.append('property(?c, {0}, {1}) ^ similar({0}, ?w)'.format(q['?sense'], q['?prop']))
         newformula = ' ^ '.join(formula) # conjunct all properties inferred from input sentence
-        formula = 'object(?c, {}) <=> {}'.format(conceptname, newformula)
+        f = 'object(?c, {}) <=> {}'.format(conceptname, newformula)
         
-        dkb.kbmln.addFormula(formula, weight=1, hard=False, fixWeight=True)
+        dkb.kbmln.addFormula(f, weight=1, hard=False, fixWeight=True)
         objRec.save_dkb(dkb, kbname)
 
         dkb.kbmln.write(sys.stdout, color=True)
     else: # regular PRAC pipeline
+        # property inference from parsed input
         propExtract = prac.getModuleByName('prop_extraction')
         prac.run(infer,propExtract,kb=propExtract.load_pracmt('prop_extract'))
 
-        objRec = prac.getModuleByName('obj_recognition')
-        prac.run(infer,objRec,kb=objRec.load_pracmt('obj_recog'),dkb=objRec.load_dkb(dkbname))
+        # object inference based on inferred properties
+        # objRec = prac.getModuleByName('obj_recognition')
+        # prac.run(infer,objRec,kb=objRec.load_pracmt('obj_recog'),dkb=objRec.load_dkb(dkbname))
 
 
     step = infer.inference_steps[-1]
@@ -163,9 +165,5 @@ if __name__ == '__main__':
             for q in db.query('object(?cluster, ?object)'):
                 if q['?object'] is 'null': continue
                 print 'Inferred object: {}'.format(colorize(q['?object'],  (None, 'green', True), True))
-            # for ek in sorted(db.evidence.keys()):
-                # e = db.evidence[ek]
-                # if e > 0.001 and ek.startswith('object'):
-                    # print '{0:.2f}    {1}'.format(e, ek)
             print
         

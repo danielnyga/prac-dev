@@ -55,7 +55,8 @@ class PropExtraction(PRACModule):
             kb = params['kb']
         if not hasattr(kb, 'dbs'):
             kb.dbs = pracinference.inference_steps[-1].output_dbs
-        mln = kb.query_mln
+        # mln = kb.query_mln
+        mln = readMLNFromFile(os.path.join(self.module_path, 'mln/dcll_parsing_stanford_wn_man.mln'), logic='FuzzyLogic')
 
         known_concepts = mln.domains.get('concept', [])
         inf_step = PRACInferenceStep(pracinference, self)
@@ -111,7 +112,7 @@ class PropExtraction(PRACModule):
         # mln = kb.query_mln
         logging.getLogger().setLevel(logging.DEBUG)
         
-        mln = readMLNFromFile(os.path.join(self.module_path, 'mln/parsing.mln'), logic='FirstOrderLogic', )
+        mln = readMLNFromFile(os.path.join(self.module_path, 'mln/parsing.mln'), logic='FirstOrderLogic')
         dbFile = os.path.join(self.module_path, 'db/ts_stanford_wn_man.db')
         outputfile = os.path.join(self.module_path, 'mln/dcll_parsing_stanford_wn_man.mln')
         inputdbs = readDBFromFile(mln, dbFile, ignoreUnknownPredicates=True)

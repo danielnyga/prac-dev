@@ -152,7 +152,6 @@ class WNSenses(PRACModule):
             concepts.remove('null')
         for c in concepts:
             synset = self.wordnet.synset(c)
-            sense_id = synset.name.lower().rsplit('.', 2)[0]
             for c2 in concepts:
                 synset2 = self.wordnet.synset(c2)
                 db.addGroundAtom('similar(%s, %s)' % (synset.name, synset2.name), self.wordnet.similarity(synset, synset2))
