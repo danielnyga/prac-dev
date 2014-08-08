@@ -506,7 +506,7 @@
 0.19  is_a(kettle.n.01, gravy.n.01)
 0.25  is_a(kettle.n.01, ice.n.01)
 0.84  is_a(kettle.n.01, jar.n.01)
-0.83  is_a(kettle.n.01, kettle.n.01)
+1.00  is_a(kettle.n.01, kettle.n.01)
 0.24  is_a(kettle.n.01, meal.n.03)
 0.74  is_a(kettle.n.01, measuring_cup.n.01)
 0.24  is_a(kettle.n.01, milk.n.01)
