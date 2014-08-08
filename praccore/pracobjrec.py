@@ -148,8 +148,8 @@ if __name__ == '__main__':
         prac.run(infer,propExtract,kb=propExtract.load_pracmt('prop_extract'))
 
         # object inference based on inferred properties
-        # objRec = prac.getModuleByName('obj_recognition')
-        # prac.run(infer,objRec,kb=objRec.load_pracmt('obj_recog'),dkb=objRec.load_dkb(dkbname))
+        objRec = prac.getModuleByName('obj_recognition')
+        prac.run(infer,objRec,kb=objRec.load_pracmt('obj_recog'),dkb=objRec.load_dkb(dkbname))
 
 
     step = infer.inference_steps[-1]

@@ -36,7 +36,7 @@ PRAC_HOME = os.environ['PRAC_HOME']
 nltk.data.path = [os.path.join(PRAC_HOME, 'data', 'nltk_data')]
 
 NLTK_POS = ['n', 'v', 'a', 'r']
-TAXONOMY_BRANCHES = ['color.n.01','size.n.01','shape.n.01','plant_organ.n.01']
+TAXONOMY_BRANCHES = ['color.n.01','size.n.01','shape.n.01']
 colorsims = {}
 colorspecs = {  'pink.s.01': (335,87,87),
                 'purple.s.01': (290,87,87),
@@ -318,7 +318,7 @@ class WordNet(object):
         return list(set(self.flatten([drf.synset for drf in self.flatten([lemma.derivationally_related_forms() for lemma in adjSynset.lemmas])])))
 
 
-    def similarity(self, synset1, synset2, checkSameTaxBranch=True):
+    def similarity(self, synset1, synset2):
         '''
         Returns a custom semantic similarity for adjectives
 
@@ -365,7 +365,7 @@ class WordNet(object):
             for s2 in syns2:
                 # add additional knowledge: colors are dissimilar to shapes or sizes and vice versa:
                 # decrease similarity of synsets from different taxonomy branches
-                if checkSameTaxBranch and not self.synsInSameTaxonomyBranch(s1, s2): posDiff += .5
+                if not self.synsInSameTaxonomyBranch(s1, s2): posDiff += .5
                 # equates WUP Similarity: 2 * depth(lowestCommonHypernym) / depth(s1) + depth(s2) because:
                 # depth(X) == X.max_depth() + 1
                 # posDiff is used to decrease the similarity if one of the synsets is an adjective, to punish

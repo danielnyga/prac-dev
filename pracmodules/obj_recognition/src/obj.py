@@ -46,7 +46,10 @@ class NLObjectRecognition(PRACModule):
         print
         print colorize('Inferring most probable object based on nl description properties...', (None, 'white', True), True)
         
-        dkb = params.get('dkb')
+        if params.get('dkb') is not None:
+            dkb = params.get('dkb')
+        else:
+            dkb = self.load_dkb('fruit')
         print 'Using DKB: {}'.format(colorize(dkb.name, (None, 'yellow', True), True))
         dkb.kbmln.write(sys.stdout, color=True) # todo remove, debugging only
         print 

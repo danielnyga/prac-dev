@@ -58,15 +58,15 @@ class PropExtraction(PRACModule):
         # mln = kb.query_mln
         mln = readMLNFromFile(os.path.join(self.module_path, 'mln/dcll_parsing_stanford_wn_man.mln'), logic='FuzzyLogic')
 
-        known_concepts = mln.domains.get('concept', [])
+        known_concepts = mln.domains.get('concept'  , [])
         inf_step = PRACInferenceStep(pracinference, self)
         wordnet_module = self.prac.getModuleByName('wn_senses')
         
         # process databases
         for db in kb.dbs:
             db = wordnet_module.get_senses_and_similarities(db, known_concepts)
-            # db.write(sys.stdout,color=True)
-            
+            db.write(sys.stdout,color=True)
+            print known_concepts
             # add cluster to domains
             if 'cluster' in db.domains:
                 domains = db.domains['cluster']
@@ -96,6 +96,7 @@ class PropExtraction(PRACModule):
                 for q in r_db.query('has_sense(?w, ?s)'):
                     if q['?s'] == 'null': continue
                     print '{}:'.format(q['?w'])
+                    print 'get meanings of word',q['?w'], q['?s']
                     wordnet_module.printWordSenses(wordnet_module.get_possible_meanings_of_word(r_db, q['?w']), q['?s'])
         return inf_step
 
@@ -117,12 +118,9 @@ class PropExtraction(PRACModule):
         outputfile = os.path.join(self.module_path, 'mln/dcll_parsing_stanford_wn_man.mln')
         inputdbs = readDBFromFile(mln, dbFile, ignoreUnknownPredicates=True)
         
-        known_concepts = mln.domains.get('concept', [])
-        print mln.domains
         wordnet_module = self.prac.getModuleByName('wn_senses')
         training_dbs = []
         for db in inputdbs:
-            # db = wordnet_module.add_senses_and_similiarities_for_concepts(db, known_concepts)
             db.write(sys.stdout, color=True)
             training_dbs.append(db)
 
