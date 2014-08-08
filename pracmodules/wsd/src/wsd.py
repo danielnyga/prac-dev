@@ -32,13 +32,16 @@ class PRACWSD(PRACModule):
             if not hasattr(kb, 'dbs'):
                 kb.dbs = pracinference.inference_steps[-1].output_dbs
             mln = kb.query_mln
-            
+            logic = kb.query_params['logic']
+            fol =  False
+            if(logic == 'FirstOrderLogic'):
+                fol = True
             known_concepts = mln.domains.get('concept', [])
             inf_step = PRACInferenceStep(pracinference, self)
             wordnet_module = self.prac.getModuleByName('wn_senses')
-  
+            
             for db in kb.dbs:
-                db = wordnet_module.get_senses_and_similarities(db, known_concepts)
+                db = wordnet_module.get_senses_and_similarities(db, known_concepts,fol)
                 result_db = list(kb.infer(db))
                 inf_step.output_dbs.extend(result_db)
                 print

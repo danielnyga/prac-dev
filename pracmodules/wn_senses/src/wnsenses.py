@@ -56,7 +56,7 @@ class WNSenses(PRACModule):
     
     
     @DB_TRANSFORM
-    def get_senses_and_similarities(self, db, concepts):
+    def get_senses_and_similarities(self, db, concepts,fol=False):
         '''
         Returns a new database with possible senses and the pairwise
         semantic similarities asserted. Assumes the part-of-speeches
@@ -96,7 +96,10 @@ class WNSenses(PRACModule):
                 for concept in concepts:
 #                     sim = wordnet.semilarity(synset, concept)
                     sim = wordnet.wup_similarity(synset, concept)
-                    db_.addGroundAtom('is_a(%s,%s)' % (sense_id, concept), sim) 
+                    if(fol and (sim < 1)):
+                        db_.addGroundAtom('is_a(%s,%s)' % (sense_id, concept), 0)
+                    else:
+                        db_.addGroundAtom('is_a(%s,%s)' % (sense_id, concept), sim)
         for word in word2senses:
             for word2, senses in word2senses.iteritems():
                 if word2 == word: continue
