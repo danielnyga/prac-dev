@@ -46,21 +46,13 @@ if __name__ == '__main__':
     parser.add_option("-c", "--createkbentry", nargs=2, dest="kbentry", default=False, 
                       help="Creates KBMLN with given name or adds entry to existing KBMLN. Example: pracobjrec -c kitchen cup.n.01 'container with a handle'")
     parser.add_option("-d", "--createkbentryFromDB", nargs=2, dest="kbentrydb", default=False, 
-                      help="Creates KBMLN with given name from db file. Example: pracobjrec -d kitchen path/to/dbfile/with/kitchenware/entries.db")
+                      help="Creates KBMLN with given name or adds entries from db file to existing KBMLN. Example: pracobjrec -d kitchen path/to/dbfile/with/kitchenware/entries.db")
     (options, args) = parser.parse_args()
 
     interactive = options.interactive
     sentences = args
 
     dkbname = options.dkb
-
-    if options.kbentry:
-        kbname = options.kbentry[0]
-        conceptname = options.kbentry[1]
-
-    if options.kbentrydb:
-        kbname = options.kbentrydb[0]
-        dbfile = options.kbentrydb[1]
 
     log = logging.getLogger()
     log.setLevel(logging.INFO)
@@ -69,7 +61,6 @@ if __name__ == '__main__':
     prac.wordnet = WordNet(concepts=None)
     
     infer = PRACInference(prac, sentences)
-
     
     
     # in case we have natural-language parameters, parse them
@@ -81,12 +72,20 @@ if __name__ == '__main__':
         gui = PRACQueryGUI(infer)
         gui.open()
     elif options.kbentrydb: # create initial DKB from db file
+        kbname = options.kbentrydb[0]
+        dbfile = options.kbentrydb[1]
+        
         objRec = prac.getModuleByName('obj_recognition')
 
-        # create dkb
+        # create or load dkb
         filepath = os.path.join(objRec.module_path, 'kb', '{}.dkb'.format(kbname))
-        dkb = objRec.create_dkb(kbname)
-        mln = readMLNFromFile(os.path.join(os.path.dirname(os.path.realpath(__file__)), '../pracmodules/prop_extraction/mln/predicates.mln'), logic='FirstOrderLogic', )
+        if not os.path.isfile(filepath):
+            dkb = objRec.create_dkb(kbname)
+        else:
+            dkb = objRec.load_dkb(kbname)
+
+        mln = readMLNFromFile(os.path.join(os.path.dirname(os.path.realpath(__file__)), '../pracmodules/prop_extraction/mln/predicates.mln'), logic='FuzzyLogic', )
+        # mln = readMLNFromFile(os.path.join(os.path.dirname(os.path.realpath(__file__)), '../pracmodules/prop_extraction/mln/predicates.mln'), logic='FirstOrderLogic', )
         kbdb = readDBFromFile(mln, dbfile)
         conceptname = ''
         for db in kbdb:
@@ -110,6 +109,9 @@ if __name__ == '__main__':
         dkb.kbmln.write(sys.stdout, color=True)
         sys.exit(0)
     elif options.kbentry: # create initial DKB or load and update existing with given concept description
+        kbname = options.kbentry[0]
+        conceptname = options.kbentry[1]
+
         objRec = prac.getModuleByName('obj_recognition')
         
         # create or load dkb
