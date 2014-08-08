@@ -131,10 +131,10 @@
 1.00  has_pos(whisky, NN)
 1.00  has_sense(carafe, carafe.n.01)
 1.00  has_sense(fill, fill.v.01)
-1.00  has_sense(whisky, whisky.n.01)
+1.00  has_sense(whisky, whiskey.n.01)
 1.00  is_a(carafe.n.01, carafe.n.01)
 1.00  is_a(fill.v.01, fill.v.01)
-1.00  is_a(whisky.n.01, whisky.n.01)
+1.00  is_a(whiskey.n.01, whiskey.n.01)
 ---
 1.00  has_pos(apples, NN)
 1.00  has_pos(blender, NN)
