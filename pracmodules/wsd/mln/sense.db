@@ -13,7 +13,7 @@
 1.00 has_pos(water,NN)
 1.00 has_sense(water,water.n.06)
 
---- // <- you can treat multiple instructions independently of each other, so put a database separator here. This speeds up learning
+---
 
 //If you put in too little batter to begin with , pour in some extra batter to fill in the gap .
 //fill
@@ -28,7 +28,7 @@
 1.00 has_pos(batter,NN)
 1.00 has_sense(batter,batter.n.02)
 
---- // <- DB separator
+---
 
 // fill the mug with the froth , leaving about an inch of space .
 //fill
