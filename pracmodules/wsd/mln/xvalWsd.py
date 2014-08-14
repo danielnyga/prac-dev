@@ -405,7 +405,8 @@ if __name__ == '__main__':
         
         if incremental:
             for i in range(2,folds+1):
-                doXVal(i, percent, verbose, multicore, noisy, predName, domain, mlnfile, dbfiles, logicLearn, logicInfer,inverse)
+                if folds%i == 0:
+                    doXVal(i, percent, verbose, multicore, noisy, predName, domain, mlnfile, dbfiles, logicLearn, logicInfer,inverse)
         else:
             doXVal(folds, percent, verbose, multicore, noisy, predName, domain, mlnfile, dbfiles, logicLearn, logicInfer.inverse)
         
@@ -416,7 +417,8 @@ if __name__ == '__main__':
         
         if incremental:
             for i in range(2,folds+1):
-                doXVal(i, percent, verbose, multicore, noisy, predName, domain, mlnfile, dbfiles, logicLearn, logicInfer,inverse)
+                if folds%i == 0:
+                    doXVal(i, percent, verbose, multicore, noisy, predName, domain, mlnfile, dbfiles, logicLearn, logicInfer,inverse)
         else:
             doXVal(folds, percent, verbose, multicore, noisy, predName, domain, mlnfile, dbfiles, logicLearn, logicInfer,inverse)
             
@@ -427,7 +429,8 @@ if __name__ == '__main__':
         
         if incremental:
             for i in range(2,folds+1):
-                doXVal(i, percent, verbose, multicore, noisy, predName, domain, mlnfile, dbfiles, logicLearn, logicInfer,inverse)
+                if folds%i == 0:
+                    doXVal(i, percent, verbose, multicore, noisy, predName, domain, mlnfile, dbfiles, logicLearn, logicInfer,inverse)
         else:
             doXVal(folds, percent, verbose, multicore, noisy, predName, domain, mlnfile, dbfiles, logicLearn, logicInfer,inverse)
             
@@ -438,12 +441,15 @@ if __name__ == '__main__':
         
         if incremental:
             for i in range(2,folds+1):
-                doXVal(i, percent, verbose, multicore, noisy, predName, domain, mlnfile, dbfiles, logicLearn, logicInfer,inverse)
+                if folds%i == 0:
+                    doXVal(i, percent, verbose, multicore, noisy, predName, domain, mlnfile, dbfiles, logicLearn, logicInfer,inverse)
         else:
             doXVal(folds, percent, verbose, multicore, noisy, predName, domain, mlnfile, dbfiles, logicLearn, logicInfer,inverse)
     else:
         if incremental:
             for i in range(2,folds+1):
-                doXVal(i, percent, verbose, multicore, noisy, predName, domain, mlnfile, dbfiles, logicLearn, logicInfer,inverse)
+                print i
+                if folds%i == 0:
+                    doXVal(i, percent, verbose, multicore, noisy, predName, domain, mlnfile, dbfiles, logicLearn, logicInfer,inverse)
         else:
             doXVal(folds, percent, verbose, multicore, noisy, predName, domain, mlnfile, dbfiles, logicLearn, logicInfer,inverse)
