@@ -66,6 +66,8 @@ parser.add_option('-l', '--learn', dest='learn', type='str', default='FirstOrder
                   help='-Defines which logic should be used for the learning.')
 parser.add_option('-i', '--infer', dest='infer', type='str', default='FirstOrderLogic',
                   help='-Defines which logic should be used for the inference.')
+parser.add_option('-1', '--inverse', dest='inverse', action='store_true', default='False',
+                  help='-Defines if an inverse cross validation should be done.')
 
 class XValFoldParams(object):
     
@@ -269,7 +271,7 @@ def runFold(fold):
         raise Exception(''.join(traceback.format_exception(*sys.exc_info())))
     return fold
 
-def doXVal(folds, percent, verbose, multicore, noisy, predName, domain, mlnfile, dbfiles,logicLearn, logicInfer):  
+def doXVal(folds, percent, verbose, multicore, noisy, predName, domain, mlnfile, dbfiles,logicLearn, logicInfer,inverse=True):  
     startTime = time.time()
 
     # set up the directory    
@@ -324,6 +326,10 @@ def doXVal(folds, percent, verbose, multicore, noisy, predName, domain, mlnfile,
         for dbs in [dbs for i,dbs in enumerate(partition) if i != foldIdx]:
             params.learnDBs.extend(dbs)
         params.testDBs = partition[foldIdx]
+        if inverse:
+            temp = params.testDBs
+            params.testDBs = params.learnDBs
+            params.learnDBs = temp 
         params.foldIdx = foldIdx
         params.foldCount = folds
         params.noisyStringDomains = noisy
@@ -389,6 +395,7 @@ if __name__ == '__main__':
     auto = options.auto
     logicLearn = options.learn
     logicInfer = options.infer
+    inverse = options.inverse
     
     if auto:
         #First Run
@@ -398,9 +405,9 @@ if __name__ == '__main__':
         
         if incremental:
             for i in range(2,folds+1):
-                doXVal(i, percent, verbose, multicore, noisy, predName, domain, mlnfile, dbfiles, logicLearn, logicInfer)
+                doXVal(i, percent, verbose, multicore, noisy, predName, domain, mlnfile, dbfiles, logicLearn, logicInfer,inverse)
         else:
-            doXVal(folds, percent, verbose, multicore, noisy, predName, domain, mlnfile, dbfiles, logicLearn, logicInfer)
+            doXVal(folds, percent, verbose, multicore, noisy, predName, domain, mlnfile, dbfiles, logicLearn, logicInfer.inverse)
         
         #Second Run
         logicLearn = 'FirstOrderLogic'
@@ -409,9 +416,9 @@ if __name__ == '__main__':
         
         if incremental:
             for i in range(2,folds+1):
-                doXVal(i, percent, verbose, multicore, noisy, predName, domain, mlnfile, dbfiles, logicLearn, logicInfer)
+                doXVal(i, percent, verbose, multicore, noisy, predName, domain, mlnfile, dbfiles, logicLearn, logicInfer,inverse)
         else:
-            doXVal(folds, percent, verbose, multicore, noisy, predName, domain, mlnfile, dbfiles, logicLearn, logicInfer)
+            doXVal(folds, percent, verbose, multicore, noisy, predName, domain, mlnfile, dbfiles, logicLearn, logicInfer,inverse)
             
         #Third Run
         logicLearn = 'FuzzyLogic'
@@ -420,9 +427,9 @@ if __name__ == '__main__':
         
         if incremental:
             for i in range(2,folds+1):
-                doXVal(i, percent, verbose, multicore, noisy, predName, domain, mlnfile, dbfiles, logicLearn, logicInfer)
+                doXVal(i, percent, verbose, multicore, noisy, predName, domain, mlnfile, dbfiles, logicLearn, logicInfer,inverse)
         else:
-            doXVal(folds, percent, verbose, multicore, noisy, predName, domain, mlnfile, dbfiles, logicLearn, logicInfer)
+            doXVal(folds, percent, verbose, multicore, noisy, predName, domain, mlnfile, dbfiles, logicLearn, logicInfer,inverse)
             
         #Fourth Run
         logicLearn = 'FuzzyLogic'
@@ -431,12 +438,12 @@ if __name__ == '__main__':
         
         if incremental:
             for i in range(2,folds+1):
-                doXVal(i, percent, verbose, multicore, noisy, predName, domain, mlnfile, dbfiles, logicLearn, logicInfer)
+                doXVal(i, percent, verbose, multicore, noisy, predName, domain, mlnfile, dbfiles, logicLearn, logicInfer,inverse)
         else:
-            doXVal(folds, percent, verbose, multicore, noisy, predName, domain, mlnfile, dbfiles, logicLearn, logicInfer)
+            doXVal(folds, percent, verbose, multicore, noisy, predName, domain, mlnfile, dbfiles, logicLearn, logicInfer,inverse)
     else:
         if incremental:
             for i in range(2,folds+1):
-                doXVal(i, percent, verbose, multicore, noisy, predName, domain, mlnfile, dbfiles, logicLearn, logicInfer)
+                doXVal(i, percent, verbose, multicore, noisy, predName, domain, mlnfile, dbfiles, logicLearn, logicInfer,inverse)
         else:
-            doXVal(folds, percent, verbose, multicore, noisy, predName, domain, mlnfile, dbfiles, logicLearn, logicInfer)
+            doXVal(folds, percent, verbose, multicore, noisy, predName, domain, mlnfile, dbfiles, logicLearn, logicInfer,inverse)
