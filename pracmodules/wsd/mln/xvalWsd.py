@@ -58,6 +58,8 @@ parser.add_option("-m", "--multicore", dest="multicore", action='store_true', de
                   help="Verbose mode.")
 parser.add_option('-n', '--noisy', dest='noisy', type='str', default=None,
                   help='-nDOMAIN defines DOMAIN as a noisy string.')
+parser.add_option('-i', '--incremental', dest="incremental", action='store_true', default=False,
+                  help='-run 2 to k cross validations on one run.')
 
 class XValFoldParams(object):
     
@@ -261,17 +263,7 @@ def runFold(fold):
         raise Exception(''.join(traceback.format_exception(*sys.exc_info())))
     return fold
 
-if __name__ == '__main__':
-    (options, args) = parser.parse_args()
-    folds = options.folds
-    percent = options.percent
-    verbose = options.verbose
-    multicore = options.multicore
-    noisy = ['text']
-    predName = args[0]
-    domain = args[1]
-    mlnfile = args[2]
-    dbfiles = args[3:]
+def doXVal(folds, percent, verbose, multicore, noisy, predName, domain, mlnfile, dbfiles):  
     startTime = time.time()
 
     # set up the directory    
@@ -373,4 +365,22 @@ if __name__ == '__main__':
         log.info('%d-fold crossvalidation (MP) took %.2f min' % (folds, elapsedTimeMP / 60.0))
     else:
         log.info('%d-fold crossvalidation (SP) took %.2f min' % (folds, elapsedTimeSP / 60.0))
-        
+
+if __name__ == '__main__':
+    (options, args) = parser.parse_args()
+    folds = options.folds
+    percent = options.percent
+    verbose = options.verbose
+    multicore = options.multicore
+    incremental = options.incremental
+    noisy = ['text']
+    predName = args[0]
+    domain = args[1]
+    mlnfile = args[2]
+    dbfiles = args[3:]
+    
+    if incremental:
+        for i in range(2,folds+1):
+            doXVal(i, percent, verbose, multicore, noisy, predName, domain, mlnfile, dbfiles)
+    else:
+        doXVal(folds, percent, verbose, multicore, noisy, predName, domain, mlnfile, dbfiles)
