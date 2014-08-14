@@ -58,10 +58,14 @@ parser.add_option("-m", "--multicore", dest="multicore", action='store_true', de
                   help="Verbose mode.")
 parser.add_option('-n', '--noisy', dest='noisy', type='str', default=None,
                   help='-nDOMAIN defines DOMAIN as a noisy string.')
-parser.add_option('-i', '--incremental', dest="incremental", action='store_true', default=False,
+parser.add_option('-c', '--inCremental', dest="incremental", action='store_true', default=False,
                   help='-Run 2 to k cross validations on one run.')
 parser.add_option('-a', '--auto', dest="auto", action='store_true', default=False,
                   help='-Run each cross validation with FL, FOL and the combinations of them.')
+parser.add_option('-l', '--learn', dest='learn', type='str', default='FirstOrderLogic',
+                  help='-Defines which logic should be used for the learning.')
+parser.add_option('-i', '--infer', dest='infer', type='str', default='FirstOrderLogic',
+                  help='-Defines which logic should be used for the inference.')
 
 class XValFoldParams(object):
     
@@ -383,8 +387,8 @@ if __name__ == '__main__':
     mlnfile = args[2]
     dbfiles = args[3:]
     auto = options.auto
-    logicLearn = 'FirstOrderLogic'
-    logicInfer = 'FirstOrderLogic'
+    logicLearn = options.learn
+    logicInfer = options.infer
     
     if auto:
         #First Run
