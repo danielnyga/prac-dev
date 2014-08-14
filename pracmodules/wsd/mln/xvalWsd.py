@@ -273,7 +273,7 @@ def doXVal(folds, percent, verbose, multicore, noisy, predName, domain, mlnfile,
     startTime = time.time()
 
     # set up the directory    
-    directory = time.strftime("%a_%d_%b_%Y_%H:%M:%S", time.localtime())
+    directory = time.strftime("%a_%d_%b_%Y_%H:%M:%S_K-"+str(folds)+'_'+logicLearn+'_'+logicInfer, time.localtime())
     os.mkdir(directory)
     
     # set up the logger
