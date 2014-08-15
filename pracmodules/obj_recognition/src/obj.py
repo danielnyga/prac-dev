@@ -50,9 +50,8 @@ class NLObjectRecognition(PRACModule):
             dkb = params.get('dkb')
         else:
             dkb = self.load_dkb('fruit')
-        print 'Using DKB: {}'.format(colorize(dkb.name, (None, 'yellow', True), True))
+        log.info('Using DKB: {}'.format(dkb.name))
         dkb.kbmln.write(sys.stdout, color=True) # todo remove, debugging only
-        print 
 
         if params.get('kb', None) is None:
             # load the default arguments
@@ -86,7 +85,8 @@ class NLObjectRecognition(PRACModule):
             res_db = wordnet_module.add_senses_and_similiarities_for_words(res_db, words)
             
             # infer and update output dbs
-            print kb.query_params
+            # log.info(kb.query_params)
+            # res_db.write(sys.stdout, color=True)
             inferred_db = mln.infer(evidence_db=res_db, **kb.query_params)
             # print colorize('Inferred DB...', (None, 'green', True), True) 
             # inferred_db.write(sys.stdout,color=True)
