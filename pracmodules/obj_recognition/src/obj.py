@@ -86,7 +86,7 @@ class NLObjectRecognition(PRACModule):
             
             # infer and update output dbs
             # log.info(kb.query_params)
-            # res_db.write(sys.stdout, color=True)
+            res_db.write(sys.stdout, color=True)
             inferred_db = mln.infer(evidence_db=res_db, **kb.query_params)
             # print colorize('Inferred DB...', (None, 'green', True), True) 
             # inferred_db.write(sys.stdout,color=True)

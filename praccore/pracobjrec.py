@@ -89,15 +89,17 @@ if __name__ == '__main__':
         kbdb = readDBFromFile(mln, dbfile)
         conceptname = ''
         for db in kbdb:
-            db.write(sys.stdout,color=True)
+            # db.write(sys.stdout,color=True)
             formula = []
+            i = 0
             for q in db.query('property(?cluster, ?word, ?prop) ^ has_sense(?word,?sense) ^ object(?cluster, ?obj)'):
                 if q['?sense'] == 'null': continue
                 if q['?prop'] == 'null': continue
                 conceptname = q['?obj']
-                formula.append('property(?c, {0}, {1}) ^ similar({0}, ?w)'.format(q['?sense'], q['?prop']))
+                formula.append('property(?c, ?w{2}, {1}) ^ similar({0}, ?w{2})'.format(q['?sense'], q['?prop'],i))
+                i+=1
             newformula = ' ^ '.join(formula) # conjunct all properties inferred from input sentence
-            f = 'object(?c, {}) <=> {}'.format(conceptname, newformula)
+            f = 'object(?c, {}) ^ {}'.format(conceptname, newformula)
 
             # several definitions of one concept may be in the kbmln, but it is only listed once
             if conceptname not in dkb.concepts:
@@ -133,13 +135,15 @@ if __name__ == '__main__':
         formula = []
         dbs = infer.inference_steps[-1].output_dbs
         for db in dbs:
+            i = 0
             for q in db.query('property(?cluster, ?word, ?prop) ^ has_sense(?word, ?sense)'):
                 if q['?sense'] == 'null': continue
                 if q['?prop'] == 'null': continue
-                formula.append('property(?c, {0}, {1}) ^ similar({0}, ?w)'.format(q['?sense'], q['?prop']))
+                formula.append('property(?c, ?w{2}, {1}) ^ similar({0}, ?w{2})'.format(q['?sense'], q['?prop'],i))
+                i+=1
         newformula = ' ^ '.join(formula) # conjunct all properties inferred from input sentence
-        f = 'object(?c, {}) <=> {}'.format(conceptname, newformula)
-        
+        f = 'object(?c, {}) ^ {}'.format(conceptname, newformula)
+
         dkb.kbmln.addFormula(f, weight=1, hard=False, fixWeight=True)
         objRec.save_dkb(dkb, kbname)
 

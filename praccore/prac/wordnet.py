@@ -36,8 +36,9 @@ PRAC_HOME = os.environ['PRAC_HOME']
 nltk.data.path = [os.path.join(PRAC_HOME, 'data', 'nltk_data')]
 
 NLTK_POS = ['n', 'v', 'a', 'r']
-TAXONOMY_BRANCHES = ['color.n.01','size.n.01','shape.n.01']
+TAXONOMY_BRANCHES = ['color.n.01','size.n.01','shape.n.01','kitchenware.n.01','tableware.n.01','container.n.01','plant_part.n.01','food.n.01']
 colorsims = {}
+# hsv values for color similarity calculation
 colorspecs = {  'pink.s.01': (335,87,87),
                 'purple.s.01': (290,87,87),
                 'blue.s.01': (235,87,87),
@@ -347,6 +348,8 @@ class WordNet(object):
         # separate check for color similarity
         if synset1.name in colorsims and synset2.name in colorsims:
             return colorsims[synset1.name][synset2.name]
+        elif synset1.name in colorsims or synset2.name in colorsims: # colors are maximially dissimilar to everything else
+            return 0.
 
         syns1 = [synset1]
         syns2 = [synset2]
