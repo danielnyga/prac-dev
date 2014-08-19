@@ -58,6 +58,16 @@ parser.add_option("-m", "--multicore", dest="multicore", action='store_true', de
                   help="Verbose mode.")
 parser.add_option('-n', '--noisy', dest='noisy', type='str', default=None,
                   help='-nDOMAIN defines DOMAIN as a noisy string.')
+parser.add_option('-c', '--inCremental', dest="incremental", action='store_true', default=False,
+                  help='-Run 2 to k cross validations on one run.')
+parser.add_option('-a', '--auto', dest="auto", action='store_true', default=False,
+                  help='-Run each cross validation with FL, FOL and the combinations of them.')
+parser.add_option('-l', '--learn', dest='learn', type='str', default='FirstOrderLogic',
+                  help='-Defines which logic should be used for the learning.')
+parser.add_option('-i', '--infer', dest='infer', type='str', default='FirstOrderLogic',
+                  help='-Defines which logic should be used for the inference.')
+parser.add_option('-1', '--inverse', dest='inverse', action='store_true', default='False',
+                  help='-Defines if an inverse cross validation should be done.')
 
 class XValFoldParams(object):
     
@@ -76,6 +86,7 @@ class XValFoldParams(object):
         self.noisyStringDomains = None
         self.directory = None
         self.mln = None
+        self.logicInfer = None
         for p, val in params.iteritems():
             setattr(self, str(p), val)
             
@@ -98,7 +109,6 @@ class XValFold(object):
         the databases given in dbs.
         '''
         queryPred = self.params.queryPred
-        queryDom = self.params.queryDom
         sig = ['?arg%d' % i for i, _ in enumerate(mln.predicates[queryPred])]
         querytempl = '%s(%s)' % (queryPred, ','.join(sig))
         i = 0
@@ -128,7 +138,7 @@ class XValFold(object):
             wsd = prac.getModuleByName('wsd')
             kb = PRACKnowledgeBase(prac)
             kb.query_params = {'cwPreds': [], 'verbose': False, 'closedWorld': 1, 
-                               'logic': 'FuzzyLogic', 'queries': 'has_sense',
+                               'logic': self.params.logicInfer, 'queries': 'has_sense',
                                 'debug': 'ERROR', 'useMultiCPU': 0, 'method': 'WCSP'}
 
             kb.dbs.append(db_)
@@ -261,21 +271,11 @@ def runFold(fold):
         raise Exception(''.join(traceback.format_exception(*sys.exc_info())))
     return fold
 
-if __name__ == '__main__':
-    (options, args) = parser.parse_args()
-    folds = options.folds
-    percent = options.percent
-    verbose = options.verbose
-    multicore = options.multicore
-    noisy = ['text']
-    predName = args[0]
-    domain = args[1]
-    mlnfile = args[2]
-    dbfiles = args[3:]
+def doXVal(folds, percent, verbose, multicore, noisy, predName, domain, mlnfile, dbfiles,logicLearn, logicInfer,inverse=False):  
     startTime = time.time()
 
     # set up the directory    
-    directory = time.strftime("%a_%d_%b_%Y_%H:%M:%S", time.localtime())
+    directory = time.strftime("%a_%d_%b_%Y_%H:%M:%S_K-"+str(folds)+'_'+logicLearn+'_'+logicInfer, time.localtime())
     os.mkdir(directory)
     
     # set up the logger
@@ -287,7 +287,8 @@ if __name__ == '__main__':
     log.info('Results will be written into %s' % directory)
 
     # preparations: Read the MLN and the databases 
-    mln_ = readMLNFromFile(mlnfile, verbose=verbose, logic='FuzzyLogic', grammar='PRACGrammar')
+    #mln_ = readMLNFromFile(mlnfile, verbose=verbose, logic='FuzzyLogic', grammar='PRACGrammar')
+    mln_ = readMLNFromFile(mlnfile, verbose=verbose, logic=logicLearn, grammar='PRACGrammar')
     log.info('Read MLN %s.' % mlnfile)
     dbs = []
     for dbfile in dbfiles:
@@ -324,13 +325,19 @@ if __name__ == '__main__':
         params.learnDBs = []
         for dbs in [dbs for i,dbs in enumerate(partition) if i != foldIdx]:
             params.learnDBs.extend(dbs)
+        
         params.testDBs = partition[foldIdx]
+        if inverse == True:
+            temp = params.testDBs
+            params.testDBs = params.learnDBs
+            params.learnDBs = temp
         params.foldIdx = foldIdx
         params.foldCount = folds
         params.noisyStringDomains = noisy
         params.directory = directory
         params.queryPred = predName
         params.queryDom = domain
+        params.logicInfer = logicInfer
         foldRunnables.append(XValFold(params))
     
     if multicore:
@@ -373,4 +380,76 @@ if __name__ == '__main__':
         log.info('%d-fold crossvalidation (MP) took %.2f min' % (folds, elapsedTimeMP / 60.0))
     else:
         log.info('%d-fold crossvalidation (SP) took %.2f min' % (folds, elapsedTimeSP / 60.0))
+
+if __name__ == '__main__':
+    (options, args) = parser.parse_args()
+    folds = options.folds
+    percent = options.percent
+    verbose = options.verbose
+    multicore = options.multicore
+    incremental = options.incremental
+    noisy = ['text']
+    predName = args[0]
+    domain = args[1]
+    mlnfile = args[2]
+    dbfiles = args[3:]
+    auto = options.auto
+    logicLearn = options.learn
+    logicInfer = options.infer
+    inverse = options.inverse
+    
+    if auto == True:
+        #First Run
+        logicLearn = 'FirstOrderLogic'
+        logicInfer = 'FirstOrderLogic'
+        dbfiles = ['fol_training.db']
         
+        if incremental:
+            for i in range(2,folds+1):
+                if folds%i == 0:
+                    doXVal(i, percent, verbose, multicore, noisy, predName, domain, mlnfile, dbfiles, logicLearn, logicInfer,inverse)
+        else:
+            doXVal(folds, percent, verbose, multicore, noisy, predName, domain, mlnfile, dbfiles, logicLearn, logicInfer.inverse)
+        
+        #Second Run
+        logicLearn = 'FirstOrderLogic'
+        logicInfer = 'FuzzyLogic'
+        dbfiles = ['fol_training.db']
+        
+        if incremental:
+            for i in range(2,folds+1):
+                if folds%i == 0:
+                    doXVal(i, percent, verbose, multicore, noisy, predName, domain, mlnfile, dbfiles, logicLearn, logicInfer,inverse)
+        else:
+            doXVal(folds, percent, verbose, multicore, noisy, predName, domain, mlnfile, dbfiles, logicLearn, logicInfer,inverse)
+            
+        #Third Run
+        logicLearn = 'FuzzyLogic'
+        logicInfer = 'FirstOrderLogic'
+        dbfiles = ['fuzzy_training.db']
+        
+        if incremental:
+            for i in range(2,folds+1):
+                if folds%i == 0:
+                    doXVal(i, percent, verbose, multicore, noisy, predName, domain, mlnfile, dbfiles, logicLearn, logicInfer,inverse)
+        else:
+            doXVal(folds, percent, verbose, multicore, noisy, predName, domain, mlnfile, dbfiles, logicLearn, logicInfer,inverse)
+            
+        #Fourth Run
+        logicLearn = 'FuzzyLogic'
+        logicInfer = 'FuzzyLogic'
+        dbfiles = ['fuzzy_training.db']
+        
+        if incremental:
+            for i in range(2,folds+1):
+                if folds%i == 0:
+                    doXVal(i, percent, verbose, multicore, noisy, predName, domain, mlnfile, dbfiles, logicLearn, logicInfer,inverse)
+        else:
+            doXVal(folds, percent, verbose, multicore, noisy, predName, domain, mlnfile, dbfiles, logicLearn, logicInfer,inverse)
+    else:
+        if incremental:
+            for i in range(2,folds+1):
+                if folds%i == 0:
+                    doXVal(i, percent, verbose, multicore, noisy, predName, domain, mlnfile, dbfiles, logicLearn, logicInfer,inverse)
+        else:
+            doXVal(folds, percent, verbose, multicore, noisy, predName, domain, mlnfile, dbfiles, logicLearn, logicInfer,inverse)
