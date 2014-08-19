@@ -271,7 +271,7 @@ def runFold(fold):
         raise Exception(''.join(traceback.format_exception(*sys.exc_info())))
     return fold
 
-def doXVal(folds, percent, verbose, multicore, noisy, predName, domain, mlnfile, dbfiles,logicLearn, logicInfer,inverse=True):  
+def doXVal(folds, percent, verbose, multicore, noisy, predName, domain, mlnfile, dbfiles,logicLearn, logicInfer,inverse=False):  
     startTime = time.time()
 
     # set up the directory    
@@ -325,11 +325,12 @@ def doXVal(folds, percent, verbose, multicore, noisy, predName, domain, mlnfile,
         params.learnDBs = []
         for dbs in [dbs for i,dbs in enumerate(partition) if i != foldIdx]:
             params.learnDBs.extend(dbs)
+        
         params.testDBs = partition[foldIdx]
-        if inverse:
+        if inverse == True:
             temp = params.testDBs
             params.testDBs = params.learnDBs
-            params.learnDBs = temp 
+            params.learnDBs = temp
         params.foldIdx = foldIdx
         params.foldCount = folds
         params.noisyStringDomains = noisy
@@ -397,7 +398,7 @@ if __name__ == '__main__':
     logicInfer = options.infer
     inverse = options.inverse
     
-    if auto:
+    if auto == True:
         #First Run
         logicLearn = 'FirstOrderLogic'
         logicInfer = 'FirstOrderLogic'
@@ -448,7 +449,6 @@ if __name__ == '__main__':
     else:
         if incremental:
             for i in range(2,folds+1):
-                print i
                 if folds%i == 0:
                     doXVal(i, percent, verbose, multicore, noisy, predName, domain, mlnfile, dbfiles, logicLearn, logicInfer,inverse)
         else:
