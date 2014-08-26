@@ -79,9 +79,6 @@ class PropExtraction(PRACModule):
             inf_step.output_dbs.extend(result_db)
 
             for r_db in result_db:
-                r_db.writeToFile(os.path.join(self.module_path, 'db/inferenceResult.db'))
-                print
-
                 # print annotations found in result db
                 for instr in pracinference.instructions:
                     print colorize('Inferred properties for instruction:', (None, 'white', True), True), instr
@@ -113,6 +110,7 @@ class PropExtraction(PRACModule):
         # mln = kb.query_mln
         logging.getLogger().setLevel(logging.DEBUG)
         
+        # mln = readMLNFromFile(os.path.join(self.module_path, 'mln/parsing.mln'), logic='FuzzyLogic')
         mln = readMLNFromFile(os.path.join(self.module_path, 'mln/parsing.mln'), logic='FirstOrderLogic')
         dbFile = os.path.join(self.module_path, 'db/ts_stanford_wn_man.db')
         outputfile = os.path.join(self.module_path, 'mln/dcll_parsing_stanford_wn_man.mln')
@@ -128,7 +126,7 @@ class PropExtraction(PRACModule):
         log.info('Starting training with {} databases'.format(len(training_dbs)))
         # trainedMLN = mln.learnWeights(training_dbs, LearningMethods.BPLL_CG, partSize=8, gaussianPriorSigma=10, verbose=False, optimizer='bfgs')
         # trainedMLN = mln.learnWeights(training_dbs, LearningMethods.DBPLL_CG, evidencePreds=['is_a'],  partSize=4, verbose=False, optimizer='bfgs')
-        trainedMLN = mln.learnWeights(training_dbs, LearningMethods.DCLL, evidencePreds=['pobj', 'nsubj','is_a','amod','prep_with','root','has_pos','conj_and','conj_or','dobj'], partSize=1, verbose=False, optimizer='bfgs')
+        trainedMLN = mln.learnWeights(training_dbs, LearningMethods.DCLL, evidencePreds=['prep_without','pobj', 'nsubj','is_a','amod','prep_with','root','has_pos','conj_and','conj_or','dobj'], partSize=1, verbose=False, optimizer='bfgs')
         trainedMLN.write(file(outputfile, "w"))
         
         print colorize('+=============================================+', (None, 'green', True), True)

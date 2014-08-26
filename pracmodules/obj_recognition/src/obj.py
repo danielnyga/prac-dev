@@ -77,8 +77,8 @@ class NLObjectRecognition(PRACModule):
                 if res['?prop'] == 'null': continue
                 if res['?sense'] == 'null': continue
                 words.append(res['?sense'])
-                atom = 'property({}, {}, {})'.format(res['?cluster'], res['?sense'], res['?prop'])
-                res_db.addGroundAtom(atom)
+                gndAtom = 'property({}, {}, {})'.format(res['?cluster'], res['?sense'], res['?prop'])
+                res_db.addGroundAtom(gndAtom)
 
             # adding word similarities
             words += mln.domains.get('word', []) # + words from database
@@ -87,6 +87,7 @@ class NLObjectRecognition(PRACModule):
             # infer and update output dbs
             # log.info(kb.query_params)
             res_db.write(sys.stdout, color=True)
+            # inferred_db = mln.infer(evidence_db=res_db, groundingMethod='DefaultGroundingFactory',**kb.query_params)
             inferred_db = mln.infer(evidence_db=res_db, **kb.query_params)
             # print colorize('Inferred DB...', (None, 'green', True), True) 
             # inferred_db.write(sys.stdout,color=True)

@@ -98,14 +98,16 @@ if __name__ == '__main__':
                 conceptname = q['?obj']
                 formula.append('property(?c, ?w{2}, {1}) ^ similar({0}, ?w{2})'.format(q['?sense'], q['?prop'],i))
                 i+=1
-            newformula = ' ^ '.join(formula) # conjunct all properties inferred from input sentence
-            f = 'object(?c, {}) ^ {}'.format(conceptname, newformula)
+            jointFormula = ' ^ '.join(formula) # conjunct all properties inferred from input sentence
+            f = 'object(?c, {}) <=> {}'.format(conceptname, jointFormula)
+            # f = 'object(?c, {}) ^ {}'.format(conceptname, jointFormula)
 
             # several definitions of one concept may be in the kbmln, but it is only listed once
             if conceptname not in dkb.concepts:
                 dkb.concepts.append(conceptname)
 
-            dkb.kbmln.addFormula(f, weight=1, hard=False, fixWeight=True)
+            dkb.kbmln.addFormula(f, weight=1)
+            # dkb.kbmln.addFormula(f, weight=1, hard=False, fixWeight=True)
         objRec.save_dkb(dkb, kbname)
 
         dkb.kbmln.write(sys.stdout, color=True)
@@ -141,10 +143,12 @@ if __name__ == '__main__':
                 if q['?prop'] == 'null': continue
                 formula.append('property(?c, ?w{2}, {1}) ^ similar({0}, ?w{2})'.format(q['?sense'], q['?prop'],i))
                 i+=1
-        newformula = ' ^ '.join(formula) # conjunct all properties inferred from input sentence
-        f = 'object(?c, {}) ^ {}'.format(conceptname, newformula)
+        jointFormula = ' ^ '.join(formula) # conjunct all properties inferred from input sentence
+        f = 'object(?c, {}) <=> {}'.format(conceptname, jointFormula)
+        # f = 'object(?c, {}) ^ {}'.format(conceptname, jointFormula)
 
-        dkb.kbmln.addFormula(f, weight=1, hard=False, fixWeight=True)
+        dkb.kbmln.addFormula(f, weight=1)
+        # dkb.kbmln.addFormula(f, weight=1, hard=False, fixWeight=True)
         objRec.save_dkb(dkb, kbname)
 
         dkb.kbmln.write(sys.stdout, color=True)

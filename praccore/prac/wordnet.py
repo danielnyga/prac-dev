@@ -45,8 +45,11 @@ colorspecs = {  'pink.s.01': (335,87,87),
                 'cyan.s.01': (150,87,87),
                 'light-blue.s.01': (175,87,87),
                 'green.s.01': (115,87,87),
+                'green.n.01': (115,87,87),
                 'yellow.s.01': (50,87,87),
+                'yellow.n.01': (50,87,87),
                 'orange.s.01': (20,87,87),
+                'orange.n.02': (20,87,87),
                 'brown.s.01': (20,87,97),
                 'red.s.01': (0,87,87),
                 'blood-red.s.01': (0,89,55),
@@ -59,6 +62,30 @@ colorspecs = {  'pink.s.01': (335,87,87),
                 'gray.s.01': (500,5,50),
                 'grayish.s.01': (500,5,50)
                 }
+
+shapesims = {}
+shapespecs = {  'roundish.s.01': (2.5),
+                'egg-shaped.s.01': (1),
+                'ellipse.n.01': (1.5),
+                'cylindrical.s.01': (2),
+                'round.a.01': (3),
+                'circular.s.02': (3),
+                'circular.n.01': (3),
+                'triangle.n.01': (5),
+                'triangular.s.01': (5),
+                'square.n.01': (7),
+                'rectangle.n.01': (7),
+                'rectangular.s.01': (7),
+                'orthogonal.s.03': (7),
+                }
+
+sizesims = {}
+sizespecs = {   'small.a.01': (0),
+                'little.s.03': (0),
+                'bantam.s.01': (0),
+                'average.s.04': (1),
+                'large.a.01': (2),
+                } 
 
 known_concepts = ['soup.n.01', 
                   'milk.n.01', 
@@ -95,22 +122,24 @@ class WordNet(object):
         self.core_taxonomy = None
         if concepts is not None:
             self.initialize_taxonomy(concepts)
-            self.initialize_colorsimilarities()
+            self.initialize_similarities(colorsims, colorspecs)
+            self.initialize_similarities(shapesims, shapespecs)
+            self.initialize_similarities(sizesims, sizespecs)
 
 
-    def initialize_colorsimilarities(self):
+    def initialize_similarities(self, simdct, specs):
         # calculate euclidean distance between HSV values
         maxDist = 0.
-        for k in colorspecs.keys():
-            colorsims[k] = {}
-            for c in colorspecs.keys():
-                colorsims[k][c] = spatial.distance.euclidean(colorspecs[k],colorspecs[c])
-                maxDist = max(maxDist,colorsims[k][c])
+        for k in specs.keys():
+            simdct[k] = {}
+            for c in specs.keys():
+                simdct[k][c] = spatial.distance.euclidean(specs[k],specs[c])
+                maxDist = max(maxDist,simdct[k][c])
 
         # normalize
-        for x in colorsims:
-            for y in colorsims:
-                colorsims[x][y] = 1-(colorsims[x][y]/maxDist)
+        for x in simdct:
+            for y in simdct:
+                simdct[x][y] = 1-(simdct[x][y]/maxDist)
 
 
             
@@ -333,8 +362,9 @@ class WordNet(object):
         similarity, which adds a penalizing factor for inferring 
         another synset from adjectives.
         '''
+        log = logging.getLogger(__name__)
 
-
+            
         ADJ_POS = ['s','a']
         if type(synset1) is str:
             synset1 = self.synset(synset1)
@@ -350,6 +380,19 @@ class WordNet(object):
             return colorsims[synset1.name][synset2.name]
         elif synset1.name in colorsims or synset2.name in colorsims: # colors are maximially dissimilar to everything else
             return 0.
+
+        # separate check for shape similarity
+        if synset1.name in shapesims and synset2.name in shapesims:
+            return shapesims[synset1.name][synset2.name]
+        elif synset1.name in shapesims or synset2.name in shapesims: # shapes are maximially dissimilar to everything else
+            return 0.
+
+        # separate check for size similarity
+        if synset1.name in sizesims and synset2.name in sizesims:
+            return sizesims[synset1.name][synset2.name]
+        elif synset1.name in sizesims or synset2.name in sizesims: # sizes are maximially dissimilar to everything else
+            return 0.    
+
 
         syns1 = [synset1]
         syns2 = [synset2]
