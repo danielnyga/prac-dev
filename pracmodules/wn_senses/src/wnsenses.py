@@ -96,10 +96,7 @@ class WNSenses(PRACModule):
                 for concept in concepts:
 #                     sim = wordnet.semilarity(synset, concept)
                     sim = wordnet.wup_similarity(synset, concept)
-                    if(fol and (sim == 1)):
-                        db_.addGroundAtom('is_a(%s,%s)' % (sense_id, concept), 1)
-                    else:
-                        db_.addGroundAtom('is_a(%s,%s)' % (sense_id, concept), sim)
+                    db_.addGroundAtom('is_a(%s,%s)' % (sense_id, concept), sim)
         for word in word2senses:
             for word2, senses in word2senses.iteritems():
                 if word2 == word: continue
