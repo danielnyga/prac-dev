@@ -356,7 +356,7 @@
 1.00 has_sense(slice,piece.n.08)
 
 //bread
-1.00 has_pos(bread.n.01, NN)
+1.00 has_pos(bread, NN)
 1.00 has_sense(bread,bread.n.01)
 
 //olive_oil
@@ -392,8 +392,8 @@
 // Remove pan from the burner and add the butter and vanilla .
 1.00 has_sense(burner-5,burner.n.02)
 1.00 has_sense(add-7,add.v.01)
-1.00 has_sense(butter,butter.n.01)
-1.00 has_sense(vanilla,vanilla.n.02)
+1.00 has_sense(butter-9,butter.n.01)
+1.00 has_sense(vanilla-11,vanilla.n.02)
 1.00 has_sense(pan-2, pan.n.01)
 1.00 has_pos(pan-2,NN)
 1.00 has_pos(burner-5,NN)
