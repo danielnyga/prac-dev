@@ -62,7 +62,7 @@ parser.add_option('-c', '--inCremental', dest="incremental", action='store_true'
                   help='-Run 2 to k cross validations on one run.')
 parser.add_option('-a', '--auto', dest="auto", action='store_true', default=False,
                   help='-Run each cross validation with FL, FOL and the combinations of them.')
-parser.add_option('-l', '--learn', dest='learn', type='str', default='FirstOrderLogic',
+parser.add_option('-l', '--learn', dest='learn', type='str', default='FuzzyLogic',
                   help='-Defines which logic should be used for the learning.')
 parser.add_option('-i', '--infer', dest='infer', type='str', default='FirstOrderLogic',
                   help='-Defines which logic should be used for the inference.')
