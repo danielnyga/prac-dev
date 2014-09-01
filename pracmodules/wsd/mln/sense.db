@@ -574,3 +574,63 @@
 1.00 has_pos(butter-5,NN)
 1.00 has_pos(mix-7,VB)
 1.00 has_pos(dough-9,NN)
+
+---
+
+// pour the boiling water into the rice mixture .
+1.00 has_sense(pour-1,pour.v.01)
+1.00 has_sense(water-4,water.n.06)
+1.00 has_sense(rice-7,rice.n.01)
+1.00 has_sense(mixture-8,concoction.n.01)
+1.00 has_pos(pour-1,VB)
+1.00 has_pos(water-4,NN)
+1.00 has_pos(rice-7,NN)
+1.00 has_pos(mixture-8,NN)
+
+---
+
+// pour the liquid down the sink .
+1.00 has_sense(pour-1,pour.v.01)
+1.00 has_sense(liquid-3,liquid.n.01)
+1.00 has_sense(sink-6,sink.n.01)
+1.00 has_pos(pour-1,VB)
+1.00 has_pos(liquid-3,NN)
+1.00 has_pos(sink-6,NN)
+
+---
+
+// take the shaker and pour the Bacardi rum into it .
+1.00 has_sense(take-1,take.v.04)
+1.00 has_sense(shaker-3,shaker.n.03)
+1.00 has_sense(pour-5,decant.v.01)
+1.00 has_sense(rum-8,rum.n.01)
+1.00 has_pos(take-1,VB)
+1.00 has_pos(shaker-3,NN)
+1.00 has_pos(pour-5,VB)
+1.00 has_pos(rum-8,NN)
+
+---
+
+// pour the bread mix into the pan .
+1.00 has_sense(pour-1,pour.v.01)
+1.00 has_sense(bread-3,bread.n.01)
+1.00 has_sense(mix-4,mix.n.03)
+1.00 has_sense(pan-7,pan.n.01)
+1.00 has_pos(pour-1,VB)
+1.00 has_pos(bread-3,NN)
+1.00 has_pos(mix-4,NN)
+1.00 has_pos(pan-7,NN)
+
+---
+
+// boil water and pour water into a mug .
+1.00 has_sense(boil-1,boil.v.03)
+1.00 has_sense(water-2,water.n.06)
+1.00 has_sense(pour-4,pour.v.01)
+1.00 has_sense(water-5,water.n.06)
+1.00 has_sense(mug-8,mug.n.04)
+1.00 has_pos(boil-1,VB)
+1.00 has_pos(water-2,NN)
+1.00 has_pos(pour-4,VB)
+1.00 has_pos(water-5,NN)
+1.00 has_pos(mug-8,NN)
