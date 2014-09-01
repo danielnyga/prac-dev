@@ -274,8 +274,11 @@ def runFold(fold):
 def doXVal(folds, percent, verbose, multicore, noisy, predName, domain, mlnfile, dbfiles,logicLearn, logicInfer,inverse=False):  
     startTime = time.time()
 
-    # set up the directory    
-    directory = time.strftime("%a_%d_%b_%Y_%H:%M:%S_K-"+str(folds)+'_'+logicLearn+'_'+logicInfer, time.localtime())
+    # set up the directory 
+    if inverse:   
+        directory = time.strftime("%a_%d_%b_%Y_%H:%M:%S_K-"+str(folds)+'_'+logicLearn+'_'+logicInfer+'_INV', time.localtime())
+    else:
+        directory = time.strftime("%a_%d_%b_%Y_%H:%M:%S_K-"+str(folds)+'_'+logicLearn+'_'+logicInfer, time.localtime())
     os.mkdir(directory)
     
     # set up the logger
@@ -400,7 +403,7 @@ if __name__ == '__main__':
     
     if auto == True:
         #First Run
-        logicLearn = 'FirstOrderLogic'
+        logicLearn = 'FuzzyLogic'
         logicInfer = 'FirstOrderLogic'
         dbfiles = ['fol_training.db']
         
@@ -409,10 +412,10 @@ if __name__ == '__main__':
                 if folds%i == 0:
                     doXVal(i, percent, verbose, multicore, noisy, predName, domain, mlnfile, dbfiles, logicLearn, logicInfer,inverse)
         else:
-            doXVal(folds, percent, verbose, multicore, noisy, predName, domain, mlnfile, dbfiles, logicLearn, logicInfer.inverse)
+            doXVal(folds, percent, verbose, multicore, noisy, predName, domain, mlnfile, dbfiles, logicLearn, logicInfer,inverse)
         
         #Second Run
-        logicLearn = 'FirstOrderLogic'
+        logicLearn = 'FuzzyLogic'
         logicInfer = 'FuzzyLogic'
         dbfiles = ['fol_training.db']
         
@@ -423,29 +426,6 @@ if __name__ == '__main__':
         else:
             doXVal(folds, percent, verbose, multicore, noisy, predName, domain, mlnfile, dbfiles, logicLearn, logicInfer,inverse)
             
-        #Third Run
-        logicLearn = 'FuzzyLogic'
-        logicInfer = 'FirstOrderLogic'
-        dbfiles = ['fuzzy_training.db']
-        
-        if incremental:
-            for i in range(2,folds+1):
-                if folds%i == 0:
-                    doXVal(i, percent, verbose, multicore, noisy, predName, domain, mlnfile, dbfiles, logicLearn, logicInfer,inverse)
-        else:
-            doXVal(folds, percent, verbose, multicore, noisy, predName, domain, mlnfile, dbfiles, logicLearn, logicInfer,inverse)
-            
-        #Fourth Run
-        logicLearn = 'FuzzyLogic'
-        logicInfer = 'FuzzyLogic'
-        dbfiles = ['fuzzy_training.db']
-        
-        if incremental:
-            for i in range(2,folds+1):
-                if folds%i == 0:
-                    doXVal(i, percent, verbose, multicore, noisy, predName, domain, mlnfile, dbfiles, logicLearn, logicInfer,inverse)
-        else:
-            doXVal(folds, percent, verbose, multicore, noisy, predName, domain, mlnfile, dbfiles, logicLearn, logicInfer,inverse)
     else:
         if incremental:
             for i in range(2,folds+1):
