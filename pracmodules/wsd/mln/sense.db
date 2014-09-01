@@ -315,7 +315,7 @@
 1.00 has_pos(ketchup,NN)
 1.00 has_sense(ketchup, catsup.n.01)
 
-//---
+---
 // slice each cheese thinly .
 //slice
 1.00 has_pos(slice, VB)
@@ -386,7 +386,7 @@
 1.00 has_pos(add-1,VB)
 1.00 has_pos(sugar-2,NN)
 1.00 has_pos(butter-4,NN)
-1.00 has_pos(mixing_bowl-6,VB)
+1.00 has_pos(mixing_bowl-6,NN)
 
 ---
 // Remove pan from the burner and add the butter and vanilla .
