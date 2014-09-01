@@ -620,17 +620,3 @@
 1.00 has_pos(bread-3,NN)
 1.00 has_pos(mix-4,NN)
 1.00 has_pos(pan-7,NN)
-
----
-
-// boil water and pour water into a mug .
-1.00 has_sense(boil-1,boil.v.03)
-1.00 has_sense(water-2,water.n.06)
-1.00 has_sense(pour-4,pour.v.01)
-1.00 has_sense(water-5,water.n.06)
-1.00 has_sense(mug-8,mug.n.04)
-1.00 has_pos(boil-1,VB)
-1.00 has_pos(water-2,NN)
-1.00 has_pos(pour-4,VB)
-1.00 has_pos(water-5,NN)
-1.00 has_pos(mug-8,NN)
