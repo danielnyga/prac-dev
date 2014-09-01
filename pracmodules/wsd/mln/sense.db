@@ -515,3 +515,62 @@
 1.00 has_pos(beef-3,NN)
 1.00 has_pos(onion-5,NN)
 1.00 has_pos(plate-8,NN)
+
+---
+// You need a bowl and a fork to mix with .
+1.00 has_sense(bowl-4,bowl.n.01)
+1.00 has_sense(fork-7,fork.n.01)
+1.00 has_sense(mix-9,blend.v.03)
+1.00 has_pos(bowl-4,NN)
+1.00 has_pos(fork-7,NN)
+1.00 has_pos(mix-9,VB)
+---
+
+// mix carefully so that you do n't destroy the avocado .
+1.00 has_sense(mix-1,blend.v.03)
+1.00 has_sense(avocado-10,avocado.n.01)
+1.00 has_pos(mix-1,VB)
+1.00 has_pos(avocado-10,NN)
+---
+
+// add vanilla and mix into egg mixture .
+1.00 has_sense(add-1,add.v.01)
+1.00 has_sense(vanilla-2,vanilla.n.02)
+1.00 has_sense(egg-6,egg.n.02)
+1.00 has_sense(mix-4, blend.v.03)
+1.00 has_sense(mixture-7,concoction.n.01)
+1.00 has_pos(add-1,VB)
+1.00 has_pos(vanilla-2,NN)
+1.00 has_pos(mix-4,VB)
+1.00 has_pos(egg-6,NN)
+1.00 has_pos(mixture-7,NN)
+
+---
+
+// get a bowl and mix the blue_cheese , walnut , and pear together .
+1.00 has_sense(get-1,get.v.01)
+1.00 has_sense(bowl-3,bowl.n.01)
+1.00 has_sense(mix-5,blend.v.03)
+1.00 has_sense(blue_cheese-7,bleu.n.01)
+1.00 has_sense(walnut-9,walnut.n.01)
+1.00 has_sense(pear-12,pear.n.01)
+1.00 has_pos(get-1,VB)
+1.00 has_pos(bowl-3,NN)
+1.00 has_pos(mix-5,VB)
+1.00 has_pos(blue_cheese-7,NN)
+1.00 has_pos(walnut-9,NN)
+1.00 has_pos(pear-12,NN)
+
+---
+
+// add the eggs and butter and mix until dough come together .
+1.00 has_sense(add-1,add.v.01)
+1.00 has_sense(eggs-3,egg.n.02)
+1.00 has_sense(butter-5,butter.n.01)
+1.00 has_sense(mix-7,mix.v.04)
+1.00 has_sense(dough-9,dough.n.01)
+1.00 has_pos(add-1,VB)
+1.00 has_pos(eggs-3,NN)
+1.00 has_pos(butter-5,NN)
+1.00 has_pos(mix-7,VB)
+1.00 has_pos(dough-9,NN)
