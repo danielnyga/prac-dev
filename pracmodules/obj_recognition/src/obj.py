@@ -50,8 +50,8 @@ class NLObjectRecognition(PRACModule):
             dkb = params.get('dkb')
         else:
             dkb = self.load_dkb('fruit')
-        log.info('Using DKB: {}'.format(dkb.name))
-        dkb.kbmln.write(sys.stdout, color=True) # todo remove, debugging only
+        log.info('Using DKB: {}'.format(colorize(dkb.name, (None, 'green', True), True)))
+        # dkb.kbmln.write(sys.stdout, color=True) # todo remove, debugging only
 
         if params.get('kb', None) is None:
             # load the default arguments
@@ -86,7 +86,7 @@ class NLObjectRecognition(PRACModule):
             
             # infer and update output dbs
             # log.info(kb.query_params)
-            res_db.write(sys.stdout, color=True)
+            # res_db.write(sys.stdout, color=True)
             # inferred_db = mln.infer(evidence_db=res_db, groundingMethod='DefaultGroundingFactory',**kb.query_params)
             inferred_db = mln.infer(evidence_db=res_db, **kb.query_params)
             # print colorize('Inferred DB...', (None, 'green', True), True) 
