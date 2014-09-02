@@ -55,10 +55,11 @@ class PropExtraction(PRACModule):
             kb = params['kb']
         if not hasattr(kb, 'dbs'):
             kb.dbs = pracinference.inference_steps[-1].output_dbs
-        # mln = kb.query_mln
-        mln = readMLNFromFile(os.path.join(self.module_path, 'mln/dcll_parsing_stanford_wn_man.mln'), logic='FuzzyLogic')
 
-        known_concepts = mln.domains.get('concept'  , [])
+        # TODO: Remove when final mln exists
+        kb.query_mln = readMLNFromFile(os.path.join(self.module_path, 'mln/dcll_parsing_stanford_wn_man.mln'), logic='FuzzyLogic')
+
+        known_concepts = kb.query_mln.domains.get('concept'  , [])
         inf_step = PRACInferenceStep(pracinference, self)
         wordnet_module = self.prac.getModuleByName('wn_senses')
         
@@ -130,7 +131,7 @@ class PropExtraction(PRACModule):
         # trainedMLN = mln.learnWeights(training_dbs, LearningMethods.BPLL, partSize=8, verbose=False, optimizer='bfgs')
         # trainedMLN = mln.learnWeights(training_dbs, LearningMethods.DBPLL_CG, evidencePreds=['prep_without','pobj', 'nsubj','is_a','amod','prep_with','root','has_pos','conj_and','conj_or','dobj'],  gaussianPriorSigma=10, partSize=1, verbose=False, optimizer='bfgs')
         # trainedMLN = mln.learnWeights(training_dbs, LearningMethods.CLL, evidencePreds=['prep_without','pobj', 'nsubj','is_a','amod','prep_with','root','has_pos','conj_and','conj_or','dobj'], gaussianPriorSigma=10, partSize=1, verbose=False, optimizer='bfgs')
-        trainedMLN = mln.learnWeights(training_dbs, LearningMethods.DCLL, evidencePreds=['prep_without','pobj', 'nsubj','is_a','amod','prep_with','root','has_pos','conj_and','conj_or','dobj'], gaussianPriorSigma=10, partSize=1, verbose=False, optimizer='bfgs')
+        trainedMLN = mln.learnWeights(training_dbs, LearningMethods.DCLL, evidencePreds=['cop', 'prep_without','pobj', 'nsubj','is_a','amod','prep_with','root','has_pos','conj_and','conj_or','dobj'], gaussianPriorSigma=10, partSize=1, verbose=False, optimizer='bfgs')
         trainedMLN.write(file(outputfile, "w"))
         
         print colorize('+=============================================+', (None, 'green', True), True)

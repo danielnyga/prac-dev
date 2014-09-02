@@ -51,7 +51,7 @@ class NLObjectRecognition(PRACModule):
         else:
             dkb = self.load_dkb('fruit')
         log.info('Using DKB: {}'.format(colorize(dkb.name, (None, 'green', True), True)))
-        # dkb.kbmln.write(sys.stdout, color=True) # todo remove, debugging only
+        dkb.kbmln.write(sys.stdout, color=True) # todo remove, debugging only
 
         if params.get('kb', None) is None:
             # load the default arguments
@@ -72,31 +72,31 @@ class NLObjectRecognition(PRACModule):
         for db in kb.dbs:
             # adding evidence properties to new query db
             res_db = Database(mln)
-            words = []
+            queryWords = []
             for res in db.query('property(?cluster, ?word, ?prop) ^ has_sense(?word, ?sense)'):
                 if res['?prop'] == 'null': continue
                 if res['?sense'] == 'null': continue
-                words.append(res['?sense'])
+                queryWords.append(res['?sense'])
                 gndAtom = 'property({}, {}, {})'.format(res['?cluster'], res['?sense'], res['?prop'])
                 res_db.addGroundAtom(gndAtom)
 
             # adding word similarities
-            words += mln.domains.get('word', []) # + words from database
-            res_db = wordnet_module.add_senses_and_similiarities_for_words(res_db, words)
+            # queryWords += mln.domains.get('word', []) # + queryWords from database
+            res_db = wordnet_module.add_senses_and_similiarities_for_words(res_db, mln.domains.get('word', []), queryWords)
             
             # infer and update output dbs
             # log.info(kb.query_params)
-            # res_db.write(sys.stdout, color=True)
+            res_db.write(sys.stdout, color=True)
             # inferred_db = mln.infer(evidence_db=res_db, groundingMethod='DefaultGroundingFactory',**kb.query_params)
             inferred_db = mln.infer(evidence_db=res_db, **kb.query_params)
             # print colorize('Inferred DB...', (None, 'green', True), True) 
             # inferred_db.write(sys.stdout,color=True)
             inf_step.output_dbs.extend([inferred_db])
 
-            for r_db in res_db.query('object(?cluster, ?concept)'):
+            for q in inferred_db.query('object(?cluster, ?concept)'):
                 # print annotations found in result db
                 if q['?concept'] == 'null': continue
-                print 'object({}, {})'.format(q['?cluster'], colorize(q['?concept'], (None, 'white', True), True))
+                log.info('Inferred: object({}, {})'.format(q['?cluster'], colorize(q['?concept'], (None, 'white', True), True)))
         return inf_step
 
 

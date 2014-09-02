@@ -139,7 +139,7 @@ class WNSenses(PRACModule):
                 db.addGroundAtom('is_a(%s, %s)' % (synset.name, synset2.name), self.wordnet.similarity(synset, synset2))
         return db
 
-    def add_senses_and_similiarities_for_words(self, db, words):
+    def add_senses_and_similiarities_for_words(self, db, words, querywords):
         '''
         Adds for each concept in concepts a constant to the 'sense' domain
         and asserts all similarities to the other concepts for the 'similar'
@@ -150,11 +150,11 @@ class WNSenses(PRACModule):
         concepts = list(words)
         if 'null' in concepts:
             concepts.remove('null')
-        for c in concepts:
-            synset = self.wordnet.synset(c)
-            for c2 in concepts:
+        for c1 in concepts:
+            synset1 = self.wordnet.synset(c1)
+            for c2 in querywords:
                 synset2 = self.wordnet.synset(c2)
-                db.addGroundAtom('similar(%s, %s)' % (synset.name, synset2.name), self.wordnet.similarity(synset, synset2))
+                db.addGroundAtom('similar({}, {})'.format(synset1.name, synset2.name), self.wordnet.similarity(synset1, synset2))
         return db
 
            
