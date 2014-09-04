@@ -3,6 +3,10 @@ pracobjrec -d all /home/mareikep/prac_repos/prac/pracmodules/prop_extraction/db/
 pracobjrec -d fruit /home/mareikep/prac_repos/prac/pracmodules/obj_recognition/db/fruit.db
 pracobjrec -d kitchenware /home/mareikep/prac_repos/prac/pracmodules/obj_recognition/db/kitchenware.db
 pracobjrec -d misc /home/mareikep/prac_repos/prac/pracmodules/obj_recognition/db/misc.db
+pracobjrec -d minicon /home/mareikep/prac_repos/prac/pracmodules/obj_recognition/db/mini.db // conjunction
+pracobjrec -d minibi /home/mareikep/prac_repos/prac/pracmodules/obj_recognition/db/mini.db // biimplication
+pracobjrec -d miniconsf /home/mareikep/prac_repos/prac/pracmodules/obj_recognition/db/mini.db // conjunction plus single formulas
+pracobjrec -d minibisf /home/mareikep/prac_repos/prac/pracmodules/obj_recognition/db/mini.db // biimplication plus single formulas
 
 # create manual dkb entry
 pracobjrec -c fruit lemon 'a yellow oval fruit'

@@ -92,7 +92,7 @@ class WNSenses(PRACModule):
             if pos is None: # if no possible sense can be determined by WordNet, assert null
                 db_.addGroundAtom('has_sense(%s,null)' % word_const)
                 continue
-            word = word_const.split('-')[0]
+            word = '-'.join(word_const.split('-')[:-1])# extract everything except the number (e.g. compound words like heart-shaped from heart-shaped-4)
             for i, synset in enumerate(wordnet.synsets(word, pos)):
                 sense_id = synset.name#'%s-%.2d' % (word_const, i+1)
                 word2senses[word_const].append(sense_id)
@@ -139,7 +139,7 @@ class WNSenses(PRACModule):
                 db.addGroundAtom('is_a(%s, %s)' % (synset.name, synset2.name), self.wordnet.similarity(synset, synset2))
         return db
 
-    def add_senses_and_similiarities_for_words(self, db, words, querywords):
+    def add_senses_and_similiarities_for_words(self, db, words):
         '''
         Adds for each concept in concepts a constant to the 'sense' domain
         and asserts all similarities to the other concepts for the 'similar'
@@ -152,7 +152,7 @@ class WNSenses(PRACModule):
             concepts.remove('null')
         for c1 in concepts:
             synset1 = self.wordnet.synset(c1)
-            for c2 in querywords:
+            for c2 in concepts:
                 synset2 = self.wordnet.synset(c2)
                 db.addGroundAtom('similar({}, {})'.format(synset1.name, synset2.name), self.wordnet.similarity(synset1, synset2))
         return db

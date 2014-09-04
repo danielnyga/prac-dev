@@ -72,21 +72,33 @@ class NLObjectRecognition(PRACModule):
         for db in kb.dbs:
             # adding evidence properties to new query db
             res_db = Database(mln)
-            queryWords = []
+            
+            propsFound = {}
             for res in db.query('property(?cluster, ?word, ?prop) ^ has_sense(?word, ?sense)'):
                 if res['?prop'] == 'null': continue
                 if res['?sense'] == 'null': continue
-                queryWords.append(res['?sense'])
+                if not res['?prop'] in propsFound:
+                    propsFound[res['?prop']] = [res['?sense']]
+                else:
+                    propsFound[res['?prop']].append(res['?sense'])
+
                 gndAtom = 'property({}, {}, {})'.format(res['?cluster'], res['?sense'], res['?prop'])
                 res_db.addGroundAtom(gndAtom)
 
+            # for each inferred property, assert all non-matching properties
+            for prop in propsFound:
+                for word in mln.domains.get('word', []):
+                    if not word in propsFound[prop]:
+                        gndAtom = '!property({}, {}, {})'.format(res['?cluster'], word, prop)
+                        res_db.addGroundAtom(gndAtom)
+
+            res_db.write(sys.stdout, color=True)
             # adding word similarities
-            # queryWords += mln.domains.get('word', []) # + queryWords from database
-            res_db = wordnet_module.add_senses_and_similiarities_for_words(res_db, mln.domains.get('word', []), queryWords)
+            res_db = wordnet_module.add_senses_and_similiarities_for_words(res_db, mln.domains.get('word', []) + [item for sublist in propsFound.values() for item in sublist])
             
             # infer and update output dbs
             # log.info(kb.query_params)
-            res_db.write(sys.stdout, color=True)
+            # res_db.write(sys.stdout, color=True)
             # inferred_db = mln.infer(evidence_db=res_db, groundingMethod='DefaultGroundingFactory',**kb.query_params)
             inferred_db = mln.infer(evidence_db=res_db, **kb.query_params)
             # print colorize('Inferred DB...', (None, 'green', True), True) 

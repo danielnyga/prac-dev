@@ -29,4 +29,3 @@
 // prevent verbs from being detected as hypernyms
 0 has_pos(?w1, +?pos) ^ property(?cluster, ?w1, +?prop)
 0 has_pos(?w1, +?pos) ^ !property(?cluster, ?w1, +?prop)
-

@@ -85,7 +85,6 @@ if __name__ == '__main__':
             dkb = objRec.load_dkb(kbname)
 
         mln = readMLNFromFile(os.path.join(os.path.dirname(os.path.realpath(__file__)), '../pracmodules/prop_extraction/mln/predicates.mln'), logic='FuzzyLogic', )
-        # mln = readMLNFromFile(os.path.join(os.path.dirname(os.path.realpath(__file__)), '../pracmodules/prop_extraction/mln/predicates.mln'), logic='FirstOrderLogic', )
         kbdb = readDBFromFile(mln, dbfile)
         conceptname = ''
         for db in kbdb:
@@ -99,15 +98,14 @@ if __name__ == '__main__':
                 formula.append('property(?c, ?w{2}, {1}) ^ similar({0}, ?w{2})'.format(q['?sense'], q['?prop'],i))
                 i+=1
             jointFormula = ' ^ '.join(formula) # conjunct all properties inferred from input sentence
-            f = 'object(?c, {}) <=> {}'.format(conceptname, jointFormula)
-            # f = 'object(?c, {}) ^ {}'.format(conceptname, jointFormula)
+            # f = 'object(?c, {}) <=> {}'.format(conceptname, jointFormula)
+            f = 'object(?c, {}) ^ {}'.format(conceptname, jointFormula)
 
             # several definitions of one concept may be in the kbmln, but it is only listed once
             if conceptname not in dkb.concepts:
                 dkb.concepts.append(conceptname)
 
-            dkb.kbmln.addFormula(f, weight=1)
-            # dkb.kbmln.addFormula(f, weight=1, hard=False, fixWeight=True)
+            dkb.kbmln.addFormula(f, weight=1, hard=False, fixWeight=True)
         objRec.save_dkb(dkb, kbname)
 
         dkb.kbmln.write(sys.stdout, color=True)
@@ -144,11 +142,10 @@ if __name__ == '__main__':
                 formula.append('property(?c, ?w{2}, {1}) ^ similar({0}, ?w{2})'.format(q['?sense'], q['?prop'],i))
                 i+=1
         jointFormula = ' ^ '.join(formula) # conjunct all properties inferred from input sentence
-        f = 'object(?c, {}) <=> {}'.format(conceptname, jointFormula)
-        # f = 'object(?c, {}) ^ {}'.format(conceptname, jointFormula)
+        # f = 'object(?c, {}) <=> {}'.format(conceptname, jointFormula)
+        f = 'object(?c, {}) ^ {}'.format(conceptname, jointFormula)
 
-        dkb.kbmln.addFormula(f, weight=1)
-        # dkb.kbmln.addFormula(f, weight=1, hard=False, fixWeight=True)
+        dkb.kbmln.addFormula(f, weight=1, hard=False, fixWeight=True)
         objRec.save_dkb(dkb, kbname)
 
         dkb.kbmln.write(sys.stdout, color=True)

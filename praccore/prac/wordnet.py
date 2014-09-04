@@ -64,48 +64,51 @@ colorspecs = {  'pink.s.01': (335,87,87),
                 }
 
 shapesims = {}
-#TODO similarity like (#edges, #angles, #faces, #subjective similarity)
-shapespecs = {  'crescent.s.01': (0),
-                'semicircular.s.01': (1),
-                'curved.a.01': (2),
-                'coil.n.02': (3),
-                'annular.s.01': (4), #ringfoermig
-                'ringlike.s.01': (4),
-                'coiling.s.01': (5),#spiralfoermig
-                'rounded.a.01': (6),
-                'roundish.s.01': (7),
-                'egg-shaped.s.01': (8),
-                'ellipse.n.01': (8),
-                'elliptic.s.01': (8),
-                'pear-shaped.s.01': (9),
-                'orotund.s.02': (9),
-                'cylindrical.s.01': (10),
-                'round.a.01': (11),
-                'spherical.a.01': (11),
-                'ball-shaped.s.01': (11),
-                'circular.s.02': (11),
-                'circular.n.01': (11),
-                'octangular.a.01': (14),
-                'hexangular.a.01': (15),
-                'pentangular.a.01': (16),
-                'quadrangular.a.01': (17),
-                'square.n.01': (17),
-                'square-shaped.s.01': (17),
-                'rectangle.n.01': (18),
-                'rectangular.s.01': (18),
-                'boxlike.s.01': (19),
-                'orthogonal.s.03': (20),
-                'trapezoidal.a.01': (21),
-                'rhombic.a.01': (22),
-                'triangle.n.01': (24),
-                'triangular.s.01': (25),
-                'pyramidal': (26),
-                'wedge-shaped.a.02': (27),
-                'cuneate.s.01': (28),
-                'conic.a.01': (29),
-                'tapered.s.01': (30), #kegelfoermig
-                'asteroid.s.01': (35),
-                'cordate.s.01': (40), #herzfoermig
+# similarity represented by (#edges, #angles, #faces, #subjective similarity)
+# does not work for all shapes due to lack of information (then using rule of thumb estimate)
+# #edges/angles/faces for curved, annular, ringlike...?
+# hexangular, octangular... 2D or 3D??
+shapespecs = {  'crescent.s.01': (2,2,1,0),
+                'semicircular.s.01': (2,2,1,1),
+                'curved.a.01': (2,0,1,2),
+                'annular.s.01': (2,0,1,4), #ringfoermig
+                'ringlike.s.01': (2,0,1,4),
+                'coil.n.02': (2,0,1,5), #spiralfoermig
+                'coiling.s.01': (2,0,1,5),#spiralfoermig
+                'rounded.a.01': (0,0,1,6),
+                'roundish.s.01': (0,0,1,7),
+                'egg-shaped.s.01': (0,0,1,8),
+                'ellipse.n.01': (0,0,1,8),
+                'elliptic.s.01': (0,0,1,8),
+                'pear-shaped.s.01': (0,0,1,9),
+                'orotund.s.02': (0,0,1,9),
+                'cylindrical.s.01': (2,0,3,10),
+                'round.a.01': (0,0,1,11),
+                'spherical.a.01': (0,0,1,11),
+                'ball-shaped.s.01': (0,0,1,11),
+                'circular.s.02': (0,0,1,11),
+                'circular.n.01': (0,0,1,11),
+                'octangular.a.01': (8,8,1,14),
+                'hexangular.a.01': (6,6,1,15),
+                'pentangular.a.01': (5,5,1,16),
+                'quadrangular.a.01': (4,4,1,17),
+                'square.n.01': (4,4,1,17),
+                'square-shaped.s.01': (4,4,1,17),
+                'rectangle.n.01': (4,4,1,18),
+                'rectangular.s.01': (4,4,1,18),
+                'orthogonal.s.03': (4,4,1,20),
+                'boxlike.s.01': (12,8,6,19),
+                'trapezoidal.a.01': (4,4,1,21),
+                'rhombic.a.01': (4,4,1,22),
+                'triangle.n.01': (3,3,1,24),
+                'triangular.s.01': (3,3,1,25),
+                'pyramidal': (5,5,5,26),
+                'wedge-shaped.a.02': (9,6,5,27),
+                'cuneate.s.01': (3,3,1,28), #keilfoermig
+                'conic.a.01': (2,1,2,29),
+                'tapered.s.01': (2,1,2,30), #kegelfoermig
+                'asteroid.s.01': (12,6,1,35),
+                'cordate.s.01': (2,2,1,40), #herzfoermig
                 }
 
 sizesims = {}
