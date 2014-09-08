@@ -12,7 +12,7 @@ S'is_a, has_pos'
 p5
 sS'output_filename'
 p6
-S'wts.pydcll.out-wsd.mln'
+S'wts.pydcll.fol_training-wsd.mln'
 p7
 sS'discrPredicates'
 p8
@@ -50,7 +50,7 @@ S'[discriminative] composite-log-likelihood'
 p21
 sS'db'
 p22
-S'out.db'
+S'fol_training.db'
 p23
 sS'priorMean'
 p24

@@ -44,6 +44,7 @@ from prac.core import PRAC, PRACKnowledgeBase
 from prac.wordnet import WordNet
 from prac.inference import PRACInference
 import re
+import pickle
 
 usage = '''Usage: %prog [options] <predicate> <domain> <mlnfile> <dbfiles>'''
 
@@ -103,7 +104,7 @@ class XValFold(object):
         self.fold_id = 'Fold-%d' % params.foldIdx
         self.confMatrix = ConfusionMatrix()
             
-    def evalMLN(self, mln, dbs):
+    def evalMLN(self, mln, dbs, logicInfer):
         '''
         Returns a confusion matrix for the given (learned) MLN evaluated on
         the databases given in dbs.
@@ -138,7 +139,7 @@ class XValFold(object):
             wsd = prac.getModuleByName('wsd')
             kb = PRACKnowledgeBase(prac)
             kb.query_params = {'cwPreds': [], 'verbose': False, 'closedWorld': 1, 
-                               'logic': self.params.logicInfer, 'queries': 'has_sense',
+                               'logic': logicInfer, 'queries': 'has_sense',
                                 'debug': 'ERROR', 'useMultiCPU': 0, 'method': 'WCSP'}
 
             kb.dbs.append(db_)
@@ -191,8 +192,10 @@ class XValFold(object):
                 self.params.cwPreds = [p for p in mln.predicates if p != self.params.queryPred]
             for pred in [pred for pred in self.params.cwPreds if pred in learnedMLN.predicates]:
                 learnedMLN.setClosedWorldPred(pred)
-            self.evalMLN(learnedMLN, testDBs_)
-            self.confMatrix.toFile(os.path.join(directory, 'conf_matrix_%d.cm' % self.params.foldIdx))
+            self.evalMLN(learnedMLN, testDBs_, 'FirstOrderLogic')
+            self.confMatrix.toFile(os.path.join(directory,'FOL', 'conf_matrix_%d.cm' % self.params.foldIdx))
+            self.evalMLN(learnedMLN, testDBs_, 'FuzzyLogic')
+            self.confMatrix.toFile(os.path.join(directory,'FUZZY', 'conf_matrix_%d.cm' % self.params.foldIdx))
             log.debug('Evaluation finished.')
         except (KeyboardInterrupt, SystemExit):
             log.critical("Exiting...")
@@ -273,14 +276,11 @@ def runFold(fold):
 
 def doXVal(folds, percent, verbose, multicore, noisy, predName, domain, mlnfile, dbfiles,logicLearn, logicInfer,inverse=False):  
     startTime = time.time()
-
-    # set up the directory 
-    if inverse:   
-        directory = time.strftime("%a_%d_%b_%Y_%H:%M:%S_K-"+str(folds)+'_'+logicLearn+'_'+logicInfer+'_INV', time.localtime())
-    else:
-        directory = time.strftime("%a_%d_%b_%Y_%H:%M:%S_K-"+str(folds)+'_'+logicLearn+'_'+logicInfer, time.localtime())
-    os.mkdir(directory)
     
+    directory = time.strftime("%a_%d_%b_%Y_%H:%M:%S", time.localtime())
+    os.mkdir(directory)
+    os.mkdir(os.path.join(directory, 'FOL'))
+    os.mkdir(os.path.join(directory, 'FUZZY'))
     # set up the logger
     log = logging.getLogger('xval')
     fileLogger = FileHandler(os.path.join(directory, 'xval.log'))
@@ -290,8 +290,7 @@ def doXVal(folds, percent, verbose, multicore, noisy, predName, domain, mlnfile,
     log.info('Results will be written into %s' % directory)
 
     # preparations: Read the MLN and the databases 
-    #mln_ = readMLNFromFile(mlnfile, verbose=verbose, logic='FuzzyLogic', grammar='PRACGrammar')
-    mln_ = readMLNFromFile(mlnfile, verbose=verbose, logic=logicLearn, grammar='PRACGrammar')
+    mln_ = readMLNFromFile(mlnfile, verbose=verbose, logic='FuzzyLogic', grammar='PRACGrammar')
     log.info('Read MLN %s.' % mlnfile)
     dbs = []
     for dbfile in dbfiles:
@@ -375,8 +374,22 @@ def doXVal(folds, percent, verbose, multicore, noisy, predName, domain, mlnfile,
         log.info('Starting %d-fold Cross-Validation in 1 process.' % (folds))
         cm = ConfusionMatrix()
         for fold in foldRunnables:
-            cm.combine(runFold(fold).confMatrix)
-        cm.toFile(os.path.join(directory, 'conf_matrix.cm'))
+            runFold(fold)
+        for f in os.listdir(os.path.join(directory,'FOL')):
+            matrix = pickle.load(open(os.path.join(directory,'FOL',f),'rb'))
+            cm.combine(matrix)
+        cm.toFile(os.path.join(directory,'FOL', 'conf_matrix.cm'))
+        pdfname = 'conf_matrix'
+        cm.toPDF(pdfname)
+        os.rename('%s.pdf' % pdfname, os.path.join(directory,'FOL', '%s.pdf' % pdfname))
+        
+        for f in os.listdir(os.path.join(directory,'FUZZY')):
+            matrix = pickle.load(open(os.path.join(directory,'FOL',f),'rb'))
+            cm.combine(matrix)
+        cm.toFile(os.path.join(directory,'FUZZY', 'conf_matrix.cm'))
+        pdfname = 'conf_matrix'
+        cm.toPDF(pdfname)
+        os.rename('%s.pdf' % pdfname, os.path.join(directory,'FUZZY', '%s.pdf' % pdfname))
         elapsedTimeSP = time.time() - startTime
     
     if multicore:
@@ -386,6 +399,10 @@ def doXVal(folds, percent, verbose, multicore, noisy, predName, domain, mlnfile,
 
 if __name__ == '__main__':
     (options, args) = parser.parse_args()
+
+    # set up the directory 
+    
+
     folds = options.folds
     percent = options.percent
     verbose = options.verbose
@@ -401,35 +418,4 @@ if __name__ == '__main__':
     logicInfer = options.infer
     inverse = options.inverse
     
-    if auto == True:
-        #First Run
-        logicLearn = 'FuzzyLogic'
-        logicInfer = 'FirstOrderLogic'
-        dbfiles = ['fol_training.db']
-        
-        if incremental:
-            for i in range(2,folds+1):
-                if folds%i == 0:
-                    doXVal(i, percent, verbose, multicore, noisy, predName, domain, mlnfile, dbfiles, logicLearn, logicInfer,inverse)
-        else:
-            doXVal(folds, percent, verbose, multicore, noisy, predName, domain, mlnfile, dbfiles, logicLearn, logicInfer,inverse)
-        
-        #Second Run
-        logicLearn = 'FuzzyLogic'
-        logicInfer = 'FuzzyLogic'
-        dbfiles = ['fol_training.db']
-        
-        if incremental:
-            for i in range(2,folds+1):
-                if folds%i == 0:
-                    doXVal(i, percent, verbose, multicore, noisy, predName, domain, mlnfile, dbfiles, logicLearn, logicInfer,inverse)
-        else:
-            doXVal(folds, percent, verbose, multicore, noisy, predName, domain, mlnfile, dbfiles, logicLearn, logicInfer,inverse)
-            
-    else:
-        if incremental:
-            for i in range(2,folds+1):
-                if folds%i == 0:
-                    doXVal(i, percent, verbose, multicore, noisy, predName, domain, mlnfile, dbfiles, logicLearn, logicInfer,inverse)
-        else:
-            doXVal(folds, percent, verbose, multicore, noisy, predName, domain, mlnfile, dbfiles, logicLearn, logicInfer,inverse)
+    doXVal(folds, percent, verbose, multicore, noisy, predName, domain, mlnfile, dbfiles, logicLearn, logicInfer,inverse)
