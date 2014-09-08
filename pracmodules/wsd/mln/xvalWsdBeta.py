@@ -274,10 +274,10 @@ def runFold(fold):
         raise Exception(''.join(traceback.format_exception(*sys.exc_info())))
     return fold
 
-def doXVal(folds, percent, verbose, multicore, noisy, predName, domain, mlnfile, dbfiles,logicLearn, logicInfer,inverse=False):  
+def doXVal(folds, percent, verbose, multicore, noisy, predName, domain, mlnfile, dbfiles,logicLearn, logicInfer,inverse=False,testSetCount=1):  
     startTime = time.time()
     
-    directory = time.strftime("%a_%d_%b_%Y_%H:%M:%S", time.localtime())
+    directory = time.strftime("%a_%d_%b_%Y_%H:%M:%S_K="+str(folds)+"_TSC="+str(testSetCount), time.localtime())
     os.mkdir(directory)
     os.mkdir(os.path.join(directory, 'FOL'))
     os.mkdir(os.path.join(directory, 'FUZZY'))
@@ -322,17 +322,25 @@ def doXVal(folds, percent, verbose, multicore, noisy, predName, domain, mlnfile,
     
     foldRunnables = []
     for foldIdx in range(folds):
+        partion_ = list(partition)
         params = XValFoldParams()
         params.mln = mln_.duplicate()
+        params.testDBs = []
         params.learnDBs = []
-        for dbs in [dbs for i,dbs in enumerate(partition) if i != foldIdx]:
-            params.learnDBs.extend(dbs)
         
-        params.testDBs = partition[foldIdx]
-        if inverse == True:
-            temp = params.testDBs
-            params.testDBs = params.learnDBs
-            params.learnDBs = temp
+        for i in range(0,testSetCount):
+            if (foldIdx >= len(partion_)):
+                params.testDBs.extend(partion_[0])
+                del partion_[0]
+            else:     
+                params.testDBs.extend(partion_[foldIdx])
+                del partion_[foldIdx]
+        
+        for part in partion_:
+            params.learnDBs.extend(part)
+        print 'LEARN DBS :' + str(len(params.learnDBs))
+        print 'TEST DBS :' + str(len(params.testDBs))
+        
         params.foldIdx = foldIdx
         params.foldCount = folds
         params.noisyStringDomains = noisy
@@ -418,4 +426,5 @@ if __name__ == '__main__':
     logicInfer = options.infer
     inverse = options.inverse
     
-    doXVal(folds, percent, verbose, multicore, noisy, predName, domain, mlnfile, dbfiles, logicLearn, logicInfer,inverse)
+    for x in range(1,folds):
+        doXVal(folds, percent, verbose, multicore, noisy, predName, domain, mlnfile, dbfiles, logicLearn, logicInfer,inverse,x)
