@@ -49,7 +49,7 @@ class NLObjectRecognition(PRACModule):
         if params.get('dkb') is not None:
             dkb = params.get('dkb')
         else:
-            dkb = self.load_dkb('fruit')
+            dkb = self.load_dkb('mini')
         log.info('Using DKB: {}'.format(colorize(dkb.name, (None, 'green', True), True)))
         dkb.kbmln.write(sys.stdout, color=True) # todo remove, debugging only
 
@@ -119,19 +119,24 @@ class NLObjectRecognition(PRACModule):
 
 
     def createDKB(self, prac, options, infer):
+        print colorize('+===============================================+', (None, 'green', True), True)
+        print colorize('| CREATING OR MODIFYING DKB FILE                +', (None, 'green', True), True)
+        print colorize('+===============================================+', (None, 'green', True), True)
+
         log = logging.getLogger(self.name)
         possibleProps = ['COLOR','SIZE','SHAPE','HYPERNYM','HASA']
-        
+        log.info(options)
         if options.kbentrydb:
-            kbname = options.kbentrydb[0]
+            kbName = options.kbentrydb[0]
             dbfile = options.kbentrydb[1]
+            log.info('Creating or modifying \'{}\'...     '.format(colorize(kbName + '.dkb',(None, 'green', True), True)))
             
             # create or load dkb
-            filepath = os.path.join(self.module_path, 'kb', '{}.dkb'.format(kbname))
+            filepath = os.path.join(self.module_path, 'kb', '{}.dkb'.format(kbName))
             if not os.path.isfile(filepath):
-                dkb = self.create_dkb(kbname)
+                dkb = self.create_dkb(kbName)
             else:
-                dkb = self.load_dkb(kbname)
+                dkb = self.load_dkb(kbName)
 
             mln = readMLNFromFile(os.path.join(self.module_path, '../prop_extraction/mln/predicates.mln'), logic='FuzzyLogic')
             kbdb = readDBFromFile(mln, dbfile)
@@ -179,7 +184,8 @@ class NLObjectRecognition(PRACModule):
                     if len(evidenceProps[ep]) == 1:
                         formulaEvidenceProps.append('property(?c, ?w{2}, {0}) ^ similar({1}, ?w{2})'.format(ep, evidenceProps[ep][0], i))
                     else:
-                        formulaEvidenceProps.append('property(?c, ?w{2}, {0}) ^ ({1})'.format(ep, ' v '.join(['similar({0}, ?w{1})'.format(ep, p) for p in evidenceProps[ep]])), i)
+                        sims = ' v '.join(['similar({0}, ?w{1})'.format(ep, p) for p in evidenceProps[ep]])
+                        formulaEvidenceProps.append('property(?c, ?w{2}, {0}) ^ ({1})'.format(ep, sims, i))
                     i+=1
 
                 unknownProps = set(evidenceProps.keys()).symmetric_difference(set(possibleProps))
@@ -208,21 +214,22 @@ class NLObjectRecognition(PRACModule):
                     dkb.concepts.append(conceptname)
 
                 dkb.kbmln.addFormula(f, weight=1, hard=False, fixWeight=True)
-            self.save_dkb(dkb, kbname)
+            self.save_dkb(dkb, kbName)
 
             dkb.kbmln.write(sys.stdout, color=True)
 
         elif options.kbentry: # needs update -> will only add inferred properties
 
-            kbname = options.kbentry[0]
+            kbName = options.kbentry[0]
             conceptname = options.kbentry[1]
+            log.info('Creating or modifying \'{}\'...     '.format(colorize(kbName + '.dkb',(None, 'green', True), True)))
 
             # create or load dkb
-            filepath = os.path.join(self.module_path, 'kb', '{}.dkb'.format(kbname))
+            filepath = os.path.join(self.module_path, 'kb', '{}.dkb'.format(kbName))
             if not os.path.isfile(filepath):
-                dkb = self.create_dkb(kbname)
+                dkb = self.create_dkb(kbName)
             else:
-                dkb = self.load_dkb(kbname)
+                dkb = self.load_dkb(kbName)
 
             # infer properties from nl sentence
             propExtract = prac.getModuleByName('prop_extraction')
@@ -250,6 +257,6 @@ class NLObjectRecognition(PRACModule):
             if conceptname not in dkb.concepts:
                 dkb.concepts.append(conceptname)
 
-            self.save_dkb(dkb, kbname)
+            self.save_dkb(dkb, kbName)
 
             dkb.kbmln.write(sys.stdout, color=True)

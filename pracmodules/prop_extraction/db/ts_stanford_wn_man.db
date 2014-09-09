@@ -491,7 +491,7 @@ object(cluster05, pot.n.01)
 // WORDNET: It is a motor_vehicle with four wheels. It is usually propelled by an internal-combustion-engine.
 
 // STANFORD:
-aadvmod(propelled-12, usually-11)
+advmod(propelled-12, usually-11)
 agent(propelled-12, internal-combustion-engine-15)
 auxpass(propelled-12, is-10)
 cop(motor_vehicle-4, is-2)
@@ -1726,7 +1726,7 @@ object(cluster21,pome.n.01)
 // WORDNET: It is a small hard green and white inedible fruit of the prairie_gourd plant
 
 // STANFORD:
-aamod(fruit-10, green-6)
+amod(fruit-10, green-6)
 amod(fruit-10, hard-5)
 amod(fruit-10, inedible-9)
 amod(fruit-10, small-4)
