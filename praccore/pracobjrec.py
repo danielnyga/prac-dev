@@ -71,84 +71,12 @@ if __name__ == '__main__':
     if interactive: # use the GUI
         gui = PRACQueryGUI(infer)
         gui.open()
-    elif options.kbentrydb: # create initial DKB from db file
-        kbname = options.kbentrydb[0]
-        dbfile = options.kbentrydb[1]
-        
-        objRec = prac.getModuleByName('obj_recognition')
+    elif options.kbentrydb or options.kbentry: # create either DKB from db file or load and update existing with given concept description
 
-        # create or load dkb
-        filepath = os.path.join(objRec.module_path, 'kb', '{}.dkb'.format(kbname))
-        if not os.path.isfile(filepath):
-            dkb = objRec.create_dkb(kbname)
-        else:
-            dkb = objRec.load_dkb(kbname)
+        objRecog = prac.getModuleByName('obj_recognition')
+        objRecog.createDKB(prac, options, infer)
 
-        mln = readMLNFromFile(os.path.join(os.path.dirname(os.path.realpath(__file__)), '../pracmodules/prop_extraction/mln/predicates.mln'), logic='FuzzyLogic', )
-        kbdb = readDBFromFile(mln, dbfile)
-        conceptname = ''
-        for db in kbdb:
-            # db.write(sys.stdout,color=True)
-            formula = []
-            i = 0
-            for q in db.query('property(?cluster, ?word, ?prop) ^ has_sense(?word,?sense) ^ object(?cluster, ?obj)'):
-                if q['?sense'] == 'null': continue
-                if q['?prop'] == 'null': continue
-                conceptname = q['?obj']
-                formula.append('property(?c, ?w{2}, {1}) ^ similar({0}, ?w{2})'.format(q['?sense'], q['?prop'],i))
-                i+=1
-            jointFormula = ' ^ '.join(formula) # conjunct all properties inferred from input sentence
-            # f = 'object(?c, {}) <=> {}'.format(conceptname, jointFormula)
-            f = 'object(?c, {}) ^ {}'.format(conceptname, jointFormula)
-
-            # several definitions of one concept may be in the kbmln, but it is only listed once
-            if conceptname not in dkb.concepts:
-                dkb.concepts.append(conceptname)
-
-            dkb.kbmln.addFormula(f, weight=1, hard=False, fixWeight=True)
-        objRec.save_dkb(dkb, kbname)
-
-        dkb.kbmln.write(sys.stdout, color=True)
         sys.exit(0)
-    elif options.kbentry: # create initial DKB or load and update existing with given concept description
-        kbname = options.kbentry[0]
-        conceptname = options.kbentry[1]
-
-        objRec = prac.getModuleByName('obj_recognition')
-        
-        # create or load dkb
-        filepath = os.path.join(objRec.module_path, 'kb', '{}.dkb'.format(kbname))
-        if not os.path.isfile(filepath):
-            dkb = objRec.create_dkb(kbname)
-        else:
-            dkb = objRec.load_dkb(kbname)
-
-        # infer properties from nl sentence
-        propExtract = prac.getModuleByName('prop_extraction')
-        prac.run(infer,propExtract,kb=propExtract.load_pracmt('prop_extract'))
-
-        # several definitions of one concept may be in the kbmln, but it is only listed once
-        if conceptname not in dkb.concepts:
-            dkb.concepts.append(conceptname)
-            
-        # create formula to be added
-        formula = []
-        dbs = infer.inference_steps[-1].output_dbs
-        for db in dbs:
-            i = 0
-            for q in db.query('property(?cluster, ?word, ?prop) ^ has_sense(?word, ?sense)'):
-                if q['?sense'] == 'null': continue
-                if q['?prop'] == 'null': continue
-                formula.append('property(?c, ?w{2}, {1}) ^ similar({0}, ?w{2})'.format(q['?sense'], q['?prop'],i))
-                i+=1
-        jointFormula = ' ^ '.join(formula) # conjunct all properties inferred from input sentence
-        # f = 'object(?c, {}) <=> {}'.format(conceptname, jointFormula)
-        f = 'object(?c, {}) ^ {}'.format(conceptname, jointFormula)
-
-        dkb.kbmln.addFormula(f, weight=1, hard=False, fixWeight=True)
-        objRec.save_dkb(dkb, kbname)
-
-        dkb.kbmln.write(sys.stdout, color=True)
     else: # regular PRAC pipeline
         # property inference from parsed input
         propExtract = prac.getModuleByName('prop_extraction')
