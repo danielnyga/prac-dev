@@ -429,5 +429,5 @@ if __name__ == '__main__':
     logicInfer = options.infer
     inverse = options.inverse
     
-    for x in range(1,folds):
+    for x in range(folds-1,0,-1):
         doXVal(folds, percent, verbose, multicore, noisy, predName, domain, mlnfile, dbfiles, logicLearn, logicInfer,inverse,x)
