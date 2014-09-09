@@ -381,13 +381,8 @@ def doXVal(folds, percent, verbose, multicore, noisy, predName, domain, mlnfile,
             for r in result:
                 cm.combine(r.confMatrix)
             elapsedTimeMP = time.time() - startTime
-            cm.toFile(os.path.join(directory, 'conf_matrix.cm'))
-            # create the pdf table and move it into the log directory
-            # this is a dirty hack since pdflatex apparently
-            # does not support arbitrary output paths
-            pdfname = 'conf_matrix'
-            cm.toPDF(pdfname)
-            os.rename('%s.pdf' % pdfname, os.path.join(directory, '%s.pdf' % pdfname))
+            prepareResults(directory,'FOL')
+            prepareResults(directory,'FUZZY')
         except (KeyboardInterrupt, SystemExit, SystemError):
             log.critical("Caught KeyboardInterrupt, terminating workers")
             workerPool.terminate()
