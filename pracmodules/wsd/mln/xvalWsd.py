@@ -104,7 +104,7 @@ class XValFold(object):
         self.fold_id = 'Fold-%d' % params.foldIdx
         self.confMatrix = ConfusionMatrix()
             
-    def evalMLN(self, mln, dbs, logicInfer):
+    def evalMLN(self, mln, dbs, logicInfer,cm):
         '''
         Returns a confusion matrix for the given (learned) MLN evaluated on
         the databases given in dbs.
@@ -155,7 +155,7 @@ class XValFold(object):
                 query = 'has_sense('+word+',?s)'
                 for result in resultDB.query(query):
                     pred = result['?s']
-                    self.confMatrix.addClassificationResult(truth, pred)
+                    cm.addClassificationResult(truth, pred)
 
     def run(self):
         '''
@@ -182,7 +182,7 @@ class XValFold(object):
                                           verbose=verbose,
                                           evidencePreds=["is_a","has_pos"],
                                           partSize=4,
-                                          optimizer='cg')
+                                          optimizer='bfgs')
             
             # store the learned MLN in a file
             learnedMLN.writeToFile(os.path.join(directory, 'run_%d.mln' % self.params.foldIdx))
@@ -195,11 +195,16 @@ class XValFold(object):
                 self.params.cwPreds = [p for p in mln.predicates if p != self.params.queryPred]
             for pred in [pred for pred in self.params.cwPreds if pred in learnedMLN.predicates]:
                 learnedMLN.setClosedWorldPred(pred)
-            self.evalMLN(learnedMLN, testDBs_, 'FirstOrderLogic')
-            self.confMatrix.toFile(os.path.join(directory,'FOL', 'conf_matrix_%d.cm' % self.params.foldIdx))
-            self.confMatrix = ConfusionMatrix()
-            self.evalMLN(learnedMLN, testDBs_, 'FuzzyLogic')
-            self.confMatrix.toFile(os.path.join(directory,'FUZZY', 'conf_matrix_%d.cm' % self.params.foldIdx))
+            #FOL
+            cm = ConfusionMatrix()
+            self.evalMLN(learnedMLN, testDBs_, 'FirstOrderLogic',cm)
+            cm.toFile(os.path.join(directory,'FOL', 'conf_matrix_%d.cm' % self.params.foldIdx))
+            
+            #FUZZY
+            cm = ConfusionMatrix()
+            self.evalMLN(learnedMLN, testDBs_, 'FuzzyLogic',cm)
+            cm.toFile(os.path.join(directory,'FUZZY', 'conf_matrix_%d.cm' % self.params.foldIdx))
+            
             log.debug('Evaluation finished.')
         except (KeyboardInterrupt, SystemExit):
             log.critical("Exiting...")
@@ -278,6 +283,16 @@ def runFold(fold):
         raise Exception(''.join(traceback.format_exception(*sys.exc_info())))
     return fold
 
+def prepareResults(directory, logic):
+        cm = ConfusionMatrix()
+        for f in os.listdir(os.path.join(directory,logic)):
+            matrix = pickle.load(open(os.path.join(directory,logic,f),'rb'))
+            cm.combine(matrix)
+        cm.toFile(os.path.join(directory,logic, 'conf_matrix.cm'))
+        pdfname = 'conf_matrix_'+logic
+        cm.toPDF(pdfname)
+        os.rename('%s.pdf' % pdfname, os.path.join(directory,logic, '%s.pdf' % pdfname))
+        
 def doXVal(folds, percent, verbose, multicore, noisy, predName, domain, mlnfile, dbfiles,logicLearn, logicInfer,inverse=False,testSetCount=1):  
     startTime = time.time()
     
@@ -385,27 +400,11 @@ def doXVal(folds, percent, verbose, multicore, noisy, predName, domain, mlnfile,
     else:
         log.info('Starting %d-fold Cross-Validation in 1 process.' % (folds))
         
-        #FOL
-        cm = ConfusionMatrix()
         for fold in foldRunnables:
             runFold(fold)
-        for f in os.listdir(os.path.join(directory,'FOL')):
-            matrix = pickle.load(open(os.path.join(directory,'FOL',f),'rb'))
-            cm.combine(matrix)
-        cm.toFile(os.path.join(directory,'FOL', 'conf_matrix.cm'))
-        pdfname = 'conf_matrix_fol'
-        cm.toPDF(pdfname)
-        os.rename('%s.pdf' % pdfname, os.path.join(directory,'FOL', '%s.pdf' % pdfname))
         
-        #FUZZY
-        cm = ConfusionMatrix()
-        for f in os.listdir(os.path.join(directory,'FUZZY')):
-            matrix = pickle.load(open(os.path.join(directory,'FUZZY',f),'rb'))
-            cm.combine(matrix)
-        cm.toFile(os.path.join(directory,'FUZZY', 'conf_matrix.cm'))
-        pdfname = 'conf_matrix_fuzzy'
-        cm.toPDF(pdfname)
-        os.rename('%s.pdf' % pdfname, os.path.join(directory,'FUZZY', '%s.pdf' % pdfname))
+        prepareResults(directory,'FOL')
+        prepareResults(directory,'FUZZY')
         
         elapsedTimeSP = time.time() - startTime
     
