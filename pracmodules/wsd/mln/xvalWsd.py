@@ -182,7 +182,7 @@ class XValFold(object):
                                           verbose=verbose,
                                           evidencePreds=["is_a","has_pos"],
                                           partSize=4,
-                                          optimizer='bfgs')
+                                          optimizer='cg')
             
             # store the learned MLN in a file
             learnedMLN.writeToFile(os.path.join(directory, 'run_%d.mln' % self.params.foldIdx))
