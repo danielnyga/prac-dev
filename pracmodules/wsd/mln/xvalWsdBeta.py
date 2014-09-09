@@ -115,21 +115,22 @@ class XValFold(object):
         i = 0
         for db in dbs:
             i = i + 1
-            db_ = db.duplicate()
+            db_ = Database(mln)
             # save and remove the query predicates from the evidence
             trueDB = Database(mln)
             
-            for bindings in db_.query(querytempl):
+            for bindings in db.query(querytempl):
                 atom = querytempl
                 for binding in bindings:
                     atom = atom.replace(binding, bindings[binding])
                 trueDB.addGroundAtom(atom)
-                db_.retractGndAtom(atom)
+                #db_.retractGndAtom(atom)
             
             #WSD specific stuff
             #Remove all is_a predicates of the training db
-            for atom in list(db_.iterGroundLiteralStrings('is_a')):
-                db_.retractGndAtom(atom[1])
+            for pred in ['has_pos','is_a']:
+                for atom in list(db.iterGroundLiteralStrings(pred)):
+                    db_.addGroundAtom(atom[1])
             prac = PRAC()
             prac.mln = mln;
             prac.wordnet = WordNet(concepts=None)
