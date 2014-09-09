@@ -57,7 +57,7 @@ class PropExtraction(PRACModule):
             kb.dbs = pracinference.inference_steps[-1].output_dbs
 
         # TODO: Remove when final mln exists
-        kb.query_mln = readMLNFromFile(os.path.join(self.module_path, 'mln/dcll_parsing_stanford_wn_man.mln'), logic='FuzzyLogic')
+        kb.query_mln = readMLNFromFile(os.path.join(self.module_path, 'mln/dcll_parsing_stanford_wn_man_exp.mln'), logic='FuzzyLogic')
 
         known_concepts = kb.query_mln.domains.get('concept'  , [])
         inf_step = PRACInferenceStep(pracinference, self)
@@ -104,7 +104,7 @@ class PropExtraction(PRACModule):
         print colorize('| PRAC LEARNING PROPERTIES FROM NL DESCRIPTIONS |', (None, 'green', True), True)
         print colorize('+===============================================+', (None, 'green', True), True)
 
-        log = logging.getLogger('prac')
+        log = logging.getLogger(self.name)
         # prac = praclearning.prac
         # get all the relevant training databases
         # kb = self.load_pracmt('obj_recog')
@@ -114,9 +114,7 @@ class PropExtraction(PRACModule):
         # mln = readMLNFromFile(os.path.join(self.module_path, 'mln/parsing.mln'), logic='FuzzyLogic')
         mln = readMLNFromFile(os.path.join(self.module_path, 'mln/parsing.mln'), logic='FirstOrderLogic')
         dbFile = os.path.join(self.module_path, 'db/ts_stanford_wn_man.db')
-        outputfile = os.path.join(self.module_path, 'mln/dcll_parsing_stanford_wn_man.mln')
-        # dbFile = os.path.join(self.module_path, '../obj_recognition/db/misc_updated.db')
-        # outputfile = os.path.join(self.module_path, 'mln/misc_updated.mln')
+        outputfile = os.path.join(self.module_path, 'mln/dcll_parsing_stanford_wn_man_exp.mln')
         inputdbs = readDBFromFile(mln, dbFile, ignoreUnknownPredicates=True)
         
         wordnet_module = self.prac.getModuleByName('wn_senses')
@@ -129,9 +127,9 @@ class PropExtraction(PRACModule):
         log.info('Starting training with {} databases'.format(len(training_dbs)))
         # trainedMLN = mln.learnWeights(training_dbs, LearningMethods.BPLL_CG, partSize=8, verbose=False, optimizer='bfgs')
         # trainedMLN = mln.learnWeights(training_dbs, LearningMethods.BPLL, partSize=8, verbose=False, optimizer='bfgs')
-        # trainedMLN = mln.learnWeights(training_dbs, LearningMethods.DBPLL_CG, evidencePreds=['prep_without','pobj', 'nsubj','is_a','amod','prep_with','root','has_pos','conj_and','conj_or','dobj'],  gaussianPriorSigma=10, partSize=1, verbose=False, optimizer='bfgs')
-        # trainedMLN = mln.learnWeights(training_dbs, LearningMethods.CLL, evidencePreds=['prep_without','pobj', 'nsubj','is_a','amod','prep_with','root','has_pos','conj_and','conj_or','dobj'], gaussianPriorSigma=10, partSize=1, verbose=False, optimizer='bfgs')
-        trainedMLN = mln.learnWeights(training_dbs, LearningMethods.DCLL, evidencePreds=['cop', 'prep_without','pobj', 'nsubj','is_a','amod','prep_with','root','has_pos','conj_and','conj_or','dobj'], gaussianPriorSigma=10, partSize=1, verbose=False, optimizer='bfgs')
+        # trainedMLN = mln.learnWeights(training_dbs, LearningMethods.DBPLL_CG, evidencePreds=['prep_without','pobj', 'nsubj','is_a','amod','prep_with','root','has_pos','conj_and','conj_or','dobj'],  gaussianPriorSigma=10, partSize=1, optimizer='bfgs')
+        # trainedMLN = mln.learnWeights(training_dbs, LearningMethods.CLL, evidencePreds=['prep_without','pobj', 'nsubj','is_a','amod','prep_with','root','has_pos','conj_and','conj_or','dobj'], gaussianPriorSigma=10, partSize=1, optimizer='bfgs')
+        trainedMLN = mln.learnWeights(training_dbs, LearningMethods.DCLL, evidencePreds=['cop', 'prep_without','pobj', 'nsubj','is_a','amod','prep_with','root','has_pos','conj_and','conj_or','dobj'], gaussianPriorSigma=10, partSize=1, optimizer='bfgs')
         trainedMLN.write(file(outputfile, "w"))
         
         print colorize('+=============================================+', (None, 'green', True), True)

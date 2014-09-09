@@ -20,6 +20,9 @@
 0 nsubj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, own.v.01) ^ has_sense(?w2, ?s2) ^ property(?cluster, ?w2, HASA) ^ ?w1 =/= ?w2
 0 nsubj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, own.v.01) ^ has_sense(?w2, ?s2) ^ !property(?cluster, ?w2, HASA) ^ ?w1 =/= ?w2
 
+0 nsubj(?w1, ?w2) ^ has_sense(?w2, ?s2) ^ property(?cluster, ?w2, HASA) ^ ?w1 =/= ?w2
+0 nsubj(?w1, ?w2) ^ has_sense(?w2, ?s2) ^ !property(?cluster, ?w2, HASA) ^ ?w1 =/= ?w2
+
 0 pobj(?w1, ?w2) ^ has_sense(?w2, ?s2) ^ property(?cluster, ?w2, HASA) ^ ?w1 =/= ?w2
 0 pobj(?w1, ?w2) ^ has_sense(?w2, ?s2) ^ !property(?cluster, ?w2, HASA) ^ ?w1 =/= ?w2
 
@@ -28,4 +31,12 @@
 
 // prevent verbs from being detected as hypernyms
 0 has_pos(?w1, +?pos) ^ property(?cluster, ?w1, +?prop)
-0 has_pos(?w1, +?pos) ^ !property(?cluster, ?w1, +?prop)
+
+//experimental
+0 conj_or(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, +?c1) ^ property(?cluster, ?w1, +?prop1) ^ ?w1 =/= ?w2
+0 conj_or(?w1, ?w2) ^ has_sense(?w2, ?s2) ^ is_a(?s2, +?c2) ^ property(?cluster, ?w2, +?prop2) ^ ?w1 =/= ?w2
+
+0 conj_and(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, +?c1) ^ property(?cluster, ?w1, +?prop1) ^ ?w1 =/= ?w2
+0 conj_and(?w1, ?w2) ^ has_sense(?w2, ?s2) ^ is_a(?s2, +?c2) ^ property(?cluster, ?w2, +?prop2) ^ ?w1 =/= ?w2
+
+//0 cop(?w1,?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, +?c1) ^ property(?cluster, ?w1, +?prop1) ^ ?w1 =/= ?w2
