@@ -44,6 +44,7 @@ from prac.core import PRAC, PRACKnowledgeBase
 from prac.wordnet import WordNet
 from prac.inference import PRACInference
 import re
+import pickle
 
 usage = '''Usage: %prog [options] <predicate> <domain> <mlnfile> <dbfiles>'''
 
@@ -58,6 +59,16 @@ parser.add_option("-m", "--multicore", dest="multicore", action='store_true', de
                   help="Verbose mode.")
 parser.add_option('-n', '--noisy', dest='noisy', type='str', default=None,
                   help='-nDOMAIN defines DOMAIN as a noisy string.')
+parser.add_option('-c', '--inCremental', dest="incremental", action='store_true', default=False,
+                  help='-Run 2 to k cross validations on one run.')
+parser.add_option('-a', '--auto', dest="auto", action='store_true', default=False,
+                  help='-Run each cross validation with FL, FOL and the combinations of them.')
+parser.add_option('-l', '--learn', dest='learn', type='str', default='FuzzyLogic',
+                  help='-Defines which logic should be used for the learning.')
+parser.add_option('-i', '--infer', dest='infer', type='str', default='FirstOrderLogic',
+                  help='-Defines which logic should be used for the inference.')
+parser.add_option('-1', '--inverse', dest='inverse', action='store_true', default='False',
+                  help='-Defines if an inverse cross validation should be done.')
 
 class XValFoldParams(object):
     
@@ -76,6 +87,7 @@ class XValFoldParams(object):
         self.noisyStringDomains = None
         self.directory = None
         self.mln = None
+        self.logicInfer = None
         for p, val in params.iteritems():
             setattr(self, str(p), val)
             
@@ -92,33 +104,33 @@ class XValFold(object):
         self.fold_id = 'Fold-%d' % params.foldIdx
         self.confMatrix = ConfusionMatrix()
             
-    def evalMLN(self, mln, dbs):
+    def evalMLN(self, mln, dbs, logicInfer):
         '''
         Returns a confusion matrix for the given (learned) MLN evaluated on
         the databases given in dbs.
         '''
         queryPred = self.params.queryPred
-        queryDom = self.params.queryDom
         sig = ['?arg%d' % i for i, _ in enumerate(mln.predicates[queryPred])]
         querytempl = '%s(%s)' % (queryPred, ','.join(sig))
         i = 0
         for db in dbs:
             i = i + 1
-            db_ = db.duplicate()
+            db_ = Database(mln)
             # save and remove the query predicates from the evidence
             trueDB = Database(mln)
             
-            for bindings in db_.query(querytempl):
+            for bindings in db.query(querytempl):
                 atom = querytempl
                 for binding in bindings:
                     atom = atom.replace(binding, bindings[binding])
                 trueDB.addGroundAtom(atom)
-                db_.retractGndAtom(atom)
+                #db_.retractGndAtom(atom)
             
             #WSD specific stuff
             #Remove all is_a predicates of the training db
-            for atom in list(db_.iterGroundLiteralStrings('is_a')):
-                db_.retractGndAtom(atom[1])
+            for pred in ['has_pos','is_a']:
+                for atom in list(db.iterGroundLiteralStrings(pred)):
+                    db_.addGroundAtom(atom[1])
             prac = PRAC()
             prac.mln = mln;
             prac.wordnet = WordNet(concepts=None)
@@ -127,8 +139,9 @@ class XValFold(object):
             infer = PRACInference(prac, 'None');
             wsd = prac.getModuleByName('wsd')
             kb = PRACKnowledgeBase(prac)
-            kb.query_params = {'cwPreds': [], 'verbose': False, 'closedWorld': 1, 
-                               'logic': 'FuzzyLogic', 'queries': 'has_sense',
+            print "LOGIC INFER: " + logicInfer
+            kb.query_params = {'verbose': False, 
+                               'logic': logicInfer, 'queries': 'has_sense',
                                 'debug': 'ERROR', 'useMultiCPU': 0, 'method': 'WCSP'}
 
             kb.dbs.append(db_)
@@ -181,8 +194,11 @@ class XValFold(object):
                 self.params.cwPreds = [p for p in mln.predicates if p != self.params.queryPred]
             for pred in [pred for pred in self.params.cwPreds if pred in learnedMLN.predicates]:
                 learnedMLN.setClosedWorldPred(pred)
-            self.evalMLN(learnedMLN, testDBs_)
-            self.confMatrix.toFile(os.path.join(directory, 'conf_matrix_%d.cm' % self.params.foldIdx))
+            self.evalMLN(learnedMLN, testDBs_, 'FirstOrderLogic')
+            self.confMatrix.toFile(os.path.join(directory,'FOL', 'conf_matrix_%d.cm' % self.params.foldIdx))
+            self.confMatrix = ConfusionMatrix()
+            self.evalMLN(learnedMLN, testDBs_, 'FuzzyLogic')
+            self.confMatrix.toFile(os.path.join(directory,'FUZZY', 'conf_matrix_%d.cm' % self.params.foldIdx))
             log.debug('Evaluation finished.')
         except (KeyboardInterrupt, SystemExit):
             log.critical("Exiting...")
@@ -261,23 +277,13 @@ def runFold(fold):
         raise Exception(''.join(traceback.format_exception(*sys.exc_info())))
     return fold
 
-if __name__ == '__main__':
-    (options, args) = parser.parse_args()
-    folds = options.folds
-    percent = options.percent
-    verbose = options.verbose
-    multicore = options.multicore
-    noisy = ['text']
-    predName = args[0]
-    domain = args[1]
-    mlnfile = args[2]
-    dbfiles = args[3:]
+def doXVal(folds, percent, verbose, multicore, noisy, predName, domain, mlnfile, dbfiles,logicLearn, logicInfer,inverse=False,testSetCount=1):  
     startTime = time.time()
-
-    # set up the directory    
-    directory = time.strftime("%a_%d_%b_%Y_%H:%M:%S", time.localtime())
-    os.mkdir(directory)
     
+    directory = time.strftime("%a_%d_%b_%Y_%H:%M:%S_K="+str(folds)+"_TSC="+str(testSetCount), time.localtime())
+    os.mkdir(directory)
+    os.mkdir(os.path.join(directory, 'FOL'))
+    os.mkdir(os.path.join(directory, 'FUZZY'))
     # set up the logger
     log = logging.getLogger('xval')
     fileLogger = FileHandler(os.path.join(directory, 'xval.log'))
@@ -319,18 +325,32 @@ if __name__ == '__main__':
     
     foldRunnables = []
     for foldIdx in range(folds):
+        partion_ = list(partition)
         params = XValFoldParams()
         params.mln = mln_.duplicate()
+        params.testDBs = []
         params.learnDBs = []
-        for dbs in [dbs for i,dbs in enumerate(partition) if i != foldIdx]:
-            params.learnDBs.extend(dbs)
-        params.testDBs = partition[foldIdx]
+        
+        for i in range(0,testSetCount):
+            if (foldIdx >= len(partion_)):
+                params.testDBs.extend(partion_[0])
+                del partion_[0]
+            else:     
+                params.testDBs.extend(partion_[foldIdx])
+                del partion_[foldIdx]
+        
+        for part in partion_:
+            params.learnDBs.extend(part)
+        print 'LEARN DBS :' + str(len(params.learnDBs))
+        print 'TEST DBS :' + str(len(params.testDBs))
+        
         params.foldIdx = foldIdx
         params.foldCount = folds
         params.noisyStringDomains = noisy
         params.directory = directory
         params.queryPred = predName
         params.queryDom = domain
+        params.logicInfer = logicInfer
         foldRunnables.append(XValFold(params))
     
     if multicore:
@@ -363,14 +383,56 @@ if __name__ == '__main__':
 #     startTime = time.time()
     else:
         log.info('Starting %d-fold Cross-Validation in 1 process.' % (folds))
+        
+        #FOL
         cm = ConfusionMatrix()
         for fold in foldRunnables:
-            cm.combine(runFold(fold).confMatrix)
-        cm.toFile(os.path.join(directory, 'conf_matrix.cm'))
+            runFold(fold)
+        for f in os.listdir(os.path.join(directory,'FOL')):
+            matrix = pickle.load(open(os.path.join(directory,'FOL',f),'rb'))
+            cm.combine(matrix)
+        cm.toFile(os.path.join(directory,'FOL', 'conf_matrix.cm'))
+        pdfname = 'conf_matrix_fol'
+        cm.toPDF(pdfname)
+        os.rename('%s.pdf' % pdfname, os.path.join(directory,'FOL', '%s.pdf' % pdfname))
+        
+        #FUZZY
+        cm = ConfusionMatrix()
+        for f in os.listdir(os.path.join(directory,'FUZZY')):
+            matrix = pickle.load(open(os.path.join(directory,'FUZZY',f),'rb'))
+            cm.combine(matrix)
+        cm.toFile(os.path.join(directory,'FUZZY', 'conf_matrix.cm'))
+        pdfname = 'conf_matrix_fuzzy'
+        cm.toPDF(pdfname)
+        os.rename('%s.pdf' % pdfname, os.path.join(directory,'FUZZY', '%s.pdf' % pdfname))
+        
         elapsedTimeSP = time.time() - startTime
     
     if multicore:
         log.info('%d-fold crossvalidation (MP) took %.2f min' % (folds, elapsedTimeMP / 60.0))
     else:
         log.info('%d-fold crossvalidation (SP) took %.2f min' % (folds, elapsedTimeSP / 60.0))
-        
+
+if __name__ == '__main__':
+    (options, args) = parser.parse_args()
+
+    # set up the directory 
+    
+
+    folds = options.folds
+    percent = options.percent
+    verbose = options.verbose
+    multicore = options.multicore
+    incremental = options.incremental
+    noisy = ['text']
+    predName = args[0]
+    domain = args[1]
+    mlnfile = args[2]
+    dbfiles = args[3:]
+    auto = options.auto
+    logicLearn = options.learn
+    logicInfer = options.infer
+    inverse = options.inverse
+    
+    for x in range(1,folds):
+        doXVal(folds, percent, verbose, multicore, noisy, predName, domain, mlnfile, dbfiles, logicLearn, logicInfer,inverse,x)
