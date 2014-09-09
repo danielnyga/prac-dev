@@ -82,7 +82,7 @@ class XValFoldParams(object):
         self.queryDom = None
         self.cwPreds = None
         self.learningMethod = LearningMethods.DCLL
-        self.optimizer = 'bfgs'
+        self.optimizer = 'cg'
         self.verbose = False
         self.noisyStringDomains = None
         self.directory = None
@@ -181,7 +181,8 @@ class XValFold(object):
             learnedMLN = mln.learnWeights(learnDBs_, method=self.params.learningMethod,
                                           verbose=verbose,
                                           evidencePreds=["is_a","has_pos"],
-                                          partSize=4)
+                                          partSize=4,
+                                          optimizer='cg')
             
             # store the learned MLN in a file
             learnedMLN.writeToFile(os.path.join(directory, 'run_%d.mln' % self.params.foldIdx))
