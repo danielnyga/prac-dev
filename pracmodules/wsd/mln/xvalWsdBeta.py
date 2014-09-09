@@ -138,7 +138,8 @@ class XValFold(object):
             infer = PRACInference(prac, 'None');
             wsd = prac.getModuleByName('wsd')
             kb = PRACKnowledgeBase(prac)
-            kb.query_params = {'cwPreds': [], 'verbose': False, 'closedWorld': 1, 
+            print "LOGIC INFER: " + logicInfer
+            kb.query_params = {'verbose': False, 
                                'logic': logicInfer, 'queries': 'has_sense',
                                 'debug': 'ERROR', 'useMultiCPU': 0, 'method': 'WCSP'}
 
@@ -194,6 +195,7 @@ class XValFold(object):
                 learnedMLN.setClosedWorldPred(pred)
             self.evalMLN(learnedMLN, testDBs_, 'FirstOrderLogic')
             self.confMatrix.toFile(os.path.join(directory,'FOL', 'conf_matrix_%d.cm' % self.params.foldIdx))
+            self.confMatrix = ConfusionMatrix()
             self.evalMLN(learnedMLN, testDBs_, 'FuzzyLogic')
             self.confMatrix.toFile(os.path.join(directory,'FUZZY', 'conf_matrix_%d.cm' % self.params.foldIdx))
             log.debug('Evaluation finished.')
@@ -380,6 +382,8 @@ def doXVal(folds, percent, verbose, multicore, noisy, predName, domain, mlnfile,
 #     startTime = time.time()
     else:
         log.info('Starting %d-fold Cross-Validation in 1 process.' % (folds))
+        
+        #FOL
         cm = ConfusionMatrix()
         for fold in foldRunnables:
             runFold(fold)
@@ -387,17 +391,20 @@ def doXVal(folds, percent, verbose, multicore, noisy, predName, domain, mlnfile,
             matrix = pickle.load(open(os.path.join(directory,'FOL',f),'rb'))
             cm.combine(matrix)
         cm.toFile(os.path.join(directory,'FOL', 'conf_matrix.cm'))
-        pdfname = 'conf_matrix'
+        pdfname = 'conf_matrix_fol'
         cm.toPDF(pdfname)
         os.rename('%s.pdf' % pdfname, os.path.join(directory,'FOL', '%s.pdf' % pdfname))
         
+        #FUZZY
+        cm = ConfusionMatrix()
         for f in os.listdir(os.path.join(directory,'FUZZY')):
-            matrix = pickle.load(open(os.path.join(directory,'FOL',f),'rb'))
+            matrix = pickle.load(open(os.path.join(directory,'FUZZY',f),'rb'))
             cm.combine(matrix)
         cm.toFile(os.path.join(directory,'FUZZY', 'conf_matrix.cm'))
-        pdfname = 'conf_matrix'
+        pdfname = 'conf_matrix_fuzzy'
         cm.toPDF(pdfname)
         os.rename('%s.pdf' % pdfname, os.path.join(directory,'FUZZY', '%s.pdf' % pdfname))
+        
         elapsedTimeSP = time.time() - startTime
     
     if multicore:
