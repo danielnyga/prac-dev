@@ -1,0 +1,113 @@
+// slice the pizza into eight separate slice.
+//Slice
+1.00 has_pos(slice-1, VB)
+1.00 has_sense(slice-1, slice.v.03)
+
+//pizza
+1.00 has_pos(pizza, NN)
+1.00 has_sense(pizza, pizza.n.01)
+
+//slice
+1.00 has_pos(slice-2, NN)
+1.00 has_sense(slice-2, piece.n.08)
+
+---
+// finish with a slice of tomato , onion and mustard and ketchup .
+//slice
+1.00 has_pos(slice,NN)
+1.00 has_sense(slice, piece.n.08)
+
+//tomato
+1.00 has_pos(tomato,NN)
+1.00 has_sense(tomato, tomato.n.01)
+
+//onion
+1.00 has_pos(onion,NN)
+1.00 has_sense(onion, onion.n.03)
+
+//mustard
+1.00 has_pos(mustard,NN)
+1.00 has_sense(mustard, mustard.n.02)
+
+//ketchup
+1.00 has_pos(ketchup,NN)
+1.00 has_sense(ketchup, catsup.n.01)
+
+---
+// slice each cheese thinly .
+//slice
+1.00 has_pos(slice, VB)
+1.00 has_sense(slice, slice.v.03)
+
+//cheese
+1.00 has_pos(cheese, NN)
+1.00 has_sense(cheese, cheese.n.01)
+
+---
+// slice the banana use a small knife .
+//Slice
+1.00 has_pos(slice, VB)
+1.00 has_sense(slice, slice.v.03)
+
+//banana
+1.00 has_pos(banana, NN) 
+1.00 has_sense(banana, banana.n.02)
+
+//knife
+1.00 has_pos(knife, NN) 
+1.00 has_sense(knife, knife.n.01)
+
+---
+// Finely slice the remaining flesh .
+//Slice
+1.00 has_pos(slice, VB)
+1.00 has_sense(slice, slice.v.03)
+
+//flesh
+1.00 has_pos(flesh, NN) 
+1.00 has_sense(flesh, flesh.n.01)
+
+---
+//Slice the tomato with a knife.
+
+1.00 has_pos(slice, VB)
+1.00 has_sense(slice, slice.v.03)
+
+1.00 has_pos(tomato, NN) 
+1.00 has_sense(tomato, tomato.n.01)
+
+1.00 has_pos(knife, NN) 
+1.00 has_sense(knife, knife.n.01)
+
+---
+// slice the mushroom .
+1.00 has_sense(slice-1,slice.v.03)
+1.00 has_sense(mushroom-3,mushroom.n.05)
+1.00 has_pos(slice-1,VB)
+1.00 has_pos(mushroom-3,NN)
+
+---
+
+// slice the meat with a chopper
+1.00 has_sense(slice-1,slice.v.03)
+1.00 has_sense(meat,meat.n.01)
+1.00 has_sense(chopper,cleaver.n.01)
+1.00 has_pos(slice-1,VB)
+1.00 has_pos(meat,NN)
+1.00 has_pos(chopper,NN)
+
+---
+
+// Carefully slice the cabbage.
+1.00 has_sense(slice-2,slice.v.03)
+1.00 has_sense(cabbage-4,cabbage.n.01)
+1.00 has_pos(slice-2,VB)
+1.00 has_pos(cabbage-4,NN)
+
+---
+
+// Thinly slice remaining lemon .
+1.00 has_sense(slice-2,slice.v.03)
+1.00 has_sense(lemon-4,lemon.n.01)
+1.00 has_pos(slice-2,VB)
+1.00 has_pos(lemon-4,NN)
