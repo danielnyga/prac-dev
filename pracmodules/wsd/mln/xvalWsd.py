@@ -181,7 +181,7 @@ class XValFold(object):
             learnedMLN = mln.learnWeights(learnDBs_, method=self.params.learningMethod,
                                           verbose=verbose,
                                           evidencePreds=["is_a","has_pos"],
-                                          partSize=4,
+                                          partSize=1,
                                           optimizer='cg')
             
             # store the learned MLN in a file
@@ -289,9 +289,9 @@ def prepareResults(directory, logic):
             matrix = pickle.load(open(os.path.join(directory,logic,f),'rb'))
             cm.combine(matrix)
         cm.toFile(os.path.join(directory,logic, 'conf_matrix.cm'))
-        pdfname = 'conf_matrix_'+logic
-        cm.toPDF(pdfname)
-        os.rename('%s.pdf' % pdfname, os.path.join(directory,logic, '%s.pdf' % pdfname))
+        #pdfname = 'conf_matrix_'+logic
+        #cm.toPDF(pdfname)
+        #os.rename('%s.pdf' % pdfname, os.path.join(directory,logic, '%s.pdf' % pdfname))
         
 def doXVal(folds, percent, verbose, multicore, noisy, predName, domain, mlnfile, dbfiles,logicLearn, logicInfer,inverse=False,testSetCount=1):  
     startTime = time.time()
