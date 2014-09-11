@@ -208,6 +208,6 @@
 
 //Slice the olive.
 1.00 has_sense(slice-2,slice.v.03)
-1.00 has_sense(zucchini,olive.n.01)
+1.00 has_sense(olive,olive.n.01)
 1.00 has_pos(slice-2,VB)
 1.00 has_pos(olive,NN)
