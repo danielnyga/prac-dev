@@ -29,7 +29,7 @@ if __name__ == '__main__':
     writable = WritableObject()                   
     sys.stdout = writable
     for f in gen:
-        ConfusionMatrix.compareConfusionMatrices(os.path.join(f,'FOL','conf_matrix.cm'),os.path.join(f,'FUZZY','conf_matrix.cm'))
+        ConfusionMatrix.compareConfusionMatrices(os.path.join(path,f,'FOL','conf_matrix.cm'),os.path.join(path,f,'FUZZY','conf_matrix.cm'))
     
     sys.stdout = sys.__stdout__    
     
