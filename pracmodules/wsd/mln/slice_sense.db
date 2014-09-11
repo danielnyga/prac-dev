@@ -111,3 +111,103 @@
 1.00 has_sense(lemon-4,lemon.n.01)
 1.00 has_pos(slice-2,VB)
 1.00 has_pos(lemon-4,NN)
+
+---
+
+// finely slice the bacon and grate the parmesan .
+1.00 has_sense(slice-2,slice.v.03)
+1.00 has_sense(bacon-4,bacon.n.01)
+1.00 has_pos(slice-2,VB)
+1.00 has_pos(bacon-4,NN)
+
+---
+
+// Slice the  potato into slices.
+1.00 has_sense(slice-2,slice.v.03)
+1.00 has_sense(potato-3,potato.n.01)
+1.00 has_sense(slices,piece.n.08)
+1.00 has_pos(slice-2,VB)
+1.00 has_pos(potato-3,NN)
+1.00 has_pos(slices,NN)
+
+---
+
+//Slice the bread with a knife.
+
+1.00 has_pos(slice, VB)
+1.00 has_sense(slice, slice.v.03)
+
+1.00 has_pos(bread, NN) 
+1.00 has_sense(bread, bread.n.01)
+
+1.00 has_pos(knife, NN) 
+1.00 has_sense(knife, knife.n.01)
+
+---
+
+//Slice the egg into slices.
+
+1.00 has_sense(slice-2,slice.v.03)
+1.00 has_sense(egg-3,egg.n.02)
+1.00 has_sense(slices,piece.n.08)
+1.00 has_pos(slice-2,VB)
+1.00 has_pos(egg-3,NN)
+1.00 has_pos(slices,NN)
+
+---
+
+//Slice the lemon.
+
+1.00 has_sense(slice-2,slice.v.03)
+1.00 has_sense(lemon-3,lemon.n.01)
+1.00 has_pos(slice-2,VB)
+1.00 has_pos(lemon-3,NN)
+
+---
+//Slice the zucchini.
+1.00 has_sense(slice-2,slice.v.03)
+1.00 has_sense(zucchini,zucchini.n.01)
+1.00 has_pos(slice-2,VB)
+1.00 has_pos(zucchini,NN)
+
+---
+//Slice the vegetables with a knife.
+
+1.00 has_pos(slice, VB)
+1.00 has_sense(slice, slice.v.03)
+
+1.00 has_pos(vegetable, NN) 
+1.00 has_sense(vegetable, vegetable.n.01)
+
+1.00 has_pos(knife, NN) 
+1.00 has_sense(knife, knife.n.01)
+---
+
+//Slice the orange into slices.
+
+1.00 has_sense(slice-2,slice.v.03)
+1.00 has_sense(orange-3,orange.n.01)
+1.00 has_sense(slices,piece.n.08)
+1.00 has_pos(slice-2,VB)
+1.00 has_pos(orange-3,NN)
+1.00 has_pos(slices,NN)
+
+---
+//Slice the spring_onion with a knife.
+
+1.00 has_pos(slice, VB)
+1.00 has_sense(slice, slice.v.03)
+
+1.00 has_pos(spring_onion, NN) 
+1.00 has_sense(spring_onion, green_onion.n.01)
+
+1.00 has_pos(knife, NN) 
+1.00 has_sense(knife, knife.n.01)
+
+---
+
+//Slice the olive.
+1.00 has_sense(slice-2,slice.v.03)
+1.00 has_sense(zucchini,olive.n.01)
+1.00 has_pos(slice-2,VB)
+1.00 has_pos(olive,NN)
