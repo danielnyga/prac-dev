@@ -94,3 +94,102 @@
 1.00 has_pos(add-1,VB)
 1.00 has_pos(salt-2,NN)
 1.00 has_pos(meat-4,NN)
+
+---
+
+//Add the onion.
+1.00 has_sense(add-1,add.v.01)
+1.00 has_sense(onion-2,onion.n.03)
+1.00 has_pos(add-1,VB)
+1.00 has_pos(onion-2,NN)
+
+---
+//Add some fries to the steak.
+1.00 has_sense(add-1,add.v.01)
+1.00 has_sense(steak-2,steak.n.01)
+1.00 has_sense(fries,french_fries.n.01)
+1.00 has_pos(add-1,VB)
+1.00 has_pos(steak-2,NN)
+1.00 has_pos(fries,NN)
+
+---
+
+//Add some dressing to the salad.
+1.00 has_sense(add-1,add.v.01)
+1.00 has_sense(dressing-2,dressing.n.01)
+1.00 has_sense(salad,salad.n.01)
+1.00 has_pos(add-1,VB)
+1.00 has_pos(dressing-2,NN)
+1.00 has_pos(salad,NN)
+
+---
+
+//Add some ingredients.
+1.00 has_sense(add-1,add.v.01)
+1.00 has_sense(ingredient-2,ingredient.n.03)
+1.00 has_pos(add-1,VB)
+1.00 has_pos(ingredient-2,NN)
+
+---
+
+//Add some asparagus and salad.
+1.00 has_sense(add-1,add.v.01)
+1.00 has_sense(asparagus-2,asparagus.n.02)
+1.00 has_sense(salad,salad.n.01)
+1.00 has_pos(add-1,VB)
+1.00 has_pos(asparagus-2,NN)
+1.00 has_pos(salad,NN)
+
+---
+
+//Add some milk and water.
+1.00 has_sense(add-1,add.v.01)
+1.00 has_sense(milk-2,milk.n.01)
+1.00 has_sense(water,water.n.06)
+1.00 has_pos(add-1,VB)
+1.00 has_pos(milk-2,NN)
+1.00 has_pos(water,NN)
+
+---
+
+//Add corn to the dish.
+
+1.00 has_sense(add-1,add.v.01)
+1.00 has_sense(corn-2,corn.n.03)
+1.00 has_sense(dish,dish.n.02)
+1.00 has_pos(add-1,VB)
+1.00 has_pos(corn-2,NN)
+1.00 has_pos(dish,NN)
+
+---
+
+//Add an sliced apple.
+
+1.00 has_sense(add-1,add.v.01)
+1.00 has_sense(apple,apple.n.01)
+1.00 has_pos(add-1,VB)
+1.00 has_pos(apple,NN)
+
+---
+
+//Add some cream to the sauce.
+
+1.00 has_sense(add-1,add.v.01)
+1.00 has_sense(cream-2,cream.n.02)
+1.00 has_sense(sauce,sauce.n.01)
+1.00 has_pos(add-1,VB)
+1.00 has_pos(cream-2,NN)
+1.00 has_pos(sauce,NN)
+
+---
+
+//Add some ingredients and cream to the mixture.
+1.00 has_sense(add-1,add.v.01)
+1.00 has_sense(ingredient-2,ingredient.n.03)
+1.00 has_pos(add-1,VB)
+1.00 has_pos(ingredient-2,NN)
+1.00 has_sense(cream-2,cream.n.02)
+1.00 has_pos(cream-2,NN)
+1.00 has_sense(mixture,concoction.n.01)
+1.00 has_pos(mixture,NN)
+
