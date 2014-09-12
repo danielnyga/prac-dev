@@ -1,5 +1,5 @@
 //Stir the milk
-1.00 has_sense(stir-9-sense,stir.v.01)
+1.00 has_sense(stir-9,stir.v.01)
 1.00 has_pos(stir-9,VB)
 
 1.00 has_pos(milk,NN)
@@ -8,7 +8,7 @@
 ---
 
 //Stir the coke
-1.00 has_sense(stir-9-sense,stir.v.01)
+1.00 has_sense(stir-9,stir.v.01)
 1.00 has_pos(stir-9,VB)
 
 1.00 has_pos(coke,NN)
@@ -17,7 +17,7 @@
 ---
 
 //Stir the water
-1.00 has_sense(stir-9-sense,stir.v.01)
+1.00 has_sense(stir-9,stir.v.01)
 1.00 has_pos(stir-9,VB)
 
 1.00 has_pos(water,NN)
@@ -26,7 +26,7 @@
 ---
 
 //Stir the tea
-1.00 has_sense(stir-9-sense,stir.v.01)
+1.00 has_sense(stir-9,stir.v.01)
 1.00 has_pos(stir-9,VB)
 
 1.00 has_pos(tea,NN)
@@ -35,7 +35,7 @@
 ---
 
 //Stir the coffee
-1.00 has_sense(stir-9-sense,stir.v.01)
+1.00 has_sense(stir-9,stir.v.01)
 1.00 has_pos(stir-9,VB)
 
 1.00 has_pos(coffee,NN)
@@ -44,7 +44,7 @@
 ---
 
 //Stir the juice
-1.00 has_sense(stir-9-sense,stir.v.01)
+1.00 has_sense(stir-9,stir.v.01)
 1.00 has_pos(stir-9,VB)
 
 1.00 has_pos(juice,NN)
@@ -53,7 +53,7 @@
 ---
 
 //Stir the cappuccino
-1.00 has_sense(stir-9-sense,stir.v.01)
+1.00 has_sense(stir-9,stir.v.01)
 1.00 has_pos(stir-9,VB)
 
 1.00 has_pos(cappuccino,NN)
@@ -62,7 +62,7 @@
 ---
 
 //Stir the wine
-1.00 has_sense(stir-9-sense,stir.v.01)
+1.00 has_sense(stir-9,stir.v.01)
 1.00 has_pos(stir-9,VB)
 
 1.00 has_pos(wine,NN)
@@ -71,7 +71,7 @@
 ---
 
 //Stir the whiskey
-1.00 has_sense(stir-9-sense,stir.v.01)
+1.00 has_sense(stir-9,stir.v.01)
 1.00 has_pos(stir-9,VB)
 
 1.00 has_pos(whiskey,NN)
@@ -80,7 +80,7 @@
 ---
 
 //Stir the champagne
-1.00 has_sense(stir-9-sense,stir.v.01)
+1.00 has_sense(stir-9,stir.v.01)
 1.00 has_pos(stir-9,VB)
 
 1.00 has_pos(champagne,NN)
@@ -89,7 +89,7 @@
 ---
 
 //Stir the egg
-1.00 has_sense(stir-9-sense,stir.v.08)
+1.00 has_sense(stir-9,stir.v.08)
 1.00 has_pos(stir-9,VB)
 
 1.00 has_pos(egg,NN)
@@ -98,7 +98,7 @@
 ---
 
 //Stir the butter
-1.00 has_sense(stir-9-sense,stir.v.08)
+1.00 has_sense(stir-9,stir.v.08)
 1.00 has_pos(stir-9,VB)
 
 1.00 has_pos(butter,NN)
@@ -107,7 +107,7 @@
 ---
 
 //Stir the sugar
-1.00 has_sense(stir-9-sense,stir.v.08)
+1.00 has_sense(stir-9,stir.v.08)
 1.00 has_pos(stir-9,VB)
 
 1.00 has_pos(sugar,NN)
@@ -116,7 +116,7 @@
 ---
 
 //Stir the salt
-1.00 has_sense(stir-9-sense,stir.v.08)
+1.00 has_sense(stir-9,stir.v.08)
 1.00 has_pos(stir-9,VB)
 
 1.00 has_pos(salt,NN)
@@ -125,7 +125,7 @@
 ---
 
 //Stir the cream
-1.00 has_sense(stir-9-sense,stir.v.08)
+1.00 has_sense(stir-9,stir.v.08)
 1.00 has_pos(stir-9,VB)
 
 1.00 has_pos(cream,NN)
@@ -134,7 +134,7 @@
 ---
 
 //Stir the vegetable
-1.00 has_sense(stir-9-sense,stir.v.08)
+1.00 has_sense(stir-9,stir.v.08)
 1.00 has_pos(stir-9,VB)
 
 1.00 has_pos(vegetable,NN)
@@ -143,7 +143,7 @@
 ---
 
 //Stir the apples
-1.00 has_sense(stir-9-sense,stir.v.08)
+1.00 has_sense(stir-9,stir.v.08)
 1.00 has_pos(stir-9,VB)
 
 1.00 has_pos(apple,NN)
@@ -152,7 +152,7 @@
 ---
 
 //Stir the banana
-1.00 has_sense(stir-9-sense,stir.v.08)
+1.00 has_sense(stir-9,stir.v.08)
 1.00 has_pos(stir-9,VB)
 
 1.00 has_pos(banana,NN)
@@ -161,7 +161,7 @@
 ---
 
 //Stir the peanut
-1.00 has_sense(stir-9-sense,stir.v.08)
+1.00 has_sense(stir-9,stir.v.08)
 1.00 has_pos(stir-9,VB)
 
 1.00 has_pos(peanut,NN)
@@ -170,7 +170,7 @@
 ---
 
 //Stir the tomato
-1.00 has_sense(stir-9-sense,stir.v.08)
+1.00 has_sense(stir-9,stir.v.08)
 1.00 has_pos(stir-9,VB)
 
 1.00 has_pos(tomato,NN)
