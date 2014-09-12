@@ -401,7 +401,6 @@ class WordNet(object):
         '''
         log = logging.getLogger(__name__)
 
-            
         ADJ_POS = ['s','a']
         if type(synset1) is str:
             synset1 = self.synset(synset1)

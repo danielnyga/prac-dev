@@ -57,9 +57,9 @@ class PropExtraction(PRACModule):
             kb.dbs = pracinference.inference_steps[-1].output_dbs
 
         # TODO: Remove when final mln exists
-        kb.query_mln = readMLNFromFile(os.path.join(self.module_path, 'mln/dcll_parsing_stanford_wn_man_exp.mln'), logic='FuzzyLogic')
+        kb.query_mln = readMLNFromFile(os.path.join(self.module_path, 'mln/dcll_parsing_stanford_wn_man_new_trainingsset.mln'), logic='FuzzyLogic')
 
-        known_concepts = kb.query_mln.domains.get('concept'  , [])
+        known_concepts = kb.query_mln.domains.get('concept', [])
         inf_step = PRACInferenceStep(pracinference, self)
         wordnet_module = self.prac.getModuleByName('wn_senses')
         
@@ -114,7 +114,7 @@ class PropExtraction(PRACModule):
         # mln = readMLNFromFile(os.path.join(self.module_path, 'mln/parsing.mln'), logic='FuzzyLogic')
         mln = readMLNFromFile(os.path.join(self.module_path, 'mln/parsing.mln'), logic='FirstOrderLogic')
         dbFile = os.path.join(self.module_path, 'db/ts_stanford_wn_man.db')
-        outputfile = os.path.join(self.module_path, 'mln/dcll_parsing_stanford_wn_man_exp.mln')
+        outputfile = os.path.join(self.module_path, 'mln/dcll_parsing_stanford_wn_man_new_trainingsset.mln')
         inputdbs = readDBFromFile(mln, dbFile, ignoreUnknownPredicates=True)
         
         wordnet_module = self.prac.getModuleByName('wn_senses')

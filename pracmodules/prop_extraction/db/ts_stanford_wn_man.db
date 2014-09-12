@@ -1831,3 +1831,382 @@ is_a(be.v.02,be.v.02)
 is_a(null,null)
 
 object(cluster23,seed.n.01)
+
+//--------------new
+
+---
+// -------------------------------------------------------------------------------
+// cup.n.01:
+// WORDNET: It is small. It is an open container. It usually has a handle.
+
+// STANFORD:
+advmod(has-13, usually-12)
+cop(open-8, is-6)
+cop(small-3, is-2)
+dep(open-8, container-9)
+dep(open-8, small-3)
+det(handle-15, a-14)
+det(open-8, an-7)
+dobj(has-13, handle-15)
+has_pos(It-1, PRP)
+has_pos(It-11, PRP)
+has_pos(It-5, PRP)
+has_pos(a-14, DT)
+has_pos(an-7, DT)
+has_pos(container-9, NNP)
+has_pos(handle-15, NN)
+has_pos(has-13, VBZ)
+has_pos(is-2, VBZ)
+has_pos(is-6, VBZ)
+has_pos(open-8, NN)
+has_pos(small-3, JJ)
+has_pos(usually-12, RB)
+nsubj(has-13, It-11)
+nsubj(open-8, It-5)
+nsubj(small-3, It-1)
+rcmod(open-8, has-13)
+root(ROOT-0, open-8)
+
+
+// WORDNET ANNOTATED:
+has_sense(It-1, null)
+has_sense(is-2, be.v.02)
+has_sense(small-3, small.a.01)
+has_sense(It-5, null)
+has_sense(is-6, be.v.02)
+has_sense(an-7, null)
+has_sense(open-8, open.s.07)
+has_sense(container-9, container.n.01)
+has_sense(It-11, null)
+has_sense(usually-12, normally.r.01)
+has_sense(has-13, own.v.01)
+has_sense(a-14, null)
+has_sense(handle-15, handle.n.01)
+
+// MANUALLY ANNOTATED:
+is_a(container.n.01,container.n.01)
+is_a(handle.n.01,handle.n.01)
+is_a(small.a.01,small.a.01)
+is_a(open.s.07,open.s.07)
+is_a(normally.r.01,normally.r.01)
+is_a(own.v.01,own.v.01)
+is_a(be.v.02,be.v.02)
+is_a(null,null)
+
+property(cluster24,It-1, null)
+property(cluster24,is-2, null)
+property(cluster24,small-3, SIZE)
+property(cluster24,It-5, null)
+property(cluster24,is-6, null)
+property(cluster24,an-7, null)
+property(cluster24,open-8, null)
+property(cluster24,container-9, HYPERNYM)
+property(cluster24,It-11, null)
+property(cluster24,usually-12, null)
+property(cluster24,has-13, null)
+property(cluster24,a-14, null)
+property(cluster24,handle-15, HASA)
+
+object(cluster24, cup.n.01)
+
+---
+// -------------------------------------------------------------------------------
+// orange.n.01 / orange%1:13:00::
+// WORDNET: It is round. It is yellow to orange. It is a fruit.
+
+// STANFORD:
+cop(fruit-14, is-12)
+cop(round-3, is-2)
+cop(yellow-7, is-6)
+dep(yellow-7, round-3)
+det(fruit-14, a-13)
+has_pos(It-1, PRP)
+has_pos(It-11, PRP)
+has_pos(It-5, PRP)
+has_pos(a-13, DT)
+has_pos(fruit-14, NN)
+has_pos(is-12, VBZ)
+has_pos(is-2, VBZ)
+has_pos(is-6, VBZ)
+has_pos(orange-9, NNP)
+has_pos(round-3, NN)
+has_pos(yellow-7, JJ)
+nsubj(fruit-14, It-11)
+nsubj(round-3, It-1)
+nsubj(yellow-7, It-5)
+prep_to(yellow-7, orange-9)
+rcmod(orange-9, fruit-14)
+root(ROOT-0, yellow-7)
+
+
+// WORDNET ANNOTATED:
+has_sense(It-1, null)
+has_sense(is-2, be.v.02)
+has_sense(round-3, round.a.01)
+has_sense(It-5, null)
+has_sense(is-6, be.v.02)
+has_sense(yellow-7, yellow.s.01)
+has_sense(orange-9, orange.s.01)
+has_sense(It-11, null)
+has_sense(is-12, be.v.02)
+has_sense(a-13, null)
+has_sense(fruit-14, fruit.n.01)
+
+// MANUALLY ANNOTATED:
+is_a(round.a.01,round.a.01)
+is_a(yellow.s.01,yellow.s.01)
+is_a(orange.s.01,orange.s.01)
+is_a(fruit.n.01,fruit.n.01)
+is_a(be.v.02,be.v.02)
+is_a(null,null)
+
+property(cluster25,It-1, null)
+property(cluster25,is-2, null)
+property(cluster25,round-3, SHAPE)
+property(cluster25,It-5, null)
+property(cluster25,is-6, null)
+property(cluster25,yellow-7, COLOR)
+property(cluster25,orange-9, COLOR)
+property(cluster25,It-11, null)
+property(cluster25,is-12, null)
+property(cluster25,a-13, null)
+property(cluster25,fruit-14, HYPERNYM)
+
+object(cluster25, orange.n.01)
+
+---
+// -------------------------------------------------------------------------------
+// lemon.n.01:
+// WORDNET: It is yellow. It is oval. It is a fruit. It has flesh.
+
+// STANFORD:
+cop(fruit-12, is-10)
+cop(oval-7, is-6)
+cop(yellow-3, is-2)
+dep(has-15, yellow-3)
+det(fruit-12, a-11)
+dobj(has-15, flesh-16)
+has_pos(It-1, PRP)
+has_pos(It-14, PRP)
+has_pos(It-5, PRP)
+has_pos(It-9, PRP)
+has_pos(a-11, DT)
+has_pos(flesh-16, NN)
+has_pos(fruit-12, NN)
+has_pos(has-15, VBZ)
+has_pos(is-10, VBZ)
+has_pos(is-2, VBZ)
+has_pos(is-6, VBZ)
+has_pos(oval-7, NNP)
+has_pos(yellow-3, NNP)
+nsubj(fruit-12, It-9)
+nsubj(has-15, It-14)
+nsubj(oval-7, It-5)
+nsubj(yellow-3, It-1)
+rcmod(oval-7, fruit-12)
+rcmod(yellow-3, oval-7)
+root(ROOT-0, has-15)
+
+
+// WORDNET ANNOTATED:
+has_sense(It-1, null)
+has_sense(is-2, be.v.02)
+has_sense(yellow-3, yellow.s.01)
+has_sense(It-5, null)
+has_sense(is-6, be.v.02)
+has_sense(oval-7, egg-shaped.s.01)
+has_sense(It-9, null)
+has_sense(is-10, be.v.02)
+has_sense(a-11, null)
+has_sense(fruit-12, fruit.n.01)
+has_sense(It-14, null)
+has_sense(has-15, own.v.01)
+has_sense(flesh-16, pulp.n.02)
+
+
+// MANUALLY ANNOTATED:
+is_a(egg-shaped.s.01,egg-shaped.s.01)
+is_a(yellow.s.01,yellow.s.01)
+is_a(fruit.n.01,fruit.n.01)
+is_a(juicy.a.01,juicy.a.01)
+is_a(pulp.n.02,pulp.n.02)
+is_a(be.v.02,be.v.02)
+is_a(null,null)
+
+property(cluster26,It-1, null)
+property(cluster26,is-2, null)
+property(cluster26,yellow-3, COLOR)
+property(cluster26,It-5, null)
+property(cluster26,is-6, null)
+property(cluster26,oval-7, SHAPE)
+property(cluster26,It-9, null)
+property(cluster26,is-10, null)
+property(cluster26,a-11, null)
+property(cluster26,fruit-12, HYPERNYM)
+property(cluster26,It-14, null)
+property(cluster26,has-15, null)
+property(cluster26,flesh-16, HASA)
+
+
+object(cluster26, lemon.n.01)
+
+---
+// -------------------------------------------------------------------------------
+// tomato.n.01:
+// WORDNET: It is red or yellow. It is a fruit.
+
+// STANFORD:
+conj_or(red-3, yellow-5)
+cop(fruit-10, is-8)
+cop(red-3, is-2)
+dep(fruit-10, red-3)
+det(fruit-10, a-9)
+has_pos(It-1, PRP)
+has_pos(It-7, PRP)
+has_pos(a-9, DT)
+has_pos(fruit-10, NN)
+has_pos(is-2, VBZ)
+has_pos(is-8, VBZ)
+has_pos(red-3, JJ)
+has_pos(yellow-5, JJ)
+nsubj(fruit-10, It-7)
+nsubj(red-3, It-1)
+root(ROOT-0, fruit-10)
+
+
+// WORDNET ANNOTATED:
+has_sense(It-1, null)
+has_sense(is-2, be.v.02)
+has_sense(red-3, red.s.01)
+has_sense(yellow-5, yellow.s.01)
+has_sense(It-7, null)
+has_sense(is-8, be.v.02)
+has_sense(a-9, null)
+has_sense(fruit-10, fruit.n.01)
+
+
+// MANUALLY ANNOTATED:
+property(cluster27,It-1, null)
+property(cluster27,is-2, null)
+property(cluster27,red-3, COLOR)
+property(cluster27,yellow-5, COLOR)
+property(cluster27,It-7, null)
+property(cluster27,is-8, null)
+property(cluster27,a-9, null)
+property(cluster27,fruit-10, HYPERNYM)
+
+is_a(red.s.01,red.s.01)
+is_a(yellow.s.01,yellow.s.01)
+is_a(fruit.n.01,fruit.n.01)
+is_a(be.v.02,be.v.02)
+is_a(null,null)
+
+object(cluster27, tomato.n.01)
+
+---
+// -------------------------------------------------------------------------------
+// pot.n.01:
+// WORDNET: It is made of metal or earthenware. It is a cooking vessel. It is round and deep. It has a handle and a lid.
+
+// STANFORD:
+amod(vessel-13, cooking-12)
+auxpass(made-3, is-2)
+conj_and(handle-24, lid-27)
+conj_and(round-17, has-22)
+conj_or(metal-5, earthenware-7)
+cop(round-17, is-16)
+dep(has-22, deep-19)
+dep(is-10, made-3)
+dep(is-10, round-17)
+dep(round-17, vessel-13)
+det(handle-24, a-23)
+det(lid-27, a-26)
+det(vessel-13, a-11)
+dobj(has-22, handle-24)
+has_pos(It-1, PRP)
+has_pos(It-15, PRP)
+has_pos(It-21, PRP)
+has_pos(It-9, PRP)
+has_pos(a-11, DT)
+has_pos(a-23, DT)
+has_pos(a-26, DT)
+has_pos(cooking-12, JJ)
+has_pos(deep-19, JJ)
+has_pos(earthenware-7, NN)
+has_pos(handle-24, NN)
+has_pos(has-22, VBZ)
+has_pos(is-10, VBZ)
+has_pos(is-16, VBZ)
+has_pos(is-2, VBZ)
+has_pos(lid-27, NN)
+has_pos(made-3, VBN)
+has_pos(metal-5, NN)
+has_pos(round-17, NN)
+has_pos(vessel-13, NN)
+nsubj(has-22, It-21)
+nsubj(is-10, It-9)
+nsubj(round-17, It-15)
+nsubjpass(made-3, It-1)
+prep_of(made-3, metal-5)
+root(ROOT-0, is-10)
+
+
+
+// WORDNET ANNOTATED:
+has_sense(It-1,null)
+has_sense(is-2,be.v.02)
+has_sense(made-3,null)
+has_sense(metal-5,metallic.a.01)
+has_sense(earthenware-7,earthenware.n.01)
+has_sense(It-9,null)
+has_sense(is-10,be.v.02)
+has_sense(a-11,null)
+has_sense(cooking-12,cooking.n.01)
+has_sense(vessel-13,vessel.n.03)
+has_sense(It-15,null)
+has_sense(is-16,be.v.02)
+has_sense(round-17,round.a.01)
+has_sense(deep-19,deep.a.03)
+has_sense(It-21,null)
+has_sense(has-22,own.v.01)
+has_sense(a-23,null)
+has_sense(handle-24,handle.n.01)
+has_sense(a-26,null)
+has_sense(lid-27,lid.n.02)
+
+// MANUALLY ANNOTATED:
+is_a(metallic.a.01,metallic.a.01)
+is_a(earthenware.n.01,earthenware.n.01)
+is_a(cooking.n.01,cooking.n.01)
+is_a(vessel.n.03,vessel.n.03)
+is_a(normally.r.01,normally.r.01)
+is_a(round.a.01,round.a.01)
+is_a(own.v.01,own.v.01)
+is_a(handle.n.01,handle.n.01)
+is_a(lid.n.02,lid.n.02)
+is_a(be.v.02,be.v.02)
+is_a(deep.a.03,deep.a.03)
+is_a(null,null)
+
+property(cluster28,It-1,null)
+property(cluster28,is-2,null)
+property(cluster28,made-3,null)
+property(cluster28,metal-5,null)
+property(cluster28,earthenware-7,null)
+property(cluster28,It-9,null)
+property(cluster28,is-10,null)
+property(cluster28,a-11,null)
+property(cluster28,cooking-12,null)
+property(cluster28,vessel-13,HYPERNYM)
+property(cluster28,It-15,null)
+property(cluster28,is-16,null)
+property(cluster28,round-17,SHAPE)
+property(cluster28,deep-19,null)
+property(cluster28,It-21,null)
+property(cluster28,has-22,null)
+property(cluster28,a-23,null)
+property(cluster28,handle-24,HASA)
+property(cluster28,a-26,null)
+property(cluster28,lid-27,HASA)
+
+object(cluster28, pot.n.01)
