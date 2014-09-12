@@ -1,0 +1,101 @@
+// put salt and pepper or whatever you put on your eggs .
+1.00 has_sense(put-1,put.v.01)
+1.00 has_sense(salt-2,salt.n.02)
+1.00 has_sense(pepper-4,pepper.n.03)
+1.00 has_sense(eggs-11,egg.n.02)
+1.00 has_pos(put-1,VB)
+1.00 has_pos(salt-2,NN)
+1.00 has_pos(pepper-4,NN)
+1.00 has_pos(eggs-11,NN)
+
+---
+
+// put the chicken back into the pan-
+1.00 has_sense(put-1,put.v.01)
+1.00 has_sense(chicken-3,chicken.n.01)
+1.00 has_sense(pan-7,pan.n.03)
+1.00 has_pos(put-1,VB)
+1.00 has_pos(chicken-3,NN)
+1.00 has_pos(pan-7,NN)
+
+---
+
+// put the pizza on the pan.
+1.00 has_sense(put-1,put.v.01)
+1.00 has_sense(pizza-3,pizza.n.01)
+1.00 has_sense(pan-6,pan.n.03)
+1.00 has_pos(put-1,VB)
+1.00 has_pos(pizza-3,NN)
+1.00 has_pos(pan-6,NN)
+
+----
+
+// put the beef and onion on a plate .
+1.00 has_sense(put-1,put.v.01)
+1.00 has_sense(beef-3,beef.n.02)
+1.00 has_sense(onion-5,onion.n.01)
+1.00 has_sense(plate-8,plate.n.04)
+1.00 has_pos(put-1,VB)
+1.00 has_pos(beef-3,NN)
+1.00 has_pos(onion-5,NN)
+1.00 has_pos(plate-8,NN)
+
+---
+
+// put whipped_cream on the cake .
+1.00 has_sense(put-1,put.v.01)
+1.00 has_sense(whipped_cream-2,whipped_cream.n.01)
+1.00 has_sense(cake-4, cake.n.03)
+1.00 has_pos(put-1,VB)
+1.00 has_pos(whipped_cream-2,NN)
+1.00 has_pos(cake-4,NN)
+
+---
+
+// put batter on the spoon
+
+1.00 has_sense(put-1,put.v.01)
+1.00 has_sense(spoon-3,spoon.n.01)
+1.00 has_sense(batter-6,batter.n.02)
+1.00 has_pos(put-1,VB)
+1.00 has_pos(spoon-3,NN)
+1.00 has_pos(batter-6,NN)
+
+---
+
+// put cherries into a bowl .
+1.00 has_sense(put-1,put.v.01)
+1.00 has_sense(cherries-5, cherry.n.03)
+1.00 has_sense(bowl-9,bowl.n.01)
+1.00 has_pos(put-1,VB)
+1.00 has_pos(cherries-5,NNS)
+1.00 has_pos(bowl-9,NN)
+---
+
+// put a banana in a blender .
+1.00 has_sense(put-1,put.v.01)
+1.00 has_sense(banana-4,banana.n.02)
+1.00 has_sense(blender-7,blender.n.01)
+1.00 has_pos(put-1,VB)
+1.00 has_pos(banana-4,NN)
+1.00 has_pos(blender-7,NN)
+
+---
+
+// put the steak into the oven .
+1.00 has_sense(put-1,put.v.01)
+1.00 has_sense(steak-3,steak.n.01)
+1.00 has_sense(oven-6,oven.n.01)
+1.00 has_pos(put-1,VB)
+1.00 has_pos(steak-3,NN)
+1.00 has_pos(oven-6,NN)
+
+---
+
+// put the mug in the microwave.
+1.00 has_sense(put-1,put.v.01)
+1.00 has_sense(mug-3,mug.n.04)
+1.00 has_sense(microwave-6,microwave.n.02)
+1.00 has_pos(put-1,VB)
+1.00 has_pos(mug-3,NN)
+1.00 has_pos(microwave-6,NN)
