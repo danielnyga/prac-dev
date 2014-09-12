@@ -68,7 +68,7 @@
 1.00 has_sense(cherries-5, cherry.n.03)
 1.00 has_sense(bowl-9,bowl.n.01)
 1.00 has_pos(put-1,VB)
-1.00 has_pos(cherries-5,NNS)
+1.00 has_pos(cherries-5,NN)
 1.00 has_pos(bowl-9,NN)
 ---
 
@@ -98,4 +98,102 @@
 1.00 has_sense(microwave-6,microwave.n.02)
 1.00 has_pos(put-1,VB)
 1.00 has_pos(mug-3,NN)
+1.00 has_pos(microwave-6,NN)
+
+---
+
+// put salt on your rib.
+1.00 has_sense(put-1,put.v.01)
+1.00 has_sense(salt-2,salt.n.02)
+1.00 has_sense(rib-11,rib.n.03)
+1.00 has_pos(put-1,VB)
+1.00 has_pos(salt-2,NN)
+1.00 has_pos(rib-11,NN)
+
+---
+
+// put the jam back into the refrigerator-
+1.00 has_sense(put-1,put.v.01)
+1.00 has_sense(jam-3,jam.n.01)
+1.00 has_sense(refrigerator-7,refrigerator.n.01)
+1.00 has_pos(put-1,VB)
+1.00 has_pos(jam-3,NN)
+1.00 has_pos(refrigerator-7,NN)
+
+---
+
+// put the paste on the bread.
+1.00 has_sense(put-1,put.v.01)
+1.00 has_sense(paste-3,spread.n.05)
+1.00 has_sense(bread-6,bread.n.01)
+1.00 has_pos(put-1,VB)
+1.00 has_pos(paste-3,NN)
+1.00 has_pos(bread-6,NN)
+
+
+----
+
+// put the salmon on a plate .
+1.00 has_sense(put-1,put.v.01)
+1.00 has_sense(salmon-5,salmon.n.03)
+1.00 has_sense(plate-8,plate.n.04)
+1.00 has_pos(put-1,VB)
+1.00 has_pos(salmon-5,NN)
+1.00 has_pos(plate-8,NN)
+
+---
+
+// put coke in the fridge.
+1.00 has_sense(put-1,put.v.01)
+1.00 has_sense(coke-2,coca_cola.n.01)
+1.00 has_sense(fridge-4, electric_refrigerator.n.01)
+1.00 has_pos(put-1,VB)
+1.00 has_pos(coke-2,NN)
+1.00 has_pos(fridge-4,NN)
+
+---
+
+//Put some fries to it.
+1.00 has_sense(put-1,put.v.01)
+1.00 has_sense(fries,french_fries.n.01)
+1.00 has_pos(put-1,VB)
+1.00 has_pos(fries,NN)
+
+---
+
+//Put some dressing to the salad.
+1.00 has_sense(put-1,put.v.01)
+1.00 has_sense(dressing-2,dressing.n.01)
+1.00 has_sense(salad,salad.n.01)
+1.00 has_pos(put-1,VB)
+1.00 has_pos(dressing-2,NN)
+1.00 has_pos(salad,NN)
+
+---
+
+// put rice into a bowl .
+1.00 has_sense(put-1,put.v.01)
+1.00 has_sense(rice-5, rice.n.01)
+1.00 has_sense(bowl-9,bowl.n.01)
+1.00 has_pos(put-1,VB)
+1.00 has_pos(rice-5,NN)
+1.00 has_pos(bowl-9,NN)
+---
+
+// put the dish into the oven .
+1.00 has_sense(put-1,put.v.01)
+1.00 has_sense(dish-3,dish.n.02)
+1.00 has_sense(oven-6,oven.n.01)
+1.00 has_pos(put-1,VB)
+1.00 has_pos(dish-3,NN)
+1.00 has_pos(oven-6,NN)
+
+---
+
+// put the soup in the microwave.
+1.00 has_sense(put-1,put.v.01)
+1.00 has_sense(soup-3,soup.n.01)
+1.00 has_sense(microwave-6,microwave.n.02)
+1.00 has_pos(put-1,VB)
+1.00 has_pos(soup-3,NN)
 1.00 has_pos(microwave-6,NN)
