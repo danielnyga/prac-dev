@@ -151,10 +151,12 @@ class WNSenses(PRACModule):
         if 'null' in concepts:
             concepts.remove('null')
         for c1 in concepts:
-            synset1 = self.wordnet.synset(c1)
             for c2 in concepts:
-                synset2 = self.wordnet.synset(c2)
-                db.addGroundAtom('similar({}, {})'.format(synset1.name, synset2.name), self.wordnet.similarity(synset1, synset2))
+                if c1 == 'Unknown' or c2 == 'Unknown': db.addGroundAtom('similar({}, {})'.format(c1, c2), 0.01)
+                else:
+                    synset1 = self.wordnet.synset(c1)
+                    synset2 = self.wordnet.synset(c2)
+                    db.addGroundAtom('similar({}, {})'.format(synset1.name, synset2.name), self.wordnet.similarity(synset1, synset2))
         return db
 
            

@@ -365,6 +365,7 @@ class DescriptionKnowledgeBase(object):
         self.kbmln = MLN(logic='FuzzyLogic', grammar='PRACGrammar')
         # self.kbmln = readMLNFromFile(os.path.join(prac_module_path, 'obj_recognition/mln/predicates.mln'), logic='FuzzyLogic', grammar='PRACGrammar')
         self.concepts = [] # List of concept names described in the DKB
+        self.conceptDict = {}
 
     def __getstate__(self): # do not store
         odict = self.__dict__.copy()
