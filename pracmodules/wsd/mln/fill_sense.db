@@ -7,7 +7,7 @@
 
 //pan
 1.00 has_pos(pan,NN)
-1.00 has_sense(pan,pan.n.01)
+1.00 has_sense(pan,pan.n.03)
 
 //water
 1.00 has_pos(water,NN)
