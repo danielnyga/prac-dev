@@ -1,0 +1,93 @@
+// domain declarations
+
+
+// predicate declarations
+is_a(sense, concept)
+has_sense(word, sense!)
+has_pos(word, pos!)
+
+// formulas
+0.000000    has_pos(?w1, VB) ^ has_pos(?w2, VB) ^ is_a(?s1, butter.n.01) ^ is_a(?s2, butter.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, VB) ^ has_pos(?w2, VB) ^ is_a(?s1, butter.n.01) ^ is_a(?s2, mixing_bowl.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, VB) ^ has_pos(?w2, VB) ^ is_a(?s1, butter.n.01) ^ is_a(?s2, water.n.06) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, VB) ^ has_pos(?w2, VB) ^ is_a(?s1, butter.n.01) ^ is_a(?s2, add.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, VB) ^ has_pos(?w2, VB) ^ is_a(?s1, butter.n.01) ^ is_a(?s2, milk.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, VB) ^ has_pos(?w2, VB) ^ is_a(?s1, butter.n.01) ^ is_a(?s2, sugar.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, VB) ^ has_pos(?w2, VB) ^ is_a(?s1, mixing_bowl.n.01) ^ is_a(?s2, mixing_bowl.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, VB) ^ has_pos(?w2, VB) ^ is_a(?s1, mixing_bowl.n.01) ^ is_a(?s2, water.n.06) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, VB) ^ has_pos(?w2, VB) ^ is_a(?s1, mixing_bowl.n.01) ^ is_a(?s2, add.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, VB) ^ has_pos(?w2, VB) ^ is_a(?s1, mixing_bowl.n.01) ^ is_a(?s2, milk.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, VB) ^ has_pos(?w2, VB) ^ is_a(?s1, mixing_bowl.n.01) ^ is_a(?s2, sugar.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, VB) ^ has_pos(?w2, VB) ^ is_a(?s1, water.n.06) ^ is_a(?s2, water.n.06) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, VB) ^ has_pos(?w2, VB) ^ is_a(?s1, water.n.06) ^ is_a(?s2, add.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, VB) ^ has_pos(?w2, VB) ^ is_a(?s1, water.n.06) ^ is_a(?s2, milk.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, VB) ^ has_pos(?w2, VB) ^ is_a(?s1, water.n.06) ^ is_a(?s2, sugar.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, VB) ^ has_pos(?w2, VB) ^ is_a(?s1, add.v.01) ^ is_a(?s2, add.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, VB) ^ has_pos(?w2, VB) ^ is_a(?s1, add.v.01) ^ is_a(?s2, milk.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, VB) ^ has_pos(?w2, VB) ^ is_a(?s1, add.v.01) ^ is_a(?s2, sugar.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, VB) ^ has_pos(?w2, VB) ^ is_a(?s1, milk.n.01) ^ is_a(?s2, milk.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, VB) ^ has_pos(?w2, VB) ^ is_a(?s1, milk.n.01) ^ is_a(?s2, sugar.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, VB) ^ has_pos(?w2, VB) ^ is_a(?s1, sugar.n.01) ^ is_a(?s2, sugar.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-1.807542   has_pos(?w1, NN) ^ has_pos(?w2, VB) ^ is_a(?s1, butter.n.01) ^ is_a(?s2, butter.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-0.445821   has_pos(?w1, NN) ^ has_pos(?w2, VB) ^ is_a(?s1, butter.n.01) ^ is_a(?s2, mixing_bowl.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, NN) ^ has_pos(?w2, VB) ^ is_a(?s1, butter.n.01) ^ is_a(?s2, water.n.06) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+1.483175    has_pos(?w1, NN) ^ has_pos(?w2, VB) ^ is_a(?s1, butter.n.01) ^ is_a(?s2, add.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, NN) ^ has_pos(?w2, VB) ^ is_a(?s1, butter.n.01) ^ is_a(?s2, milk.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+3.410532    has_pos(?w1, NN) ^ has_pos(?w2, VB) ^ is_a(?s1, butter.n.01) ^ is_a(?s2, sugar.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-0.882706   has_pos(?w1, NN) ^ has_pos(?w2, VB) ^ is_a(?s1, mixing_bowl.n.01) ^ is_a(?s2, mixing_bowl.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, NN) ^ has_pos(?w2, VB) ^ is_a(?s1, mixing_bowl.n.01) ^ is_a(?s2, water.n.06) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+6.600387    has_pos(?w1, NN) ^ has_pos(?w2, VB) ^ is_a(?s1, mixing_bowl.n.01) ^ is_a(?s2, add.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, NN) ^ has_pos(?w2, VB) ^ is_a(?s1, mixing_bowl.n.01) ^ is_a(?s2, milk.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-1.629675   has_pos(?w1, NN) ^ has_pos(?w2, VB) ^ is_a(?s1, mixing_bowl.n.01) ^ is_a(?s2, sugar.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-1.740071   has_pos(?w1, NN) ^ has_pos(?w2, VB) ^ is_a(?s1, water.n.06) ^ is_a(?s2, water.n.06) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+10.170507   has_pos(?w1, NN) ^ has_pos(?w2, VB) ^ is_a(?s1, water.n.06) ^ is_a(?s2, add.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-2.828178   has_pos(?w1, NN) ^ has_pos(?w2, VB) ^ is_a(?s1, water.n.06) ^ is_a(?s2, milk.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, NN) ^ has_pos(?w2, VB) ^ is_a(?s1, water.n.06) ^ is_a(?s2, sugar.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-1.095481   has_pos(?w1, NN) ^ has_pos(?w2, VB) ^ is_a(?s1, add.v.01) ^ is_a(?s2, add.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-0.215199   has_pos(?w1, NN) ^ has_pos(?w2, VB) ^ is_a(?s1, add.v.01) ^ is_a(?s2, milk.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-0.114286   has_pos(?w1, NN) ^ has_pos(?w2, VB) ^ is_a(?s1, add.v.01) ^ is_a(?s2, sugar.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-1.022656   has_pos(?w1, NN) ^ has_pos(?w2, VB) ^ is_a(?s1, milk.n.01) ^ is_a(?s2, milk.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, NN) ^ has_pos(?w2, VB) ^ is_a(?s1, milk.n.01) ^ is_a(?s2, sugar.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-6.317924   has_pos(?w1, NN) ^ has_pos(?w2, VB) ^ is_a(?s1, sugar.n.01) ^ is_a(?s2, sugar.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-1.807542   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ is_a(?s1, butter.n.01) ^ is_a(?s2, butter.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-2.243228   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ is_a(?s1, butter.n.01) ^ is_a(?s2, mixing_bowl.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ is_a(?s1, butter.n.01) ^ is_a(?s2, water.n.06) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+2.948070    has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ is_a(?s1, butter.n.01) ^ is_a(?s2, add.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ is_a(?s1, butter.n.01) ^ is_a(?s2, milk.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+4.838303    has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ is_a(?s1, butter.n.01) ^ is_a(?s2, sugar.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-0.882706   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ is_a(?s1, mixing_bowl.n.01) ^ is_a(?s2, mixing_bowl.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ is_a(?s1, mixing_bowl.n.01) ^ is_a(?s2, water.n.06) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-0.116751   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ is_a(?s1, mixing_bowl.n.01) ^ is_a(?s2, add.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ is_a(?s1, mixing_bowl.n.01) ^ is_a(?s2, milk.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-1.225032   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ is_a(?s1, mixing_bowl.n.01) ^ is_a(?s2, sugar.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-1.740071   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ is_a(?s1, water.n.06) ^ is_a(?s2, water.n.06) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-0.038701   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ is_a(?s1, water.n.06) ^ is_a(?s2, add.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-0.951662   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ is_a(?s1, water.n.06) ^ is_a(?s2, milk.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ is_a(?s1, water.n.06) ^ is_a(?s2, sugar.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-1.095481   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ is_a(?s1, add.v.01) ^ is_a(?s2, add.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+6.042318    has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ is_a(?s1, add.v.01) ^ is_a(?s2, milk.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+7.246686    has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ is_a(?s1, add.v.01) ^ is_a(?s2, sugar.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-1.022656   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ is_a(?s1, milk.n.01) ^ is_a(?s2, milk.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ is_a(?s1, milk.n.01) ^ is_a(?s2, sugar.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-6.317924   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ is_a(?s1, sugar.n.01) ^ is_a(?s2, sugar.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-5.937346   has_pos(?w1, NN) ^ has_pos(?w2, NN) ^ is_a(?s1, butter.n.01) ^ is_a(?s2, butter.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+4.471927    has_pos(?w1, NN) ^ has_pos(?w2, NN) ^ is_a(?s1, butter.n.01) ^ is_a(?s2, mixing_bowl.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, NN) ^ has_pos(?w2, NN) ^ is_a(?s1, butter.n.01) ^ is_a(?s2, water.n.06) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.324792    has_pos(?w1, NN) ^ has_pos(?w2, NN) ^ is_a(?s1, butter.n.01) ^ is_a(?s2, add.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, NN) ^ has_pos(?w2, NN) ^ is_a(?s1, butter.n.01) ^ is_a(?s2, milk.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+5.354682    has_pos(?w1, NN) ^ has_pos(?w2, NN) ^ is_a(?s1, butter.n.01) ^ is_a(?s2, sugar.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-8.083643   has_pos(?w1, NN) ^ has_pos(?w2, NN) ^ is_a(?s1, mixing_bowl.n.01) ^ is_a(?s2, mixing_bowl.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, NN) ^ has_pos(?w2, NN) ^ is_a(?s1, mixing_bowl.n.01) ^ is_a(?s2, water.n.06) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+1.681992    has_pos(?w1, NN) ^ has_pos(?w2, NN) ^ is_a(?s1, mixing_bowl.n.01) ^ is_a(?s2, add.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, NN) ^ has_pos(?w2, NN) ^ is_a(?s1, mixing_bowl.n.01) ^ is_a(?s2, milk.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+8.255567    has_pos(?w1, NN) ^ has_pos(?w2, NN) ^ is_a(?s1, mixing_bowl.n.01) ^ is_a(?s2, sugar.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-4.188223   has_pos(?w1, NN) ^ has_pos(?w2, NN) ^ is_a(?s1, water.n.06) ^ is_a(?s2, water.n.06) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.898434    has_pos(?w1, NN) ^ has_pos(?w2, NN) ^ is_a(?s1, water.n.06) ^ is_a(?s2, add.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+8.892047    has_pos(?w1, NN) ^ has_pos(?w2, NN) ^ is_a(?s1, water.n.06) ^ is_a(?s2, milk.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, NN) ^ has_pos(?w2, NN) ^ is_a(?s1, water.n.06) ^ is_a(?s2, sugar.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+3.056778    has_pos(?w1, NN) ^ has_pos(?w2, NN) ^ is_a(?s1, add.v.01) ^ is_a(?s2, add.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-2.175148   has_pos(?w1, NN) ^ has_pos(?w2, NN) ^ is_a(?s1, add.v.01) ^ is_a(?s2, milk.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.471357    has_pos(?w1, NN) ^ has_pos(?w2, NN) ^ is_a(?s1, add.v.01) ^ is_a(?s2, sugar.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-2.648899   has_pos(?w1, NN) ^ has_pos(?w2, NN) ^ is_a(?s1, milk.n.01) ^ is_a(?s2, milk.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, NN) ^ has_pos(?w2, NN) ^ is_a(?s1, milk.n.01) ^ is_a(?s2, sugar.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-3.810206   has_pos(?w1, NN) ^ has_pos(?w2, NN) ^ is_a(?s1, sugar.n.01) ^ is_a(?s2, sugar.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
