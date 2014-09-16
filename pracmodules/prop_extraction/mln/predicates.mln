@@ -32,4 +32,4 @@ property(cluster, word, prop!)
 object(cluster, concept!)
 
 concept = {null}
-property = {null}
+prop = {null}

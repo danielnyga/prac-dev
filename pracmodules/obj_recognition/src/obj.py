@@ -53,20 +53,18 @@ class NLObjectRecognition(PRACModule):
             dkb = params.get('dkb')
         else:
             dkb = self.load_dkb('mini')
-        log.info('Using DKB: {}'.format(colorize(dkb.name, (None, 'green', True), True)))
-        dkb.kbmln.write(sys.stdout, color=True) # todo remove, debugging only
-        print dkb.conceptDict
+        dkb.printDKB()
+        mln = dkb.kbmln
 
         if params.get('kb', None) is None:
             # load the default arguments
+            kb = self.load_pracmt('obj_recog')
             dbs = pracinference.inference_steps[-1].output_dbs
-            kb = self.load_pracmt('default')
             kb.dbs = dbs
         else:
             kb = params['kb']
         if not hasattr(kb, 'dbs'):
             kb.dbs = pracinference.inference_steps[-1].output_dbs
-        mln = dkb.kbmln
 
         inf_step = PRACInferenceStep(pracinference, self)
         wordnet_module = self.prac.getModuleByName('wn_senses')
@@ -76,7 +74,7 @@ class NLObjectRecognition(PRACModule):
         for db in kb.dbs:
             # adding evidence properties to new query db
             res_db = Database(mln)
-            
+
             propsFound = {}
             for res in db.query('property(?cluster, ?word, ?prop) ^ has_sense(?word, ?sense)'):
                 if res['?prop'] == 'null': continue
@@ -90,21 +88,22 @@ class NLObjectRecognition(PRACModule):
                 res_db.addGroundAtom(gndAtom)
 
             # for each inferred property, assert all non-matching properties
-            for prop in propsFound:
-                for word in mln.domains.get('word', []):
-                    if not word in propsFound[prop]:
-                        gndAtom = '!property({}, {}, {})'.format(res['?cluster'], word, prop)
-                        res_db.addGroundAtom(gndAtom)
+            # for prop in propsFound:
+            #     for word in mln.domains.get('word', []):
+            #         if not word in propsFound[prop]:
+            #             gndAtom = '!property({}, {}, {})'.format(res['?cluster'], word, prop)
+            #             res_db.addGroundAtom(gndAtom)
 
             # for each NOT inferred property, assume it has value 'Unknown' (which has a similarity of 0.01 to everything)
             # todo: check if this makes much of a difference
-            for prop in set(propsFound.keys()).symmetric_difference(set(possibleProps)):
-                gndAtom = 'property({}, {}, {})'.format(res['?cluster'], 'Unknown', prop)
-                res_db.addGroundAtom(gndAtom)
+            # for prop in set(propsFound.keys()).symmetric_difference(set(possibleProps)):
+            #     gndAtom = 'property({}, {}, {})'.format(res['?cluster'], 'Unknown', prop)
+            #     res_db.addGroundAtom(gndAtom)
 
             # adding word similarities
-            res_db = wordnet_module.add_senses_and_similiarities_for_words(res_db, mln.domains.get('word', []) + [item for sublist in propsFound.values() for item in sublist] + ['Unknown'])
-            res_db.write(sys.stdout, color=True)
+            res_db = wordnet_module.add_senses_and_similiarities_for_words(res_db, mln.domains.get('word', []) + [item for sublist in propsFound.values() for item in sublist])
+            # res_db = wordnet_module.add_senses_and_similiarities_for_words(res_db, mln.domains.get('word', []) + [item for sublist in propsFound.values() for item in sublist] + ['Unknown'])
+            # res_db.write(sys.stdout, color=True)
             
             # infer and update output dbs
             # log.info(kb.query_params)
@@ -254,7 +253,7 @@ class NLObjectRecognition(PRACModule):
             jointFormulaEvidenceProps = ' ^ '.join(formulaEvidenceProps) 
             jointFormulaUnknownProps = '{}'.format(' ^ '.join(formulaUnknownProps))
 
-            if formulaUnknownProps:
+            if False:
                 f = 'object(?c, {0}) ^ {1} ^ ({2})'.format(conceptname, jointFormulaEvidenceProps, jointFormulaUnknownProps)
             else:
                 f = 'object(?c, {}) ^ {}'.format(conceptname, jointFormulaEvidenceProps)
