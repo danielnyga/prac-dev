@@ -45,6 +45,7 @@ if __name__ == '__main__':
                       help="Knowledge base to be used for inference. Options: all, kitchenware, fruit, misc. Example: pracobjrec -k kitchen 'container with a handle'")
     parser.add_option("-c", "--createkbentry", nargs=2, dest="kbentry", default=False, 
                       help="Creates KBMLN with given name or adds entry to existing KBMLN. Example: pracobjrec -c kitchen cup.n.01 'container with a handle'")
+    parser.add_option("-s", "--showDKB", nargs=1, dest='showDKB', help="Prints content of given DKB")    
     parser.add_option("-d", "--createkbentryFromDB", nargs=2, dest="kbentrydb", default=False, 
                       help="Creates KBMLN with given name or adds entries from db file to existing KBMLN. Example: pracobjrec -d kitchen path/to/dbfile/with/kitchenware/entries.db")
     (options, args) = parser.parse_args()
@@ -76,6 +77,11 @@ if __name__ == '__main__':
         objRecog = prac.getModuleByName('obj_recognition')
         objRecog.createDKB(prac, options, infer)
 
+        sys.exit(0)
+    elif options.showDKB:
+        objRec = prac.getModuleByName('obj_recognition')
+        dkb=objRec.load_dkb(options.showDKB)
+        dkb.printDKB()
         sys.exit(0)
     else: # regular PRAC pipeline
         # property inference from parsed input

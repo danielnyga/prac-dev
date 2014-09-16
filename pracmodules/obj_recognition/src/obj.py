@@ -55,7 +55,7 @@ class NLObjectRecognition(PRACModule):
             dkb = self.load_dkb('mini')
         log.info('Using DKB: {}'.format(colorize(dkb.name, (None, 'green', True), True)))
         dkb.kbmln.write(sys.stdout, color=True) # todo remove, debugging only
-        print dkb.conc
+        print dkb.conceptDict
 
         if params.get('kb', None) is None:
             # load the default arguments
@@ -136,7 +136,7 @@ class NLObjectRecognition(PRACModule):
         log = logging.getLogger(self.name)
         log.info(options)
 
-        if options.kbentrydb:
+        if options.kbentrydb: # creates or updates DKB with database contents
             kbName = options.kbentrydb[0]
             dbfile = options.kbentrydb[1]
             log.info('Creating or modifying \'{}\'...     '.format(colorize(kbName + '.dkb',(None, 'green', True), True)))
@@ -175,7 +175,7 @@ class NLObjectRecognition(PRACModule):
                 self.updateDKBDict(conceptname, dkbDict, evidenceProps, False)
 
 
-        elif options.kbentry: # needs update -> will only add inferred properties
+        elif options.kbentry: # creates or updates DKB with inferred results from params
 
             kbName = options.kbentry[0]
             conceptname = options.kbentry[1]
@@ -254,21 +254,16 @@ class NLObjectRecognition(PRACModule):
             jointFormulaEvidenceProps = ' ^ '.join(formulaEvidenceProps) 
             jointFormulaUnknownProps = '{}'.format(' ^ '.join(formulaUnknownProps))
 
-            # if False:
             if formulaUnknownProps:
                 f = 'object(?c, {0}) ^ {1} ^ ({2})'.format(conceptname, jointFormulaEvidenceProps, jointFormulaUnknownProps)
             else:
                 f = 'object(?c, {}) ^ {}'.format(conceptname, jointFormulaEvidenceProps)
 
-            # several definitions of one concept may be in the kbmln, but it is only listed once
-            if conceptname not in dkb.concepts:
-                dkb.concepts.append(conceptname)
-
             dkb.kbmln.addFormula(f, weight=1, hard=False, fixWeight=True)
         dkb.conceptDict = dkbDict
         self.save_dkb(dkb, kbName)
 
-        dkb.kbmln.write(sys.stdout, color=True)
+        dkb.printDKB()
 
     
     def updateDKBDict(self, conceptname, dct, newprops, overwrite):

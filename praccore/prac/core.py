@@ -44,6 +44,7 @@ import fnmatch
 from mln import readMLNFromFile
 import yaml
 from praclog import logging
+from utils import colorize
 
 
 
@@ -363,9 +364,7 @@ class DescriptionKnowledgeBase(object):
     def __init__(self):
         self.name = ''
         self.kbmln = MLN(logic='FuzzyLogic', grammar='PRACGrammar')
-        # self.kbmln = readMLNFromFile(os.path.join(prac_module_path, 'obj_recognition/mln/predicates.mln'), logic='FuzzyLogic', grammar='PRACGrammar')
-        self.concepts = [] # List of concept names described in the DKB
-        self.conceptDict = {}
+        self.conceptDict = {} # {conceptname: {property : [value]}}
 
     def __getstate__(self): # do not store
         odict = self.__dict__.copy()
@@ -374,6 +373,12 @@ class DescriptionKnowledgeBase(object):
     def __setstate__(self, d):
         self.__dict__.update(d)
 
+    def printDKB(self):
+        print '{} {}'.format(colorize('DKB name:', (None, 'white', True), True), colorize(self.name, (None, 'green', True), True))
+        print '{} {}'.format(colorize('Concepts:', (None, 'white', True), True), self.conceptDict.keys())
+        print colorize('MLN:', (None, 'white', True), True)
+        self.kbmln.write(sys.stdout, color=True)
+        
         
 class PRACModule(object):
     '''
