@@ -374,11 +374,12 @@ class DescriptionKnowledgeBase(object):
         self.__dict__.update(d)
 
     def printDKB(self):
+        print
         print '{} {}'.format(colorize('DKB name:', (None, 'white', True), True), colorize(self.name, (None, 'green', True), True))
         print '{} {}'.format(colorize('Concepts:', (None, 'white', True), True), self.conceptDict.keys())
         print colorize('MLN:', (None, 'white', True), True)
         self.kbmln.write(sys.stdout, color=True)
-        
+        print        
         
 class PRACModule(object):
     '''

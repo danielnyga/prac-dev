@@ -101,10 +101,10 @@ if __name__ == '__main__':
     print
     print 'Object description: {}'.format(colorize(''.join(sentences),  (None, 'green', True), True))
     print
-    if step is not None:
-        for db in step.output_dbs:
-            for q in db.query('object(?cluster, ?object)'):
-                if q['?object'] is 'null': continue
-                print 'Inferred object: {}'.format(colorize(q['?object'],  (None, 'green', True), True))
-            print
-        
+    print 'Inferred object(s):'
+    for db in step.output_dbs:
+        for ek in sorted(db.evidence, key=db.evidence.get, reverse=True):
+            e = db.evidence[ek]
+            if e > 0.001 and ek.startswith('object'):
+                print '{} {}, {})'.format(colorize(str(e),  (None, 'white', True), True), ek.split(',')[0], colorize(ek.split(',')[1].split(')')[0], (None, 'green', True), True))
+    print
