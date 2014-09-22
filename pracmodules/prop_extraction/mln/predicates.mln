@@ -28,7 +28,8 @@
 has_sense(word, sense!)
 is_a(sense, concept)
 
-property(cluster, word, prop!) 
+property(cluster, word, prop) 
+//property(cluster, word, prop!) 
 object(cluster, concept!)
 
 concept = {null}

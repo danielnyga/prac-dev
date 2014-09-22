@@ -23,7 +23,7 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ******************************************************************************/
  
-property(cluster, word, prop!) 
+property(cluster, word, prop) 
 object(cluster, concept!)
 similar(word, word)
 
