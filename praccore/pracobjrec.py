@@ -78,7 +78,7 @@ if __name__ == '__main__':
         objRecog.createDKB(prac, options, infer)
 
         sys.exit(0)
-    elif options.showDKB:
+    elif options.showDKB: # print content of give dkb file
         objRec = prac.getModuleByName('obj_recognition')
         dkb=objRec.load_dkb(options.showDKB)
         dkb.printDKB()
@@ -99,12 +99,24 @@ if __name__ == '__main__':
     print colorize('| PRAC INFERENCE RESULTS |',  (None, 'green', True), True)
     print colorize('+========================+',  (None, 'green', True), True)
     print
-    print 'Object description: {}'.format(colorize(''.join(sentences),  (None, 'green', True), True))
+    print 'Object description: {}'.format(colorize(''.join(sentences),  (None, 'white', True), True))
     print
-    print 'Inferred object(s):'
     for db in step.output_dbs:
+        print 'Inferred properties:'
+        for q in db.query('property(?cluster, ?word, ?prop)'):
+            if q['?prop'] == 'null': continue
+            print '{}({}, {}, {})'.format(  colorize('property', (None, 'white', True), True), # 'property'
+                                            colorize(q['?cluster'], (None, 'magenta', True), True), # cluster
+                                            colorize(q['?word'], (None, 'green', True), True), # propertyvalue (wn concept)
+                                            colorize(q['?prop'], (None, 'yellow', True), True)) # propertytype
+        print
+        print 'Inferred possible concepts:'
         for ek in sorted(db.evidence, key=db.evidence.get, reverse=True):
             e = db.evidence[ek]
             if e > 0.001 and ek.startswith('object'):
-                print '{} {}, {})'.format(colorize(str(e),  (None, 'white', True), True), ek.split(',')[0], colorize(ek.split(',')[1].split(')')[0], (None, 'green', True), True))
-    print
+                print '{} {}({}, {})'.format(   colorize('{:.4f}'.format(e),  (None, 'cyan', True), True), # probability
+                                                colorize('object',  (None, 'white', True), True), # 'object'
+                                                colorize(ek.split(',')[0].split('(')[1], (None, 'magenta', True), True), # cluster
+                                                colorize(ek.split(',')[1].split(')')[0], (None, 'green', True), True)) # objectvalue (wn concept)
+                                                    
+        print
