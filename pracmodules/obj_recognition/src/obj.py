@@ -88,11 +88,11 @@ class NLObjectRecognition(PRACModule):
                 res_db.addGroundAtom(gndAtom)
 
             # for each inferred property, assert all non-matching properties
-            # for prop in propsFound:
-            #     for word in mln.domains.get('word', []):
-            #         if not word in propsFound[prop]:
-            #             gndAtom = '!property({}, {}, {})'.format(res['?cluster'], word, prop)
-            #             res_db.addGroundAtom(gndAtom)
+            for prop in propsFound:
+                for word in mln.domains.get('word', []):
+                    if not word in propsFound[prop]:
+                        gndAtom = '!property({}, {}, {})'.format(res['?cluster'], word, prop)
+                        res_db.addGroundAtom(gndAtom)
 
             # for each NOT inferred property, assume it has value 'Unknown' (which has a similarity of 0.01 to everything)
             # todo: check if this makes much of a difference
@@ -120,161 +120,62 @@ class NLObjectRecognition(PRACModule):
                 log.info('Inferred: object({}, {})'.format(q['?cluster'], colorize(q['?concept'], (None, 'white', True), True)))
         return inf_step
 
-
-    def train(self, praclearning):
-        print colorize('+=================================================================================+', (None, 'green', True), True)
-        print colorize('| No training used. Run pracobjrec with according parameters to create DKB files  |', (None, 'green', True), True)
-        print colorize('+=================================================================================+', (None, 'green', True), True)
-
-
-    def createDKB(self, prac, options, infer):
-        print colorize('+===============================================+', (None, 'green', True), True)
-        print colorize('| CREATING OR MODIFYING DKB FILE                +', (None, 'green', True), True)
-        print colorize('+===============================================+', (None, 'green', True), True)
+    # TODO: learn incrementally
+    def train(self, praclearning, inference, dkbName='mini', objName=None):
+        print colorize('+=============================================+', (None, 'green', True), True)
+        print colorize('| TRAINING KNOWLEDGEBASE...                   |', (None, 'green', True), True)
+        print colorize('+=============================================+', (None, 'green', True), True)
 
         log = logging.getLogger(self.name)
-        log.info(options)
+        
+        dkbPath = os.path.join(self.module_path, '../../pracmodules/obj_recognition/kb/{}.dkb'.format(dkbName))
+        if os.path.isfile(dkbPath):
+            dkb = self.load_dkb(dkbName)
+        else:
+            dkb = self.create_dkb(dkbName)
 
-        if options.kbentrydb: # creates or updates DKB with database contents
-            kbName = options.kbentrydb[0]
-            dbfile = options.kbentrydb[1]
-            log.info('Creating or modifying \'{}\'...     '.format(colorize(kbName + '.dkb',(None, 'green', True), True)))
-            
-            # create or load dkb
-            filepath = os.path.join(self.module_path, 'kb', '{}.dkb'.format(kbName))
-            if not os.path.isfile(filepath):
-                dkb = self.create_dkb(kbName)
-            else:
-                dkb = self.load_dkb(kbName)
+        mln = dkb.kbmln
+        inputdbs = inference.inference_steps[-1].output_dbs
+        wordnet_module = self.prac.getModuleByName('wn_senses')
 
-            mln = readMLNFromFile(os.path.join(self.module_path, '../prop_extraction/mln/predicates.mln'), logic='FuzzyLogic')
-            kbdb = readDBFromFile(mln, dbfile)
-            conceptname = ''
-            dkbDict = dkb.conceptDict
-            dkb.kbmln.formulas = []
+        # # build training set from inference step to learn weights for mln
+        training_db = Database(mln)
 
-            # create formulas
-            for concept in kbdb:            
-                # db.write(sys.stdout,color=True)
-                evidenceProps = {}
-                unknownProps = []
-                for q in concept.query('property(?cluster, ?word, ?prop) ^ has_sense(?word,?sense) ^ object(?cluster, ?obj)'):
-                    prop = q['?prop']
-                    sense = q['?sense']
-                    conceptname = q['?obj']
-                    if sense == 'null': continue
-                    if prop == 'null': continue
+        propsFound = {}
+        propWords = {}
+        trainingDBS = []
+        for x in inputdbs:
+            training_db = Database(mln)
+            propsFound = {}
 
-                    if prop in evidenceProps:
-                        evidenceProps[prop].append(sense)
-                    else:
-                        evidenceProps[prop] = [sense]
-                
-                # make sure entries don't get overwritten
-                self.updateDKBDict(conceptname, dkbDict, evidenceProps, False)
-
-
-        elif options.kbentry: # creates or updates DKB with inferred results from params
-
-            kbName = options.kbentry[0]
-            conceptname = options.kbentry[1]
-            log.info('Creating or modifying \'{}\'...     '.format(colorize(kbName + '.dkb',(None, 'green', True), True)))
-
-            # create or load dkb
-            filepath = os.path.join(self.module_path, 'kb', '{}.dkb'.format(kbName))
-            if not os.path.isfile(filepath):
-                dkb = self.create_dkb(kbName)
-            else:
-                dkb = self.load_dkb(kbName)
-
-            dkbDict = dkb.conceptDict
-            dkb.kbmln.formulas = []
-
-            # infer properties from nl sentence
-            propExtract = prac.getModuleByName('prop_extraction')
-            prac.run(infer,propExtract,kb=propExtract.load_pracmt('prop_extract'))
-
-                
-            # create formulaEvidenceProps to be added
-            formulaEvidenceProps = []
-            dbs = infer.inference_steps[-1].output_dbs
-            evidenceProps = {}
-            for db in dbs:
-                i = 0
-                for q in db.query('property(?cluster, ?word, ?prop) ^ has_sense(?word, ?sense)'):
-                    sense = q['?sense']
-                    prop = q['?prop']
-                    if sense == 'null': continue
-                    if prop == 'null': continue
-                    formulaEvidenceProps.append('property(?c, ?w{2}, {1}) ^ similar({0}, ?w{2})'.format(sense, prop,i))
-                    i+=1
-
-                    if prop in evidenceProps:
-                        evidenceProps[prop].append(sense)
-                    else:
-                        evidenceProps[prop] = [sense]
-
-                # make sure entries don't get overwritten
-                self.updateDKBDict(conceptname, dkbDict, evidenceProps, False)
-            
-        # any case:
-        doms = {}
-        for concept in dkbDict:
-            for prop in dkbDict[concept]:
-                if prop in doms:
-                    doms[prop] = list(set(doms[prop] + dkbDict[concept][prop]))
+            # adding evidence properties to new query db
+            for res in x.query('property(?cluster, ?word, ?prop) ^ has_sense(?word, ?sense)'):
+                if res['?prop'] == 'null': continue
+                if res['?sense'] == 'null': continue
+                if not res['?prop'] in propsFound:
+                    propsFound[res['?prop']] = [res['?sense']]
                 else:
-                    doms[prop] = dkbDict[concept][prop]
+                    propsFound[res['?prop']].append(res['?sense'])
 
-        log.info(doms)
-        for conceptname in dkbDict:
-            i = 0
-            props = dkbDict[conceptname]
-            formulaUnknownProps = []
-            formulaEvidenceProps = []            
-            for ep in props:
-                if len(props[ep]) == 1:
-                    formulaEvidenceProps.append('property(?c, ?w{2}, {0}) ^ similar({1}, ?w{2})'.format(ep, props[ep][0], i))
-                else:
-                    simsE = ' v '.join(['similar({0}, ?w{1})'.format(p, i) for p in props[ep]])
-                    formulaEvidenceProps.append('property(?c, ?w{2}, {0}) ^ ({1})'.format(ep, simsE, i))
-                i+=1
+                gndAtom = 'property({}, {}, {})'.format(res['?cluster'], res['?sense'], res['?prop'])
+                training_db.addGroundAtom(gndAtom)
+                training_db.addGroundAtom('object({}, {})'.format(res['?cluster'], objName))
 
-            # all properties that have NOT been inferred are added to the formula with their values being disjunctions
-            # of all possible assignments
-            unknownProps = set(props.keys()).symmetric_difference(set(possibleProps))
-            for up in unknownProps:
-                if up in doms:
-                    simsU = ' v '.join(['similar({0}, ?w{1})'.format(d, i) for d in doms[up]])
-                    formulaUnknownProps.append('property(?c, ?w{2}, {0}) ^ ({1})'.format(up, simsU, i))
-                    i+=1
-
-            # conjunct all properties inferred from input sentence as well as unknown properties
-            jointFormulaEvidenceProps = ' ^ '.join(formulaEvidenceProps) 
-            jointFormulaUnknownProps = '{}'.format(' ^ '.join(formulaUnknownProps))
-
-            if False:
-                f = 'object(?c, {0}) ^ {1} ^ ({2})'.format(conceptname, jointFormulaEvidenceProps, jointFormulaUnknownProps)
-            else:
-                f = 'object(?c, {}) ^ {}'.format(conceptname, jointFormulaEvidenceProps)
-
-            dkb.kbmln.addFormula(f, weight=1, hard=False, fixWeight=True)
-        dkb.conceptDict = dkbDict
-        self.save_dkb(dkb, kbName)
-
+            training_db = wordnet_module.add_senses_and_similiarities_for_words(training_db, mln.domains.get('word', []) + [item for sublist in propsFound.values() for item in sublist])
+            training_db.write(sys.stdout, color=True)
+            trainingDBS.append(training_db)
+            log.info('')
+        
+        outputfile = os.path.join(self.module_path, 'mln/{}.mln'.format(dkbName))
+        trainedMLN = mln.learnWeights(trainingDBS, LearningMethods.DCLL, evidencePreds=['property','similar'], optimizer='bfgs')
+        dkb.kbmln = trainedMLN
         dkb.printDKB()
-
-    
-    def updateDKBDict(self, conceptname, dct, newprops, overwrite):
-            if conceptname in dct:
-                prps = dct[conceptname]
-                if overwrite:
-                    dct[conceptname] = dict(prps.items() + newprops.items())
-                else:
-                    for x in prps:
-                        for y in newprops:
-                            if x == y:
-                                l = list(set(prps[x]).union(set(newprops[y])))
-                                dct[conceptname][x] = l
-            else:               
-                dct[conceptname] = newprops
+        self.save_dkb(dkb, dkbName)
+        trainedMLN.write(file(outputfile, "w"))
+        
+        print colorize('+=============================================+', (None, 'green', True), True)
+        print colorize('| LEARNT FORMULAS:                            |', (None, 'green', True), True)
+        print colorize('+=============================================+', (None, 'green', True), True)
+        
+        trainedMLN.printFormulas()
+        sys.exit(0)

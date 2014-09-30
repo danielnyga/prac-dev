@@ -26,6 +26,7 @@ from optparse import OptionParser
 from prac.core import PRAC
 from praclog import logging
 from prac.inference import PRACInference
+from prac.learning import PRACLearning
 from gui.querytool import PRACQueryGUI
 from prac.wordnet import WordNet
 from mln.database import readDBFromString, readDBFromFile
@@ -37,30 +38,37 @@ from utils import colorize
 
 if __name__ == '__main__':
     print "Running main..."
+    log = logging.getLogger()
+    log.setLevel(logging.INFO)
 
     parser = OptionParser()
     parser.add_option("-i", "--interactive", dest="interactive", default=False, action='store_true',
                       help="Starts PRAC object recognition with an interactive GUI tool.")
-    parser.add_option("-k", "--knowledgebase", dest="dkb", default='all',
-                      help="Knowledge base to be used for inference. Options: all, kitchenware, fruit, misc. Example: pracobjrec -k kitchen 'container with a handle'")
-    parser.add_option("-c", "--createkbentry", nargs=2, dest="kbentry", default=False, 
-                      help="Creates KBMLN with given name or adds entry to existing KBMLN. Example: pracobjrec -c kitchen cup.n.01 'container with a handle'")
-    parser.add_option("-s", "--showDKB", nargs=1, dest='showDKB', help="Prints content of given DKB")    
-    parser.add_option("-d", "--createkbentryFromDB", nargs=2, dest="kbentrydb", default=False, 
-                      help="Creates KBMLN with given name or adds entries from db file to existing KBMLN. Example: pracobjrec -d kitchen path/to/dbfile/with/kitchenware/entries.db")
+    parser.add_option("-f", "--dbfile", nargs=1, dest="dbfile", default=None,
+                      help="Name of database file containing object description data.")
+    parser.add_option("-t", "--train", nargs=2, dest='trainDKB', default=None,
+                      help="Train given DKB with inference results from argument. Example: pracobjrec -t kitchen cup.n.01 'It has a handle.'")    
+    parser.add_option("-s", "--showDKB", nargs=1, dest='showDKB', default=False, 
+                      help="Prints content of given DKB and exits.")    
+
     (options, args) = parser.parse_args()
+
+    log.info(options)
 
     interactive = options.interactive
     sentences = args
+    dbfile = options.dbfile
 
-    dkbname = options.dkb
-
-    log = logging.getLogger()
-    log.setLevel(logging.INFO)
 
     prac = PRAC()
     prac.wordnet = WordNet(concepts=None)
     
+    if options.showDKB: # print content of given dkb file and exit
+        objRecog = prac.getModuleByName('obj_recognition')
+        dkb=objRecog.load_dkb(options.showDKB)
+        dkb.printDKB()
+        sys.exit(0)
+
     infer = PRACInference(prac, sentences)
     
     
@@ -72,25 +80,25 @@ if __name__ == '__main__':
     if interactive: # use the GUI
         gui = PRACQueryGUI(infer)
         gui.open()
-    elif options.kbentrydb or options.kbentry: # create either DKB from db file or load and update existing with given concept description
-
-        objRecog = prac.getModuleByName('obj_recognition')
-        objRecog.createDKB(prac, options, infer)
-
-        sys.exit(0)
-    elif options.showDKB: # print content of give dkb file
-        objRec = prac.getModuleByName('obj_recognition')
-        dkb=objRec.load_dkb(options.showDKB)
-        dkb.printDKB()
-        sys.exit(0)
-    else: # regular PRAC pipeline
+    else:
         # property inference from parsed input
         propExtract = prac.getModuleByName('prop_extraction')
         prac.run(infer,propExtract,kb=propExtract.load_pracmt('prop_extract'))
-
-        # object inference based on inferred properties
-        objRec = prac.getModuleByName('obj_recognition')
-        prac.run(infer,objRec,kb=objRec.load_pracmt('obj_recog'),dkb=objRec.load_dkb(dkbname))
+        
+        objRecog = prac.getModuleByName('obj_recognition')
+        
+        # if options.kbentry: # create either DKB from db file or load and update existing with given concept description TODO remove?
+        #     log.info('creating dkb')
+        #     objRecog.createDKB(prac, options, infer)
+        #     sys.exit(0)
+        if options.trainDKB: # train DKB
+            log.info('entering training section')
+            praclearn = PRACLearning(prac)
+            objRecog.train(praclearn, infer, dkbName=options.trainDKB[0], objName=options.trainDKB[1])
+        else: # regular PRAC pipeline
+            log.info('entering regular prac pipeline')
+            # object inference based on inferred properties
+            prac.run(infer,objRecog,kb=objRecog.load_pracmt('obj_recog'),dkb=objRecog.load_dkb(dkbname))
 
 
     step = infer.inference_steps[-1]
