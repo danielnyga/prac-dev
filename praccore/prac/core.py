@@ -361,10 +361,10 @@ class DescriptionKnowledgeBase(object):
     Base class for descriptions of wordnet concepts. 
     '''
     
-    def __init__(self):
+    def __init__(self, dkbName):
         self.name = ''
-        self.kbmln = MLN(logic='FuzzyLogic', grammar='PRACGrammar')
-        self.conceptDict = {} # {conceptname: {property : [value]}}
+        # self.kbmln = MLN(logic='FuzzyLogic', grammar='PRACGrammar')
+        self.kbmln = readMLNFromFile(os.path.join(prac_module_path, 'obj_recognition/mln/objInf.mln'))
 
     def __getstate__(self): # do not store
         odict = self.__dict__.copy()
@@ -376,7 +376,6 @@ class DescriptionKnowledgeBase(object):
     def printDKB(self):
         print
         print '{} {}'.format(colorize('DKB name:', (None, 'white', True), True), colorize(self.name, (None, 'green', True), True))
-        print '{} {}'.format(colorize('Concepts:', (None, 'white', True), True), self.conceptDict.keys())
         print colorize('MLN:', (None, 'white', True), True)
         self.kbmln.write(sys.stdout, color=True)
         print        
@@ -475,13 +474,12 @@ class PRACModule(object):
         Creates a new DescriptionKnowledgeBase instance
         - name:  The name of the dkb to be created
         '''
-        dkb = DescriptionKnowledgeBase()#self.prac)
-        dkb.name = name
+        dkb = DescriptionKnowledgeBase(name)
 
         # declare predicates
-        dkb.kbmln.declarePredicate('property', ['cluster','word','prop'],[False,False,True])
-        dkb.kbmln.declarePredicate('object', ['cluster','concept'],[False,True])
-        dkb.kbmln.declarePredicate('similar', ['word','word'])
+        # dkb.kbmln.declarePredicate('property', ['cluster','word','prop'],[False,False,True])
+        # dkb.kbmln.declarePredicate('object', ['cluster','concept'],[False,True])
+        # dkb.kbmln.declarePredicate('similar', ['word','word'])
 
         return dkb
 
