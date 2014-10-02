@@ -49,12 +49,8 @@ class NLObjectRecognition(PRACModule):
         print
         print colorize('Inferring most probable object based on nl description properties...', (None, 'white', True), True)
         
-        if params.get('dkb') is not None:
-            dkb = params.get('dkb')
-        else:
-            dkb = self.load_dkb('mini')
-        dkb.printDKB()
-        mln = dkb.kbmln
+        dkb = params.get('dkb')
+        mln = dkb.trainedMLN
 
         if params.get('kb', None) is None:
             # load the default arguments
@@ -121,29 +117,22 @@ class NLObjectRecognition(PRACModule):
         return inf_step
 
     # TODO: learn incrementally
-    def train(self, praclearning, inference, dkbName='mini', objName=None):
+    def train(self, praclearning, inference, **params):
         print colorize('+=============================================+', (None, 'green', True), True)
         print colorize('| TRAINING KNOWLEDGEBASE...                   |', (None, 'green', True), True)
         print colorize('+=============================================+', (None, 'green', True), True)
 
         log = logging.getLogger(self.name)
-        
-        dkbPath = os.path.join(self.module_path, '../../pracmodules/obj_recognition/kb/{}.dkb'.format(dkbName))
-        if os.path.isfile(dkbPath):
-            dkb = self.load_dkb(dkbName)
-        else:
-            dkb = self.create_dkb(dkbName)
 
+        dkb =  params.get('dkb')
+        objName = params.get('objName')
         mln = dkb.kbmln
+        trainingDBS = dkb.dbs
+
         inputdbs = inference.inference_steps[-1].output_dbs
         wordnet_module = self.prac.getModuleByName('wn_senses')
 
         # # build training set from inference step to learn weights for mln
-        training_db = Database(mln)
-
-        propsFound = {}
-        propWords = {}
-        trainingDBS = []
         for x in inputdbs:
             training_db = Database(mln)
             propsFound = {}
@@ -152,30 +141,35 @@ class NLObjectRecognition(PRACModule):
             for res in x.query('property(?cluster, ?word, ?prop) ^ has_sense(?word, ?sense)'):
                 if res['?prop'] == 'null': continue
                 if res['?sense'] == 'null': continue
-                if not res['?prop'] in propsFound:
-                    propsFound[res['?prop']] = [res['?sense']]
+                
+                prop = res['?prop']
+                word = res['?sense']
+                cluster = res['?cluster']
+
+                if not prop in propsFound:
+                    propsFound[prop] = [word]
                 else:
-                    propsFound[res['?prop']].append(res['?sense'])
+                    propsFound[prop].append(word)
 
-                gndAtom = 'property({}, {}, {})'.format(res['?cluster'], res['?sense'], res['?prop'])
+                gndAtom = 'property({}, {}, {})'.format(cluster, word, prop)
                 training_db.addGroundAtom(gndAtom)
-                training_db.addGroundAtom('object({}, {})'.format(res['?cluster'], objName))
-
+                training_db.addGroundAtom('object({}, {})'.format(cluster, objName))
+            
             training_db = wordnet_module.add_senses_and_similiarities_for_words(training_db, mln.domains.get('word', []) + [item for sublist in propsFound.values() for item in sublist])
-            training_db.write(sys.stdout, color=True)
             trainingDBS.append(training_db)
-            log.info('')
         
-        outputfile = os.path.join(self.module_path, 'mln/{}.mln'.format(dkbName))
+        outputfile = os.path.join(self.module_path, 'mln/{}.mln'.format(dkb.name))
         trainedMLN = mln.learnWeights(trainingDBS, LearningMethods.DCLL, evidencePreds=['property','similar'], optimizer='bfgs')
-        dkb.kbmln = trainedMLN
-        dkb.printDKB()
-        self.save_dkb(dkb, dkbName)
-        trainedMLN.write(file(outputfile, "w"))
+
+        # update dkb
+        dkb.trainedMLN = trainedMLN
+        dkb.dbs = trainingDBS
+        self.save_dkb(dkb, dkb.name)
         
         print colorize('+=============================================+', (None, 'green', True), True)
         print colorize('| LEARNT FORMULAS:                            |', (None, 'green', True), True)
         print colorize('+=============================================+', (None, 'green', True), True)
         
         trainedMLN.printFormulas()
+        trainedMLN.write(file(outputfile, "w"))
         sys.exit(0)

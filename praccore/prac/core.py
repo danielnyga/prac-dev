@@ -361,10 +361,11 @@ class DescriptionKnowledgeBase(object):
     Base class for descriptions of wordnet concepts. 
     '''
     
-    def __init__(self, dkbName):
+    def __init__(self):
         self.name = ''
-        # self.kbmln = MLN(logic='FuzzyLogic', grammar='PRACGrammar')
         self.kbmln = readMLNFromFile(os.path.join(prac_module_path, 'obj_recognition/mln/objInf.mln'))
+        self.trainedMLN = None
+        self.dbs = [] # todo: unnecessary once incremental learning is implemented
 
     def __getstate__(self): # do not store
         odict = self.__dict__.copy()
@@ -376,9 +377,16 @@ class DescriptionKnowledgeBase(object):
     def printDKB(self):
         print
         print '{} {}'.format(colorize('DKB name:', (None, 'white', True), True), colorize(self.name, (None, 'green', True), True))
-        print colorize('MLN:', (None, 'white', True), True)
-        self.kbmln.write(sys.stdout, color=True)
-        print        
+        print colorize('Trained MLN:', (None, 'white', True), True)
+        if self.trainedMLN is not None:
+            self.trainedMLN.write(sys.stdout, color=True)
+        else:
+            print 'MLN has not been trained yet.'
+        print
+        for i, db in enumerate(self.dbs):
+            print 'DB {}:'.format(i)
+            db.write(sys.stdout, color=True)
+        print
         
 class PRACModule(object):
     '''
@@ -474,12 +482,8 @@ class PRACModule(object):
         Creates a new DescriptionKnowledgeBase instance
         - name:  The name of the dkb to be created
         '''
-        dkb = DescriptionKnowledgeBase(name)
-
-        # declare predicates
-        # dkb.kbmln.declarePredicate('property', ['cluster','word','prop'],[False,False,True])
-        # dkb.kbmln.declarePredicate('object', ['cluster','concept'],[False,True])
-        # dkb.kbmln.declarePredicate('similar', ['word','word'])
+        dkb = DescriptionKnowledgeBase()
+        dkb.name = name
 
         return dkb
 
