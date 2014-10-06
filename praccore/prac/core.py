@@ -363,7 +363,8 @@ class DescriptionKnowledgeBase(object):
     
     def __init__(self):
         self.name = ''
-        self.kbmln = readMLNFromFile(os.path.join(prac_module_path, 'obj_recognition/mln/objInf.mln'))
+        # self.kbmln = readMLNFromFile(os.path.join(prac_module_path, 'obj_recognition/mln/objInf.mln'), logic='FuzzyLogic')
+        self.kbmln = readMLNFromFile(os.path.join(prac_module_path, 'obj_recognition/mln/objInf.mln'), logic='FirstOrderLogic')
         self.trainedMLN = None
         self.dbs = [] # todo: unnecessary once incremental learning is implemented
 

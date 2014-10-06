@@ -46,6 +46,8 @@ if __name__ == '__main__':
                       help="Starts PRAC object recognition with an interactive GUI tool.")
     parser.add_option("-f", "--dbfile", nargs=1, dest="dbFile", default=None,
                       help="Name of database file containing object description data.")
+    parser.add_option("-k", "--trainFile", nargs=2, dest='trainDKBFromFile', default=None,
+                      help="Train given DKB with inference results from argument. Example: pracobjrec -t kitchen path/to/trainingset.db")    
     parser.add_option("-t", "--train", nargs=2, dest='trainDKB', default=None,
                       help="Train given DKB with inference results from argument. Example: pracobjrec -t kitchen cup.n.01 'It has a handle.'")    
     parser.add_option("-s", "--showDKB", nargs=1, dest='showDKB', default=False, 
@@ -57,8 +59,6 @@ if __name__ == '__main__':
 
     interactive = options.interactive
     sentences = args
-    dbfile = options.dbFile
-
 
     prac = PRAC()
     prac.wordnet = WordNet(concepts=None)
@@ -80,7 +80,24 @@ if __name__ == '__main__':
     if interactive: # use the GUI
         gui = PRACQueryGUI(infer)
         gui.open()
-    else:
+    if options.trainDKBFromFile: # training with db file
+        dkbName = options.trainDKBFromFile[0]
+        dbFile = options.trainDKBFromFile[1]
+
+        objRecog = prac.getModuleByName('obj_recognition')
+        dkbPath = os.path.join(objRecog.module_path, 'kb/{}.dkb'.format(dkbName))
+        if os.path.isfile(dkbPath):
+            log.info('Loading {} ...'.format(dkbPath))
+            dkb = objRecog.load_dkb(dkbName)
+        else:
+            log.info('{} does not exist. Creating...'.format(dkbPath))
+            dkb = objRecog.create_dkb(dkbName)
+
+        dkb.printDKB()
+
+        praclearn = PRACLearning(prac)
+        objRecog.train(praclearn, infer, dkb=dkb, dbFile=dbFile)
+    elif options.trainDKB: # training with property inference output
         # property inference from parsed input
         propExtract = prac.getModuleByName('prop_extraction')
         prac.run(infer,propExtract,kb=propExtract.load_pracmt('prop_extract'))

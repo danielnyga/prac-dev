@@ -51,6 +51,7 @@ class NLObjectRecognition(PRACModule):
         
         dkb = params.get('dkb')
         mln = dkb.trainedMLN
+        mln.write(sys.stdout, color=True)
 
         if params.get('kb', None) is None:
             # load the default arguments
@@ -124,13 +125,24 @@ class NLObjectRecognition(PRACModule):
 
         log = logging.getLogger(self.name)
 
-        dkb =  params.get('dkb')
-        objName = params.get('objName')
-        mln = dkb.kbmln
-        trainingDBS = dkb.dbs
+        dbFile = params.get('dbFile', None)
+        objName = params.get('objName', None)
 
-        inputdbs = inference.inference_steps[-1].output_dbs
-        wordnet_module = self.prac.getModuleByName('wn_senses')
+        dkb =  params.get('dkb', None)
+        if dkb is not None:
+            mln = dkb.kbmln
+            trainingDBS = dkb.dbs
+            wordnet_module = self.prac.getModuleByName('wn_senses')
+
+        if dbFile is not None:
+            # dbs = readDBFromFile(mln, dbFile, ignoreUnknownPredicates=True)
+            inputdbs = readDBFromFile(mln, dbFile, ignoreUnknownPredicates=True)
+            query = 'object(?cluster, ?objName) ^ property(?cluster, ?word, ?prop) ^ has_sense(?word, ?sense)'
+            # query = 'object(?cluster, ?objName) ^ property(?cluster, ?sense, ?prop)'
+            # query = 'object(?cluster, ?objName) ^ {}(?cluster, ?sense)'.format([SIZE,SHAPE,COLOR...])
+        else:
+            inputdbs = inference.inference_steps[-1].output_dbs
+            query = 'property(?cluster, ?word, ?prop) ^ has_sense(?word, ?sense)'
 
         # # build training set from inference step to learn weights for mln
         for x in inputdbs:
@@ -138,9 +150,12 @@ class NLObjectRecognition(PRACModule):
             propsFound = {}
 
             # adding evidence properties to new query db
-            for res in x.query('property(?cluster, ?word, ?prop) ^ has_sense(?word, ?sense)'):
+            for res in x.query(query):
                 if res['?prop'] == 'null': continue
                 if res['?sense'] == 'null': continue
+                if res['?cluster'] == 'null': continue
+                if '?objName' in res:
+                    objName = res['?objName']
                 
                 prop = res['?prop']
                 word = res['?sense']
@@ -153,11 +168,14 @@ class NLObjectRecognition(PRACModule):
 
                 gndAtom = 'property({}, {}, {})'.format(cluster, word, prop)
                 training_db.addGroundAtom(gndAtom)
+
                 training_db.addGroundAtom('object({}, {})'.format(cluster, objName))
             
+            training_db.write(sys.stdout, color=True)
             training_db = wordnet_module.add_senses_and_similiarities_for_words(training_db, mln.domains.get('word', []) + [item for sublist in propsFound.values() for item in sublist])
             trainingDBS.append(training_db)
-        
+
+
         outputfile = os.path.join(self.module_path, 'mln/{}.mln'.format(dkb.name))
         trainedMLN = mln.learnWeights(trainingDBS, LearningMethods.DCLL, evidencePreds=['property','similar'], optimizer='bfgs')
 
