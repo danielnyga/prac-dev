@@ -44,6 +44,8 @@ if __name__ == '__main__':
     parser = OptionParser()
     parser.add_option("-i", "--interactive", dest="interactive", default=False, action='store_true',
                       help="Starts PRAC object recognition with an interactive GUI tool.")
+    parser.add_option("-o", "--useOld", dest="useOld", default=False, action='store_true',
+                      help="Use property(cluster, value, prop) when true, else color(cluster, value) etc.")
     parser.add_option("-f", "--dbfile", nargs=1, dest="dbFile", default=None,
                       help="Name of database file containing object description data.")
     parser.add_option("-k", "--trainFile", nargs=2, dest='trainDKBFromFile', default=None,
@@ -58,6 +60,7 @@ if __name__ == '__main__':
     (options, args) = parser.parse_args()
 
     interactive = options.interactive
+    useOld = options.useOld
     sentences = args
 
     prac = PRAC()
@@ -78,11 +81,13 @@ if __name__ == '__main__':
         prac.run(infer, parser)
         
     if interactive: # use the GUI
+        log.info('Entering interactive mode')
         gui = PRACQueryGUI(infer)
         gui.open()
     if options.trainDKBFromFile: # training with db file
         dkbName = options.trainDKBFromFile[0]
         dbFile = options.trainDKBFromFile[1]
+        log.info('Training DKB {} with db file {}'.format(dkbName, dbFile))
 
         objRecog = prac.getModuleByName('obj_recognition')
         dkbPath = os.path.join(objRecog.module_path, 'kb/{}.dkb'.format(dkbName))
@@ -98,36 +103,44 @@ if __name__ == '__main__':
         praclearn = PRACLearning(prac)
         objRecog.train(praclearn, infer, dkb=dkb, dbFile=dbFile)
     elif options.trainDKB: # training with property inference output
+        log.info('Training DKB {} with result from property inference'.format(dkbName))
         # property inference from parsed input
         propExtract = prac.getModuleByName('prop_extraction')
         prac.run(infer,propExtract,kb=propExtract.load_pracmt('prop_extract'))
         
         objRecog = prac.getModuleByName('obj_recognition')
 
-        if options.trainDKB: # train DKB
+        dkbName = options.trainDKB[0]
+        objName = options.trainDKB[1]
 
-            dkbName = options.trainDKB[0]
-            objName = options.trainDKB[1]
-
-            dkbPath = os.path.join(objRecog.module_path, 'kb/{}.dkb'.format(dkbName))
-            if os.path.isfile(dkbPath):
-                log.info('Loading {} ...'.format(dkbPath))
-                dkb = objRecog.load_dkb(dkbName)
-            else:
-                log.info('{} does not exist. Creating...'.format(dkbPath))
-                dkb = objRecog.create_dkb(dkbName)
-
-            dkb.printDKB()
-            # prac.run(infer,objRecog,kb=objRecog.load_pracmt('obj_recog'),dkb=dkb)
+        dkbPath = os.path.join(objRecog.module_path, 'kb/{}.dkb'.format(dkbName))
+        if os.path.isfile(dkbPath):
+            log.info('Loading {} ...'.format(dkbPath))
+            dkb = objRecog.load_dkb(dkbName)
+        else:
+            log.info('{} does not exist. Creating...'.format(dkbPath))
+            dkb = objRecog.create_dkb(dkbName)
 
             praclearn = PRACLearning(prac)
             objRecog.train(praclearn, infer, dkb=dkb, objName=objName)
-        else: # regular PRAC pipeline
+    else: # regular PRAC pipeline
+        log.info('Entering regular inference pipeline')
 
-            # object inference based on inferred properties
-            prac.run(infer,objRecog,kb=objRecog.load_pracmt('obj_recog'),dkb=objRecog.load_dkb(options.dkbName))
+        # property inference from parsed input
+        propExtract = prac.getModuleByName('prop_extraction')
+        prac.run(infer,propExtract,kb=propExtract.load_pracmt('prop_extract'))
+        
+        objRecog = prac.getModuleByName('obj_recognition')
 
+        # object inference based on inferred properties
+        prac.run(infer,objRecog,kb=objRecog.load_pracmt('obj_recog'),dkb=objRecog.load_dkb(options.dkbName))
 
+    queries = []
+    if useOld:
+        queries.append('property(?cluster, ?word, ?prop)')
+    else:
+        for p in ['COLOR','SIZE','SHAPE','HYPERNYM','HASA']:
+            queries.append('{}(?cluster, ?word)'.format(p))
     step = infer.inference_steps[-1]
     print
     print colorize('+========================+',  (None, 'green', True), True)

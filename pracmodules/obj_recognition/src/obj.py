@@ -51,7 +51,6 @@ class NLObjectRecognition(PRACModule):
         
         dkb = params.get('dkb')
         mln = dkb.trainedMLN
-        mln.write(sys.stdout, color=True)
 
         if params.get('kb', None) is None:
             # load the default arguments
@@ -100,7 +99,7 @@ class NLObjectRecognition(PRACModule):
             # adding word similarities
             res_db = wordnet_module.add_senses_and_similiarities_for_words(res_db, mln.domains.get('word', []) + [item for sublist in propsFound.values() for item in sublist])
             # res_db = wordnet_module.add_senses_and_similiarities_for_words(res_db, mln.domains.get('word', []) + [item for sublist in propsFound.values() for item in sublist] + ['Unknown'])
-            # res_db.write(sys.stdout, color=True)
+            res_db.write(sys.stdout, color=True)
             
             # infer and update output dbs
             # log.info(kb.query_params)
@@ -137,7 +136,8 @@ class NLObjectRecognition(PRACModule):
         if dbFile is not None:
             # dbs = readDBFromFile(mln, dbFile, ignoreUnknownPredicates=True)
             inputdbs = readDBFromFile(mln, dbFile, ignoreUnknownPredicates=True)
-            query = 'object(?cluster, ?objName) ^ property(?cluster, ?word, ?prop) ^ has_sense(?word, ?sense)'
+            query = 'object(?cluster, ?objName) ^ property(?cluster, ?sense, ?prop)'
+            # query = 'object(?cluster, ?objName) ^ property(?cluster, ?word, ?prop) ^ has_sense(?word, ?sense)'
             # query = 'object(?cluster, ?objName) ^ property(?cluster, ?sense, ?prop)'
             # query = 'object(?cluster, ?objName) ^ {}(?cluster, ?sense)'.format([SIZE,SHAPE,COLOR...])
         else:
@@ -173,6 +173,7 @@ class NLObjectRecognition(PRACModule):
             
             training_db.write(sys.stdout, color=True)
             training_db = wordnet_module.add_senses_and_similiarities_for_words(training_db, mln.domains.get('word', []) + [item for sublist in propsFound.values() for item in sublist])
+            
             trainingDBS.append(training_db)
 
 

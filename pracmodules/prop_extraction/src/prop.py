@@ -30,6 +30,8 @@ from prac.inference import PRACInferenceStep
 import sys, os
 from utils import colorize
 
+possibleProps = ['COLOR','SIZE','SHAPE','HYPERNYM','HASA']
+
 class PropExtraction(PRACModule):    
 
     def initialize(self):
@@ -46,6 +48,7 @@ class PropExtraction(PRACModule):
         print
         print colorize('Inferring most probable ANNOTATION + simultaneous WORD SENSE DISMABIGUATION...', (None, 'white', True), True)
         
+        useFuckingOldPropPredicate = params.get('useOld', False)
         if params.get('kb', None) is None:
             # load the default arguments
             dbs = pracinference.inference_steps[-1].output_dbs
@@ -74,20 +77,29 @@ class PropExtraction(PRACModule):
             else:
                 db.domains['cluster'] = ['cluster']
 
-            # infer and update output dbs
+            # infer and update output
             result_db = list(kb.infer(db))
-            inf_step.output_dbs.extend(result_db)
+
+            queries = []
+            if useFuckingOldPropPredicate:
+                queries.append('property(?cluster, ?word, ?prop) ^ has_sense(?word, ?sense)')
+            else:
+                for p in possibleProps:
+                    queries.append('{}(?cluster, ?word) ^ has_sense(?word, ?sense)'.format(p))
 
             for r_db in result_db:
                 # print annotations found in result db
                 for instr in pracinference.instructions:
                     print colorize('Inferred properties for instruction:', (None, 'white', True), True), instr
                     print
-                for q in r_db.query('property(?cluster, ?word, ?prop) ^ has_sense(?word, ?sense)'):
-                    if q['?prop'] == 'null': continue
-                    if q['?sense'] == 'null': continue
-                    print '{}({}, {}, {})'.format(colorize('property', (None, 'white', True), True), q['?cluster'], q['?sense'], colorize(q['?prop'], (None, 'yellow', True), True))
-                print
+                for query in queries:
+                    for q in r_db.query(query):
+                        if q['?sense'] == 'null': continue
+                        if usePropPredicates:
+                            print '{}({}, {}, {})'.format(colorize('property', (None, 'white', True), True), q['?cluster'], q['?sense'], colorize(q['?prop'], (None, 'yellow', True), True))
+                        else:
+                            print '{}({}, {})'.format(colorize(query.split('('), (None, 'white', True), True), q['?cluster'], q['?sense'])
+                    print
 
                 print 'Inferred most probable word senses:'
                 for q in r_db.query('has_sense(?w, ?s)'):
@@ -95,6 +107,8 @@ class PropExtraction(PRACModule):
                     print '{}:'.format(q['?w'])
                     print 'get meanings of word',q['?w'], q['?s']
                     wordnet_module.printWordSenses(wordnet_module.get_possible_meanings_of_word(r_db, q['?w']), q['?s'])
+
+            inf_step.output_dbs.extend(result_db)
         return inf_step
 
 
