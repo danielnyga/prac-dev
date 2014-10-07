@@ -123,7 +123,7 @@ sizespecs = {   'dwarfish.s.01': (0),
                 'modest.s.02': (4),
                 'average.s.04': (5),
                 'medium-sized.s.01': (5),
-                'large.a.01': (7),
+                'large.a.01': (7), # 'big'
                 'long.s.02' : (7.5),
                 'long.s.03' : (7.5),
                 'tall.a.01': (7.5),

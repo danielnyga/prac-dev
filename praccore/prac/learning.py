@@ -41,3 +41,4 @@ class PRACLearning(object):
         self.modules = []
         self.watch = StopWatch()
         self.training_dbs = []
+        self.otherParams = {}

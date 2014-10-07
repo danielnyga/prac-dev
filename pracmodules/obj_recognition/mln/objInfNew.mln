@@ -1,20 +1,10 @@
-// predicate declarations
-shape(cluster, shape)
-color(cluster, color)
-goggles_Text(cluster, text)
-goggles_Logo(cluster, company)
-goggles(cluster, product)
-goggles_Contact(cluster, contact)
-goggles_Product(cluster, product)
-size(cluster, size)
-linemod(cluster, mod)
-scene(scene)
+#include predicatesNew.mln
 
-object(cluster, object!)
+0 size(?c, +?size) ^ shape(?c, +?shape) ^ color(?c, +?col) ^ object(?c, +?obj)
+0 isA(?c, +?hyp) ^ object(?c, +?obj)
+0 hasA(?c, +?part) ^ object(?c, +?obj)
 
-// formulas
 
-0 size(?c, +?size) ^ shape(?c, +?s) ^ color(?c, +?col) ^ object(?c, +?obj)
 //0 linemod(?c, +?m) ^ object(?c, +?obj)
 //0 goggles_Logo(?c, +?comp) ^ object(?c, +?obj)
 //0 goggles_Product(?c, +?prod) ^ object(?c, +?obj)
@@ -24,8 +14,10 @@ object(cluster, object!)
 //0 scene(+?s) ^ object(?c, +?obj)
 
 
-#unique{+?t1,+?t2}
-0 scene(+?s) ^ object(?c1, +?t1) ^ object(?c2, +?t2) ^ ?c1 =/= ?c2
+//unique{+?t1,+?t2}
+//0 object(?c1, +?t1) ^ object(?c2, +?t2) ^ ?c1 =/= ?c2
+
+//0 scene(+?s) ^ object(?c1, +?t1) ^ object(?c2, +?t2) ^ ?c1 =/= ?c2
 //#unique{+?t1,+?t2}
 //0 !scene(+?s) ^ object(?c1, +?t1) ^ object(?c2, +?t2) ^ ?c1 =/= ?c2
 

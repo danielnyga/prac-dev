@@ -44,14 +44,8 @@ if __name__ == '__main__':
     parser = OptionParser()
     parser.add_option("-i", "--interactive", dest="interactive", default=False, action='store_true',
                       help="Starts PRAC object recognition with an interactive GUI tool.")
-    parser.add_option("-o", "--useOld", dest="useOld", default=False, action='store_true',
-                      help="Use property(cluster, value, prop) when true, else color(cluster, value) etc.")
-    parser.add_option("-f", "--dbfile", nargs=1, dest="dbFile", default=None,
-                      help="Name of database file containing object description data.")
-    parser.add_option("-k", "--trainFile", nargs=2, dest='trainDKBFromFile', default=None,
-                      help="Train given DKB with inference results from argument. Example: pracobjrec -t kitchen path/to/trainingset.db")    
     parser.add_option("-t", "--train", nargs=2, dest='trainDKB', default=None,
-                      help="Train given DKB with inference results from argument. Example: pracobjrec -t kitchen cup.n.01 'It has a handle.'")    
+                      help="Train given DKB with inference results from argument. Example: pracobjrec -t fruit orange.n.01 'It is a yellow or orange fruit.'")    
     parser.add_option("-s", "--showDKB", nargs=1, dest='showDKB', default=False, 
                       help="Prints content of given DKB and exits.")    
     parser.add_option("-r", "--regular", nargs=1, dest='dkbName', default='mini', 
@@ -60,7 +54,6 @@ if __name__ == '__main__':
     (options, args) = parser.parse_args()
 
     interactive = options.interactive
-    useOld = options.useOld
     sentences = args
 
     prac = PRAC()
@@ -84,45 +77,23 @@ if __name__ == '__main__':
         log.info('Entering interactive mode')
         gui = PRACQueryGUI(infer)
         gui.open()
-    if options.trainDKBFromFile: # training with db file
-        dkbName = options.trainDKBFromFile[0]
-        dbFile = options.trainDKBFromFile[1]
-        log.info('Training DKB {} with db file {}'.format(dkbName, dbFile))
-
-        objRecog = prac.getModuleByName('obj_recognition')
-        dkbPath = os.path.join(objRecog.module_path, 'kb/{}.dkb'.format(dkbName))
-        if os.path.isfile(dkbPath):
-            log.info('Loading {} ...'.format(dkbPath))
-            dkb = objRecog.load_dkb(dkbName)
-        else:
-            log.info('{} does not exist. Creating...'.format(dkbPath))
-            dkb = objRecog.create_dkb(dkbName)
-
-        dkb.printDKB()
-
-        praclearn = PRACLearning(prac)
-        objRecog.train(praclearn, infer, dkb=dkb, dbFile=dbFile)
     elif options.trainDKB: # training with property inference output
-        log.info('Training DKB {} with result from property inference'.format(dkbName))
+        log.info('Training DKB {} with result from property inference'.format(options.trainDKB[0]))
+
         # property inference from parsed input
         propExtract = prac.getModuleByName('prop_extraction')
         prac.run(infer,propExtract,kb=propExtract.load_pracmt('prop_extract'))
-        
+
         objRecog = prac.getModuleByName('obj_recognition')
+        
+        praclearn = PRACLearning(prac)
+        praclearn.otherParams['kb'] = options.trainDKB[0]
+        praclearn.otherParams['concept'] = options.trainDKB[1]
+        praclearn.training_dbs = infer.inference_steps[-1].output_dbs
 
-        dkbName = options.trainDKB[0]
-        objName = options.trainDKB[1]
+        objRecog.train(praclearn)
+        sys.exit(0)
 
-        dkbPath = os.path.join(objRecog.module_path, 'kb/{}.dkb'.format(dkbName))
-        if os.path.isfile(dkbPath):
-            log.info('Loading {} ...'.format(dkbPath))
-            dkb = objRecog.load_dkb(dkbName)
-        else:
-            log.info('{} does not exist. Creating...'.format(dkbPath))
-            dkb = objRecog.create_dkb(dkbName)
-
-            praclearn = PRACLearning(prac)
-            objRecog.train(praclearn, infer, dkb=dkb, objName=objName)
     else: # regular PRAC pipeline
         log.info('Entering regular inference pipeline')
 
@@ -135,12 +106,6 @@ if __name__ == '__main__':
         # object inference based on inferred properties
         prac.run(infer,objRecog,kb=objRecog.load_pracmt('obj_recog'),dkb=objRecog.load_dkb(options.dkbName))
 
-    queries = []
-    if useOld:
-        queries.append('property(?cluster, ?word, ?prop)')
-    else:
-        for p in ['COLOR','SIZE','SHAPE','HYPERNYM','HASA']:
-            queries.append('{}(?cluster, ?word)'.format(p))
     step = infer.inference_steps[-1]
     print
     print colorize('+========================+',  (None, 'green', True), True)
@@ -149,14 +114,16 @@ if __name__ == '__main__':
     print
     print 'Object description: {}'.format(colorize(''.join(sentences),  (None, 'white', True), True))
     print
-    for db in step.output_dbs:
+    for db in infer.inference_steps[-2].output_dbs:
         print 'Inferred properties:'
-        for q in db.query('property(?cluster, ?word, ?prop)'):
-            if q['?prop'] == 'null': continue
-            print '{}({}, {}, {})'.format(  colorize('property', (None, 'white', True), True), # 'property'
-                                            colorize(q['?cluster'], (None, 'magenta', True), True), # cluster
-                                            colorize(q['?word'], (None, 'green', True), True), # propertyvalue (wn concept)
-                                            colorize(q['?prop'], (None, 'yellow', True), True)) # propertytype
+        for ek in sorted(db.evidence):
+            e = db.evidence[ek]
+            if e == 1.0 and any(ek.startswith(p) for p in ['color','size','shape','isA','hasA']):
+                print '{}({}, {}'.format(  colorize(ek.split('(')[0], (None, 'white', True), True), # propertytype
+                                            colorize(ek.split('(')[1].split(',')[0], (None, 'magenta', True), True), # cluster
+                                            colorize(ek.split('(')[1].split(',')[1], (None, 'green', True), True)) # propertyvalue (wn concept)
+
+    for db in infer.inference_steps[-1].output_dbs:
         print
         print 'Inferred possible concepts:'
         for ek in sorted(db.evidence, key=db.evidence.get, reverse=True):
@@ -165,6 +132,4 @@ if __name__ == '__main__':
                 print '{} {}({}, {})'.format(   colorize('{:.4f}'.format(e),  (None, 'cyan', True), True), # probability
                                                 colorize('object',  (None, 'white', True), True), # 'object'
                                                 colorize(ek.split(',')[0].split('(')[1], (None, 'magenta', True), True), # cluster
-                                                colorize(ek.split(',')[1].split(')')[0], (None, 'green', True), True)) # objectvalue (wn concept)
-                                                    
-        print
+                                                colorize(ek.split(',')[1].split(')')[0], (None, 'yellow', True), True)) # objectvalue (wn concept)

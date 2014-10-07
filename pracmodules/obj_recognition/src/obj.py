@@ -30,7 +30,7 @@ from prac.inference import PRACInferenceStep
 import sys, os
 from utils import colorize
 
-possibleProps = ['COLOR','SIZE','SHAPE','HYPERNYM','HASA']
+possibleProps = ['color','size','shape','isA','hasA']
 
 class NLObjectRecognition(PRACModule):    
 
@@ -55,8 +55,7 @@ class NLObjectRecognition(PRACModule):
         if params.get('kb', None) is None:
             # load the default arguments
             kb = self.load_pracmt('obj_recog')
-            dbs = pracinference.inference_steps[-1].output_dbs
-            kb.dbs = dbs
+            kb.dbs = pracinference.inference_steps[-1].output_dbs
         else:
             kb = params['kb']
         if not hasattr(kb, 'dbs'):
@@ -65,120 +64,79 @@ class NLObjectRecognition(PRACModule):
         inf_step = PRACInferenceStep(pracinference, self)
         wordnet_module = self.prac.getModuleByName('wn_senses')
         
-        result_dbs = []
-        # process databases
         for db in kb.dbs:
             # adding evidence properties to new query db
-            res_db = Database(mln)
-
             propsFound = {}
-            for res in db.query('property(?cluster, ?word, ?prop) ^ has_sense(?word, ?sense)'):
-                if res['?prop'] == 'null': continue
-                if res['?sense'] == 'null': continue
-                if not res['?prop'] in propsFound:
-                    propsFound[res['?prop']] = [res['?sense']]
-                else:
-                    propsFound[res['?prop']].append(res['?sense'])
+            for p in possibleProps:
+                if not any(x.startswith(p) for x in db.evidence): continue
+                for res in db.query('{}(?cluster, ?word)'.format(p)):
+                    if res['?cluster'] == 'null': continue
+                    if res['?word'] == 'null': continue
+                    if not p in propsFound:
+                        propsFound[p] = [res['?word']]
+                    else:
+                        propsFound[p].append(res['?word'])
 
-                gndAtom = 'property({}, {}, {})'.format(res['?cluster'], res['?sense'], res['?prop'])
-                res_db.addGroundAtom(gndAtom)
-
-            # for each inferred property, assert all non-matching properties
-            for prop in propsFound:
-                for word in mln.domains.get('word', []):
-                    if not word in propsFound[prop]:
-                        gndAtom = '!property({}, {}, {})'.format(res['?cluster'], word, prop)
-                        res_db.addGroundAtom(gndAtom)
-
-            # for each NOT inferred property, assume it has value 'Unknown' (which has a similarity of 0.01 to everything)
-            # todo: check if this makes much of a difference
-            # for prop in set(propsFound.keys()).symmetric_difference(set(possibleProps)):
-            #     gndAtom = 'property({}, {}, {})'.format(res['?cluster'], 'Unknown', prop)
-            #     res_db.addGroundAtom(gndAtom)
+            # # for each inferred property, assert all non-matching properties
+            # for prop in propsFound:
+            #     for word in mln.domains.get('word', []):
+            #         if not word in propsFound[prop]:
+            #             gndAtom = '!property({}, {}, {})'.format(res['?cluster'], word, prop)
+            #             res_db.addGroundAtom(gndAtom)
 
             # adding word similarities
-            res_db = wordnet_module.add_senses_and_similiarities_for_words(res_db, mln.domains.get('word', []) + [item for sublist in propsFound.values() for item in sublist])
+            db = wordnet_module.add_similarities(db, mln.domains, propsFound)
+            # db = wordnet_module.add_similarities(db, mln.domains, [item for sublist in propsFound.values() for item in sublist])
             # res_db = wordnet_module.add_senses_and_similiarities_for_words(res_db, mln.domains.get('word', []) + [item for sublist in propsFound.values() for item in sublist] + ['Unknown'])
-            res_db.write(sys.stdout, color=True)
+            db.write(sys.stdout, color=True)
             
             # infer and update output dbs
-            # log.info(kb.query_params)
-            # res_db.write(sys.stdout, color=True)
-            # inferred_db = mln.infer(evidence_db=res_db, groundingMethod='DefaultGroundingFactory',**kb.query_params)
-            inferred_db = mln.infer(evidence_db=res_db, **kb.query_params)
-            # print colorize('Inferred DB...', (None, 'green', True), True) 
-            # inferred_db.write(sys.stdout,color=True)
-            inf_step.output_dbs.extend([inferred_db])
 
-            for q in inferred_db.query('object(?cluster, ?concept)'):
-                # print annotations found in result db
-                if q['?concept'] == 'null': continue
-                log.info('Inferred: object({}, {})'.format(q['?cluster'], colorize(q['?concept'], (None, 'white', True), True)))
+            inferred_db = mln.infer(evidence_db=db, **kb.query_params)
+            inferred_db.write(sys.stdout, color=True)
+            inf_step.output_dbs.extend([inferred_db])
         return inf_step
 
     # TODO: learn incrementally
-    def train(self, praclearning, inference, **params):
+    def train(self, praclearning):
         print colorize('+=============================================+', (None, 'green', True), True)
         print colorize('| TRAINING KNOWLEDGEBASE...                   |', (None, 'green', True), True)
         print colorize('+=============================================+', (None, 'green', True), True)
 
+        mlnPath = os.path.join(self.module_path, 'mln')
+        kbPath = os.path.join(self.module_path, 'kb')
         log = logging.getLogger(self.name)
 
-        dbFile = params.get('dbFile', None)
-        objName = params.get('objName', None)
+        dkbName =  praclearning.otherParams.get('kb', None)
+        objName = praclearning.otherParams.get('concept', None)
+        dkbPath = '{}/{}.dkb'.format(kbPath, dkbName)
 
-        dkb =  params.get('dkb', None)
-        if dkb is not None:
-            mln = dkb.kbmln
-            trainingDBS = dkb.dbs
-            wordnet_module = self.prac.getModuleByName('wn_senses')
-
-        if dbFile is not None:
-            # dbs = readDBFromFile(mln, dbFile, ignoreUnknownPredicates=True)
-            inputdbs = readDBFromFile(mln, dbFile, ignoreUnknownPredicates=True)
-            query = 'object(?cluster, ?objName) ^ property(?cluster, ?sense, ?prop)'
-            # query = 'object(?cluster, ?objName) ^ property(?cluster, ?word, ?prop) ^ has_sense(?word, ?sense)'
-            # query = 'object(?cluster, ?objName) ^ property(?cluster, ?sense, ?prop)'
-            # query = 'object(?cluster, ?objName) ^ {}(?cluster, ?sense)'.format([SIZE,SHAPE,COLOR...])
+        if os.path.isfile(dkbPath):
+            log.info('Loading {} ...'.format(dkbPath))
+            dkb = self.load_dkb(dkbName)
         else:
-            inputdbs = inference.inference_steps[-1].output_dbs
-            query = 'property(?cluster, ?word, ?prop) ^ has_sense(?word, ?sense)'
+            log.info('{} does not exist. Creating...'.format(dkbPath))
+            dkb = self.create_dkb(dkbName)
 
-        # # build training set from inference step to learn weights for mln
-        for x in inputdbs:
-            training_db = Database(mln)
-            propsFound = {}
+        mln = dkb.kbmln
 
-            # adding evidence properties to new query db
-            for res in x.query(query):
-                if res['?prop'] == 'null': continue
-                if res['?sense'] == 'null': continue
-                if res['?cluster'] == 'null': continue
-                if '?objName' in res:
-                    objName = res['?objName']
-                
-                prop = res['?prop']
-                word = res['?sense']
-                cluster = res['?cluster']
+        queries = []
+        pracTrainingDBS = praclearning.training_dbs
 
-                if not prop in propsFound:
-                    propsFound[prop] = [word]
-                else:
-                    propsFound[prop].append(word)
+        if len(pracTrainingDBS) >= 1 and type(pracTrainingDBS[0]) is str: # db from file
+            inputdbs = readDBFromFile(mln, pracTrainingDBS, ignoreUnknownPredicates=True)
+        else: # db from inference result
+            inputdbs = pracTrainingDBS
+            for db in inputdbs:
+                db.addGroundAtom('object(cluster, {})'.format(objName))
 
-                gndAtom = 'property({}, {}, {})'.format(cluster, word, prop)
-                training_db.addGroundAtom(gndAtom)
+        trainingDBS = inputdbs + dkb.dbs
 
-                training_db.addGroundAtom('object({}, {})'.format(cluster, objName))
-            
-            training_db.write(sys.stdout, color=True)
-            training_db = wordnet_module.add_senses_and_similiarities_for_words(training_db, mln.domains.get('word', []) + [item for sublist in propsFound.values() for item in sublist])
-            
-            trainingDBS.append(training_db)
+        for db in trainingDBS:
+            db.write(sys.stdout, color=True)
 
-
-        outputfile = os.path.join(self.module_path, 'mln/{}.mln'.format(dkb.name))
-        trainedMLN = mln.learnWeights(trainingDBS, LearningMethods.DCLL, evidencePreds=['property','similar'], optimizer='bfgs')
+        outputfile = '{}/{}.mln'.format(mlnPath, dkbName)
+        trainedMLN = mln.learnWeights(trainingDBS, LearningMethods.DCLL, evidencePreds=['color','size','shape','isA','hasA'], gaussianPriorSigma=10, optimizer='bfgs')
 
         # update dkb
         dkb.trainedMLN = trainedMLN
@@ -191,4 +149,3 @@ class NLObjectRecognition(PRACModule):
         
         trainedMLN.printFormulas()
         trainedMLN.write(file(outputfile, "w"))
-        sys.exit(0)

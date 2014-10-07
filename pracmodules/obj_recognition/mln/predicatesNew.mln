@@ -23,21 +23,18 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ******************************************************************************/
  
-#include ../../nl_parsing/mln/predicates.mln
+shape(cluster, shape)
+color(cluster, color)
+size(cluster, size)
+isA(cluster, isA)
+hasA(cluster, hasA)
 
-has_sense(word, sense!)
-is_a(sense, concept)
+object(cluster, object!)
 
-color(cluster, color) 
-size(cluster, size) 
-shape(cluster, shape) 
-hasA(cluster, part) 
-isA(cluster, hypernym)
-object(cluster, concept!)
-
-concept = {null}
-color,size,shape,part,hypernym = {null}
-
-// DO NOT MIX UP is_a and isA!
-// is_a = word / sense relation (cup-2 - cup.n.01)
-// isA = concept / hypernym relation! (cup.n.01 - container.n.01)
+// goggles_Text(cluster, text)
+// goggles_Logo(cluster, company)
+// goggles(cluster, product)
+// goggles_Contact(cluster, contact)
+// goggles_Product(cluster, product)
+// linemod(cluster, mod)
+// scene(scene)

@@ -30,7 +30,7 @@ from prac.inference import PRACInferenceStep
 import sys, os
 from utils import colorize
 
-possibleProps = ['COLOR','SIZE','SHAPE','HYPERNYM','HASA']
+possibleProps = {'COLOR': 'color','SIZE':'size','SHAPE':'shape','HYPERNYM':'isA','HASA':'hasA'}
 
 class PropExtraction(PRACModule):    
 
@@ -48,7 +48,6 @@ class PropExtraction(PRACModule):
         print
         print colorize('Inferring most probable ANNOTATION + simultaneous WORD SENSE DISMABIGUATION...', (None, 'white', True), True)
         
-        useFuckingOldPropPredicate = params.get('useOld', False)
         if params.get('kb', None) is None:
             # load the default arguments
             dbs = pracinference.inference_steps[-1].output_dbs
@@ -61,6 +60,7 @@ class PropExtraction(PRACModule):
 
         # TODO: Remove when final mln exists
         kb.query_mln = readMLNFromFile(os.path.join(self.module_path, 'mln/dcll_parsing_stanford_wn_man.mln'), logic='FuzzyLogic')
+        outputmln = readMLNFromFile(os.path.join(self.module_path, '../obj_recognition/mln/objInfNew.mln'), logic='FuzzyLogic')
 
         known_concepts = kb.query_mln.domains.get('concept', [])
         inf_step = PRACInferenceStep(pracinference, self)
@@ -80,26 +80,24 @@ class PropExtraction(PRACModule):
             # infer and update output
             result_db = list(kb.infer(db))
 
-            queries = []
-            if useFuckingOldPropPredicate:
-                queries.append('property(?cluster, ?word, ?prop) ^ has_sense(?word, ?sense)')
-            else:
-                for p in possibleProps:
-                    queries.append('{}(?cluster, ?word) ^ has_sense(?word, ?sense)'.format(p))
+            # create proper output database for object inference
+            output_dbs = []
 
             for r_db in result_db:
                 # print annotations found in result db
+                output_db = Database(outputmln)
                 for instr in pracinference.instructions:
                     print colorize('Inferred properties for instruction:', (None, 'white', True), True), instr
                     print
-                for query in queries:
-                    for q in r_db.query(query):
-                        if q['?sense'] == 'null': continue
-                        if usePropPredicates:
-                            print '{}({}, {}, {})'.format(colorize('property', (None, 'white', True), True), q['?cluster'], q['?sense'], colorize(q['?prop'], (None, 'yellow', True), True))
-                        else:
-                            print '{}({}, {})'.format(colorize(query.split('('), (None, 'white', True), True), q['?cluster'], q['?sense'])
-                    print
+                for q in r_db.query('property(?word, ?prop) ^ has_sense(?word, ?sense)'):
+                    if q['?sense'] == 'null': continue
+                    if q['?prop'] == 'null': continue
+                    print '{}({}, {})'.format(  colorize(possibleProps[q['?prop']], (None, 'white', True), True), 
+                                                colorize('cluster', (None, 'magenta', True), True), 
+                                                colorize(q['?sense'], (None, 'green', True), True))
+                    output_db.addGroundAtom('{}({}, {})'.format(possibleProps[q['?prop']], 'cluster', q['?sense']))
+                print
+                output_dbs.append(output_db)
 
                 print 'Inferred most probable word senses:'
                 for q in r_db.query('has_sense(?w, ?s)'):
@@ -108,7 +106,8 @@ class PropExtraction(PRACModule):
                     print 'get meanings of word',q['?w'], q['?s']
                     wordnet_module.printWordSenses(wordnet_module.get_possible_meanings_of_word(r_db, q['?w']), q['?s'])
 
-            inf_step.output_dbs.extend(result_db)
+            inf_step.output_dbs.extend(output_dbs)
+            # inf_step.output_dbs.extend(result_db)
         return inf_step
 
 
@@ -124,19 +123,23 @@ class PropExtraction(PRACModule):
         # mln = kb.query_mln
         logging.getLogger().setLevel(logging.DEBUG)
         
-        # mln = readMLNFromFile(os.path.join(self.module_path, 'mln/parsing.mln'), logic='FuzzyLogic')
         mln = readMLNFromFile(os.path.join(self.module_path, 'mln/parsing.mln'), logic='FirstOrderLogic')
-        dbFile = os.path.join(self.module_path, 'db/ts_stanford_wn_man.db')
+
+        if praclearning.training_dbs:
+            inputdbs = readDBFromFile(mln, praclearning.training_dbs, ignoreUnknownPredicates=True)
+        else:
+            dbFile = os.path.join(self.module_path, 'db/ts_stanford_wn_man.db')
+            inputdbs = readDBFromFile(mln, dbFile, ignoreUnknownPredicates=True)
+
         outputfile = os.path.join(self.module_path, 'mln/dcll_parsing_stanford_wn_man.mln')
-        inputdbs = readDBFromFile(mln, dbFile, ignoreUnknownPredicates=True)
         
         wordnet_module = self.prac.getModuleByName('wn_senses')
-        training_dbs = []
 
         # train parsing mln
         log.info('Starting training with {} databases'.format(len(inputdbs)))
         # trainedMLN = mln.learnWeights(training_dbs, LearningMethods.CLL, evidencePreds=['prep_without','pobj', 'nsubj','is_a','amod','prep_with','root','has_pos','conj_and','conj_or','dobj'], gaussianPriorSigma=10, partSize=1, optimizer='bfgs')
-        trainedMLN = mln.learnWeights(inputdbs, LearningMethods.DCLL, evidencePreds=['cop', 'prep_without','pobj', 'nsubj','is_a','amod','prep_with','root','has_pos','conj_and','conj_or','dobj'], gaussianPriorSigma=10, partSize=1, optimizer='bfgs')
+        evidencePreds=['cop', 'prep_without','pobj', 'nsubj','is_a','amod','prep_with','root','has_pos','conj_and','conj_or','dobj']
+        trainedMLN = mln.learnWeights(inputdbs, LearningMethods.DCLL, evidencePreds=evidencePreds, gaussianPriorSigma=10, partSize=1, optimizer='bfgs')
         trainedMLN.write(file(outputfile, "w"))
         
         print colorize('+=============================================+', (None, 'green', True), True)
