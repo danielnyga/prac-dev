@@ -44,11 +44,13 @@ if __name__ == '__main__':
     parser = OptionParser()
     parser.add_option("-i", "--interactive", dest="interactive", default=False, action='store_true',
                       help="Starts PRAC object recognition with an interactive GUI tool.")
+    parser.add_option("-o", "--useOld", dest="useOld", default=False, action='store_true',
+                      help="Uses property(x,y,{COLOR,SIZE,HYPERNYM...}) instead of color(x,y), size(x,y)...")
     parser.add_option("-t", "--train", nargs=2, dest='trainDKB', default=None,
                       help="Train given DKB with inference results from argument. Example: pracobjrec -t fruit orange.n.01 'It is a yellow or orange fruit.'")    
     parser.add_option("-s", "--showDKB", nargs=1, dest='showDKB', default=False, 
                       help="Prints content of given DKB and exits.")    
-    parser.add_option("-r", "--regular", nargs=1, dest='dkbName', default='mini', 
+    parser.add_option("-r", "--regular", nargs=1, dest='dkbName', default='sherlockNew', 
                       help="Runs regular inference pipeline. Arguments: dkbName")    
 
     (options, args) = parser.parse_args()
@@ -89,6 +91,7 @@ if __name__ == '__main__':
         praclearn = PRACLearning(prac)
         praclearn.otherParams['kb'] = options.trainDKB[0]
         praclearn.otherParams['concept'] = options.trainDKB[1]
+        praclearn.otherParams['useOld'] = options.useOld
         praclearn.training_dbs = infer.inference_steps[-1].output_dbs
 
         objRecog.train(praclearn)
@@ -104,7 +107,7 @@ if __name__ == '__main__':
         objRecog = prac.getModuleByName('obj_recognition')
 
         # object inference based on inferred properties
-        prac.run(infer,objRecog,kb=objRecog.load_pracmt('obj_recog'),dkb=objRecog.load_dkb(options.dkbName))
+        prac.run(infer,objRecog,kb=objRecog.load_pracmt('obj_recog'),dkb=objRecog.load_dkb(options.dkbName), useOld=options.useOld)
 
     step = infer.inference_steps[-1]
     print

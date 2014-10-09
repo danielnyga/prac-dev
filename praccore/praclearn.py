@@ -36,6 +36,7 @@ parser.add_option('--mt', action='callback', type='string', callback=parse_list,
 parser.add_option('--module', action='callback', type='string', callback=parse_list, dest='modules')
 parser.add_option('--dbs', action='callback', type='string', callback=parse_list, dest='training_dbs')
 parser.add_option('--kb', type='string', dest='kb', default=None)
+parser.add_option('--old', type='int', dest='useOld', default=0)
 
 
 if __name__ == '__main__':
@@ -56,6 +57,9 @@ if __name__ == '__main__':
         praclearn.training_dbs = dbnames
     if options.kb is not None:
         praclearn.otherParams['kb'] = options.kb
+    praclearn.otherParams['useOld'] = options.useOld
+
+    print options.useOld
     
     for m in praclearn.modules:
         module = prac.getModuleByName(m)

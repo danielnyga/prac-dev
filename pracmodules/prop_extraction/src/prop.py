@@ -78,12 +78,12 @@ class PropExtraction(PRACModule):
                 db.domains['cluster'] = ['cluster']
 
             # infer and update output
-            result_db = list(kb.infer(db))
+            result_dbs = list(kb.infer(db))
 
             # create proper output database for object inference
             output_dbs = []
 
-            for r_db in result_db:
+            for r_db in result_dbs:
                 # print annotations found in result db
                 output_db = Database(outputmln)
                 for instr in pracinference.instructions:
@@ -106,8 +106,8 @@ class PropExtraction(PRACModule):
                     print 'get meanings of word',q['?w'], q['?s']
                     wordnet_module.printWordSenses(wordnet_module.get_possible_meanings_of_word(r_db, q['?w']), q['?s'])
 
+            inf_step.output_dbs.extend(result_dbs)
             inf_step.output_dbs.extend(output_dbs)
-            # inf_step.output_dbs.extend(result_db)
         return inf_step
 
 
@@ -137,9 +137,8 @@ class PropExtraction(PRACModule):
 
         # train parsing mln
         log.info('Starting training with {} databases'.format(len(inputdbs)))
-        # trainedMLN = mln.learnWeights(training_dbs, LearningMethods.CLL, evidencePreds=['prep_without','pobj', 'nsubj','is_a','amod','prep_with','root','has_pos','conj_and','conj_or','dobj'], gaussianPriorSigma=10, partSize=1, optimizer='bfgs')
         evidencePreds=['cop', 'prep_without','pobj', 'nsubj','is_a','amod','prep_with','root','has_pos','conj_and','conj_or','dobj']
-        trainedMLN = mln.learnWeights(inputdbs, LearningMethods.DCLL, evidencePreds=evidencePreds, gaussianPriorSigma=10, partSize=1, optimizer='bfgs')
+        trainedMLN = mln.learnWeights(inputdbs, LearningMethods.DCLL, evidencePreds=evidencePreds, gaussianPriorSigma=10, partSize=1, useMultiCPU=1, optimizer='bfgs')
         trainedMLN.write(file(outputfile, "w"))
         
         print colorize('+=============================================+', (None, 'green', True), True)

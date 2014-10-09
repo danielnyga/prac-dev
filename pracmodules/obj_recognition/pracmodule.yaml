@@ -25,5 +25,5 @@ module_name: "obj_recognition"
 description: "Object recognition based on properties retrieved from natural language descripions."
 dependencies: []
 class_name: "obj.NLObjectRecognition" 
-declarations: ['predicates.mln']
+declarations: []
 

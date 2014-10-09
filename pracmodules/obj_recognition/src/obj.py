@@ -77,13 +77,6 @@ class NLObjectRecognition(PRACModule):
                     else:
                         propsFound[p].append(res['?word'])
 
-            # # for each inferred property, assert all non-matching properties
-            # for prop in propsFound:
-            #     for word in mln.domains.get('word', []):
-            #         if not word in propsFound[prop]:
-            #             gndAtom = '!property({}, {}, {})'.format(res['?cluster'], word, prop)
-            #             res_db.addGroundAtom(gndAtom)
-
             # adding word similarities
             db = wordnet_module.add_similarities(db, mln.domains, propsFound)
             # db = wordnet_module.add_similarities(db, mln.domains, [item for sublist in propsFound.values() for item in sublist])
@@ -108,9 +101,11 @@ class NLObjectRecognition(PRACModule):
         log = logging.getLogger(self.name)
 
         dkbName =  praclearning.otherParams.get('kb', None)
+        useOld =  praclearning.otherParams.get('useOld', 0)
         objName = praclearning.otherParams.get('concept', None)
         dkbPath = '{}/{}.dkb'.format(kbPath, dkbName)
 
+        # create or load knowledge base
         if os.path.isfile(dkbPath):
             log.info('Loading {} ...'.format(dkbPath))
             dkb = self.load_dkb(dkbName)
@@ -118,9 +113,12 @@ class NLObjectRecognition(PRACModule):
             log.info('{} does not exist. Creating...'.format(dkbPath))
             dkb = self.create_dkb(dkbName)
 
-        mln = dkb.kbmln
 
-        queries = []
+        if useOld:
+            mln = readMLNFromFile(os.path.join(self.module_path, 'mln/objInfOld.mln'), logic='FuzzyLogic')
+        else:
+            mln = dkb.kbmln
+
         pracTrainingDBS = praclearning.training_dbs
 
         if len(pracTrainingDBS) >= 1 and type(pracTrainingDBS[0]) is str: # db from file
@@ -131,12 +129,26 @@ class NLObjectRecognition(PRACModule):
                 db.addGroundAtom('object(cluster, {})'.format(objName))
 
         trainingDBS = inputdbs + dkb.dbs
-
-        for db in trainingDBS:
-            db.write(sys.stdout, color=True)
-
         outputfile = '{}/{}.mln'.format(mlnPath, dkbName)
-        trainedMLN = mln.learnWeights(trainingDBS, LearningMethods.DCLL, evidencePreds=['color','size','shape','isA','hasA'], gaussianPriorSigma=10, optimizer='bfgs')
+        
+        if useOld:
+            updatedDBS = []
+            wordnet_module = self.prac.getModuleByName('wn_senses')
+            for db in trainingDBS:
+                propsFound = {}
+                for res in db.query('property(?cluster, ?sense, ?prop)'):
+                    if res['?prop'] == 'null': continue
+                    if res['?sense'] == 'null': continue
+                    if not res['?prop'] in propsFound:
+                        propsFound[res['?prop']] = [res['?sense']]
+                    else:
+                        propsFound[res['?prop']].append(res['?sense'])
+                db = wordnet_module.add_senses_and_similiarities_for_words(db, mln.domains.get('word', []) + [item for sublist in propsFound.values() for item in sublist])
+                updatedDBS.append(db)
+            trainingDBS = updatedDBS
+            trainedMLN = mln.learnWeights(trainingDBS, LearningMethods.DCLL, evidencePreds=['property','similar'], gaussianPriorSigma=10, useMultiCPU=1, optimizer='bfgs')
+        else:
+            trainedMLN = mln.learnWeights(trainingDBS, LearningMethods.DCLL, evidencePreds=['color','size','shape','isA','hasA'], gaussianPriorSigma=10, useMultiCPU=1, optimizer='bfgs')
 
         # update dkb
         dkb.trainedMLN = trainedMLN

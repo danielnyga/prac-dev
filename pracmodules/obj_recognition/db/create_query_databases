@@ -1,19 +1,12 @@
-# create dkb from db
-pracobjrec -d all /home/mareikep/prac_repos/prac/pracmodules/prop_extraction/db/ts_stanford_wn_man.db
-pracobjrec -d fruit /home/mareikep/prac_repos/prac/pracmodules/obj_recognition/db/fruit.db
-pracobjrec -d kitchenware /home/mareikep/prac_repos/prac/pracmodules/obj_recognition/db/kitchenware.db
-pracobjrec -d misc /home/mareikep/prac_repos/prac/pracmodules/obj_recognition/db/misc.db
-pracobjrec -d mini /home/mareikep/prac_repos/prac/pracmodules/obj_recognition/db/mini.db
-pracobjrec -d minibi /home/mareikep/prac_repos/prac/pracmodules/obj_recognition/db/mini.db // biimplication
-pracobjrec -d miniconsf /home/mareikep/prac_repos/prac/pracmodules/obj_recognition/db/mini.db // conjunction plus single formulas
-pracobjrec -d minibisf /home/mareikep/prac_repos/prac/pracmodules/obj_recognition/db/mini.db // biimplication plus single formulas
+# create and train dkb from dbs
+praclearn --module obj_recognition --dbs /home/mareikep/prac_repos/prac/pracmodules/obj_recognition/db/sherlockNew.db --kb sherlockNew
+praclearn --module obj_recognition --dbs /home/mareikep/prac_repos/prac/pracmodules/obj_recognition/db/sherlockOld.db --kb sherlockOld
 
-# create manual dkb entry
-pracobjrec -c fruit lemon 'a yellow oval fruit'
-pracobjrec -c fruit orange 'an orange round fruit'
-pracobjrec -c fruit cherry 'a tiny red round fruit'
+# create manual dkb entry from inference
+pracobjrec -t sherlockNew orange.n.01 'It is a yellow or orange fruit.'
+pracobjrec -t sherlockOld orange.n.01 'It is a yellow or orange fruit.'
 
 # infer using dkb
-pracobjrec -k fruit 'a yellow oval fruit'
-pracobjrec -k fruit 'an orange round fruit'
-pracobjrec -k fruit 'a tiny red round fruit'
+pracobjrec -r sherlockNew 'It is a yellow oval fruit.'
+pracobjrec -r sherlockOld 'It is a yellow oval fruit.'
+
