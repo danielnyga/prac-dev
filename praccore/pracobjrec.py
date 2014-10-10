@@ -117,7 +117,7 @@ if __name__ == '__main__':
     print
     print 'Object description: {}'.format(colorize(''.join(sentences),  (None, 'white', True), True))
     print
-    for db in infer.inference_steps[-2].output_dbs:
+    for db in infer.inference_steps[-1].output_dbs:
         print 'Inferred properties:'
         for ek in sorted(db.evidence):
             e = db.evidence[ek]
@@ -126,7 +126,7 @@ if __name__ == '__main__':
                                             colorize(ek.split('(')[1].split(',')[0], (None, 'magenta', True), True), # cluster
                                             colorize(ek.split('(')[1].split(',')[1], (None, 'green', True), True)) # propertyvalue (wn concept)
 
-    for db in infer.inference_steps[-1].output_dbs:
+    for db in step.output_dbs:
         print
         print 'Inferred possible concepts:'
         for ek in sorted(db.evidence, key=db.evidence.get, reverse=True):

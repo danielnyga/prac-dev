@@ -1,6 +1,0 @@
-#include predicatesOld.mln
-
-// CONF III
-0    object(?c, +?objID) ^ property(?c, ?w0, COLOR) ^ similar(+?w1, ?w0) ^ property(?c, ?w2, SIZE) ^ similar(+?w3, ?w2) ^ property(?c, ?w4, SHAPE) ^ similar(+?w5, ?w4)
-0    object(?c, +?objID) ^ property(?c, ?w0, HASA) ^ similar(+?w1, ?w0)
-0    object(?c, +?objID) ^ property(?c, ?w0, HYPERNYM) ^ similar(+?w1, ?w0)

@@ -1,4 +1,4 @@
-#include predicatesNew.mln
+#include predicates.mln
 
 0 size(?c, +?size) ^ shape(?c, +?shape) ^ color(?c, +?col) ^ object(?c, +?obj)
 0 isA(?c, +?hyp) ^ object(?c, +?obj)

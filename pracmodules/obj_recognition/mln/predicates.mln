@@ -23,10 +23,24 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ******************************************************************************/
  
-property(cluster, word, prop) 
-object(cluster, concept!)
-similar(word, word)
-has_sense(word, sense!)
+shape(cluster, shape)
+color(cluster, color)
+size(cluster, size)
+isA(cluster, isA)
+hasA(cluster, hasA)
 
-concept = {null}
-prop = {null}
+object(cluster, object!)
+
+shape = {null}
+color = {null}
+size = {null}
+isA = {null}
+hasA = {null}
+
+// goggles_Text(cluster, text)
+// goggles_Logo(cluster, company)
+// goggles(cluster, product)
+// goggles_Contact(cluster, contact)
+// goggles_Product(cluster, product)
+// linemod(cluster, mod)
+// scene(scene)

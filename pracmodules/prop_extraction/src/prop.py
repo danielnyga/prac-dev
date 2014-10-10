@@ -50,9 +50,8 @@ class PropExtraction(PRACModule):
         
         if params.get('kb', None) is None:
             # load the default arguments
-            dbs = pracinference.inference_steps[-1].output_dbs
             kb = self.load_pracmt('default')
-            kb.dbs = dbs
+            kb.dbs = pracinference.inference_steps[-1].output_dbs
         else:
             kb = params['kb']
         if not hasattr(kb, 'dbs'):
@@ -60,7 +59,6 @@ class PropExtraction(PRACModule):
 
         # TODO: Remove when final mln exists
         kb.query_mln = readMLNFromFile(os.path.join(self.module_path, 'mln/dcll_parsing_stanford_wn_man.mln'), logic='FuzzyLogic')
-        outputmln = readMLNFromFile(os.path.join(self.module_path, '../obj_recognition/mln/objInfNew.mln'), logic='FuzzyLogic')
 
         known_concepts = kb.query_mln.domains.get('concept', [])
         inf_step = PRACInferenceStep(pracinference, self)
@@ -69,7 +67,6 @@ class PropExtraction(PRACModule):
         # process databases
         for db in kb.dbs:
             db = wordnet_module.get_senses_and_similarities(db, known_concepts)
-            # db.write(sys.stdout,color=True)
             # add cluster to domains
             if 'cluster' in db.domains:
                 domains = db.domains['cluster']
@@ -80,12 +77,10 @@ class PropExtraction(PRACModule):
             # infer and update output
             result_dbs = list(kb.infer(db))
 
-            # create proper output database for object inference
-            output_dbs = []
-
             for r_db in result_dbs:
+                # log.info('r_db from result_dbs')
+                # r_db.write(sys.stdout,color=True)
                 # print annotations found in result db
-                output_db = Database(outputmln)
                 for instr in pracinference.instructions:
                     print colorize('Inferred properties for instruction:', (None, 'white', True), True), instr
                     print
@@ -95,9 +90,7 @@ class PropExtraction(PRACModule):
                     print '{}({}, {})'.format(  colorize(possibleProps[q['?prop']], (None, 'white', True), True), 
                                                 colorize('cluster', (None, 'magenta', True), True), 
                                                 colorize(q['?sense'], (None, 'green', True), True))
-                    output_db.addGroundAtom('{}({}, {})'.format(possibleProps[q['?prop']], 'cluster', q['?sense']))
                 print
-                output_dbs.append(output_db)
 
                 print 'Inferred most probable word senses:'
                 for q in r_db.query('has_sense(?w, ?s)'):
@@ -107,7 +100,6 @@ class PropExtraction(PRACModule):
                     wordnet_module.printWordSenses(wordnet_module.get_possible_meanings_of_word(r_db, q['?w']), q['?s'])
 
             inf_step.output_dbs.extend(result_dbs)
-            inf_step.output_dbs.extend(output_dbs)
         return inf_step
 
 

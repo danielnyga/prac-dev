@@ -30,7 +30,7 @@ from prac.inference import PRACInferenceStep
 import sys, os
 from utils import colorize
 
-possibleProps = ['color','size','shape','isA','hasA']
+possibleProps = {'COLOR': 'color','SIZE':'size','SHAPE':'shape','HYPERNYM':'isA','HASA':'hasA'}
 
 class NLObjectRecognition(PRACModule):    
 
@@ -61,33 +61,23 @@ class NLObjectRecognition(PRACModule):
         if not hasattr(kb, 'dbs'):
             kb.dbs = pracinference.inference_steps[-1].output_dbs
 
+        kb.query_mln = mln
         inf_step = PRACInferenceStep(pracinference, self)
         wordnet_module = self.prac.getModuleByName('wn_senses')
-        
-        for db in kb.dbs:
-            # adding evidence properties to new query db
-            propsFound = {}
-            for p in possibleProps:
-                if not any(x.startswith(p) for x in db.evidence): continue
-                for res in db.query('{}(?cluster, ?word)'.format(p)):
-                    if res['?cluster'] == 'null': continue
-                    if res['?word'] == 'null': continue
-                    if not p in propsFound:
-                        propsFound[p] = [res['?word']]
-                    else:
-                        propsFound[p].append(res['?word'])
 
-            # adding word similarities
-            db = wordnet_module.add_similarities(db, mln.domains, propsFound)
-            # db = wordnet_module.add_similarities(db, mln.domains, [item for sublist in propsFound.values() for item in sublist])
-            # res_db = wordnet_module.add_senses_and_similiarities_for_words(res_db, mln.domains.get('word', []) + [item for sublist in propsFound.values() for item in sublist] + ['Unknown'])
-            db.write(sys.stdout, color=True)
+        # adding evidence properties to new query db
+        for db in kb.dbs:
+            propsFound = {}
+
+            # process database for new mln and add word similarities
+            output_db = self.processDB(db, mln, propsFound)
+            output_db = wordnet_module.add_similarities(output_db, mln.domains, propsFound)
+            output_db.write(sys.stdout, color=True)
             
             # infer and update output dbs
+            inferred_db = list(kb.infer(output_db))
+            inf_step.output_dbs.extend(inferred_db)
 
-            inferred_db = mln.infer(evidence_db=db, **kb.query_params)
-            inferred_db.write(sys.stdout, color=True)
-            inf_step.output_dbs.extend([inferred_db])
         return inf_step
 
     # TODO: learn incrementally
@@ -113,42 +103,23 @@ class NLObjectRecognition(PRACModule):
             log.info('{} does not exist. Creating...'.format(dkbPath))
             dkb = self.create_dkb(dkbName)
 
-
-        if useOld:
-            mln = readMLNFromFile(os.path.join(self.module_path, 'mln/objInfOld.mln'), logic='FuzzyLogic')
-        else:
-            mln = dkb.kbmln
-
+        mln = dkb.kbmln
         pracTrainingDBS = praclearning.training_dbs
+        trainingDBS = dkb.dbs
 
         if len(pracTrainingDBS) >= 1 and type(pracTrainingDBS[0]) is str: # db from file
             inputdbs = readDBFromFile(mln, pracTrainingDBS, ignoreUnknownPredicates=True)
+            trainingDBS += inputdbs
         else: # db from inference result
             inputdbs = pracTrainingDBS
             for db in inputdbs:
-                db.addGroundAtom('object(cluster, {})'.format(objName))
-
-        trainingDBS = inputdbs + dkb.dbs
-        outputfile = '{}/{}.mln'.format(mlnPath, dkbName)
-        
-        if useOld:
-            updatedDBS = []
-            wordnet_module = self.prac.getModuleByName('wn_senses')
-            for db in trainingDBS:
                 propsFound = {}
-                for res in db.query('property(?cluster, ?sense, ?prop)'):
-                    if res['?prop'] == 'null': continue
-                    if res['?sense'] == 'null': continue
-                    if not res['?prop'] in propsFound:
-                        propsFound[res['?prop']] = [res['?sense']]
-                    else:
-                        propsFound[res['?prop']].append(res['?sense'])
-                db = wordnet_module.add_senses_and_similiarities_for_words(db, mln.domains.get('word', []) + [item for sublist in propsFound.values() for item in sublist])
-                updatedDBS.append(db)
-            trainingDBS = updatedDBS
-            trainedMLN = mln.learnWeights(trainingDBS, LearningMethods.DCLL, evidencePreds=['property','similar'], gaussianPriorSigma=10, useMultiCPU=1, optimizer='bfgs')
-        else:
-            trainedMLN = mln.learnWeights(trainingDBS, LearningMethods.DCLL, evidencePreds=['color','size','shape','isA','hasA'], gaussianPriorSigma=10, useMultiCPU=1, optimizer='bfgs')
+                db = self.processDB(db, mln, {})
+                db.addGroundAtom('object(cluster, {})'.format(objName))
+                trainingDBS.append(db)
+
+        outputfile = '{}/{}.mln'.format(mlnPath, dkbName)
+        trainedMLN = mln.learnWeights(trainingDBS, LearningMethods.DCLL, evidencePreds=['color','size','shape','isA','hasA'], gaussianPriorSigma=10, useMultiCPU=1, optimizer='bfgs')
 
         # update dkb
         dkb.trainedMLN = trainedMLN
@@ -161,3 +132,19 @@ class NLObjectRecognition(PRACModule):
         
         trainedMLN.printFormulas()
         trainedMLN.write(file(outputfile, "w"))
+
+
+    def processDB(self, db, mln, propsFound):
+        output_db = Database(mln)
+        for q in db.query('property(?word, ?prop) ^ has_sense(?word, ?sense)'):
+            if q['?sense'] == 'null': continue
+            if q['?prop'] == 'null': continue
+            prop = q['?prop']
+            word = q['?sense']
+            if not prop in propsFound:
+                propsFound[possibleProps[prop]] = [word]
+            else:
+                propsFound[possibleProps[prop]].append(word)
+
+            output_db.addGroundAtom('{}({}, {})'.format(possibleProps[prop], 'cluster', word))
+        return output_db
