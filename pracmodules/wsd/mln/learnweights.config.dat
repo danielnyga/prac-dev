@@ -8,11 +8,11 @@ S'20'
 p3
 sS'evidencePreds'
 p4
-S'is_a, has_pos'
+S'is_a, ac_word'
 p5
 sS'output_filename'
 p6
-S'wts.pydcll.fol_training-wsd.mln'
+S'wts.pydcll.fol_training-wsdAC.mln'
 p7
 sS'discrPredicates'
 p8
@@ -26,7 +26,7 @@ S''
 p11
 sS'params1'
 p12
-S"partSize=6,debug='DEBUG',optimizer='bfgs'"
+S"partSize=2,debug='DEBUG',optimizer='bfgs'"
 p13
 sS'pattern'
 p14
@@ -72,7 +72,7 @@ S'1301x744+65+24'
 p31
 sS'mln'
 p32
-S'wsd.mln'
+S'wsdAC.mln'
 p33
 sS'logic'
 p34
