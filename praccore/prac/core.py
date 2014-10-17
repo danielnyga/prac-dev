@@ -361,9 +361,9 @@ class DescriptionKnowledgeBase(object):
     Base class for descriptions of wordnet concepts. 
     '''
     
-    def __init__(self):
+    def __init__(self, module_path):
         self.name = ''
-        self.kbmln = readMLNFromFile(os.path.join(prac_module_path, 'obj_recognition/mln/objInf.mln'), logic='FuzzyLogic')
+        self.kbmln = readMLNFromFile(os.path.join(module_path, 'mln/objInf.mln'), logic='FuzzyLogic')
         self.trainedMLN = None
         self.dbs = [] # todo: unnecessary once incremental learning is implemented
 
@@ -482,7 +482,7 @@ class PRACModule(object):
         Creates a new DescriptionKnowledgeBase instance
         - name:  The name of the dkb to be created
         '''
-        dkb = DescriptionKnowledgeBase()
+        dkb = DescriptionKnowledgeBase(self.module_path)
         dkb.name = name
 
         return dkb

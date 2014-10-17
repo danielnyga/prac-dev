@@ -54,7 +54,7 @@ class NLObjectRecognition(PRACModule):
 
         if params.get('kb', None) is None:
             # load the default arguments
-            kb = self.load_pracmt('obj_recog')
+            kb = self.load_pracmt('default')
             kb.dbs = pracinference.inference_steps[-1].output_dbs
         else:
             kb = params['kb']
@@ -91,7 +91,6 @@ class NLObjectRecognition(PRACModule):
         log = logging.getLogger(self.name)
 
         dkbName =  praclearning.otherParams.get('kb', None)
-        useOld =  praclearning.otherParams.get('useOld', 0)
         objName = praclearning.otherParams.get('concept', None)
         dkbPath = '{}/{}.dkb'.format(kbPath, dkbName)
 
@@ -119,7 +118,7 @@ class NLObjectRecognition(PRACModule):
                 trainingDBS.append(db)
 
         outputfile = '{}/{}.mln'.format(mlnPath, dkbName)
-        trainedMLN = mln.learnWeights(trainingDBS, LearningMethods.DCLL, evidencePreds=['color','size','shape','isA','hasA'], gaussianPriorSigma=10, useMultiCPU=1, optimizer='bfgs')
+        trainedMLN = mln.learnWeights(trainingDBS, LearningMethods.DCLL, evidencePreds=possibleProps.values(), gaussianPriorSigma=10, useMultiCPU=1, optimizer='bfgs')
 
         # update dkb
         dkb.trainedMLN = trainedMLN
@@ -134,6 +133,7 @@ class NLObjectRecognition(PRACModule):
         trainedMLN.write(file(outputfile, "w"))
 
 
+    # rewrite evidence representation from property(...) to color(..), size(..) etc.
     def processDB(self, db, mln, propsFound):
         output_db = Database(mln)
         for q in db.query('property(?word, ?prop) ^ has_sense(?word, ?sense)'):

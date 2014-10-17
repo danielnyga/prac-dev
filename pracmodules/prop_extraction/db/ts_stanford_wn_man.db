@@ -2506,3 +2506,102 @@ is_a(tall.a.01,tall.a.01)
 is_a(null,null)
 
 object(cluster32, giraffe.n.01)
+
+
+
+---
+// -------------------------------------------------------------------------------
+// It is red and flat.
+
+// STANFORD:
+conj_and(red-3,flat-5)
+cop(red-3,is-2)
+has_pos(It-1,PRP)
+has_pos(flat-5,JJ)
+has_pos(is-2,VBZ)
+has_pos(red-3,JJ)
+nsubj(red-3,It-1)
+root(ROOT-0,red-3)
+
+has_sense(It-1,null)
+has_sense(flat-5,flat.s.02)
+has_sense(is-2,null)
+has_sense(red-3,red.s.01)
+
+property(It-1,null)
+property(flat-5,SHAPE)
+property(is-2,null)
+property(red-3,COLOR)
+
+is_a(flat.s.02,flat.s.02)
+is_a(red.s.01,red.s.01)
+is_a(null,null)
+
+---
+// -------------------------------------------------------------------------------
+// It is red or flat.
+
+// STANFORD:
+conj_and(red-3,flat-5)
+cop(red-3,is-2)
+has_pos(It-1,PRP)
+has_pos(flat-5,JJ)
+has_pos(is-2,VBZ)
+has_pos(red-3,JJ)
+nsubj(red-3,It-1)
+root(ROOT-0,red-3)
+
+
+has_sense(It-1,null)
+has_sense(flat-5,flat.s.02)
+has_sense(is-2,null)
+has_sense(red-3,red.s.01)
+
+property(It-1,null)
+property(flat-5,SHAPE)
+property(is-2,null)
+property(red-3,COLOR)
+
+is_a(flat.s.02,flat.s.02)
+is_a(red.s.01,red.s.01)
+is_a(null,null)
+
+---
+// -------------------------------------------------------------------------------
+// It is red. It is flat and oval.
+
+conj_and(flat-7,oval-9)
+cop(flat-7,is-6)
+cop(red-3,is-2)
+dep(flat-7,red-3)
+has_pos(It-1,PRP)
+has_pos(It-5,PRP)
+has_pos(flat-7,JJ)
+has_pos(is-2,VBZ)
+has_pos(is-6,VBZ)
+has_pos(oval-9,JJ)
+has_pos(red-3,JJ)
+nsubj(flat-7,It-5)
+nsubj(red-3,It-1)
+root(ROOT-0,flat-7)
+
+has_sense(It-1,null)
+has_sense(It-5,null)
+has_sense(flat-7,flat.s.02)
+has_sense(is-2,null)
+has_sense(is-6,null)
+has_sense(oval-9,egg-shaped.s.01)
+has_sense(red-3,red.s.01)
+
+property(It-1,null)
+property(It-5,null)
+property(flat-7,SHAPE)
+property(is-2,null)
+property(is-6,null)
+property(oval-9,SHAPE)
+property(red-3,COLOR)
+
+is_a(flat.s.02,flat.s.02)
+is_a(egg-shaped.s.01,egg-shaped.s.01)
+is_a(red.s.01,red.s.01)
+is_a(null,null)

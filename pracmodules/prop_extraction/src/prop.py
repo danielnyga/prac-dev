@@ -109,12 +109,10 @@ class PropExtraction(PRACModule):
         print colorize('+===============================================+', (None, 'green', True), True)
 
         log = logging.getLogger(self.name)
-        # prac = praclearning.prac
+
         # get all the relevant training databases
         # kb = self.load_pracmt('obj_recog')
         # mln = kb.query_mln
-        logging.getLogger().setLevel(logging.DEBUG)
-        
         mln = readMLNFromFile(os.path.join(self.module_path, 'mln/parsing.mln'), logic='FirstOrderLogic')
 
         if praclearning.training_dbs:
@@ -124,7 +122,6 @@ class PropExtraction(PRACModule):
             inputdbs = readDBFromFile(mln, dbFile, ignoreUnknownPredicates=True)
 
         outputfile = os.path.join(self.module_path, 'mln/dcll_parsing_stanford_wn_man.mln')
-        
         wordnet_module = self.prac.getModuleByName('wn_senses')
 
         # train parsing mln

@@ -1,12 +1,12 @@
 # create and train dkb from dbs
-praclearn --module obj_recognition --dbs /home/mareikep/prac_repos/prac/pracmodules/obj_recognition/db/sherlockNew.db --kb sherlockNew
-praclearn --module obj_recognition --dbs /home/mareikep/prac_repos/prac/pracmodules/obj_recognition/db/sherlockOld.db --kb sherlockOld
+praclearn --module obj_recognition --dbs /home/mareikep/prac_repos/prac/pracmodules/obj_recognition/db/sherlock.db --kb sherlock
+praclearn --module obj_recognition_old --dbs /home/mareikep/prac_repos/prac/pracmodules/obj_recognition/db/sherlock.db --kb sherlock
 
 # create manual dkb entry from inference
-pracobjrec -t sherlockNew orange.n.01 'It is a yellow or orange fruit.'
-pracobjrec -t sherlockOld orange.n.01 'It is a yellow or orange fruit.'
+pracobjrec -t sherlock orange.n.01 'It is a yellow or orange fruit.'
+pracobjrec -t sherlock orange.n.01 'It is a yellow or orange fruit.' -o
 
 # infer using dkb
-pracobjrec -r sherlockNew 'It is a yellow oval fruit.'
-pracobjrec -r sherlockOld 'It is a yellow oval fruit.'
+pracobjrec -r sherlock 'It is a yellow oval fruit.'
+pracobjrec -r sherlock 'It is a yellow oval fruit.' -o
 

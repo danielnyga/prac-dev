@@ -139,26 +139,27 @@ class WNSenses(PRACModule):
                 db.addGroundAtom('is_a(%s, %s)' % (synset.name, synset2.name), self.wordnet.similarity(synset, synset2))
         return db
 
-    def add_senses_and_similiarities_for_words(self, db, words):
+    def add_similarities_old(self, db, domains, propsFound):
         '''
-        Adds for each concept in concepts a constant to the 'sense' domain
-        and asserts all similarities to the other concepts for the 'similar'
-        predicate.
-        
         Example:
         '''
         db = db.duplicate()
-        concepts = list(words)
-        if 'null' in concepts:
-            concepts.remove('null')
-        for c1 in concepts:
-            synset1 = self.wordnet.synset(c1)
-            db.addGroundAtom('similar({}, {})'.format(synset1.name, synset1.name), self.wordnet.similarity(synset1, synset1))
+        for prop in domains['prop']:
+            if prop == 'null': continue
+            for domVal in domains['word']:
+                if domVal == 'null': continue
+                if prop in propsFound:
+                    for propFoundVal in propsFound[prop]:
+                        synset1 = self.wordnet.synset(propFoundVal)
+                        synset2 = self.wordnet.synset(domVal)
+                        sim = self.wordnet.similarity(synset1, synset2)
+                        db.addGroundAtom('property({}, {})'.format(domVal, prop), sim)
+                else:
+                    db.addGroundAtom('property({}, {})'.format(domVal, prop), 0)
         return db
 
     def add_similarities(self, db, domains, propsFound):
         '''
-        
         Example:
         '''
         db = db.duplicate()
@@ -166,10 +167,11 @@ class WNSenses(PRACModule):
             for propFoundVal in propsFound[prop]:
                 if prop in domains:
                     for domVal in domains[prop]:
-                        synset1 = self.wordnet.synset(propFoundVal)
-                        synset2 = self.wordnet.synset(domVal)
-                        sim = self.wordnet.similarity(synset1, synset2)
-                        db.addGroundAtom('{}(cluster, {})'.format(prop, domVal), sim)
+                        if domVal not in propsFound[prop]:
+                            synset1 = self.wordnet.synset(propFoundVal)
+                            synset2 = self.wordnet.synset(domVal)
+                            sim = self.wordnet.similarity(synset1, synset2)
+                            db.addGroundAtom('{}(cluster, {})'.format(prop, domVal), sim)
         return db
 
            

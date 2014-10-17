@@ -86,7 +86,10 @@ if __name__ == '__main__':
         propExtract = prac.getModuleByName('prop_extraction')
         prac.run(infer,propExtract,kb=propExtract.load_pracmt('prop_extract'))
 
-        objRecog = prac.getModuleByName('obj_recognition')
+        if options.useOld:
+            objRecog = prac.getModuleByName('obj_recognition_old')
+        else:
+            objRecog = prac.getModuleByName('obj_recognition')
         
         praclearn = PRACLearning(prac)
         praclearn.otherParams['kb'] = options.trainDKB[0]
@@ -104,10 +107,13 @@ if __name__ == '__main__':
         propExtract = prac.getModuleByName('prop_extraction')
         prac.run(infer,propExtract,kb=propExtract.load_pracmt('prop_extract'))
         
-        objRecog = prac.getModuleByName('obj_recognition')
+        if options.useOld:
+            objRecog = prac.getModuleByName('obj_recognition_old')
+        else:
+            objRecog = prac.getModuleByName('obj_recognition')
 
         # object inference based on inferred properties
-        prac.run(infer,objRecog,kb=objRecog.load_pracmt('obj_recog'),dkb=objRecog.load_dkb(options.dkbName), useOld=options.useOld)
+        prac.run(infer,objRecog,kb=objRecog.load_pracmt('default'),dkb=objRecog.load_dkb(options.dkbName))
 
     step = infer.inference_steps[-1]
     print
@@ -117,7 +123,7 @@ if __name__ == '__main__':
     print
     print 'Object description: {}'.format(colorize(''.join(sentences),  (None, 'white', True), True))
     print
-    for db in infer.inference_steps[-1].output_dbs:
+    for db in step.output_dbs:
         print 'Inferred properties:'
         for ek in sorted(db.evidence):
             e = db.evidence[ek]
