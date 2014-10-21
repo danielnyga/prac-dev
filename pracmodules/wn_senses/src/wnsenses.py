@@ -143,25 +143,45 @@ class WNSenses(PRACModule):
         '''
         Example:
         '''
+        print domains
+        # assert false properties for inferred values (e.g. 0 prop(cluster, yellow.s.01, SIZE))
         db = db.duplicate()
-        for prop in domains['prop']:
-            if prop == 'null': continue
-            for domVal in domains['word']:
-                if domVal == 'null': continue
-                if prop in propsFound:
-                    for propFoundVal in propsFound[prop]:
-                        synset1 = self.wordnet.synset(propFoundVal)
-                        synset2 = self.wordnet.synset(domVal)
-                        sim = self.wordnet.similarity(synset1, synset2)
-                        db.addGroundAtom('property({}, {})'.format(domVal, prop), sim)
-                else:
-                    db.addGroundAtom('property({}, {})'.format(domVal, prop), 0)
+        for prop in propsFound:
+            for val in propsFound[prop]:
+                for p in domains['prop']:
+                    if p != prop:
+                        print 'prop(cluster, {}, {})'.format(val, p), 0
+                        db.addGroundAtom('prop(cluster, {}, {})'.format(val, p), 0)
+
+        # add similarities for values in mln domain for correct property
+        newProp = ''
+        for w in domains['word']:
+            if w == 'null': continue
+            maxSim = 0
+            for prop in propsFound:
+                for v in propsFound[prop]:
+                    synsetWord = self.wordnet.synset(w)
+                    synsetVal = self.wordnet.synset(v)
+                    sim = self.wordnet.similarity(synsetVal, synsetWord)
+                    if maxSim < sim:
+                        maxSim = sim
+                        newProp = prop
+
+            print 'prop(cluster, {}, {})'.format(w, newProp), maxSim
+            db.addGroundAtom('prop(cluster, {}, {})'.format(w, newProp), maxSim)
+
+            # assert false properties for values in mln domain
+            for p in domains['prop']:
+                if p != newProp:
+                    print 'prop(cluster, {}, {})'.format(w, p), 0
+                    db.addGroundAtom('prop(cluster, {}, {})'.format(w, p), maxSim)
         return db
 
     def add_similarities(self, db, domains, propsFound):
         '''
         Example:
         '''
+        print domains
         db = db.duplicate()
         for prop in propsFound:
             for propFoundVal in propsFound[prop]:

@@ -1,7 +1,7 @@
 /* **************************************************************************** 
  * PROBABILISTIC OBJECTS -- OBJECT PROPERTIES PREDICATE DEFINITIONS
  * 
- * (C) 2011-2013 by Mareike Picklum (mareikep@cs.uni-bremen.de)
+ * (C) 2014 by Mareike Picklum (mareikep@cs.uni-bremen.de)
  *
  * Permission is hereby granted, free of charge, to any person obtaining
  * a copy of this software and associated documentation files (the
@@ -31,11 +31,11 @@ hasA(cluster, hasA)
 
 object(cluster, object!)
 
-// shape = {null}
-// color = {null}
-// size = {null}
-// isA = {null}
-// hasA = {null}
+shape = {null}
+color = {null}
+size = {null}
+isA = {null}
+hasA = {null}
 
 // goggles_Text(cluster, text)
 // goggles_Logo(cluster, company)

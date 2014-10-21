@@ -118,7 +118,7 @@ class NLObjectRecognition(PRACModule):
                 trainingDBS.append(db)
 
         outputfile = '{}/{}.mln'.format(mlnPath, dkbName)
-        trainedMLN = mln.learnWeights(trainingDBS, LearningMethods.DCLL, evidencePreds=possibleProps.values(), gaussianPriorSigma=10, useMultiCPU=1, optimizer='bfgs')
+        trainedMLN = mln.learnWeights(trainingDBS, LearningMethods.DCLL, evidencePreds=possibleProps.values(), gaussianPriorSigma=10, useMultiCPU=1, optimizer='cg')
 
         # update dkb
         dkb.trainedMLN = trainedMLN
