@@ -1,0 +1,35 @@
+Multiple_Action_Cores_Oct/four_cores/Mon_20_Oct_2014_11:32:20_K=10_TSC=9/FOL/conf_matrix.cm
+Average: : - Acc=0.98, Pre=0.26, Rec=0.31 F1=0.26
+
+Multiple_Action_Cores_Oct/four_cores/Mon_20_Oct_2014_11:32:20_K=10_TSC=9/FUZZY/conf_matrix.cm
+Average: : - Acc=0.99, Pre=0.20, Rec=0.33 F1=0.23
+
+Multiple_Action_Cores_Oct/four_cores/Mon_20_Oct_2014_11:38:47_K=10_TSC=8/FOL/conf_matrix.cm
+Average: : - Acc=0.98, Pre=0.27, Rec=0.31 F1=0.27
+
+Multiple_Action_Cores_Oct/four_cores/Mon_20_Oct_2014_11:38:47_K=10_TSC=8/FUZZY/conf_matrix.cm
+Average: : - Acc=0.99, Pre=0.24, Rec=0.36 F1=0.27
+
+Multiple_Action_Cores_Oct/four_cores/Mon_20_Oct_2014_12:07:25_K=10_TSC=7/FOL/conf_matrix.cm
+Average: : - Acc=0.98, Pre=0.27, Rec=0.31 F1=0.27
+
+Multiple_Action_Cores_Oct/four_cores/Mon_20_Oct_2014_12:07:25_K=10_TSC=7/FUZZY/conf_matrix.cm
+Average: : - Acc=0.99, Pre=0.30, Rec=0.41 F1=0.33
+
+Multiple_Action_Cores_Oct/four_cores/Mon_20_Oct_2014_12:54:54_K=10_TSC=6/FOL/conf_matrix.cm
+Average: : - Acc=0.98, Pre=0.27, Rec=0.31 F1=0.27
+
+Multiple_Action_Cores_Oct/four_cores/Mon_20_Oct_2014_12:54:54_K=10_TSC=6/FUZZY/conf_matrix.cm
+Average: : - Acc=0.99, Pre=0.37, Rec=0.48 F1=0.39
+
+Multiple_Action_Cores_Oct/four_cores/Mon_20_Oct_2014_13:58:21_K=10_TSC=5/FOL/conf_matrix.cm
+Average: : - Acc=0.98, Pre=0.28, Rec=0.31 F1=0.28
+
+Multiple_Action_Cores_Oct/four_cores/Mon_20_Oct_2014_13:58:21_K=10_TSC=5/FUZZY/conf_matrix.cm
+Average: : - Acc=0.99, Pre=0.44, Rec=0.49 F1=0.45
+
+Multiple_Action_Cores_Oct/four_cores/Mon_20_Oct_2014_15:21:36_K=10_TSC=4/FOL/conf_matrix.cm
+Average: : - Acc=0.98, Pre=0.28, Rec=0.31 F1=0.28
+
+Multiple_Action_Cores_Oct/four_cores/Mon_20_Oct_2014_15:21:36_K=10_TSC=4/FUZZY/conf_matrix.cm
+Average: : - Acc=0.99, Pre=0.42, Rec=0.52 F1=0.45
