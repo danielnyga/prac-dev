@@ -1,28 +1,5 @@
 #include predicates.mln
 
-0 size(?c, +?size) ^ shape(?c, +?shape) ^ color(?c, +?col) ^ object(?c, +?obj)
-0 isA(?c, +?hyp) ^ object(?c, +?obj)
-0 hasA(?c, +?part) ^ object(?c, +?obj)
-
-
-//0 linemod(?c, +?m) ^ object(?c, +?obj)
-//0 goggles_Logo(?c, +?comp) ^ object(?c, +?obj)
-//0 goggles_Product(?c, +?prod) ^ object(?c, +?obj)
-//0 goggles_Text(?c, +?text) ^ object(?c, +?obj)
-//0 goggles(?c, +?prod) ^ object(?c, +?obj)
-//0 goggles_Contact(?c, +?contact) ^ object(?c, +?obj)
-//0 scene(+?s) ^ object(?c, +?obj)
-
-
-//unique{+?t1,+?t2}
-//0 object(?c1, +?t1) ^ object(?c2, +?t2) ^ ?c1 =/= ?c2
-
-//0 scene(+?s) ^ object(?c1, +?t1) ^ object(?c2, +?t2) ^ ?c1 =/= ?c2
-//#unique{+?t1,+?t2}
-//0 !scene(+?s) ^ object(?c1, +?t1) ^ object(?c2, +?t2) ^ ?c1 =/= ?c2
-
-
-
-
-
-
+0 object(?c, +?objID) ^ color(?c, +?size) ^ size(?c, +?shape) ^ shape(?c, +?col)
+0 object(?c, +?objID) ^ hasA(?c, +?part)
+0 object(?c, +?objID) ^ isA(?c, +?hyp)

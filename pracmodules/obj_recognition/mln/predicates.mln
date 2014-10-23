@@ -31,11 +31,11 @@ hasA(cluster, hasA)
 
 object(cluster, object!)
 
-shape = {null}
-color = {null}
-size = {null}
-isA = {null}
-hasA = {null}
+// shape = {null}
+// color = {null}
+// size = {null}
+// isA = {null}
+// hasA = {null}
 
 // goggles_Text(cluster, text)
 // goggles_Logo(cluster, company)
