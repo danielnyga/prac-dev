@@ -49,7 +49,7 @@ class NLObjectRecognition(PRACModule):
         print
         print colorize('Inferring most probable object based on nl description properties...', (None, 'white', True), True)
         
-        dkb = params.get('dkb')
+        dkb = params.get('dkb',self.load_dkb('micro'))
         mln = dkb.trainedMLN
 
         if params.get('kb', None) is None:
@@ -141,7 +141,7 @@ class NLObjectRecognition(PRACModule):
             if q['?prop'] == 'null': continue
             prop = q['?prop']
             word = q['?sense']
-            if not prop in propsFound:
+            if not possibleProps[prop] in propsFound:
                 propsFound[possibleProps[prop]] = [word]
             else:
                 propsFound[possibleProps[prop]].append(word)

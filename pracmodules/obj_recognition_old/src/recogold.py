@@ -126,7 +126,7 @@ class OldNLObjectRecognition(PRACModule):
             db.write(sys.stdout, color=True)
             print 
 
-        trainedMLN = mln.learnWeights(trainingDBS, LearningMethods.DCLL, evidencePreds=['prop'], gaussianPriorSigma=10, useMultiCPU=1, optimizer='bfgs')
+        trainedMLN = mln.learnWeights(trainingDBS, LearningMethods.DCLL, evidencePreds=['prop'], gaussianPriorSigma=10, useMultiCPU=1, optimizer='cg')
 
         # update dkb
         dkb.trainedMLN = trainedMLN

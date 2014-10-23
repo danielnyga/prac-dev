@@ -21,13 +21,6 @@ isA(cluster02,fruit.n.01)
 
 object(cluster02,orange.n.01)
 
----
-color(cluster03,yellow.s.01)
-shape(cluster03,egg-shaped.s.01)
-isA(cluster03,fruit.n.01)
-hasA(cluster03,pulp.n.02)
-
-object(cluster03,lemon.n.01)
 
 ---
 color(cluster04,red.s.01)
@@ -174,58 +167,6 @@ hasA(cluster21,chamber.n.01)
 object(cluster21,pome.n.01)
 
 ---
-size(cluster22,small.a.01)
-color(cluster22,green.s.01)
-color(cluster22,white.a.01)
-isA(cluster22,fruit.n.01)
-
-object(cluster22,prairie_gourd.n.01)
-
----
-size(cluster23,small.a.01)
-isA(cluster23,fruit.n.01)
-
-object(cluster23,seed.n.01)
-
----
-size(cluster24,small.a.01)
-isA(cluster24,container.n.01)
-hasA(cluster24,handle.n.01)
-
-object(cluster24,cup.n.01)
-
----
-shape(cluster25,round.a.01)
-color(cluster25,yellow.s.01)
-color(cluster25,orange.s.01)
-isA(cluster25,fruit.n.01)
-
-object(cluster25,orange.n.01)
-
----
-color(cluster26,yellow.s.01)
-shape(cluster26,egg-shaped.s.01)
-isA(cluster26,fruit.n.01)
-hasA(cluster26,pulp.n.02)
-
-object(cluster26,lemon.n.01)
-
----
-color(cluster27,red.s.01)
-color(cluster27,yellow.s.01)
-isA(cluster27,fruit.n.01)
-
-object(cluster27,tomato.n.01)
-
----
-isA(cluster28,vessel.n.03)
-shape(cluster28,round.a.01)
-hasA(cluster28,handle.n.01)
-hasA(cluster28,lid.n.02)
-
-object(cluster28,pot.n.01)
-
----
 color(cluster29,green.s.01)
 size(cluster29,large.a.01)
 isA(cluster29,melon.n.01)
@@ -242,6 +183,7 @@ object(cluster29,watermelon.n.02)
 ---
 size(cluster30,long.s.03)
 color(cluster30,orange.s.01)
+color(cluster30,red.s.01)
 isA(cluster30,root.n.01)
 
-object(cluster30,watermelon.n.02)
+object(cluster30,carrot.n.01)

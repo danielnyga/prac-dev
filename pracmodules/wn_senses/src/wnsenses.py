@@ -181,17 +181,17 @@ class WNSenses(PRACModule):
         '''
         Example:
         '''
-        print domains
         db = db.duplicate()
         for prop in propsFound:
             for propFoundVal in propsFound[prop]:
                 if prop in domains:
                     for domVal in domains[prop]:
                         if domVal not in propsFound[prop]:
-                            synset1 = self.wordnet.synset(propFoundVal)
-                            synset2 = self.wordnet.synset(domVal)
-                            sim = self.wordnet.similarity(synset1, synset2)
-                            db.addGroundAtom('{}(cluster, {})'.format(prop, domVal), sim)
+                            if domVal not in [item for sublist in propsFound.values() for item in sublist]:
+                                synset1 = self.wordnet.synset(propFoundVal)
+                                synset2 = self.wordnet.synset(domVal)
+                                sim = self.wordnet.similarity(synset1, synset2)
+                                db.addGroundAtom('{}(cluster, {})'.format(prop, domVal), sim)
         return db
 
            
