@@ -1,0 +1,5 @@
+#include predicates.mln
+
+0 object(?c, +?objID) ^ prop(?c, +?w0, COLOR) ^ prop(?c, +?w2, SIZE) ^ prop(?c, +?w4, SHAPE)
+0 object(?c, +?objID) ^ prop(?c, +?w0, HASA)
+0 object(?c, +?objID) ^ prop(?c, +?w0, HYPERNYM)
