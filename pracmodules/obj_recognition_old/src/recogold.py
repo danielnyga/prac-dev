@@ -111,7 +111,7 @@ class OldNLObjectRecognition(PRACModule):
             inputdbs = readDBFromFile(readMLNFromFile(os.path.join(self.module_path, '../obj_recognition/mln/predicates.mln'), logic='FuzzyLogic'), pracTrainingDBS, ignoreUnknownPredicates=True)
             for db in inputdbs:
                 db = self.preprocessDB(db, mln, {})
-                trainingDBS += db
+                trainingDBS.append(db)
         else: # db from inference result
             inputdbs = pracTrainingDBS
             for db in inputdbs:
@@ -120,12 +120,12 @@ class OldNLObjectRecognition(PRACModule):
                 db.addGroundAtom('object(cluster, {})'.format(objName))
                 trainingDBS.append(db)
 
-        outputfile = '{}/{}.mln'.format(mlnPath, dkbName)
-
+        # only for debugging, print final training dbs
         for db in trainingDBS:
             db.write(sys.stdout, color=True)
             print 
 
+        outputfile = '{}/{}.mln'.format(mlnPath, dkbName)
         trainedMLN = mln.learnWeights(trainingDBS, LearningMethods.DCLL, evidencePreds=['prop'], gaussianPriorSigma=10, useMultiCPU=1, optimizer='cg')
 
         # update dkb
@@ -142,9 +142,8 @@ class OldNLObjectRecognition(PRACModule):
 
 
     def preprocessDB(self, db, mln, propsFound):
-        dbs = []
+        output_db = Database(mln)
         for q in db.query('object(?cluster, ?objName)'):
-            output_db = Database(mln)
             objName = q['?objName']
             cluster = q['?cluster']
             for prop in possibleProps:
@@ -159,8 +158,7 @@ class OldNLObjectRecognition(PRACModule):
 
                         output_db.addGroundAtom('prop({}, {}, {})'.format(cluster, word, prop))
             output_db.addGroundAtom('object({}, {})'.format(cluster, objName))
-            dbs.append(output_db)
-        return dbs
+        return output_db
 
 
     def processDB(self, db, mln, propsFound):
