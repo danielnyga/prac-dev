@@ -1,0 +1,24 @@
+// domain declarations
+
+
+// predicate declarations
+is_a(sense, concept)
+ac_word(word, ac)
+has_sense(word, sense!)
+
+// formulas
+-0.814559   ac_word(?w1, AC_SLICE) ^ is_a(?s1, slice.v.03) ^ is_a(?s2, slice.v.03) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+1.795093    ac_word(?w1, AC_SLICE) ^ is_a(?s1, slice.v.03) ^ is_a(?s2, knife.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.932203    ac_word(?w1, AC_SLICE) ^ is_a(?s1, slice.v.03) ^ is_a(?s2, banana.n.02) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-0.573138   ac_word(?w1, AC_SLICE) ^ is_a(?s1, knife.n.01) ^ is_a(?s2, knife.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-0.237693   ac_word(?w1, AC_SLICE) ^ is_a(?s1, knife.n.01) ^ is_a(?s2, banana.n.02) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-0.273037   ac_word(?w1, AC_SLICE) ^ is_a(?s1, banana.n.02) ^ is_a(?s2, banana.n.02) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-0.814559   !ac_word(?w1, AC_SLICE) ^ is_a(?s1, slice.v.03) ^ is_a(?s2, slice.v.03) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-1.016759   !ac_word(?w1, AC_SLICE) ^ is_a(?s1, slice.v.03) ^ is_a(?s2, knife.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-1.386347   !ac_word(?w1, AC_SLICE) ^ is_a(?s1, slice.v.03) ^ is_a(?s2, banana.n.02) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.889508    !ac_word(?w1, AC_SLICE) ^ is_a(?s1, knife.n.01) ^ is_a(?s2, slice.v.03) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+1.337950    !ac_word(?w1, AC_SLICE) ^ is_a(?s1, knife.n.01) ^ is_a(?s2, knife.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+5.307301    !ac_word(?w1, AC_SLICE) ^ is_a(?s1, knife.n.01) ^ is_a(?s2, banana.n.02) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.228956    !ac_word(?w1, AC_SLICE) ^ is_a(?s1, banana.n.02) ^ is_a(?s2, slice.v.03) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+2.524184    !ac_word(?w1, AC_SLICE) ^ is_a(?s1, banana.n.02) ^ is_a(?s2, knife.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-1.910193   !ac_word(?w1, AC_SLICE) ^ is_a(?s1, banana.n.02) ^ is_a(?s2, banana.n.02) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2

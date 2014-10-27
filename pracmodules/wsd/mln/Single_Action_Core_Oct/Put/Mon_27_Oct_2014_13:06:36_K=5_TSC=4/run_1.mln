@@ -1,0 +1,24 @@
+// domain declarations
+
+
+// predicate declarations
+is_a(sense, concept)
+ac_word(word, ac)
+has_sense(word, sense!)
+
+// formulas
+-1.423034   ac_word(?w1, AC_PUT) ^ is_a(?s1, whipped_cream.n.01) ^ is_a(?s2, whipped_cream.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-1.423034   ac_word(?w1, AC_PUT) ^ is_a(?s1, whipped_cream.n.01) ^ is_a(?s2, cake.n.03) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    ac_word(?w1, AC_PUT) ^ is_a(?s1, whipped_cream.n.01) ^ is_a(?s2, put.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-1.886979   ac_word(?w1, AC_PUT) ^ is_a(?s1, cake.n.03) ^ is_a(?s2, cake.n.03) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    ac_word(?w1, AC_PUT) ^ is_a(?s1, cake.n.03) ^ is_a(?s2, put.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-1.093962   ac_word(?w1, AC_PUT) ^ is_a(?s1, put.v.01) ^ is_a(?s2, put.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-2.004250   !ac_word(?w1, AC_PUT) ^ is_a(?s1, whipped_cream.n.01) ^ is_a(?s2, whipped_cream.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.874325    !ac_word(?w1, AC_PUT) ^ is_a(?s1, whipped_cream.n.01) ^ is_a(?s2, cake.n.03) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+7.798352    !ac_word(?w1, AC_PUT) ^ is_a(?s1, whipped_cream.n.01) ^ is_a(?s2, put.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+1.338269    !ac_word(?w1, AC_PUT) ^ is_a(?s1, cake.n.03) ^ is_a(?s2, whipped_cream.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-2.109645   !ac_word(?w1, AC_PUT) ^ is_a(?s1, cake.n.03) ^ is_a(?s2, cake.n.03) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+1.797852    !ac_word(?w1, AC_PUT) ^ is_a(?s1, cake.n.03) ^ is_a(?s2, put.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+1.154126    !ac_word(?w1, AC_PUT) ^ is_a(?s1, put.v.01) ^ is_a(?s2, whipped_cream.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-2.025399   !ac_word(?w1, AC_PUT) ^ is_a(?s1, put.v.01) ^ is_a(?s2, cake.n.03) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-1.316651   !ac_word(?w1, AC_PUT) ^ is_a(?s1, put.v.01) ^ is_a(?s2, put.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2

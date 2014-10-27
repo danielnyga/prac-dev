@@ -1,0 +1,35 @@
+// domain declarations
+
+
+// predicate declarations
+is_a(sense, concept)
+ac_word(word, ac)
+has_sense(word, sense!)
+
+// formulas
+-0.704930   ac_word(?w1, AC_PUT) ^ is_a(?s1, plate.n.04) ^ is_a(?s2, plate.n.04) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-0.708584   ac_word(?w1, AC_PUT) ^ is_a(?s1, plate.n.04) ^ is_a(?s2, onion.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-0.121913   ac_word(?w1, AC_PUT) ^ is_a(?s1, plate.n.04) ^ is_a(?s2, put.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-0.213624   ac_word(?w1, AC_PUT) ^ is_a(?s1, plate.n.04) ^ is_a(?s2, beef.n.02) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-1.516782   ac_word(?w1, AC_PUT) ^ is_a(?s1, onion.n.01) ^ is_a(?s2, onion.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-0.121910   ac_word(?w1, AC_PUT) ^ is_a(?s1, onion.n.01) ^ is_a(?s2, put.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-0.845710   ac_word(?w1, AC_PUT) ^ is_a(?s1, onion.n.01) ^ is_a(?s2, beef.n.02) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-2.506744   ac_word(?w1, AC_PUT) ^ is_a(?s1, put.v.01) ^ is_a(?s2, put.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.455968    ac_word(?w1, AC_PUT) ^ is_a(?s1, put.v.01) ^ is_a(?s2, beef.n.02) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-0.231473   ac_word(?w1, AC_PUT) ^ is_a(?s1, beef.n.02) ^ is_a(?s2, beef.n.02) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-1.941073   !ac_word(?w1, AC_PUT) ^ is_a(?s1, plate.n.04) ^ is_a(?s2, plate.n.04) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+3.006374    !ac_word(?w1, AC_PUT) ^ is_a(?s1, plate.n.04) ^ is_a(?s2, onion.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-0.721968   !ac_word(?w1, AC_PUT) ^ is_a(?s1, plate.n.04) ^ is_a(?s2, put.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+1.929824    !ac_word(?w1, AC_PUT) ^ is_a(?s1, plate.n.04) ^ is_a(?s2, beef.n.02) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+3.722860    !ac_word(?w1, AC_PUT) ^ is_a(?s1, onion.n.01) ^ is_a(?s2, plate.n.04) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-1.260867   !ac_word(?w1, AC_PUT) ^ is_a(?s1, onion.n.01) ^ is_a(?s2, onion.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.049703    !ac_word(?w1, AC_PUT) ^ is_a(?s1, onion.n.01) ^ is_a(?s2, put.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+6.221550    !ac_word(?w1, AC_PUT) ^ is_a(?s1, onion.n.01) ^ is_a(?s2, beef.n.02) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-2.259409   !ac_word(?w1, AC_PUT) ^ is_a(?s1, put.v.01) ^ is_a(?s2, plate.n.04) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-0.856995   !ac_word(?w1, AC_PUT) ^ is_a(?s1, put.v.01) ^ is_a(?s2, onion.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-2.750563   !ac_word(?w1, AC_PUT) ^ is_a(?s1, put.v.01) ^ is_a(?s2, put.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-2.750510   !ac_word(?w1, AC_PUT) ^ is_a(?s1, put.v.01) ^ is_a(?s2, beef.n.02) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-0.443935   !ac_word(?w1, AC_PUT) ^ is_a(?s1, beef.n.02) ^ is_a(?s2, plate.n.04) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.336237    !ac_word(?w1, AC_PUT) ^ is_a(?s1, beef.n.02) ^ is_a(?s2, onion.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-2.172617   !ac_word(?w1, AC_PUT) ^ is_a(?s1, beef.n.02) ^ is_a(?s2, put.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-5.078335   !ac_word(?w1, AC_PUT) ^ is_a(?s1, beef.n.02) ^ is_a(?s2, beef.n.02) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2

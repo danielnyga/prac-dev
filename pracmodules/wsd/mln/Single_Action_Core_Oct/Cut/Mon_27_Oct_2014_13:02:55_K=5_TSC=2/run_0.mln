@@ -1,0 +1,66 @@
+// domain declarations
+
+
+// predicate declarations
+is_a(sense, concept)
+ac_word(word, ac)
+has_sense(word, sense!)
+
+// formulas
+-4.945784   ac_word(?w1, AC_CUT) ^ is_a(?s1, cut.v.01) ^ is_a(?s2, cut.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+3.189012    ac_word(?w1, AC_CUT) ^ is_a(?s1, cut.v.01) ^ is_a(?s2, knife.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+3.078046    ac_word(?w1, AC_CUT) ^ is_a(?s1, cut.v.01) ^ is_a(?s2, bread.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+1.611684    ac_word(?w1, AC_CUT) ^ is_a(?s1, cut.v.01) ^ is_a(?s2, cleaver.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+4.714401    ac_word(?w1, AC_CUT) ^ is_a(?s1, cut.v.01) ^ is_a(?s2, cabbage.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.841823    ac_word(?w1, AC_CUT) ^ is_a(?s1, cut.v.01) ^ is_a(?s2, meat.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-1.186232   ac_word(?w1, AC_CUT) ^ is_a(?s1, knife.n.01) ^ is_a(?s2, knife.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-1.186232   ac_word(?w1, AC_CUT) ^ is_a(?s1, knife.n.01) ^ is_a(?s2, bread.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    ac_word(?w1, AC_CUT) ^ is_a(?s1, knife.n.01) ^ is_a(?s2, cleaver.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    ac_word(?w1, AC_CUT) ^ is_a(?s1, knife.n.01) ^ is_a(?s2, cabbage.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    ac_word(?w1, AC_CUT) ^ is_a(?s1, knife.n.01) ^ is_a(?s2, meat.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-2.311336   ac_word(?w1, AC_CUT) ^ is_a(?s1, bread.n.01) ^ is_a(?s2, bread.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    ac_word(?w1, AC_CUT) ^ is_a(?s1, bread.n.01) ^ is_a(?s2, cleaver.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    ac_word(?w1, AC_CUT) ^ is_a(?s1, bread.n.01) ^ is_a(?s2, cabbage.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    ac_word(?w1, AC_CUT) ^ is_a(?s1, bread.n.01) ^ is_a(?s2, meat.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-0.605059   ac_word(?w1, AC_CUT) ^ is_a(?s1, cleaver.n.01) ^ is_a(?s2, cleaver.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    ac_word(?w1, AC_CUT) ^ is_a(?s1, cleaver.n.01) ^ is_a(?s2, cabbage.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-0.268659   ac_word(?w1, AC_CUT) ^ is_a(?s1, cleaver.n.01) ^ is_a(?s2, meat.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-1.698423   ac_word(?w1, AC_CUT) ^ is_a(?s1, cabbage.n.01) ^ is_a(?s2, cabbage.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    ac_word(?w1, AC_CUT) ^ is_a(?s1, cabbage.n.01) ^ is_a(?s2, meat.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-0.288697   ac_word(?w1, AC_CUT) ^ is_a(?s1, meat.n.01) ^ is_a(?s2, meat.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-5.168011   !ac_word(?w1, AC_CUT) ^ is_a(?s1, cut.v.01) ^ is_a(?s2, cut.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-0.342610   !ac_word(?w1, AC_CUT) ^ is_a(?s1, cut.v.01) ^ is_a(?s2, knife.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-3.641488   !ac_word(?w1, AC_CUT) ^ is_a(?s1, cut.v.01) ^ is_a(?s2, bread.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-1.046866   !ac_word(?w1, AC_CUT) ^ is_a(?s1, cut.v.01) ^ is_a(?s2, cleaver.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-2.723022   !ac_word(?w1, AC_CUT) ^ is_a(?s1, cut.v.01) ^ is_a(?s2, cabbage.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-1.048785   !ac_word(?w1, AC_CUT) ^ is_a(?s1, cut.v.01) ^ is_a(?s2, meat.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+2.846402    !ac_word(?w1, AC_CUT) ^ is_a(?s1, knife.n.01) ^ is_a(?s2, cut.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-5.432480   !ac_word(?w1, AC_CUT) ^ is_a(?s1, knife.n.01) ^ is_a(?s2, knife.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+1.968967    !ac_word(?w1, AC_CUT) ^ is_a(?s1, knife.n.01) ^ is_a(?s2, bread.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    !ac_word(?w1, AC_CUT) ^ is_a(?s1, knife.n.01) ^ is_a(?s2, cleaver.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    !ac_word(?w1, AC_CUT) ^ is_a(?s1, knife.n.01) ^ is_a(?s2, cabbage.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    !ac_word(?w1, AC_CUT) ^ is_a(?s1, knife.n.01) ^ is_a(?s2, meat.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-0.563441   !ac_word(?w1, AC_CUT) ^ is_a(?s1, bread.n.01) ^ is_a(?s2, cut.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+3.094071    !ac_word(?w1, AC_CUT) ^ is_a(?s1, bread.n.01) ^ is_a(?s2, knife.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-3.369672   !ac_word(?w1, AC_CUT) ^ is_a(?s1, bread.n.01) ^ is_a(?s2, bread.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    !ac_word(?w1, AC_CUT) ^ is_a(?s1, bread.n.01) ^ is_a(?s2, cleaver.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    !ac_word(?w1, AC_CUT) ^ is_a(?s1, bread.n.01) ^ is_a(?s2, cabbage.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    !ac_word(?w1, AC_CUT) ^ is_a(?s1, bread.n.01) ^ is_a(?s2, meat.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.675995    !ac_word(?w1, AC_CUT) ^ is_a(?s1, cleaver.n.01) ^ is_a(?s2, cut.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    !ac_word(?w1, AC_CUT) ^ is_a(?s1, cleaver.n.01) ^ is_a(?s2, knife.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    !ac_word(?w1, AC_CUT) ^ is_a(?s1, cleaver.n.01) ^ is_a(?s2, bread.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+1.398952    !ac_word(?w1, AC_CUT) ^ is_a(?s1, cleaver.n.01) ^ is_a(?s2, cleaver.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    !ac_word(?w1, AC_CUT) ^ is_a(?s1, cleaver.n.01) ^ is_a(?s2, cabbage.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+5.246167    !ac_word(?w1, AC_CUT) ^ is_a(?s1, cleaver.n.01) ^ is_a(?s2, meat.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+4.714401    !ac_word(?w1, AC_CUT) ^ is_a(?s1, cabbage.n.01) ^ is_a(?s2, cut.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    !ac_word(?w1, AC_CUT) ^ is_a(?s1, cabbage.n.01) ^ is_a(?s2, knife.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    !ac_word(?w1, AC_CUT) ^ is_a(?s1, cabbage.n.01) ^ is_a(?s2, bread.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    !ac_word(?w1, AC_CUT) ^ is_a(?s1, cabbage.n.01) ^ is_a(?s2, cleaver.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-1.698423   !ac_word(?w1, AC_CUT) ^ is_a(?s1, cabbage.n.01) ^ is_a(?s2, cabbage.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    !ac_word(?w1, AC_CUT) ^ is_a(?s1, cabbage.n.01) ^ is_a(?s2, meat.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.506434    !ac_word(?w1, AC_CUT) ^ is_a(?s1, meat.n.01) ^ is_a(?s2, cut.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    !ac_word(?w1, AC_CUT) ^ is_a(?s1, meat.n.01) ^ is_a(?s2, knife.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    !ac_word(?w1, AC_CUT) ^ is_a(?s1, meat.n.01) ^ is_a(?s2, bread.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+2.323576    !ac_word(?w1, AC_CUT) ^ is_a(?s1, meat.n.01) ^ is_a(?s2, cleaver.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    !ac_word(?w1, AC_CUT) ^ is_a(?s1, meat.n.01) ^ is_a(?s2, cabbage.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-2.261075   !ac_word(?w1, AC_CUT) ^ is_a(?s1, meat.n.01) ^ is_a(?s2, meat.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
