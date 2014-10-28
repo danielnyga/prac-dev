@@ -33,3 +33,21 @@ Average: : - Acc=0.98, Pre=0.28, Rec=0.31 F1=0.28
 
 Multiple_Action_Cores_Oct/four_cores/Mon_20_Oct_2014_15:21:36_K=10_TSC=4/FUZZY/conf_matrix.cm
 Average: : - Acc=0.99, Pre=0.42, Rec=0.52 F1=0.45
+
+Multiple_Action_Cores_Oct/four_cores/Mon_27_Oct_2014_12:47:10_K=10_TSC=3/FOL/conf_matrix.cm
+Average: : - Acc=0.98, Pre=0.28, Rec=0.31 F1=0.29
+
+Multiple_Action_Cores_Oct/four_cores/Mon_27_Oct_2014_12:47:10_K=10_TSC=3/FUZZY/conf_matrix.cm
+Average: : - Acc=0.99, Pre=0.40, Rec=0.45 F1=0.41
+
+Multiple_Action_Cores_Oct/four_cores/Tue_21_Oct_2014_16:02:38_K=10_TSC=2/FOL/conf_matrix.cm
+Average: : - Acc=0.98, Pre=0.31, Rec=0.33 F1=0.31
+
+Multiple_Action_Cores_Oct/four_cores/Tue_21_Oct_2014_16:02:38_K=10_TSC=2/FUZZY/conf_matrix.cm
+Average: : - Acc=0.99, Pre=0.50, Rec=0.53 F1=0.50
+
+Multiple_Action_Cores_Oct/four_cores/Tue_21_Oct_2014_13:59:50_K=10_TSC=1/FOL/conf_matrix.cm
+Average: : - Acc=0.98, Pre=0.31, Rec=0.33 F1=0.31
+
+Multiple_Action_Cores_Oct/four_cores/Tue_21_Oct_2014_13:59:50_K=10_TSC=1/FUZZY/conf_matrix.cm
+Average: : - Acc=0.99, Pre=0.46, Rec=0.46 F1=0.46
