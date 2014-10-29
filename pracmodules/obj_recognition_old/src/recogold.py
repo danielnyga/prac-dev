@@ -48,7 +48,7 @@ class OldNLObjectRecognition(PRACModule):
         print
         print colorize('Inferring most probable object based on nl description properties...', (None, 'white', True), True)
         
-        dkb = params.get('dkb',self.load_dkb('micro'))
+        dkb = self.load_dkb(params.get('dkb', 'micro'))
         mln = dkb.trainedMLN
 
         if params.get('kb', None) is None:

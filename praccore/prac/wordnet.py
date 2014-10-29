@@ -110,6 +110,8 @@ shapespecs = {  'crescent.s.01': (2,2,1,0),
                 'tapered.s.01': (2,1,2,30), #kegelfoermig
                 'asteroid.s.01': (12,6,1,35),
                 'cordate.s.01': (2,2,1,40), #herzfoermig
+                'convex.a.01': (1,1,2,40), #herzfoermig
+                'concave.a.01': (3,3,2,40), #herzfoermig
                 }
 
 sizesims = {}
@@ -123,6 +125,7 @@ sizespecs = {   'dwarfish.s.01': (0),
                 'average.s.04': (5),
                 'medium-sized.s.01': (5),
                 'large.a.01': (7), # 'big'
+                'wide.a.01': (7.2), # 'broad'
                 'long.s.02' : (7.5),
                 'long.s.03' : (7.5),
                 'tall.a.01': (7.5),

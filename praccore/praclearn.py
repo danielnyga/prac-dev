@@ -45,7 +45,6 @@ if __name__ == '__main__':
     praclearn = PRACLearning(prac)
     praclearn.microtheories = parser.values.microtheories
     praclearn.modules = parser.values.modules
-    print parser.values
     
     if praclearn.microtheories is None:
         praclearn.microtheories = prac.microtheories

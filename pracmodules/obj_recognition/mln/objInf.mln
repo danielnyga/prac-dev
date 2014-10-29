@@ -1,5 +1,22 @@
 #include predicates.mln
 
+// CONF I
+// 0 object(?c, +?objID) ^ size(?c, +?shape) ^ shape(?c, +?col)
+// 0 object(?c, +?objID) ^ color(?c, +?size) ^ shape(?c, +?col)
+// 0 object(?c, +?objID) ^ color(?c, +?size) ^ size(?c, +?shape)
+// 0 object(?c, +?objID) ^ hasA(?c, +?part)
+// 0 object(?c, +?objID) ^ isA(?c, +?hyp)
+
+// CONF II
+// 0 object(?c, +?objID) ^ size(?c, +?shape) ^ shape(?c, +?col)
+// 0 object(?c, +?objID) ^ color(?c, +?size) ^ shape(?c, +?col)
+// 0 object(?c, +?objID) ^ color(?c, +?size) ^ size(?c, +?shape)
+// 0 object(?c, +?objID) ^ color(?c, +?shape) ^ isA(?c, +?col)
+// 0 object(?c, +?objID) ^ shape(?c, +?shape) ^ isA(?c, +?col)
+// 0 object(?c, +?objID) ^ hasA(?c, +?part)
+// 0 object(?c, +?objID) ^ isA(?c, +?hyp)
+
+// CONF III
 0 object(?c, +?objID) ^ color(?c, +?size) ^ size(?c, +?shape) ^ shape(?c, +?col)
 0 object(?c, +?objID) ^ hasA(?c, +?part)
 0 object(?c, +?objID) ^ isA(?c, +?hyp)
