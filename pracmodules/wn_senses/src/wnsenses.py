@@ -150,10 +150,9 @@ class WNSenses(PRACModule):
             for val in propsFound[prop]:
                 for p in domains['prop']:
                     if p != prop:
-                        print 'prop(cluster, {}, {})'.format(val, p), 0
                         db.addGroundAtom('prop(cluster, {}, {})'.format(val, p), 0)
 
-        # add similarities for values in mln domain for correct property
+        # add similarities for values in mln domain for correct property (max similarity)
         newProp = ''
         for w in domains['word']:
             if w == 'null': continue
@@ -167,14 +166,12 @@ class WNSenses(PRACModule):
                         maxSim = sim
                         newProp = prop
 
-            print 'prop(cluster, {}, {})'.format(w, newProp), maxSim
             db.addGroundAtom('prop(cluster, {}, {})'.format(w, newProp), maxSim)
 
             # assert false properties for values in mln domain
             for p in domains['prop']:
                 if p != newProp:
-                    print 'prop(cluster, {}, {})'.format(w, p), 0
-                    db.addGroundAtom('prop(cluster, {}, {})'.format(w, p), maxSim)
+                    db.addGroundAtom('prop(cluster, {}, {})'.format(w, p), 0)
         return db
 
     def add_similarities(self, db, domains, propsFound):

@@ -49,19 +49,26 @@ class NLObjectRecognition(PRACModule):
         print
         print colorize('Inferring most probable object based on nl description properties...', (None, 'white', True), True)
         
-        dkb = self.load_dkb(params.get('dkb', 'micro'))
-        mln = dkb.trainedMLN
-
         if params.get('kb', None) is None:
             # load the default arguments
+            log.info('Using default knowledge base')
             kb = self.load_pracmt('default')
             kb.dbs = pracinference.inference_steps[-1].output_dbs
+            mln = kb.query_mln
         else:
+            # load arguments from given knowlegebase
+            log.info('Using knowledge base from params')
             kb = params['kb']
+            mln = kb.query_mln
         if not hasattr(kb, 'dbs'):
             kb.dbs = pracinference.inference_steps[-1].output_dbs
+        if params.get('dkb', None) is not None:
+            # if dkb given, overwrite mln
+            log.info('Using dkb \'{}\''.format(params.get('dkb')))
+            dkb = self.load_dkb(params.get('dkb'))
+            mln = dkb.trainedMLN
+            kb.query_mln = mln
 
-        kb.query_mln = mln
         inf_step = PRACInferenceStep(pracinference, self)
         wordnet_module = self.prac.getModuleByName('wn_senses')
 

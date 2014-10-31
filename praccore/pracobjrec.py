@@ -84,7 +84,7 @@ if __name__ == '__main__':
 
         # property inference from parsed input
         propExtract = prac.getModuleByName('prop_extraction')
-        prac.run(infer,propExtract,kb=propExtract.load_pracmt('prop_extract'))
+        prac.run(infer,propExtract,kb=propExtract.load_pracmt('default'))
 
         if options.useOld:
             objRecog = prac.getModuleByName('obj_recognition_old')
@@ -105,7 +105,7 @@ if __name__ == '__main__':
 
         # property inference from parsed input
         propExtract = prac.getModuleByName('prop_extraction')
-        prac.run(infer,propExtract,kb=propExtract.load_pracmt('prop_extract'))
+        prac.run(infer,propExtract,kb=propExtract.load_pracmt('default'))
         
         if options.useOld:
             objRecog = prac.getModuleByName('obj_recognition_old')
@@ -113,7 +113,7 @@ if __name__ == '__main__':
             objRecog = prac.getModuleByName('obj_recognition')
 
         # object inference based on inferred properties
-        prac.run(infer,objRecog,kb=objRecog.load_pracmt('default'),dkb=options.dkbName)
+        prac.run(infer,objRecog,dkb=options.dkbName)
 
     step = infer.inference_steps[-1]
     print

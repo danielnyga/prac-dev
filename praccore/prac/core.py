@@ -492,13 +492,16 @@ class PRACModule(object):
         Loads a pickled DescriptionKnowledgeBase with given name.
         - dkb_name:  The name of the dkb to be loaded
         '''
-        binaryFileName = '{}.dkb'.format(dkb_name)
-        filepath = os.path.join(self.module_path, 'kb')
-        f = open(os.path.join(filepath, binaryFileName), 'r')
-        dkb = pickle.load(f)
-        f.close()
-        
-        return dkb
+        if dkb_name is not None:
+            binaryFileName = '{}.dkb'.format(dkb_name)
+            filepath = os.path.join(self.module_path, 'kb')
+            f = open(os.path.join(filepath, binaryFileName), 'r')
+            dkb = pickle.load(f)
+            f.close()
+            
+            return dkb
+        else:
+            return None
     
     def save_dkb(self, dkb, name):
         '''
