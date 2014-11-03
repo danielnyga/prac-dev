@@ -25,7 +25,6 @@
  
 prop(cluster, word, prop) 
 object(cluster, object!)
-has_sense(word, sense!)
 
 //prop = {null}
 //word = {null}
