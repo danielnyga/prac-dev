@@ -502,7 +502,17 @@ class PRACModule(object):
             return dkb
         else:
             return None
-    
+
+    def delete_dkb(self, dkb_name):
+        '''
+        Removes a pickled DescriptionKnowledgeBase with given name.
+        - dkb_name:  The name of the dkb to be removed from file system
+        '''
+        if dkb_name is not None:
+            fileName = os.path.join(self.module_path, 'kb/{}.dkb'.format(dkb_name))
+            if os.path.isfile(fileName):
+                os.remove(fileName)
+            
     def save_dkb(self, dkb, name):
         '''
         Pickles the state of the given DescriptionKnowledgeBase in its kb folder.

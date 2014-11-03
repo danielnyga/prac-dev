@@ -42,31 +42,20 @@ if __name__ == '__main__':
     log.setLevel(logging.INFO)
 
     parser = OptionParser()
-    parser.add_option("-i", "--interactive", dest="interactive", default=False, action='store_true',
-                      help="Starts PRAC object recognition with an interactive GUI tool.")
-    parser.add_option("-o", "--useOld", dest="useOld", default=False, action='store_true',
-                      help="Uses property(x,y,{COLOR,SIZE,HYPERNYM...}) instead of color(x,y), size(x,y)...")
-    parser.add_option("-t", "--train", nargs=2, dest='trainDKB', default=None,
-                      help="Train given DKB with inference results from argument. Example: pracobjrec -t fruit orange.n.01 'It is a yellow or orange fruit.'")    
-    parser.add_option("-s", "--showDKB", nargs=1, dest='showDKB', default=False, 
-                      help="Prints content of given DKB and exits.")    
-    parser.add_option("-r", "--regular", nargs=1, dest='dkbName', default='sherlockNew', 
-                      help="Runs regular inference pipeline. Arguments: dkbName")    
+    parser.add_option("-i", "--interactive", dest="interactive", default=False, action='store_true', help="Starts PRAC object recognition with an interactive GUI tool.")
+    parser.add_option("-o", "--useOld", dest="useOld", default=False, action='store_true', help="Uses property(x,y,{COLOR,SIZE,HYPERNYM...}) instead of color(x,y), size(x,y)...")
+    parser.add_option("-t", "--train", dest="trainMLN", nargs=1, default=None, help="Train given MLN with inference results from argument. Example: pracobjrec -t orange.n.01 'It is a yellow or orange fruit.'")    
+    parser.add_option("-r", "--regular", dest="regular", default=False, action='store_true', help="Runs regular inference pipeline. Arguments: mlnName")    
+    parser.add_option("-m", "--mln", nargs=2, dest='mln', default=None, help="Runs regular inference pipeline. Arguments: mlnName")  
 
     (options, args) = parser.parse_args()
 
     interactive = options.interactive
+    regular = options.regular
     sentences = args
 
     prac = PRAC()
     prac.wordnet = WordNet(concepts=None)
-    
-    if options.showDKB: # print content of given dkb file and exit
-        objRecog = prac.getModuleByName('obj_recognition')
-        dkb=objRecog.load_dkb(options.showDKB)
-        dkb.printDKB()
-        sys.exit(0)
-
     infer = PRACInference(prac, sentences)
     
     
@@ -79,8 +68,8 @@ if __name__ == '__main__':
         log.info('Entering interactive mode')
         gui = PRACQueryGUI(infer)
         gui.open()
-    elif options.trainDKB: # training with property inference output
-        log.info('Training DKB {} with result from property inference'.format(options.trainDKB[0]))
+    elif options.trainMLN: # training with property inference output
+        log.info('Training MLN {} with result from property inference'.format(options.trainMLN))
 
         # property inference from parsed input
         propExtract = prac.getModuleByName('prop_extraction')
@@ -92,9 +81,9 @@ if __name__ == '__main__':
             objRecog = prac.getModuleByName('obj_recognition')
         
         praclearn = PRACLearning(prac)
-        praclearn.otherParams['kb'] = options.trainDKB[0]
-        praclearn.otherParams['concept'] = options.trainDKB[1]
-        praclearn.otherParams['useOld'] = options.useOld
+        praclearn.otherParams['mln'] = options.mln[0]
+        praclearn.otherParams['logic'] = options.mln[1]
+        praclearn.otherParams['concept'] = options.trainMLN
         praclearn.training_dbs = infer.inference_steps[-1].output_dbs
 
         objRecog.train(praclearn)
@@ -113,7 +102,8 @@ if __name__ == '__main__':
             objRecog = prac.getModuleByName('obj_recognition')
 
         # object inference based on inferred properties
-        prac.run(infer,objRecog,dkb=options.dkbName)
+        mln = readMLNFromFile(options.mln[0], options.mln[1])
+        prac.run(infer,objRecog,mln=mln)
 
     step = infer.inference_steps[-1]
     print

@@ -76,10 +76,11 @@ class PropExtraction(PRACModule):
 
             # infer and update output
             result_dbs = list(kb.infer(db))
+            output_dbs = []
 
+            # rewrite result representation from property(...) to color(..), size(..) etc. and print results
             for r_db in result_dbs:
-                # log.info('r_db from result_dbs')
-                # r_db.write(sys.stdout,color=True)
+                output_db = Database(readMLNFromFile(os.path.join(self.module_path, '../obj_recognition/mln/objInf.mln'), logic='FuzzyLogic'))
                 # print annotations found in result db
                 for instr in pracinference.instructions:
                     print colorize('Inferred properties for instruction:', (None, 'white', True), True), instr
@@ -87,9 +88,14 @@ class PropExtraction(PRACModule):
                 for q in r_db.query('property(?word, ?prop) ^ has_sense(?word, ?sense)'):
                     if q['?sense'] == 'null': continue
                     if q['?prop'] == 'null': continue
-                    print '{}({}, {})'.format(  colorize(possibleProps[q['?prop']], (None, 'white', True), True), 
+                    prop = q['?prop']
+                    word = q['?sense']
+
+                    output_db.addGroundAtom('{}({}, {})'.format(possibleProps[prop], 'cluster', word))
+
+                    print '{}({}, {})'.format(  colorize(possibleProps[prop], (None, 'white', True), True), 
                                                 colorize('cluster', (None, 'magenta', True), True), 
-                                                colorize(q['?sense'], (None, 'green', True), True))
+                                                colorize(word, (None, 'green', True), True))
                 print
 
                 print 'Inferred most probable word senses:'
@@ -98,8 +104,9 @@ class PropExtraction(PRACModule):
                     print '{}:'.format(q['?w'])
                     print 'get meanings of word',q['?w'], q['?s']
                     wordnet_module.printWordSenses(wordnet_module.get_possible_meanings_of_word(r_db, q['?w']), q['?s'])
+                output_dbs.append(output_db)
 
-            inf_step.output_dbs.extend(result_dbs)
+            inf_step.output_dbs.extend(output_dbs)
         return inf_step
 
 

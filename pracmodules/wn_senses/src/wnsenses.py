@@ -143,14 +143,14 @@ class WNSenses(PRACModule):
         '''
         Example:
         '''
-        print domains
         # assert false properties for inferred values (e.g. 0 prop(cluster, yellow.s.01, SIZE))
         db = db.duplicate()
+        cluster = propsFound.pop('cluster', 'cluster')
         for prop in propsFound:
             for val in propsFound[prop]:
                 for p in domains['prop']:
                     if p != prop:
-                        db.addGroundAtom('prop(cluster, {}, {})'.format(val, p), 0)
+                        db.addGroundAtom('prop({}, {}, {})'.format(cluster,val, p), 0)
 
         # add similarities for values in mln domain for correct property (max similarity)
         newProp = ''
@@ -166,12 +166,12 @@ class WNSenses(PRACModule):
                         maxSim = sim
                         newProp = prop
 
-            db.addGroundAtom('prop(cluster, {}, {})'.format(w, newProp), maxSim)
+            db.addGroundAtom('prop({}, {}, {})'.format(cluster, w, newProp), maxSim)
 
             # assert false properties for values in mln domain
             for p in domains['prop']:
                 if p != newProp:
-                    db.addGroundAtom('prop(cluster, {}, {})'.format(w, p), 0)
+                    db.addGroundAtom('prop({}, {}, {})'.format(cluster, w, p), 0)
         return db
 
     def add_similarities(self, db, domains, propsFound):
@@ -179,6 +179,7 @@ class WNSenses(PRACModule):
         Example:
         '''
         db = db.duplicate()
+        cluster = propsFound.pop('cluster', 'cluster')
         for prop in propsFound:
             for propFoundVal in propsFound[prop]:
                 if prop in domains:
@@ -188,7 +189,7 @@ class WNSenses(PRACModule):
                                 synset1 = self.wordnet.synset(propFoundVal)
                                 synset2 = self.wordnet.synset(domVal)
                                 sim = self.wordnet.similarity(synset1, synset2)
-                                db.addGroundAtom('{}(cluster, {})'.format(prop, domVal), sim)
+                                db.addGroundAtom('{}({}, {})'.format(prop, cluster, domVal), sim)
         return db
 
            

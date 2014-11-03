@@ -8,5 +8,9 @@ pracobjrec 'It is a yellow or orange fruit.' -t sherlock orange.n.01
 pracobjrec 'It is a yellow or orange fruit.' -t sherlock orange.n.01 -o
 
 # infer using dkb
-pracobjrec 'It is a yellow oval fruit.' -r sherlock 
-pracobjrec 'It is a yellow oval fruit.' -r sherlock -o 
+pracobjrec -r -m /home/mareikep/prac_repos/prac/pracmodules/obj_recognition/mln/objInf_trained.mln FuzzyLogic 'It is a yellow oval fruit.' 
+pracobjrec -r -m /home/mareikep/prac_repos/prac/pracmodules/obj_recognition_old/mln/objInf_trained.mln FuzzyLogic 'It is a yellow oval fruit.' -o
+
+# k-fold cross validation
+pracxfold --dbs /home/mareikep/prac_repos/prac/pracmodules/obj_recognition/db/natLan.db --mln /home/mareikep/prac_repos/prac/pracmodules/obj_recognition/mln/objInf.mln --predicate object --domain cluster --folder evalTest --module obj_recognition --folds 10
+pracxfold --dbs /home/mareikep/prac_repos/prac/pracmodules/obj_recognition/db/natLan.db --mln /home/mareikep/prac_repos/prac/pracmodules/obj_recognition/mln/objInf.mln --predicate object --domain cluster --folder evalTest_old --module obj_recognition_old --folds 2

@@ -35,7 +35,7 @@ parser = OptionParser(usage=usage)
 parser.add_option('--mt', action='callback', type='string', callback=parse_list, dest='microtheories')
 parser.add_option('--module', action='callback', type='string', callback=parse_list, dest='modules')
 parser.add_option('--dbs', action='callback', type='string', callback=parse_list, dest='training_dbs')
-parser.add_option('--kb', type='string', dest='kb', default=None)
+parser.add_option('--mln', type='string', nargs=2, dest='mln', default=None)
 
 
 if __name__ == '__main__':
@@ -53,8 +53,9 @@ if __name__ == '__main__':
     if parser.values.training_dbs is not None:
         dbnames = parser.values.training_dbs
         praclearn.training_dbs = dbnames
-    if options.kb is not None:
-        praclearn.otherParams['kb'] = options.kb
+    if options.mln is not None:
+        praclearn.otherParams['mln'] = options.mln[0]
+        praclearn.otherParams['logic'] = options.mln[1]
 
     for m in praclearn.modules:
         module = prac.getModuleByName(m)
