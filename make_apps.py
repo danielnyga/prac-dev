@@ -10,7 +10,7 @@ BOLD = (None, None, True)
 
 if not os.path.exists(appfolder):
     os.mkdir(appfolder)
-for app in ("pracinfer", "praclearn", 'pracparse', 'senses', 'pracserver', 'pracobjrec'):
+for app in ("pracinfer", "praclearn", 'pracparse', 'senses', 'pracserver', 'pracobjrec','pracxfold'):
     filepath = os.path.join(appfolder, app)
     f = file(filepath, "w+")
     f.write("#!/bin/sh\n")
