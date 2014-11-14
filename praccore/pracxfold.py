@@ -13,7 +13,6 @@ from mln.methods import LearningMethods, InferenceMethods
 from wcsp.converter import WCSPConverter
 from utils.eval import ConfusionMatrix
 from mln.util import strFormula, mergeDomains
-from multiprocessing import Pool
 from utils.clustering import SAHN, Cluster, computeClosestCluster
 import logging
 import praclog
@@ -23,6 +22,7 @@ from prac.wordnet import WordNet
 from prac.inference import PRACInference, PRACInferenceStep
 from prac.learning import PRACLearning
 
+from utils.pool_ import Pool_
 
 
 def parse_list(option, opt, value, parser):
@@ -51,7 +51,9 @@ parser.add_option('--predicate', dest='predicate', type='str', default=None,
 parser.add_option('--domain', dest='domain', type='str', default=None,
                   help='The domain.')
 parser.add_option('--mln', dest='mln', type='str', default=None,
-                  help='The mln needed to load the database files.')
+                  help='The mln needed for training and inference.')
+parser.add_option('--altMLN', dest='altMLN', type='str', default=None,
+                  help='Alternative mln for loading the database files. Optional')
 parser.add_option('--logic', dest='logic', type='str', default='FuzzyLogic',
                   help='The logic to load the mln with.')
 
@@ -75,6 +77,7 @@ class XValFoldParams(object):
         self.noisyStringDomains = None
         self.directory = None
         self.mln = None
+        self.altmln = None
         self.module = None
         for p, val in params.iteritems():
             setattr(self, str(p), val)
@@ -102,66 +105,58 @@ class XValFold(object):
         dbfile = open(os.path.join(params.directory, 'test_dbs_%d.db' % params.foldIdx), 'w+')
         Database.writeDBs(params.testDBs, dbfile)
         dbfile.close()
-        
-            
-    def evalMLN(self, mln, dbs):
+      
+
+    def evalMLN(self, mln, dbs, module):
         '''
         Returns a confusion matrix for the given (learned) MLN evaluated on
         the databases given in dbs.
         '''
+
+        log = logging.getLogger(self.fold_id)
+
         queryPred = self.params.queryPred
         queryDom = self.params.queryDom
-        log.info(queryPred)
-        log.info(queryDom)
-        
-        sig = ['?arg%d' % i for i, _ in enumerate(mln.predicates[queryPred])]
+
+        sig = ['?arg%d' % i for i, _ in enumerate(self.params.altMLN.predicates[queryPred])]
         querytempl = '%s(%s)' % (queryPred, ','.join(sig))
         
-        dbs = map(lambda db: db.duplicate(mln), dbs)
-        module = self.params.module
+        dbs = map(lambda db: db.duplicate(), dbs)
         
         infer = PRACInference(module.prac, [])
         inferenceStep = PRACInferenceStep(infer, self)
         
-
         for db in dbs:
             # save and remove the query predicates from the evidence
-            trueDB = Database(mln)
+            trueDB = Database(self.params.altMLN)
             for bindings in db.query(querytempl):
                 atom = querytempl
                 for binding in bindings:
                     atom = atom.replace(binding, bindings[binding])
                 trueDB.addGroundAtom(atom)
                 db.retractGndAtom(atom)
-            
             try:
                 inferenceStep.output_dbs = [db]
-                infer.inference_steps.append(inferenceStep)
+                infer.inference_steps = [inferenceStep]
                 module.prac.run(infer,module, mln=mln)
                 resultDB = infer.inference_steps[-1].output_dbs[-1]
 
                 sig2 = list(sig)
-                log.info(sig)
-                log.info(sig2)
                 entityIdx = mln.predicates[queryPred].index(queryDom)
-                log.info(entityIdx)
                 for entity in db.domains[queryDom]:
                     sig2[entityIdx] = entity
-                    log.info(sig2)
                     query = '%s(%s)' % (queryPred, ','.join(sig2))
-                    log.info(query)
                     for truth in trueDB.query(query):
                         truth = truth.values().pop()
                     for pred in resultDB.query(query):
                         pred = pred.values().pop()
-                        log.info(pred)
                     self.confMatrix.addClassificationResult(pred, truth)
                 for e, v in trueDB.evidence.iteritems():
                     if v is not None:
                         db.addGroundAtom('%s%s' % ('' if v is True else '!', e))
             except:
                 log.critical(''.join(traceback.format_exception(*sys.exc_info())))
-
+    
     def run(self):
         '''
         Runs the respective fold of the crossvalidation.
@@ -173,7 +168,7 @@ class XValFold(object):
             # Apply noisy string clustering
             log.debug('Transforming noisy strings...')
             if self.params.noisyStringDomains is not None:
-                noisyStrTrans = NoisyStringTransformer(self.params.mln, self.params.noisyStringDomains, True)
+                noisyStrTrans = NoisyStringTransformer(self.params.altMLN, self.params.noisyStringDomains, True)
                 learnDBs_ = noisyStrTrans.materializeNoisyDomains(self.params.learnDBs)
                 testDBs_ = noisyStrTrans.transformDBs(self.params.testDBs)
             else:
@@ -181,10 +176,10 @@ class XValFold(object):
                 testDBs_ = self.params.testDBs
 
             # train the MLN
-            mln = self.params.mln
             log.debug('Starting learning...')
 
-            praclearn = PRACLearning(prac)
+            module = self.params.module
+            praclearn = PRACLearning(module.prac)
             praclearn.otherParams['mln'] = self.params.mlnFileName
             praclearn.otherParams['logic'] = self.params.logic
             praclearn.training_dbs = learnDBs_
@@ -197,7 +192,7 @@ class XValFold(object):
             
             # evaluate the MLN
             log.debug('Evaluating.')
-            self.evalMLN(learnedMLN, testDBs_)
+            self.evalMLN(learnedMLN, testDBs_, module)
             self.confMatrix.toFile(os.path.join(directory, 'conf_matrix_%d.cm' % self.params.foldIdx))
             log.debug('Evaluation finished.')
         except (KeyboardInterrupt, SystemExit):
@@ -269,6 +264,7 @@ class NoisyStringTransformer(object):
             newDBs.append(newDB)
         return newDBs
 
+
 def runFold(fold):
     log = logging.getLogger(fold.fold_id)
     try:
@@ -278,10 +274,10 @@ def runFold(fold):
     return fold    
 
 
-
 if __name__ == '__main__':
     print "Running xfold..."
     (options, args) = parser.parse_args()
+
     folds = options.folds
     percent = options.percent
     verbose = options.verbose
@@ -293,13 +289,12 @@ if __name__ == '__main__':
     domain = options.domain
     dbfiles = options.dbs
     mlnFileName = options.mln
+    altMLNFileName = options.altMLN or options.mln # equal to mlnFileName if no alternative mln given
+    logic = options.logic
     
     startTime = time.time()
 
-
-    #  #  #  #  #  #  #  #  #  #  #  #  #  #  #  #  #  #  #  #  #  #  #  #  #  #  #  
     # set up the directory    
-    #  #  #  #  #  #  #  #  #  #  #  #  #  #  #  #  #  #  #  #  #  #  #  #  #  #  #
     timestamp = time.strftime("%Y-%b-%d-%H-%M-%S", time.localtime())
     if dirname is None:  
         idx = 1
@@ -309,7 +304,7 @@ if __name__ == '__main__':
             if not os.path.exists(dirname): break
         dirname += '-' + timestamp
     
-    expdir = os.getenv('PRACMLN_EXPERIMENTS', '.')
+    expdir = os.getenv('PRAC_EXPERIMENTS', '.')
     expdir = os.path.join(expdir, dirname)
     if os.path.exists(expdir):
         print 'Directory "%s" exists. Overwrite? ([y]/n)' % expdir,
@@ -333,11 +328,11 @@ if __name__ == '__main__':
     
     # load module
     prac = PRAC()
-    prac.wordnet = WordNet(concepts=None) # needed?
+    module = prac.getModuleByName(moduleName)
 
     # read MLN and dbs
-    module = prac.getModuleByName(moduleName)
-    mln_ = readMLNFromFile(mlnFileName, logic=options.logic)
+    altMLN = readMLNFromFile(mlnFileName, logic=logic)
+    mln_ = readMLNFromFile(altMLNFileName, logic=logic)
 
     dbs = []
     for dbfile in dbfiles:
@@ -371,6 +366,7 @@ if __name__ == '__main__':
     for foldIdx in range(folds):
         params = XValFoldParams()
         params.mln = mln_.duplicate()
+        params.altMLN = altMLN.duplicate()
         params.learnDBs = []
         for dbs in [d for i, d in enumerate(partition) if i != foldIdx]:
             params.learnDBs.extend(dbs)
@@ -382,15 +378,16 @@ if __name__ == '__main__':
         params.queryPred = predName
         params.queryDom = domain
         params.module = module
+        params.logic = logic
         params.mlnFileName = mlnFileName
-        params.logic = options.logic
+        params.altMLNFileName = altMLNFileName
         foldRunnables.append(XValFold(params))
         log.info('Params for fold %d:\n%s' % (foldIdx, str(params)))
     
     if multicore:
-        # set up a pool of worker processes
+        # set up a pool of (non-daemon!!) worker processes
         try:
-            workerPool = Pool()
+            workerPool = Pool_()
             log.info('Starting %d-fold Cross-Validation in %d processes.' % (folds, workerPool._processes))
             result = workerPool.map_async(runFold, foldRunnables).get()
             workerPool.close()
@@ -400,9 +397,10 @@ if __name__ == '__main__':
                 cm.combine(r.confMatrix)
             elapsedTimeMP = time.time() - startTime
             cm.toFile(os.path.join(expdir, 'conf_matrix.cm'))
-            # create the pdf table and move it into the log directory
-            # this is a dirty hack since pdflatex apparently
-            # does not support arbitrary output paths
+
+            cm.precisionsToFile(os.path.join(expdir, 'precisions.txt'))
+            cm.precisionsToFile(os.path.join(expdir, 'precisions_sim.txt'), sim=True)
+
             pdfname = 'conf_matrix'
             log.info('creating pdf if confusion matrix...')
             cm.toPDF(pdfname)
@@ -415,21 +413,24 @@ if __name__ == '__main__':
         except:
             log.error('\n' + ''.join(traceback.format_exception(*sys.exc_info())))
             exit(1)
-#     startTime = time.time()
     else:
         log.info('Starting %d-fold Cross-Validation in 1 process.' % (folds))
         cm = ConfusionMatrix()
         for fold in foldRunnables:
             cm.combine(runFold(fold).confMatrix)
+            cm.toPDF(os.path.join(expdir, 'tempconf_matrix{}.pdf'.format(fold)))
+        elapsedTimeSP = time.time() - startTime
         cm.toFile(os.path.join(expdir, 'conf_matrix.cm'))
+
+        cm.precisionsToFile(os.path.join(expdir, 'precisions.txt'))
+        cm.precisionsToFile(os.path.join(expdir, 'precisions_sim.txt'), sim=True)
+
         pdfname = 'conf_matrix'
         log.info('creating pdf if confusion matrix...')
         cm.toPDF(pdfname)
         os.rename('%s.pdf' % pdfname, os.path.join(expdir, '%s.pdf' % pdfname))
-        elapsedTimeSP = time.time() - startTime
     
     if multicore:
         log.info('%d-fold crossvalidation (MP) took %.2f min' % (folds, elapsedTimeMP / 60.0))
     else:
         log.info('%d-fold crossvalidation (SP) took %.2f min' % (folds, elapsedTimeSP / 60.0))
-        

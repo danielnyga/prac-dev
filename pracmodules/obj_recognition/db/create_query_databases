@@ -1,16 +1,23 @@
-# create and train dkb from dbs
-praclearn --dbs /home/mareikep/prac_repos/prac/pracmodules/obj_recognition/db/sherlock.db --kb sherlock --module obj_recognition 
-praclearn --dbs /home/mareikep/prac_repos/prac/pracmodules/obj_recognition/db/sherlock.db --kb sherlock --module obj_recognition_old 
-praclearn --dbs /home/mareikep/prac_repos/prac/pracmodules/obj_recognition/db/new.db,/home/mareikep/prac_repos/prac/pracmodules/obj_recognition/db/sherlock.db --kb new --module obj_recognition
+# create and train kb from dbs
+praclearn --dbs /home/mareikep/prac_repos/prac/pracmodules/prop_extraction/db/ts_stanford_wn_man.db --mln /home/mareikep/prac_repos/prac/pracmodules/prop_extraction/mln/parsing.mln FirstOrderLogic --module prop_extraction
 
-# create manual dkb entry from inference
+praclearn --dbs /home/mareikep/prac_repos/prac/pracmodules/obj_recognition/db/natLan.db --mln /home/mareikep/prac_repos/prac/pracmodules/obj_recognition/mln/objInf.mln FirstOrderLogic --module obj_recognition
+
+praclearn --dbs /home/mareikep/prac_repos/prac/pracmodules/obj_recognition/db/natLan.db --mln /home/mareikep/prac_repos/prac/pracmodules/obj_recognition/mln/objInf.mln FirstOrderLogic --module obj_recognition_old 
+
+praclearn --dbs /home/mareikep/prac_repos/prac/pracmodules/obj_recognition/db/sherlock.db,/home/mareikep/prac_repos/prac/pracmodules/obj_recognition/db/sherlock.db --mln /home/mareikep/prac_repos/prac/pracmodules/obj_recognition/mln/objInf.mln FirstOrderLogic --module obj_recognition
+
+# create manual kb entry from inference
 pracobjrec 'It is a yellow or orange fruit.' -t sherlock orange.n.01 
+
 pracobjrec 'It is a yellow or orange fruit.' -t sherlock orange.n.01 -o
 
-# infer using dkb
-pracobjrec -r -m /home/mareikep/prac_repos/prac/pracmodules/obj_recognition/mln/objInf_trained.mln FuzzyLogic 'It is a yellow oval fruit.' 
-pracobjrec -r -m /home/mareikep/prac_repos/prac/pracmodules/obj_recognition_old/mln/objInf_trained.mln FuzzyLogic 'It is a yellow oval fruit.' -o
+# infer using kb
+pracobjrec -r -m /home/mareikep/prac_repos/prac/pracmodules/obj_recognition/mln/objInf_trained_natLan_CONFI.mln FuzzyLogic 'It is a yellow oval fruit.' 
+
+pracobjrec -r -m /home/mareikep/prac_repos/prac/pracmodules/obj_recognition_old/mln/objInf_trained_natLan_CONFI.mln FuzzyLogic 'It is a yellow oval fruit.' -o
 
 # k-fold cross validation
-pracxfold --dbs /home/mareikep/prac_repos/prac/pracmodules/obj_recognition/db/natLan.db --mln /home/mareikep/prac_repos/prac/pracmodules/obj_recognition/mln/objInf.mln --predicate object --domain cluster --folder evalTest --module obj_recognition --folds 10
-pracxfold --dbs /home/mareikep/prac_repos/prac/pracmodules/obj_recognition/db/natLan.db --mln /home/mareikep/prac_repos/prac/pracmodules/obj_recognition/mln/objInf.mln --predicate object --domain cluster --folder evalTest_old --module obj_recognition_old --folds 2
+pracxfold --dbs /home/mareikep/prac_repos/prac/pracmodules/obj_recognition/db/natLan.db --mln /home/mareikep/prac_repos/prac/pracmodules/obj_recognition/mln/objInf.mln --predicate object --domain cluster --folder evalObjInfCONF --module obj_recognition --multicore --folds 10
+
+pracxfold --dbs /home/mareikep/prac_repos/prac/pracmodules/obj_recognition/db/natLan.db --mln /home/mareikep/prac_repos/prac/pracmodules/obj_recognition_old/mln/objInf.mln --altMLN /home/mareikep/prac_repos/prac/pracmodules/obj_recognition/mln/objInf.mln --predicate object --domain cluster --folder evalObjInfOldCONF --module obj_recognition_old --multicore --folds 10

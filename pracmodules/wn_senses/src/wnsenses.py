@@ -46,6 +46,7 @@ for v in verbTags:
 for a in adjTags:
     posMap[a] = 'a'
 
+
 class WNSenses(PRACModule):
     '''
     Extracts possible word senses from WordNet given the part of speech
@@ -220,9 +221,12 @@ class WNSenses(PRACModule):
         for q in db.query('has_sense(%s, ?s) ^ has_pos(%s, ?pos)' % (word, word)):
             s = q['?s']
             pos = q['?pos']
+            print pos
             pos = posMap.get(pos, None)
             if pos is None: continue
-            word = word.split('-')[0]
+            # make sure that words like bowl-shaped are left untouched
+            # bowl-shaped-5 should become bowl-shaped and not bowl
+            word = '-'.join(word.split('-')[:-1])
             return self.prac.wordnet.synsets(word, pos)
         return None
     

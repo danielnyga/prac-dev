@@ -30,7 +30,7 @@ from prac.inference import PRACInferenceStep
 import sys, os
 from utils import colorize
 
-possibleProps = {'COLOR': 'color','SIZE':'size','SHAPE':'shape','HYPERNYM':'isA','HASA':'hasA'}
+possibleProps = ['color', 'size', 'shape', 'hypernym', 'hasa']#, 'dimension', 'consistency']
 
 class NLObjectRecognition(PRACModule):    
 
@@ -52,7 +52,7 @@ class NLObjectRecognition(PRACModule):
         if params.get('kb', None) is None: # load the default arguments
             log.info('Using default knowledge base')
             kb = self.load_pracmt('default')
-            dbs = pracinference.inference_steps[-1].output_dbs
+            kb.dbs = pracinference.inference_steps[-1].output_dbs
             mln = kb.query_mln
         else: # load arguments from given knowlegebase
             log.info('Using knowledge base from params')
@@ -64,14 +64,11 @@ class NLObjectRecognition(PRACModule):
             mln = params.get('mln')
             kb.query_mln = mln
 
-        kb.dbs = dbs
         inf_step = PRACInferenceStep(pracinference, self)
         wordnet_module = self.prac.getModuleByName('wn_senses')
 
         # adding evidence properties to new query db
         for db in kb.dbs:
-            propsFound = {}
-
             # find properties and add word similarities
             propsFound = self.processDB(db)
             output_db = wordnet_module.add_similarities(db, mln.domains, propsFound)
@@ -114,7 +111,7 @@ class NLObjectRecognition(PRACModule):
                 trainingDBS.append(db)
 
         outputfile = '{}_trained.mln'.format(mlnName.split('.')[0])
-        trainedMLN = mln.learnWeights(trainingDBS, LearningMethods.DCLL, evidencePreds=possibleProps.values(), gaussianPriorSigma=10, useMultiCPU=1, optimizer='cg')
+        trainedMLN = mln.learnWeights(trainingDBS, LearningMethods.DCLL, evidencePreds=possibleProps, partSize=4, gaussianPriorSigma=10, useMultiCPU=1, optimizer='directDescent', learningRate=1)
         
         print colorize('+=============================================+', (None, 'green', True), True)
         print colorize('| LEARNT FORMULAS:                            |', (None, 'green', True), True)
@@ -129,7 +126,7 @@ class NLObjectRecognition(PRACModule):
     # extract found properties from evidence db. used for adding similarities
     def processDB(self, db):
         propsFound = {}
-        for prop in possibleProps.values():
+        for prop in possibleProps:
             for q in db.query('{}(?cluster, ?word)'.format(prop)):
                 if q['?word'] == 'null': continue
                 if q['?cluster'] == 'null': continue

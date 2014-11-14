@@ -26,8 +26,8 @@
 shape(cluster, shape)
 color(cluster, color)
 size(cluster, size)
-isA(cluster, isA)
-hasA(cluster, hasA)
+hypernym(cluster, isA)
+hasa(cluster, hasA)
 
 object(cluster, object!)
 
@@ -36,11 +36,3 @@ object(cluster, object!)
 // size = {null}
 // isA = {null}
 // hasA = {null}
-
-// goggles_Text(cluster, text)
-// goggles_Logo(cluster, company)
-// goggles(cluster, product)
-// goggles_Contact(cluster, contact)
-// goggles_Product(cluster, product)
-// linemod(cluster, mod)
-// scene(scene)

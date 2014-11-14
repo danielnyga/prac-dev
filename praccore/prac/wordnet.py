@@ -31,107 +31,20 @@ from utils.graphml import Graph, Node as GMLNode, Edge
 import itertools
 import os
 from scipy import spatial
+import properties # contains similarity dictionaries for colors, shapes, sizes, consistencies and dimensions
 
 PRAC_HOME = os.environ['PRAC_HOME']
 nltk.data.path = [os.path.join(PRAC_HOME, 'data', 'nltk_data')]
 
 NLTK_POS = ['n', 'v', 'a', 'r']
-TAXONOMY_BRANCHES = ['color.n.01','size.n.01','shape.n.01','kitchenware.n.01','tableware.n.01','container.n.01','plant_part.n.01','food.n.01']
+TAXONOMY_BRANCHES = ['color.n.01','size.n.01','shape.n.01','kitchenware.n.01','tableware.n.01','container.n.01','plant_part.n.01','food.n.01','dimension.n.01','conistency.n.01']
+
+
 colorsims = {}
-# hsv values for color similarity calculation
-colorspecs = {  'pink.s.01': (335,87,87),
-                'purple.s.01': (290,87,87),
-                'blue.s.01': (235,87,87),
-                'cyan.s.01': (150,87,87),
-                'light-blue.s.01': (175,87,87),
-                'green.s.01': (115,87,87),
-                'green.n.01': (115,87,87),
-                'yellow.s.01': (50,87,87),
-                'yellowish.s.01': (50,87,87),
-                'yellow.n.01': (50,87,87),
-                'orange.s.01': (20,87,87),
-                'orange.n.02': (20,87,87),
-                'brown.s.01': (20,87,97),
-                'red.s.01': (0,87,87),
-                'blood-red.s.01': (0,89,55),
-                'black.a.01': (500,55,5), 
-                'blackish.s.01': (500,55,5), 
-                'white.a.01': (500,5,95),
-                'whitish.s.02': (500,5,95),
-                'grey.s.01': (500,5,50),
-                'greyish.s.01': (500,5,50),
-                'gray.s.01': (500,5,50),
-                'grayish.s.01': (500,5,50)
-                }
-
 shapesims = {}
-# similarity represented by (#edges, #angles, #faces, #subjective similarity)
-# does not work for all shapes due to lack of information (then using rule of thumb estimate)
-# #edges/angles/faces for curved, annular, ringlike...?
-# hexangular, octangular... 2D or 3D??
-shapespecs = {  'crescent.s.01': (2,2,1,0),
-                'semicircular.s.01': (2,2,1,1),
-                'curved.a.01': (2,0,1,2),
-                'annular.s.01': (2,0,1,4), #ringfoermig
-                'ringlike.s.01': (2,0,1,4),
-                'coil.n.02': (2,0,1,5), #spiralfoermig
-                'coiling.s.01': (2,0,1,5),#spiralfoermig
-                'rounded.a.01': (0,0,1,6),
-                'roundish.s.01': (0,0,1,7),
-                'egg-shaped.s.01': (0,0,1,8),
-                'ellipse.n.01': (0,0,1,8),
-                'flat.s.02': (0,0,1,6),
-                'elliptic.s.01': (0,0,1,8),
-                'pear-shaped.s.01': (0,0,1,9),
-                'cylindrical.s.01': (2,0,3,10),
-                'round.a.01': (0,0,1,11),
-                'spherical.a.01': (0,0,1,11),
-                'ball-shaped.s.01': (0,0,1,11),
-                'circular.s.02': (0,0,1,11),
-                'circular.n.01': (0,0,1,11),
-                'octangular.a.01': (8,8,1,14),
-                'hexangular.a.01': (6,6,1,15),
-                'pentangular.a.01': (5,5,1,16),
-                'quadrangular.a.01': (4,4,1,17),
-                'square.n.01': (4,4,1,17),
-                'square-shaped.s.01': (4,4,1,17),
-                'rectangle.n.01': (4,4,1,18),
-                'rectangular.s.01': (4,4,1,18),
-                'orthogonal.s.03': (4,4,1,20),
-                'boxlike.s.01': (12,8,6,19),
-                'trapezoidal.a.01': (4,4,1,21),
-                'rhombic.a.01': (4,4,1,22),
-                'triangle.n.01': (3,3,1,24),
-                'triangular.s.01': (3,3,1,25),
-                'pyramidal': (5,5,5,26),
-                'wedge-shaped.a.02': (9,6,5,27),
-                'cuneate.s.01': (3,3,1,28), #keilfoermig
-                'conic.a.01': (2,1,2,29),
-                'tapered.s.01': (2,1,2,30), #kegelfoermig
-                'asteroid.s.01': (12,6,1,35),
-                'cordate.s.01': (2,2,1,40), #herzfoermig
-                'convex.a.01': (1,1,2,40), #herzfoermig
-                'concave.a.01': (3,3,2,40), #herzfoermig
-                }
-
 sizesims = {}
-sizespecs = {   'dwarfish.s.01': (0),
-                'bantam.s.01': (1),
-                'little.s.03': (2),
-                'small.a.01': (3),
-                'short.a.02': (3.5),
-                'short.a.03': (3.5),
-                'modest.s.02': (4),
-                'average.s.04': (5),
-                'medium-sized.s.01': (5),
-                'large.a.01': (7), # 'big'
-                'wide.a.01': (7.2), # 'broad'
-                'long.a.02' : (7.5),
-                'long.s.03' : (7.5),
-                'tall.a.01': (7.5),
-                'huge.s.01': (8),
-                'grand.s.06': (9),
-                } 
+consistencysims = {}
+dimensionsims = {}
 
 known_concepts = ['soup.n.01', 
                   'milk.n.01', 
@@ -168,9 +81,11 @@ class WordNet(object):
         self.core_taxonomy = None
         if concepts is not None:
             self.initialize_taxonomy(concepts)
-            self.initialize_similarities(colorsims, colorspecs)
-            self.initialize_similarities(shapesims, shapespecs)
-            self.initialize_similarities(sizesims, sizespecs)
+            self.initialize_similarities(colorsims, properties.colorspecs)
+            self.initialize_similarities(shapesims, properties.shapespecs)
+            self.initialize_similarities(sizesims, properties.sizespecs)
+            self.initialize_similarities(consistencysims, properties.consistencyspecs)
+            self.initialize_similarities(dimensionsims, properties.dimensionspecs)
 
 
     def initialize_similarities(self, simdct, specs):
@@ -394,6 +309,19 @@ class WordNet(object):
         return list(set(self.flatten([drf.synset for drf in self.flatten([lemma.derivationally_related_forms() for lemma in adjSynset.lemmas])])))
 
 
+    def abc(self, words):
+        consistency = wn.synset('dimension.n.01')
+        res = []
+        for con in words:
+            temp = self.synsets(con,'a')
+            for t in temp:
+                unpacked = self.unpackNoun(t)
+                for n in unpacked:
+                    if consistency in self.flatten(n.hypernym_paths()):
+                        res.append(t)
+
+        return res
+
     def similarity(self, synset1, synset2):
         '''
         Returns a custom semantic similarity for adjectives
@@ -587,12 +515,12 @@ class WordNet(object):
         
 
 if __name__ == '__main__':
-#     known_concepts = ['milk.n.01', 'bowl.n.01', 'bowl.n.04', 'cup.n.01', ]
-#     unknown_concepts = ['mug.n.04', 'glass.n.02', 'tea.n.01', 'milk.n.01', 'cup.n.02']
-    logging.getLogger().setLevel(logging.INFO)
+
+    consistency = ['foamy','downy','soft','hard','sticky','thick', 'thin','liquid','firm','soft','downy','feathery','fluffy','pulpy','limp','crispy','breakable','unbreakable','porous','spongy','solid','dense','creamy']
+    dimension = ['thick','thin','long','elongated','short','wide', 'broad','narrow','fine','tall','high','low','squat']
     wn = WordNet()
-    wn.asGraphML().write(file('/home/nyga/tmp/wordnet.graphml', 'w+'))
-#     wn.get_mln_similarity_and_sense_assertions(known_concepts, unknown_concepts)
-    
-#     print 'semil: %.3f' % wn.semilarity(c1, c2)
-#     print 'wup:   %.3f' % wn.wup_similarity(c1, c2)
+    wn.core_taxonomy = None
+    res = list(set(wn.abc(dimension)))
+    for r in res:
+        print r.name
+    print len(res), len(dimension)

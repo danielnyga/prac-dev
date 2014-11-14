@@ -30,8 +30,6 @@ from prac.inference import PRACInferenceStep
 import sys, os
 from utils import colorize
 
-possibleProps = {'COLOR': 'color','SIZE':'size','SHAPE':'shape','HYPERNYM':'isA','HASA':'hasA'}
-
 class PropExtraction(PRACModule):    
 
     def initialize(self):
@@ -58,7 +56,7 @@ class PropExtraction(PRACModule):
             kb.dbs = pracinference.inference_steps[-1].output_dbs
 
         # TODO: Remove when final mln exists
-        kb.query_mln = readMLNFromFile(os.path.join(self.module_path, 'mln/dcll_parsing_stanford_wn_man.mln'), logic='FuzzyLogic')
+        kb.query_mln = readMLNFromFile(os.path.join(self.module_path, 'mln/parsing_trained.mln'), logic='FuzzyLogic')
 
         known_concepts = kb.query_mln.domains.get('concept', [])
         inf_step = PRACInferenceStep(pracinference, self)
@@ -91,9 +89,9 @@ class PropExtraction(PRACModule):
                     prop = q['?prop']
                     word = q['?sense']
 
-                    output_db.addGroundAtom('{}({}, {})'.format(possibleProps[prop], 'cluster', word))
+                    output_db.addGroundAtom('{}({}, {})'.format(prop.lower(), 'cluster', word))
 
-                    print '{}({}, {})'.format(  colorize(possibleProps[prop], (None, 'white', True), True), 
+                    print '{}({}, {})'.format(  colorize(prop.lower(), (None, 'white', True), True), 
                                                 colorize('cluster', (None, 'magenta', True), True), 
                                                 colorize(word, (None, 'green', True), True))
                 print
@@ -103,6 +101,7 @@ class PropExtraction(PRACModule):
                     if q['?s'] == 'null': continue
                     print '{}:'.format(q['?w'])
                     print 'get meanings of word',q['?w'], q['?s']
+
                     wordnet_module.printWordSenses(wordnet_module.get_possible_meanings_of_word(r_db, q['?w']), q['?s'])
                 output_dbs.append(output_db)
 
@@ -117,10 +116,10 @@ class PropExtraction(PRACModule):
 
         log = logging.getLogger(self.name)
 
-        # get all the relevant training databases
-        # kb = self.load_pracmt('obj_recog')
-        # mln = kb.query_mln
-        mln = readMLNFromFile(os.path.join(self.module_path, 'mln/parsing.mln'), logic='FirstOrderLogic')
+        mlnName =  praclearning.otherParams.get('mln', None)
+        mlnLogic =  praclearning.otherParams.get('logic', None)
+
+        mln = readMLNFromFile(mlnName, logic=mlnLogic)
 
         if praclearning.training_dbs:
             inputdbs = readDBFromFile(mln, praclearning.training_dbs, ignoreUnknownPredicates=True)
@@ -128,17 +127,16 @@ class PropExtraction(PRACModule):
             dbFile = os.path.join(self.module_path, 'db/ts_stanford_wn_man.db')
             inputdbs = readDBFromFile(mln, dbFile, ignoreUnknownPredicates=True)
 
-        outputfile = os.path.join(self.module_path, 'mln/dcll_parsing_stanford_wn_man.mln')
-        wordnet_module = self.prac.getModuleByName('wn_senses')
-
-        # train parsing mln
-        log.info('Starting training with {} databases'.format(len(inputdbs)))
         evidencePreds=['cop', 'prep_without','pobj', 'nsubj','is_a','amod','prep_with','root','has_pos','conj_and','conj_or','dobj']
-        trainedMLN = mln.learnWeights(inputdbs, LearningMethods.DCLL, evidencePreds=evidencePreds, gaussianPriorSigma=10, partSize=1, useMultiCPU=1, optimizer='bfgs')
-        trainedMLN.write(file(outputfile, "w"))
+        # trainedMLN = mln.learnWeights(inputdbs, LearningMethods.DCLL, evidencePreds=evidencePreds, gaussianPriorSigma=10, partSize=1, useMultiCPU=1, optimizer='bfgs')
+        outputfile = '{}_trained.mln'.format(mlnName.split('.')[0])
+        trainedMLN = mln.learnWeights(inputdbs, LearningMethods.DCLL, evidencePreds=evidencePreds, partSize=4, gaussianPriorSigma=10, useMultiCPU=1, optimizer='directDescent', learningRate=1)
         
         print colorize('+=============================================+', (None, 'green', True), True)
-        print colorize('| Learnt Formulas:                            |', (None, 'green', True), True)
+        print colorize('| LEARNT FORMULAS:                            |', (None, 'green', True), True)
         print colorize('+=============================================+', (None, 'green', True), True)
         
         trainedMLN.printFormulas()
+        trainedMLN.write(file(outputfile, "w"))
+
+        return trainedMLN

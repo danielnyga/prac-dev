@@ -30,7 +30,7 @@ from prac.inference import PRACInferenceStep
 import sys, os
 from utils import colorize
 
-possibleProps = {'COLOR': 'color','SIZE':'size','SHAPE':'shape','HYPERNYM':'isA','HASA':'hasA'}
+possibleProps = ['COLOR','SIZE','SHAPE','HYPERNYM','HASA']#,'DIMENSION', 'CONSISTENCY']
 
 class OldNLObjectRecognition(PRACModule):    
 
@@ -48,23 +48,20 @@ class OldNLObjectRecognition(PRACModule):
         print
         print colorize('Inferring most probable object based on nl description properties...', (None, 'white', True), True)
         
-        if params.get('kb', None) is None:
-            # load the default arguments
+        if params.get('kb', None) is None: # load the default arguments
             log.info('Using default knowledge base')
             kb = self.load_pracmt('default')
             kb.dbs = pracinference.inference_steps[-1].output_dbs
             mln = kb.query_mln
-        else:
-            # load arguments from given knowlegebase
+        else: # load arguments from given knowlegebase
             log.info('Using knowledge base from params')
             kb = params['kb']
             mln = kb.query_mln
-        if not hasattr(kb, 'dbs'):
+        if not hasattr(kb, 'dbs'): # update dbs in knowledge base
             kb.dbs = pracinference.inference_steps[-1].output_dbs
-        if params.get('mln', None) is not None:
+        if params.get('mln', None) is not None: # use mln from params
             mln = params.get('mln')
-            kb.query_mln = mln            
-
+            kb.query_mln = mln
         inf_step = PRACInferenceStep(pracinference, self)
         wordnet_module = self.prac.getModuleByName('wn_senses')
 
@@ -73,6 +70,7 @@ class OldNLObjectRecognition(PRACModule):
             propsFound = {}
 
             # process database for new mln and add word similarities
+            db.write(sys.stdout, color=True)
             output_db = self.processDB(db, mln, propsFound)
             output_db = wordnet_module.add_similarities_old(output_db, mln.domains, propsFound)
             output_db.write(sys.stdout, color=True)
@@ -89,16 +87,16 @@ class OldNLObjectRecognition(PRACModule):
         print colorize('| TRAINING KNOWLEDGEBASE...                   |', (None, 'green', True), True)
         print colorize('+=============================================+', (None, 'green', True), True)
 
-        mlnPath = os.path.join(self.module_path, 'mln')
-        kbPath = os.path.join(self.module_path, 'kb')
         log = logging.getLogger(self.name)
 
-        mlnPath = os.path.join(self.module_path, 'mln')
-        mlnName = praclearning.otherParams.get('mln', None).split('/')[-1]
-        newMLNFilePath = os.path.join(self.module_path, os.path.join('mln', mlnName))
+        mlnName = praclearning.otherParams.get('mln', None) #.split('/')[-1]
+        mlnLogic =  praclearning.otherParams.get('logic', None)
         objName = praclearning.otherParams.get('concept', None)
 
-        mln = readMLNFromFile(newMLNFilePath)
+        # mlnPath = os.path.join(self.module_path, 'mln')
+        # newMLNFilePath = os.path.join(self.module_path, os.path.join('mln', mlnName))
+
+        mln = readMLNFromFile(mlnName, logic=mlnLogic)
         pracTrainingDBS = praclearning.training_dbs
         trainingDBS = []
 
@@ -125,14 +123,13 @@ class OldNLObjectRecognition(PRACModule):
             db.write(sys.stdout, color=True)
             print 
 
-        outputfile = '{}/{}_trained.mln'.format(mlnPath, mlnName.split('.')[0])
-        trainedMLN = mln.learnWeights(trainingDBS, LearningMethods.DCLL, evidencePreds=['prop'], gaussianPriorSigma=10, useMultiCPU=1, optimizer='cg')
+        outputfile = '{}_trained.mln'.format(mlnName.split('.')[0])
+        trainedMLN = mln.learnWeights(trainingDBS, LearningMethods.DCLL, evidencePreds=['prop'], gaussianPriorSigma=10, useMultiCPU=1, optimizer='directDescent', learningRate=1)
         
         print colorize('+=============================================+', (None, 'green', True), True)
         print colorize('| LEARNT FORMULAS:                            |', (None, 'green', True), True)
         print colorize('+=============================================+', (None, 'green', True), True)
         
-        trainedMLN.printFormulas()
         trainedMLN.write(file(outputfile, "w"))
 
         return trainedMLN
@@ -145,8 +142,8 @@ class OldNLObjectRecognition(PRACModule):
             objName = q['?objName']
             cluster = q['?cluster']
             for prop in possibleProps:
-                if any(ek.startswith(possibleProps[prop]) for ek in db.evidence):
-                    for p in db.query('object({}, {}) ^ {}({}, ?sense)'.format(cluster, objName, possibleProps[prop],cluster)):
+                if any(ek.startswith(prop.lower()) for ek in db.evidence):
+                    for p in db.query('object({}, {}) ^ {}({}, ?sense)'.format(cluster, objName, prop.lower(),cluster)):
                         if p['?sense'] == 'null': continue
                         word = p['?sense']
                         if not prop in propsFound:
@@ -163,8 +160,9 @@ class OldNLObjectRecognition(PRACModule):
     # extract found properties from evidence db. used for adding similarities
     def processDB(self, db, mln, propsFound):
         output_db = Database(mln)
+        print db.evidence
         for prop in possibleProps:
-            for q in db.query('{}(?cluster, ?word)'.format(possibleProps[prop])):
+            for q in db.query('{}(?cluster, ?word)'.format(prop.lower())):
                 if q['?word'] == 'null': continue
                 word = q['?word']
                 cluster = q['?cluster']
@@ -176,4 +174,4 @@ class OldNLObjectRecognition(PRACModule):
                 propsFound['cluster'] = cluster
                 output_db.addGroundAtom('prop({}, {}, {})'.format(cluster, word, prop))
 
-        return output_db                    
+        return output_db
