@@ -26,13 +26,7 @@
 shape(cluster, shape)
 color(cluster, color)
 size(cluster, size)
-hypernym(cluster, isA)
-hasa(cluster, hasA)
+hypernym(cluster, hyp)
+hasa(cluster, part)
 
 object(cluster, object!)
-
-// shape = {null}
-// color = {null}
-// size = {null}
-// isA = {null}
-// hasA = {null}

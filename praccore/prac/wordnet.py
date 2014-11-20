@@ -366,6 +366,18 @@ class WordNet(object):
         elif synset1.name in sizesims or synset2.name in sizesims: # sizes are maximially dissimilar to everything else
             return 0.    
 
+        # separate check for consistency similarity
+        if synset1.name in consistencysims and synset2.name in consistencysims:
+            return consistencysims[synset1.name][synset2.name]
+        elif synset1.name in consistencysims or synset2.name in consistencysims: # consistencies are maximially dissimilar to everything else
+            return 0.    
+
+        # separate check for dimension similarity
+        if synset1.name in dimensionsims and synset2.name in dimensionsims:
+            return dimensionsims[synset1.name][synset2.name]
+        elif synset1.name in dimensionsims or synset2.name in dimensionsims: # dimensions are maximially dissimilar to everything else
+            return 0.    
+
 
         syns1 = [synset1]
         syns2 = [synset2]

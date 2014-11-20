@@ -64,6 +64,7 @@ class PropExtraction(PRACModule):
         
         # process databases
         for db in kb.dbs:
+            log.info('known_concepts: {}'.format(known_concepts))
             db = wordnet_module.get_senses_and_similarities(db, known_concepts)
             # add cluster to domains
             if 'cluster' in db.domains:
@@ -130,7 +131,7 @@ class PropExtraction(PRACModule):
         evidencePreds=['cop', 'prep_without','pobj', 'nsubj','is_a','amod','prep_with','root','has_pos','conj_and','conj_or','dobj']
         # trainedMLN = mln.learnWeights(inputdbs, LearningMethods.DCLL, evidencePreds=evidencePreds, gaussianPriorSigma=10, partSize=1, useMultiCPU=1, optimizer='bfgs')
         outputfile = '{}_trained.mln'.format(mlnName.split('.')[0])
-        trainedMLN = mln.learnWeights(inputdbs, LearningMethods.DCLL, evidencePreds=evidencePreds, partSize=4, gaussianPriorSigma=10, useMultiCPU=1, optimizer='directDescent', learningRate=1)
+        trainedMLN = mln.learnWeights(inputdbs, LearningMethods.DCLL, evidencePreds=evidencePreds, partSize=1, gaussianPriorSigma=10, useMultiCPU=1, optimizer='directDescent', learningRate=1)
         
         print colorize('+=============================================+', (None, 'green', True), True)
         print colorize('| LEARNT FORMULAS:                            |', (None, 'green', True), True)
@@ -138,5 +139,6 @@ class PropExtraction(PRACModule):
         
         trainedMLN.printFormulas()
         trainedMLN.write(file(outputfile, "w"))
+        log.info('Trained MLN saved to {}'.format(outputfile))
 
         return trainedMLN
