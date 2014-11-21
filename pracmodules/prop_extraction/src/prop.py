@@ -46,8 +46,7 @@ class PropExtraction(PRACModule):
         print
         print colorize('Inferring most probable ANNOTATION + simultaneous WORD SENSE DISMABIGUATION...', (None, 'white', True), True)
         
-        if params.get('kb', None) is None:
-            # load the default arguments
+        if params.get('kb', None) is None: # load the default arguments
             kb = self.load_pracmt('default')
             kb.dbs = pracinference.inference_steps[-1].output_dbs
         else:
@@ -64,7 +63,6 @@ class PropExtraction(PRACModule):
         
         # process databases
         for db in kb.dbs:
-            log.info('known_concepts: {}'.format(known_concepts))
             db = wordnet_module.get_senses_and_similarities(db, known_concepts)
             # add cluster to domains
             if 'cluster' in db.domains:

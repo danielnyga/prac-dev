@@ -69,7 +69,6 @@ class NLObjectRecognition(PRACModule):
 
         # adding evidence properties to new query db
         for db in kb.dbs:
-            print kb.query_mln.domains
             # find properties and add word similarities
             propsFound = self.processDB(db)
             output_db = wordnet_module.add_similarities(db, mln.domains, propsFound)
@@ -128,7 +127,6 @@ class NLObjectRecognition(PRACModule):
     def processDB(self, db):
         propsFound = {}
         for prop in possibleProps:
-            if prop not in db.evidence: continue
             for q in db.query('{}(?cluster, ?word)'.format(prop)):
                 if q['?word'] == 'null': continue
                 if q['?cluster'] == 'null': continue
