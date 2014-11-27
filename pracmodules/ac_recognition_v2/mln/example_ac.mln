@@ -21,6 +21,7 @@ ac_word(ac)
 //add
 1 is_a(?w1, add.v.01) ^ is_a(?w2, salt.n.02) ^ ac_word(AC_ADD) ^ ?w1 =/= ?w2
 1 is_a(?w1, add.v.01) ^ is_a(?w2, salt.n.02) ^ is_a(?w3, rib.n.03) ^ ac_word(AC_ADD) ^ ?w1 =/= ?w2 ^ ?w1 =/= ?w3 ^ ?w2 =/= ?w3
+1 is_a(?w1, add.v.01) ^ is_a(?w2, butter.n.01) ^ is_a(?w3, pan.n.03) ^ ac_word(AC_ADD) ^ ?w1 =/= ?w2 ^ ?w1 =/= ?w3 ^ ?w2 =/= ?w3
 
 //put 
 //Need to determine if add to food or put in container AC 1 is_a(?w1, put.v.01) ^ is_a(?w2, food.n.01) ^ ac_word(AC_ADD) ^ ?w1 =/= ?w2
