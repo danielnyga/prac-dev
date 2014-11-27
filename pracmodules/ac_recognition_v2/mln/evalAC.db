@@ -34,7 +34,36 @@
 1.00 has_pos(fries,NN)
 1.00 ac_word(AC_ADD)
 
+---
+// fill a pan with water .
+1.00 has_pos(fill,VB)
+1.00 has_pos(pan,NN)
+1.00 has_pos(water,NN)
+1.00 ac_word(AC_FILL)
 
+---
+// fill the mug with the froth , leaving about an inch of space .
+1.00 has_pos(fill-3,VB)
+1.00 has_pos(mug,NN)
+1.00 has_pos(froth,NN)
+1.00 ac_word(AC_FILL)
 
+---
+//fill the metal pitcher with a cup of milk 
+1.00 has_pos(fill,VB)
+1.00 has_pos(pitcher,NN)
+1.00 has_pos(milk,NN)
+1.00 ac_word(AC_FILL)
 
+---
+// fill the kettle with boiling water .
+1.00 has_pos(fill,VB)
+1.00 has_pos(kettle,NN)
+1.00 has_pos(water,NN)
+1.00 ac_word(AC_FILL)
 
+---
+// Fill the jar
+1.00 has_pos(fill,VB)
+1.00 has_pos(jar,NN)
+1.00 ac_word(AC_FILL)
