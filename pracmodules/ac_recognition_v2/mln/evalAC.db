@@ -67,3 +67,46 @@
 1.00 has_pos(fill,VB)
 1.00 has_pos(jar,NN)
 1.00 ac_word(AC_FILL)
+
+---
+// cut the pizza into eight separate slices.
+1.00 has_pos(cut-1, VB)
+1.00 has_pos(pizza, NN)
+1.00 has_pos(slice-2, NN)
+1.00 ac_word(AC_CUT)
+
+---
+// cut each cheese thinly .
+1.00 has_pos(cut, VB)
+1.00 has_pos(cheese, NN)
+1.00 ac_word(AC_CUT)
+
+---
+// cut the banana use a small knife .
+1.00 has_pos(cut, VB)
+1.00 has_pos(banana, NN) 
+1.00 has_pos(knife, NN) 
+1.00 ac_word(AC_CUT)
+
+---
+// cut the meat with a chopper
+1.00 has_pos(cut-1,VB)
+1.00 has_pos(meat,NN)
+1.00 has_pos(chopper,NN)
+1.00 ac_word(AC_CUT)
+
+---
+
+//cut the vegetables with a knife.
+1.00 has_pos(cut, VB)
+1.00 has_pos(vegetable, NN) 
+1.00 has_pos(knife, NN)
+1.00 ac_word(AC_CUT)
+
+---
+
+//cut the olive.
+1.00 has_pos(cut-2,VB)
+1.00 has_pos(olive,NN)
+1.00 ac_word(AC_CUT)
+
