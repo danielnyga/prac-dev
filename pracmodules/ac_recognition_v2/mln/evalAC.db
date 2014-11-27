@@ -1,36 +1,36 @@
 // add sugar to mixing_bowl.
-1.00 has_pos(add-1,VB)
-1.00 has_pos(sugar-2,NN)
-1.00 has_pos(mixing_bowl-6,NN)
+1.00 has_pos(add,VB)
+1.00 has_pos(sugar,NN)
+1.00 has_pos(mixing_bowl,NN)
 1.00 ac_word(AC_ADD)
 ---
 
 // Add the butter to the pan.
-1.00 has_pos(pan-2,NN)
-1.00 has_pos(add-7,VB)
-1.00 has_pos(butter-9,NN)
+1.00 has_pos(pan,NN)
+1.00 has_pos(add,VB)
+1.00 has_pos(butter,NN)
 1.00 ac_word(AC_ADD)
 
 ---
 
 // Add eggs.
-1.00 has_pos(eggs-2,NN)
-1.00 has_pos(add-7,VB)
+1.00 has_pos(eggs,NN)
+1.00 has_pos(add,VB)
 1.00 ac_word(AC_ADD)
 
 ---
 
 // add some salt to the meat.
-1.00 has_pos(add-1,VB)
-1.00 has_pos(salt-2,NN)
-1.00 has_pos(meat-4,NN)
+1.00 has_pos(add,VB)
+1.00 has_pos(salt,NN)
+1.00 has_pos(meat,NN)
 1.00 ac_word(AC_ADD)
 
 ---
 
 //Add some fries to the steak.
-1.00 has_pos(add-1,VB)
-1.00 has_pos(steak-2,NN)
+1.00 has_pos(add,VB)
+1.00 has_pos(steak,NN)
 1.00 has_pos(fries,NN)
 1.00 ac_word(AC_ADD)
 
@@ -43,7 +43,7 @@
 
 ---
 // fill the mug with the froth , leaving about an inch of space .
-1.00 has_pos(fill-3,VB)
+1.00 has_pos(fill,VB)
 1.00 has_pos(mug,NN)
 1.00 has_pos(froth,NN)
 1.00 ac_word(AC_FILL)
@@ -70,9 +70,9 @@
 
 ---
 // cut the pizza into eight separate slices.
-1.00 has_pos(cut-1, VB)
+1.00 has_pos(cut, VB)
 1.00 has_pos(pizza, NN)
-1.00 has_pos(slice-2, NN)
+1.00 has_pos(slice, NN)
 1.00 ac_word(AC_CUT)
 
 ---
@@ -90,7 +90,7 @@
 
 ---
 // cut the meat with a chopper
-1.00 has_pos(cut-1,VB)
+1.00 has_pos(cut,VB)
 1.00 has_pos(meat,NN)
 1.00 has_pos(chopper,NN)
 1.00 ac_word(AC_CUT)
@@ -106,58 +106,58 @@
 ---
 
 //cut the olive.
-1.00 has_pos(cut-2,VB)
+1.00 has_pos(cut,VB)
 1.00 has_pos(olive,NN)
 1.00 ac_word(AC_CUT)
 
 ---
 
 //Put some dressing to the salad.
-1.00 has_pos(put-1,VB)
-1.00 has_pos(dressing-2,NN)
+1.00 has_pos(put,VB)
+1.00 has_pos(dressing,NN)
 1.00 has_pos(salad,NN)
 1.00 ac_word(AC_ADD)
 ---
 
 // put rice into a bowl .
-1.00 has_pos(put-1,VB)
-1.00 has_pos(rice-5,NN)
-1.00 has_pos(bowl-9,NN)
+1.00 has_pos(put,VB)
+1.00 has_pos(rice,NN)
+1.00 has_pos(bowl,NN)
 1.00 ac_word(AC_PUT)
 
 ---
 
 // put the dish into the oven .
-1.00 has_pos(put-1,VB)
-1.00 has_pos(dish-3,NN)
-1.00 has_pos(oven-6,NN)
+1.00 has_pos(put,VB)
+1.00 has_pos(dish,NN)
+1.00 has_pos(oven,NN)
 1.00 ac_word(AC_PUT)
 
 ---
 
 // put the soup in the microwave.
-1.00 has_pos(put-1,VB)
-1.00 has_pos(soup-3,NN)
-1.00 has_pos(microwave-6,NN)
+1.00 has_pos(put,VB)
+1.00 has_pos(soup,NN)
+1.00 has_pos(microwave,NN)
 1.00 ac_word(AC_PUT)
 ---
 
 // put salt and pepper or whatever you put on your eggs .
-1.00 has_pos(put-1,VB)
-1.00 has_pos(salt-2,NN)
-1.00 has_pos(egg-11,NN)
+1.00 has_pos(put,VB)
+1.00 has_pos(salt,NN)
+1.00 has_pos(egg,NN)
 1.00 ac_word(AC_ADD)
 ---
 
 // slice the mushroom .
-1.00 has_pos(slice-1,VB)
-1.00 has_pos(mushroom-3,NN)
+1.00 has_pos(slice,VB)
+1.00 has_pos(mushroom,NN)
 1.00 ac_word(AC_SLICE)
 
 ---
 
 // slice the meat with a chopper
-1.00 has_pos(slice-1,VB)
+1.00 has_pos(slice,VB)
 1.00 has_pos(meat,NN)
 1.00 has_pos(chopper,NN)
 1.00 ac_word(AC_SLICE)
@@ -165,53 +165,53 @@
 ---
 
 // Carefully slice the cabbage.
-1.00 has_pos(slice-2,VB)
-1.00 has_pos(cabbage-4,NN)
+1.00 has_pos(slice,VB)
+1.00 has_pos(cabbage,NN)
 1.00 ac_word(AC_SLICE)
 
 ---
 
 // Thinly slice remaining lemon .
-1.00 has_pos(slice-2,VB)
-1.00 has_pos(lemon-4,NN)
+1.00 has_pos(slice,VB)
+1.00 has_pos(lemon,NN)
 1.00 ac_word(AC_SLICE)
 
 ---
 
 // finely slice the bacon and grate the parmesan .
-1.00 has_pos(slice-2,VB)
-1.00 has_pos(bacon-4,NN)
+1.00 has_pos(slice,VB)
+1.00 has_pos(bacon,NN)
 1.00 ac_word(AC_SLICE)
 
 ---
 
 //Stir the wine
-1.00 has_pos(stir-9,VB)
+1.00 has_pos(stir,VB)
 1.00 has_pos(wine,NN)
 1.00 ac_word(AC_STIR)
 ---
 
 //Stir the whiskey
-1.00 has_pos(stir-9,VB)
+1.00 has_pos(stir,VB)
 1.00 has_pos(whiskey,NN)
 1.00 ac_word(AC_STIR)
 
 ---
 
 //Stir the champagne
-1.00 has_pos(stir-9,VB)
+1.00 has_pos(stir,VB)
 1.00 has_pos(champagne,NN)
 1.00 ac_word(AC_STIR)
 
 ---
 
 //Stir the egg
-1.00 has_pos(stir-9,VB)
+1.00 has_pos(stir,VB)
 1.00 has_pos(egg,NN)
 1.00 ac_word(AC_ADD)
 ---
 
 //Stir the butter
-1.00 has_pos(stir-9,VB)
+1.00 has_pos(stir,VB)
 1.00 has_pos(butter,NN)
 1.00 ac_word(AC_ADD)
