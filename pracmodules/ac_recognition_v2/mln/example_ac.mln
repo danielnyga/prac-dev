@@ -10,7 +10,7 @@ ac_word(ac)
 1 is_a(?w1, cut.v.01) ^ is_a(?w2, tomato.n.01) ^ ac_word(AC_CUT)^ ?w1 =/= ?w2
 
 //stir
-1 is_a(?w1, stir.v.01) ^ is_a(?w2, stir.v.01) ^ ac_word(AC_STIR) ^ ?w1 =/= ?w2
+1 is_a(?w1, stir.v.01) ^ is_a(?w2, water.n.06) ^ ac_word(AC_STIR) ^ ?w1 =/= ?w2
 1 is_a(?w1, stir.v.08) ^ is_a(?w2, salt.n.02) ^ ac_word(AC_ADD) ^ ?w1 =/= ?w2
 1 is_a(?w1, stir.v.08) ^ is_a(?w2, salt.n.02) ^ is_a(?w3, rib.n.03) ^ ac_word(AC_ADD) ^ ?w1 =/= ?w2 ^ ?w1 =/= ?w3 ^ ?w2 =/= ?w3
 
