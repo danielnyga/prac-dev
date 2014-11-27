@@ -1,0 +1,40 @@
+// add sugar to mixing_bowl.
+1.00 has_pos(add-1,VB)
+1.00 has_pos(sugar-2,NN)
+1.00 has_pos(mixing_bowl-6,NN)
+1.00 ac_word(AC_ADD)
+---
+
+// Add the butter to the pan.
+1.00 has_pos(pan-2,NN)
+1.00 has_pos(add-7,VB)
+1.00 has_pos(butter-9,NN)
+1.00 ac_word(AC_ADD)
+
+---
+
+// Add eggs.
+1.00 has_pos(eggs-2,NN)
+1.00 has_pos(add-7,VB)
+1.00 ac_word(AC_ADD)
+
+---
+
+// add some salt to the meat.
+1.00 has_pos(add-1,VB)
+1.00 has_pos(salt-2,NN)
+1.00 has_pos(meat-4,NN)
+1.00 ac_word(AC_ADD)
+
+---
+
+//Add some fries to the steak.
+1.00 has_pos(add-1,VB)
+1.00 has_pos(steak-2,NN)
+1.00 has_pos(fries,NN)
+1.00 ac_word(AC_ADD)
+
+
+
+
+
