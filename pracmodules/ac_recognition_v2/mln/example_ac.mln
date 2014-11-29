@@ -1,5 +1,6 @@
 is_a(sense, concept)
 ac_word(ac)
+has_pos(word,pos!)
 
 //fill
 1 is_a(?w1, fill.v.01) ^ is_a(?w2, water.n.06) ^ is_a(?w3, pan.n.03) ^ ac_word(AC_FILL) ^ ?w1 =/= ?w2 ^ ?w1 =/= ?w3 ^ ?w2 =/= ?w3
