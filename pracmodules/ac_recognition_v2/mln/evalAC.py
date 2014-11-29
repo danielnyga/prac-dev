@@ -145,8 +145,8 @@ class XValFold(object):
                 query = 'ac_word(?s)'
                 for result in resultDB.query(query):
                     pred = result['?s']
-                    #if truth == pred:
-                        #cm.addClassificationResult(truth, pred)
+                    cm.addClassificationResult(truth, pred)
+                    
     def run(self):
         '''
         Runs the respective fold of the crossvalidation.
@@ -167,75 +167,16 @@ class XValFold(object):
         
         cm = ConfusionMatrix()
         self.evalMLN(learnedMLN, testDBs_, 'FuzzyLogic',cm)
-        #cm.toFile(os.path.join(directory,'FUZZY', 'conf_matrix_%d.cm' % 0))
-        
+        cm.toFile(os.path.join(directory, 'conf_matrix.cm'))
+        pdfName = "conf_matrix" 
+        cm.toPDF(pdfName)
+        os.rename('%s.pdf' % pdfName, os.path.join(directory, '%s.pdf' % pdfName))
+        os.remove(pdfName+".tex" )
+        os.remove(pdfName+".log" )
+        os.remove(pdfName+".aux" )
         log.debug('Evaluation finished.')
         
     
-class NoisyStringTransformer(object):
-    '''
-    This transformer takes a set of strings and performs a clustering
-    based on the edit distance. It transforms databases wrt to the clusters.
-    '''
-    
-    def __init__(self, mln, noisyStringDomains, verbose=True):
-        self.mln = mln
-        self.noisyStringDomains = noisyStringDomains
-        self.verbose = verbose
-        self.clusters = {} # maps domain name -> list of clusters
-        self.noisyDomains = {}
-        self.log = logging.getLogger('NoisyString')
-    
-    def materializeNoisyDomains(self, dbs):
-        '''
-        For each noisy domain, (1) if there is a static domain specification,
-        map the values of that domain in all dbs to their closest neighbor
-        in the domain.
-        (2) If there is no static domain declaration, apply SAHN clustering
-        to the values appearing dbs, take the cluster centroids as the values
-        of the domain and map the dbs as in (1).
-        '''
-        fullDomains = mergeDomains(*[db.domains for db in dbs])
-        if self.verbose and len(self.noisyStringDomains) > 0:
-            self.log.info('materializing noisy domains...')
-        for nDomain in self.noisyStringDomains:
-            if fullDomains.get(nDomain, None) is None: continue
-            # apply the clustering step
-            values = fullDomains[nDomain]
-            clusters = SAHN(values)
-            self.clusters[nDomain] = clusters
-            self.noisyDomains[nDomain] = [c._computeCentroid()[0] for c in clusters]
-            if self.verbose:
-                self.log.info('  reducing domain %s: %d -> %d values' % (nDomain, len(values), len(clusters)))
-                self.log.info('   %s', str(self.noisyDomains[nDomain]))
-        return self.transformDBs(dbs)
-        
-    def transformDBs(self, dbs):
-        newDBs = []
-        for db in dbs:
-            #if len(db.softEvidence) > 0:
-            #    raise Exception('This is not yet implemented for soft evidence.')
-            commonDoms = set(db.domains.keys()).intersection(set(self.noisyStringDomains))
-            if len(commonDoms) == 0:
-                newDBs.append(db)
-                continue
-            newDB = db.duplicate()
-            for domain in commonDoms:
-                # map the values in the database to the static domain values
-                valueMap = dict([(val, computeClosestCluster(val, self.clusters[domain])[1][0]) for val in newDB.domains[domain]])
-                newDB.domains[domain] = valueMap.values()
-                # replace the affected evidences
-                for ev in newDB.evidence.keys():
-                    truth = newDB.evidence[ev]
-                    _, pred, params = db.mln.logic.parseLiteral(ev)
-                    if domain in self.mln.predicates[pred]: # domain is affected by the mapping  
-                        newDB.retractGndAtom(ev)
-                        newArgs = [v if domain != self.mln.predicates[pred][i] else valueMap[v] for i, v in enumerate(params)]
-                        atom = '%s%s(%s)' % ('' if truth else '!', pred, ','.join(newArgs))
-                        newDB.addGroundAtom(atom)
-            newDBs.append(newDB)
-        return newDBs
-
 def runFold(fold):
     log = logging.getLogger("test")
     try:
@@ -244,15 +185,6 @@ def runFold(fold):
         raise Exception(''.join(traceback.format_exception(*sys.exc_info())))
     return fold
 
-def prepareResults(directory, logic):
-        cm = ConfusionMatrix()
-        for f in os.listdir(os.path.join(directory,logic)):
-            matrix = pickle.load(open(os.path.join(directory,logic,f),'rb'))
-            cm.combine(matrix)
-        cm.toFile(os.path.join(directory,logic, 'conf_matrix.cm'))
-        #pdfname = 'conf_matrix_'+logic
-        #cm.toPDF(pdfname)
-        #os.rename('%s.pdf' % pdfname, os.path.join(directory,logic, '%s.pdf' % pdfname))
         
 def doXVal(verbose, multicore, mlnfile, dbfiles):  
     startTime = time.time()
@@ -289,7 +221,6 @@ def doXVal(verbose, multicore, mlnfile, dbfiles):
     
     for db in dbs:
         params.testDBs.append(db)
-    print 'TEST DBS :' + str(len(params.testDBs))
         
     params.directory = directory
     params.queryPred = 'ac_word'
@@ -299,9 +230,6 @@ def doXVal(verbose, multicore, mlnfile, dbfiles):
     log.info('Starting %d-fold Cross-Validation in 1 process.' % 1)
     
     runFold(fold)
-    
-    #prepareResults(directory,'FOL')
-    #prepareResults(directory,'FUZZY')
     
     elapsedTimeSP = time.time() - startTime
     log.info('%d-fold crossvalidation (SP) took %.2f min' % (1, elapsedTimeSP / 60.0))
