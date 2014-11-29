@@ -105,13 +105,6 @@
 
 ---
 
-//cut the olive.
-1.00 has_pos(cut,VB)
-1.00 has_pos(olive,NN)
-1.00 ac_word(AC_CUT)
-
----
-
 //Put some dressing to the salad.
 1.00 has_pos(put,VB)
 1.00 has_pos(dressing,NN)
