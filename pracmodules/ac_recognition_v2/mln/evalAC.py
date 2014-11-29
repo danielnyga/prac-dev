@@ -97,6 +97,7 @@ class XValFold(object):
         sig = ['?arg%d' % i for i, _ in enumerate(mln.predicates[queryPred])]
         querytempl = '%s(%s)' % (queryPred, ','.join(sig))
         i = 0
+        
         for db in dbs:
             i = i + 1
             db_ = Database(mln)
@@ -108,92 +109,69 @@ class XValFold(object):
                 for binding in bindings:
                     atom = atom.replace(binding, bindings[binding])
                 trueDB.addGroundAtom(atom)
-                #db_.retractGndAtom(atom)
             
-            #WSD specific stuff
-            #Remove all is_a predicates of the training db
-            for pred in ['has_pos','is_a']:
-                for atom in list(db.iterGroundLiteralStrings(pred)):
-                    db_.addGroundAtom(atom[1])
-            prac = PRAC()
-            prac.mln = mln;
-            prac.wordnet = WordNet(concepts=None)
-            senses = prac.getModuleByName('wn_senses')
-            senses.initialize()
-            infer = PRACInference(prac, 'None');
-            wsd = prac.getModuleByName('wsd')
-            kb = PRACKnowledgeBase(prac)
-            print "LOGIC INFER: " + logicInfer
-            kb.query_params = {'verbose': False, 
-                               'logic': logicInfer, 'queries': 'has_sense',
-                                'debug': 'ERROR', 'useMultiCPU': 0, 'method': 'WCSP'}
-
-            kb.dbs.append(db_)
-            prac.run(infer,wsd,kb=kb)
-            inferStep = infer.inference_steps[0]
-            resultDB = inferStep.output_dbs[0]
-            for predicate in trueDB.iterGroundLiteralStrings('has_sense'):
-                group = re.split(',',re.split('has_sense\w*\(|\)',predicate[1])[1])
-                word = group[0];
-                truth = group[1];
-                query = 'has_sense('+word+',?s)'
-                for result in resultDB.query(query):
-                    pred = result['?s']
-                    cm.addClassificationResult(truth, pred)
+            for atom in list(db.iterGroundLiteralStrings('has_pos')):
+                db_.addGroundAtom(atom[1])
+            
+            wordnet = WordNet(concepts=None)
+            
+            for atom in list(db_.iterGroundLiteralStrings('has_pos')):
+                group = re.split(',',re.split('has_pos\w*\(|\)',atom[1])[1])
+                word = group[0]
+                tag = group[1];
+                
+                if tag == 'NN':
+                    tag = 'n'
+                else:
+                    tag = 'v'
+                
+                known_concepts = mln.domains.get('concept', [])
+                for concept in known_concepts:    
+                    for syn in wordnet.synsets(word,tag):
+                        sim = wordnet.wup_similarity(syn,concept)
+                        atom =  'is_a(%s,%s)' % (syn.name, concept)
+                        atomExists = False
+                        #To aviod the same evidences
+                        for _ in db_.query(atom):
+                            atomExists = True
+                        if atomExists == False:
+                            db_.addGroundAtom(atom,sim)
+            
+            
+            resultDB = []
+            
+            #for predicate in trueDB.iterGroundLiteralStrings('has_sense'):
+             #   group = re.split(',',re.split('has_sense\w*\(|\)',predicate[1])[1])
+             #  word = group[0];
+             #   truth = group[1];
+             #   query = 'has_sense('+word+',?s)'
+             #   for result in resultDB.query(query):
+             #       pred = result['?s']
+             #       cm.addClassificationResult(truth, pred)
 
     def run(self):
         '''
         Runs the respective fold of the crossvalidation.
         '''
-        log = logging.getLogger(self.fold_id)
-        log.info('Running fold %d of %d...' % (self.params.foldIdx + 1, self.params.foldCount))
+        log = logging.getLogger('Random')
         directory = self.params.directory
-        try:
-            # Apply noisy string clustering
-            log.debug('Transforming noisy strings...')
-            if self.params.noisyStringDomains is not None:
-                noisyStrTrans = NoisyStringTransformer(self.params.mln, self.params.noisyStringDomains, True)
-                learnDBs_ = noisyStrTrans.materializeNoisyDomains(self.params.learnDBs)
-                testDBs_ = noisyStrTrans.transformDBs(self.params.testDBs)
-            else:
-                learnDBs_ = self.params.learnDBs
-                testDBs_ = self.params.testDBs
+        testDBs_ = self.params.testDBs
 
-            # train the MLN
-            mln = self.params.mln
-            log.debug('Starting learning...')
-            learnedMLN = mln.learnWeights(learnDBs_, method=self.params.learningMethod,
-                                          verbose=verbose,
-                                          evidencePreds=["is_a","has_pos"],
-                                          partSize=2,
-                                          optimizer='cg',
-                                          maxrepeat=10)
-            
-            # store the learned MLN in a file
-            learnedMLN.writeToFile(os.path.join(directory, 'run_%d.mln' % self.params.foldIdx))
-            log.debug('Finished learning.')
-            
-            # evaluate the MLN
-            log.debug('Evaluating.')
-            learnedMLN.setClosedWorldPred(None)
-            if self.params.cwPreds is None:
-                self.params.cwPreds = [p for p in mln.predicates if p != self.params.queryPred]
-            for pred in [pred for pred in self.params.cwPreds if pred in learnedMLN.predicates]:
-                learnedMLN.setClosedWorldPred(pred)
-            #FOL
-            cm = ConfusionMatrix()
-            self.evalMLN(learnedMLN, testDBs_, 'FirstOrderLogic',cm)
-            cm.toFile(os.path.join(directory,'FOL', 'conf_matrix_%d.cm' % self.params.foldIdx))
-            
-            #FUZZY
-            cm = ConfusionMatrix()
-            self.evalMLN(learnedMLN, testDBs_, 'FuzzyLogic',cm)
-            cm.toFile(os.path.join(directory,'FUZZY', 'conf_matrix_%d.cm' % self.params.foldIdx))
-            
-            log.debug('Evaluation finished.')
-        except (KeyboardInterrupt, SystemExit):
-            log.critical("Exiting...")
-            return None
+        # train the MLN
+        learnedMLN = self.params.mln
+        
+        # store the learned MLN in a file
+        learnedMLN.writeToFile(os.path.join(directory, 'run_%d.mln' % 0))
+        
+        # evaluate the MLN
+        log.debug('Evaluating.')
+        learnedMLN.setClosedWorldPred('is_a')
+        
+        cm = ConfusionMatrix()
+        self.evalMLN(learnedMLN, testDBs_, 'FuzzyLogic',cm)
+        #cm.toFile(os.path.join(directory,'FUZZY', 'conf_matrix_%d.cm' % 0))
+        
+        log.debug('Evaluation finished.')
         
     
 class NoisyStringTransformer(object):
@@ -261,7 +239,7 @@ class NoisyStringTransformer(object):
         return newDBs
 
 def runFold(fold):
-    log = logging.getLogger(fold.fold_id)
+    log = logging.getLogger("test")
     try:
         fold.run()
     except:
@@ -322,7 +300,7 @@ def doXVal(verbose, multicore, mlnfile, dbfiles):
 
     log.info('Starting %d-fold Cross-Validation in 1 process.' % 1)
     
-    #runFold(fold)
+    runFold(fold)
     
     #prepareResults(directory,'FOL')
     #prepareResults(directory,'FUZZY')
