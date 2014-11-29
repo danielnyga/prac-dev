@@ -45,6 +45,7 @@ from prac.wordnet import WordNet
 from prac.inference import PRACInference
 import re
 import pickle
+from mlnQueryTool import MLNInfer
 
 usage = '''Usage: %prog [options] <mlnfile> <dbfiles>'''
 
@@ -85,7 +86,6 @@ class XValFold(object):
         params being a XValFoldParams object.  
         '''
         self.params = params
-        #self.fold_id = 'Fold-%d' % params.foldIdx
         self.confMatrix = ConfusionMatrix()
             
     def evalMLN(self, mln, dbs, logicInfer,cm):
@@ -99,7 +99,7 @@ class XValFold(object):
         i = 0
         
         for db in dbs:
-            i = i + 1
+            
             db_ = Database(mln)
             # save and remove the query predicates from the evidence
             trueDB = Database(mln)
@@ -136,19 +136,17 @@ class XValFold(object):
                             atomExists = True
                         if atomExists == False:
                             db_.addGroundAtom(atom,sim)
+                
+            resultDB = mln.infer(InferenceMethods.WCSP, queryPred, db, cwPreds=["is_a"])
             
-            
-            resultDB = []
-            
-            #for predicate in trueDB.iterGroundLiteralStrings('has_sense'):
-             #   group = re.split(',',re.split('has_sense\w*\(|\)',predicate[1])[1])
-             #  word = group[0];
-             #   truth = group[1];
-             #   query = 'has_sense('+word+',?s)'
-             #   for result in resultDB.query(query):
-             #       pred = result['?s']
-             #       cm.addClassificationResult(truth, pred)
-
+            for predicate in trueDB.iterGroundLiteralStrings('ac_word'):
+                group = re.split(',',re.split('ac_word\w*\(|\)',predicate[1])[1])
+                truth = group[0];
+                query = 'ac_word(?s)'
+                for result in resultDB.query(query):
+                    pred = result['?s']
+                    #if truth == pred:
+                        #cm.addClassificationResult(truth, pred)
     def run(self):
         '''
         Runs the respective fold of the crossvalidation.
