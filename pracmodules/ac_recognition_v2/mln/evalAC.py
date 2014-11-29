@@ -189,7 +189,7 @@ def runFold(fold):
 def doXVal(verbose, multicore, mlnfile, dbfiles):  
     startTime = time.time()
     
-    directory = time.strftime("%a_%d_%b_%Y_%H:%M:%S", time.localtime())
+    directory = time.strftime("%a_%d_%b_%Y_%H:%M:%S_MLN="+mlnfile+";_DB="+dbfiles[0], time.localtime())
     os.mkdir(directory)
 
     # set up the logger
