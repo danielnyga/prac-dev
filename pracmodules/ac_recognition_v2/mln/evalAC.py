@@ -46,29 +46,13 @@ from prac.inference import PRACInference
 import re
 import pickle
 
-usage = '''Usage: %prog [options] <predicate> <domain> <mlnfile> <dbfiles>'''
+usage = '''Usage: %prog [options] <mlnfile> <dbfiles>'''
 
 parser = OptionParser(usage=usage)
-parser.add_option("-k", "--folds", dest="folds", type='int', default=10,
-                  help="Number of folds for k-fold Cross Validation")
-parser.add_option("-p", "--percent", dest="percent", type='int', default=100,
-                  help="Use only PERCENT% of the data. (default=100)")
 parser.add_option("-v", "--verbose", dest="verbose", action='store_true', default=False,
                   help="Verbose mode.")
 parser.add_option("-m", "--multicore", dest="multicore", action='store_true', default=False,
                   help="Verbose mode.")
-parser.add_option('-n', '--noisy', dest='noisy', type='str', default=None,
-                  help='-nDOMAIN defines DOMAIN as a noisy string.')
-parser.add_option('-c', '--inCremental', dest="incremental", action='store_true', default=False,
-                  help='-Run 2 to k cross validations on one run.')
-parser.add_option('-a', '--auto', dest="auto", action='store_true', default=False,
-                  help='-Run each cross validation with FL, FOL and the combinations of them.')
-parser.add_option('-l', '--learn', dest='learn', type='str', default='FuzzyLogic',
-                  help='-Defines which logic should be used for the learning.')
-parser.add_option('-i', '--infer', dest='infer', type='str', default='FirstOrderLogic',
-                  help='-Defines which logic should be used for the inference.')
-parser.add_option('-1', '--inverse', dest='inverse', action='store_true', default='False',
-                  help='-Defines if an inverse cross validation should be done.')
 
 class XValFoldParams(object):
     
@@ -101,7 +85,7 @@ class XValFold(object):
         params being a XValFoldParams object.  
         '''
         self.params = params
-        self.fold_id = 'Fold-%d' % params.foldIdx
+        #self.fold_id = 'Fold-%d' % params.foldIdx
         self.confMatrix = ConfusionMatrix()
             
     def evalMLN(self, mln, dbs, logicInfer,cm):
@@ -294,13 +278,12 @@ def prepareResults(directory, logic):
         #cm.toPDF(pdfname)
         #os.rename('%s.pdf' % pdfname, os.path.join(directory,logic, '%s.pdf' % pdfname))
         
-def doXVal(folds, percent, verbose, multicore, noisy, predName, domain, mlnfile, dbfiles,logicLearn, logicInfer,inverse=False,testSetCount=1):  
+def doXVal(verbose, multicore, mlnfile, dbfiles):  
     startTime = time.time()
     
-    directory = time.strftime("%a_%d_%b_%Y_%H:%M:%S_K="+str(folds)+"_TSC="+str(testSetCount), time.localtime())
+    directory = time.strftime("%a_%d_%b_%Y_%H:%M:%S", time.localtime())
     os.mkdir(directory)
-    os.mkdir(os.path.join(directory, 'FOL'))
-    os.mkdir(os.path.join(directory, 'FUZZY'))
+
     # set up the logger
     log = logging.getLogger('xval')
     fileLogger = FileHandler(os.path.join(directory, 'xval.log'))
@@ -314,100 +297,38 @@ def doXVal(folds, percent, verbose, multicore, noisy, predName, domain, mlnfile,
     log.info('Read MLN %s.' % mlnfile)
     dbs = []
     for dbfile in dbfiles:
-        db = readDBFromFile(mln_, dbfile)
+        db = readDBFromFile(mln_, dbfile,True)
         if type(db) is list:
             dbs.extend(db)
         else:
             dbs.append(db)
     log.info('Read %d databases.' % len(dbs))
     
-    cwpreds = [pred for pred in mln_.predicates if pred != predName]
+    #cwpreds = [pred for pred in mln_.predicates if pred != predName]
     
     # create the partition of data
-    subsetLen = int(math.ceil(len(dbs) * percent / 100.0))
-    if subsetLen < len(dbs):
-        log.info('Using only %d of %d DBs' % (subsetLen, len(dbs)))
-    dbs = sample(dbs, subsetLen)
+    params = XValFoldParams()
+    params.mln = mln_.duplicate()
+    params.testDBs = []
+    
+    for db in dbs:
+        params.testDBs.append(db)
+    print 'TEST DBS :' + str(len(params.testDBs))
+        
+    params.directory = directory
+    params.queryPred = 'ac_word'
+    params.queryDom = 'ac'
+    fold = XValFold(params)
 
-    if len(dbs) < folds:
-        log.error('Cannot do %d-fold cross validation with only %d databases.' % (folds, len(dbs)))
-        exit(0)
+    log.info('Starting %d-fold Cross-Validation in 1 process.' % 1)
     
-    shuffle(dbs)
-    partSize = int(math.ceil(len(dbs)/float(folds)))
-    partition = []
-    for i in range(folds):
-        partition.append(dbs[i*partSize:(i+1)*partSize])
+    #runFold(fold)
     
+    #prepareResults(directory,'FOL')
+    #prepareResults(directory,'FUZZY')
     
-    foldRunnables = []
-    for foldIdx in range(folds):
-        partion_ = list(partition)
-        params = XValFoldParams()
-        params.mln = mln_.duplicate()
-        params.testDBs = []
-        params.learnDBs = []
-        
-        for i in range(0,testSetCount):
-            if (foldIdx >= len(partion_)):
-                params.testDBs.extend(partion_[0])
-                del partion_[0]
-            else:     
-                params.testDBs.extend(partion_[foldIdx])
-                del partion_[foldIdx]
-        
-        for part in partion_:
-            params.learnDBs.extend(part)
-        print 'LEARN DBS :' + str(len(params.learnDBs))
-        print 'TEST DBS :' + str(len(params.testDBs))
-        
-        params.foldIdx = foldIdx
-        params.foldCount = folds
-        params.noisyStringDomains = noisy
-        params.directory = directory
-        params.queryPred = predName
-        params.queryDom = domain
-        params.logicInfer = logicInfer
-        foldRunnables.append(XValFold(params))
-    
-    if multicore:
-        # set up a pool of worker processes
-        try:
-            workerPool = Pool()
-            log.info('Starting %d-fold Cross-Validation in %d processes.' % (folds, workerPool._processes))
-            result = workerPool.map_async(runFold, foldRunnables).get()
-            workerPool.close()
-            workerPool.join()
-            cm = ConfusionMatrix()
-            for r in result:
-                cm.combine(r.confMatrix)
-            elapsedTimeMP = time.time() - startTime
-            prepareResults(directory,'FOL')
-            prepareResults(directory,'FUZZY')
-        except (KeyboardInterrupt, SystemExit, SystemError):
-            log.critical("Caught KeyboardInterrupt, terminating workers")
-            workerPool.terminate()
-            workerPool.join()
-            exit(1)
-        except:
-            log.error('\n' + ''.join(traceback.format_exception(*sys.exc_info())))
-            exit(1)
-#     startTime = time.time()
-    else:
-        log.info('Starting %d-fold Cross-Validation in 1 process.' % (folds))
-        
-        for fold in foldRunnables:
-            runFold(fold)
-        
-        prepareResults(directory,'FOL')
-        prepareResults(directory,'FUZZY')
-        
-        elapsedTimeSP = time.time() - startTime
-    
-    if multicore:
-        log.info('%d-fold crossvalidation (MP) took %.2f min' % (folds, elapsedTimeMP / 60.0))
-    else:
-        log.info('%d-fold crossvalidation (SP) took %.2f min' % (folds, elapsedTimeSP / 60.0))
+    elapsedTimeSP = time.time() - startTime
+    log.info('%d-fold crossvalidation (SP) took %.2f min' % (1, elapsedTimeSP / 60.0))
 
 if __name__ == '__main__':
     (options, args) = parser.parse_args()
@@ -415,20 +336,9 @@ if __name__ == '__main__':
     # set up the directory 
     
 
-    folds = options.folds
-    percent = options.percent
-    verbose = options.verbose
     multicore = options.multicore
-    incremental = options.incremental
-    noisy = ['text']
-    predName = args[0]
-    domain = args[1]
-    mlnfile = args[2]
-    dbfiles = args[3:]
-    auto = options.auto
-    logicLearn = options.learn
-    logicInfer = options.infer
-    inverse = options.inverse
+    mlnfile = args[0]
+    dbfiles = args[1:]
+    verbose = False
     
-    for x in range(folds-1,0,-1):
-        doXVal(folds, percent, verbose, multicore, noisy, predName, domain, mlnfile, dbfiles, logicLearn, logicInfer,inverse,x)
+    doXVal(verbose, multicore, mlnfile, dbfiles)
