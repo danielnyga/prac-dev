@@ -137,7 +137,7 @@ class XValFold(object):
                         if atomExists == False:
                             db_.addGroundAtom(atom,sim)
                 
-            resultDB = mln.infer(InferenceMethods.WCSP, queryPred, db, cwPreds=["is_a"])
+            resultDB = mln.infer(InferenceMethods.WCSP, queryPred, db_, cwPreds=["is_a"])
             
             for predicate in trueDB.iterGroundLiteralStrings('ac_word'):
                 group = re.split(',',re.split('ac_word\w*\(|\)',predicate[1])[1])
