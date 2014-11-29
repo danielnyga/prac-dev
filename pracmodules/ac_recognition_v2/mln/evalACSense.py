@@ -110,33 +110,25 @@ class XValFold(object):
                     atom = atom.replace(binding, bindings[binding])
                 trueDB.addGroundAtom(atom)
             
-            #for atom in list(db.iterGroundLiteralStrings('has_pos')):
-            #    db_.addGroundAtom(atom[1])
-            
+          
             wordnet = WordNet(concepts=None)
             
-            for atom in list(db.iterGroundLiteralStrings('has_pos')):
-                group = re.split(',',re.split('has_pos\w*\(|\)',atom[1])[1])
-                word = group[0]
-                tag = group[1];
-                
-                if tag == 'NN':
-                    tag = 'n'
-                else:
-                    tag = 'v'
+            for atom in list(db.iterGroundLiteralStrings('has_sense')):
+                group = re.split(',',re.split('has_sense\w*\(|\)',atom[1])[1])
+                sense = group[1];
                 
                 known_concepts = mln.domains.get('concept', [])
                 for concept in known_concepts:    
-                    for syn in wordnet.synsets(word,tag):
-                        sim = wordnet.wup_similarity(syn,concept)
-                        atom =  'is_a(%s,%s)' % (syn.name, concept)
-                        atomExists = False
-                        #To aviod the same evidences
-                        for _ in db_.query(atom):
-                            atomExists = True
-                        if atomExists == False:
-                            db_.addGroundAtom(atom,sim)
-                
+                    sim = wordnet.wup_similarity(sense,concept)
+                    atom =  'is_a(%s,%s)' % (sense, concept)
+                    atomExists = False
+                    #To aviod the same evidences
+                    for _ in db_.query(atom):
+                        atomExists = True
+                    if atomExists == False:
+                        db_.addGroundAtom(atom,sim)
+                db.writeToFile("start.db")
+                db_.writeToFile("temp.db")
             resultDB = mln.infer(InferenceMethods.WCSP, queryPred, db_, cwPreds=["is_a"])
             
             for predicate in trueDB.iterGroundLiteralStrings('ac_word'):

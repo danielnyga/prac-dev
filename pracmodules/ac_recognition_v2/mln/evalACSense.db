@@ -1,0 +1,212 @@
+// add sugar to mixing_bowl.
+1.00 has_sense(add-1,add.v.01)
+1.00 has_sense(sugar-2,sugar.n.01)
+1.00 has_sense(butter-4,butter.n.01)
+1.00 has_sense(mixing_bowl-6,mixing_bowl.n.01)
+1.00 ac_word(AC_ADD)
+---
+
+// Add the butter to the pan.
+1.00 has_sense(add-7,add.v.01)
+1.00 has_sense(butter-9,butter.n.01)
+1.00 has_sense(pan-2, pan.n.03)
+1.00 ac_word(AC_ADD)
+
+---
+
+// Add eggs.
+1.00 has_sense(add-7,add.v.01)
+1.00 has_sense(eggs-2, egg.n.02)
+1.00 ac_word(AC_ADD)
+
+---
+
+// add some salt to the meat.
+1.00 has_sense(add-1,add.v.01)
+1.00 has_sense(salt-2,salt.n.02)
+1.00 has_sense(meat-4,meat.n.01)
+1.00 ac_word(AC_ADD)
+
+---
+
+//Add some fries to the steak.
+1.00 has_sense(add-1,add.v.01)
+1.00 has_sense(steak-2,steak.n.01)
+1.00 has_sense(fries,french_fries.n.01)
+1.00 ac_word(AC_ADD)
+
+---
+// fill a pan with water .
+1.00 has_sense(fill,fill.v.01)
+1.00 has_sense(pan,pan.n.03)
+1.00 has_sense(water,water.n.06)
+1.00 ac_word(AC_FILL)
+
+---
+// fill the mug with the froth , leaving about an inch of space .
+1.00 has_sense(fill-3,fill.v.01)
+1.00 has_sense(mug,mug.n.04)
+1.00 has_sense(froth,foam.n.01)
+1.00 ac_word(AC_FILL)
+
+---
+//fill the metal pitcher with a cup of milk 
+1.00 has_sense(fill,fill.v.01)
+1.00 has_sense(pitcher,pitcher.n.02)
+1.00 has_sense(milk,milk.n.01)
+1.00 ac_word(AC_FILL)
+
+---
+// fill the kettle with boiling water .
+1.00 has_sense(fill,fill.v.01)
+1.00 has_sense(kettle,kettle.n.01)
+1.00 has_sense(water,water.n.06)
+
+1.00 ac_word(AC_FILL)
+
+---
+// Fill the jar
+1.00 has_sense(fill,fill.v.01)
+1.00 has_sense(jar,jar.n.01)
+1.00 ac_word(AC_FILL)
+
+---
+// cut the pizza into eight separate slices.1.00 
+1.00 has_sense(cut-1, cut.v.01)
+1.00 has_sense(pizza, pizza.n.01)
+1.00 has_sense(slice-2, piece.n.08)
+1.00 ac_word(AC_CUT)
+
+---
+// cut each cheese thinly .
+1.00 has_sense(cut, cut.v.01)
+1.00 has_sense(cheese, cheese.n.01)
+1.00 ac_word(AC_CUT)
+
+---
+// cut the banana use a small knife .
+1.00 has_sense(cut, cut.v.01)
+1.00 has_sense(banana, banana.n.02)
+1.00 has_sense(knife, knife.n.01)
+1.00 ac_word(AC_CUT)
+
+---
+// cut the meat with a chopper
+1.00 has_sense(cut-1,cut.v.01)
+1.00 has_sense(meat,meat.n.01)
+1.00 has_sense(chopper,cleaver.n.01)
+1.00 ac_word(AC_CUT)
+
+---
+
+//cut the vegetables with a knife.
+1.00 has_sense(cut, cut.v.01)
+1.00 has_sense(vegetable, vegetable.n.01)
+1.00 has_sense(knife, knife.n.01)
+1.00 ac_word(AC_CUT)
+
+---
+
+//Put some dressing to the salad.
+1.00 has_sense(put-1,put.v.01)
+1.00 has_sense(dressing-2,dressing.n.01)
+1.00 has_sense(salad,salad.n.01)
+1.00 ac_word(AC_ADD)
+---
+
+// put rice into a bowl .
+1.00 has_sense(put-1,put.v.01)
+1.00 has_sense(rice-5, rice.n.01)
+1.00 has_sense(bowl-9,bowl.n.01)
+1.00 ac_word(AC_PUT)
+
+---
+
+// put the dish into the oven .
+1.00 has_sense(put-1,put.v.01)
+1.00 has_sense(dish-3,dish.n.02)
+1.00 has_sense(oven-6,oven.n.01)
+1.00 ac_word(AC_PUT)
+
+---
+
+// put the soup in the microwave.
+1.00 has_sense(put-1,put.v.01)
+1.00 has_sense(soup-3,soup.n.01)
+1.00 has_sense(microwave-6,microwave.n.02)
+1.00 ac_word(AC_PUT)
+---
+
+// put salt and pepper or whatever you put on your eggs .
+1.00 has_sense(put-1,put.v.01)
+1.00 has_sense(salt-2,salt.n.02)
+1.00 has_sense(eggs-11,egg.n.02)
+1.00 ac_word(AC_ADD)
+---
+
+// slice the mushroom .
+1.00 has_sense(slice-1,slice.v.03)
+1.00 has_sense(mushroom-3,mushroom.n.05)
+1.00 ac_word(AC_SLICE)
+
+---
+
+// slice the meat with a chopper
+1.00 has_sense(slice-1,slice.v.03)
+1.00 has_sense(meat,meat.n.01)
+1.00 has_sense(chopper,cleaver.n.01)
+1.00 ac_word(AC_SLICE)
+
+---
+
+// Carefully slice the cabbage.
+1.00 has_sense(slice-2,slice.v.03)
+1.00 has_sense(cabbage-4,cabbage.n.01)
+1.00 ac_word(AC_SLICE)
+
+---
+
+// Thinly slice remaining lemon .
+1.00 has_sense(slice-2,slice.v.03)
+1.00 has_sense(lemon-4,lemon.n.01)
+1.00 ac_word(AC_SLICE)
+
+---
+
+// finely slice the bacon and grate the parmesan .
+1.00 has_sense(slice-2,slice.v.03)
+1.00 has_sense(bacon-4,bacon.n.01)
+1.00 ac_word(AC_SLICE)
+
+---
+
+//Stir the wine
+1.00 has_sense(stir-9,stir.v.01)
+1.00 has_sense(wine,wine.n.01)
+1.00 ac_word(AC_STIR)
+---
+
+//Stir the whiskey
+1.00 has_sense(stir-9,stir.v.01)
+1.00 has_sense(whiskey,whiskey.n.01)
+1.00 ac_word(AC_STIR)
+
+---
+
+//Stir the champagne
+1.00 has_sense(stir-9,stir.v.01)
+1.00 has_sense(champagne,champagne.n.01)
+1.00 ac_word(AC_STIR)
+
+---
+
+//Stir the egg
+1.00 has_sense(stir-9,stir.v.08)
+1.00 has_sense(egg,egg.n.02)
+1.00 ac_word(AC_ADD)
+---
+
+//Stir the butter
+1.00 has_sense(stir-9,stir.v.08)
+1.00 has_sense(butter,butter.n.01)
+1.00 ac_word(AC_ADD)
