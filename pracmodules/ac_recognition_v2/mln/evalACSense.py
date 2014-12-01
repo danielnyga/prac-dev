@@ -112,7 +112,6 @@ class XValFold(object):
             
           
             wordnet = WordNet(concepts=None)
-            
             for atom in list(db.iterGroundLiteralStrings('has_sense')):
                 group = re.split(',',re.split('has_sense\w*\(|\)',atom[1])[1])
                 sense = group[1];
@@ -125,10 +124,10 @@ class XValFold(object):
                     #To aviod the same evidences
                     for _ in db_.query(atom):
                         atomExists = True
-                    if atomExists == False:
+                    if atomExists == False and sim > 0.75:
                         db_.addGroundAtom(atom,sim)
-                db.writeToFile("start.db")
-                db_.writeToFile("temp.db")
+            db.writeToFile("start.db")
+            db_.writeToFile("temp.db")
             resultDB = mln.infer(InferenceMethods.WCSP, queryPred, db_, cwPreds=["is_a"])
             
             for predicate in trueDB.iterGroundLiteralStrings('ac_word'):
