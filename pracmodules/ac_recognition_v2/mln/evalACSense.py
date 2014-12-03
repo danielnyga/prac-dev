@@ -124,7 +124,7 @@ class XValFold(object):
                     #To aviod the same evidences
                     for _ in db_.query(atom):
                         atomExists = True
-                    if atomExists == False and sim > 0.75:
+                    if atomExists == False and sim > 0.001:
                         db_.addGroundAtom(atom,sim)
             db.writeToFile("start.db")
             db_.writeToFile("temp.db")

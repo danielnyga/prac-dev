@@ -1,5 +1,5 @@
 is_a(sense, concept)
-ac_word(ac)
+ac_word(ac!)
 has_sense(word, sense!)
 has_pos(word,pos!)
 
