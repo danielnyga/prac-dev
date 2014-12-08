@@ -190,6 +190,7 @@ class WNSenses(PRACModule):
                                 synset1 = self.wordnet.synset(propFoundVal)
                                 synset2 = self.wordnet.synset(domVal)
                                 sim = self.wordnet.similarity(synset1, synset2)
+                                if not sim > .7: continue # everything below threshold is considered too low.
                                 db.addGroundAtom('{}({}, {})'.format(prop, cluster, domVal), sim)
         return db
 

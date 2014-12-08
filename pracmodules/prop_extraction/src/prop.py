@@ -73,38 +73,11 @@ class PropExtraction(PRACModule):
 
             # infer and update output
             result_dbs = list(kb.infer(db))
-            output_dbs = []
+            
+            # result_dbs = self.printResults(result_dbs, pracinference.instructions, wordnet_module)
 
-            # rewrite result representation from property(...) to color(..), size(..) etc. and print results
-            for r_db in result_dbs:
-                output_db = Database(readMLNFromFile(os.path.join(self.module_path, '../obj_recognition/mln/objInf.mln'), logic='FuzzyLogic'))
-                # print annotations found in result db
-                for instr in pracinference.instructions:
-                    print colorize('Inferred properties for instruction:', (None, 'white', True), True), instr
-                    print
-                for q in r_db.query('property(?word, ?prop) ^ has_sense(?word, ?sense)'):
-                    if q['?sense'] == 'null': continue
-                    if q['?prop'] == 'null': continue
-                    prop = q['?prop']
-                    word = q['?sense']
-
-                    output_db.addGroundAtom('{}({}, {})'.format(prop.lower(), 'cluster', word))
-
-                    print '{}({}, {})'.format(  colorize(prop.lower(), (None, 'white', True), True), 
-                                                colorize('cluster', (None, 'magenta', True), True), 
-                                                colorize(word, (None, 'green', True), True))
-                print
-
-                print 'Inferred most probable word senses:'
-                for q in r_db.query('has_sense(?w, ?s)'):
-                    if q['?s'] == 'null': continue
-                    print '{}:'.format(q['?w'])
-                    print 'get meanings of word',q['?w'], q['?s']
-
-                    wordnet_module.printWordSenses(wordnet_module.get_possible_meanings_of_word(r_db, q['?w']), q['?s'])
-                output_dbs.append(output_db)
-
-            inf_step.output_dbs.extend(output_dbs)
+            # inf_step.output_dbs.extend(output_dbs)
+            inf_step.output_dbs.extend(result_dbs)
         return inf_step
 
 
@@ -119,17 +92,23 @@ class PropExtraction(PRACModule):
         mlnLogic =  praclearning.otherParams.get('logic', None)
 
         mln = readMLNFromFile(mlnName, logic=mlnLogic)
+        pracTrainingDBS = praclearning.training_dbs
 
-        if praclearning.training_dbs:
-            inputdbs = readDBFromFile(mln, praclearning.training_dbs, ignoreUnknownPredicates=True)
+        if len(pracTrainingDBS) > 1 and type(pracTrainingDBS[0]) is str: # db from file:
+            log.info('Learning from db files...')
+            inputdbs = readDBFromFile(mln, pracTrainingDBS, ignoreUnknownPredicates=True)
+        elif len(pracTrainingDBS) > 1:
+            log.info('Learning from db files (xfold)...')
+            inputdbs = pracTrainingDBS
         else:
+            log.info('Learning from default db file...')
             dbFile = os.path.join(self.module_path, 'db/ts_stanford_wn_man.db')
             inputdbs = readDBFromFile(mln, dbFile, ignoreUnknownPredicates=True)
 
         evidencePreds=['cop', 'prep_without','pobj', 'nsubj','is_a','amod','prep_with','root','has_pos','conj_and','conj_or','dobj']
         # trainedMLN = mln.learnWeights(inputdbs, LearningMethods.DCLL, evidencePreds=evidencePreds, gaussianPriorSigma=10, partSize=1, useMultiCPU=1, optimizer='bfgs')
         outputfile = '{}_trained.mln'.format(mlnName.split('.')[0])
-        trainedMLN = mln.learnWeights(inputdbs, LearningMethods.DCLL, evidencePreds=evidencePreds, partSize=1, gaussianPriorSigma=10, useMultiCPU=1, optimizer='directDescent', learningRate=1)
+        trainedMLN = mln.learnWeights(inputdbs, LearningMethods.DCLL, evidencePreds=evidencePreds, partSize=1, gaussianPriorSigma=10, useMultiCPU=0, optimizer='cg', learningRate=.9)
         
         print colorize('+=============================================+', (None, 'green', True), True)
         print colorize('| LEARNT FORMULAS:                            |', (None, 'green', True), True)
@@ -140,3 +119,36 @@ class PropExtraction(PRACModule):
         log.info('Trained MLN saved to {}'.format(outputfile))
 
         return trainedMLN
+
+
+    def printResults(self, result_dbs, instructions, wordnet_module):
+        # rewrite result representation from property(...) to color(..), size(..) etc. and print results
+        output_dbs = []
+        for r_db in result_dbs:
+            output_db = Database(readMLNFromFile(os.path.join(self.module_path, '../obj_recognition/mln/objInf.mln'), logic='FuzzyLogic'))
+            # print annotations found in result db
+            for instr in instructions:
+                print colorize('Inferred properties for instruction:', (None, 'white', True), True), instr
+                print
+            for q in r_db.query('property(?word, ?prop) ^ has_sense(?word, ?sense)'):
+                if q['?sense'] == 'null': continue
+                if q['?prop'] == 'null': continue
+                prop = q['?prop']
+                word = q['?sense']
+
+                output_db.addGroundAtom('{}({}, {})'.format(prop.lower(), 'cluster', word))
+
+                print '{}({}, {})'.format(  colorize(prop.lower(), (None, 'white', True), True), 
+                                            colorize('cluster', (None, 'magenta', True), True), 
+                                            colorize(word, (None, 'green', True), True))
+            print
+
+            print 'Inferred most probable word senses:'
+            for q in r_db.query('has_sense(?w, ?s)'):
+                if q['?s'] == 'null': continue
+                print '{}:'.format(q['?w'])
+                print 'get meanings of word',q['?w'], q['?s']
+
+                wordnet_module.printWordSenses(wordnet_module.get_possible_meanings_of_word(r_db, q['?w']), q['?s'])
+            output_dbs.append(output_db)
+        return output_dbs
