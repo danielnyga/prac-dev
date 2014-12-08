@@ -30,7 +30,7 @@ from prac.inference import PRACInferenceStep
 import sys, os
 from utils import colorize
 
-possibleProps = ['COLOR','SIZE','SHAPE','HYPERNYM','HASA']#,'DIMENSION', 'CONSISTENCY']
+possibleProps = ['COLOR','SIZE','SHAPE','HYPERNYM','HASA']#,'DIMENSION', 'CONSISTENCY', 'MATERIAL']
 
 class OldNLObjectRecognition(PRACModule):    
 
@@ -124,8 +124,8 @@ class OldNLObjectRecognition(PRACModule):
             print 
 
         outputfile = '{}_trained.mln'.format(mlnName.split('.')[0])
-        trainedMLN = mln.learnWeights(trainingDBS, LearningMethods.DCLL, evidencePreds=['prop'], gaussianPriorSigma=10, useMultiCPU=1, optimizer='directDescent', learningRate=1)
-        
+        trainedMLN = mln.learnWeights(trainingDBS, LearningMethods.DCLL, evidencePreds=['prop'], partSize=1, gaussianPriorSigma=10, useMultiCPU=0, optimizer='cg', learningRate=0.9)
+
         print colorize('+=============================================+', (None, 'green', True), True)
         print colorize('| LEARNT FORMULAS:                            |', (None, 'green', True), True)
         print colorize('+=============================================+', (None, 'green', True), True)

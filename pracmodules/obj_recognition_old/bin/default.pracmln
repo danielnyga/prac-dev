@@ -40,7 +40,7 @@ S'INFO'
 p20
 sS'useMultiCPU'
 p21
-I1
+I0
 sS'method'
 p22
 S'WCSP'
