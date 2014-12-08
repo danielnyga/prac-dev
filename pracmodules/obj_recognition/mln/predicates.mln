@@ -26,7 +26,10 @@
 shape(cluster, shape)
 color(cluster, color)
 size(cluster, size)
-hypernym(cluster, hyp)
-hasa(cluster, part)
+hypernym(cluster, hypernym)
+hasa(cluster, hasa)
+dimension(cluster, dimension)
+consistency(cluster, consistency)
+material(cluster, material)
 
 object(cluster, object!)

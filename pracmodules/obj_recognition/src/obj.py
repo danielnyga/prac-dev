@@ -30,7 +30,7 @@ from prac.inference import PRACInferenceStep
 import sys, os
 from utils import colorize
 
-possibleProps = ['color', 'size', 'shape', 'hypernym', 'hasa']#, 'dimension', 'consistency']
+possibleProps = ['color', 'size', 'shape', 'hypernym', 'hasa']#, 'dimension', 'consistency', 'material']
 
 class NLObjectRecognition(PRACModule):    
 
@@ -71,7 +71,9 @@ class NLObjectRecognition(PRACModule):
         for db in kb.dbs:
             # find properties and add word similarities
             propsFound = self.processDB(db)
-            output_db = wordnet_module.add_similarities(db, mln.domains, propsFound)
+            output_db = wordnet_module.add_similarities(db, kb.query_mln.domains, propsFound)
+            log.info(mln.domains)
+            log.info(propsFound)
             output_db.write(sys.stdout, color=True)
             
             # infer and update output dbs
@@ -111,7 +113,7 @@ class NLObjectRecognition(PRACModule):
                 trainingDBS.append(db)
 
         outputfile = '{}_trained.mln'.format(mlnName.split('.')[0])
-        trainedMLN = mln.learnWeights(trainingDBS, LearningMethods.DCLL, evidencePreds=possibleProps, partSize=4, gaussianPriorSigma=10, useMultiCPU=1, optimizer='directDescent', learningRate=1)
+        trainedMLN = mln.learnWeights(trainingDBS, LearningMethods.DCLL, evidencePreds=possibleProps, partSize=1, gaussianPriorSigma=10, useMultiCPU=0, optimizer='cg', learningRate=0.9)
         
         print colorize('+=============================================+', (None, 'green', True), True)
         print colorize('| LEARNT FORMULAS:                            |', (None, 'green', True), True)

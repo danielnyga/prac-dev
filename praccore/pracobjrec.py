@@ -116,7 +116,7 @@ if __name__ == '__main__':
         print 'Inferred properties:'
         for ek in sorted(db.evidence):
             e = db.evidence[ek]
-            if e == 1.0 and any(ek.startswith(p) for p in ['color', 'size', 'shape', 'hypernym', 'hasa']):
+            if e == 1.0 and any(ek.startswith(p) for p in ['color', 'size', 'shape', 'hypernym', 'hasa', 'dimension', 'consistency', 'material']):
                 print '{}({}, {}'.format(  colorize(ek.split('(')[0], (None, 'white', True), True),
                                             colorize(ek.split('(')[1].split(',')[0], (None, 'magenta', True), True),
                                             colorize(ek.split('(')[1].split(',')[1], (None, 'green', True), True))
