@@ -126,8 +126,6 @@ class XValFold(object):
                         atomExists = True
                     if atomExists == False and sim > 0.001:
                         db_.addGroundAtom(atom,sim)
-            db.writeToFile("start.db")
-            db_.writeToFile("temp.db")
             resultDB = mln.infer(InferenceMethods.WCSP, queryPred, db_, cwPreds=["is_a"])
             
             for predicate in trueDB.iterGroundLiteralStrings('ac_word'):
