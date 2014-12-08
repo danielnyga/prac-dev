@@ -1,6 +1,33 @@
 
 # hsv values for color similarity calculation
-colorspecs = {  'pink.s.01': (335,87,87),
+chrcolorspecs = {  'pink.s.01': (335,87,87),
+                'purple.s.01': (290,87,87),
+                'blue.s.01': (235,87,87),
+                'cyan.s.01': (150,87,87),
+                'light-blue.s.01': (175,87,87),
+                'green.s.01': (115,87,87),
+                'green.n.01': (115,87,87),
+                'yellow.s.01': (50,87,87),
+                'yellowish.s.01': (50,87,87),
+                'yellow.n.01': (50,87,87),
+                'orange.s.01': (20,87,87),
+                'orange.n.02': (20,87,87),
+                'brown.s.01': (20,87,97),
+                'red.s.01': (0,87,87),
+                'blood-red.s.01': (0,89,55)
+                }
+
+achrcolorspecs = { 'black.a.01': (0,55,5), 
+                'blackish.s.01': (0,55,5), 
+                'white.a.01': (0,5,95),
+                'whitish.s.02': (0,5,95),
+                'grey.s.01': (0,5,50),
+                'greyish.s.01': (0,5,50),
+                'gray.s.01': (0,5,50),
+                'grayish.s.01': (0,5,50)
+		}
+
+allcolorspecs = {  'pink.s.01': (335,87,87),
                 'purple.s.01': (290,87,87),
                 'blue.s.01': (235,87,87),
                 'cyan.s.01': (150,87,87),
@@ -15,15 +42,15 @@ colorspecs = {  'pink.s.01': (335,87,87),
                 'brown.s.01': (20,87,97),
                 'red.s.01': (0,87,87),
                 'blood-red.s.01': (0,89,55),
-                'black.a.01': (500,55,5), 
-                'blackish.s.01': (500,55,5), 
-                'white.a.01': (500,5,95),
-                'whitish.s.02': (500,5,95),
-                'grey.s.01': (500,5,50),
-                'greyish.s.01': (500,5,50),
-                'gray.s.01': (500,5,50),
-                'grayish.s.01': (500,5,50)
-                }
+                'black.a.01': (0,55,5), 
+                'blackish.s.01': (0,55,5), 
+                'white.a.01': (0,5,95),
+                'whitish.s.02': (0,5,95),
+                'grey.s.01': (0,5,50),
+                'greyish.s.01': (0,5,50),
+                'gray.s.01': (0,5,50),
+                'grayish.s.01': (0,5,50)
+                }                
 
 
 # similarity represented by (#edges, #angles, #faces, #subjective similarity)
@@ -43,13 +70,15 @@ shapespecs = {  'crescent.s.01': (2,2,1,0),
                 'ellipse.n.01': (0,0,1,8),
                 'flat.s.02': (0,0,1,6),
                 'elliptic.s.01': (0,0,1,8),
+                'ellipsoid.s.01': (0,0,1,8),
                 'pear-shaped.s.01': (0,0,1,9),
                 'cylindrical.s.01': (2,0,3,10),
-                'round.a.01': (0,0,1,11),
+                'round.a.01': (0,0,1,7.5),
                 'spherical.a.01': (0,0,1,11.1),
                 'ball-shaped.s.01': (0,0,1,11.2),
                 'circular.s.02': (0,0,1,11),
                 'circular.n.01': (0,0,1,11),
+                'hemispherical.a.01': (0,0,1,15),
                 'octangular.a.01': (8,8,1,14),
                 'hexangular.a.01': (6,6,1,15),
                 'pentangular.a.01': (5,5,1,16),
@@ -66,6 +95,7 @@ shapespecs = {  'crescent.s.01': (2,2,1,0),
                 'triangular.s.01': (3,3,1,25),
                 'pyramidal': (5,5,5,26),
                 'wedge-shaped.a.02': (9,6,5,27),
+                'pronged.s.01': (8,4,2,27),
                 'cuneate.s.01': (3,3,1,28), #keilfoermig
                 'conic.a.01': (2,1,2,29),
                 'tapered.s.01': (2,1,2,30), #kegelfoermig
@@ -73,6 +103,7 @@ shapespecs = {  'crescent.s.01': (2,2,1,0),
                 'cordate.s.01': (2,2,1,40), #herzfoermig
                 'convex.a.01': (1,1,2,40),
                 'concave.a.01': (3,3,2,40),
+                'hollow.a.01': (3,3,2,45),
                 }
 
 
@@ -107,6 +138,7 @@ consistencyspecs = {
 			'featherlike.s.01': (15),
 			'soft.s.15': (16),
 			'soft.a.01': (16),
+                        'smooth.a.01': (16.5),
 			'downy.s.01': (16),
 			'downy.s.02': (17),
 			'firm.s.02': (20),
@@ -138,6 +170,7 @@ dimensionspecs = {
 			'chunky.s.02': (8),
 			'thick.a.01': (8),
 			'dense.s.02': (9),
+                        'elongated.s.02': (10),
 			'long.a.02' : (11),
 			'long.s.03' : (11),
 			'high.a.02': (12),
