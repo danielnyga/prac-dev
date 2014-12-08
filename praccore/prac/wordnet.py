@@ -81,7 +81,8 @@ class WordNet(object):
         self.core_taxonomy = None
         if concepts is not None:
             self.initialize_taxonomy(concepts)
-            self.initialize_similarities(colorsims, properties.colorspecs)
+            self.initialize_csimilarities(colorsims, properties.chrcolorspecs, properties.achrcolorspecs)
+            # self.initialize_similarities(colorsims, properties.allcolorspecs)
             self.initialize_similarities(shapesims, properties.shapespecs)
             self.initialize_similarities(sizesims, properties.sizespecs)
             self.initialize_similarities(consistencysims, properties.consistencyspecs)
@@ -95,6 +96,34 @@ class WordNet(object):
             simdct[k] = {}
             for c in specs.keys():
                 simdct[k][c] = spatial.distance.euclidean(specs[k],specs[c])
+                maxDist = max(maxDist,simdct[k][c])
+
+        # normalize
+        for x in simdct:
+            for y in simdct:
+                simdct[x][y] = 1-(simdct[x][y]/maxDist)
+
+    def initialize_csimilarities(self, simdct, specs, achrspecs):
+        maxDist = 0.
+        tempDict = dict(specs.items() + achrspecs.items())
+        for k in tempDict.keys():
+            simdct[k] = {}
+            for c in tempDict.keys():
+                if k == c:
+                    print k, c, '0.0'
+                    simdct[k][c] = 0.0
+                elif (k in specs and c not in specs) or (k in achrspecs and c not in achrspecs): 
+                    print k, c, 130
+                    simdct[k][c] = 130
+                elif abs(tempDict[k][0] - tempDict[c][0]) > 180:
+                    a = [(tempDict[k][0]+180)%360,tempDict[k][1],tempDict[k][2]]
+                    b = [(tempDict[c][0]+180)%360,tempDict[c][1],tempDict[c][2]]
+
+                    simdct[k][c] = spatial.distance.euclidean(a,b)
+                    print k, c, simdct[k][c]
+                else:
+                    simdct[k][c] = spatial.distance.euclidean(tempDict[k],tempDict[c])
+                    print k, c, simdct[k][c]
                 maxDist = max(maxDist,simdct[k][c])
 
         # normalize
@@ -367,16 +396,16 @@ class WordNet(object):
             return 0.    
 
         # separate check for consistency similarity
-        if synset1.name in consistencysims and synset2.name in consistencysims:
-            return consistencysims[synset1.name][synset2.name]
-        elif synset1.name in consistencysims or synset2.name in consistencysims: # consistencies are maximially dissimilar to everything else
-            return 0.    
+        # if synset1.name in consistencysims and synset2.name in consistencysims:
+        #     return consistencysims[synset1.name][synset2.name]
+        # elif synset1.name in consistencysims or synset2.name in consistencysims: # consistencies are maximially dissimilar to everything else
+        #     return 0.    
 
-        # separate check for dimension similarity
-        if synset1.name in dimensionsims and synset2.name in dimensionsims:
-            return dimensionsims[synset1.name][synset2.name]
-        elif synset1.name in dimensionsims or synset2.name in dimensionsims: # dimensions are maximially dissimilar to everything else
-            return 0.    
+        # # separate check for dimension similarity
+        # if synset1.name in dimensionsims and synset2.name in dimensionsims:
+        #     return dimensionsims[synset1.name][synset2.name]
+        # elif synset1.name in dimensionsims or synset2.name in dimensionsims: # dimensions are maximially dissimilar to everything else
+        #     return 0.    
 
 
         syns1 = [synset1]
