@@ -7,17 +7,34 @@ praclearn --dbs /home/mareikep/prac_repos/prac/pracmodules/obj_recognition/db/na
 
 praclearn --dbs /home/mareikep/prac_repos/prac/pracmodules/obj_recognition/db/sherlock.db,/home/mareikep/prac_repos/prac/pracmodules/obj_recognition/db/sherlock.db --mln /home/mareikep/prac_repos/prac/pracmodules/obj_recognition/mln/objInf.mln FirstOrderLogic --module obj_recognition
 
+
 # create manual kb entry from inference
 pracobjrec 'It is a yellow or orange fruit.' -t sherlock orange.n.01 
 
 pracobjrec 'It is a yellow or orange fruit.' -t sherlock orange.n.01 -o
+
 
 # infer using kb
 pracobjrec -r -m /home/mareikep/prac_repos/prac/pracmodules/obj_recognition/mln/objInf_trained_natLan_CONFI.mln FuzzyLogic 'It is a yellow oval fruit.' 
 
 pracobjrec -r -m /home/mareikep/prac_repos/prac/pracmodules/obj_recognition_old/mln/objInf_trained_natLan_CONFI.mln FuzzyLogic 'It is a yellow oval fruit.' -o
 
+
 # k-fold cross validation
+pracxfold --dbs /home/mareikep/prac_repos/prac/pracmodules/prop_extraction/db/ts_stanford_wn_man.db --mln /home/mareikep/prac_repos/prac/pracmodules/prop_extraction/mln/parsing.mln --predicate property --folder evalPropExtr --module prop_extraction --multicore --folds 2
+
 pracxfold --dbs /home/mareikep/prac_repos/prac/pracmodules/obj_recognition/db/natLan.db --mln /home/mareikep/prac_repos/prac/pracmodules/obj_recognition/mln/objInf.mln --predicate object --domain cluster --folder evalObjInfCONF --module obj_recognition --multicore --folds 10
 
-pracxfold --dbs /home/mareikep/prac_repos/prac/pracmodules/obj_recognition/db/natLan.db --mln /home/mareikep/prac_repos/prac/pracmodules/obj_recognition_old/mln/objInf.mln --altMLN /home/mareikep/prac_repos/prac/pracmodules/obj_recognition/mln/objInf.mln --predicate object --domain cluster --folder evalObjInfOldCONF --module obj_recognition_old --multicore --folds 10
+pracxfold --dbs /home/mareikep/prac_repos/prac/pracmodules/obj_recognition/db/natLan_small.db --mln /home/mareikep/prac_repos/prac/pracmodules/obj_recognition_old/mln/objInf.mln --altMLN /home/mareikep/prac_repos/prac/pracmodules/obj_recognition/mln/objInf.mln --predicate object --domain cluster --folder evalObjInfOldCONF --module obj_recognition_old --multicore --folds 10
+
+
+# 10-fold for all three different configurations (w/o closed world assumption)
+pracxfold --dbs /home/mareikep/prac_repos/prac/pracmodules/obj_recognition/db/natLan.db --mln /home/mareikep/prac_repos/prac/pracmodules/obj_recognition/mln/objInf.mln --predicate object --domain cluster --folder evalObjInfCONFI --module obj_recognition --multicore --folds 10 && pracxfold --dbs /home/mareikep/prac_repos/prac/pracmodules/obj_recognition/db/natLan.db --mln /home/mareikep/prac_repos/prac/pracmodules/obj_recognition/mln/objInfII.mln --predicate object --domain cluster --folder evalObjInfCONFII --module obj_recognition --multicore --folds 10 && pracxfold --dbs /home/mareikep/prac_repos/prac/pracmodules/obj_recognition/db/natLan.db --mln /home/mareikep/prac_repos/prac/pracmodules/obj_recognition/mln/objInfIII.mln --predicate object --domain cluster --folder evalObjInfCONFIII --module obj_recognition --multicore --folds 10 && pracxfold --dbs /home/mareikep/prac_repos/prac/pracmodules/obj_recognition/db/natLan.db --mln /home/mareikep/prac_repos/prac/pracmodules/obj_recognition/mln/objInfIV.mln --predicate object --domain cluster --folder evalObjInfCONFIV --module obj_recognition --multicore --folds 10
+
+
+# 10-fold for all three different configurations (w/ closed world assumption)
+pracxfold --dbs /home/mareikep/prac_repos/prac/pracmodules/obj_recognition/db/natLan.db --mln /home/mareikep/prac_repos/prac/pracmodules/obj_recognition/mln/objInf.mln --predicate object --domain cluster --folder evalObjInfCONFI-cw --module obj_recognition --multicore --folds 10 && pracxfold --dbs /home/mareikep/prac_repos/prac/pracmodules/obj_recognition/db/natLan.db --mln /home/mareikep/prac_repos/prac/pracmodules/obj_recognition/mln/objInfII.mln --predicate object --domain cluster --folder evalObjInfCONFII-cw --module obj_recognition --multicore --folds 10 && pracxfold --dbs /home/mareikep/prac_repos/prac/pracmodules/obj_recognition/db/natLan.db --mln /home/mareikep/prac_repos/prac/pracmodules/obj_recognition/mln/objInfIII.mln --predicate object --domain cluster --folder evalObjInfCONFIII-cw --module obj_recognition --multicore --folds 10 && pracxfold --dbs /home/mareikep/prac_repos/prac/pracmodules/obj_recognition/db/natLan.db --mln /home/mareikep/prac_repos/prac/pracmodules/obj_recognition/mln/objInfIV.mln --predicate object --domain cluster --folder evalObjInfCONFIV-cw --module obj_recognition --multicore --folds 10
+
+
+# 10-fold for all three different configurations of OLD modelling (w/ implicit closed world assumption)
+pracxfold --dbs /home/mareikep/prac_repos/prac/pracmodules/obj_recognition/db/natLan.db --mln /home/mareikep/prac_repos/prac/pracmodules/obj_recognition_old/mln/objInf.mln --altMLN /home/mareikep/prac_repos/prac/pracmodules/obj_recognition/mln/predicates.mln --predicate object --domain cluster --folder evalObjInfOldCONFI --module obj_recognition_old --multicore --folds 10 && pracxfold --dbs /home/mareikep/prac_repos/prac/pracmodules/obj_recognition/db/natLan.db --mln /home/mareikep/prac_repos/prac/pracmodules/obj_recognition_old/mln/objInfII.mln --altMLN /home/mareikep/prac_repos/prac/pracmodules/obj_recognition/mln/predicates.mln --predicate object --domain cluster --folder evalObjInfOldCONFII --module obj_recognition_old --multicore --folds 10 && pracxfold --dbs /home/mareikep/prac_repos/prac/pracmodules/obj_recognition/db/natLan.db --mln /home/mareikep/prac_repos/prac/pracmodules/obj_recognition_old/mln/objInfIII.mln --altMLN /home/mareikep/prac_repos/prac/pracmodules/obj_recognition/mln/predicates.mln --predicate object --domain cluster --folder evalObjInfOldCONFIII --module obj_recognition_old --multicore --folds 10
