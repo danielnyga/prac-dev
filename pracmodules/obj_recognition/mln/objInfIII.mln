@@ -1,0 +1,6 @@
+#include predicates.mln
+
+// CONF III
+0 object(?c, +?objID) ^ color(?c, +?size) ^ size(?c, +?shape) ^ shape(?c, +?col)
+0 object(?c, +?objID) ^ hasa(?c, +?part)
+0 object(?c, +?objID) ^ hypernym(?c, +?hyp)
