@@ -1,0 +1,94 @@
+// fill a pan with water .
+1.00 has_pos(fill,VB)
+1.00 has_pos(pan,NN)
+//1.00 has_pos(water,NN)
+1.00 has_sense(fill,fill.v.01)
+1.00 has_sense(pan,pan.n.03)
+//1.00 has_sense(water,water.n.06)
+1.00 ac_word(AC_FILL)
+1.00 dobj(fill, pan)
+
+---
+// fill the mug with the froth , leaving about an inch of space .
+1.00 has_pos(fill,VB)
+1.00 has_pos(mug,NN)
+//1.00 has_pos(froth,NN)
+1.00 ac_word(AC_FILL)
+1.00 has_sense(fill,fill.v.01)
+1.00 has_sense(mug,mug.n.04)
+//1.00 has_sense(froth,foam.n.01)
+1.00 dobj(fill, mug)
+---
+//fill the metal pitcher with a cup of milk 
+1.00 has_pos(fill,VB)
+1.00 has_pos(pitcher,NN)
+//1.00 has_pos(milk,NN)
+1.00 ac_word(AC_FILL)
+1.00 has_sense(fill,fill.v.01)
+1.00 has_sense(pitcher,pitcher.n.02)
+//1.00 has_sense(milk,milk.n.01)
+1.00 dobj(fill, pitcher)
+---
+// fill the kettle with boiling water .
+1.00 has_pos(fill,VB)
+1.00 has_pos(kettle,NN)
+//1.00 has_pos(water,NN)
+1.00 ac_word(AC_FILL)
+1.00 has_sense(fill,fill.v.01)
+1.00 has_sense(kettle,kettle.n.01)
+//1.00 has_sense(water,water.n.06)
+1.00 dobj(fill, kettle)
+---
+// Fill the jar
+1.00 has_pos(fill,VB)
+1.00 has_pos(jar,NN)
+1.00 ac_word(AC_FILL)
+1.00 has_sense(fill,fill.v.01)
+1.00 has_sense(jar,jar.n.01)
+1.00 dobj(fill, jar)
+---
+// slice the mushroom .
+1.00 has_pos(slice,VB)
+1.00 has_pos(mushroom,NN)
+1.00 ac_word(AC_SLICE)
+1.00 has_sense(slice,slice.v.03)
+1.00 has_sense(mushroom,mushroom.n.05)
+1.00 dobj(slice, mushroom)
+---
+
+// slice the meat with a chopper
+1.00 has_pos(slice,VB)
+1.00 has_pos(meat,NN)
+//1.00 has_pos(chopper,NN)
+1.00 ac_word(AC_SLICE)
+1.00 has_sense(slice,slice.v.03)
+1.00 has_sense(meat,meat.n.01)
+//1.00 has_sense(chopper,cleaver.n.01)
+1.00 dobj(slice, meat)
+---
+
+// Carefully slice the cabbage.
+1.00 has_pos(slice,VB)
+1.00 has_pos(cabbage,NN)
+1.00 ac_word(AC_SLICE)
+1.00 has_sense(slice,slice.v.03)
+1.00 has_sense(cabbage,cabbage.n.01)
+1.00 dobj(slice, cabbage)
+---
+
+// Thinly slice remaining lemon .
+1.00 has_pos(slice,VB)
+1.00 has_pos(lemon,NN)
+1.00 ac_word(AC_SLICE)
+1.00 has_sense(slice,slice.v.03)
+1.00 has_sense(lemon,lemon.n.01)
+1.00 dobj(slice, lemon)
+---
+
+// finely slice the bacon and grate the parmesan .
+1.00 has_pos(slice,VB)
+1.00 has_pos(bacon,NN)
+1.00 ac_word(AC_SLICE)
+1.00 has_sense(slice,slice.v.03)
+1.00 has_sense(bacon,bacon.n.01)
+1.00 dobj(slice, bacon)
