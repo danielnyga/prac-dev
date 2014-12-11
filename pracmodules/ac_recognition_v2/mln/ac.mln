@@ -1,3 +1,5 @@
+//TODO Add prepositions to formula
+//TODO remove has_sense maybe
 has_pos(word,pos!)
 is_a(sense, concept)
 ac_word(ac!)
