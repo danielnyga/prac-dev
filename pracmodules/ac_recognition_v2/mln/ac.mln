@@ -1,0 +1,8 @@
+has_pos(word,pos!)
+is_a(sense, concept)
+ac_word(ac!)
+dobj(word,word)
+has_sense(word, sense!)
+
+#unique{+?c1,+?c2} 
+0 dobj(?w1,?w2) ^ is_a(?s1,+?c1) ^ is_a(?s2,+?c2) ^ has_sense(?w1,?s1) ^ has_sense(?w2,?s2) ^ ac_word(+?ac) ^ ?w1=/=?w2 
