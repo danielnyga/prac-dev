@@ -42,6 +42,7 @@ import logging
 import praclog
 from logging import FileHandler
 
+from isACreator import createIsAEvidence
 
 usage = '''Usage: %prog [options] <predicate> <domain> <mlnfile> <dbfiles>'''
 
