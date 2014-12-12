@@ -191,7 +191,6 @@ class XValFold(object):
             # store the learned MLN in a file
             learnedMLN.writeToFile(os.path.join(directory, 'run_%d.mln' % self.params.foldIdx))
             log.debug('Finished learning.')
-            print 'Finished learning'
             # evaluate the MLN
             log.debug('Evaluating.')
 #             learnedMLN.setClosedWorldPred(None)
