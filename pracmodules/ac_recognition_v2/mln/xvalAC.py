@@ -175,10 +175,6 @@ class XValFold(object):
                 testDBs_ = self.params.testDBs
 
             # train the MLN
-            for db in learnDBs_:
-                print "###"
-                db.printEvidence()
-                print "###"
             mln = self.params.mln
             log.debug('Starting learning...')
             learnedMLN = mln.learnWeights(learnDBs_, method=self.params.learningMethod, 
