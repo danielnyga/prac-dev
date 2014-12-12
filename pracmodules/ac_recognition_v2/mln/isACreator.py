@@ -6,15 +6,16 @@ from prac.wordnet import WordNet
 import sys
 
 def workUpDb(db,concepts,queryPredicate,conceptVariable,prac,fol=True):
+        db_ = db.duplicate()
         query = queryPredicate
-        for result in db.query(query):
+        for result in db_.query(query):
             word = result[conceptVariable]
             if(fol):
-                db.addGroundAtom('is_a('+word+","+word+')')
+                db_.addGroundAtom('is_a('+word+","+word+')')
             else:
                 for concept in concepts:
-                    db.addGroundAtom('is_a('+word+","+concept+')',prac.wordnet.wup_similarity(word,concept))
-        return db
+                    db_.addGroundAtom('is_a('+word+","+concept+')',prac.wordnet.wup_similarity(word,concept))
+        return db_
 
 def createIsAEvidence(mln,dbs,queryDomain,queryPredicate,conceptVariable,fol=True):
     prac = PRAC()
@@ -59,8 +60,8 @@ if __name__ == '__main__':
     
     dbs_ = createIsAEvidence(mln, dbs, queryDomain, queryPredicate, conceptVariable, fol)    
     
-    for db in dbs[:-1]:
+    for db in dbs_[:-1]:
         db.write(f)
         f.write('---\n')
-    dbs[-1].write(f)
+    dbs_[-1].write(f)
     f.close()    
