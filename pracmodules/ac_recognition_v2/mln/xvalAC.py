@@ -171,10 +171,14 @@ class XValFold(object):
                 learnDBs_ = noisyStrTrans.materializeNoisyDomains(self.params.learnDBs)
                 testDBs_ = noisyStrTrans.transformDBs(self.params.testDBs)
             else:
-                learnDBs_ = self.params.learnDBs
+                learnDBs_ = createLearnDBs(self.params.mln, self.params.learnDBs)
                 testDBs_ = self.params.testDBs
 
             # train the MLN
+            for db in learnDBs_:
+                print "###"
+                db.printEvidence()
+                print "###"
             mln = self.params.mln
             log.debug('Starting learning...')
             learnedMLN = mln.learnWeights(learnDBs_, method=self.params.learningMethod, 
@@ -186,11 +190,12 @@ class XValFold(object):
                                           partSize=self.params.partSize,
                                           queryPreds=self.params.queryPreds,
                                           maxrepeat=self.params.maxrepeat,
-                                          gtol=self.params.gtol)#200
+                                          gtol=self.params.gtol,
+                                          evidencePreds=["is_a","dobj"])#200
             # store the learned MLN in a file
             learnedMLN.writeToFile(os.path.join(directory, 'run_%d.mln' % self.params.foldIdx))
             log.debug('Finished learning.')
-            
+            print 'Finished learning'
             # evaluate the MLN
             log.debug('Evaluating.')
 #             learnedMLN.setClosedWorldPred(None)
@@ -278,6 +283,9 @@ def runFold(fold):
         raise Exception(''.join(traceback.format_exception(*sys.exc_info())))
     return fold
 
+def createLearnDBs(mln,dbs):
+    return createIsAEvidence(mln, dbs, 'sense', 'has_sense(?w,?s)', "?s", False)
+    
 if __name__ == '__main__':
     (options, args) = parser.parse_args()
     folds = options.folds
@@ -285,7 +293,7 @@ if __name__ == '__main__':
     verbose = options.verbose
     multicore = options.multicore
     dirname = options.folder
-    noisy = ['text']
+    noisy = None
     predName = args[0]
     domain = args[1]
     mlnfile = args[2]
