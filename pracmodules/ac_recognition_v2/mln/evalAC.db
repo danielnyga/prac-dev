@@ -201,4 +201,61 @@
 1.00 dobj(add-7,chicken-2)
 1.00 ac_word(AC_ADD)
 
+---
+
+//Stir the milk
+1.00 has_sense(stir-9,stir.v.01)
+1.00 has_pos(stir-9,VB)
+
+1.00 has_pos(milk,NN)
+1.00 has_sense(milk,milk.n.01)
+
+1.00 dobj(stir-9,milk)
+1.00 ac_word(AC_STIR)
+---
+
+//Stir the coke
+1.00 has_sense(stir-9,stir.v.01)
+1.00 has_pos(stir-9,VB)
+
+1.00 has_pos(coke,NN)
+1.00 has_sense(coke,coca_cola.n.01)
+
+1.00 dobj(stir-9,coke)
+1.00 ac_word(AC_STIR)
+---
+
+//Stir the water
+1.00 has_sense(stir-9,stir.v.01)
+1.00 has_pos(stir-9,VB)
+
+1.00 has_pos(water,NN)
+1.00 has_sense(water,water.n.06)
+
+1.00 dobj(stir-9,water)
+1.00 ac_word(AC_STIR)
+
+---
+
+//Stir the tea
+1.00 has_sense(stir-9,stir.v.01)
+1.00 has_pos(stir-9,VB)
+
+1.00 has_pos(tea,NN)
+1.00 has_sense(tea,tea.n.01)
+
+1.00 dobj(stir-9,tea)
+1.00 ac_word(AC_STIR)
+
+---
+
+//Stir the coffee
+1.00 has_sense(stir-9,stir.v.01)
+1.00 has_pos(stir-9,VB)
+
+1.00 has_pos(coffee,NN)
+1.00 has_sense(coffee,coffee.n.01)
+
+1.00 dobj(stir-9,coffee)
+1.00 ac_word(AC_STIR)
 
