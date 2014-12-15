@@ -41,7 +41,8 @@ from utils.clustering import SAHN, Cluster, computeClosestCluster
 import logging
 import praclog
 from logging import FileHandler
-
+from collections import defaultdict
+from prac.wordnet import WordNet
 from isACreator import createIsAEvidence
 
 usage = '''Usage: %prog [options] <predicate> <domain> <mlnfile> <dbfiles>'''
@@ -106,9 +107,6 @@ class XValFold(object):
         dbfile = open(os.path.join(params.directory, 'train_dbs_%d.db' % params.foldIdx), 'w+')
         Database.writeDBs(params.learnDBs, dbfile)
         dbfile.close()
-        dbfile = open(os.path.join(params.directory, 'test_dbs_%d.db' % params.foldIdx), 'w+')
-        Database.writeDBs(params.testDBs, dbfile)
-        dbfile.close()
         
             
     def evalMLN(self, mln, dbs):
@@ -122,9 +120,10 @@ class XValFold(object):
         sig = ['?arg%d' % i for i, _ in enumerate(mln.predicates[queryPred])]
         querytempl = '%s(%s)' % (queryPred, ','.join(sig))
         
-        dbs = map(lambda db: db.duplicate(mln), dbs)
+        dbs = map(lambda db: db.duplicate(), dbs)
         
         for db in dbs:
+            db_ = Database(mln)
             # save and remove the query predicates from the evidence
             trueDB = Database(mln)
             for bindings in db.query(querytempl):
@@ -132,13 +131,15 @@ class XValFold(object):
                 for binding in bindings:
                     atom = atom.replace(binding, bindings[binding])
                 trueDB.addGroundAtom(atom)
-                db.retractGndAtom(atom)
+                #db.retractGndAtom(atom)
+            for pred in ['dobj','is_a']:
+                for atom in list(db.iterGroundLiteralStrings(pred)):
+                    db_.addGroundAtom(atom[1],atom[0])
             
             try:
-#                 mrf = mln.groundMRF(db)
-#                 conv = WCSPConverter(mrf)
-#                 resultDB = conv.getMostProbableWorldDB()
-                resultDB = mln.infer(InferenceMethods.WCSP, queryPred, db, cwPreds=[p for p in mln.predicates if p != self.params.queryPred])
+                db_.writeToFile(os.path.join(self.params.directory, 'test_infer_dbs_%d.db' % self.params.foldIdx))
+                
+                resultDB = mln.infer(InferenceMethods.WCSP, queryPred, db_, cwPreds=[p for p in mln.predicates if p != self.params.queryPred])
                 
                 sig2 = list(sig)
                 entityIdx = mln.predicates[queryPred].index(queryDom)
@@ -171,7 +172,7 @@ class XValFold(object):
                 learnDBs_ = noisyStrTrans.materializeNoisyDomains(self.params.learnDBs)
                 testDBs_ = noisyStrTrans.transformDBs(self.params.testDBs)
             else:
-                learnDBs_ = createLearnDBs(self.params.mln, self.params.learnDBs)
+                learnDBs_ = self.params.learnDBs
                 testDBs_ = self.params.testDBs
 
             # train the MLN
@@ -190,6 +191,7 @@ class XValFold(object):
                                           evidencePreds=["is_a","dobj"])#200
             # store the learned MLN in a file
             learnedMLN.writeToFile(os.path.join(directory, 'run_%d.mln' % self.params.foldIdx))
+            learnedMLN = readMLNFromFile(os.path.join(directory, 'run_%d.mln' % self.params.foldIdx), verbose=verbose,logic="FuzzyLogic")
             log.debug('Finished learning.')
             # evaluate the MLN
             log.debug('Evaluating.')
@@ -198,6 +200,10 @@ class XValFold(object):
 #                 self.params.cwPreds = [p for p in mln.predicates if p != self.params.queryPred]
 #             for pred in [pred for pred in self.params.cwPreds if pred in learnedMLN.predicates]:
 #                 learnedMLN.setClosedWorldPred(pred)
+            testDBs_ = createTestDBs(learnedMLN, testDBs_ )
+            dbfile = open(os.path.join(directory, 'test_dbs_%d.db' % self.params.foldIdx), 'w+')
+            Database.writeDBs(testDBs_, dbfile)
+            dbfile.close()
             self.evalMLN(learnedMLN, testDBs_)
             self.confMatrix.toFile(os.path.join(directory, 'conf_matrix_%d.cm' % self.params.foldIdx))
             log.debug('Evaluation finished.')
@@ -280,7 +286,48 @@ def runFold(fold):
 
 def createLearnDBs(mln,dbs):
     return createIsAEvidence(mln, dbs, 'sense', 'has_sense(?w,?s)', "?s", False)
+
+def createTestDBs(mln,dbs):
+    # mapping from PennTreebank POS tags to NLTK POS Tags
+    nounTags = ['NN', 'NNS', 'NNP', 'CD']
+    verbTags = ['VB', 'VBG', 'VBZ', 'VBD', 'VBN', 'VBP', 'MD']
+    posMap = {}
+    for n in nounTags:
+        posMap[n] = 'n'
+    for v in verbTags:
+        posMap[v] = 'v'
     
+    dbs_ = []
+    wordnet = WordNet(concepts=None)
+    
+    concepts = mln.domains.get('concept', [])
+    word2senses = defaultdict(list)
+    for db in dbs:
+        
+        db_ = db.duplicate()
+        for res in db.query('has_pos(?word,?pos)'):
+            word_const = res['?word']
+            pos = posMap.get(res['?pos'], None)
+            
+            word = word_const.split('-')[0]
+            for i, synset in enumerate(wordnet.synsets(word, pos)):
+                sense_id = synset.name#'%s-%.2d' % (word_const, i+1)
+                word2senses[word_const].append(sense_id)
+                for concept in concepts:
+#                     sim = wordnet.semilarity(synset, concept)
+                    sim = wordnet.wup_similarity(synset, concept)
+                    
+                    atom =  'is_a(%s,%s)' % (sense_id, concept)
+                    atomExists = False
+                    #To aviod the same evidences
+                    for _ in db_.query(atom):
+                        atomExists = True
+                    if atomExists == False:
+                        db_.addGroundAtom('is_a(%s,%s)' % (sense_id, concept),sim)
+        
+        dbs_.append(db_)
+    return dbs_
+
 if __name__ == '__main__':
     (options, args) = parser.parse_args()
     folds = options.folds
@@ -360,7 +407,6 @@ if __name__ == '__main__':
     for i in range(folds):
         partition.append(dbs[i*partSize:(i+1)*partSize])
     
-    
     foldRunnables = []
     for foldIdx in range(folds):
         params = XValFoldParams()
@@ -368,7 +414,8 @@ if __name__ == '__main__':
         params.learnDBs = []
         for dbs in [d for i, d in enumerate(partition) if i != foldIdx]:
             params.learnDBs.extend(dbs)
-        params.testDBs = partition[foldIdx]
+        params.learnDBs = createLearnDBs(params.mln, params.learnDBs)
+        params.testDBs = createTestDBs(params.mln, partition[foldIdx])
         params.foldIdx = foldIdx
         params.foldCount = folds
         params.noisyStringDomains = noisy
