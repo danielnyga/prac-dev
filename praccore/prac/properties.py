@@ -3,15 +3,12 @@
 chrcolorspecs = {  'pink.s.01': (335,87,87),
                 'purple.s.01': (290,87,87),
                 'blue.s.01': (235,87,87),
-                'cyan.s.01': (150,87,87),
                 'light-blue.s.01': (175,87,87),
+                'cyan.s.01': (150,87,87),
                 'green.s.01': (115,87,87),
-                'green.n.01': (115,87,87),
                 'yellow.s.01': (50,87,87),
                 'yellowish.s.01': (50,87,87),
-                'yellow.n.01': (50,87,87),
                 'orange.s.01': (20,87,87),
-                'orange.n.02': (20,87,87),
                 'brown.s.01': (20,87,97),
                 'red.s.01': (0,87,87),
                 'blood-red.s.01': (0,89,55)
@@ -26,31 +23,6 @@ achrcolorspecs = { 'black.a.01': (0,55,5),
                 'gray.s.01': (0,5,50),
                 'grayish.s.01': (0,5,50)
 		}
-
-allcolorspecs = {  'pink.s.01': (335,87,87),
-                'purple.s.01': (290,87,87),
-                'blue.s.01': (235,87,87),
-                'cyan.s.01': (150,87,87),
-                'light-blue.s.01': (175,87,87),
-                'green.s.01': (115,87,87),
-                'green.n.01': (115,87,87),
-                'yellow.s.01': (50,87,87),
-                'yellowish.s.01': (50,87,87),
-                'yellow.n.01': (50,87,87),
-                'orange.s.01': (20,87,87),
-                'orange.n.02': (20,87,87),
-                'brown.s.01': (20,87,97),
-                'red.s.01': (0,87,87),
-                'blood-red.s.01': (0,89,55),
-                'black.a.01': (0,55,5), 
-                'blackish.s.01': (0,55,5), 
-                'white.a.01': (0,5,95),
-                'whitish.s.02': (0,5,95),
-                'grey.s.01': (0,5,50),
-                'greyish.s.01': (0,5,50),
-                'gray.s.01': (0,5,50),
-                'grayish.s.01': (0,5,50)
-                }                
 
 
 # similarity represented by (#edges, #angles, #faces, #subjective similarity)
@@ -99,7 +71,7 @@ shapespecs = {  'crescent.s.01': (2,2,1,0),
                 'cuneate.s.01': (3,3,1,28), #keilfoermig
                 'conic.a.01': (2,1,2,29),
                 'tapered.s.01': (2,1,2,30), #kegelfoermig
-                'asteroid.s.01': (12,6,1,35),
+                'star-shaped.s.01': (10,5,1,35),
                 'cordate.s.01': (2,2,1,40), #herzfoermig
                 'convex.a.01': (1,1,2,40),
                 'concave.a.01': (3,3,2,40),
