@@ -44,6 +44,7 @@ from logging import FileHandler
 from collections import defaultdict
 from prac.wordnet import WordNet
 from isACreator import createIsAEvidence
+import re
 
 usage = '''Usage: %prog [options] <predicate> <domain> <mlnfile> <dbfiles>'''
 
@@ -141,19 +142,13 @@ class XValFold(object):
                 
                 resultDB = mln.infer(InferenceMethods.WCSP, queryPred, db_)
                 
-                sig2 = list(sig)
-                entityIdx = mln.predicates[queryPred].index(queryDom)
-                for entity in db.domains[queryDom]:
-                    sig2[entityIdx] = entity
-                    query = '%s(%s)' % (queryPred, ','.join(sig2))
-                    for truth in trueDB.query(query):
-                        truth = truth.values().pop()
-                    for pred in resultDB.query(query):
-                        pred = pred.values().pop()
-                    self.confMatrix.addClassificationResult(pred, truth)
-                for e, v in trueDB.evidence.iteritems():
-                    if v is not None:
-                        db.addGroundAtom('%s%s' % ('' if v is True else '!', e))
+                for predicate in trueDB.iterGroundLiteralStrings('ac_word'):
+                    group = re.split(',',re.split('ac_word\w*\(|\)',predicate[1])[1])
+                    truth = group[0];
+                    query = 'ac_word(?s)'
+                    for result in resultDB.query(query):
+                        pred = result['?s']
+                        self.confMatrix.addClassificationResult(truth, pred)
             except:
                 log.critical(''.join(traceback.format_exception(*sys.exc_info())))
 
