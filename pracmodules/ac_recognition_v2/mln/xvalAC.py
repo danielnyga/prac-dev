@@ -79,7 +79,7 @@ class XValFoldParams(object):
         self.learningRate = .5
         self.maxrepeat = 1
         self.queryPreds = []
-        self.partSize = 1
+        self.partSize = 2
         self.maxiter = None
         self.verbose = False
         self.noisyStringDomains = None
