@@ -77,7 +77,7 @@ class XValFoldParams(object):
         self.gtol = 0.001
         self.learningRate = .5
         self.maxrepeat = 1
-        self.queryPreds = ['object']
+        self.queryPreds = []
         self.partSize = 1
         self.maxiter = None
         self.verbose = False
@@ -139,7 +139,7 @@ class XValFold(object):
             try:
                 db_.writeToFile(os.path.join(self.params.directory, 'test_infer_dbs_%d.db' % self.params.foldIdx))
                 
-                resultDB = mln.infer(InferenceMethods.WCSP, queryPred, db_, cwPreds=[p for p in mln.predicates if p != self.params.queryPred])
+                resultDB = mln.infer(InferenceMethods.WCSP, queryPred, db_)
                 
                 sig2 = list(sig)
                 entityIdx = mln.predicates[queryPred].index(queryDom)
@@ -185,7 +185,6 @@ class XValFold(object):
                                           maxiter=self.params.maxiter,
                                           learningRate=self.params.learningRate,
                                           partSize=self.params.partSize,
-                                          queryPreds=self.params.queryPreds,
                                           maxrepeat=self.params.maxrepeat,
                                           gtol=self.params.gtol,
                                           evidencePreds=["is_a","dobj"])#200

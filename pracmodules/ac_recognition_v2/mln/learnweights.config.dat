@@ -12,7 +12,7 @@ S'dobj,is_a'
 p5
 sS'output_filename'
 p6
-S'wts.pydcll.fuzzy_training-ac.mln'
+S'wts.pydcll.train_dbs_0-ac.mln'
 p7
 sS'discrPredicates'
 p8
@@ -22,7 +22,7 @@ p9
 I0
 sS'params1'
 p10
-S"partSize=2,optimizer='cg'"
+S"partSize=1,optimizer='cg',maxrepeat=1"
 p11
 sS'pattern'
 p12
@@ -47,11 +47,11 @@ S'[discriminative] composite-log-likelihood'
 p20
 sS'db'
 p21
-S'fuzzy_training.db'
+S'train_dbs_0.db'
 p22
 sS'priorMean'
 p23
-S'0'
+S'10'
 p24
 sS'queryPreds'
 p25
@@ -65,7 +65,7 @@ S'PRACGrammar'
 p28
 sS'geometry'
 p29
-S'927x1028+993+52'
+S'927x1028+992+52'
 p30
 sS'mln'
 p31
