@@ -56,6 +56,7 @@ parser.add_option('--altMLN', dest='altMLN', type='str', default=None,
                   help='Alternative mln for loading the database files. Optional')
 parser.add_option('--logic', dest='logic', type='str', default='FuzzyLogic',
                   help='The logic to load the mln with.')
+parser.add_option("--onthefly", dest="onthefly", default=False, action='store_true', help="Generate MLN on the fly")    
 
 class XValFoldParams(object):
     
@@ -79,6 +80,7 @@ class XValFoldParams(object):
         self.mln = None
         self.altmln = None
         self.module = None
+        self.onthefly = False
         for p, val in params.iteritems():
             setattr(self, str(p), val)
             
@@ -182,6 +184,7 @@ class XValFold(object):
             praclearn = PRACLearning(module.prac)
             praclearn.otherParams['mln'] = self.params.mlnFileName
             praclearn.otherParams['logic'] = self.params.logic
+            praclearn.otherParams['onthefly'] = self.params.onthefly
             praclearn.training_dbs = learnDBs_
 
             learnedMLN = module.train(praclearn)
@@ -291,6 +294,7 @@ if __name__ == '__main__':
     mlnFileName = options.mln
     altMLNFileName = options.altMLN or options.mln # equal to mlnFileName if no alternative mln given
     logic = options.logic
+    onthefly = options.onthefly
     
     startTime = time.time()
 
@@ -331,12 +335,14 @@ if __name__ == '__main__':
     module = prac.getModuleByName(moduleName)
 
     # read MLN and dbs
-    altMLN = readMLNFromFile(mlnFileName, logic=logic)
-    mln_ = readMLNFromFile(altMLNFileName, logic=logic)
-
+    # altMLN = readMLNFromFile(mlnFileName, logic=logic)
+    # mln_ = readMLNFromFile(altMLNFileName, logic=logic)
+    mln_ = readMLNFromFile(mlnFileName, logic=logic)
+    altMLN = readMLNFromFile(altMLNFileName, logic=logic)
+    
     dbs = []
     for dbfile in dbfiles:
-        db = readDBFromFile(mln_, dbfile)
+        db = readDBFromFile(altMLN, dbfile)
         if type(db) is list:
             dbs.extend(db)
         else:
@@ -381,6 +387,7 @@ if __name__ == '__main__':
         params.logic = logic
         params.mlnFileName = mlnFileName
         params.altMLNFileName = altMLNFileName
+        params.onthefly = onthefly
         foldRunnables.append(XValFold(params))
         log.info('Params for fold %d:\n%s' % (foldIdx, str(params)))
     
@@ -395,16 +402,19 @@ if __name__ == '__main__':
             cm = ConfusionMatrix()
             for r in result:
                 cm.combine(r.confMatrix)
-            elapsedTimeMP = time.time() - startTime
+            elapsedTime = time.time() - startTime
             cm.toFile(os.path.join(expdir, 'conf_matrix.cm'))
 
             cm.precisionsToFile(os.path.join(expdir, 'precisions.txt'))
             cm.precisionsToFile(os.path.join(expdir, 'precisions_sim.txt'), sim=True)
 
             pdfname = 'conf_matrix'
+            pdfnameSim = 'conf_matrix_sim'
             log.info('creating pdf if confusion matrix...')
             cm.toPDF(pdfname)
-            os.rename('%s.pdf' % pdfname, os.path.join(expdir, '%s.pdf' % pdfname))
+            cm.toPDF(pdfnameSim, sim=True)
+            os.rename('{}.pdf'.format(pdfname), os.path.join(expdir, '{}.pdf'.format(pdfname)))
+            os.rename('{}_sim.pdf'.format(pdfname), os.path.join(expdir, '{}_sim.pdf'.format(pdfname)))
         except (KeyboardInterrupt, SystemExit, SystemError):
             log.critical("Caught KeyboardInterrupt, terminating workers")
             workerPool.terminate()
@@ -414,23 +424,22 @@ if __name__ == '__main__':
             log.error('\n' + ''.join(traceback.format_exception(*sys.exc_info())))
             exit(1)
     else:
-        log.info('Starting %d-fold Cross-Validation in 1 process.' % (folds))
+        log.info('Starting {}-fold Cross-Validation in 1 process.'.format(folds))
         cm = ConfusionMatrix()
         for fold in foldRunnables:
             cm.combine(runFold(fold).confMatrix)
-            cm.toPDF(os.path.join(expdir, 'tempconf_matrix{}.pdf'.format(fold)))
-        elapsedTimeSP = time.time() - startTime
+        elapsedTime = time.time() - startTime
         cm.toFile(os.path.join(expdir, 'conf_matrix.cm'))
 
         cm.precisionsToFile(os.path.join(expdir, 'precisions.txt'))
         cm.precisionsToFile(os.path.join(expdir, 'precisions_sim.txt'), sim=True)
 
         pdfname = 'conf_matrix'
+        pdfnameSim = 'conf_matrix_sim'
         log.info('creating pdf if confusion matrix...')
         cm.toPDF(pdfname)
-        os.rename('%s.pdf' % pdfname, os.path.join(expdir, '%s.pdf' % pdfname))
+        cm.toPDF(pdfnameSim, sim=True)
+        os.rename('{}.pdf'.format(pdfname), os.path.join(expdir, '{}.pdf'.format(pdfname)))
+        os.rename('{}_sim.pdf'.format(pdfname), os.path.join(expdir, '{}_sim.pdf'.format(pdfname)))
     
-    if multicore:
-        log.info('%d-fold crossvalidation (MP) took %.2f min' % (folds, elapsedTimeMP / 60.0))
-    else:
-        log.info('%d-fold crossvalidation (SP) took %.2f min' % (folds, elapsedTimeSP / 60.0))
+        log.info('{}-fold crossvalidation {} took {:.2f} min'.format(folds, '(MP)' if multicore else '(SP)', elapsedTime / 60.0))

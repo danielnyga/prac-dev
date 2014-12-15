@@ -74,7 +74,7 @@ class PropExtraction(PRACModule):
             # infer and update output
             result_dbs = list(kb.infer(db))
             
-            # result_dbs = self.printResults(result_dbs, pracinference.instructions, wordnet_module)
+            result_dbs = self.printResults(result_dbs, pracinference.instructions, wordnet_module)
 
             # inf_step.output_dbs.extend(output_dbs)
             inf_step.output_dbs.extend(result_dbs)

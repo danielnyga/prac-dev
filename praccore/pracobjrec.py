@@ -40,6 +40,7 @@ parser.add_option("-i", "--interactive", dest="interactive", default=False, acti
 parser.add_option("-o", "--useOld", dest="useOld", default=False, action='store_true', help="Uses property(x,y,{COLOR,SIZE,HYPERNYM...}) instead of color(x,y), size(x,y)...")
 parser.add_option("-t", "--train", dest="trainMLN", nargs=1, default=None, help="Train given MLN with inference results from argument. Example: pracobjrec -t orange.n.01 'It is a yellow or orange fruit.'")    
 parser.add_option("-r", "--regular", dest="regular", default=False, action='store_true', help="Runs regular inference pipeline. Arguments: mlnName")    
+parser.add_option("-f", "--onthefly", dest="onthefly", default=False, action='store_true', help="Generate MLN on the fly")    
 parser.add_option("-m", "--mln", nargs=2, dest='mln', default=None, help="Runs regular inference pipeline. Arguments: mlnName")  
 
 if __name__ == '__main__':
@@ -83,6 +84,7 @@ if __name__ == '__main__':
         praclearn.otherParams['mln'] = options.mln[0]
         praclearn.otherParams['logic'] = options.mln[1]
         praclearn.otherParams['concept'] = options.trainMLN
+        praclearn.otherParams['onthefly'] = options.onthefly
         praclearn.training_dbs = infer.inference_steps[-1].output_dbs
 
         objRecog.train(praclearn)

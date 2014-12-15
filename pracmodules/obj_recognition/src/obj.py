@@ -72,8 +72,8 @@ class NLObjectRecognition(PRACModule):
             # find properties and add word similarities
             propsFound = self.processDB(db)
             output_db = wordnet_module.add_similarities(db, kb.query_mln.domains, propsFound)
-            log.info(mln.domains)
-            log.info(propsFound)
+            # log.info(mln.domains)
+            # log.info(propsFound)
             output_db.write(sys.stdout, color=True)
             
             # infer and update output dbs
@@ -93,6 +93,7 @@ class NLObjectRecognition(PRACModule):
         mlnName =  praclearning.otherParams.get('mln', None)
         mlnLogic =  praclearning.otherParams.get('logic', None)
         objName = praclearning.otherParams.get('concept', None)
+        onTheFly = praclearning.otherParams.get('onthefly', False)
 
         mln = readMLNFromFile(mlnName, logic=mlnLogic)
         pracTrainingDBS = praclearning.training_dbs
@@ -113,7 +114,11 @@ class NLObjectRecognition(PRACModule):
                 trainingDBS.append(db)
 
         outputfile = '{}_trained.mln'.format(mlnName.split('.')[0])
-        trainedMLN = mln.learnWeights(trainingDBS, LearningMethods.DCLL, evidencePreds=possibleProps, partSize=1, gaussianPriorSigma=10, useMultiCPU=0, optimizer='cg', learningRate=0.9)
+        if onTheFly: # generating formulas from training examples
+            print 'generating on the fly'
+            trainedMLN = self.generateMLN(trainingDBS, mln)
+        else: # learning mln
+            trainedMLN = mln.learnWeights(trainingDBS, LearningMethods.DCLL, evidencePreds=possibleProps, partSize=1, gaussianPriorSigma=10, useMultiCPU=0, optimizer='cg', learningRate=0.9)
         
         print colorize('+=============================================+', (None, 'green', True), True)
         print colorize('| LEARNT FORMULAS:                            |', (None, 'green', True), True)
@@ -140,3 +145,35 @@ class NLObjectRecognition(PRACModule):
                     propsFound[prop].append(word)
                 propsFound['cluster'] = cluster
         return propsFound
+
+    def generateMLN(self, dbs, mln):
+        newMLN = mln.duplicate()
+        propsFound = {}
+        for db in dbs:
+            for oq in db.query('object(?cluster, ?objID)'):
+                objID = oq['?objID']
+            props = self.processDB(db)
+            props.pop('cluster', 'cluster')
+            if objID not in propsFound:
+                propsFound[objID] = props
+            else:
+                tmp = propsFound[objID]
+                for p in props:
+                    if p not in tmp: 
+                        tmp[p] = props[p]
+                    else:
+                        tmp[p].extend(props[p])
+                        tmp[p] = list(set(tmp[p]))
+                propsFound[objID] = tmp
+        print propsFound
+        maxLen = 1.
+        for objID in propsFound:
+            temp = propsFound[objID].copy()
+            for p1 in propsFound[objID]:
+                temp.pop(p1)
+                for p2 in temp:
+                    maxLen = max(len(propsFound[objID][p1]), len(temp[p2]))
+                    for w1 in propsFound[objID][p1]:
+                        for w2 in temp[p2]:
+                            newMLN.addFormula('object(?cluster,{0}) ^ {1}(?cluster,{2}) ^ {3}(?cluster,{4})'.format(objID, p1, w1, p2, w2), weight=1./maxLen)
+        return newMLN

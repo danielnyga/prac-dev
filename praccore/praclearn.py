@@ -36,6 +36,7 @@ parser.add_option('--mt', action='callback', type='string', callback=parse_list,
 parser.add_option('--module', action='callback', type='string', callback=parse_list, dest='modules')
 parser.add_option('--dbs', action='callback', type='string', callback=parse_list, dest='training_dbs')
 parser.add_option('--mln', type='string', nargs=2, dest='mln', default=None)
+parser.add_option('--onthefly', dest='onthefly', default=False, action='store_true', help="Generates MLN on the fly. No learning")    
 
 
 if __name__ == '__main__':
@@ -56,6 +57,7 @@ if __name__ == '__main__':
     if options.mln is not None:
         praclearn.otherParams['mln'] = options.mln[0]
         praclearn.otherParams['logic'] = options.mln[1]
+        praclearn.otherParams['onthefly'] = options.onthefly
 
     for m in praclearn.modules:
         module = prac.getModuleByName(m)
