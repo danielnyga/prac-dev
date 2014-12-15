@@ -92,3 +92,52 @@
 1.00 has_sense(slice,slice.v.03)
 1.00 has_sense(bacon,bacon.n.01)
 1.00 dobj(slice, bacon)
+
+---
+
+// cut the mushroom .
+1.00 has_pos(cut,VB)
+1.00 has_pos(mushroom,NN)
+1.00 ac_word(AC_CUT)
+1.00 has_sense(cut,cut.v.01)
+1.00 has_sense(mushroom,mushroom.n.05)
+1.00 dobj(cut, mushroom)
+---
+
+// cut the meat with a chopper
+1.00 has_pos(cut,VB)
+1.00 has_pos(meat,NN)
+//1.00 has_pos(chopper,NN)
+1.00 ac_word(AC_CUT)
+1.00 has_sense(cut,cut.v.01)
+1.00 has_sense(meat,meat.n.01)
+//1.00 has_sense(chopper,cleaver.n.01)
+1.00 dobj(cut, meat)
+---
+
+// Carefully cut the cabbage.
+1.00 has_pos(cut,VB)
+1.00 has_pos(cabbage,NN)
+1.00 ac_word(AC_CUT)
+1.00 has_sense(cut,cut.v.01)
+1.00 has_sense(cabbage,cabbage.n.01)
+1.00 dobj(cut, cabbage)
+---
+
+// Thinly cut remaining lemon .
+1.00 has_pos(cut,VB)
+1.00 has_pos(lemon,NN)
+1.00 ac_word(AC_CUT)
+1.00 has_sense(cut,cut.v.01)
+1.00 has_sense(lemon,lemon.n.01)
+1.00 dobj(cut, lemon)
+---
+
+// finely slice the bacon and grate the parmesan .
+1.00 has_pos(cut,VB)
+1.00 has_pos(bacon,NN)
+1.00 ac_word(AC_CUT)
+1.00 has_sense(cut,cut.v.01)
+1.00 has_sense(bacon,bacon.n.01)
+1.00 dobj(cut, bacon)
+
