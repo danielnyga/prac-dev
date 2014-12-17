@@ -79,7 +79,7 @@ class XValFoldParams(object):
         self.learningRate = .5
         self.maxrepeat = 1
         self.queryPreds = []
-        self.partSize = 1
+        self.partSize = 2
         self.maxiter = None
         self.verbose = False
         self.noisyStringDomains = None
@@ -140,7 +140,7 @@ class XValFold(object):
             try:
                 db_.writeToFile(os.path.join(self.params.directory, 'test_infer_dbs_%d.db' % self.params.foldIdx))
                 
-                resultDB = mln.infer(InferenceMethods.WCSP, queryPred, db_)
+                resultDB = mln.infer(InferenceMethods.WCSP, queryPred, db_,cwPreds=['dobj'])
                 
                 for predicate in trueDB.iterGroundLiteralStrings('ac_word'):
                     group = re.split(',',re.split('ac_word\w*\(|\)',predicate[1])[1])
@@ -148,6 +148,8 @@ class XValFold(object):
                     query = 'ac_word(?s)'
                     for result in resultDB.query(query):
                         pred = result['?s']
+                        print "PRED " + pred
+                        print "TRUTH" + truth
                         self.confMatrix.addClassificationResult(truth, pred)
             except:
                 log.critical(''.join(traceback.format_exception(*sys.exc_info())))
@@ -182,7 +184,8 @@ class XValFold(object):
                                           partSize=self.params.partSize,
                                           maxrepeat=self.params.maxrepeat,
                                           gtol=self.params.gtol,
-                                          evidencePreds=["is_a","dobj"])#200
+                                          evidencePreds=["is_a","dobj"]
+                                          ,ignoreZeroWeightFormulas=True)#200
             # store the learned MLN in a file
             learnedMLN.writeToFile(os.path.join(directory, 'run_%d.mln' % self.params.foldIdx))
             learnedMLN = readMLNFromFile(os.path.join(directory, 'run_%d.mln' % self.params.foldIdx), verbose=verbose,logic="FuzzyLogic")
@@ -309,7 +312,7 @@ def createTestDBs(mln,dbs):
                 word2senses[word_const].append(sense_id)
                 for concept in concepts:
 #                     sim = wordnet.semilarity(synset, concept)
-                    sim = wordnet.wup_similarity(synset, concept)
+                    sim = wordnet.path_similarity(synset, concept)
                     
                     atom =  'is_a(%s,%s)' % (sense_id, concept)
                     atomExists = False
