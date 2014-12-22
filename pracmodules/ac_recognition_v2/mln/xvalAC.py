@@ -133,14 +133,14 @@ class XValFold(object):
                     atom = atom.replace(binding, bindings[binding])
                 trueDB.addGroundAtom(atom)
                 #db.retractGndAtom(atom)
-            for pred in ['dobj','is_a']:
+            for pred in ['dobj','is_a','has_pos']:
                 for atom in list(db.iterGroundLiteralStrings(pred)):
                     db_.addGroundAtom(atom[1],atom[0])
             
             try:
                 db_.writeToFile(os.path.join(self.params.directory, 'test_infer_dbs_%d.db' % self.params.foldIdx))
                 
-                resultDB = mln.infer(InferenceMethods.WCSP, queryPred, db_,cwPreds=['dobj'])
+                resultDB = mln.infer(InferenceMethods.WCSP, queryPred, db_,cwPreds=['dobj','has_pos'])
                 
                 for predicate in trueDB.iterGroundLiteralStrings('ac_word'):
                     group = re.split(',',re.split('ac_word\w*\(|\)',predicate[1])[1])
@@ -184,7 +184,7 @@ class XValFold(object):
                                           partSize=self.params.partSize,
                                           maxrepeat=self.params.maxrepeat,
                                           gtol=self.params.gtol,
-                                          evidencePreds=["is_a","dobj"]
+                                          evidencePreds=["is_a","dobj","has_pos"]
                                           ,ignoreZeroWeightFormulas=True)#200
             # store the learned MLN in a file
             learnedMLN.writeToFile(os.path.join(directory, 'run_%d.mln' % self.params.foldIdx))
