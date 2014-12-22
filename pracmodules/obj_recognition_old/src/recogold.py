@@ -81,7 +81,6 @@ class OldNLObjectRecognition(PRACModule):
 
         return inf_step
 
-    # TODO: learn incrementally
     def train(self, praclearning):
         print colorize('+=============================================+', (None, 'green', True), True)
         print colorize('| TRAINING KNOWLEDGEBASE...                   |', (None, 'green', True), True)
@@ -92,9 +91,6 @@ class OldNLObjectRecognition(PRACModule):
         mlnName = praclearning.otherParams.get('mln', None) #.split('/')[-1]
         mlnLogic =  praclearning.otherParams.get('logic', None)
         objName = praclearning.otherParams.get('concept', None)
-
-        # mlnPath = os.path.join(self.module_path, 'mln')
-        # newMLNFilePath = os.path.join(self.module_path, os.path.join('mln', mlnName))
 
         mln = readMLNFromFile(mlnName, logic=mlnLogic)
         pracTrainingDBS = praclearning.training_dbs

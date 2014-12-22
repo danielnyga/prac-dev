@@ -1,6 +1,6 @@
 # PROBABILISTIC ROBOT ACTION CORES 
 #
-# (C) 2012-2013 by Mareike Picklum (mareikep@cs.tum.edu)
+# (C) 2014 by Mareike Picklum (mareikep@cs.uni-bremen.de)
 #
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
@@ -54,7 +54,6 @@ class PropExtraction(PRACModule):
         if not hasattr(kb, 'dbs'):
             kb.dbs = pracinference.inference_steps[-1].output_dbs
 
-        # TODO: Remove when final mln exists
         kb.query_mln = readMLNFromFile(os.path.join(self.module_path, 'mln/parsing_trained.mln'), logic='FuzzyLogic')
 
         known_concepts = kb.query_mln.domains.get('concept', [])
@@ -73,7 +72,6 @@ class PropExtraction(PRACModule):
 
             # infer and update output
             result_dbs = list(kb.infer(db))
-            
             result_dbs = self.printResults(result_dbs, pracinference.instructions, wordnet_module)
 
             # inf_step.output_dbs.extend(output_dbs)

@@ -412,13 +412,15 @@ class WordNet(object):
 
         # additional knowledge: if one synset is in the hypernym path of the other, they are considered
         # closely related
-        if self.synsHypRelation(synset1, synset2) > .75: 
-            return self.synsHypRelation(synset1, synset2)
+        if self.synsHypRelation(synset1, synset2) > 0.: #return self.synsHypRelation(synset1, synset2)
+            return self.synsHypRelation(synset1,synset2)
 
         # add additional knowledge: decrease similarity of synsets from different taxonomy branches
         # if not synsInPreDefTaxonomyBranch(synset1, synset2): posDiff += .5
         posDiff += 1 - self.synsTaxonomyBranchRelation(synset1, synset2)
+        return self.wup(synset1,synset2,posDiff)
 
+    def wup(self, synset1, synset2, posDiff=0.):
         # equates WUP Similarity: 2 * depth(lowestCommonHypernym) / depth(synset1) + depth(synset2) because:
         # depth(X) == X.max_depth() + 1
         # posDiff is used to decrease the similarity if one of the synsets is an adjective, to punish
@@ -429,15 +431,14 @@ class WordNet(object):
         dlcs = lcs.max_depth() + 1
         ds1 = synset1.shortest_path_distance(lcs)
         ds2 = synset2.shortest_path_distance(lcs)
-        if not ds1 or not ds2: return 0.
+        if ds1 == None or ds2 == None: return 0.
         ds1 += dlcs
         ds2 += dlcs
 
-        return 2 * dlcs / (ds1 + ds2 + posDiff)
+        return 2. * dlcs / (ds1 + ds2 + posDiff)
 
 
     def synsTaxonomyBranchRelation(self, synset1, synset2):
-        # return any(tb in [hyp.name for hyp in self.flatten(synset1.hypernym_paths())] and tb in [hyp.name for hyp in self.flatten(synset2.hypernym_paths())] for tb in TAXONOMY_BRANCHES)            
         return min([x.min_depth() for x in synset1.lowest_common_hypernyms(synset2)]) / max(synset1.min_depth(), synset2.min_depth())
 
     def synsHypRelation(self, syn1, syn2):

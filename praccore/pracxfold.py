@@ -335,8 +335,6 @@ if __name__ == '__main__':
     module = prac.getModuleByName(moduleName)
 
     # read MLN and dbs
-    # altMLN = readMLNFromFile(mlnFileName, logic=logic)
-    # mln_ = readMLNFromFile(altMLNFileName, logic=logic)
     mln_ = readMLNFromFile(mlnFileName, logic=logic)
     altMLN = readMLNFromFile(altMLNFileName, logic=logic)
     

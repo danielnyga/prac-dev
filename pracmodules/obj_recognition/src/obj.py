@@ -1,6 +1,6 @@
 # PROBABILISTIC ROBOT ACTION CORES 
 #
-# (C) 2012-2013 by Mareike Picklum (mareikep@cs.tum.edu)
+# (C) 2014 by Mareike Picklum (mareikep@cs.uni-bremen.de)
 #
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
@@ -72,8 +72,6 @@ class NLObjectRecognition(PRACModule):
             # find properties and add word similarities
             propsFound = self.processDB(db)
             output_db = wordnet_module.add_similarities(db, kb.query_mln.domains, propsFound)
-            # log.info(mln.domains)
-            # log.info(propsFound)
             output_db.write(sys.stdout, color=True)
             
             # infer and update output dbs
@@ -82,7 +80,6 @@ class NLObjectRecognition(PRACModule):
 
         return inf_step
 
-    # TODO: learn incrementally
     def train(self, praclearning):
         print colorize('+=============================================+', (None, 'green', True), True)
         print colorize('| TRAINING KNOWLEDGEBASE...                   |', (None, 'green', True), True)
