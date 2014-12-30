@@ -269,7 +269,7 @@
 1.00 has_sense(vegetable,vegetable.n.01)
 
 1.00 dobj(stir-9,vegetable)
-1.00 ac_word(AC_STIR_2)
+1.00 ac_word(AC_STIR)
 ---
 
 //Stir the apples
@@ -280,7 +280,7 @@
 1.00 has_sense(apple,apple.n.01)
 
 1.00 dobj(stir-9,apple)
-1.00 ac_word(AC_STIR_2)
+1.00 ac_word(AC_STIR)
 ---
 
 //Stir the banana
@@ -291,7 +291,7 @@
 1.00 has_sense(banana,banana.n.02)
 
 1.00 dobj(stir-9,banana)
-1.00 ac_word(AC_STIR_2)
+1.00 ac_word(AC_STIR)
 ---
 
 //Stir the peanut
@@ -302,65 +302,8 @@
 1.00 has_sense(peanut,peanut.n.04)
 
 1.00 dobj(stir-9,peanut)
-1.00 ac_word(AC_STIR_2)
+1.00 ac_word(AC_STIR)
 ---
-
-//Stir the tomato
-1.00 has_sense(stir-9,stir.v.08)
-1.00 has_pos(stir-9,VB)
-
-1.00 has_pos(tomato,NN)
-1.00 has_sense(tomato,tomato.n.01)
-
-1.00 dobj(stir-9,tomato)
-1.00 ac_word(AC_STIR_2)
-
----
-
-//Stir the egg
-1.00 has_sense(stir-9,stir.v.08)
-1.00 has_pos(stir-9,VB)
-
-1.00 has_pos(egg,NN)
-1.00 has_sense(egg,egg.n.02)
-
-1.00 dobj(stir-9,egg)
-1.00 ac_word(AC_STIR_2)
----
-
-//Stir the butter
-1.00 has_sense(stir-9,stir.v.08)
-1.00 has_pos(stir-9,VB)
-
-1.00 has_pos(butter,NN)
-1.00 has_sense(butter,butter.n.01)
-
-1.00 dobj(stir-9,butter)
-1.00 ac_word(AC_STIR_2)
----
-
-//Stir the sugar
-1.00 has_sense(stir-9,stir.v.08)
-1.00 has_pos(stir-9,VB)
-
-1.00 has_pos(sugar,NN)
-1.00 has_sense(sugar,sugar.n.01)
-
-1.00 dobj(stir-9,sugar)
-1.00 ac_word(AC_STIR_2)
----
-
-//Stir the salt
-1.00 has_sense(stir-9,stir.v.08)
-1.00 has_pos(stir-9,VB)
-
-1.00 has_pos(salt,NN)
-1.00 has_sense(salt,salt.n.02)
-
-1.00 dobj(stir-9,salt)
-1.00 ac_word(AC_STIR_2)
----
-
 //Stir the cream
 1.00 has_sense(stir-9,stir.v.08)
 1.00 has_pos(stir-9,VB)
@@ -369,60 +312,4 @@
 1.00 has_sense(cream,cream.n.02)
 
 1.00 dobj(stir-9,cream)
-1.00 ac_word(AC_STIR_2)
-
----
-
-//Stir the juice
-1.00 has_sense(stir-9,stir.v.01)
-1.00 has_pos(stir-9,VB)
-
-1.00 has_pos(juice,NN)
-1.00 has_sense(juice,juice.n.01)
-
-1.00 dobj(stir-9,juice)
-1.00 ac_word(AC_STIR)
----
-
-//Stir the cappuccino
-1.00 has_sense(stir-9,stir.v.01)
-1.00 has_pos(stir-9,VB)
-
-1.00 has_pos(cappuccino,NN)
-1.00 has_sense(cappuccino,cappuccino.n.01)
-
-1.00 dobj(stir-9,cappuccino)
-1.00 ac_word(AC_STIR)
----
-
-//Stir the wine
-1.00 has_sense(stir-9,stir.v.01)
-1.00 has_pos(stir-9,VB)
-
-1.00 has_pos(wine,NN)
-1.00 has_sense(wine,wine.n.01)
-
-1.00 dobj(stir-9,wine)
-1.00 ac_word(AC_STIR)
----
-
-//Stir the whiskey
-1.00 has_sense(stir-9,stir.v.01)
-1.00 has_pos(stir-9,VB)
-
-1.00 has_pos(whiskey,NN)
-1.00 has_sense(whiskey,whiskey.n.01)
-
-1.00 dobj(stir-9,whiskey)
-1.00 ac_word(AC_STIR)
----
-
-//Stir the champagne
-1.00 has_sense(stir-9,stir.v.01)
-1.00 has_pos(stir-9,VB)
-
-1.00 has_pos(champagne,NN)
-1.00 has_sense(champagne,champagne.n.01)
-
-1.00 dobj(stir-9,champagne)
 1.00 ac_word(AC_STIR)

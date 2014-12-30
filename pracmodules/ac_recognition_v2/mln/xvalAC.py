@@ -122,8 +122,9 @@ class XValFold(object):
         querytempl = '%s(%s)' % (queryPred, ','.join(sig))
         
         dbs = map(lambda db: db.duplicate(), dbs)
-        
+        i = -1
         for db in dbs:
+            i = i + 1
             db_ = Database(mln)
             # save and remove the query predicates from the evidence
             trueDB = Database(mln)
@@ -138,7 +139,7 @@ class XValFold(object):
                     db_.addGroundAtom(atom[1],atom[0])
             
             try:
-                db_.writeToFile(os.path.join(self.params.directory, 'test_infer_dbs_%d.db' % self.params.foldIdx))
+                db_.writeToFile(os.path.join(self.params.directory, 'test_infer_dbs_'+str(self.params.foldIdx)+'_'+str(i)+'.db'))
                 
                 resultDB = mln.infer(InferenceMethods.WCSP, queryPred, db_,cwPreds=['dobj','has_pos'])
                 
