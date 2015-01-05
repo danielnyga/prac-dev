@@ -79,7 +79,7 @@ class XValFoldParams(object):
         self.learningRate = .5
         self.maxrepeat = 1
         self.queryPreds = []
-        self.partSize = 2
+        self.partSize = 1
         self.maxiter = None
         self.verbose = False
         self.noisyStringDomains = None
@@ -134,14 +134,14 @@ class XValFold(object):
                     atom = atom.replace(binding, bindings[binding])
                 trueDB.addGroundAtom(atom)
                 #db.retractGndAtom(atom)
-            for pred in ['dobj','is_a','has_pos']:
+            for pred in ['is_a','has_pos']:
                 for atom in list(db.iterGroundLiteralStrings(pred)):
                     db_.addGroundAtom(atom[1],atom[0])
             
             try:
                 db_.writeToFile(os.path.join(self.params.directory, 'test_infer_dbs_'+str(self.params.foldIdx)+'_'+str(i)+'.db'))
                 
-                resultDB = mln.infer(InferenceMethods.WCSP, queryPred, db_,cwPreds=['dobj','has_pos'])
+                resultDB = mln.infer(InferenceMethods.WCSP, queryPred, db_,cwPreds=['has_pos'])
                 
                 for predicate in trueDB.iterGroundLiteralStrings('ac_word'):
                     group = re.split(',',re.split('ac_word\w*\(|\)',predicate[1])[1])
@@ -185,8 +185,8 @@ class XValFold(object):
                                           partSize=self.params.partSize,
                                           maxrepeat=self.params.maxrepeat,
                                           gtol=self.params.gtol,
-                                          evidencePreds=["is_a","dobj","has_pos"]
-                                          ,ignoreZeroWeightFormulas=True)#200
+                                          evidencePreds=["is_a","dobj","has_pos"],
+                                          ignoreZeroWeightFormulas=True)#200
             # store the learned MLN in a file
             learnedMLN.writeToFile(os.path.join(directory, 'run_%d.mln' % self.params.foldIdx))
             learnedMLN = readMLNFromFile(os.path.join(directory, 'run_%d.mln' % self.params.foldIdx), verbose=verbose,logic="FuzzyLogic")
@@ -283,7 +283,7 @@ def runFold(fold):
     return fold
 
 def createLearnDBs(mln,dbs):
-    return createIsAEvidence(mln, dbs, 'sense', 'has_sense(?w,?s)', "?s", False)
+    return createIsAEvidence(mln, dbs, 'sense', 'has_sense(?w,?s)', "?s", True)
 
 def createTestDBs(mln,dbs):
     # mapping from PennTreebank POS tags to NLTK POS Tags
