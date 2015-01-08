@@ -1,0 +1,336 @@
+// domain declarations
+
+
+// predicate declarations
+is_a(sense,concept)
+ac_word(ac!)
+has_sense(word,sense!)
+has_pos(word,pos!)
+dobj(word,word)
+
+// formulas
+-0.363330   is_a(?s1, fill.v.01) ^ is_a(?s2, milliliter.n.01) ^ is_a(?s3, fruit_juice.n.01) ^ ac_word(AC_FILL_INGREDIENT) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.363330   is_a(?s1, milliliter.n.01) ^ is_a(?s2, fill.v.01) ^ is_a(?s3, fruit_juice.n.01) ^ ac_word(AC_FILL_INGREDIENT) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.363330   is_a(?s1, fill.v.01) ^ is_a(?s2, fruit_juice.n.01) ^ is_a(?s3, milliliter.n.01) ^ ac_word(AC_FILL_INGREDIENT) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.363330   is_a(?s1, fruit_juice.n.01) ^ is_a(?s2, fill.v.01) ^ is_a(?s3, milliliter.n.01) ^ ac_word(AC_FILL_INGREDIENT) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.363355   is_a(?s1, fill.v.01) ^ is_a(?s2, water.n.06) ^ is_a(?s3, liter.n.01) ^ ac_word(AC_FILL_INGREDIENT) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.363355   is_a(?s1, water.n.06) ^ is_a(?s2, fill.v.01) ^ is_a(?s3, liter.n.01) ^ ac_word(AC_FILL_INGREDIENT) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.363350   is_a(?s1, milk.n.01) ^ is_a(?s2, fill.v.01) ^ is_a(?s3, liter.n.01) ^ ac_word(AC_FILL_INGREDIENT) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.363350   is_a(?s1, fill.v.01) ^ is_a(?s2, milk.n.01) ^ is_a(?s3, liter.n.01) ^ ac_word(AC_FILL_INGREDIENT) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.363355   is_a(?s1, fill.v.01) ^ is_a(?s2, liter.n.01) ^ is_a(?s3, water.n.06) ^ ac_word(AC_FILL_INGREDIENT) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.363355   is_a(?s1, liter.n.01) ^ is_a(?s2, fill.v.01) ^ is_a(?s3, water.n.06) ^ ac_word(AC_FILL_INGREDIENT) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.363330   is_a(?s1, milliliter.n.01) ^ is_a(?s2, fruit_juice.n.01) ^ is_a(?s3, fill.v.01) ^ ac_word(AC_FILL_INGREDIENT) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.363330   is_a(?s1, fruit_juice.n.01) ^ is_a(?s2, milliliter.n.01) ^ is_a(?s3, fill.v.01) ^ ac_word(AC_FILL_INGREDIENT) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.363355   is_a(?s1, water.n.06) ^ is_a(?s2, liter.n.01) ^ is_a(?s3, fill.v.01) ^ ac_word(AC_FILL_INGREDIENT) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.363350   is_a(?s1, milk.n.01) ^ is_a(?s2, liter.n.01) ^ is_a(?s3, fill.v.01) ^ ac_word(AC_FILL_INGREDIENT) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.363355   is_a(?s1, liter.n.01) ^ is_a(?s2, water.n.06) ^ is_a(?s3, fill.v.01) ^ ac_word(AC_FILL_INGREDIENT) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.363350   is_a(?s1, liter.n.01) ^ is_a(?s2, milk.n.01) ^ is_a(?s3, fill.v.01) ^ ac_word(AC_FILL_INGREDIENT) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.363350   is_a(?s1, fill.v.01) ^ is_a(?s2, liter.n.01) ^ is_a(?s3, milk.n.01) ^ ac_word(AC_FILL_INGREDIENT) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.363350   is_a(?s1, liter.n.01) ^ is_a(?s2, fill.v.01) ^ is_a(?s3, milk.n.01) ^ ac_word(AC_FILL_INGREDIENT) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-1.123581   is_a(?s1, milliliter.n.01) ^ is_a(?s2, fruit_juice.n.01) ^ is_a(?s3, fruit_juice.n.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-1.090272   is_a(?s1, fill.v.01) ^ is_a(?s2, fruit_juice.n.01) ^ is_a(?s3, fruit_juice.n.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-1.123581   is_a(?s1, fruit_juice.n.01) ^ is_a(?s2, milliliter.n.01) ^ is_a(?s3, fruit_juice.n.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-1.123066   is_a(?s1, milliliter.n.01) ^ is_a(?s2, milliliter.n.01) ^ is_a(?s3, fruit_juice.n.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.633921   is_a(?s1, liter.n.01) ^ is_a(?s2, milliliter.n.01) ^ is_a(?s3, fruit_juice.n.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.635074   is_a(?s1, water.n.06) ^ is_a(?s2, milliliter.n.01) ^ is_a(?s3, fruit_juice.n.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+2.393823    is_a(?s1, fill.v.01) ^ is_a(?s2, milliliter.n.01) ^ is_a(?s3, fruit_juice.n.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.634740   is_a(?s1, milk.n.01) ^ is_a(?s2, milliliter.n.01) ^ is_a(?s3, fruit_juice.n.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.633921   is_a(?s1, milliliter.n.01) ^ is_a(?s2, liter.n.01) ^ is_a(?s3, fruit_juice.n.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.568341   is_a(?s1, fill.v.01) ^ is_a(?s2, liter.n.01) ^ is_a(?s3, fruit_juice.n.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.635074   is_a(?s1, milliliter.n.01) ^ is_a(?s2, water.n.06) ^ is_a(?s3, fruit_juice.n.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.549708   is_a(?s1, fill.v.01) ^ is_a(?s2, water.n.06) ^ is_a(?s3, fruit_juice.n.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-1.090272   is_a(?s1, fruit_juice.n.01) ^ is_a(?s2, fill.v.01) ^ is_a(?s3, fruit_juice.n.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+2.393823    is_a(?s1, milliliter.n.01) ^ is_a(?s2, fill.v.01) ^ is_a(?s3, fruit_juice.n.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.568341   is_a(?s1, liter.n.01) ^ is_a(?s2, fill.v.01) ^ is_a(?s3, fruit_juice.n.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.549708   is_a(?s1, water.n.06) ^ is_a(?s2, fill.v.01) ^ is_a(?s3, fruit_juice.n.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-1.090272   is_a(?s1, fill.v.01) ^ is_a(?s2, fill.v.01) ^ is_a(?s3, fruit_juice.n.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.550099   is_a(?s1, milk.n.01) ^ is_a(?s2, fill.v.01) ^ is_a(?s3, fruit_juice.n.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.634740   is_a(?s1, milliliter.n.01) ^ is_a(?s2, milk.n.01) ^ is_a(?s3, fruit_juice.n.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.550099   is_a(?s1, fill.v.01) ^ is_a(?s2, milk.n.01) ^ is_a(?s3, fruit_juice.n.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-1.123581   is_a(?s1, fruit_juice.n.01) ^ is_a(?s2, fruit_juice.n.01) ^ is_a(?s3, milliliter.n.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-1.123066   is_a(?s1, milliliter.n.01) ^ is_a(?s2, fruit_juice.n.01) ^ is_a(?s3, milliliter.n.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.633921   is_a(?s1, liter.n.01) ^ is_a(?s2, fruit_juice.n.01) ^ is_a(?s3, milliliter.n.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.635074   is_a(?s1, water.n.06) ^ is_a(?s2, fruit_juice.n.01) ^ is_a(?s3, milliliter.n.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+2.393823    is_a(?s1, fill.v.01) ^ is_a(?s2, fruit_juice.n.01) ^ is_a(?s3, milliliter.n.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.634740   is_a(?s1, milk.n.01) ^ is_a(?s2, fruit_juice.n.01) ^ is_a(?s3, milliliter.n.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-1.123066   is_a(?s1, fruit_juice.n.01) ^ is_a(?s2, milliliter.n.01) ^ is_a(?s3, milliliter.n.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-1.123066   is_a(?s1, fill.v.01) ^ is_a(?s2, milliliter.n.01) ^ is_a(?s3, milliliter.n.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.633921   is_a(?s1, fruit_juice.n.01) ^ is_a(?s2, liter.n.01) ^ is_a(?s3, milliliter.n.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.568341   is_a(?s1, fill.v.01) ^ is_a(?s2, liter.n.01) ^ is_a(?s3, milliliter.n.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.635074   is_a(?s1, fruit_juice.n.01) ^ is_a(?s2, water.n.06) ^ is_a(?s3, milliliter.n.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.549708   is_a(?s1, fill.v.01) ^ is_a(?s2, water.n.06) ^ is_a(?s3, milliliter.n.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+2.393823    is_a(?s1, fruit_juice.n.01) ^ is_a(?s2, fill.v.01) ^ is_a(?s3, milliliter.n.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-1.123066   is_a(?s1, milliliter.n.01) ^ is_a(?s2, fill.v.01) ^ is_a(?s3, milliliter.n.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.568341   is_a(?s1, liter.n.01) ^ is_a(?s2, fill.v.01) ^ is_a(?s3, milliliter.n.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.549708   is_a(?s1, water.n.06) ^ is_a(?s2, fill.v.01) ^ is_a(?s3, milliliter.n.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-1.123581   is_a(?s1, fill.v.01) ^ is_a(?s2, fill.v.01) ^ is_a(?s3, milliliter.n.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.550099   is_a(?s1, milk.n.01) ^ is_a(?s2, fill.v.01) ^ is_a(?s3, milliliter.n.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.634740   is_a(?s1, fruit_juice.n.01) ^ is_a(?s2, milk.n.01) ^ is_a(?s3, milliliter.n.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.550099   is_a(?s1, fill.v.01) ^ is_a(?s2, milk.n.01) ^ is_a(?s3, milliliter.n.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.633921   is_a(?s1, milliliter.n.01) ^ is_a(?s2, fruit_juice.n.01) ^ is_a(?s3, liter.n.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.568341   is_a(?s1, fill.v.01) ^ is_a(?s2, fruit_juice.n.01) ^ is_a(?s3, liter.n.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.633921   is_a(?s1, fruit_juice.n.01) ^ is_a(?s2, milliliter.n.01) ^ is_a(?s3, liter.n.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.568341   is_a(?s1, fill.v.01) ^ is_a(?s2, milliliter.n.01) ^ is_a(?s3, liter.n.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.363376   is_a(?s1, fill.v.01) ^ is_a(?s2, water.n.06) ^ is_a(?s3, liter.n.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.568341   is_a(?s1, fruit_juice.n.01) ^ is_a(?s2, fill.v.01) ^ is_a(?s3, liter.n.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.568341   is_a(?s1, milliliter.n.01) ^ is_a(?s2, fill.v.01) ^ is_a(?s3, liter.n.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.363376   is_a(?s1, water.n.06) ^ is_a(?s2, fill.v.01) ^ is_a(?s3, liter.n.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.363392   is_a(?s1, milk.n.01) ^ is_a(?s2, fill.v.01) ^ is_a(?s3, liter.n.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.363392   is_a(?s1, fill.v.01) ^ is_a(?s2, milk.n.01) ^ is_a(?s3, liter.n.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.635074   is_a(?s1, milliliter.n.01) ^ is_a(?s2, fruit_juice.n.01) ^ is_a(?s3, water.n.06) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.549708   is_a(?s1, fill.v.01) ^ is_a(?s2, fruit_juice.n.01) ^ is_a(?s3, water.n.06) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.635074   is_a(?s1, fruit_juice.n.01) ^ is_a(?s2, milliliter.n.01) ^ is_a(?s3, water.n.06) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.549708   is_a(?s1, fill.v.01) ^ is_a(?s2, milliliter.n.01) ^ is_a(?s3, water.n.06) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.363376   is_a(?s1, fill.v.01) ^ is_a(?s2, liter.n.01) ^ is_a(?s3, water.n.06) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.549708   is_a(?s1, fruit_juice.n.01) ^ is_a(?s2, fill.v.01) ^ is_a(?s3, water.n.06) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.549708   is_a(?s1, milliliter.n.01) ^ is_a(?s2, fill.v.01) ^ is_a(?s3, water.n.06) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.363376   is_a(?s1, liter.n.01) ^ is_a(?s2, fill.v.01) ^ is_a(?s3, water.n.06) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-1.090272   is_a(?s1, fruit_juice.n.01) ^ is_a(?s2, fruit_juice.n.01) ^ is_a(?s3, fill.v.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+2.393823    is_a(?s1, milliliter.n.01) ^ is_a(?s2, fruit_juice.n.01) ^ is_a(?s3, fill.v.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.568341   is_a(?s1, liter.n.01) ^ is_a(?s2, fruit_juice.n.01) ^ is_a(?s3, fill.v.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.549708   is_a(?s1, water.n.06) ^ is_a(?s2, fruit_juice.n.01) ^ is_a(?s3, fill.v.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-1.090272   is_a(?s1, fill.v.01) ^ is_a(?s2, fruit_juice.n.01) ^ is_a(?s3, fill.v.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.550099   is_a(?s1, milk.n.01) ^ is_a(?s2, fruit_juice.n.01) ^ is_a(?s3, fill.v.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+2.393823    is_a(?s1, fruit_juice.n.01) ^ is_a(?s2, milliliter.n.01) ^ is_a(?s3, fill.v.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-1.123066   is_a(?s1, milliliter.n.01) ^ is_a(?s2, milliliter.n.01) ^ is_a(?s3, fill.v.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.568341   is_a(?s1, liter.n.01) ^ is_a(?s2, milliliter.n.01) ^ is_a(?s3, fill.v.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.549708   is_a(?s1, water.n.06) ^ is_a(?s2, milliliter.n.01) ^ is_a(?s3, fill.v.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-1.123581   is_a(?s1, fill.v.01) ^ is_a(?s2, milliliter.n.01) ^ is_a(?s3, fill.v.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.550099   is_a(?s1, milk.n.01) ^ is_a(?s2, milliliter.n.01) ^ is_a(?s3, fill.v.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.568341   is_a(?s1, fruit_juice.n.01) ^ is_a(?s2, liter.n.01) ^ is_a(?s3, fill.v.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.568341   is_a(?s1, milliliter.n.01) ^ is_a(?s2, liter.n.01) ^ is_a(?s3, fill.v.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.363376   is_a(?s1, water.n.06) ^ is_a(?s2, liter.n.01) ^ is_a(?s3, fill.v.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.363392   is_a(?s1, milk.n.01) ^ is_a(?s2, liter.n.01) ^ is_a(?s3, fill.v.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.549708   is_a(?s1, fruit_juice.n.01) ^ is_a(?s2, water.n.06) ^ is_a(?s3, fill.v.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.549708   is_a(?s1, milliliter.n.01) ^ is_a(?s2, water.n.06) ^ is_a(?s3, fill.v.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.363376   is_a(?s1, liter.n.01) ^ is_a(?s2, water.n.06) ^ is_a(?s3, fill.v.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-1.090272   is_a(?s1, fruit_juice.n.01) ^ is_a(?s2, fill.v.01) ^ is_a(?s3, fill.v.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-1.123581   is_a(?s1, milliliter.n.01) ^ is_a(?s2, fill.v.01) ^ is_a(?s3, fill.v.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.550099   is_a(?s1, fruit_juice.n.01) ^ is_a(?s2, milk.n.01) ^ is_a(?s3, fill.v.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.550099   is_a(?s1, milliliter.n.01) ^ is_a(?s2, milk.n.01) ^ is_a(?s3, fill.v.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.363392   is_a(?s1, liter.n.01) ^ is_a(?s2, milk.n.01) ^ is_a(?s3, fill.v.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.634740   is_a(?s1, milliliter.n.01) ^ is_a(?s2, fruit_juice.n.01) ^ is_a(?s3, milk.n.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.550099   is_a(?s1, fill.v.01) ^ is_a(?s2, fruit_juice.n.01) ^ is_a(?s3, milk.n.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.634740   is_a(?s1, fruit_juice.n.01) ^ is_a(?s2, milliliter.n.01) ^ is_a(?s3, milk.n.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.550099   is_a(?s1, fill.v.01) ^ is_a(?s2, milliliter.n.01) ^ is_a(?s3, milk.n.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.363392   is_a(?s1, fill.v.01) ^ is_a(?s2, liter.n.01) ^ is_a(?s3, milk.n.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.550099   is_a(?s1, fruit_juice.n.01) ^ is_a(?s2, fill.v.01) ^ is_a(?s3, milk.n.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.550099   is_a(?s1, milliliter.n.01) ^ is_a(?s2, fill.v.01) ^ is_a(?s3, milk.n.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.363392   is_a(?s1, liter.n.01) ^ is_a(?s2, fill.v.01) ^ is_a(?s3, milk.n.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.363330   is_a(?s1, fill.v.01) ^ is_a(?s2, milliliter.n.01) ^ is_a(?s3, fruit_juice.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.557099   is_a(?s1, water.n.06) ^ is_a(?s2, liter.n.01) ^ is_a(?s3, fruit_juice.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-1.090005   is_a(?s1, fill.v.01) ^ is_a(?s2, liter.n.01) ^ is_a(?s3, fruit_juice.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.557099   is_a(?s1, milk.n.01) ^ is_a(?s2, liter.n.01) ^ is_a(?s3, fruit_juice.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.557099   is_a(?s1, liter.n.01) ^ is_a(?s2, water.n.06) ^ is_a(?s3, fruit_juice.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.546872   is_a(?s1, fill.v.01) ^ is_a(?s2, water.n.06) ^ is_a(?s3, fruit_juice.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.363330   is_a(?s1, milliliter.n.01) ^ is_a(?s2, fill.v.01) ^ is_a(?s3, fruit_juice.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-1.090005   is_a(?s1, liter.n.01) ^ is_a(?s2, fill.v.01) ^ is_a(?s3, fruit_juice.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.546872   is_a(?s1, water.n.06) ^ is_a(?s2, fill.v.01) ^ is_a(?s3, fruit_juice.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.546872   is_a(?s1, milk.n.01) ^ is_a(?s2, fill.v.01) ^ is_a(?s3, fruit_juice.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.557099   is_a(?s1, liter.n.01) ^ is_a(?s2, milk.n.01) ^ is_a(?s3, fruit_juice.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.546872   is_a(?s1, fill.v.01) ^ is_a(?s2, milk.n.01) ^ is_a(?s3, fruit_juice.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.363330   is_a(?s1, fill.v.01) ^ is_a(?s2, fruit_juice.n.01) ^ is_a(?s3, milliliter.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.557081   is_a(?s1, water.n.06) ^ is_a(?s2, liter.n.01) ^ is_a(?s3, milliliter.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-1.090035   is_a(?s1, fill.v.01) ^ is_a(?s2, liter.n.01) ^ is_a(?s3, milliliter.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.557081   is_a(?s1, milk.n.01) ^ is_a(?s2, liter.n.01) ^ is_a(?s3, milliliter.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.557081   is_a(?s1, liter.n.01) ^ is_a(?s2, water.n.06) ^ is_a(?s3, milliliter.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.550840   is_a(?s1, fill.v.01) ^ is_a(?s2, water.n.06) ^ is_a(?s3, milliliter.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.363330   is_a(?s1, fruit_juice.n.01) ^ is_a(?s2, fill.v.01) ^ is_a(?s3, milliliter.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-1.090035   is_a(?s1, liter.n.01) ^ is_a(?s2, fill.v.01) ^ is_a(?s3, milliliter.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.550840   is_a(?s1, water.n.06) ^ is_a(?s2, fill.v.01) ^ is_a(?s3, milliliter.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.550840   is_a(?s1, milk.n.01) ^ is_a(?s2, fill.v.01) ^ is_a(?s3, milliliter.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.557081   is_a(?s1, liter.n.01) ^ is_a(?s2, milk.n.01) ^ is_a(?s3, milliliter.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.550840   is_a(?s1, fill.v.01) ^ is_a(?s2, milk.n.01) ^ is_a(?s3, milliliter.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.557099   is_a(?s1, water.n.06) ^ is_a(?s2, fruit_juice.n.01) ^ is_a(?s3, liter.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-1.090005   is_a(?s1, fill.v.01) ^ is_a(?s2, fruit_juice.n.01) ^ is_a(?s3, liter.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.557099   is_a(?s1, milk.n.01) ^ is_a(?s2, fruit_juice.n.01) ^ is_a(?s3, liter.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.557081   is_a(?s1, water.n.06) ^ is_a(?s2, milliliter.n.01) ^ is_a(?s3, liter.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-1.090035   is_a(?s1, fill.v.01) ^ is_a(?s2, milliliter.n.01) ^ is_a(?s3, liter.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.557081   is_a(?s1, milk.n.01) ^ is_a(?s2, milliliter.n.01) ^ is_a(?s3, liter.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-1.090000   is_a(?s1, water.n.06) ^ is_a(?s2, liter.n.01) ^ is_a(?s3, liter.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-2.179997   is_a(?s1, fill.v.01) ^ is_a(?s2, liter.n.01) ^ is_a(?s3, liter.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-1.090001   is_a(?s1, milk.n.01) ^ is_a(?s2, liter.n.01) ^ is_a(?s3, liter.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.557099   is_a(?s1, fruit_juice.n.01) ^ is_a(?s2, water.n.06) ^ is_a(?s3, liter.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.557081   is_a(?s1, milliliter.n.01) ^ is_a(?s2, water.n.06) ^ is_a(?s3, liter.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-1.090000   is_a(?s1, liter.n.01) ^ is_a(?s2, water.n.06) ^ is_a(?s3, liter.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-1.090802   is_a(?s1, water.n.06) ^ is_a(?s2, water.n.06) ^ is_a(?s3, liter.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+1.503809    is_a(?s1, fill.v.01) ^ is_a(?s2, water.n.06) ^ is_a(?s3, liter.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-1.090854   is_a(?s1, milk.n.01) ^ is_a(?s2, water.n.06) ^ is_a(?s3, liter.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-1.090005   is_a(?s1, fruit_juice.n.01) ^ is_a(?s2, fill.v.01) ^ is_a(?s3, liter.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-1.090035   is_a(?s1, milliliter.n.01) ^ is_a(?s2, fill.v.01) ^ is_a(?s3, liter.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-2.179997   is_a(?s1, liter.n.01) ^ is_a(?s2, fill.v.01) ^ is_a(?s3, liter.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+1.503809    is_a(?s1, water.n.06) ^ is_a(?s2, fill.v.01) ^ is_a(?s3, liter.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-2.179997   is_a(?s1, fill.v.01) ^ is_a(?s2, fill.v.01) ^ is_a(?s3, liter.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+1.574603    is_a(?s1, milk.n.01) ^ is_a(?s2, fill.v.01) ^ is_a(?s3, liter.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.557099   is_a(?s1, fruit_juice.n.01) ^ is_a(?s2, milk.n.01) ^ is_a(?s3, liter.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.557081   is_a(?s1, milliliter.n.01) ^ is_a(?s2, milk.n.01) ^ is_a(?s3, liter.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-1.090001   is_a(?s1, liter.n.01) ^ is_a(?s2, milk.n.01) ^ is_a(?s3, liter.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-1.090854   is_a(?s1, water.n.06) ^ is_a(?s2, milk.n.01) ^ is_a(?s3, liter.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+1.574603    is_a(?s1, fill.v.01) ^ is_a(?s2, milk.n.01) ^ is_a(?s3, liter.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-1.090906   is_a(?s1, milk.n.01) ^ is_a(?s2, milk.n.01) ^ is_a(?s3, liter.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.557099   is_a(?s1, liter.n.01) ^ is_a(?s2, fruit_juice.n.01) ^ is_a(?s3, water.n.06) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.546872   is_a(?s1, fill.v.01) ^ is_a(?s2, fruit_juice.n.01) ^ is_a(?s3, water.n.06) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.557081   is_a(?s1, liter.n.01) ^ is_a(?s2, milliliter.n.01) ^ is_a(?s3, water.n.06) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.550840   is_a(?s1, fill.v.01) ^ is_a(?s2, milliliter.n.01) ^ is_a(?s3, water.n.06) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.557099   is_a(?s1, fruit_juice.n.01) ^ is_a(?s2, liter.n.01) ^ is_a(?s3, water.n.06) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.557081   is_a(?s1, milliliter.n.01) ^ is_a(?s2, liter.n.01) ^ is_a(?s3, water.n.06) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-1.090000   is_a(?s1, liter.n.01) ^ is_a(?s2, liter.n.01) ^ is_a(?s3, water.n.06) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-1.090802   is_a(?s1, water.n.06) ^ is_a(?s2, liter.n.01) ^ is_a(?s3, water.n.06) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+1.503809    is_a(?s1, fill.v.01) ^ is_a(?s2, liter.n.01) ^ is_a(?s3, water.n.06) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-1.090854   is_a(?s1, milk.n.01) ^ is_a(?s2, liter.n.01) ^ is_a(?s3, water.n.06) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-1.090802   is_a(?s1, liter.n.01) ^ is_a(?s2, water.n.06) ^ is_a(?s3, water.n.06) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-1.090055   is_a(?s1, fill.v.01) ^ is_a(?s2, water.n.06) ^ is_a(?s3, water.n.06) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.546872   is_a(?s1, fruit_juice.n.01) ^ is_a(?s2, fill.v.01) ^ is_a(?s3, water.n.06) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.550840   is_a(?s1, milliliter.n.01) ^ is_a(?s2, fill.v.01) ^ is_a(?s3, water.n.06) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+1.503809    is_a(?s1, liter.n.01) ^ is_a(?s2, fill.v.01) ^ is_a(?s3, water.n.06) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-1.090055   is_a(?s1, water.n.06) ^ is_a(?s2, fill.v.01) ^ is_a(?s3, water.n.06) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-1.089991   is_a(?s1, fill.v.01) ^ is_a(?s2, fill.v.01) ^ is_a(?s3, water.n.06) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-1.090057   is_a(?s1, milk.n.01) ^ is_a(?s2, fill.v.01) ^ is_a(?s3, water.n.06) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-1.090854   is_a(?s1, liter.n.01) ^ is_a(?s2, milk.n.01) ^ is_a(?s3, water.n.06) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-1.090057   is_a(?s1, fill.v.01) ^ is_a(?s2, milk.n.01) ^ is_a(?s3, water.n.06) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.363330   is_a(?s1, milliliter.n.01) ^ is_a(?s2, fruit_juice.n.01) ^ is_a(?s3, fill.v.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-1.090005   is_a(?s1, liter.n.01) ^ is_a(?s2, fruit_juice.n.01) ^ is_a(?s3, fill.v.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.546872   is_a(?s1, water.n.06) ^ is_a(?s2, fruit_juice.n.01) ^ is_a(?s3, fill.v.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.546872   is_a(?s1, milk.n.01) ^ is_a(?s2, fruit_juice.n.01) ^ is_a(?s3, fill.v.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.363330   is_a(?s1, fruit_juice.n.01) ^ is_a(?s2, milliliter.n.01) ^ is_a(?s3, fill.v.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-1.090035   is_a(?s1, liter.n.01) ^ is_a(?s2, milliliter.n.01) ^ is_a(?s3, fill.v.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.550840   is_a(?s1, water.n.06) ^ is_a(?s2, milliliter.n.01) ^ is_a(?s3, fill.v.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.550840   is_a(?s1, milk.n.01) ^ is_a(?s2, milliliter.n.01) ^ is_a(?s3, fill.v.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-1.090005   is_a(?s1, fruit_juice.n.01) ^ is_a(?s2, liter.n.01) ^ is_a(?s3, fill.v.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-1.090035   is_a(?s1, milliliter.n.01) ^ is_a(?s2, liter.n.01) ^ is_a(?s3, fill.v.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-2.179997   is_a(?s1, liter.n.01) ^ is_a(?s2, liter.n.01) ^ is_a(?s3, fill.v.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+1.503809    is_a(?s1, water.n.06) ^ is_a(?s2, liter.n.01) ^ is_a(?s3, fill.v.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-2.179997   is_a(?s1, fill.v.01) ^ is_a(?s2, liter.n.01) ^ is_a(?s3, fill.v.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+1.574603    is_a(?s1, milk.n.01) ^ is_a(?s2, liter.n.01) ^ is_a(?s3, fill.v.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.546872   is_a(?s1, fruit_juice.n.01) ^ is_a(?s2, water.n.06) ^ is_a(?s3, fill.v.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.550840   is_a(?s1, milliliter.n.01) ^ is_a(?s2, water.n.06) ^ is_a(?s3, fill.v.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+1.503809    is_a(?s1, liter.n.01) ^ is_a(?s2, water.n.06) ^ is_a(?s3, fill.v.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-1.090055   is_a(?s1, water.n.06) ^ is_a(?s2, water.n.06) ^ is_a(?s3, fill.v.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-1.089991   is_a(?s1, fill.v.01) ^ is_a(?s2, water.n.06) ^ is_a(?s3, fill.v.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-1.090057   is_a(?s1, milk.n.01) ^ is_a(?s2, water.n.06) ^ is_a(?s3, fill.v.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-2.179997   is_a(?s1, liter.n.01) ^ is_a(?s2, fill.v.01) ^ is_a(?s3, fill.v.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-1.089991   is_a(?s1, water.n.06) ^ is_a(?s2, fill.v.01) ^ is_a(?s3, fill.v.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-1.089991   is_a(?s1, milk.n.01) ^ is_a(?s2, fill.v.01) ^ is_a(?s3, fill.v.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.546872   is_a(?s1, fruit_juice.n.01) ^ is_a(?s2, milk.n.01) ^ is_a(?s3, fill.v.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.550840   is_a(?s1, milliliter.n.01) ^ is_a(?s2, milk.n.01) ^ is_a(?s3, fill.v.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+1.574603    is_a(?s1, liter.n.01) ^ is_a(?s2, milk.n.01) ^ is_a(?s3, fill.v.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-1.090057   is_a(?s1, water.n.06) ^ is_a(?s2, milk.n.01) ^ is_a(?s3, fill.v.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-1.089991   is_a(?s1, fill.v.01) ^ is_a(?s2, milk.n.01) ^ is_a(?s3, fill.v.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-1.090058   is_a(?s1, milk.n.01) ^ is_a(?s2, milk.n.01) ^ is_a(?s3, fill.v.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.557099   is_a(?s1, liter.n.01) ^ is_a(?s2, fruit_juice.n.01) ^ is_a(?s3, milk.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.546872   is_a(?s1, fill.v.01) ^ is_a(?s2, fruit_juice.n.01) ^ is_a(?s3, milk.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.557081   is_a(?s1, liter.n.01) ^ is_a(?s2, milliliter.n.01) ^ is_a(?s3, milk.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.550840   is_a(?s1, fill.v.01) ^ is_a(?s2, milliliter.n.01) ^ is_a(?s3, milk.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.557099   is_a(?s1, fruit_juice.n.01) ^ is_a(?s2, liter.n.01) ^ is_a(?s3, milk.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.557081   is_a(?s1, milliliter.n.01) ^ is_a(?s2, liter.n.01) ^ is_a(?s3, milk.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-1.090001   is_a(?s1, liter.n.01) ^ is_a(?s2, liter.n.01) ^ is_a(?s3, milk.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-1.090854   is_a(?s1, water.n.06) ^ is_a(?s2, liter.n.01) ^ is_a(?s3, milk.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+1.574603    is_a(?s1, fill.v.01) ^ is_a(?s2, liter.n.01) ^ is_a(?s3, milk.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-1.090906   is_a(?s1, milk.n.01) ^ is_a(?s2, liter.n.01) ^ is_a(?s3, milk.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-1.090854   is_a(?s1, liter.n.01) ^ is_a(?s2, water.n.06) ^ is_a(?s3, milk.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-1.090057   is_a(?s1, fill.v.01) ^ is_a(?s2, water.n.06) ^ is_a(?s3, milk.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.546872   is_a(?s1, fruit_juice.n.01) ^ is_a(?s2, fill.v.01) ^ is_a(?s3, milk.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-0.550840   is_a(?s1, milliliter.n.01) ^ is_a(?s2, fill.v.01) ^ is_a(?s3, milk.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+1.574603    is_a(?s1, liter.n.01) ^ is_a(?s2, fill.v.01) ^ is_a(?s3, milk.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-1.090057   is_a(?s1, water.n.06) ^ is_a(?s2, fill.v.01) ^ is_a(?s3, milk.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-1.089991   is_a(?s1, fill.v.01) ^ is_a(?s2, fill.v.01) ^ is_a(?s3, milk.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-1.090058   is_a(?s1, milk.n.01) ^ is_a(?s2, fill.v.01) ^ is_a(?s3, milk.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-1.090906   is_a(?s1, liter.n.01) ^ is_a(?s2, milk.n.01) ^ is_a(?s3, milk.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-1.090058   is_a(?s1, fill.v.01) ^ is_a(?s2, milk.n.01) ^ is_a(?s3, milk.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+-3.910450   is_a(?s1, fruit_juice.n.01) ^ is_a(?s2, fruit_juice.n.01) ^ ac_word(AC_FILL_INGREDIENT) ^ ?s1=/=?s2
+-3.642861   is_a(?s1, milliliter.n.01) ^ is_a(?s2, fruit_juice.n.01) ^ ac_word(AC_FILL_INGREDIENT) ^ ?s1=/=?s2
+-3.528552   is_a(?s1, liter.n.01) ^ is_a(?s2, fruit_juice.n.01) ^ ac_word(AC_FILL_INGREDIENT) ^ ?s1=/=?s2
+-4.181212   is_a(?s1, water.n.06) ^ is_a(?s2, fruit_juice.n.01) ^ ac_word(AC_FILL_INGREDIENT) ^ ?s1=/=?s2
+-0.201982   is_a(?s1, fill.v.01) ^ is_a(?s2, fruit_juice.n.01) ^ ac_word(AC_FILL_INGREDIENT) ^ ?s1=/=?s2
+-3.910450   is_a(?s1, milk.n.01) ^ is_a(?s2, fruit_juice.n.01) ^ ac_word(AC_FILL_INGREDIENT) ^ ?s1=/=?s2
+-3.642861   is_a(?s1, fruit_juice.n.01) ^ is_a(?s2, milliliter.n.01) ^ ac_word(AC_FILL_INGREDIENT) ^ ?s1=/=?s2
+-3.910450   is_a(?s1, water.n.06) ^ is_a(?s2, milliliter.n.01) ^ ac_word(AC_FILL_INGREDIENT) ^ ?s1=/=?s2
+-4.153250   is_a(?s1, fill.v.01) ^ is_a(?s2, milliliter.n.01) ^ ac_word(AC_FILL_INGREDIENT) ^ ?s1=/=?s2
+-3.528552   is_a(?s1, milk.n.01) ^ is_a(?s2, milliliter.n.01) ^ ac_word(AC_FILL_INGREDIENT) ^ ?s1=/=?s2
+-3.528552   is_a(?s1, fruit_juice.n.01) ^ is_a(?s2, liter.n.01) ^ ac_word(AC_FILL_INGREDIENT) ^ ?s1=/=?s2
+-3.991299   is_a(?s1, water.n.06) ^ is_a(?s2, liter.n.01) ^ ac_word(AC_FILL_INGREDIENT) ^ ?s1=/=?s2
+-4.115177   is_a(?s1, fill.v.01) ^ is_a(?s2, liter.n.01) ^ ac_word(AC_FILL_INGREDIENT) ^ ?s1=/=?s2
+-3.642857   is_a(?s1, milk.n.01) ^ is_a(?s2, liter.n.01) ^ ac_word(AC_FILL_INGREDIENT) ^ ?s1=/=?s2
+-4.181212   is_a(?s1, fruit_juice.n.01) ^ is_a(?s2, water.n.06) ^ ac_word(AC_FILL_INGREDIENT) ^ ?s1=/=?s2
+-3.910450   is_a(?s1, milliliter.n.01) ^ is_a(?s2, water.n.06) ^ ac_word(AC_FILL_INGREDIENT) ^ ?s1=/=?s2
+-3.991299   is_a(?s1, liter.n.01) ^ is_a(?s2, water.n.06) ^ ac_word(AC_FILL_INGREDIENT) ^ ?s1=/=?s2
+-4.258092   is_a(?s1, water.n.06) ^ is_a(?s2, water.n.06) ^ ac_word(AC_FILL_INGREDIENT) ^ ?s1=/=?s2
+0.347679    is_a(?s1, fill.v.01) ^ is_a(?s2, water.n.06) ^ ac_word(AC_FILL_INGREDIENT) ^ ?s1=/=?s2
+-4.181212   is_a(?s1, milk.n.01) ^ is_a(?s2, water.n.06) ^ ac_word(AC_FILL_INGREDIENT) ^ ?s1=/=?s2
+-0.201982   is_a(?s1, fruit_juice.n.01) ^ is_a(?s2, fill.v.01) ^ ac_word(AC_FILL_INGREDIENT) ^ ?s1=/=?s2
+-4.153250   is_a(?s1, milliliter.n.01) ^ is_a(?s2, fill.v.01) ^ ac_word(AC_FILL_INGREDIENT) ^ ?s1=/=?s2
+-4.115177   is_a(?s1, liter.n.01) ^ is_a(?s2, fill.v.01) ^ ac_word(AC_FILL_INGREDIENT) ^ ?s1=/=?s2
+0.347679    is_a(?s1, water.n.06) ^ is_a(?s2, fill.v.01) ^ ac_word(AC_FILL_INGREDIENT) ^ ?s1=/=?s2
+-4.626603   is_a(?s1, fill.v.01) ^ is_a(?s2, fill.v.01) ^ ac_word(AC_FILL_INGREDIENT) ^ ?s1=/=?s2
+-0.201841   is_a(?s1, milk.n.01) ^ is_a(?s2, fill.v.01) ^ ac_word(AC_FILL_INGREDIENT) ^ ?s1=/=?s2
+-3.910450   is_a(?s1, fruit_juice.n.01) ^ is_a(?s2, milk.n.01) ^ ac_word(AC_FILL_INGREDIENT) ^ ?s1=/=?s2
+-3.528552   is_a(?s1, milliliter.n.01) ^ is_a(?s2, milk.n.01) ^ ac_word(AC_FILL_INGREDIENT) ^ ?s1=/=?s2
+-3.642857   is_a(?s1, liter.n.01) ^ is_a(?s2, milk.n.01) ^ ac_word(AC_FILL_INGREDIENT) ^ ?s1=/=?s2
+-4.181212   is_a(?s1, water.n.06) ^ is_a(?s2, milk.n.01) ^ ac_word(AC_FILL_INGREDIENT) ^ ?s1=/=?s2
+-0.201841   is_a(?s1, fill.v.01) ^ is_a(?s2, milk.n.01) ^ ac_word(AC_FILL_INGREDIENT) ^ ?s1=/=?s2
+-3.910450   is_a(?s1, milk.n.01) ^ is_a(?s2, milk.n.01) ^ ac_word(AC_FILL_INGREDIENT) ^ ?s1=/=?s2
+-2.213853   is_a(?s1, fruit_juice.n.01) ^ is_a(?s2, fruit_juice.n.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2
+0.709420    is_a(?s1, milliliter.n.01) ^ is_a(?s2, fruit_juice.n.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2
+-1.202262   is_a(?s1, liter.n.01) ^ is_a(?s2, fruit_juice.n.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2
+-1.184782   is_a(?s1, water.n.06) ^ is_a(?s2, fruit_juice.n.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2
+-3.594056   is_a(?s1, fill.v.01) ^ is_a(?s2, fruit_juice.n.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2
+-1.184839   is_a(?s1, milk.n.01) ^ is_a(?s2, fruit_juice.n.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2
+0.709420    is_a(?s1, fruit_juice.n.01) ^ is_a(?s2, milliliter.n.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2
+-2.246132   is_a(?s1, milliliter.n.01) ^ is_a(?s2, milliliter.n.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2
+-1.202262   is_a(?s1, liter.n.01) ^ is_a(?s2, milliliter.n.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2
+-1.184782   is_a(?s1, water.n.06) ^ is_a(?s2, milliliter.n.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2
+0.709420    is_a(?s1, fill.v.01) ^ is_a(?s2, milliliter.n.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2
+-1.184839   is_a(?s1, milk.n.01) ^ is_a(?s2, milliliter.n.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2
+-1.202262   is_a(?s1, fruit_juice.n.01) ^ is_a(?s2, liter.n.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2
+-1.202262   is_a(?s1, milliliter.n.01) ^ is_a(?s2, liter.n.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2
+-0.363376   is_a(?s1, water.n.06) ^ is_a(?s2, liter.n.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2
+-1.863450   is_a(?s1, fill.v.01) ^ is_a(?s2, liter.n.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2
+-0.363392   is_a(?s1, milk.n.01) ^ is_a(?s2, liter.n.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2
+-1.184782   is_a(?s1, fruit_juice.n.01) ^ is_a(?s2, water.n.06) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2
+-1.184782   is_a(?s1, milliliter.n.01) ^ is_a(?s2, water.n.06) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2
+-0.363376   is_a(?s1, liter.n.01) ^ is_a(?s2, water.n.06) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2
+-3.438985   is_a(?s1, fill.v.01) ^ is_a(?s2, water.n.06) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2
+-3.594056   is_a(?s1, fruit_juice.n.01) ^ is_a(?s2, fill.v.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2
+0.709420    is_a(?s1, milliliter.n.01) ^ is_a(?s2, fill.v.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2
+-1.863450   is_a(?s1, liter.n.01) ^ is_a(?s2, fill.v.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2
+-3.438985   is_a(?s1, water.n.06) ^ is_a(?s2, fill.v.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2
+-2.213853   is_a(?s1, fill.v.01) ^ is_a(?s2, fill.v.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2
+-3.735707   is_a(?s1, milk.n.01) ^ is_a(?s2, fill.v.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2
+-1.184839   is_a(?s1, fruit_juice.n.01) ^ is_a(?s2, milk.n.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2
+-1.184839   is_a(?s1, milliliter.n.01) ^ is_a(?s2, milk.n.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2
+-0.363392   is_a(?s1, liter.n.01) ^ is_a(?s2, milk.n.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2
+-3.735707   is_a(?s1, fill.v.01) ^ is_a(?s2, milk.n.01) ^ ac_word(AC_FILL_INGREDIENT_ML) ^ ?s1=/=?s2
+-0.363330   is_a(?s1, milliliter.n.01) ^ is_a(?s2, fruit_juice.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2
+-2.204203   is_a(?s1, liter.n.01) ^ is_a(?s2, fruit_juice.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2
+-1.103972   is_a(?s1, water.n.06) ^ is_a(?s2, fruit_juice.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2
+-3.624936   is_a(?s1, fill.v.01) ^ is_a(?s2, fruit_juice.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2
+-1.103972   is_a(?s1, milk.n.01) ^ is_a(?s2, fruit_juice.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2
+-0.363330   is_a(?s1, fruit_juice.n.01) ^ is_a(?s2, milliliter.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2
+-2.204197   is_a(?s1, liter.n.01) ^ is_a(?s2, milliliter.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2
+-1.107920   is_a(?s1, water.n.06) ^ is_a(?s2, milliliter.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2
+-2.555045   is_a(?s1, fill.v.01) ^ is_a(?s2, milliliter.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2
+-1.107920   is_a(?s1, milk.n.01) ^ is_a(?s2, milliliter.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2
+-2.204203   is_a(?s1, fruit_juice.n.01) ^ is_a(?s2, liter.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2
+-2.204197   is_a(?s1, milliliter.n.01) ^ is_a(?s2, liter.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2
+-4.359998   is_a(?s1, liter.n.01) ^ is_a(?s2, liter.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2
+-1.208663   is_a(?s1, water.n.06) ^ is_a(?s2, liter.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2
+2.677345    is_a(?s1, fill.v.01) ^ is_a(?s2, liter.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2
+-1.178322   is_a(?s1, milk.n.01) ^ is_a(?s2, liter.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2
+-1.103972   is_a(?s1, fruit_juice.n.01) ^ is_a(?s2, water.n.06) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2
+-1.107920   is_a(?s1, milliliter.n.01) ^ is_a(?s2, water.n.06) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2
+-1.208663   is_a(?s1, liter.n.01) ^ is_a(?s2, water.n.06) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2
+-2.180857   is_a(?s1, water.n.06) ^ is_a(?s2, water.n.06) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2
+-3.302818   is_a(?s1, fill.v.01) ^ is_a(?s2, water.n.06) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2
+-2.180911   is_a(?s1, milk.n.01) ^ is_a(?s2, water.n.06) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2
+-3.624936   is_a(?s1, fruit_juice.n.01) ^ is_a(?s2, fill.v.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2
+-2.555045   is_a(?s1, milliliter.n.01) ^ is_a(?s2, fill.v.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2
+2.677345    is_a(?s1, liter.n.01) ^ is_a(?s2, fill.v.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2
+-3.302818   is_a(?s1, water.n.06) ^ is_a(?s2, fill.v.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2
+-4.359979   is_a(?s1, fill.v.01) ^ is_a(?s2, fill.v.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2
+-3.545316   is_a(?s1, milk.n.01) ^ is_a(?s2, fill.v.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2
+-1.103972   is_a(?s1, fruit_juice.n.01) ^ is_a(?s2, milk.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2
+-1.107920   is_a(?s1, milliliter.n.01) ^ is_a(?s2, milk.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2
+-1.178322   is_a(?s1, liter.n.01) ^ is_a(?s2, milk.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2
+-2.180911   is_a(?s1, water.n.06) ^ is_a(?s2, milk.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2
+-3.545316   is_a(?s1, fill.v.01) ^ is_a(?s2, milk.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2
+-2.180965   is_a(?s1, milk.n.01) ^ is_a(?s2, milk.n.01) ^ ac_word(AC_FILL_INGREDIENT_L) ^ ?s1=/=?s2

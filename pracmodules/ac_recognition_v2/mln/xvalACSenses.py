@@ -134,8 +134,15 @@ class XValFold(object):
                     atom = atom.replace(binding, bindings[binding])
                 trueDB.addGroundAtom(atom)
                 #db.retractGndAtom(atom)
+            known_concepts = mln.domains.get('concept', [])
+            wordnet = WordNet(concepts=None)
             for pred in ['has_sense','has_pos']:
                 for atom in list(db.iterGroundLiteralStrings(pred)):
+                    if(pred == 'has_sense'):
+                        group = re.split(',',re.split('has_sense\w*\(|\)',atom[1])[1])
+                        word = group[1];
+                        for concept in known_concepts:
+                            db_.addGroundAtom('is_a('+word+","+concept+')',wordnet.wup_similarity(word,concept))
                     db_.addGroundAtom(atom[1],atom[0])
             
             try:
@@ -283,7 +290,7 @@ def runFold(fold):
     return fold
 
 def createLearnDBs(mln,dbs):
-    return createIsAEvidence(mln, dbs, 'sense', 'has_sense(?w,?s)', "?s", False)
+    return createIsAEvidence(mln, dbs, 'sense', 'has_sense(?w,?s)', "?s", True)
 
 def createTestDBs(mln,dbs):
     # mapping from PennTreebank POS tags to NLTK POS Tags
