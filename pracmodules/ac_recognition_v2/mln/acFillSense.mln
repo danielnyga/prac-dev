@@ -3,11 +3,24 @@ is_a(sense, concept)
 ac_word(ac!)
 has_sense(word, sense!)
 dobj(word,word)
-#unique{+?c1,+?c2,+?c3}
 
-//TODO Add OW_ASSUMPTION for ac_core
-0 is_a(?s1,+?c1) ^ is_a(?s2,+?c2) ^ is_a(?s3,+?c3) ^ ac_word(+?ac) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+//#unique{+?c1,+?c2,+?c3}
 
+//#unique{+?s1,+?s2}
+
+
+
+0 has_sense(?w1,fill.v.01) ^ has_sense(?w2,milliliter.n.01) ^ ac_word(+?ac)
+0 has_sense(?w1,fill.v.01) ^ has_sense(?w2,liter.n.01) ^ ac_word(+?ac)
+0 has_sense(?w1,fill.v.01) ^ !has_sense(?w2,liter.n.01) ^ !has_sense(?w2,milliliter.n.01) ^ ac_word(+?ac)
+
+
+//0 has_sense(?w1,+?s1) ^ has_sense(?w2,+?s2) ^ has_sense(?w3,?c1) ^ is_a(?c1,+?c2) ^ ac_word(+?ac) ^ ?w1=/=?w2 ^ ?w2=/=?w3 ^ ?w1=/=?w3 
+//0 has_sense(?w1,?s1) ^ has_sense(?w2,?s2) ^ has_sense(?w3,?c1) ^ is_a(?c1,+?c2) ^ ac_word(+?ac)
+//0 has_sense(?w1,fill.v.01) ^ has_sense(?w2,milliliter.n.01) ^ has_sense(?w3,?c1) ^ is_a(?c1,+?c2) ^ ac_word(+?ac)
+
+//0 has_sense(?s1,fill.v.01) ^ has_sense(?s2,liter.n.01) ^ is_a(?s3,+?c3) ^ ac_word(+?ac) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
+//0 has_sense(?s1,fill.v.01) ^ has_sense(?s2,milliliter.n.01) ^ is_a(?s3,+?c3) ^ ac_word(+?ac) ^ ?s1=/=?s2 ^ ?s2=/=?s3 ^ ?s1=/=?s3
 //0 is_a(?s1,+?c1) ^ is_a(?s2,+?c2) ^ ac_word(+?ac) ^ ?s1=/=?s2
 
 //0 has_pos(?w1,VB) ^ has_pos(?w2,NN) ^ has_pos(?w3,NN) ^ has_sense(?w1,+?s1) ^ has_sense(?w2,+?s2) ^ has_sense(?w3,+?s3) ^ ac_word(+?ac) ^ ?w1=/=?w2 ^ ?w2=/=?w3 ^ ?w1=/=?w3 
