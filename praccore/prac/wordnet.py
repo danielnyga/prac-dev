@@ -449,7 +449,6 @@ class WordNet(object):
 
 
     def synsTaxonomyBranchRelation(self, synset1, synset2):
-	print synset1, synset2
 	if not synset1.lowest_common_hypernyms(synset2): return 0
         return min([x.min_depth() for x in synset1.lowest_common_hypernyms(synset2)]) / max(synset1.min_depth(), synset2.min_depth())
 

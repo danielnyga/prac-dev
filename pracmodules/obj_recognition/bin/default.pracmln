@@ -40,7 +40,7 @@ S'INFO'
 p20
 sS'useMultiCPU'
 p21
-I1
+I0
 sS'method'
 p22
 S'WCSP'
@@ -49,6 +49,6 @@ ssS'filename'
 p24
 NsS'query_mln_str'
 p25
-V#include predicates.mln\u000a\u000a// CONF V\u000a0 object(?c, +?objID) ^ size(?c, +?size) ^ shape(?c, +?shape)\u000a0 object(?c, +?objID) ^ color(?c, +?col) ^ shape(?c, +?shape)\u000a0 object(?c, +?objID) ^ color(?c, +?col) ^ size(?c, +?size)\u000a0 object(?c, +?objID) ^ color(?c, +?col) ^ hypernym(?c, +?hyp)\u000a0 object(?c, +?objID) ^ shape(?c, +?shape) ^ hypernym(?c, +?hyp)\u000a\u000a//new\u000a0 object(?c, +?objID) ^ material(?c, +?mat) ^ hypernym(?c, +?hyp)\u000a0 object(?c, +?objID) ^ consistency(?c, +?con) ^ material(?c, +?mat)\u000a0 object(?c, +?objID) ^ size(?c, +?size) ^ dimension(?c, +?dim)\u000a0 object(?c, +?objID) ^ shape(?c, +?shape) ^ dimension(?c, +?dim)\u000a\u000a0 object(?c, +?objID) ^ hasa(?c, +?part)\u000a0 object(?c, +?objID) ^ hypernym(?c, +?hyp)\u000a
+V#include predicates.mln\u000a\u000a// CONF III\u000a0 object(?c, +?objID) ^ color(?c, +?color) ^ size(?c, +?size) ^ shape(?c, +?shape)\u000a0 object(?c, +?objID) ^ hasa(?c, +?part)\u000a0 object(?c, +?objID) ^ hypernym(?c, +?hyp)\u000a\u000a
 p26
 sb.
