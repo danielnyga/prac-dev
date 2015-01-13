@@ -191,7 +191,7 @@ class WNSenses(PRACModule):
                                 synset2 = self.wordnet.synset(domVal)
                                 sim = self.wordnet.similarity(synset1, synset2)
                                 if prop == 'hasa' or prop == 'hypernym':
-                                    if sim < .95: continue # everything below threshold is considered not similar enough.
+                                    if sim < .85: continue # everything below threshold is considered not similar enough.
                                     db.addGroundAtom('{}({}, {})'.format(prop, cluster, domVal), sim)
                                 else:
                                     if sim < .6: continue

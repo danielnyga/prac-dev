@@ -364,6 +364,15 @@ class WordNet(object):
         ADJ_POS = ['s','a']
         posDiff = 0.
 
+	if type(synset1) is str:
+            synset1 = self.synset(synset1)
+        if type(synset2) is str:
+            synset2 = self.synset(synset2)
+        if synset1 is None or synset2 is None:
+            return 0.
+        if synset1 == synset2:
+            return 1.0
+
         # separate check for color similarity
         if synset1.name in colorsims and synset2.name in colorsims:
             return colorsims[synset1.name][synset2.name]
@@ -414,6 +423,7 @@ class WordNet(object):
         # closely related
         if self.synsHypRelation(synset1, synset2) > 0.: #return self.synsHypRelation(synset1, synset2)
             return self.synsHypRelation(synset1,synset2)
+            # return self.synsHypRelation(synset1,synset2)
 
         # add additional knowledge: decrease similarity of synsets from different taxonomy branches
         # if not synsInPreDefTaxonomyBranch(synset1, synset2): posDiff += .5
@@ -439,6 +449,8 @@ class WordNet(object):
 
 
     def synsTaxonomyBranchRelation(self, synset1, synset2):
+	print synset1, synset2
+	if not synset1.lowest_common_hypernyms(synset2): return 0
         return min([x.min_depth() for x in synset1.lowest_common_hypernyms(synset2)]) / max(synset1.min_depth(), synset2.min_depth())
 
     def synsHypRelation(self, syn1, syn2):
