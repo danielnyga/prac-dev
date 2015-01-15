@@ -1,52 +1,11 @@
-// Fill remainder of glass with one liter milk .
-//Fill
-1.00 has_pos(fill,VB)
-1.00 has_sense(fill,fill.v.01)
-
-//glass
-1.00 has_pos(glass,NN)
-1.00 has_sense(glass,glass.n.02)
-
-
-//milk
-1.00 has_pos(milk,NN)
-1.00 has_sense(milk,milk.n.01)
-
-1.00 has_pos(liter,NN)
-1.00 has_sense(liter,liter.n.01)
-
-1.00 ac_word(AC_FILL_INGREDIENT_L)
-//1.00 dobj(fill, glass)
----
-// fill the teapot to the top with hot water .
-//Fill
-1.00 has_pos(fill,VB)
-1.00 has_sense(fill,fill.v.01)
-
-//teapot
-1.00 has_pos(teapot,NN)
-1.00 has_sense(teapot,teapot.n.01)
-
-//water
-1.00 has_pos(water,NN)
-1.00 has_sense(water,water.n.06)
-
-//1.00 dobj(fill, teapot)
-
-//liter
-1.00 has_pos(liter,NN)
-1.00 has_sense(liter,liter.n.01)
-1.00 ac_word(AC_FILL_INGREDIENT_L)
-
----
 //Fill the pot with water.
 //Fill
 1.00 has_pos(fill,VB)
 1.00 has_sense(fill,fill.v.01)
 
 //pot
-1.00 has_pos(pot,NN)
-1.00 has_sense(pot,pot.n.01)
+//1.00 has_pos(pot,NN)
+//1.00 has_sense(pot,pot.n.01)
 
 //water
 1.00 has_pos(water,NN)
@@ -65,8 +24,8 @@
 1.00 has_sense(fill,fill.v.01)
 
 //bottle
-1.00 has_pos(bottle,NN)
-1.00 has_sense(bottle,bottle.n.01)
+//1.00 has_pos(bottle,NN)
+//1.00 has_sense(bottle,bottle.n.01)
 
 //juice
 1.00 has_pos(juice,NN)
@@ -88,8 +47,8 @@
 1.00 has_sense(fill,fill.v.01)
 
 //thermos_flask
-1.00 has_pos(thermos_flask,NN)
-1.00 has_sense(thermos_flask,thermos.n.01)
+//1.00 has_pos(thermos_flask,NN)
+//1.00 has_sense(thermos_flask,thermos.n.01)
 
 //coffee
 1.00 has_pos(coffee,NN)
@@ -108,8 +67,8 @@
 1.00 has_sense(fill,fill.v.01)
 
 //carafe
-1.00 has_pos(carafe,NN)
-1.00 has_sense(carafe,carafe.n.01)
+//1.00 has_pos(carafe,NN)
+//1.00 has_sense(carafe,carafe.n.01)
 
 //whisky
 1.00 has_pos(whisky,NN)
@@ -128,8 +87,8 @@
 1.00 has_sense(fill,fill.v.01)
 
 //carafe
-1.00 has_pos(carafe,NN)
-1.00 has_sense(carafe,carafe.n.01)
+//1.00 has_pos(carafe,NN)
+//1.00 has_sense(carafe,carafe.n.01)
 
 //whisky
 1.00 has_pos(tea,NN)
@@ -148,8 +107,116 @@
 1.00 has_sense(fill,fill.v.01)
 
 //bottle
-1.00 has_pos(bottle,NN)
-1.00 has_sense(bottle,bottle.n.01)
+//1.00 has_pos(bottle,NN)
+//1.00 has_sense(bottle,bottle.n.01)
+
+//juice
+1.00 has_pos(juice,NN)
+1.00 has_sense(juice,fruit_juice.n.01)
+1.00 has_pos(liter,NN)
+1.00 has_sense(liter,liter.n.01)
+
+1.00 ac_word(AC_FILL_INGREDIENT_L)
+
+---
+
+
+// Fill remainder of glass with one liter milk .
+//Fill
+1.00 has_pos(fill,VB)
+1.00 has_sense(fill,fill.v.01)
+
+//glass
+//1.00 has_pos(glass,NN)
+//1.00 has_sense(glass,glass.n.02)
+
+
+
+//milk
+1.00 has_pos(milk,NN)
+1.00 has_sense(milk,milk.n.01)
+
+//liter
+1.00 has_pos(milliliter,NN)
+1.00 has_sense(milliliter,milliliter.n.01)
+1.00 ac_word(AC_FILL_INGREDIENT_ML)
+
+
+//1.00 dobj(fill, glass)
+---
+// fill the teapot to the top with hot water .
+//Fill
+1.00 has_pos(fill,VB)
+1.00 has_sense(fill,fill.v.01)
+
+//teapot
+//1.00 has_pos(teapot,NN)
+//1.00 has_sense(teapot,teapot.n.01)
+
+//water
+1.00 has_pos(water,NN)
+1.00 has_sense(water,water.n.06)
+
+//1.00 dobj(fill, teapot)
+
+//liter
+1.00 has_pos(milliliter,NN)
+1.00 has_sense(milliliter,milliliter.n.01)
+1.00 ac_word(AC_FILL_INGREDIENT_ML)
+
+---
+
+//Fill a cup with cola.
+//Fill
+1.00 has_pos(fill,VB)
+1.00 has_sense(fill,fill.v.01)
+
+//cup
+//1.00 has_pos(cup,NN)
+//1.00 has_sense(cup,cup.n.01)
+
+//cola
+1.00 has_pos(cola,NN)
+1.00 has_sense(cola,cola.n.02)
+
+//liter
+1.00 has_pos(liter,NN)
+1.00 has_sense(liter,liter.n.01)
+1.00 ac_word(AC_FILL_INGREDIENT_L)
+
+---
+
+
+//Fill the pot with water.
+//Fill
+1.00 has_pos(fill,VB)
+1.00 has_sense(fill,fill.v.01)
+
+//pot
+//1.00 has_pos(pot,NN)
+//1.00 has_sense(pot,pot.n.01)
+
+//water
+1.00 has_pos(water,NN)
+1.00 has_sense(water,water.n.06)
+
+//milliliter
+1.00 has_pos(liter,NN)
+1.00 has_sense(liter,liter.n.01)
+1.00 ac_word(AC_FILL_INGREDIENT_L)
+
+//1.00 dobj(fill, pot)
+
+---
+
+//Fill the bottle with juice.
+//Fill
+1.00 has_pos(fill,VB)
+1.00 has_sense(fill,fill.v.01)
+
+//bottle
+//1.00 has_pos(bottle,NN)
+//1.00 has_sense(bottle,bottle.n.01)
 
 //juice
 1.00 has_pos(juice,NN)
@@ -165,8 +232,8 @@
 1.00 has_sense(fill,fill.v.01)
 
 //pot
-1.00 has_pos(pot,NN)
-1.00 has_sense(pot,pot.n.01)
+//1.00 has_pos(pot,NN)
+//1.00 has_sense(pot,pot.n.01)
 
 //water
 1.00 has_pos(water,NN)
@@ -185,8 +252,8 @@
 1.00 has_sense(fill,fill.v.01)
 
 //glass
-1.00 has_pos(glass,NN)
-1.00 has_sense(glass,glass.n.02)
+//1.00 has_pos(glass,NN)
+//1.00 has_sense(glass,glass.n.02)
 
 
 
@@ -203,8 +270,8 @@
 1.00 has_sense(fill,fill.v.01)
 
 //teapot
-1.00 has_pos(teapot,NN)
-1.00 has_sense(teapot,teapot.n.01)
+//1.00 has_pos(teapot,NN)
+//1.00 has_sense(teapot,teapot.n.01)
 
 //water
 1.00 has_pos(water,NN)
@@ -222,8 +289,8 @@
 1.00 has_sense(fill,fill.v.01)
 
 //cup
-1.00 has_pos(cup,NN)
-1.00 has_sense(cup,cup.n.01)
+//1.00 has_pos(cup,NN)
+//1.00 has_sense(cup,cup.n.01)
 
 //cola
 1.00 has_pos(cola,NN)

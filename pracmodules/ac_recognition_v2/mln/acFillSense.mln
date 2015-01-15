@@ -6,13 +6,23 @@ dobj(word,word)
 
 //#unique{+?c1,+?c2,+?c3}
 
-//#unique{+?s1,+?s2}
+#unique{+?c1,+?c2}
 
+//Work for NONE ML L
+0  has_pos(?w1,NN) ^ has_pos(?w2,NN) ^ is_a(?s1,+?c1) ^ is_a(?s2,+?c2)  ^  has_sense(?w1,?s1) ^ has_sense(?w2,?s2)  ^ ?w1=/=?w2 ^  ac_word(+?ac)
+0  has_pos(?w1,NN) ^ has_pos(?w2,NN) ^ is_a(?s1,+?c1) ^ is_a(?s2,+?c2)  ^  !has_sense(?w1,?s1) ^ has_sense(?w2,?s2)  ^ ?w1=/=?w2 ^  ac_word(+?ac)
+0  has_pos(?w1,NN) ^ has_pos(?w2,NN) ^ is_a(?s1,+?c1) ^ is_a(?s2,+?c2)  ^  has_sense(?w1,?s1) ^ !has_sense(?w2,?s2)  ^ ?w1=/=?w2 ^  ac_word(+?ac)
+0  has_pos(?w1,NN) ^ has_pos(?w2,NN) ^ is_a(?s1,+?c1) ^ is_a(?s2,+?c2)  ^  !has_sense(?w1,?s1) ^ !has_sense(?w2,?s2)  ^ ?w1=/=?w2 ^  ac_word(+?ac)
+0  is_a(?s1,+?c1) ^ is_a(?s2,+?c2)  ^  has_sense(?w1,?s1) ^ has_sense(?w2,?s2)  ^ ?w1=/=?w2 ^  ac_word(+?ac)
 
+//Works only with ml and l
+//0 is_a(?s1,+?c1) ^ is_a(?s2,+?c2)  ^  has_sense(?w1,?s1) ^ has_sense(?w2,?s2)  ^ ?w1=/=?w2 ^  ac_word(+?ac)
 
-0 has_sense(?w1,fill.v.01) ^ has_sense(?w2,milliliter.n.01) ^ ac_word(+?ac)
-0 has_sense(?w1,fill.v.01) ^ has_sense(?w2,liter.n.01) ^ ac_word(+?ac)
-0 has_sense(?w1,fill.v.01) ^ !has_sense(?w2,liter.n.01) ^ !has_sense(?w2,milliliter.n.01) ^ ac_word(+?ac)
+//0 is_a(?s1,+?c1) ^ is_a(?s2,+?c2) ^ is_a(?s3,+?c3) ^  has_sense(?w1,?s1) ^ has_sense(?w2,?s2) ^ has_sense(?w3,?s3) ^ ?w1=/=?w2 ^ ?w2=/=?w3 ^ ?w1=/=?w3 ^  ac_word(+?ac)
+
+//0 has_sense(?w1,fill.v.01) ^ has_sense(?w2,milliliter.n.01) ^ ac_word(+?ac)
+//0 has_sense(?w1,fill.v.01) ^ has_sense(?w2,liter.n.01) ^ ac_word(+?ac)
+//0 has_sense(?w1,fill.v.01) ^ !has_sense(?w2,liter.n.01) ^ !has_sense(?w2,milliliter.n.01) ^ ac_word(+?ac)
 
 
 //0 has_sense(?w1,+?s1) ^ has_sense(?w2,+?s2) ^ has_sense(?w3,?c1) ^ is_a(?c1,+?c2) ^ ac_word(+?ac) ^ ?w1=/=?w2 ^ ?w2=/=?w3 ^ ?w1=/=?w3 

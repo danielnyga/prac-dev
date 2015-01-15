@@ -1,0 +1,87 @@
+// Fill remainder of glass with one liter milk .
+//Fill
+1.00 has_pos(fill,VB)
+1.00 has_sense(fill,fill.v.01)
+
+//glass
+//1.00 has_pos(glass,NN)
+//1.00 has_sense(glass,glass.n.02)
+
+//liter
+1.00 has_pos(liter,NN)
+1.00 has_sense(liter,liter.n.01)
+
+//acid
+1.00 has_pos(acid,NN)
+1.00 has_sense(acid,acid.n.01)
+
+1.00 ac_word(AC_FILL_CHEMICAL_L)
+//1.00 dobj(fill, glass)
+---
+// fill the teapot to the top with hot water .
+//Fill
+1.00 has_pos(fill,VB)
+1.00 has_sense(fill,fill.v.01)
+
+//teapot
+//1.00 has_pos(teapot,NN)
+//1.00 has_sense(teapot,teapot.n.01)
+
+//base
+1.00 has_pos(base,NN)
+1.00 has_sense(base,base.n.10)
+
+1.00 ac_word(AC_FILL_CHEMICAL_L)
+
+
+//1.00 dobj(fill, teapot)
+
+//liter
+1.00 has_pos(liter,NN)
+1.00 has_sense(liter,liter.n.01)
+
+---
+//Fill the pot with water.
+//Fill
+1.00 has_pos(fill,VB)
+1.00 has_sense(fill,fill.v.01)
+
+//pot
+//1.00 has_pos(pot,NN)
+//1.00 has_sense(pot,pot.n.01)
+
+//acid
+1.00 has_pos(acid,NN)
+1.00 has_sense(acid,acid.n.01)
+
+1.00 ac_word(AC_FILL_CHEMICAL_ML)
+
+
+//milliliter
+1.00 has_pos(milliliter,NN)
+1.00 has_sense(milliliter,milliliter.n.01)
+
+//1.00 dobj(fill, pot)
+---
+//Fill the bottle with juice.
+//Fill
+1.00 has_pos(fill,VB)
+1.00 has_sense(fill,fill.v.01)
+
+//bottle
+//1.00 has_pos(bottle,NN)
+//1.00 has_sense(bottle,bottle.n.01)
+
+//base
+1.00 has_pos(base,NN)
+1.00 has_sense(base,base.n.10)
+
+1.00 ac_word(AC_FILL_CHEMICAL_ML)
+
+
+
+//milliliter
+1.00 has_pos(milliliter,NN)
+1.00 has_sense(milliliter,milliliter.n.01)
+
+//1.00 dobj(fill, bottle)
