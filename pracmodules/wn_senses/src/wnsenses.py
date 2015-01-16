@@ -191,15 +191,11 @@ class WNSenses(PRACModule):
                                 synset2 = self.wordnet.synset(domVal)
                                 sim = self.wordnet.similarity(synset1, synset2)
                                 if prop == 'hasa' or prop == 'hypernym':
-                                    if sim < .85: 
-                                        db.addGroundAtom('{}({}, {})'.format(prop, cluster, domVal), 0)
-                                    else:
-                                        db.addGroundAtom('{}({}, {})'.format(prop, cluster, domVal), sim)
+                                    if sim < .85: continue
+                                    db.addGroundAtom('{}({}, {})'.format(prop, cluster, domVal), sim)
                                 else:
-                                    if sim < .6:
-                                        db.addGroundAtom('{}({}, {})'.format(prop, cluster, domVal), 0)
-                                    else:
-                                        db.addGroundAtom('{}({}, {})'.format(prop, cluster, domVal), sim)
+                                    if sim < .6: continue
+                                    db.addGroundAtom('{}({}, {})'.format(prop, cluster, domVal), sim)
         return db
 
            
