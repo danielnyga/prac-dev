@@ -18,9 +18,9 @@
 
 //1.00 dobj(fill, pot)
 
-action_role(fill,ActionVerb)
-action_role(water,Liquid)
-action_role(milliliter,Amount)
+action_role(fill.v.01,ActionVerb)
+action_role(water.n.06,Liquid)
+action_role(milliliter.n.01,Amount)
 ---
 //Fill the bottle with juice.
 //Fill
@@ -43,9 +43,9 @@ action_role(milliliter,Amount)
 
 //1.00 dobj(fill, bottle)
 
-action_role(fill,ActionVerb)
-action_role(juice,Liquid)
-action_role(milliliter,Amount)
+action_role(fill.v.01,ActionVerb)
+action_role(fruit_juice.n.01,Liquid)
+action_role(milliliter.n.01,Amount)
 
 ---
 
@@ -67,9 +67,9 @@ action_role(milliliter,Amount)
 1.00 has_sense(milliliter,milliliter.n.01)
 1.00 ac_word(AC_FILL_INGREDIENT_ML)
 
-action_role(fill,ActionVerb)
-action_role(coffee,Liquid)
-action_role(milliliter,Amount)
+action_role(fill.v.01,ActionVerb)
+action_role(coffee.n.01,Liquid)
+action_role(milliliter.n.01,Amount)
 
 ---
 
@@ -91,9 +91,9 @@ action_role(milliliter,Amount)
 
 1.00 ac_word(AC_FILL_INGREDIENT_L)
 
-action_role(fill,ActionVerb)
-action_role(whisky,Liquid)
-action_role(liter,Amount)
+action_role(fill.v.01,ActionVerb)
+action_role(whiskey.n.01,Liquid)
+action_role(liter.n.01,Amount)
 
 ---
 
@@ -115,9 +115,9 @@ action_role(liter,Amount)
 
 1.00 ac_word(AC_FILL_INGREDIENT_L)
 
-action_role(fill,ActionVerb)
-action_role(tea,Liquid)
-action_role(liter,Amount)
+action_role(fill.v.01,ActionVerb)
+action_role(tea.n.01,Liquid)
+action_role(liter.n.01,Amount)
 
 ---
 
@@ -138,9 +138,9 @@ action_role(liter,Amount)
 
 1.00 ac_word(AC_FILL_INGREDIENT_L)
 
-action_role(fill,ActionVerb)
-action_role(juice,Liquid)
-action_role(liter,Amount)
+action_role(fill.v.01,ActionVerb)
+action_role(fruit_juice.n.01,Liquid)
+action_role(liter.n.01,Amount)
 ---
 
 
@@ -164,9 +164,9 @@ action_role(liter,Amount)
 1.00 has_sense(milliliter,milliliter.n.01)
 1.00 ac_word(AC_FILL_INGREDIENT_ML)
 
-action_role(fill,ActionVerb)
-action_role(milk,Liquid)
-action_role(milliliter,Amount)
+action_role(fill.v.01,ActionVerb)
+action_role(milk.n.01,Liquid)
+action_role(milliliter.n.01,Amount)
 
 //1.00 dobj(fill, glass)
 ---
@@ -190,9 +190,9 @@ action_role(milliliter,Amount)
 1.00 has_sense(milliliter,milliliter.n.01)
 1.00 ac_word(AC_FILL_INGREDIENT_ML)
 
-action_role(fill,ActionVerb)
-action_role(water,Liquid)
-action_role(milliliter,Amount)
+action_role(fill.v.01,ActionVerb)
+action_role(water.n.06,Liquid)
+action_role(milliliter.n.01,Amount)
 
 ---
 
@@ -215,58 +215,12 @@ action_role(milliliter,Amount)
 1.00 ac_word(AC_FILL_INGREDIENT_L)
 
 
-action_role(fill,ActionVerb)
-action_role(cola,Liquid)
-action_role(liter,Amount)
+action_role(fill.v.01,ActionVerb)
+action_role(cola.n.02,Liquid)
+action_role(liter.n.01,Amount)
 
 ---
 
-
-//Fill the pot with water.
-//Fill
-1.00 has_pos(fill,VB)
-1.00 has_sense(fill,fill.v.01)
-
-//pot
-//1.00 has_pos(pot,NN)
-//1.00 has_sense(pot,pot.n.01)
-
-//water
-1.00 has_pos(water,NN)
-1.00 has_sense(water,water.n.06)
-
-//milliliter
-1.00 has_pos(liter,NN)
-1.00 has_sense(liter,liter.n.01)
-1.00 ac_word(AC_FILL_INGREDIENT_L)
-
-//1.00 dobj(fill, pot)
-
-action_role(fill,ActionVerb)
-action_role(water,Liquid)
-action_role(liter,Amount)
-
----
-
-//Fill the bottle with juice.
-//Fill
-1.00 has_pos(fill,VB)
-1.00 has_sense(fill,fill.v.01)
-
-//bottle
-//1.00 has_pos(bottle,NN)
-//1.00 has_sense(bottle,bottle.n.01)
-
-//juice
-1.00 has_pos(juice,NN)
-1.00 has_sense(juice,fruit_juice.n.01)
-
-1.00 ac_word(AC_FILL_INGREDIENT)
-
-action_role(fill,ActionVerb)
-action_role(juice,Liquid)
-
----
 
 //Fill the pot with water.
 //Fill
@@ -286,10 +240,11 @@ action_role(juice,Liquid)
 
 //1.00 dobj(fill, pot)
 
-action_role(fill,ActionVerb)
-action_role(water,Liquid)
+action_role(fill.v.01,ActionVerb)
+action_role(water.n.06,Liquid)
 
 ---
+
 
 // Fill remainder of glass with one liter milk .
 //Fill
@@ -306,12 +261,13 @@ action_role(water,Liquid)
 1.00 has_pos(milk,NN)
 1.00 has_sense(milk,milk.n.01)
 
+//liter
 1.00 ac_word(AC_FILL_INGREDIENT)
+
+action_role(fill.v.01,ActionVerb)
+action_role(milk.n.01,Liquid)
+
 //1.00 dobj(fill, glass)
-
-action_role(fill,ActionVerb)
-action_role(milk,Liquid)
-
 ---
 // fill the teapot to the top with hot water .
 //Fill
@@ -330,9 +286,8 @@ action_role(milk,Liquid)
 
 1.00 ac_word(AC_FILL_INGREDIENT)
 
-action_role(fill,ActionVerb)
-action_role(water,Liquid)
-
+action_role(fill.v.01,ActionVerb)
+action_role(water.n.06,Liquid)
 
 ---
 
@@ -349,7 +304,32 @@ action_role(water,Liquid)
 1.00 has_pos(cola,NN)
 1.00 has_sense(cola,cola.n.02)
 
+//liter
 1.00 ac_word(AC_FILL_INGREDIENT)
 
-action_role(fill,ActionVerb)
-action_role(cola,Liquid)
+
+action_role(fill.v.01,ActionVerb)
+action_role(cola.n.02,Liquid)
+
+---
+
+
+//Fill the pot with water.
+//Fill
+1.00 has_pos(fill,VB)
+1.00 has_sense(fill,fill.v.01)
+
+//pot
+//1.00 has_pos(pot,NN)
+//1.00 has_sense(pot,pot.n.01)
+
+//water
+1.00 has_pos(water,NN)
+1.00 has_sense(water,water.n.06)
+
+1.00 ac_word(AC_FILL_INGREDIENT)
+
+//1.00 dobj(fill, pot)
+
+action_role(fill.v.01,ActionVerb)
+action_role(water.n.06,Liquid)

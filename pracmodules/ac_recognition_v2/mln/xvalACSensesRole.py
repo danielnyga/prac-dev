@@ -143,10 +143,11 @@ class XValFold(object):
                 
                 resultDB = mln.infer(InferenceMethods.WCSP, queryPred, db_,cwPreds=['has_pos'])
                 
-                for predicate in trueDB.iterGroundLiteralStrings('ac_word'):
-                    group = re.split(',',re.split('ac_word\w*\(|\)',predicate[1])[1])
-                    truth = group[0];
-                    query = 'ac_word(?s)'
+                for predicate in trueDB.iterGroundLiteralStrings('action_role'):
+                    group = re.split(',',re.split('action_role\w*\(|\)',predicate[1])[1])
+                    word = group[0];
+                    truth = group[1];
+                    query = 'action_role('+word+',?s)'
                     for result in resultDB.query(query):
                         pred = result['?s']
                         print "PRED " + pred
@@ -313,7 +314,7 @@ def createTestDBs(mln,dbs):
                 word2senses[word_const].append(sense_id)
                 for concept in concepts:
 #                     sim = wordnet.semilarity(synset, concept)
-                    sim = wordnet.path_similarity(synset, concept)
+                    sim = wordnet.wup_similarity(synset, concept)
                     
                     atom =  'is_a(%s,%s)' % (sense_id, concept)
                     atomExists = False
