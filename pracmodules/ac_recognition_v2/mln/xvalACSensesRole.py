@@ -323,6 +323,12 @@ def createTestDBs(mln,dbs):
                         atomExists = True
                     if atomExists == False:
                         db_.addGroundAtom('is_a(%s,%s)' % (sense_id, concept),sim)
+            for word in word2senses:
+                for word2, senses in word2senses.iteritems():
+                    if word2 == word: continue
+                    else: 
+                        for s in senses: db_.addGroundAtom('!has_sense(%s,%s)' % (word, s))
+                db_.addGroundAtom('!has_sense(%s,null)' % (word))
         
         dbs_.append(db_)
     return dbs_

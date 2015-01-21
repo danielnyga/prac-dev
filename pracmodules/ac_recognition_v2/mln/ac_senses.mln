@@ -1,9 +1,9 @@
 has_pos(word,pos!)
 is_a(sense, concept)
 ac_word(ac!)
-dobj(word,word)
 has_sense(word, sense!)
+dobj(word,word)
+action_role(sense,role!)
 
 
-0 has_pos(?w1,VB) ^ has_sense(?w1,stir.v.01) ^ ac_word(AC_STIR)
-0 has_pos(?w1,VB) ^ has_sense(?w1,stir.v.08) ^  ac_word(AC_STIR_2)
+0 action_role(?s1,+?ar1) ^ action_role(?s2,+?ar2) ^ action_role(?s3,+?ar3) ^ ac_word(+?ac)   
