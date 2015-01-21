@@ -1,0 +1,66 @@
+// domain declarations
+
+
+// predicate declarations
+ac_word(ac!)
+action_role(word,role!)
+has_pos(word,pos!)
+has_sense(word,sense!)
+dobj(word,word)
+is_a(sense,concept)
+
+// formulas
+-0.509568   action_role(?w1, Amount) ^ action_role(?w2, Amount) ^ action_role(?w3, Amount) ^ ac_word(AC_FILL_INGREDIENT) ^ w1=/=w2 ^ w2=/=w3 ^ w1=/=w3
+-0.509568   action_role(?w1, Amount) ^ action_role(?w2, Amount) ^ action_role(?w3, ActionVerb) ^ ac_word(AC_FILL_INGREDIENT) ^ w1=/=w2 ^ w2=/=w3 ^ w1=/=w3
+-0.509568   action_role(?w1, Amount) ^ action_role(?w2, Amount) ^ action_role(?w3, Liquid) ^ ac_word(AC_FILL_INGREDIENT) ^ w1=/=w2 ^ w2=/=w3 ^ w1=/=w3
+-0.509568   action_role(?w1, Amount) ^ action_role(?w2, ActionVerb) ^ action_role(?w3, Amount) ^ ac_word(AC_FILL_INGREDIENT) ^ w1=/=w2 ^ w2=/=w3 ^ w1=/=w3
+-0.509568   action_role(?w1, Amount) ^ action_role(?w2, ActionVerb) ^ action_role(?w3, ActionVerb) ^ ac_word(AC_FILL_INGREDIENT) ^ w1=/=w2 ^ w2=/=w3 ^ w1=/=w3
+-0.509568   action_role(?w1, Amount) ^ action_role(?w2, ActionVerb) ^ action_role(?w3, Liquid) ^ ac_word(AC_FILL_INGREDIENT) ^ w1=/=w2 ^ w2=/=w3 ^ w1=/=w3
+-0.509568   action_role(?w1, Amount) ^ action_role(?w2, Liquid) ^ action_role(?w3, Amount) ^ ac_word(AC_FILL_INGREDIENT) ^ w1=/=w2 ^ w2=/=w3 ^ w1=/=w3
+-0.509568   action_role(?w1, Amount) ^ action_role(?w2, Liquid) ^ action_role(?w3, ActionVerb) ^ ac_word(AC_FILL_INGREDIENT) ^ w1=/=w2 ^ w2=/=w3 ^ w1=/=w3
+-0.509568   action_role(?w1, Amount) ^ action_role(?w2, Liquid) ^ action_role(?w3, Liquid) ^ ac_word(AC_FILL_INGREDIENT) ^ w1=/=w2 ^ w2=/=w3 ^ w1=/=w3
+-0.509568   action_role(?w1, ActionVerb) ^ action_role(?w2, Amount) ^ action_role(?w3, Amount) ^ ac_word(AC_FILL_INGREDIENT) ^ w1=/=w2 ^ w2=/=w3 ^ w1=/=w3
+-0.509568   action_role(?w1, ActionVerb) ^ action_role(?w2, Amount) ^ action_role(?w3, ActionVerb) ^ ac_word(AC_FILL_INGREDIENT) ^ w1=/=w2 ^ w2=/=w3 ^ w1=/=w3
+-0.509568   action_role(?w1, ActionVerb) ^ action_role(?w2, Amount) ^ action_role(?w3, Liquid) ^ ac_word(AC_FILL_INGREDIENT) ^ w1=/=w2 ^ w2=/=w3 ^ w1=/=w3
+-0.509568   action_role(?w1, ActionVerb) ^ action_role(?w2, ActionVerb) ^ action_role(?w3, Amount) ^ ac_word(AC_FILL_INGREDIENT) ^ w1=/=w2 ^ w2=/=w3 ^ w1=/=w3
+0.540298    action_role(?w1, ActionVerb) ^ action_role(?w2, ActionVerb) ^ action_role(?w3, ActionVerb) ^ ac_word(AC_FILL_INGREDIENT) ^ w1=/=w2 ^ w2=/=w3 ^ w1=/=w3
+0.540298    action_role(?w1, ActionVerb) ^ action_role(?w2, ActionVerb) ^ action_role(?w3, Liquid) ^ ac_word(AC_FILL_INGREDIENT) ^ w1=/=w2 ^ w2=/=w3 ^ w1=/=w3
+-0.509568   action_role(?w1, ActionVerb) ^ action_role(?w2, Liquid) ^ action_role(?w3, Amount) ^ ac_word(AC_FILL_INGREDIENT) ^ w1=/=w2 ^ w2=/=w3 ^ w1=/=w3
+0.540298    action_role(?w1, ActionVerb) ^ action_role(?w2, Liquid) ^ action_role(?w3, ActionVerb) ^ ac_word(AC_FILL_INGREDIENT) ^ w1=/=w2 ^ w2=/=w3 ^ w1=/=w3
+0.540298    action_role(?w1, ActionVerb) ^ action_role(?w2, Liquid) ^ action_role(?w3, Liquid) ^ ac_word(AC_FILL_INGREDIENT) ^ w1=/=w2 ^ w2=/=w3 ^ w1=/=w3
+-0.509568   action_role(?w1, Liquid) ^ action_role(?w2, Amount) ^ action_role(?w3, Amount) ^ ac_word(AC_FILL_INGREDIENT) ^ w1=/=w2 ^ w2=/=w3 ^ w1=/=w3
+-0.509568   action_role(?w1, Liquid) ^ action_role(?w2, Amount) ^ action_role(?w3, ActionVerb) ^ ac_word(AC_FILL_INGREDIENT) ^ w1=/=w2 ^ w2=/=w3 ^ w1=/=w3
+-0.509568   action_role(?w1, Liquid) ^ action_role(?w2, Amount) ^ action_role(?w3, Liquid) ^ ac_word(AC_FILL_INGREDIENT) ^ w1=/=w2 ^ w2=/=w3 ^ w1=/=w3
+-0.509568   action_role(?w1, Liquid) ^ action_role(?w2, ActionVerb) ^ action_role(?w3, Amount) ^ ac_word(AC_FILL_INGREDIENT) ^ w1=/=w2 ^ w2=/=w3 ^ w1=/=w3
+0.540298    action_role(?w1, Liquid) ^ action_role(?w2, ActionVerb) ^ action_role(?w3, ActionVerb) ^ ac_word(AC_FILL_INGREDIENT) ^ w1=/=w2 ^ w2=/=w3 ^ w1=/=w3
+0.540298    action_role(?w1, Liquid) ^ action_role(?w2, ActionVerb) ^ action_role(?w3, Liquid) ^ ac_word(AC_FILL_INGREDIENT) ^ w1=/=w2 ^ w2=/=w3 ^ w1=/=w3
+-0.509568   action_role(?w1, Liquid) ^ action_role(?w2, Liquid) ^ action_role(?w3, Amount) ^ ac_word(AC_FILL_INGREDIENT) ^ w1=/=w2 ^ w2=/=w3 ^ w1=/=w3
+0.540298    action_role(?w1, Liquid) ^ action_role(?w2, Liquid) ^ action_role(?w3, ActionVerb) ^ ac_word(AC_FILL_INGREDIENT) ^ w1=/=w2 ^ w2=/=w3 ^ w1=/=w3
+0.540298    action_role(?w1, Liquid) ^ action_role(?w2, Liquid) ^ action_role(?w3, Liquid) ^ ac_word(AC_FILL_INGREDIENT) ^ w1=/=w2 ^ w2=/=w3 ^ w1=/=w3
+0.509568    action_role(?w1, Amount) ^ action_role(?w2, Amount) ^ action_role(?w3, Amount) ^ ac_word(AC_FILL_INGREDIENT_AMOUNT) ^ w1=/=w2 ^ w2=/=w3 ^ w1=/=w3
+0.509568    action_role(?w1, Amount) ^ action_role(?w2, Amount) ^ action_role(?w3, ActionVerb) ^ ac_word(AC_FILL_INGREDIENT_AMOUNT) ^ w1=/=w2 ^ w2=/=w3 ^ w1=/=w3
+0.509568    action_role(?w1, Amount) ^ action_role(?w2, Amount) ^ action_role(?w3, Liquid) ^ ac_word(AC_FILL_INGREDIENT_AMOUNT) ^ w1=/=w2 ^ w2=/=w3 ^ w1=/=w3
+0.509568    action_role(?w1, Amount) ^ action_role(?w2, ActionVerb) ^ action_role(?w3, Amount) ^ ac_word(AC_FILL_INGREDIENT_AMOUNT) ^ w1=/=w2 ^ w2=/=w3 ^ w1=/=w3
+0.509568    action_role(?w1, Amount) ^ action_role(?w2, ActionVerb) ^ action_role(?w3, ActionVerb) ^ ac_word(AC_FILL_INGREDIENT_AMOUNT) ^ w1=/=w2 ^ w2=/=w3 ^ w1=/=w3
+0.509568    action_role(?w1, Amount) ^ action_role(?w2, ActionVerb) ^ action_role(?w3, Liquid) ^ ac_word(AC_FILL_INGREDIENT_AMOUNT) ^ w1=/=w2 ^ w2=/=w3 ^ w1=/=w3
+0.509568    action_role(?w1, Amount) ^ action_role(?w2, Liquid) ^ action_role(?w3, Amount) ^ ac_word(AC_FILL_INGREDIENT_AMOUNT) ^ w1=/=w2 ^ w2=/=w3 ^ w1=/=w3
+0.509568    action_role(?w1, Amount) ^ action_role(?w2, Liquid) ^ action_role(?w3, ActionVerb) ^ ac_word(AC_FILL_INGREDIENT_AMOUNT) ^ w1=/=w2 ^ w2=/=w3 ^ w1=/=w3
+0.509568    action_role(?w1, Amount) ^ action_role(?w2, Liquid) ^ action_role(?w3, Liquid) ^ ac_word(AC_FILL_INGREDIENT_AMOUNT) ^ w1=/=w2 ^ w2=/=w3 ^ w1=/=w3
+0.509568    action_role(?w1, ActionVerb) ^ action_role(?w2, Amount) ^ action_role(?w3, Amount) ^ ac_word(AC_FILL_INGREDIENT_AMOUNT) ^ w1=/=w2 ^ w2=/=w3 ^ w1=/=w3
+0.509568    action_role(?w1, ActionVerb) ^ action_role(?w2, Amount) ^ action_role(?w3, ActionVerb) ^ ac_word(AC_FILL_INGREDIENT_AMOUNT) ^ w1=/=w2 ^ w2=/=w3 ^ w1=/=w3
+0.509568    action_role(?w1, ActionVerb) ^ action_role(?w2, Amount) ^ action_role(?w3, Liquid) ^ ac_word(AC_FILL_INGREDIENT_AMOUNT) ^ w1=/=w2 ^ w2=/=w3 ^ w1=/=w3
+0.509568    action_role(?w1, ActionVerb) ^ action_role(?w2, ActionVerb) ^ action_role(?w3, Amount) ^ ac_word(AC_FILL_INGREDIENT_AMOUNT) ^ w1=/=w2 ^ w2=/=w3 ^ w1=/=w3
+-0.540298   action_role(?w1, ActionVerb) ^ action_role(?w2, ActionVerb) ^ action_role(?w3, ActionVerb) ^ ac_word(AC_FILL_INGREDIENT_AMOUNT) ^ w1=/=w2 ^ w2=/=w3 ^ w1=/=w3
+-0.540298   action_role(?w1, ActionVerb) ^ action_role(?w2, ActionVerb) ^ action_role(?w3, Liquid) ^ ac_word(AC_FILL_INGREDIENT_AMOUNT) ^ w1=/=w2 ^ w2=/=w3 ^ w1=/=w3
+0.509568    action_role(?w1, ActionVerb) ^ action_role(?w2, Liquid) ^ action_role(?w3, Amount) ^ ac_word(AC_FILL_INGREDIENT_AMOUNT) ^ w1=/=w2 ^ w2=/=w3 ^ w1=/=w3
+-0.540298   action_role(?w1, ActionVerb) ^ action_role(?w2, Liquid) ^ action_role(?w3, ActionVerb) ^ ac_word(AC_FILL_INGREDIENT_AMOUNT) ^ w1=/=w2 ^ w2=/=w3 ^ w1=/=w3
+-0.540298   action_role(?w1, ActionVerb) ^ action_role(?w2, Liquid) ^ action_role(?w3, Liquid) ^ ac_word(AC_FILL_INGREDIENT_AMOUNT) ^ w1=/=w2 ^ w2=/=w3 ^ w1=/=w3
+0.509568    action_role(?w1, Liquid) ^ action_role(?w2, Amount) ^ action_role(?w3, Amount) ^ ac_word(AC_FILL_INGREDIENT_AMOUNT) ^ w1=/=w2 ^ w2=/=w3 ^ w1=/=w3
+0.509568    action_role(?w1, Liquid) ^ action_role(?w2, Amount) ^ action_role(?w3, ActionVerb) ^ ac_word(AC_FILL_INGREDIENT_AMOUNT) ^ w1=/=w2 ^ w2=/=w3 ^ w1=/=w3
+0.509568    action_role(?w1, Liquid) ^ action_role(?w2, Amount) ^ action_role(?w3, Liquid) ^ ac_word(AC_FILL_INGREDIENT_AMOUNT) ^ w1=/=w2 ^ w2=/=w3 ^ w1=/=w3
+0.509568    action_role(?w1, Liquid) ^ action_role(?w2, ActionVerb) ^ action_role(?w3, Amount) ^ ac_word(AC_FILL_INGREDIENT_AMOUNT) ^ w1=/=w2 ^ w2=/=w3 ^ w1=/=w3
+-0.540298   action_role(?w1, Liquid) ^ action_role(?w2, ActionVerb) ^ action_role(?w3, ActionVerb) ^ ac_word(AC_FILL_INGREDIENT_AMOUNT) ^ w1=/=w2 ^ w2=/=w3 ^ w1=/=w3
+-0.540298   action_role(?w1, Liquid) ^ action_role(?w2, ActionVerb) ^ action_role(?w3, Liquid) ^ ac_word(AC_FILL_INGREDIENT_AMOUNT) ^ w1=/=w2 ^ w2=/=w3 ^ w1=/=w3
+0.509568    action_role(?w1, Liquid) ^ action_role(?w2, Liquid) ^ action_role(?w3, Amount) ^ ac_word(AC_FILL_INGREDIENT_AMOUNT) ^ w1=/=w2 ^ w2=/=w3 ^ w1=/=w3
+-0.540298   action_role(?w1, Liquid) ^ action_role(?w2, Liquid) ^ action_role(?w3, ActionVerb) ^ ac_word(AC_FILL_INGREDIENT_AMOUNT) ^ w1=/=w2 ^ w2=/=w3 ^ w1=/=w3
+-0.540298   action_role(?w1, Liquid) ^ action_role(?w2, Liquid) ^ action_role(?w3, Liquid) ^ ac_word(AC_FILL_INGREDIENT_AMOUNT) ^ w1=/=w2 ^ w2=/=w3 ^ w1=/=w3

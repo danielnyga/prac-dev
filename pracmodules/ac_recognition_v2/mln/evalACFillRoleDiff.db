@@ -14,7 +14,7 @@
 //milliliter
 1.00 has_pos(milliliter,NN)
 1.00 has_sense(milliliter,milliliter.n.01)
-1.00 ac_word(AC_FILL_INGREDIENT_AMOUNT)
+1.00 ac_word(AC_FILL_INGREDIENT_ML)
 
 //1.00 dobj(fill, pot)
 
@@ -39,7 +39,7 @@ action_role(milliliter,Amount)
 //milliliter
 1.00 has_pos(milliliter,NN)
 1.00 has_sense(milliliter,milliliter.n.01)
-1.00 ac_word(AC_FILL_INGREDIENT_AMOUNT)
+1.00 ac_word(AC_FILL_INGREDIENT_ML)
 
 //1.00 dobj(fill, bottle)
 
@@ -65,7 +65,7 @@ action_role(milliliter,Amount)
 //milliliter
 1.00 has_pos(milliliter,NN)
 1.00 has_sense(milliliter,milliliter.n.01)
-1.00 ac_word(AC_FILL_INGREDIENT_AMOUNT)
+1.00 ac_word(AC_FILL_INGREDIENT_ML)
 
 action_role(fill,ActionVerb)
 action_role(coffee,Liquid)
@@ -89,7 +89,7 @@ action_role(milliliter,Amount)
 1.00 has_pos(liter,NN)
 1.00 has_sense(liter,liter.n.01)
 
-1.00 ac_word(AC_FILL_INGREDIENT_AMOUNT)
+1.00 ac_word(AC_FILL_INGREDIENT_L)
 
 action_role(fill,ActionVerb)
 action_role(whisky,Liquid)
@@ -113,7 +113,7 @@ action_role(liter,Amount)
 1.00 has_pos(liter,NN)
 1.00 has_sense(liter,liter.n.01)
 
-1.00 ac_word(AC_FILL_INGREDIENT_AMOUNT)
+1.00 ac_word(AC_FILL_INGREDIENT_L)
 
 action_role(fill,ActionVerb)
 action_role(tea,Liquid)
@@ -136,7 +136,7 @@ action_role(liter,Amount)
 1.00 has_pos(liter,NN)
 1.00 has_sense(liter,liter.n.01)
 
-1.00 ac_word(AC_FILL_INGREDIENT_AMOUNT)
+1.00 ac_word(AC_FILL_INGREDIENT_L)
 
 action_role(fill,ActionVerb)
 action_role(juice,Liquid)
@@ -162,7 +162,7 @@ action_role(liter,Amount)
 //liter
 1.00 has_pos(milliliter,NN)
 1.00 has_sense(milliliter,milliliter.n.01)
-1.00 ac_word(AC_FILL_INGREDIENT_AMOUNT)
+1.00 ac_word(AC_FILL_INGREDIENT_ML)
 
 action_role(fill,ActionVerb)
 action_role(milk,Liquid)
@@ -188,7 +188,7 @@ action_role(milliliter,Amount)
 //liter
 1.00 has_pos(milliliter,NN)
 1.00 has_sense(milliliter,milliliter.n.01)
-1.00 ac_word(AC_FILL_INGREDIENT_AMOUNT)
+1.00 ac_word(AC_FILL_INGREDIENT_ML)
 
 action_role(fill,ActionVerb)
 action_role(water,Liquid)
@@ -212,7 +212,7 @@ action_role(milliliter,Amount)
 //liter
 1.00 has_pos(liter,NN)
 1.00 has_sense(liter,liter.n.01)
-1.00 ac_word(AC_FILL_INGREDIENT_AMOUNT)
+1.00 ac_word(AC_FILL_INGREDIENT_L)
 
 
 action_role(fill,ActionVerb)
@@ -333,7 +333,9 @@ action_role(cola,Liquid)
 
 action_role(fill,ActionVerb)
 action_role(water,Liquid)
+
 ---
+
 // Fill remainder of glass with one liter milk .
 //Fill
 1.00 has_pos(fill,VB)
@@ -433,3 +435,56 @@ action_role(milliliter,Amount)
 //milliliter
 1.00 has_pos(milliliter,NN)
 1.00 has_sense(milliliter,milliliter.n.01)
+
+
+---
+
+// fill the teapot to the top with hot water .
+//Fill
+1.00 has_pos(fill,VB)
+1.00 has_sense(fill,fill.v.01)
+
+//teapot
+//1.00 has_pos(teapot,NN)
+//1.00 has_sense(teapot,teapot.n.01)
+
+//base
+1.00 has_pos(base,NN)
+1.00 has_sense(base,base.n.10)
+
+1.00 ac_word(AC_FILL_CHEMICAL)
+
+action_role(fill,ActionVerb)
+action_role(base,Liquid)
+
+//1.00 dobj(fill, teapot)
+
+//liter
+1.00 has_pos(liter,NN)
+1.00 has_sense(liter,liter.n.01)
+
+---
+//Fill the pot with water.
+//Fill
+1.00 has_pos(fill,VB)
+1.00 has_sense(fill,fill.v.01)
+
+//pot
+//1.00 has_pos(pot,NN)
+//1.00 has_sense(pot,pot.n.01)
+
+//acid
+1.00 has_pos(acid,NN)
+1.00 has_sense(acid,acid.n.01)
+
+1.00 ac_word(AC_FILL_CHEMICAL)
+
+
+//milliliter
+1.00 has_pos(milliliter,NN)
+1.00 has_sense(milliliter,milliliter.n.01)
+
+//1.00 dobj(fill, pot)
+
+action_role(fill,ActionVerb)
+action_role(acid,Liquid)

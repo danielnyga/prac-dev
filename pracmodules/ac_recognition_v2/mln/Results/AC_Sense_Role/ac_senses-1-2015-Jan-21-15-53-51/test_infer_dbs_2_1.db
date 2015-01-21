@@ -1,0 +1,4 @@
+1.00  action_role(fill, ActionVerb)
+1.00  action_role(water, Liquid)
+1.00  has_sense(fill, fill.v.01)
+1.00  has_sense(water, water.n.06)

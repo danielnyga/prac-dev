@@ -1,0 +1,6 @@
+1.00  action_role(fill, ActionVerb)
+1.00  action_role(juice, Liquid)
+1.00  action_role(liter, Amount)
+1.00  has_sense(fill, fill.v.01)
+1.00  has_sense(juice, fruit_juice.n.01)
+1.00  has_sense(liter, liter.n.01)

@@ -134,9 +134,20 @@ class XValFold(object):
                     atom = atom.replace(binding, bindings[binding])
                 trueDB.addGroundAtom(atom)
                 #db.retractGndAtom(atom)
-            for pred in ['action_role','has_sense','is_a']:
+            known_concepts = mln.domains.get('concept', [])
+            wordnet = WordNet(concepts=None)
+            for pred in ['action_role','has_sense']:
                 for atom in list(db.iterGroundLiteralStrings(pred)):
-                    db_.addGroundAtom(atom[1],atom[0])
+                    if(pred == 'has_sense'):
+                        group = re.split(',',re.split('has_sense\w*\(|\)',atom[1])[1])
+                        word = group[1];
+                        if atom[0] == 0:
+                            db_.addGroundAtom(atom[1],atom[0])
+                        else:
+                            for concept in known_concepts:
+                                db_.addGroundAtom('is_a('+word+","+concept+')',wordnet.path_similarity(word,concept))
+                    else:
+                        db_.addGroundAtom(atom[1],atom[0])
             
             try:
                 db_.writeToFile(os.path.join(self.params.directory, 'test_infer_dbs_'+str(self.params.foldIdx)+'_'+str(i)+'.db'))
@@ -185,7 +196,7 @@ class XValFold(object):
                                           partSize=self.params.partSize,
                                           maxrepeat=self.params.maxrepeat,
                                           gtol=self.params.gtol,
-                                          evidencePreds=["action_role"]
+                                          evidencePreds=["action_role","is_a"]
                                           ,ignoreZeroWeightFormulas=True)#200
             # store the learned MLN in a file
             learnedMLN.writeToFile(os.path.join(directory, 'run_%d.mln' % self.params.foldIdx))
@@ -322,6 +333,12 @@ def createTestDBs(mln,dbs):
                         atomExists = True
                     if atomExists == False:
                         db_.addGroundAtom('is_a(%s,%s)' % (sense_id, concept),sim)
+            for word in word2senses:
+                for word2, senses in word2senses.iteritems():
+                    if word2 == word: continue
+                    else: 
+                        for s in senses: db_.addGroundAtom('!has_sense(%s,%s)' % (word, s))
+                db_.addGroundAtom('!has_sense(%s,null)' % (word))
         
         dbs_.append(db_)
     return dbs_
