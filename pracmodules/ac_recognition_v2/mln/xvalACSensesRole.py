@@ -147,11 +147,11 @@ class XValFold(object):
                 
                 resultDB = mln.infer(InferenceMethods.WCSP, queryPred, db_,cwPreds=['has_pos'])
                 
-                for predicate in trueDB.iterGroundLiteralStrings('has_sense'):
-                    group = re.split(',',re.split('has_sense\w*\(|\)',predicate[1])[1])
+                for predicate in trueDB.iterGroundLiteralStrings('action_role'):
+                    group = re.split(',',re.split('action_role\w*\(|\)',predicate[1])[1])
                     word = group[0];
                     truth = group[1];
-                    query = 'has_sense('+word+',?s)'
+                    query = 'action_role('+word+',?s)'
                     for result in resultDB.query(query):
                         pred = result['?s']
                         print "PRED " + pred
