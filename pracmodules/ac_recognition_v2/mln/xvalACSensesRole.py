@@ -134,20 +134,24 @@ class XValFold(object):
                     atom = atom.replace(binding, bindings[binding])
                 trueDB.addGroundAtom(atom)
                 #db.retractGndAtom(atom)
-            for pred in ['is_a','has_pos']:
+            for pred in ['is_a','has_pos',"has_sense"]:
                 for atom in list(db.iterGroundLiteralStrings(pred)):
-                    db_.addGroundAtom(atom[1],atom[0])
+                    if pred == "has_sense":
+                        if atom[0] == 0:
+                            db_.addGroundAtom(atom[1],atom[0])
+                    else:    
+                        db_.addGroundAtom(atom[1],atom[0])
             
             try:
                 db_.writeToFile(os.path.join(self.params.directory, 'test_infer_dbs_'+str(self.params.foldIdx)+'_'+str(i)+'.db'))
                 
                 resultDB = mln.infer(InferenceMethods.WCSP, queryPred, db_,cwPreds=['has_pos'])
                 
-                for predicate in trueDB.iterGroundLiteralStrings('action_role'):
-                    group = re.split(',',re.split('action_role\w*\(|\)',predicate[1])[1])
+                for predicate in trueDB.iterGroundLiteralStrings('has_sense'):
+                    group = re.split(',',re.split('has_sense\w*\(|\)',predicate[1])[1])
                     word = group[0];
                     truth = group[1];
-                    query = 'action_role('+word+',?s)'
+                    query = 'has_sense('+word+',?s)'
                     for result in resultDB.query(query):
                         pred = result['?s']
                         print "PRED " + pred
