@@ -150,7 +150,18 @@ class XValFold(object):
             
             try:
                 db_.writeToFile(os.path.join(self.params.directory, 'test_infer_dbs_'+str(self.params.foldIdx)+'_'+str(i)+'.db'))
-                
+                mln.setClosedWorldPred(*["action_role","has_sense"])
+                mrf = mln.groundMRF(db_)
+                conv = WCSPConverter(mrf)
+                print "####################"
+                res = conv.getPseudoDistributionForGndAtom("ac_word(PIPETING)")
+                print res 
+                dist = open(os.path.join(self.params.directory, 'distribution_'+str(self.params.foldIdx)+'_'+str(i)), 'w+')
+                for key, val in res.items():
+                    dist.write(str(key) +"="+str(val)+"\n")
+                dist.close()
+                print "####################"
+                #resultDB = conv.getMostProbableWorldDB()
                 resultDB = mln.infer(InferenceMethods.WCSP, queryPred, db_,cwPreds=["action_role","has_sense"])
                 
                 for predicate in trueDB.iterGroundLiteralStrings('ac_word'):

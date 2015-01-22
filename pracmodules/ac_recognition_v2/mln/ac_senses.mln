@@ -5,9 +5,11 @@ has_sense(word, sense!)
 dobj(word,word)
 action_role(word,role!)
 
+//#unique{+?c1,+?c2}
+//#unique{+?ar1,+?ar2}
 
 0 is_a(?s1,+?c1)  ^  has_sense(?w1,?s1) ^ action_role(?w1,+?ar1)  ^  is_a(?s2,+?c2)  ^  has_sense(?w2,?s2) ^ action_role(?w2,+?ar2) ^  ac_word(+?ac) ^ ?w1 =/= ?w2 
-//0 !action_role(?w1 ,+?ar1) ^ ac_word(+?ac)
+0 !action_role(?w1 ,+?ar1) ^ ac_word(+?ac)
 
 //sort based on liquid
 //0 is_a(?s1,+?c1)  ^  has_sense(?w1,?s1) ^ action_role(?w1,Liquid)  ^ ac_word(+?ac) 
