@@ -1,8 +1,0 @@
-#include predicates.mln
-
-// CONF I
-0 object(?c, +?objID) ^ prop(?c, +?shape, SHAPE) ^ prop(?c, +?col, COLOR)
-0 object(?c, +?objID) ^ prop(?c, +?size, SIZE) ^ prop(?c, +?col, COLOR)
-0 object(?c, +?objID) ^ prop(?c, +?size, SIZE) ^ prop(?c, +?shape, SHAPE)
-0 object(?c, +?objID) ^ prop(?c, +?part, HASA)
-0 object(?c, +?objID) ^ prop(?c, +?hyp, HYPERNYM)

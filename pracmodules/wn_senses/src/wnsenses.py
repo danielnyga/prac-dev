@@ -140,41 +140,6 @@ class WNSenses(PRACModule):
                 db.addGroundAtom('is_a(%s, %s)' % (synset.name, synset2.name), self.wordnet.similarity(synset, synset2))
         return db
 
-    def add_similarities_old(self, db, domains, propsFound):
-        '''
-        Example:
-        '''
-        # assert false properties for inferred values (e.g. 0 prop(cluster, yellow.s.01, SIZE))
-        db = db.duplicate()
-        cluster = propsFound.pop('cluster', 'cluster')
-        for prop in propsFound:
-            for val in propsFound[prop]:
-                for p in domains['prop']:
-                    if p != prop:
-                        db.addGroundAtom('prop({}, {}, {})'.format(cluster,val, p), 0)
-
-        # add similarities for values in mln domain for correct property (max similarity)
-        newProp = ''
-        for w in domains['word']:
-            if w == 'null': continue
-            maxSim = 0
-            for prop in propsFound:
-                for v in propsFound[prop]:
-                    synsetWord = self.wordnet.synset(w)
-                    synsetVal = self.wordnet.synset(v)
-                    sim = self.wordnet.similarity(synsetVal, synsetWord)
-                    if maxSim < sim:
-                        maxSim = sim
-                        newProp = prop
-
-            db.addGroundAtom('prop({}, {}, {})'.format(cluster, w, newProp), maxSim)
-
-            # assert false properties for values in mln domain
-            for p in domains['prop']:
-                if p != newProp:
-                    db.addGroundAtom('prop({}, {}, {})'.format(cluster, w, p), 0)
-        return db
-
     def add_similarities(self, db, domains, propsFound):
         '''
         Example:

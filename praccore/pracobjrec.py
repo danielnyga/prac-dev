@@ -37,7 +37,6 @@ from utils import colorize
 
 parser = OptionParser()
 parser.add_option("-i", "--interactive", dest="interactive", default=False, action='store_true', help="Starts PRAC object recognition with an interactive GUI tool.")
-parser.add_option("-o", "--useOld", dest="useOld", default=False, action='store_true', help="Uses property(x,y,{COLOR,SIZE,HYPERNYM...}) instead of color(x,y), size(x,y)...")
 parser.add_option("-t", "--train", dest="trainMLN", nargs=1, default=None, help="Train given MLN with inference results from argument. Example: pracobjrec -t orange.n.01 'It is a yellow or orange fruit.'")    
 parser.add_option("-r", "--regular", dest="regular", default=False, action='store_true', help="Runs regular inference pipeline. Arguments: mlnName")    
 parser.add_option("-f", "--onthefly", dest="onthefly", default=False, action='store_true', help="Generate MLN on the fly")    
@@ -75,10 +74,7 @@ if __name__ == '__main__':
         propExtract = prac.getModuleByName('prop_extraction')
         prac.run(infer,propExtract,kb=propExtract.load_pracmt('default'))
 
-        if options.useOld:
-            objRecog = prac.getModuleByName('obj_recognition_old')
-        else:
-            objRecog = prac.getModuleByName('obj_recognition')
+        objRecog = prac.getModuleByName('obj_recognition')
         
         praclearn = PRACLearning(prac)
         praclearn.otherParams['mln'] = options.mln[0]
@@ -97,10 +93,7 @@ if __name__ == '__main__':
         propExtract = prac.getModuleByName('prop_extraction')
         prac.run(infer,propExtract,kb=propExtract.load_pracmt('default'))
         
-        if options.useOld:
-            objRecog = prac.getModuleByName('obj_recognition_old')
-        else:
-            objRecog = prac.getModuleByName('obj_recognition')
+        objRecog = prac.getModuleByName('obj_recognition')
 
         # object inference based on inferred properties
         mln = readMLNFromFile(options.mln[0], options.mln[1])
