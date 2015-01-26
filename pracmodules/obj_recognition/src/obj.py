@@ -21,7 +21,7 @@
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-from prac.core import PRACModule, PRACKnowledgeBase, PRACPIPE, DescriptionKnowledgeBase
+from prac.core import PRACModule, PRACKnowledgeBase, PRACPIPE
 from mln import readMLNFromFile, readDBFromFile, Database
 import logging
 from mln.methods import LearningMethods

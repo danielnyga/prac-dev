@@ -37,8 +37,6 @@ PRAC_HOME = os.environ['PRAC_HOME']
 nltk.data.path = [os.path.join(PRAC_HOME, 'data', 'nltk_data')]
 
 NLTK_POS = ['n', 'v', 'a', 'r']
-TAXONOMY_BRANCHES = ['color.n.01','size.n.01','shape.n.01','kitchenware.n.01','tableware.n.01','container.n.01','plant_part.n.01','food.n.01','dimension.n.01','conistency.n.01']
-
 
 colorsims = {}
 shapesims = {}
@@ -332,19 +330,6 @@ class WordNet(object):
         return list(set(self.flatten([drf.synset for drf in self.flatten([lemma.derivationally_related_forms() for lemma in adjSynset.lemmas])])))
 
 
-    def abc(self, words):
-        consistency = wn.synset('dimension.n.01')
-        res = []
-        for con in words:
-            temp = self.synsets(con,'a')
-            for t in temp:
-                unpacked = self.unpackNoun(t)
-                for n in unpacked:
-                    if consistency in self.flatten(n.hypernym_paths()):
-                        res.append(t)
-
-        return res
-
     def similarity(self, synset1, synset2):
         '''
         Returns a custom semantic similarity for adjectives
@@ -587,9 +572,4 @@ class WordNet(object):
 if __name__ == '__main__':
 
     wn = WordNet()
-    # colorsims = wn.initialize_csimilarities(properties.chrcolorspecs, properties.achrcolorspecs)
-    print 'colosims:'
-    for k in colorsims:
-        for c in colorsims:
-            # if not (k in properties.chrcolorspecs and c in properties.chrcolorspecs) and not (k in properties.achrcolorspecs and c in properties.achrcolorspecs):
-            print k, c, colorsims[k][c]
+    

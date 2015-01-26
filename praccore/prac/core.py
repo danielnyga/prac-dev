@@ -354,39 +354,6 @@ class PRACKnowledgeBase(object):
     def __setstate__(self, d):
         self.__dict__.update(d)
 
-
-
-class DescriptionKnowledgeBase(object):
-    '''
-    Base class for descriptions of wordnet concepts. 
-    '''
-    
-    def __init__(self, module_path):
-        self.name = ''
-        self.kbmln = readMLNFromFile(os.path.join(module_path, 'mln/objInf.mln'), logic='FuzzyLogic')
-        self.trainedMLN = None
-        self.dbs = [] # todo: unnecessary once incremental learning is implemented
-
-    def __getstate__(self): # do not store
-        odict = self.__dict__.copy()
-        return odict
-      
-    def __setstate__(self, d):
-        self.__dict__.update(d)
-
-    def printDKB(self):
-        print
-        print '{} {}'.format(colorize('DKB name:', (None, 'white', True), True), colorize(self.name, (None, 'green', True), True))
-        print colorize('Trained MLN:', (None, 'white', True), True)
-        if self.trainedMLN is not None:
-            self.trainedMLN.write(sys.stdout, color=True)
-        else:
-            print 'MLN has not been trained yet.'
-        print
-        for i, db in enumerate(self.dbs):
-            print 'DB {}:'.format(i)
-            db.write(sys.stdout, color=True)
-        print
         
 class PRACModule(object):
     '''
@@ -477,59 +444,6 @@ class PRACModule(object):
         pickle.dump(prac_mt, f)
         f.close()
 
-    def create_dkb(self, name):
-        '''
-        Creates a new DescriptionKnowledgeBase instance
-        - name:  The name of the dkb to be created
-        '''
-        dkb = DescriptionKnowledgeBase(self.module_path)
-        dkb.name = name
-
-        return dkb
-
-    def load_dkb(self, dkb_name):
-        '''
-        Loads a pickled DescriptionKnowledgeBase with given name.
-        - dkb_name:  The name of the dkb to be loaded
-        '''
-        if dkb_name is not None:
-            binaryFileName = '{}.dkb'.format(dkb_name)
-            filepath = os.path.join(self.module_path, 'kb')
-            f = open(os.path.join(filepath, binaryFileName), 'r')
-            dkb = pickle.load(f)
-            f.close()
-            
-            return dkb
-        else:
-            return None
-
-    def delete_dkb(self, dkb_name):
-        '''
-        Removes a pickled DescriptionKnowledgeBase with given name.
-        - dkb_name:  The name of the dkb to be removed from file system
-        '''
-        if dkb_name is not None:
-            fileName = os.path.join(self.module_path, 'kb/{}.dkb'.format(dkb_name))
-            if os.path.isfile(fileName):
-                os.remove(fileName)
-            
-    def save_dkb(self, dkb, name):
-        '''
-        Pickles the state of the given DescriptionKnowledgeBase in its kb folder.
-        - dkb:    instance of a DescriptionKnowledgeBase
-        - name:   name of DescriptionKnowledgeBase
-        '''
-        if name is None and not hasattr(dkb, 'name'):
-            raise Exception('No module name specified.')
-        
-        kbFileName = '{}.dkb'.format(name)
-        kbPath = os.path.join(prac_module_path, self.name, 'kb')
-
-        if not os.path.exists(kbPath):
-            os.mkdir(kbPath)
-        f = open(os.path.join(kbPath, kbFileName), 'w+')
-        pickle.dump(dkb, f)
-        f.close()
     
     @PRACPIPE
     def infer(self, pracinference):
