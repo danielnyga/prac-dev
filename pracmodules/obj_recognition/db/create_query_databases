@@ -5,11 +5,6 @@ praclearn --dbs [...]/prac/pracmodules/obj_recognition/db/natLan.db --mln [...]/
 
 #------------------------------------------------------------------------------
 
-# create manual kb entry from inference
-pracobjrec 'It is a yellow or orange fruit.' -t sherlock orange.n.01 
-
-#------------------------------------------------------------------------------
-
 # infer using kb
 pracobjrec -r -m [...]/prac/pracmodules/obj_recognition/mln/trained.mln FuzzyLogic 'It is a yellow oval fruit.' 
 
@@ -17,5 +12,3 @@ pracobjrec -r -m [...]/prac/pracmodules/obj_recognition/mln/trained.mln FuzzyLog
 
 # k-fold cross validation
 pracxfold --dbs [...]/prac/pracmodules/obj_recognition/db/natLan.db --mln [...]/prac/pracmodules/obj_recognition/mln/objInf.mln --predicate object --domain cluster --folder folderName --module obj_recognition --multicore --folds 10
-
-

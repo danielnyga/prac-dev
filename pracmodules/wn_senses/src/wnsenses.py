@@ -142,7 +142,23 @@ class WNSenses(PRACModule):
 
     def add_similarities(self, db, domains, propsFound):
         '''
-        Example:
+        For each property found in the evidence, we add one atom for each property of the same
+        domain that can be found in the model. The degree of truth of the new atom is the similarity
+        between the two properties (= wordnet concepts). This enables us to use previously unknown 
+        concepts.
+
+        Example: 
+        If the evidence contains
+
+        ``color(c, orange.s.01)'',
+
+        the atoms 
+
+        ``0.9 color(c, yellow.s.01)''
+        ``0.95 color(c, red.s.01)''
+        
+        are added if yellow.s.01 and red.s.01 are in the color domain.
+
         '''
         db = db.duplicate()
         cluster = propsFound.pop('cluster', 'cluster')

@@ -143,6 +143,8 @@ class NLObjectRecognition(PRACModule):
                 propsFound['cluster'] = cluster
         return propsFound
 
+    # experimental! Will generate an MLN formulas on the fly - 
+    # no learning!
     def generateMLN(self, dbs, mln):
         newMLN = mln.duplicate()
         propsFound = {}
