@@ -30,7 +30,7 @@ has_sense(word, sense!)
 action_role(word,role!)
 
 // hard fomulas 
-has_sense(?w, ?s) ^ is_a(?s, NULL) => action_role(?w, NULL).
+//has_sense(?w, null) ^ action_role(?w, null).
 
 // weighted formulas
 #unique{+?r1,+?r2}
