@@ -28,6 +28,7 @@ is_a(sense, concept)
 dobj(word,word)
 has_sense(word, sense!)
 action_role(word,role!)
+ac_word(ac!)
 
 // hard fomulas 
 //has_sense(?w, null) ^ action_role(?w, null).
