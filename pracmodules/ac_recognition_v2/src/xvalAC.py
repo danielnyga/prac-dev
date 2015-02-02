@@ -134,14 +134,14 @@ class XValFold(object):
                     atom = atom.replace(binding, bindings[binding])
                 trueDB.addGroundAtom(atom)
                 #db.retractGndAtom(atom)
-            for pred in ['is_a','has_pos']:
+            for pred in ['is_a','has_pos','dobj']:
                 for atom in list(db.iterGroundLiteralStrings(pred)):
                     db_.addGroundAtom(atom[1],atom[0])
             
             try:
                 db_.writeToFile(os.path.join(self.params.directory, 'test_infer_dbs_'+str(self.params.foldIdx)+'_'+str(i)+'.db'))
                 
-                resultDB = mln.infer(InferenceMethods.WCSP, queryPred, db_,cwPreds=['has_pos'])
+                resultDB = mln.infer(InferenceMethods.WCSP, queryPred, db_,cwPreds=['has_pos','dobj'])
                 
                 for predicate in trueDB.iterGroundLiteralStrings('ac_word'):
                     group = re.split(',',re.split('ac_word\w*\(|\)',predicate[1])[1])
@@ -322,6 +322,12 @@ def createTestDBs(mln,dbs):
                         atomExists = True
                     if atomExists == False:
                         db_.addGroundAtom('is_a(%s,%s)' % (sense_id, concept),sim)
+            for word in word2senses:
+                for word2, senses in word2senses.iteritems():
+                    if word2 == word: continue
+                    else: 
+                        for s in senses: db_.addGroundAtom('!has_sense(%s,%s)' % (word, s))
+                db_.addGroundAtom('!has_sense(%s,null)' % (word))
         
         dbs_.append(db_)
     return dbs_

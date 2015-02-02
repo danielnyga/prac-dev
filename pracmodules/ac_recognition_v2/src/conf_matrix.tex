@@ -1,0 +1,23 @@
+
+		\documentclass[10pt]{article}
+		\usepackage{color}
+		\usepackage{rotating}
+		\usepackage[table]{xcolor}
+		\definecolor{cfmcolor}{rgb}{0.2,0.4,0.6}
+		\begin{document}
+		\pagenumbering{gobble}
+		\resizebox{\columnwidth}{!}{
+		\footnotesize
+\begin{tabular}{|l|l|l|l|l|l|l|}
+\hline
+Prediction/Ground Truth & \begin{turn}{90}Adding\end{turn} & \begin{turn}{90}Cutting\end{turn} & \begin{turn}{90}Filling\end{turn} & \begin{turn}{90}Neutralisation\end{turn} & \begin{turn}{90}Slicing\end{turn} & \begin{turn}{90}Stirring\end{turn}\\ \hline
+Adding & \cellcolor{cfmcolor!100}\textbf{5} & \cellcolor{cfmcolor!0}0 & \cellcolor{cfmcolor!0}0 & \cellcolor{cfmcolor!0}0 & \cellcolor{cfmcolor!0}0 & \cellcolor{cfmcolor!0}0\\ \hline
+Cutting & \cellcolor{cfmcolor!0}0 & \cellcolor{cfmcolor!67}\textbf{4} & \cellcolor{cfmcolor!0}0 & \cellcolor{cfmcolor!0}0 & \cellcolor{cfmcolor!17}1 & \cellcolor{cfmcolor!0}0\\ \hline
+Filling & \cellcolor{cfmcolor!0}0 & \cellcolor{cfmcolor!0}0 & \cellcolor{cfmcolor!100}\textbf{5} & \cellcolor{cfmcolor!0}0 & \cellcolor{cfmcolor!0}0 & \cellcolor{cfmcolor!0}0\\ \hline
+Neutralisation & \cellcolor{cfmcolor!0}0 & \cellcolor{cfmcolor!0}0 & \cellcolor{cfmcolor!0}0 & \cellcolor{cfmcolor!100}\textbf{5} & \cellcolor{cfmcolor!0}0 & \cellcolor{cfmcolor!0}0\\ \hline
+Slicing & \cellcolor{cfmcolor!0}0 & \cellcolor{cfmcolor!17}1 & \cellcolor{cfmcolor!0}0 & \cellcolor{cfmcolor!0}0 & \cellcolor{cfmcolor!67}\textbf{4} & \cellcolor{cfmcolor!0}0\\ \hline
+Stirring & \cellcolor{cfmcolor!0}0 & \cellcolor{cfmcolor!0}0 & \cellcolor{cfmcolor!0}0 & \cellcolor{cfmcolor!0}0 & \cellcolor{cfmcolor!0}0 & \cellcolor{cfmcolor!100}\textbf{10}\\ \hline
+\end{tabular}
+}
+		\end{document}
+		
