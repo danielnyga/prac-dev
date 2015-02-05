@@ -5,7 +5,17 @@ dobj(word,word)
 has_sense(word, sense!)
 
 
-0 has_pos(?w1,+?p1) ^ is_a(?s1,+?c1) ^  has_sense(?w1,?s1) ^ ac_word(+?ac)
-0 dobj(?w1, ?w2) ^  has_sense(?w2, ?s2) ^ is_a(?s2, +?c2) ^ ac_word(+?ac) ^ has_pos(?w2,+?p2)
+0 has_pos(?w1,VB) ^ is_a(?s1,+?c1) ^  has_sense(?w1,?s1) ^ ac_word(+?ac)
+0 has_pos(?w1,VB) ^ has_pos(?w2,NN) ^  dobj(?w1, ?w2) ^  has_sense(?w1, ?s1) ^ is_a(?s1, perform.v.01) ^  has_sense(?w2, ?s2) ^ is_a(?s2, +?c2) ^ ac_word(+?ac) ^ ?w1 =/= ?w2
+0 has_pos(?w1,VB) ^ has_pos(?w2,NN) ^  dobj(?w1, ?w2) ^  has_sense(?w1, ?s1) ^ is_a(?s1, perform.v.01) ^  has_sense(?w2, ?s2) ^ is_a(?s2, +?c2) ^ ac_word(+?ac) ^ ?w1 =/= ?w2
 
-//0 dobj(?w1, ?w2) ^  has_sense(?w1, ?s1) ^ is_a(?s1, +?c1) ^  has_sense(?w2, ?s2) ^ is_a(?s2, +?c2) ^ ac_word(+?ac) ^ ?w1 =/= ?w2
+//WORKS (Not perfect slice and cut problems)
+//0 has_pos(?w1,VB) ^ is_a(?s1,+?c1) ^  has_sense(?w1,?s1) ^ ac_word(+?ac)
+//0 has_pos(?w1,VB) ^ has_pos(?w2,NN) ^  dobj(?w1, ?w2) ^  has_sense(?w1, ?s1) ^ is_a(?s1, +?c1) ^  has_sense(?w2, ?s2) ^ is_a(?s2, +?c2) ^ ac_word(+?ac) ^ ?w1 =/= ?w2
+
+//DOESNT WORK
+//0 is_a(?s1,+?c1) ^  has_sense(?w1,?s1) ^ ac_word(+?ac)
+//0 dobj(?w1, ?w2) ^  has_sense(?w2, ?s2) ^ is_a(?s2, +?c2) ^ ac_word(+?ac)
+
+//TOO SLOW
+//0 has_pos(?w1,+?p1) ^ has_pos(?w2,+?p2) ^  dobj(?w1, ?w2) ^  has_sense(?w1, ?s1) ^ is_a(?s1, +?c1) ^  has_sense(?w2, ?s2) ^ is_a(?s2, +?c2) ^ ac_word(+?ac) ^ ?w1 =/= ?w2

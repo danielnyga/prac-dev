@@ -47,12 +47,14 @@
 1.00 has_sense(jar,jar.n.01)
 1.00 dobj(fill, jar)
 ---
-// slice the mushroom .
+// slice the mushroom with a knife.
 1.00 has_pos(slice,VB)
 1.00 has_pos(mushroom,NN)
+1.00 has_pos(knife,NN)
 1.00 ac_word(Slicing)
 1.00 has_sense(slice,slice.v.03)
 1.00 has_sense(mushroom,mushroom.n.05)
+1.00 has_sense(knife,knife.n.01)
 1.00 dobj(slice, mushroom)
 ---
 
@@ -115,13 +117,15 @@
 1.00 dobj(cut, meat)
 ---
 
-// Carefully cut the cabbage.
+// Carefully cut the cabbage with a knife.
 1.00 has_pos(cut,VB)
 1.00 has_pos(cabbage,NN)
 1.00 ac_word(Cutting)
 1.00 has_sense(cut,cut.v.01)
 1.00 has_sense(cabbage,cabbage.n.01)
 1.00 dobj(cut, cabbage)
+1.00 has_pos(knife,NN)
+1.00 has_sense(knife,knife.n.01)
 ---
 
 // Thinly cut remaining lemon .
@@ -158,11 +162,9 @@
 // add sugar and butter to mixing_bowl and beat well .
 1.00 has_sense(add-1,add.v.01)
 1.00 has_sense(sugar-2,sugar.n.01)
-1.00 has_sense(butter-4,butter.n.01)
 1.00 has_sense(mixing_bowl-6,mixing_bowl.n.01)
 1.00 has_pos(add-1,VB)
 1.00 has_pos(sugar-2,NN)
-1.00 has_pos(butter-4,NN)
 1.00 has_pos(mixing_bowl-6,NN)
 1.00 dobj(add-1,sugar-2)
 1.00 ac_word(Adding)
@@ -171,12 +173,10 @@
 // Add the butter and vanilla to the pan.
 1.00 has_sense(add-7,add.v.01)
 1.00 has_sense(butter-9,butter.n.01)
-1.00 has_sense(vanilla-11,vanilla.n.02)
 1.00 has_sense(pan-2, pan.n.01)
 1.00 has_pos(pan-2,NN)
 1.00 has_pos(add-7,VB)
 1.00 has_pos(butter-9,NN)
-1.00 has_pos(vanilla-11,NN)
 1.00 dobj(add-7,butter-9)
 1.00 ac_word(Adding)
 
@@ -388,3 +388,124 @@
 //acid
 1.00 has_pos(base,NN)
 1.00 has_sense(base,pyridine.n.01)
+
+---
+
+//Perform neutralisation on acid
+1.00 has_sense(neutralize,neutralize.v.05)
+1.00 has_pos(neutralize,VB)
+
+//acid
+1.00 has_pos(acid,NN)
+1.00 has_sense(acid,lysergic_acid.n.01)
+
+1.00 dobj(neutralize,acid)
+1.00 ac_word(Neutralisation)
+
+---
+
+//Perform neutralisation on base
+1.00 has_sense(neutralize,neutralize.v.05)
+1.00 has_pos(neutralize,VB)
+
+//base
+1.00 has_pos(base,NN)
+1.00 has_sense(base,purine.n.01)
+
+1.00 dobj(neutralize,base)
+1.00 ac_word(Neutralisation)
+
+---
+
+//Make neutralisation on acid
+1.00 has_sense(Make,make.v.16)
+1.00 has_pos(Make,VB)
+
+1.00 has_pos(Neutralisation,NN)
+1.00 has_sense(Neutralisation,neutralization.n.01)
+
+1.00 dobj(Make,Neutralisation)
+1.00 ac_word(Neutralisation)
+
+//acid
+1.00 has_pos(base,NN)
+1.00 has_sense(base,pyridine.n.01)
+
+---
+
+//Make cut on cake
+1.00 has_sense(Make,make.v.16)
+1.00 has_pos(Make,VB)
+
+1.00 has_pos(cut,NN)
+1.00 has_sense(cut,cut.n.17)
+
+1.00 dobj(Make,cut)
+1.00 ac_word(Cutting)
+
+//cake
+1.00 has_pos(base,NN)
+1.00 has_sense(base,pyridine.n.01)
+
+---
+
+//Make cut on lemon
+1.00 has_sense(Make,make.v.16)
+1.00 has_pos(Make,VB)
+
+1.00 has_pos(cut,NN)
+1.00 has_sense(cut,cut.n.17)
+
+1.00 dobj(Make,cut)
+1.00 ac_word(Cutting)
+
+//lemon
+1.00 has_pos(base,NN)
+1.00 has_sense(base,pyridine.n.01)
+
+---
+
+//Make cut on apple
+1.00 has_sense(Perform,perform.v.01)
+1.00 has_pos(Perform,VB)
+
+1.00 has_pos(cut,NN)
+1.00 has_sense(cut,cut.n.17)
+
+1.00 dobj(Perform,cut)
+1.00 ac_word(Cutting)
+
+//apple
+1.00 has_pos(base,NN)
+1.00 has_sense(base,pyridine.n.01)
+---
+
+//Make cut on meat
+1.00 has_sense(Perform,perform.v.01)
+1.00 has_pos(Perform,VB)
+
+1.00 has_pos(cut,NN)
+1.00 has_sense(cut,cut.n.17)
+
+1.00 dobj(Perform,cut)
+1.00 ac_word(Cutting)
+
+//meat
+1.00 has_pos(base,NN)
+1.00 has_sense(base,pyridine.n.01)
+---
+
+//Make cut on bacon
+1.00 has_sense(Perform,perform.v.01)
+1.00 has_pos(Perform,VB)
+
+1.00 has_pos(cut,NN)
+1.00 has_sense(cut,cut.n.17)
+
+1.00 dobj(Perform,cut)
+1.00 ac_word(Cutting)
+
+//cut
+1.00 has_pos(base,NN)
+1.00 has_sense(base,pyridine.n.01)
+

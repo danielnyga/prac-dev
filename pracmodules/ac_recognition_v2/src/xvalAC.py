@@ -152,6 +152,9 @@ class XValFold(object):
                         print "PRED " + pred
                         print "TRUTH" + truth
                         self.confMatrix.addClassificationResult(truth, pred)
+                        if pred != truth:
+                            db_.writeToFile(os.path.join(self.params.directory, 'wrong_infer_dbs_'+str(self.params.foldIdx)+'_'+str(i)+'.db'))
+                            
             except:
                 log.critical(''.join(traceback.format_exception(*sys.exc_info())))
 
