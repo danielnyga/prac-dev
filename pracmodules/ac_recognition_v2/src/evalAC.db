@@ -316,7 +316,7 @@
 
 ---
 
-//Perform neutralisation on acid
+//Neutralize acid
 1.00 has_sense(neutralize,neutralize.v.05)
 1.00 has_pos(neutralize,VB)
 
@@ -330,7 +330,7 @@
 
 ---
 
-//Perform neutralisation on acid
+//Neutralize on acid
 1.00 has_sense(neutralize,neutralize.v.05)
 1.00 has_pos(neutralize,VB)
 
@@ -390,17 +390,35 @@
 1.00 has_sense(base,pyridine.n.01)
 
 ---
+//Make neutralisation on acid
+1.00 has_sense(Make,make.v.16)
+1.00 has_pos(Make,VB)
 
-//Perform neutralisation on acid
-1.00 has_sense(neutralize,neutralize.v.05)
-1.00 has_pos(neutralize,VB)
+1.00 has_pos(Neutralisation,NN)
+1.00 has_sense(Neutralisation,neutralization.n.01)
+
+1.00 dobj(Make,Neutralisation)
+1.00 ac_word(Neutralisation)
+
+//acid
+1.00 has_pos(acid,NN)
+1.00 has_sense(acid,hydrocyanic_acid.n.01)
+
+---
+
+//Make neutralisation on acid
+1.00 has_sense(Make,make.v.16)
+1.00 has_pos(Make,VB)
+
+1.00 has_pos(Neutralisation,NN)
+1.00 has_sense(Neutralisation,neutralization.n.01)
+
+1.00 dobj(Make,Neutralisation)
+1.00 ac_word(Neutralisation)
 
 //acid
 1.00 has_pos(acid,NN)
 1.00 has_sense(acid,lysergic_acid.n.01)
-
-1.00 dobj(neutralize,acid)
-1.00 ac_word(Neutralisation)
 
 ---
 
@@ -433,7 +451,7 @@
 
 ---
 
-//Make cut on cake
+//Make cut on mushroom
 1.00 has_sense(Make,make.v.16)
 1.00 has_pos(Make,VB)
 
@@ -443,9 +461,9 @@
 1.00 dobj(Make,cut)
 1.00 ac_word(Cutting)
 
-//cake
-1.00 has_pos(base,NN)
-1.00 has_sense(base,pyridine.n.01)
+//mushroom
+1.00 has_pos(mushroom,NN)
+1.00 has_sense(mushroom,mushroom.n.05)
 
 ---
 
@@ -460,8 +478,8 @@
 1.00 ac_word(Cutting)
 
 //lemon
-1.00 has_pos(base,NN)
-1.00 has_sense(base,pyridine.n.01)
+1.00 has_pos(lemon,NN)
+1.00 has_sense(lemon,lemon.n.01)
 
 ---
 
@@ -476,8 +494,8 @@
 1.00 ac_word(Cutting)
 
 //apple
-1.00 has_pos(base,NN)
-1.00 has_sense(base,pyridine.n.01)
+1.00 has_pos(apple,NN)
+1.00 has_sense(apple,apple.n.01)
 ---
 
 //Make cut on meat
@@ -491,8 +509,8 @@
 1.00 ac_word(Cutting)
 
 //meat
-1.00 has_pos(base,NN)
-1.00 has_sense(base,pyridine.n.01)
+1.00 has_pos(meat,NN)
+1.00 has_sense(meat,meat.n.01)
 ---
 
 //Make cut on bacon
@@ -506,6 +524,6 @@
 1.00 ac_word(Cutting)
 
 //cut
-1.00 has_pos(base,NN)
-1.00 has_sense(base,pyridine.n.01)
+1.00 has_pos(bacon,NN)
+1.00 has_sense(bacon,bacon.n.01)
 
