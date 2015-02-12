@@ -5,6 +5,8 @@
 1.00 has_pos(milk,NN)
 1.00 has_sense(milk,milk.n.01)
 
+1.00 action_role(stir, ActionCause)
+1.00 action_role(milk, ObjectToBeStirred)
 ---
 
 //Stir the coke
@@ -13,6 +15,9 @@
 
 1.00 has_pos(coke,NN)
 1.00 has_sense(coke,coca_cola.n.01)
+
+1.00 action_role(stir, ActionCause)
+1.00 action_role(coke, ObjectToBeStirred)
 
 ---
 
@@ -23,6 +28,9 @@
 1.00 has_pos(water,NN)
 1.00 has_sense(water,water.n.06)
 
+1.00 action_role(stir, ActionCause)
+1.00 action_role(water, ObjectToBeStirred)
+
 ---
 
 //Stir the tea
@@ -31,6 +39,9 @@
 
 1.00 has_pos(tea,NN)
 1.00 has_sense(tea,tea.n.01)
+
+1.00 action_role(stir, ActionCause)
+1.00 action_role(tea, ObjectToBeStirred)
 
 ---
 
@@ -41,6 +52,9 @@
 1.00 has_pos(coffee,NN)
 1.00 has_sense(coffee,coffee.n.01)
 
+1.00 action_role(stir, ActionCause)
+1.00 action_role(coffee, ObjectToBeStirred)
+
 ---
 
 //Stir the juice
@@ -49,6 +63,9 @@
 
 1.00 has_pos(juice,NN)
 1.00 has_sense(juice,juice.n.01)
+
+1.00 action_role(stir, ActionCause)
+1.00 action_role(juice, ObjectToBeStirred)
 
 ---
 
@@ -59,6 +76,9 @@
 1.00 has_pos(cappuccino,NN)
 1.00 has_sense(cappuccino,cappuccino.n.01)
 
+1.00 action_role(stir, ActionCause)
+1.00 action_role(cappuccino, ObjectToBeStirred)
+
 ---
 
 //Stir the wine
@@ -67,6 +87,9 @@
 
 1.00 has_pos(wine,NN)
 1.00 has_sense(wine,wine.n.01)
+
+1.00 action_role(stir, ActionCause)
+1.00 action_role(wine, ObjectToBeStirred)
 
 ---
 
@@ -77,6 +100,9 @@
 1.00 has_pos(whiskey,NN)
 1.00 has_sense(whiskey,whiskey.n.01)
 
+1.00 action_role(stir, ActionCause)
+1.00 action_role(whisky, ObjectToBeStirred)
+
 ---
 
 //Stir the champagne
@@ -85,6 +111,9 @@
 
 1.00 has_pos(champagne,NN)
 1.00 has_sense(champagne,champagne.n.01)
+
+1.00 action_role(stir, ActionCause)
+1.00 action_role(champagne, ObjectToBeStirred)
 
 ---
 
@@ -95,6 +124,9 @@
 1.00 has_pos(egg,NN)
 1.00 has_sense(egg,egg.n.02)
 
+1.00 action_role(stir, ActionCause)
+1.00 action_role(egg, ObjectToBeStirred)
+
 ---
 
 //Stir the butter
@@ -103,6 +135,9 @@
 
 1.00 has_pos(butter,NN)
 1.00 has_sense(butter,butter.n.01)
+
+1.00 action_role(stir, ActionCause)
+1.00 action_role(butter, ObjectToBeStirred)
 
 ---
 
@@ -113,6 +148,9 @@
 1.00 has_pos(sugar,NN)
 1.00 has_sense(sugar,sugar.n.01)
 
+1.00 action_role(stir, ActionCause)
+1.00 action_role(sugar, ObjectToBeStirred)
+
 ---
 
 //Stir the salt
@@ -121,6 +159,9 @@
 
 1.00 has_pos(salt,NN)
 1.00 has_sense(salt,salt.n.02)
+
+1.00 action_role(stir, ActionCause)
+1.00 action_role(salt, ObjectToBeStirred)
 
 ---
 
@@ -131,6 +172,9 @@
 1.00 has_pos(cream,NN)
 1.00 has_sense(cream,cream.n.02)
 
+1.00 action_role(stir, ActionCause)
+1.00 action_role(cream, ObjectToBeStirred)
+
 ---
 
 //Stir the vegetable
@@ -139,6 +183,9 @@
 
 1.00 has_pos(vegetable,NN)
 1.00 has_sense(vegetable,vegetable.n.01)
+
+1.00 action_role(stir, ActionCause)
+1.00 action_role(vegetable, ObjectToBeStirred)
 
 ---
 
@@ -149,6 +196,9 @@
 1.00 has_pos(apple,NN)
 1.00 has_sense(apple,apple.n.01)
 
+1.00 action_role(stir, ActionCause)
+1.00 action_role(apple, ObjectToBeStirred)
+
 ---
 
 //Stir the banana
@@ -157,6 +207,9 @@
 
 1.00 has_pos(banana,NN)
 1.00 has_sense(banana,banana.n.02)
+
+1.00 action_role(stir, ActionCause)
+1.00 action_role(banana, ObjectToBeStirred)
 
 ---
 
@@ -167,6 +220,9 @@
 1.00 has_pos(peanut,NN)
 1.00 has_sense(peanut,peanut.n.04)
 
+1.00 action_role(stir, ActionCause)
+1.00 action_role(peanut, ObjectToBeStirred)
+
 ---
 
 //Stir the tomato
@@ -176,4 +232,6 @@
 1.00 has_pos(tomato,NN)
 1.00 has_sense(tomato,tomato.n.01)
 
+1.00 action_role(stir, ActionCause)
+1.00 action_role(tomato, ObjectToBeStirred)
 
