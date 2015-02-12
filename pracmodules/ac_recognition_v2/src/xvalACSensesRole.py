@@ -147,16 +147,18 @@ class XValFold(object):
                 
                 resultDB = mln.infer(InferenceMethods.WCSP, queryPred, db_,cwPreds=['has_pos'])
                 
-                for predicate in trueDB.iterGroundLiteralStrings('action_role'):
-                    group = re.split(',',re.split('action_role\w*\(|\)',predicate[1])[1])
+                for predicate in trueDB.iterGroundLiteralStrings(queryPred):
+                    group = re.split(',',re.split(queryPred+'\w*\(|\)',predicate[1])[1])
                     word = group[0];
                     truth = group[1];
-                    query = 'action_role('+word+',?s)'
+                    query = queryPred+'('+word+',?s)'
                     for result in resultDB.query(query):
                         pred = result['?s']
                         print "PRED " + pred
                         print "TRUTH" + truth
                         self.confMatrix.addClassificationResult(truth, pred)
+                        if pred != truth:
+                            db_.writeToFile(os.path.join(self.params.directory, 'wrong_infer_dbs_'+str(self.params.foldIdx)+'_'+str(i)+'.db'))
             except:
                 log.critical(''.join(traceback.format_exception(*sys.exc_info())))
 
@@ -301,11 +303,11 @@ def createTestDBs(mln,dbs):
         posMap[v] = 'v'
     
     dbs_ = []
-    wordnet = WordNet(concepts=None)
-    
-    concepts = mln.domains.get('concept', [])
-    word2senses = defaultdict(list)
+   
     for db in dbs:
+        wordnet = WordNet(concepts=None)
+        concepts = mln.domains.get('concept', [])
+        word2senses = defaultdict(list)
         
         db_ = db.duplicate()
         for res in db.query('has_pos(?word,?pos)'):

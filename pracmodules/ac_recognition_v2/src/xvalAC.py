@@ -299,11 +299,11 @@ def createTestDBs(mln,dbs):
         posMap[v] = 'v'
     
     dbs_ = []
-    wordnet = WordNet(concepts=None)
     
-    concepts = mln.domains.get('concept', [])
-    word2senses = defaultdict(list)
     for db in dbs:
+        wordnet = WordNet(concepts=None)
+        concepts = mln.domains.get('concept', [])
+        word2senses = defaultdict(list)
         
         db_ = db.duplicate()
         for res in db.query('has_pos(?word,?pos)'):
