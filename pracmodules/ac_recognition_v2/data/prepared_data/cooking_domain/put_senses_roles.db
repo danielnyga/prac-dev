@@ -8,6 +8,10 @@
 1.00 has_pos(pepper,NN)
 1.00 has_pos(eggs,NN)
 
+1.00 action_role(put, ActionCause)
+1.00 action_role(salt, ObjectToBePutted)
+1.00 action_role(pepper, ObjectToBePutted)
+1.00 action_role(eggs, Goal)
 ---
 
 // put the chicken back into the pan-
@@ -18,6 +22,10 @@
 1.00 has_pos(chicken,NN)
 1.00 has_pos(pan,NN)
 
+1.00 action_role(put, ActionCause)
+1.00 action_role(chicken, ObjectToBePutted)
+1.00 action_role(pan, Goal)
+
 ---
 
 // put the pizza on the pan.
@@ -27,6 +35,10 @@
 1.00 has_pos(put,VB)
 1.00 has_pos(pizza,NN)
 1.00 has_pos(pan,NN)
+
+1.00 action_role(put, ActionCause)
+1.00 action_role(pizza, ObjectToBePutted)
+1.00 action_role(pan, Goal)
 
 ---
 
@@ -40,6 +52,11 @@
 1.00 has_pos(onion,NN)
 1.00 has_pos(plate,NN)
 
+1.00 action_role(put, ActionCause)
+1.00 action_role(beef, ObjectToBePutted)
+1.00 action_role(onion, ObjectToBePutted)
+1.00 action_role(plate, Goal)
+
 ---
 
 // put whipped_cream on the cake .
@@ -49,6 +66,10 @@
 1.00 has_pos(put,VB)
 1.00 has_pos(whipped_cream,NN)
 1.00 has_pos(cake,NN)
+
+1.00 action_role(put, ActionCause)
+1.00 action_role(whipped_cream, ObjectToBePutted)
+1.00 action_role(cake, Goal)
 
 ---
 
@@ -61,6 +82,9 @@
 1.00 has_pos(spoon,NN)
 1.00 has_pos(batter,NN)
 
+1.00 action_role(put, ActionCause)
+1.00 action_role(batter, ObjectToBePutted)
+1.00 action_role(spoon, Goal)
 ---
 
 // put cherries into a bowl .
@@ -70,6 +94,10 @@
 1.00 has_pos(put,VB)
 1.00 has_pos(cherries,NN)
 1.00 has_pos(bowl,NN)
+
+1.00 action_role(put, ActionCause)
+1.00 action_role(cherries, ObjectToBePutted)
+1.00 action_role(bowl, Goal)
 ---
 
 // put a banana in a blender .
@@ -80,6 +108,9 @@
 1.00 has_pos(banana,NN)
 1.00 has_pos(blender,NN)
 
+1.00 action_role(put, ActionCause)
+1.00 action_role(banana, ObjectToBePutted)
+1.00 action_role(blender, Goal)
 ---
 
 // put the steak into the oven .
@@ -90,6 +121,9 @@
 1.00 has_pos(steak,NN)
 1.00 has_pos(oven,NN)
 
+1.00 action_role(put, ActionCause)
+1.00 action_role(steak, ObjectToBePutted)
+1.00 action_role(oven, Goal)
 ---
 
 // put the mug in the microwave.
@@ -100,6 +134,9 @@
 1.00 has_pos(mug,NN)
 1.00 has_pos(microwave,NN)
 
+1.00 action_role(put, ActionCause)
+1.00 action_role(mug, ObjectToBePutted)
+1.00 action_role(microwave, Goal)
 ---
 
 // put salt on your rib.
@@ -110,6 +147,9 @@
 1.00 has_pos(salt,NN)
 1.00 has_pos(rib,NN)
 
+1.00 action_role(put, ActionCause)
+1.00 action_role(salt, ObjectToBePutted)
+1.00 action_role(rib, Goal)
 ---
 
 // put the jam back into the refrigerator-
@@ -119,6 +159,10 @@
 1.00 has_pos(put,VB)
 1.00 has_pos(jam,NN)
 1.00 has_pos(refrigerator,NN)
+
+1.00 action_role(put, ActionCause)
+1.00 action_role(jam, ObjectToBePutted)
+1.00 action_role(refrigerator, Goal)
 
 ---
 
@@ -130,7 +174,9 @@
 1.00 has_pos(paste,NN)
 1.00 has_pos(bread,NN)
 
-
+1.00 action_role(put, ActionCause)
+1.00 action_role(paste, ObjectToBePutted)
+1.00 action_role(bread, Goal)
 ---
 
 // put the salmon on a plate .
@@ -141,6 +187,9 @@
 1.00 has_pos(salmon,NN)
 1.00 has_pos(plate,NN)
 
+1.00 action_role(put, ActionCause)
+1.00 action_role(salmon, ObjectToBePutted)
+1.00 action_role(plate, Goal)
 ---
 
 // put coke in the fridge.
@@ -151,6 +200,10 @@
 1.00 has_pos(coke,NN)
 1.00 has_pos(fridge,NN)
 
+1.00 action_role(put, ActionCause)
+1.00 action_role(coke, ObjectToBePutted)
+1.00 action_role(fridge, Goal)
+
 ---
 
 //Put some fries to it.
@@ -158,6 +211,9 @@
 1.00 has_sense(fries,french_fries.n.01)
 1.00 has_pos(put,VB)
 1.00 has_pos(fries,NN)
+
+1.00 action_role(put, ActionCause)
+1.00 action_role(fries, ObjectToBePutted)
 
 ---
 
@@ -169,6 +225,10 @@
 1.00 has_pos(dressing,NN)
 1.00 has_pos(salad,NN)
 
+1.00 action_role(put, ActionCause)
+1.00 action_role(dressing, ObjectToBePutted)
+1.00 action_role(salad, Goal)
+
 ---
 
 // put rice into a bowl .
@@ -178,6 +238,10 @@
 1.00 has_pos(put,VB)
 1.00 has_pos(rice,NN)
 1.00 has_pos(bowl,NN)
+
+1.00 action_role(put, ActionCause)
+1.00 action_role(rice, ObjectToBePutted)
+1.00 action_role(bowl, Goal)
 ---
 
 // put the dish into the oven .
@@ -188,6 +252,9 @@
 1.00 has_pos(dish,NN)
 1.00 has_pos(oven,NN)
 
+1.00 action_role(put, ActionCause)
+1.00 action_role(dish, ObjectToBePutted)
+1.00 action_role(oven, Goal)
 ---
 
 // put the soup in the microwave.
@@ -197,3 +264,7 @@
 1.00 has_pos(put,VB)
 1.00 has_pos(soup,NN)
 1.00 has_pos(microwave,NN)
+
+1.00 action_role(put, ActionCause)
+1.00 action_role(soup, ObjectToBePutted)
+1.00 action_role(microwave, Goal)
