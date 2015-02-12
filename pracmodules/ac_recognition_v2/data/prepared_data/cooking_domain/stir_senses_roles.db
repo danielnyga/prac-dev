@@ -9,6 +9,21 @@
 1.00 action_role(milk, ObjectToBeStirred)
 ---
 
+//Stir the milk
+1.00 has_sense(stir,stir.v.01)
+1.00 has_pos(stir,VB)
+
+1.00 has_pos(milk,NN)
+1.00 has_sense(milk,milk.n.01)
+
+1.00 has_pos(wooden_spoon,NN)
+1.00 has_sense(wooden_spoon,wooden_spoon.n.02)
+
+1.00 action_role(stir, ActionCause)
+1.00 action_role(milk, ObjectToBeStirred)
+1.00 action_role(wooden_spoon, ObjectShouldBeUsedForStirring)
+---
+
 //Stir the coke
 1.00 has_sense(stir,stir.v.01)
 1.00 has_pos(stir,VB)
@@ -33,6 +48,21 @@
 
 ---
 
+//Stir the water
+1.00 has_sense(stir,stir.v.01)
+1.00 has_pos(stir,VB)
+
+1.00 has_pos(water,NN)
+1.00 has_sense(water,water.n.06)
+
+1.00 has_pos(wooden_spoon,NN)
+1.00 has_sense(wooden_spoon,wooden_spoon.n.02)
+
+1.00 action_role(stir, ActionCause)
+1.00 action_role(water, ObjectToBeStirred)
+1.00 action_role(wooden_spoon, ObjectShouldBeUsedForStirring)
+---
+
 //Stir the tea
 1.00 has_sense(stir,stir.v.01)
 1.00 has_pos(stir,VB)
@@ -45,6 +75,21 @@
 
 ---
 
+//Stir the tea
+1.00 has_sense(stir,stir.v.01)
+1.00 has_pos(stir,VB)
+
+1.00 has_pos(tea,NN)
+1.00 has_sense(tea,tea.n.01)
+
+1.00 has_pos(teaspoon,NN)
+1.00 has_sense(teaspoon,teaspoon.n.02)
+
+1.00 action_role(stir, ActionCause)
+1.00 action_role(tea, ObjectToBeStirred)
+1.00 action_role(teaspoon, ObjectShouldBeUsedForStirring)
+---
+
 //Stir the coffee
 1.00 has_sense(stir,stir.v.01)
 1.00 has_pos(stir,VB)
@@ -55,6 +100,21 @@
 1.00 action_role(stir, ActionCause)
 1.00 action_role(coffee, ObjectToBeStirred)
 
+---
+
+//Stir the coffee
+1.00 has_sense(stir,stir.v.01)
+1.00 has_pos(stir,VB)
+
+1.00 has_pos(coffee,NN)
+1.00 has_sense(coffee,coffee.n.01)
+
+1.00 has_pos(teaspoon,NN)
+1.00 has_sense(teaspoon,teaspoon.n.02)
+
+1.00 action_role(stir, ActionCause)
+1.00 action_role(coffee, ObjectToBeStirred)
+1.00 action_role(teaspoon, ObjectShouldBeUsedForStirring)
 ---
 
 //Stir the juice
@@ -79,6 +139,21 @@
 1.00 action_role(stir, ActionCause)
 1.00 action_role(cappuccino, ObjectToBeStirred)
 
+---
+
+//Stir the cappuccino
+1.00 has_sense(stir,stir.v.01)
+1.00 has_pos(stir,VB)
+
+1.00 has_pos(cappuccino,NN)
+1.00 has_sense(cappuccino,cappuccino.n.01)
+
+1.00 has_pos(teaspoon,NN)
+1.00 has_sense(teaspoon,teaspoon.n.02)
+
+1.00 action_role(stir, ActionCause)
+1.00 action_role(cappuccino, ObjectToBeStirred)
+1.00 action_role(teaspoon, ObjectShouldBeUsedForStirring)
 ---
 
 //Stir the wine
