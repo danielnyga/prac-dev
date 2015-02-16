@@ -268,7 +268,7 @@
 1.00 has_pos(cake,NN)
 
 1.00 action_role(slice, ActionCause)
-1.00 action_role(spring_onion, ObjectToBeCutted)
+1.00 action_role(cake, ObjectToBeCutted)
 1.00 action_role(fork, CuttingTool)
 1.00 action_role(piece, Piece)
 

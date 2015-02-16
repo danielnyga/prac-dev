@@ -47,7 +47,7 @@
 1.00 action_role(knife, CuttingTool)
 
 ---
-// Finely cut the remaining flesh .
+// Finely cut the remaining flesh with a chopper.
 //cut
 1.00 has_pos(cut, VB)
 1.00 has_sense(cut, cut.v.01)
@@ -56,9 +56,12 @@
 1.00 has_pos(flesh, NN) 
 1.00 has_sense(flesh, flesh.n.01)
 
+1.00 has_sense(chopper,cleaver.n.01)
+1.00 has_pos(chopper,NN)
 
 1.00 action_role(cut, ActionCause)
 1.00 action_role(flesh, ObjectToBeCutted)
+1.00 action_role(chopper, CuttingTool)
 
 ---
 //cut the tomato with a knife.
@@ -72,10 +75,14 @@
 1.00 has_pos(knife, NN) 
 1.00 has_sense(knife, knife.n.01)
 
+//slices
+1.00 has_pos(slice, NN)
+1.00 has_sense(slice, piece.n.08)
 
 1.00 action_role(cut, ActionCause)
 1.00 action_role(tomato, ObjectToBeCutted)
 1.00 action_role(knife, CuttingTool)
+1.00 action_role(slice, Piece)
 
 ---
 // cut the mushroom .
@@ -113,14 +120,18 @@
 
 ---
 
-// Thinly cut remaining lemon .
+// Thinly cut remaining lemon with a knife .
 1.00 has_sense(cut,cut.v.01)
 1.00 has_sense(lemon,lemon.n.01)
 1.00 has_pos(cut,VB)
 1.00 has_pos(lemon,NN)
 
+1.00 has_pos(knife, NN) 
+1.00 has_sense(knife, knife.n.01)
+
 1.00 action_role(cut, ActionCause)
 1.00 action_role(lemon, ObjectToBeCutted)
+1.00 action_role(knife, CuttingTool)
 
 ---
 
@@ -160,9 +171,13 @@
 1.00 has_pos(knife, NN) 
 1.00 has_sense(knife, knife.n.01)
 
+1.00 has_pos(slices,NN)
+1.00 has_sense(slices,piece.n.08)
+
 1.00 action_role(cut, ActionCause)
 1.00 action_role(bread, ObjectToBeCutted)
 1.00 action_role(knife, CuttingTool)
+1.00 action_role(slices, Piece)
 
 ---
 
@@ -268,7 +283,7 @@
 1.00 has_pos(cake,NN)
 
 1.00 action_role(cut, ActionCause)
-1.00 action_role(spring_onion, ObjectToBeCutted)
+1.00 action_role(cake, ObjectToBeCutted)
 1.00 action_role(fork, CuttingTool)
 1.00 action_role(piece, Piece)
 
