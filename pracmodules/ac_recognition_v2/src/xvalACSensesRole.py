@@ -320,7 +320,7 @@ def createTestDBs(mln,dbs):
                 word2senses[word_const].append(sense_id)
                 for concept in concepts:
 #                     sim = wordnet.semilarity(synset, concept)
-                    sim = wordnet.wup_similarity(synset, concept)
+                    sim = wordnet.path_similarity(synset, concept)
                     
                     atom =  'is_a(%s,%s)' % (sense_id, concept)
                     atomExists = False
