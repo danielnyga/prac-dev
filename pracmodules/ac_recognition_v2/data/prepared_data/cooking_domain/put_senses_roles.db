@@ -12,6 +12,8 @@
 1.00 action_role(salt, ObjectToBePutted)
 1.00 action_role(pepper, ObjectToBePutted)
 1.00 action_role(eggs, Goal)
+
+1.00 prep_on(put,eggs)
 ---
 
 // put the chicken back into the pan-
@@ -26,6 +28,7 @@
 1.00 action_role(chicken, ObjectToBePutted)
 1.00 action_role(pan, Goal)
 
+1.00 prep_into(put,pan)
 ---
 
 // put the pizza on the pan.
@@ -39,7 +42,7 @@
 1.00 action_role(put, ActionCause)
 1.00 action_role(pizza, ObjectToBePutted)
 1.00 action_role(pan, Goal)
-
+1.00 prep_on(put,pan)
 ---
 
 // put the beef and onion on a plate .
@@ -56,7 +59,7 @@
 1.00 action_role(beef, ObjectToBePutted)
 1.00 action_role(onion, ObjectToBePutted)
 1.00 action_role(plate, Goal)
-
+1.00 prep_on(put,plate)
 ---
 
 // put whipped_cream on the cake .
@@ -70,6 +73,8 @@
 1.00 action_role(put, ActionCause)
 1.00 action_role(whipped_cream, ObjectToBePutted)
 1.00 action_role(cake, Goal)
+
+1.00 prep_on(put,cake)
 
 ---
 
@@ -85,6 +90,8 @@
 1.00 action_role(put, ActionCause)
 1.00 action_role(batter, ObjectToBePutted)
 1.00 action_role(spoon, Goal)
+
+1.00 prep_on(put,spoon)
 ---
 
 // put cherries into a bowl .
@@ -98,6 +105,7 @@
 1.00 action_role(put, ActionCause)
 1.00 action_role(cherries, ObjectToBePutted)
 1.00 action_role(bowl, Goal)
+1.00 prep_into(put,bowl)
 ---
 
 // put a banana in a blender .
@@ -111,6 +119,8 @@
 1.00 action_role(put, ActionCause)
 1.00 action_role(banana, ObjectToBePutted)
 1.00 action_role(blender, Goal)
+
+1.00 prep_in(put,blender)
 ---
 
 // put the steak into the oven .
@@ -124,6 +134,8 @@
 1.00 action_role(put, ActionCause)
 1.00 action_role(steak, ObjectToBePutted)
 1.00 action_role(oven, Goal)
+
+1.00 prep_into(put,oven)
 ---
 
 // put the mug in the microwave.
@@ -137,6 +149,8 @@
 1.00 action_role(put, ActionCause)
 1.00 action_role(mug, ObjectToBePutted)
 1.00 action_role(microwave, Goal)
+
+1.00 prep_in(put,microwave)
 ---
 
 // put salt on your rib.
@@ -150,6 +164,8 @@
 1.00 action_role(put, ActionCause)
 1.00 action_role(salt, ObjectToBePutted)
 1.00 action_role(rib, Goal)
+
+1.00 prep_on(put,rib)
 ---
 
 // put the jam back into the refrigerator-
@@ -164,6 +180,7 @@
 1.00 action_role(jam, ObjectToBePutted)
 1.00 action_role(refrigerator, Goal)
 
+1.00 prep_into(put,refrigerator)
 ---
 
 // put the paste on the bread.
@@ -177,6 +194,8 @@
 1.00 action_role(put, ActionCause)
 1.00 action_role(paste, ObjectToBePutted)
 1.00 action_role(bread, Goal)
+
+1.00 prep_on(put,bread)
 ---
 
 // put the salmon on a plate .
@@ -190,6 +209,7 @@
 1.00 action_role(put, ActionCause)
 1.00 action_role(salmon, ObjectToBePutted)
 1.00 action_role(plate, Goal)
+1.00 prep_on(put,plate)
 ---
 
 // put coke in the fridge.
@@ -204,30 +224,7 @@
 1.00 action_role(coke, ObjectToBePutted)
 1.00 action_role(fridge, Goal)
 
----
-
-//Put some fries to it.
-1.00 has_sense(put,put.v.01)
-1.00 has_sense(fries,french_fries.n.01)
-1.00 has_pos(put,VB)
-1.00 has_pos(fries,NN)
-
-1.00 action_role(put, ActionCause)
-1.00 action_role(fries, ObjectToBePutted)
-
----
-
-//Put some dressing to the salad.
-1.00 has_sense(put,put.v.01)
-1.00 has_sense(dressing,dressing.n.01)
-1.00 has_sense(salad,salad.n.01)
-1.00 has_pos(put,VB)
-1.00 has_pos(dressing,NN)
-1.00 has_pos(salad,NN)
-
-1.00 action_role(put, ActionCause)
-1.00 action_role(dressing, ObjectToBePutted)
-1.00 action_role(salad, Goal)
+1.00 prep_into(put,fridge)
 
 ---
 
@@ -242,6 +239,8 @@
 1.00 action_role(put, ActionCause)
 1.00 action_role(rice, ObjectToBePutted)
 1.00 action_role(bowl, Goal)
+
+1.00 prep_into(put,bowl)
 ---
 
 // put the dish into the oven .
@@ -255,6 +254,8 @@
 1.00 action_role(put, ActionCause)
 1.00 action_role(dish, ObjectToBePutted)
 1.00 action_role(oven, Goal)
+
+1.00 prep_into(put,oven)
 ---
 
 // put the soup in the microwave.
@@ -268,3 +269,5 @@
 1.00 action_role(put, ActionCause)
 1.00 action_role(soup, ObjectToBePutted)
 1.00 action_role(microwave, Goal)
+
+1.00 prep_in(put,microwave)
