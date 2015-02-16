@@ -1,19 +1,19 @@
 // slice the pizza into eight separate slices.
 //slice
-1.00 has_pos(slice, VB)
-1.00 has_sense(slice, slice.v.03)
+1.00 has_pos(slice-1, VB)
+1.00 has_sense(slice-1, slice.v.03)
 
 //pizza
 1.00 has_pos(pizza, NN)
 1.00 has_sense(pizza, pizza.n.01)
 
 //slices
-1.00 has_pos(slices, NN)
-1.00 has_sense(slices, piece.n.08)
+1.00 has_pos(slice, NN)
+1.00 has_sense(slice, piece.n.08)
 
-1.00 action_role(slice, ActionCause)
+1.00 action_role(slice-1, ActionCause)
 1.00 action_role(pizza, ObjectToBeCutted)
-1.00 action_role(slices, Piece)
+1.00 action_role(slice, Piece)
 
 ---
 // slice each cheese thinly .
@@ -47,7 +47,7 @@
 1.00 action_role(knife, CuttingTool)
 
 ---
-// Finely slice the remaining flesh .
+// Finely slice the remaining flesh with a chopper.
 //slice
 1.00 has_pos(slice, VB)
 1.00 has_sense(slice, slice.v.03)
@@ -56,15 +56,18 @@
 1.00 has_pos(flesh, NN) 
 1.00 has_sense(flesh, flesh.n.01)
 
+1.00 has_sense(chopper,cleaver.n.01)
+1.00 has_pos(chopper,NN)
 
 1.00 action_role(slice, ActionCause)
 1.00 action_role(flesh, ObjectToBeCutted)
+1.00 action_role(chopper, CuttingTool)
 
 ---
 //slice the tomato with a knife.
 
-1.00 has_pos(slice, VB)
-1.00 has_sense(slice, slice.v.03)
+1.00 has_pos(slice-1, VB)
+1.00 has_sense(slice-1, slice.v.03)
 
 1.00 has_pos(tomato, NN) 
 1.00 has_sense(tomato, tomato.n.01)
@@ -72,10 +75,14 @@
 1.00 has_pos(knife, NN) 
 1.00 has_sense(knife, knife.n.01)
 
+//slices
+1.00 has_pos(slice, NN)
+1.00 has_sense(slice, piece.n.08)
 
-1.00 action_role(slice, ActionCause)
+1.00 action_role(slice-1, ActionCause)
 1.00 action_role(tomato, ObjectToBeCutted)
 1.00 action_role(knife, CuttingTool)
+1.00 action_role(slice, Piece)
 
 ---
 // slice the mushroom .
@@ -113,14 +120,18 @@
 
 ---
 
-// Thinly slice remaining lemon .
+// Thinly slice remaining lemon with a knife .
 1.00 has_sense(slice,slice.v.03)
 1.00 has_sense(lemon,lemon.n.01)
 1.00 has_pos(slice,VB)
 1.00 has_pos(lemon,NN)
 
+1.00 has_pos(knife, NN) 
+1.00 has_sense(knife, knife.n.01)
+
 1.00 action_role(slice, ActionCause)
 1.00 action_role(lemon, ObjectToBeCutted)
+1.00 action_role(knife, CuttingTool)
 
 ---
 
@@ -160,9 +171,13 @@
 1.00 has_pos(knife, NN) 
 1.00 has_sense(knife, knife.n.01)
 
+1.00 has_pos(slices,NN)
+1.00 has_sense(slices,piece.n.08)
+
 1.00 action_role(slice, ActionCause)
 1.00 action_role(bread, ObjectToBeCutted)
 1.00 action_role(knife, CuttingTool)
+1.00 action_role(slices, Piece)
 
 ---
 
