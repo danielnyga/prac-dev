@@ -98,7 +98,7 @@
 
 1.00 action_role(slice, ActionCause)
 1.00 action_role(meat, ObjectToBeCutted)
-1.00 action_role(chooper, CuttingTool)
+1.00 action_role(chopper, CuttingTool)
 
 ---
 
