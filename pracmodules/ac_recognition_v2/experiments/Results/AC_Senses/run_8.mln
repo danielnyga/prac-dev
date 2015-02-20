@@ -1,0 +1,13 @@
+// domain declarations
+
+
+// predicate declarations
+is_a(sense,concept)
+ac_word(ac!)
+has_sense(word,sense!)
+has_pos(word,pos!)
+dobj(word,word)
+
+// formulas
+8.495812    has_pos(?w1, VB) ^ has_sense(?w1, stir.v.01) ^ ac_word(AC_STIR)
+8.649890    has_pos(?w1, VB) ^ has_sense(?w1, stir.v.08) ^ ac_word(AC_STIR_2)

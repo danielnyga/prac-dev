@@ -1,0 +1,524 @@
+// domain declarations
+
+
+// predicate declarations
+ac_word(ac!)
+prep_to(word,word)
+action_role(word,role!)
+has_pos(word,pos!)
+has_sense(word,sense!)
+dobj(word,word)
+is_a(sense,concept)
+
+// formulas
+-0.314095   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, corn.n.03) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, corn.n.03) ^ ?w1=/=?w2
+-0.314101   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, corn.n.03) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, corn.n.03) ^ ?w1=/=?w2
+-0.873948   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, corn.n.03) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, dish.n.02) ^ ?w1=/=?w2
+-0.559852   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, corn.n.03) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, dish.n.02) ^ ?w1=/=?w2
+-0.313104   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, corn.n.03) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, dish.n.02) ^ ?w1=/=?w2
+-0.559852   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, corn.n.03) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2
+-0.313376   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, corn.n.03) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2
+-0.233109   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, mixing_bowl.n.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, mixing_bowl.n.01) ^ ?w1=/=?w2
+-0.466426   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, mixing_bowl.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, mixing_bowl.n.01) ^ ?w1=/=?w2
+-0.310966   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, mixing_bowl.n.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2
+-0.310810   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, mixing_bowl.n.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2
+-0.777023   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, mixing_bowl.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2
+-0.544075   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, mixing_bowl.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, butter.n.01) ^ ?w1=/=?w2
+-0.310816   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, mixing_bowl.n.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, butter.n.01) ^ ?w1=/=?w2
+1.831359    action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, mixing_bowl.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, butter.n.01) ^ ?w1=/=?w2
+-0.544160   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, mixing_bowl.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, butter.n.01) ^ ?w1=/=?w2
+-0.544075   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, mixing_bowl.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, sugar.n.01) ^ ?w1=/=?w2
+-0.311193   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, mixing_bowl.n.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, sugar.n.01) ^ ?w1=/=?w2
+2.988137    action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, mixing_bowl.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, sugar.n.01) ^ ?w1=/=?w2
+-0.543970   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, mixing_bowl.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, sugar.n.01) ^ ?w1=/=?w2
+-0.627746   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, dish.n.02) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, corn.n.03) ^ ?w1=/=?w2
+-0.559852   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, dish.n.02) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, corn.n.03) ^ ?w1=/=?w2
+3.345898    action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, dish.n.02) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, corn.n.03) ^ ?w1=/=?w2
+-0.313104   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, dish.n.02) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, corn.n.03) ^ ?w1=/=?w2
+-0.314369   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, dish.n.02) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, dish.n.02) ^ ?w1=/=?w2
+-0.663693   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, dish.n.02) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, dish.n.02) ^ ?w1=/=?w2
+-0.313376   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, dish.n.02) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2
+-0.313376   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, dish.n.02) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2
+-0.624479   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, dish.n.02) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2
+-0.559852   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, corn.n.03) ^ ?w1=/=?w2
+-0.873953   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, corn.n.03) ^ ?w1=/=?w2
+3.349716    action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, corn.n.03) ^ ?w1=/=?w2
+-0.624194   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, corn.n.03) ^ ?w1=/=?w2
+-0.313376   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, corn.n.03) ^ ?w1=/=?w2
+-0.310966   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, mixing_bowl.n.01) ^ ?w1=/=?w2
+2.642363    action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, mixing_bowl.n.01) ^ ?w1=/=?w2
+-0.777278   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, mixing_bowl.n.01) ^ ?w1=/=?w2
+-0.310810   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, mixing_bowl.n.01) ^ ?w1=/=?w2
+-0.313376   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, dish.n.02) ^ ?w1=/=?w2
+2.506616    action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, dish.n.02) ^ ?w1=/=?w2
+-0.976797   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, dish.n.02) ^ ?w1=/=?w2
+-0.313376   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, dish.n.02) ^ ?w1=/=?w2
+-3.185844   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2
+-7.465525   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2
+-0.328385   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, milk.n.01) ^ ?w1=/=?w2
+-0.351268   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, milk.n.01) ^ ?w1=/=?w2
+3.473206    action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, milk.n.01) ^ ?w1=/=?w2
+-0.757201   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, milk.n.01) ^ ?w1=/=?w2
+-0.706879   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, milk.n.01) ^ ?w1=/=?w2
+-0.932428   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pan.n.03) ^ ?w1=/=?w2
+7.614827    action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pan.n.03) ^ ?w1=/=?w2
+-2.021381   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pan.n.03) ^ ?w1=/=?w2
+-0.932428   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pan.n.03) ^ ?w1=/=?w2
+-0.977775   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, egg.n.02) ^ ?w1=/=?w2
+-1.381583   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, egg.n.02) ^ ?w1=/=?w2
+6.623369    action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, egg.n.02) ^ ?w1=/=?w2
+-1.381583   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, egg.n.02) ^ ?w1=/=?w2
+-0.977775   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, egg.n.02) ^ ?w1=/=?w2
+-0.932621   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, butter.n.01) ^ ?w1=/=?w2
+-1.709684   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, butter.n.01) ^ ?w1=/=?w2
+6.674202    action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, butter.n.01) ^ ?w1=/=?w2
+-1.709451   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, butter.n.01) ^ ?w1=/=?w2
+-1.398642   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, butter.n.01) ^ ?w1=/=?w2
+-0.313376   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pot.n.01) ^ ?w1=/=?w2
+2.506616    action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pot.n.01) ^ ?w1=/=?w2
+-0.976797   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pot.n.01) ^ ?w1=/=?w2
+-0.313376   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pot.n.01) ^ ?w1=/=?w2
+-0.319724   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, asparagus.n.02) ^ ?w1=/=?w2
+-0.332720   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, asparagus.n.02) ^ ?w1=/=?w2
+3.721489    action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, asparagus.n.02) ^ ?w1=/=?w2
+-0.933375   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, asparagus.n.02) ^ ?w1=/=?w2
+-0.753600   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, asparagus.n.02) ^ ?w1=/=?w2
+-0.313376   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, meat.n.01) ^ ?w1=/=?w2
+2.506616    action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, meat.n.01) ^ ?w1=/=?w2
+-0.976797   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, meat.n.01) ^ ?w1=/=?w2
+-0.313376   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, meat.n.01) ^ ?w1=/=?w2
+-0.623571   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vanilla.n.02) ^ ?w1=/=?w2
+-1.167487   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vanilla.n.02) ^ ?w1=/=?w2
+4.952592    action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vanilla.n.02) ^ ?w1=/=?w2
+-1.165535   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vanilla.n.02) ^ ?w1=/=?w2
+-0.854725   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vanilla.n.02) ^ ?w1=/=?w2
+-0.559852   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bean.n.01) ^ ?w1=/=?w2
+-0.873953   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bean.n.01) ^ ?w1=/=?w2
+3.349716    action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bean.n.01) ^ ?w1=/=?w2
+-0.624194   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bean.n.01) ^ ?w1=/=?w2
+-0.313376   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bean.n.01) ^ ?w1=/=?w2
+-0.310966   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, concoction.n.01) ^ ?w1=/=?w2
+2.642296    action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, concoction.n.01) ^ ?w1=/=?w2
+-0.777140   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, concoction.n.01) ^ ?w1=/=?w2
+-0.310809   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, concoction.n.01) ^ ?w1=/=?w2
+-0.314241   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, sauce.n.01) ^ ?w1=/=?w2
+2.495772    action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, sauce.n.01) ^ ?w1=/=?w2
+-0.710913   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, sauce.n.01) ^ ?w1=/=?w2
+-0.310957   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, sauce.n.01) ^ ?w1=/=?w2
+-0.559852   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, salt.n.02) ^ ?w1=/=?w2
+-0.873953   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, salt.n.02) ^ ?w1=/=?w2
+3.349716    action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, salt.n.02) ^ ?w1=/=?w2
+-0.624194   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, salt.n.02) ^ ?w1=/=?w2
+-0.313376   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, salt.n.02) ^ ?w1=/=?w2
+-0.977775   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, rib.n.03) ^ ?w1=/=?w2
+-1.381583   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, rib.n.03) ^ ?w1=/=?w2
+6.623369    action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, rib.n.03) ^ ?w1=/=?w2
+-1.381583   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, rib.n.03) ^ ?w1=/=?w2
+-0.977775   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, rib.n.03) ^ ?w1=/=?w2
+-0.655555   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cream.n.02) ^ ?w1=/=?w2
+-1.203839   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cream.n.02) ^ ?w1=/=?w2
+5.251874    action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cream.n.02) ^ ?w1=/=?w2
+-1.165689   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cream.n.02) ^ ?w1=/=?w2
+-0.854809   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cream.n.02) ^ ?w1=/=?w2
+-0.947046   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, ingredient.n.03) ^ ?w1=/=?w2
+-1.378342   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, ingredient.n.03) ^ ?w1=/=?w2
+6.575015    action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, ingredient.n.03) ^ ?w1=/=?w2
+-1.378299   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, ingredient.n.03) ^ ?w1=/=?w2
+-1.077943   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, ingredient.n.03) ^ ?w1=/=?w2
+-0.313376   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, steak.n.01) ^ ?w1=/=?w2
+2.506616    action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, steak.n.01) ^ ?w1=/=?w2
+-0.976797   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, steak.n.01) ^ ?w1=/=?w2
+-0.313376   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, steak.n.01) ^ ?w1=/=?w2
+-0.977775   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vegetable.n.01) ^ ?w1=/=?w2
+-1.381583   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vegetable.n.01) ^ ?w1=/=?w2
+6.623369    action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vegetable.n.01) ^ ?w1=/=?w2
+-1.381583   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vegetable.n.01) ^ ?w1=/=?w2
+-0.977775   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vegetable.n.01) ^ ?w1=/=?w2
+-0.328385   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, water.n.06) ^ ?w1=/=?w2
+-0.351268   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, water.n.06) ^ ?w1=/=?w2
+3.473206    action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, water.n.06) ^ ?w1=/=?w2
+-0.757201   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, water.n.06) ^ ?w1=/=?w2
+-0.706879   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, water.n.06) ^ ?w1=/=?w2
+-0.415660   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, dressing.n.01) ^ ?w1=/=?w2
+-0.730359   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, dressing.n.01) ^ ?w1=/=?w2
+4.129146    action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, dressing.n.01) ^ ?w1=/=?w2
+-0.624538   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, dressing.n.01) ^ ?w1=/=?w2
+-0.313720   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, dressing.n.01) ^ ?w1=/=?w2
+-0.559852   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, french_fries.n.01) ^ ?w1=/=?w2
+-0.873953   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, french_fries.n.01) ^ ?w1=/=?w2
+3.349716    action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, french_fries.n.01) ^ ?w1=/=?w2
+-0.624194   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, french_fries.n.01) ^ ?w1=/=?w2
+-0.313376   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, french_fries.n.01) ^ ?w1=/=?w2
+-0.634440   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, salad.n.01) ^ ?w1=/=?w2
+1.726359    action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, salad.n.01) ^ ?w1=/=?w2
+2.646111    action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, salad.n.01) ^ ?w1=/=?w2
+-0.313720   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, salad.n.01) ^ ?w1=/=?w2
+-0.933375   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, salad.n.01) ^ ?w1=/=?w2
+-0.753594   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, salad.n.01) ^ ?w1=/=?w2
+-0.977775   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, onion.n.03) ^ ?w1=/=?w2
+-1.381583   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, onion.n.03) ^ ?w1=/=?w2
+6.623369    action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, onion.n.03) ^ ?w1=/=?w2
+-1.381583   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, onion.n.03) ^ ?w1=/=?w2
+-0.977775   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, onion.n.03) ^ ?w1=/=?w2
+-0.311193   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, sugar.n.01) ^ ?w1=/=?w2
+-0.544556   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, sugar.n.01) ^ ?w1=/=?w2
+2.987661    action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, sugar.n.01) ^ ?w1=/=?w2
+-0.543917   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, sugar.n.01) ^ ?w1=/=?w2
+-0.543916   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, sugar.n.01) ^ ?w1=/=?w2
+-0.328385   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, milk.n.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2
+-0.706879   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, milk.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2
+-0.664737   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, milk.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, milk.n.01) ^ ?w1=/=?w2
+-1.156042   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, milk.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, milk.n.01) ^ ?w1=/=?w2
+-0.993121   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, milk.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, water.n.06) ^ ?w1=/=?w2
+-0.351268   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, milk.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, water.n.06) ^ ?w1=/=?w2
+3.136982    action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, milk.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, water.n.06) ^ ?w1=/=?w2
+-0.932428   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, pan.n.03) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2
+-0.932428   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, pan.n.03) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2
+-2.020262   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, pan.n.03) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2
+-0.854725   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, pan.n.03) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pan.n.03) ^ ?w1=/=?w2
+-1.088954   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, pan.n.03) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pan.n.03) ^ ?w1=/=?w2
+-1.165535   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, pan.n.03) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, butter.n.01) ^ ?w1=/=?w2
+-0.621821   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, pan.n.03) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, butter.n.01) ^ ?w1=/=?w2
+4.843319    action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, pan.n.03) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, butter.n.01) ^ ?w1=/=?w2
+-0.854726   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, pan.n.03) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, butter.n.01) ^ ?w1=/=?w2
+-1.165535   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, pan.n.03) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vanilla.n.02) ^ ?w1=/=?w2
+-0.623571   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, pan.n.03) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vanilla.n.02) ^ ?w1=/=?w2
+4.952592    action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, pan.n.03) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vanilla.n.02) ^ ?w1=/=?w2
+-0.854726   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, pan.n.03) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vanilla.n.02) ^ ?w1=/=?w2
+-0.977775   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, egg.n.02) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2
+-0.977775   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, egg.n.02) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2
+-1.437423   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, egg.n.02) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, egg.n.02) ^ ?w1=/=?w2
+-0.543923   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, butter.n.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, mixing_bowl.n.01) ^ ?w1=/=?w2
+-0.310816   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, butter.n.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, mixing_bowl.n.01) ^ ?w1=/=?w2
+-0.544160   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, butter.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, mixing_bowl.n.01) ^ ?w1=/=?w2
+-0.932621   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, butter.n.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2
+-1.398642   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, butter.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2
+-1.165722   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, butter.n.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pan.n.03) ^ ?w1=/=?w2
+-0.621821   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, butter.n.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pan.n.03) ^ ?w1=/=?w2
+-0.854726   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, butter.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pan.n.03) ^ ?w1=/=?w2
+-0.777024   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, butter.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, butter.n.01) ^ ?w1=/=?w2
+-0.777047   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, butter.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, butter.n.01) ^ ?w1=/=?w2
+-2.451853   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, butter.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, butter.n.01) ^ ?w1=/=?w2
+-0.543917   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, butter.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vanilla.n.02) ^ ?w1=/=?w2
+-0.543917   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, butter.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vanilla.n.02) ^ ?w1=/=?w2
+2.913588    action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, butter.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vanilla.n.02) ^ ?w1=/=?w2
+-0.543923   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, butter.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, sugar.n.01) ^ ?w1=/=?w2
+-0.543947   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, butter.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, sugar.n.01) ^ ?w1=/=?w2
+3.260188    action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, butter.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, sugar.n.01) ^ ?w1=/=?w2
+-0.313376   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, pot.n.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2
+-0.313376   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, pot.n.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2
+-0.624479   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, pot.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2
+-0.314369   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, pot.n.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pot.n.01) ^ ?w1=/=?w2
+-0.663693   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, pot.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pot.n.01) ^ ?w1=/=?w2
+-0.627746   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, pot.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bean.n.01) ^ ?w1=/=?w2
+-0.559852   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, pot.n.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bean.n.01) ^ ?w1=/=?w2
+3.345898    action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, pot.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bean.n.01) ^ ?w1=/=?w2
+-0.313104   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, pot.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bean.n.01) ^ ?w1=/=?w2
+-0.319724   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, asparagus.n.02) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2
+-0.753600   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, asparagus.n.02) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2
+-0.820298   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, asparagus.n.02) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, asparagus.n.02) ^ ?w1=/=?w2
+-1.321839   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, asparagus.n.02) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, asparagus.n.02) ^ ?w1=/=?w2
+-1.140022   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, asparagus.n.02) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, salad.n.01) ^ ?w1=/=?w2
+-0.332720   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, asparagus.n.02) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, salad.n.01) ^ ?w1=/=?w2
+3.442135    action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, asparagus.n.02) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, salad.n.01) ^ ?w1=/=?w2
+-0.313376   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, meat.n.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2
+-0.313376   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, meat.n.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2
+-0.624479   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, meat.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2
+-0.314369   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, meat.n.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, meat.n.01) ^ ?w1=/=?w2
+-0.663693   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, meat.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, meat.n.01) ^ ?w1=/=?w2
+-0.627746   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, meat.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, salt.n.02) ^ ?w1=/=?w2
+-0.559852   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, meat.n.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, salt.n.02) ^ ?w1=/=?w2
+3.345898    action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, meat.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, salt.n.02) ^ ?w1=/=?w2
+-0.313104   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, meat.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, salt.n.02) ^ ?w1=/=?w2
+-0.623571   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, vanilla.n.02) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2
+-0.854725   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, vanilla.n.02) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2
+-1.167487   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, vanilla.n.02) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pan.n.03) ^ ?w1=/=?w2
+-0.623571   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, vanilla.n.02) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pan.n.03) ^ ?w1=/=?w2
+-0.854726   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, vanilla.n.02) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pan.n.03) ^ ?w1=/=?w2
+-0.543920   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, vanilla.n.02) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, butter.n.01) ^ ?w1=/=?w2
+-0.543920   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, vanilla.n.02) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, butter.n.01) ^ ?w1=/=?w2
+2.913588    action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, vanilla.n.02) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, butter.n.01) ^ ?w1=/=?w2
+-0.543916   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, vanilla.n.02) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vanilla.n.02) ^ ?w1=/=?w2
+-0.543916   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, vanilla.n.02) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vanilla.n.02) ^ ?w1=/=?w2
+-0.685425   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, vanilla.n.02) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vanilla.n.02) ^ ?w1=/=?w2
+-0.559852   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, bean.n.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2
+-0.313376   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, bean.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2
+-0.873948   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, bean.n.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pot.n.01) ^ ?w1=/=?w2
+-0.559852   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, bean.n.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pot.n.01) ^ ?w1=/=?w2
+-0.313104   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, bean.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pot.n.01) ^ ?w1=/=?w2
+-0.314095   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, bean.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bean.n.01) ^ ?w1=/=?w2
+-0.314101   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, bean.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bean.n.01) ^ ?w1=/=?w2
+-0.310966   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, concoction.n.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2
+-0.310809   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, concoction.n.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2
+-0.777023   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, concoction.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2
+-0.233108   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, concoction.n.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, concoction.n.01) ^ ?w1=/=?w2
+-0.466288   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, concoction.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, concoction.n.01) ^ ?w1=/=?w2
+-0.544074   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, concoction.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cream.n.02) ^ ?w1=/=?w2
+-0.310855   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, concoction.n.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cream.n.02) ^ ?w1=/=?w2
+2.608494    action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, concoction.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cream.n.02) ^ ?w1=/=?w2
+-0.543986   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, concoction.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cream.n.02) ^ ?w1=/=?w2
+-0.544074   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, concoction.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, ingredient.n.03) ^ ?w1=/=?w2
+-0.310839   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, concoction.n.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, ingredient.n.03) ^ ?w1=/=?w2
+2.210096    action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, concoction.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, ingredient.n.03) ^ ?w1=/=?w2
+-0.544005   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, concoction.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, ingredient.n.03) ^ ?w1=/=?w2
+-0.314241   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, sauce.n.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2
+-0.310957   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, sauce.n.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2
+-0.621758   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, sauce.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2
+-0.311171   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, sauce.n.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, sauce.n.01) ^ ?w1=/=?w2
+-0.396751   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, sauce.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, sauce.n.01) ^ ?w1=/=?w2
+-0.625412   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, sauce.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cream.n.02) ^ ?w1=/=?w2
+-0.347365   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, sauce.n.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cream.n.02) ^ ?w1=/=?w2
+2.651343    action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, sauce.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cream.n.02) ^ ?w1=/=?w2
+-0.314162   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, sauce.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cream.n.02) ^ ?w1=/=?w2
+-0.559852   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, salt.n.02) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2
+-0.313376   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, salt.n.02) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2
+-0.873948   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, salt.n.02) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, meat.n.01) ^ ?w1=/=?w2
+-0.559852   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, salt.n.02) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, meat.n.01) ^ ?w1=/=?w2
+-0.313104   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, salt.n.02) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, meat.n.01) ^ ?w1=/=?w2
+-0.314095   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, salt.n.02) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, salt.n.02) ^ ?w1=/=?w2
+-0.314101   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, salt.n.02) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, salt.n.02) ^ ?w1=/=?w2
+-0.977775   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, rib.n.03) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2
+-0.977775   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, rib.n.03) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2
+-1.437423   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, rib.n.03) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, rib.n.03) ^ ?w1=/=?w2
+-0.655555   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cream.n.02) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2
+-0.854809   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cream.n.02) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2
+-0.543962   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cream.n.02) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, concoction.n.01) ^ ?w1=/=?w2
+-0.310855   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cream.n.02) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, concoction.n.01) ^ ?w1=/=?w2
+-0.543986   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cream.n.02) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, concoction.n.01) ^ ?w1=/=?w2
+-0.655791   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cream.n.02) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, sauce.n.01) ^ ?w1=/=?w2
+-0.347365   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cream.n.02) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, sauce.n.01) ^ ?w1=/=?w2
+-0.314162   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cream.n.02) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, sauce.n.01) ^ ?w1=/=?w2
+-0.544198   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cream.n.02) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cream.n.02) ^ ?w1=/=?w2
+-0.545619   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cream.n.02) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cream.n.02) ^ ?w1=/=?w2
+-0.863217   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cream.n.02) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cream.n.02) ^ ?w1=/=?w2
+-0.543962   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cream.n.02) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, ingredient.n.03) ^ ?w1=/=?w2
+-0.544031   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cream.n.02) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, ingredient.n.03) ^ ?w1=/=?w2
+3.238265    action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cream.n.02) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, ingredient.n.03) ^ ?w1=/=?w2
+-0.947046   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, ingredient.n.03) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2
+-1.077943   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, ingredient.n.03) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2
+-0.543937   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, ingredient.n.03) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, concoction.n.01) ^ ?w1=/=?w2
+-0.310839   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, ingredient.n.03) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, concoction.n.01) ^ ?w1=/=?w2
+-0.544005   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, ingredient.n.03) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, concoction.n.01) ^ ?w1=/=?w2
+-0.543937   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, ingredient.n.03) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cream.n.02) ^ ?w1=/=?w2
+-0.544093   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, ingredient.n.03) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cream.n.02) ^ ?w1=/=?w2
+3.238265    action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, ingredient.n.03) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cream.n.02) ^ ?w1=/=?w2
+-1.292662   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, ingredient.n.03) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, ingredient.n.03) ^ ?w1=/=?w2
+-0.233254   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, ingredient.n.03) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, ingredient.n.03) ^ ?w1=/=?w2
+-1.261554   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, ingredient.n.03) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, ingredient.n.03) ^ ?w1=/=?w2
+-0.313376   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, steak.n.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2
+-0.313376   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, steak.n.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2
+-0.624479   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, steak.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2
+-0.314369   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, steak.n.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, steak.n.01) ^ ?w1=/=?w2
+-0.663693   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, steak.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, steak.n.01) ^ ?w1=/=?w2
+-0.627746   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, steak.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, french_fries.n.01) ^ ?w1=/=?w2
+-0.559852   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, steak.n.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, french_fries.n.01) ^ ?w1=/=?w2
+3.345898    action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, steak.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, french_fries.n.01) ^ ?w1=/=?w2
+-0.313104   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, steak.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, french_fries.n.01) ^ ?w1=/=?w2
+-0.977775   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, vegetable.n.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2
+-0.977775   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, vegetable.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2
+-1.437423   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, vegetable.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vegetable.n.01) ^ ?w1=/=?w2
+-0.328385   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, water.n.06) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2
+-0.706879   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, water.n.06) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2
+-0.993121   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, water.n.06) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, milk.n.01) ^ ?w1=/=?w2
+-0.351268   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, water.n.06) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, milk.n.01) ^ ?w1=/=?w2
+3.136982    action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, water.n.06) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, milk.n.01) ^ ?w1=/=?w2
+-0.664737   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, water.n.06) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, water.n.06) ^ ?w1=/=?w2
+-1.156042   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, water.n.06) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, water.n.06) ^ ?w1=/=?w2
+-0.415660   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, dressing.n.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2
+-0.313720   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, dressing.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2
+-0.314694   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, dressing.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, dressing.n.01) ^ ?w1=/=?w2
+-0.314700   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, dressing.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, dressing.n.01) ^ ?w1=/=?w2
+-0.730354   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, dressing.n.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, salad.n.01) ^ ?w1=/=?w2
+-0.415660   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, dressing.n.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, salad.n.01) ^ ?w1=/=?w2
+-0.313847   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, dressing.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, salad.n.01) ^ ?w1=/=?w2
+-0.559852   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, french_fries.n.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2
+-0.313376   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, french_fries.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2
+-0.873948   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, french_fries.n.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, steak.n.01) ^ ?w1=/=?w2
+-0.559852   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, french_fries.n.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, steak.n.01) ^ ?w1=/=?w2
+-0.313104   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, french_fries.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, steak.n.01) ^ ?w1=/=?w2
+-0.314095   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, french_fries.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, french_fries.n.01) ^ ?w1=/=?w2
+-0.314101   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, french_fries.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, french_fries.n.01) ^ ?w1=/=?w2
+-0.634440   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, salad.n.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2
+-0.313720   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, salad.n.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2
+-0.624621   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, salad.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2
+-0.753594   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, salad.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2
+-1.142121   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, salad.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, asparagus.n.02) ^ ?w1=/=?w2
+-0.782296   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, salad.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, asparagus.n.02) ^ ?w1=/=?w2
+3.442135    action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, salad.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, asparagus.n.02) ^ ?w1=/=?w2
+-0.627157   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, salad.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, dressing.n.01) ^ ?w1=/=?w2
+-0.415660   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, salad.n.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, dressing.n.01) ^ ?w1=/=?w2
+4.123835    action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, salad.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, dressing.n.01) ^ ?w1=/=?w2
+-0.313847   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, salad.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, dressing.n.01) ^ ?w1=/=?w2
+-0.314850   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, salad.n.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, salad.n.01) ^ ?w1=/=?w2
+-0.819987   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, salad.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, salad.n.01) ^ ?w1=/=?w2
+-1.729941   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, salad.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, salad.n.01) ^ ?w1=/=?w2
+-0.805419   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, salad.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, salad.n.01) ^ ?w1=/=?w2
+-0.977775   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, onion.n.03) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2
+-0.977775   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, onion.n.03) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2
+-1.437423   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, onion.n.03) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, onion.n.03) ^ ?w1=/=?w2
+-0.544302   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, sugar.n.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, mixing_bowl.n.01) ^ ?w1=/=?w2
+-0.311193   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, sugar.n.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, mixing_bowl.n.01) ^ ?w1=/=?w2
+-0.543970   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, sugar.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, mixing_bowl.n.01) ^ ?w1=/=?w2
+-0.311193   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, sugar.n.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2
+-0.543916   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, sugar.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2
+-0.544302   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, sugar.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, butter.n.01) ^ ?w1=/=?w2
+-0.544556   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, sugar.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, butter.n.01) ^ ?w1=/=?w2
+3.260188    action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, sugar.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, butter.n.01) ^ ?w1=/=?w2
+-0.233109   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, sugar.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, sugar.n.01) ^ ?w1=/=?w2
+-0.233363   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, sugar.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, sugar.n.01) ^ ?w1=/=?w2
+-0.505614   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, sugar.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, sugar.n.01) ^ ?w1=/=?w2
+-0.310966   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, mixing_bowl.n.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-0.313376   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, dish.n.02) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-0.932428   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pan.n.03) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-0.313376   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pot.n.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-0.313376   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, meat.n.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-0.310966   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, concoction.n.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-0.314241   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, sauce.n.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-0.313376   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, steak.n.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-0.312307   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, salad.n.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-6.438170   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, mixing_bowl.n.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-6.438170   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, dish.n.02) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-7.495744   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, pan.n.03) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-6.438170   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, pot.n.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-6.438170   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, meat.n.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-6.438170   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, concoction.n.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-6.438170   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, sauce.n.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-6.438170   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, steak.n.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-6.438170   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, salad.n.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-6.438170   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, corn.n.03) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-6.438170   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, milk.n.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-6.438170   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, egg.n.02) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-7.495744   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, butter.n.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-6.438170   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, asparagus.n.02) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-7.102800   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, vanilla.n.02) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-6.438170   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, bean.n.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-6.438170   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, salt.n.02) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-6.438170   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, rib.n.03) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-7.102800   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cream.n.02) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-7.102800   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, ingredient.n.03) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-6.438170   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, vegetable.n.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-6.438170   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, water.n.06) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-6.438170   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, dressing.n.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-6.438170   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, french_fries.n.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-6.438170   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, salad.n.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-6.438170   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, onion.n.03) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-6.438170   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, sugar.n.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-0.314095   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, corn.n.03) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, dish.n.02) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-0.233109   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, mixing_bowl.n.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, mixing_bowl.n.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-0.314369   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, dish.n.02) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, dish.n.02) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-0.314101   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, corn.n.03) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+6.436314    action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, mixing_bowl.n.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+6.438335    action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, dish.n.02) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-3.185844   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+9.178300    action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pan.n.03) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-0.777047   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, butter.n.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+6.438335    action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pot.n.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+6.438335    action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, meat.n.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-0.543916   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vanilla.n.02) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-0.314101   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bean.n.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+6.436285    action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, concoction.n.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+6.436449    action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, sauce.n.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-0.314101   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, salt.n.02) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-0.545619   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cream.n.02) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-0.233254   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, ingredient.n.03) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+6.438335    action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, steak.n.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-0.314700   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, dressing.n.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-0.314101   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, french_fries.n.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+6.437961    action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, salad.n.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-0.233363   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, sugar.n.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-0.854725   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, pan.n.03) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pan.n.03) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-0.233108   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, butter.n.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, mixing_bowl.n.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-0.543916   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, butter.n.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pan.n.03) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-0.314369   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, pot.n.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pot.n.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-0.314369   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, meat.n.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, meat.n.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-0.543916   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, vanilla.n.02) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pan.n.03) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-0.314095   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, bean.n.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pot.n.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-0.233108   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, concoction.n.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, concoction.n.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-0.311171   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, sauce.n.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, sauce.n.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-0.314095   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, salt.n.02) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, meat.n.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-0.233108   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cream.n.02) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, concoction.n.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-0.311091   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cream.n.02) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, sauce.n.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-0.233107   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, ingredient.n.03) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, concoction.n.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-0.314369   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, steak.n.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, steak.n.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-0.314694   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, dressing.n.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, salad.n.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-0.314095   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, french_fries.n.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, steak.n.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-0.314850   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, salad.n.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, salad.n.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-0.233109   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, sugar.n.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, mixing_bowl.n.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-0.310810   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, mixing_bowl.n.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-0.313376   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, dish.n.02) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-0.932428   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pan.n.03) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-0.313376   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pot.n.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-0.313376   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, meat.n.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-0.310809   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, concoction.n.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-0.310957   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, sauce.n.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-0.313376   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, steak.n.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-0.313720   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, salad.n.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-6.438170   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, corn.n.03) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, dish.n.02) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-0.310809   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, mixing_bowl.n.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-0.313376   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, dish.n.02) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-0.932428   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pan.n.03) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-0.313376   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pot.n.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-0.313376   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, meat.n.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-0.310809   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, concoction.n.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-0.310892   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, sauce.n.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-0.313376   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, steak.n.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-0.313720   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, salad.n.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-6.438170   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, butter.n.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, mixing_bowl.n.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-7.102800   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, butter.n.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pan.n.03) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-7.102800   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, vanilla.n.02) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pan.n.03) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-6.438170   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, bean.n.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pot.n.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-6.438170   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, salt.n.02) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, meat.n.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-6.438170   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cream.n.02) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, concoction.n.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-6.438170   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cream.n.02) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, sauce.n.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-6.438170   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, ingredient.n.03) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, concoction.n.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-6.438170   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, dressing.n.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, salad.n.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-6.438170   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, french_fries.n.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, steak.n.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-6.438170   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, sugar.n.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, mixing_bowl.n.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-6.438170   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, corn.n.03) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-0.310852   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, mixing_bowl.n.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-0.313104   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, dish.n.02) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-6.438170   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, milk.n.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-0.932428   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pan.n.03) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-6.438170   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, egg.n.02) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-7.495744   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, butter.n.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-0.313104   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pot.n.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-6.438170   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, asparagus.n.02) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-0.313104   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, meat.n.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-7.102800   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vanilla.n.02) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-6.438170   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bean.n.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-0.310852   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, concoction.n.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-0.314162   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, sauce.n.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-6.438170   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, salt.n.02) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-6.438170   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, rib.n.03) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-7.102800   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cream.n.02) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-7.102800   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, ingredient.n.03) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-0.313104   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, steak.n.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-6.438170   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vegetable.n.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-6.438170   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, water.n.06) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-6.438170   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, dressing.n.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-6.438170   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, french_fries.n.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-6.439607   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, salad.n.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-6.438170   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, onion.n.03) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-6.438170   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, sugar.n.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-6.438170   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, mixing_bowl.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, butter.n.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-6.438170   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, mixing_bowl.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, sugar.n.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-6.438170   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, dish.n.02) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, corn.n.03) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-7.102800   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, pan.n.03) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, butter.n.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-7.102800   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, pan.n.03) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vanilla.n.02) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-6.438170   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, pot.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bean.n.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-6.438170   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, meat.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, salt.n.02) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-6.438170   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, concoction.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cream.n.02) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-6.438170   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, concoction.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, ingredient.n.03) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-6.438170   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, sauce.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cream.n.02) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-6.438170   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, steak.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, french_fries.n.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-6.438170   action_role(?w1, Goal) ^ has_sense(?w1, ?s1) ^ is_a(?s1, salad.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, dressing.n.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-6.438170   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, milk.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, water.n.06) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-6.438170   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, butter.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vanilla.n.02) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-6.438170   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, butter.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, sugar.n.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-6.438170   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, asparagus.n.02) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, salad.n.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-6.438170   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, vanilla.n.02) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, butter.n.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-6.438170   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cream.n.02) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, ingredient.n.03) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-6.438170   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, ingredient.n.03) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cream.n.02) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-6.438170   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, water.n.06) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, milk.n.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-6.438170   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, salad.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, asparagus.n.02) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)
+-6.438170   action_role(?w1, ObjectToBeAdded) ^ has_sense(?w1, ?s1) ^ is_a(?s1, sugar.n.01) ^ action_role(?w2, ObjectToBeAdded) ^ has_sense(?w2, ?s2) ^ is_a(?s2, butter.n.01) ^ ?w1=/=?w2 ^ prep_to(?w1, ?w2)

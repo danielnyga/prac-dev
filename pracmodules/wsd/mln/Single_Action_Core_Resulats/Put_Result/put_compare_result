@@ -1,0 +1,54 @@
+Put_Result/Fri_12_Sep_2014_20:01:06_K=10_TSC=9/FOL/conf_matrix.cm
+Average: : - Acc=0.98, Pre=0.41, Rec=0.48 F1=0.42
+
+Put_Result/Fri_12_Sep_2014_20:01:06_K=10_TSC=9/FUZZY/conf_matrix.cm
+Average: : - Acc=0.99, Pre=0.40, Rec=0.51 F1=0.43
+
+Put_Result/Fri_12_Sep_2014_20:03:22_K=10_TSC=8/FOL/conf_matrix.cm
+Average: : - Acc=0.98, Pre=0.42, Rec=0.48 F1=0.43
+
+Put_Result/Fri_12_Sep_2014_20:03:22_K=10_TSC=8/FUZZY/conf_matrix.cm
+Average: : - Acc=0.99, Pre=0.45, Rec=0.57 F1=0.48
+
+Put_Result/Fri_12_Sep_2014_20:07:35_K=10_TSC=7/FOL/conf_matrix.cm
+Average: : - Acc=0.98, Pre=0.41, Rec=0.48 F1=0.43
+
+Put_Result/Fri_12_Sep_2014_20:07:35_K=10_TSC=7/FUZZY/conf_matrix.cm
+Average: : - Acc=0.99, Pre=0.45, Rec=0.57 F1=0.48
+
+Put_Result/Fri_12_Sep_2014_20:14:07_K=10_TSC=6/FOL/conf_matrix.cm
+Average: : - Acc=0.98, Pre=0.43, Rec=0.48 F1=0.44
+
+Put_Result/Fri_12_Sep_2014_20:14:07_K=10_TSC=6/FUZZY/conf_matrix.cm
+Average: : - Acc=0.99, Pre=0.48, Rec=0.58 F1=0.50
+
+Put_Result/Fri_12_Sep_2014_20:22:29_K=10_TSC=5/FOL/conf_matrix.cm
+Average: : - Acc=0.99, Pre=0.45, Rec=0.48 F1=0.46
+
+Put_Result/Fri_12_Sep_2014_20:22:29_K=10_TSC=5/FUZZY/conf_matrix.cm
+Average: : - Acc=0.99, Pre=0.51, Rec=0.60 F1=0.53
+
+Put_Result/Fri_12_Sep_2014_20:33:59_K=10_TSC=4/FOL/conf_matrix.cm
+Average: : - Acc=0.98, Pre=0.44, Rec=0.48 F1=0.45
+
+Put_Result/Fri_12_Sep_2014_20:33:59_K=10_TSC=4/FUZZY/conf_matrix.cm
+Average: : - Acc=0.99, Pre=0.49, Rec=0.53 F1=0.50
+
+Put_Result/Fri_12_Sep_2014_20:45:05_K=10_TSC=3/FOL/conf_matrix.cm
+Average: : - Acc=0.98, Pre=0.45, Rec=0.48 F1=0.46
+
+Put_Result/Fri_12_Sep_2014_20:45:05_K=10_TSC=3/FUZZY/conf_matrix.cm
+Average: : - Acc=0.99, Pre=0.51, Rec=0.52 F1=0.51
+
+Put_Result/Fri_12_Sep_2014_20:56:34_K=10_TSC=2/FOL/conf_matrix.cm
+Average: : - Acc=0.99, Pre=0.52, Rec=0.54 F1=0.53
+
+Put_Result/Fri_12_Sep_2014_20:56:34_K=10_TSC=2/FUZZY/conf_matrix.cm
+Average: : - Acc=0.99, Pre=0.51, Rec=0.52 F1=0.51
+
+Put_Result/Fri_12_Sep_2014_21:07:23_K=10_TSC=1/FOL/conf_matrix.cm
+Average: : - Acc=0.99, Pre=0.54, Rec=0.55 F1=0.55
+
+Put_Result/Fri_12_Sep_2014_21:07:23_K=10_TSC=1/FUZZY/conf_matrix.cm
+Average: : - Acc=0.99, Pre=0.50, Rec=0.51 F1=0.50
+

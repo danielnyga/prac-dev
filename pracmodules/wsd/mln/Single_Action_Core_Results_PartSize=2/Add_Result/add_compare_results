@@ -1,0 +1,6 @@
+PARTSIZE=2
+Average: : - Acc=0.99, Pre=0.71, Rec=0.71 F1=0.71
+
+PARTSIZE=1
+Add_Results/Thu_11_Sep_2014_17:13:15_K=10_TSC=1/FUZZY/conf_matrix.cm
+Average: : - Acc=0.99, Pre=0.57, Rec=0.58 F1=0.57

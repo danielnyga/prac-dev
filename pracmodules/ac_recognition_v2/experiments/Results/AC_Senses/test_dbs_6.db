@@ -1,0 +1,13 @@
+1.00  ac_word(AC_STIR)
+1.00  dobj(stir-9, coffee)
+1.00  has_pos(coffee, NN)
+1.00  has_pos(stir-9, VB)
+1.00  has_sense(coffee, coffee.n.01)
+1.00  has_sense(stir-9, stir.v.01)
+---
+1.00  ac_word(AC_STIR_2)
+1.00  dobj(stir-9, apple)
+1.00  has_pos(apple, NN)
+1.00  has_pos(stir-9, VB)
+1.00  has_sense(apple, apple.n.01)
+1.00  has_sense(stir-9, stir.v.08)

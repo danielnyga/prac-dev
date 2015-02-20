@@ -1,0 +1,20 @@
+// domain declarations
+
+
+// predicate declarations
+is_a(sense,concept)
+ac_word(ac!)
+has_sense(word,sense!)
+has_pos(word,pos!)
+dobj(word,word)
+
+// formulas
+-6.846890   has_sense(?w1, fill.v.01) ^ has_sense(?w2, milliliter.n.01) ^ ac_word(AC_FILL_INGREDIENT)
+8.890316    has_sense(?w1, fill.v.01) ^ has_sense(?w2, milliliter.n.01) ^ ac_word(AC_FILL_INGREDIENT_ML)
+-2.043426   has_sense(?w1, fill.v.01) ^ has_sense(?w2, milliliter.n.01) ^ ac_word(AC_FILL_INGREDIENT_L)
+-6.679537   has_sense(?w1, fill.v.01) ^ has_sense(?w2, liter.n.01) ^ ac_word(AC_FILL_INGREDIENT)
+-2.202551   has_sense(?w1, fill.v.01) ^ has_sense(?w2, liter.n.01) ^ ac_word(AC_FILL_INGREDIENT_ML)
+8.882087    has_sense(?w1, fill.v.01) ^ has_sense(?w2, liter.n.01) ^ ac_word(AC_FILL_INGREDIENT_L)
+1.725845    has_sense(?w1, fill.v.01) ^ !has_sense(?w2, liter.n.01) ^ !has_sense(?w2, milliliter.n.01) ^ ac_word(AC_FILL_INGREDIENT)
+-0.894619   has_sense(?w1, fill.v.01) ^ !has_sense(?w2, liter.n.01) ^ !has_sense(?w2, milliliter.n.01) ^ ac_word(AC_FILL_INGREDIENT_ML)
+-0.831227   has_sense(?w1, fill.v.01) ^ !has_sense(?w2, liter.n.01) ^ !has_sense(?w2, milliliter.n.01) ^ ac_word(AC_FILL_INGREDIENT_L)

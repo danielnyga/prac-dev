@@ -1,0 +1,6 @@
+1.00  has_pos(fill, VB)
+1.00  has_pos(pot, NN)
+1.00  has_pos(water, NN)
+1.00  has_sense(fill, fill.v.01)
+1.00  has_sense(pot, pot.n.01)
+1.00  has_sense(water, water.n.06)

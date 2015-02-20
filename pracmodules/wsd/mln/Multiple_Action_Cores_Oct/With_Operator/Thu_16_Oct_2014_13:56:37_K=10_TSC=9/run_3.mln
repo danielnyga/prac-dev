@@ -1,0 +1,39 @@
+// domain declarations
+
+
+// predicate declarations
+is_a(sense, concept)
+ac_word(word, ac!)
+has_sense(word, sense!)
+
+// formulas
+-2.528777   ac_word(?w1, AC_NONE) ^ is_a(?s1, opening.n.01) ^ is_a(?s2, opening.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+3.139938    ac_word(?w1, AC_NONE) ^ is_a(?s1, opening.n.01) ^ is_a(?s2, batter.n.02) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+3.157317    ac_word(?w1, AC_NONE) ^ is_a(?s1, opening.n.01) ^ is_a(?s2, fill.v.09) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-1.274572   ac_word(?w1, AC_NONE) ^ is_a(?s1, batter.n.02) ^ is_a(?s2, batter.n.02) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+1.571338    ac_word(?w1, AC_NONE) ^ is_a(?s1, batter.n.02) ^ is_a(?s2, fill.v.09) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-1.253108   ac_word(?w1, AC_NONE) ^ is_a(?s1, fill.v.09) ^ is_a(?s2, fill.v.09) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.434383    ac_word(?w1, AC_FILL) ^ is_a(?s1, opening.n.01) ^ is_a(?s2, opening.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-0.238928   ac_word(?w1, AC_FILL) ^ is_a(?s1, opening.n.01) ^ is_a(?s2, batter.n.02) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.190367    ac_word(?w1, AC_FILL) ^ is_a(?s1, opening.n.01) ^ is_a(?s2, fill.v.09) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.274228    ac_word(?w1, AC_FILL) ^ is_a(?s1, batter.n.02) ^ is_a(?s2, batter.n.02) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+1.020945    ac_word(?w1, AC_FILL) ^ is_a(?s1, batter.n.02) ^ is_a(?s2, fill.v.09) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-1.253108   ac_word(?w1, AC_FILL) ^ is_a(?s1, fill.v.09) ^ is_a(?s2, fill.v.09) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.434383    !ac_word(?w1, AC_NONE) ^ is_a(?s1, opening.n.01) ^ is_a(?s2, opening.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-0.238928   !ac_word(?w1, AC_NONE) ^ is_a(?s1, opening.n.01) ^ is_a(?s2, batter.n.02) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.190367    !ac_word(?w1, AC_NONE) ^ is_a(?s1, opening.n.01) ^ is_a(?s2, fill.v.09) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-2.528777   !ac_word(?w1, AC_FILL) ^ is_a(?s1, opening.n.01) ^ is_a(?s2, opening.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+3.139938    !ac_word(?w1, AC_FILL) ^ is_a(?s1, opening.n.01) ^ is_a(?s2, batter.n.02) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+3.157317    !ac_word(?w1, AC_FILL) ^ is_a(?s1, opening.n.01) ^ is_a(?s2, fill.v.09) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-1.171338   !ac_word(?w1, AC_NONE) ^ is_a(?s1, batter.n.02) ^ is_a(?s2, opening.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.274228    !ac_word(?w1, AC_NONE) ^ is_a(?s1, batter.n.02) ^ is_a(?s2, batter.n.02) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+1.020945    !ac_word(?w1, AC_NONE) ^ is_a(?s1, batter.n.02) ^ is_a(?s2, fill.v.09) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+4.072349    !ac_word(?w1, AC_FILL) ^ is_a(?s1, batter.n.02) ^ is_a(?s2, opening.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-1.274572   !ac_word(?w1, AC_FILL) ^ is_a(?s1, batter.n.02) ^ is_a(?s2, batter.n.02) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+1.571338    !ac_word(?w1, AC_FILL) ^ is_a(?s1, batter.n.02) ^ is_a(?s2, fill.v.09) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+2.621195    !ac_word(?w1, AC_NONE) ^ is_a(?s1, fill.v.09) ^ is_a(?s2, opening.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+2.149257    !ac_word(?w1, AC_NONE) ^ is_a(?s1, fill.v.09) ^ is_a(?s2, batter.n.02) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-1.253108   !ac_word(?w1, AC_NONE) ^ is_a(?s1, fill.v.09) ^ is_a(?s2, fill.v.09) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.726490    !ac_word(?w1, AC_FILL) ^ is_a(?s1, fill.v.09) ^ is_a(?s2, opening.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.443025    !ac_word(?w1, AC_FILL) ^ is_a(?s1, fill.v.09) ^ is_a(?s2, batter.n.02) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-1.253108   !ac_word(?w1, AC_FILL) ^ is_a(?s1, fill.v.09) ^ is_a(?s2, fill.v.09) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2

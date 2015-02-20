@@ -1,0 +1,211 @@
+// add sugar to mixing_bowl.
+1.00 has_pos(add,VB)
+1.00 has_pos(sugar,NN)
+1.00 has_pos(mixing_bowl,NN)
+1.00 ac_word(AC_ADD_3)
+---
+
+// Add the butter to the pan.
+1.00 has_pos(pan,NN)
+1.00 has_pos(add,VB)
+1.00 has_pos(butter,NN)
+1.00 ac_word(AC_ADD_3)
+
+---
+
+// Add eggs.
+1.00 has_pos(eggs,NN)
+1.00 has_pos(add,VB)
+1.00 ac_word(AC_ADD_1)
+
+---
+
+// add some salt to the meat.
+1.00 has_pos(add,VB)
+1.00 has_pos(salt,NN)
+1.00 has_pos(meat,NN)
+1.00 ac_word(AC_ADD_2)
+
+---
+
+//Add some fries to the steak.
+1.00 has_pos(add,VB)
+1.00 has_pos(steak,NN)
+1.00 has_pos(fries,NN)
+1.00 ac_word(AC_ADD_2)
+
+---
+// fill a pan with water .
+1.00 has_pos(fill,VB)
+1.00 has_pos(pan,NN)
+1.00 has_pos(water,NN)
+1.00 ac_word(AC_FILL_1)
+
+---
+// fill the mug with the froth , leaving about an inch of space .
+1.00 has_pos(fill,VB)
+1.00 has_pos(mug,NN)
+1.00 has_pos(froth,NN)
+1.00 ac_word(AC_FILL_1)
+
+---
+//fill the metal pitcher with a cup of milk 
+1.00 has_pos(fill,VB)
+1.00 has_pos(pitcher,NN)
+1.00 has_pos(milk,NN)
+1.00 ac_word(AC_FILL_1)
+
+---
+// fill the kettle with boiling water .
+1.00 has_pos(fill,VB)
+1.00 has_pos(kettle,NN)
+1.00 has_pos(water,NN)
+1.00 ac_word(AC_FILL_1)
+
+---
+// Fill the jar
+1.00 has_pos(fill,VB)
+1.00 has_pos(jar,NN)
+1.00 ac_word(AC_FILL_2)
+
+---
+// cut the pizza into eight separate slices.
+1.00 has_pos(cut, VB)
+1.00 has_pos(pizza, NN)
+1.00 has_pos(slice, NN)
+1.00 ac_word(AC_CUT_2)
+
+---
+// cut each cheese thinly .
+1.00 has_pos(cut, VB)
+1.00 has_pos(cheese, NN)
+1.00 ac_word(AC_CUT_2)
+
+---
+// cut the banana use a small knife .
+1.00 has_pos(cut, VB)
+1.00 has_pos(banana, NN) 
+1.00 has_pos(knife, NN) 
+1.00 ac_word(AC_CUT_1)
+
+---
+// cut the meat with a chopper
+1.00 has_pos(cut,VB)
+1.00 has_pos(meat,NN)
+1.00 has_pos(chopper,NN)
+1.00 ac_word(AC_CUT_1)
+
+---
+
+//cut the vegetables with a knife.
+1.00 has_pos(cut, VB)
+1.00 has_pos(vegetable, NN) 
+1.00 has_pos(knife, NN)
+1.00 ac_word(AC_CUT_1)
+
+---
+
+//Put some dressing to the salad.
+1.00 has_pos(put,VB)
+1.00 has_pos(dressing,NN)
+1.00 has_pos(salad,NN)
+1.00 ac_word(AC_ADD_PUT)
+---
+
+// put rice into a bowl .
+1.00 has_pos(put,VB)
+1.00 has_pos(rice,NN)
+1.00 has_pos(bowl,NN)
+1.00 ac_word(AC_PUT_1)
+
+---
+
+// put the dish into the oven .
+1.00 has_pos(put,VB)
+1.00 has_pos(dish,NN)
+1.00 has_pos(oven,NN)
+1.00 ac_word(AC_PUT_2)
+
+---
+
+// put the soup in the microwave.
+1.00 has_pos(put,VB)
+1.00 has_pos(soup,NN)
+1.00 has_pos(microwave,NN)
+1.00 ac_word(AC_PUT_2)
+---
+
+// put salt and pepper or whatever you put on your eggs .
+1.00 has_pos(put,VB)
+1.00 has_pos(salt,NN)
+1.00 has_pos(egg,NN)
+1.00 ac_word(AC_ADD_PUT)
+---
+
+// slice the mushroom .
+1.00 has_pos(slice,VB)
+1.00 has_pos(mushroom,NN)
+1.00 ac_word(AC_SLICE_2)
+
+---
+
+// slice the meat with a chopper
+1.00 has_pos(slice,VB)
+1.00 has_pos(meat,NN)
+1.00 has_pos(chopper,NN)
+1.00 ac_word(AC_SLICE_1)
+
+---
+
+// Carefully slice the cabbage.
+1.00 has_pos(slice,VB)
+1.00 has_pos(cabbage,NN)
+1.00 ac_word(AC_SLICE_2)
+
+---
+
+// Thinly slice remaining lemon .
+1.00 has_pos(slice,VB)
+1.00 has_pos(lemon,NN)
+1.00 ac_word(AC_SLICE_2)
+
+---
+
+// finely slice the bacon and grate the parmesan .
+1.00 has_pos(slice,VB)
+1.00 has_pos(bacon,NN)
+1.00 ac_word(AC_SLICE_2)
+
+---
+
+//Stir the wine
+1.00 has_pos(stir,VB)
+1.00 has_pos(wine,NN)
+1.00 ac_word(AC_STIR)
+---
+
+//Stir the whiskey
+1.00 has_pos(stir,VB)
+1.00 has_pos(whiskey,NN)
+1.00 ac_word(AC_STIR)
+
+---
+
+//Stir the champagne
+1.00 has_pos(stir,VB)
+1.00 has_pos(champagne,NN)
+1.00 ac_word(AC_STIR)
+
+---
+
+//Stir the egg
+1.00 has_pos(stir,VB)
+1.00 has_pos(egg,NN)
+1.00 ac_word(AC_ADD_STIR_1)
+---
+
+//Stir the butter into the milk
+1.00 has_pos(stir,VB)
+1.00 has_pos(butter,NN)
+1.00 has_pos(milk,NN)
+1.00 ac_word(AC_ADD_STIR_2)

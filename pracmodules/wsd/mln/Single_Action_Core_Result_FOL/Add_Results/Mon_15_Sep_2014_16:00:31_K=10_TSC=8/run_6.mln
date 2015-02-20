@@ -1,0 +1,93 @@
+// domain declarations
+
+
+// predicate declarations
+is_a(sense, concept)
+has_sense(word, sense!)
+has_pos(word, pos!)
+
+// formulas
+0.000000    has_pos(?w1, VB) ^ has_pos(?w2, VB) ^ is_a(?s1, pan.n.03) ^ is_a(?s2, pan.n.03) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, VB) ^ has_pos(?w2, VB) ^ is_a(?s1, pan.n.03) ^ is_a(?s2, rib.n.03) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, VB) ^ has_pos(?w2, VB) ^ is_a(?s1, pan.n.03) ^ is_a(?s2, egg.n.02) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, VB) ^ has_pos(?w2, VB) ^ is_a(?s1, pan.n.03) ^ is_a(?s2, butter.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, VB) ^ has_pos(?w2, VB) ^ is_a(?s1, pan.n.03) ^ is_a(?s2, vanilla.n.02) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, VB) ^ has_pos(?w2, VB) ^ is_a(?s1, pan.n.03) ^ is_a(?s2, add.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, VB) ^ has_pos(?w2, VB) ^ is_a(?s1, rib.n.03) ^ is_a(?s2, rib.n.03) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, VB) ^ has_pos(?w2, VB) ^ is_a(?s1, rib.n.03) ^ is_a(?s2, egg.n.02) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, VB) ^ has_pos(?w2, VB) ^ is_a(?s1, rib.n.03) ^ is_a(?s2, butter.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, VB) ^ has_pos(?w2, VB) ^ is_a(?s1, rib.n.03) ^ is_a(?s2, vanilla.n.02) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, VB) ^ has_pos(?w2, VB) ^ is_a(?s1, rib.n.03) ^ is_a(?s2, add.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, VB) ^ has_pos(?w2, VB) ^ is_a(?s1, egg.n.02) ^ is_a(?s2, egg.n.02) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, VB) ^ has_pos(?w2, VB) ^ is_a(?s1, egg.n.02) ^ is_a(?s2, butter.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, VB) ^ has_pos(?w2, VB) ^ is_a(?s1, egg.n.02) ^ is_a(?s2, vanilla.n.02) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, VB) ^ has_pos(?w2, VB) ^ is_a(?s1, egg.n.02) ^ is_a(?s2, add.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, VB) ^ has_pos(?w2, VB) ^ is_a(?s1, butter.n.01) ^ is_a(?s2, butter.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, VB) ^ has_pos(?w2, VB) ^ is_a(?s1, butter.n.01) ^ is_a(?s2, vanilla.n.02) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, VB) ^ has_pos(?w2, VB) ^ is_a(?s1, butter.n.01) ^ is_a(?s2, add.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, VB) ^ has_pos(?w2, VB) ^ is_a(?s1, vanilla.n.02) ^ is_a(?s2, vanilla.n.02) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, VB) ^ has_pos(?w2, VB) ^ is_a(?s1, vanilla.n.02) ^ is_a(?s2, add.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, VB) ^ has_pos(?w2, VB) ^ is_a(?s1, add.v.01) ^ is_a(?s2, add.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-1.550308   has_pos(?w1, NN) ^ has_pos(?w2, VB) ^ is_a(?s1, pan.n.03) ^ is_a(?s2, pan.n.03) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, NN) ^ has_pos(?w2, VB) ^ is_a(?s1, pan.n.03) ^ is_a(?s2, rib.n.03) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, NN) ^ has_pos(?w2, VB) ^ is_a(?s1, pan.n.03) ^ is_a(?s2, egg.n.02) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-1.550308   has_pos(?w1, NN) ^ has_pos(?w2, VB) ^ is_a(?s1, pan.n.03) ^ is_a(?s2, butter.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-0.717531   has_pos(?w1, NN) ^ has_pos(?w2, VB) ^ is_a(?s1, pan.n.03) ^ is_a(?s2, vanilla.n.02) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+4.064815    has_pos(?w1, NN) ^ has_pos(?w2, VB) ^ is_a(?s1, pan.n.03) ^ is_a(?s2, add.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-3.561319   has_pos(?w1, NN) ^ has_pos(?w2, VB) ^ is_a(?s1, rib.n.03) ^ is_a(?s2, rib.n.03) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, NN) ^ has_pos(?w2, VB) ^ is_a(?s1, rib.n.03) ^ is_a(?s2, egg.n.02) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, NN) ^ has_pos(?w2, VB) ^ is_a(?s1, rib.n.03) ^ is_a(?s2, butter.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, NN) ^ has_pos(?w2, VB) ^ is_a(?s1, rib.n.03) ^ is_a(?s2, vanilla.n.02) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+4.789912    has_pos(?w1, NN) ^ has_pos(?w2, VB) ^ is_a(?s1, rib.n.03) ^ is_a(?s2, add.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-3.561319   has_pos(?w1, NN) ^ has_pos(?w2, VB) ^ is_a(?s1, egg.n.02) ^ is_a(?s2, egg.n.02) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, NN) ^ has_pos(?w2, VB) ^ is_a(?s1, egg.n.02) ^ is_a(?s2, butter.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, NN) ^ has_pos(?w2, VB) ^ is_a(?s1, egg.n.02) ^ is_a(?s2, vanilla.n.02) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+4.789912    has_pos(?w1, NN) ^ has_pos(?w2, VB) ^ is_a(?s1, egg.n.02) ^ is_a(?s2, add.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-1.550308   has_pos(?w1, NN) ^ has_pos(?w2, VB) ^ is_a(?s1, butter.n.01) ^ is_a(?s2, butter.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-0.717531   has_pos(?w1, NN) ^ has_pos(?w2, VB) ^ is_a(?s1, butter.n.01) ^ is_a(?s2, vanilla.n.02) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+4.064815    has_pos(?w1, NN) ^ has_pos(?w2, VB) ^ is_a(?s1, butter.n.01) ^ is_a(?s2, add.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-0.717531   has_pos(?w1, NN) ^ has_pos(?w2, VB) ^ is_a(?s1, vanilla.n.02) ^ is_a(?s2, vanilla.n.02) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+2.420818    has_pos(?w1, NN) ^ has_pos(?w2, VB) ^ is_a(?s1, vanilla.n.02) ^ is_a(?s2, add.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-3.948565   has_pos(?w1, NN) ^ has_pos(?w2, VB) ^ is_a(?s1, add.v.01) ^ is_a(?s2, add.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-1.550308   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ is_a(?s1, pan.n.03) ^ is_a(?s2, pan.n.03) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ is_a(?s1, pan.n.03) ^ is_a(?s2, rib.n.03) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ is_a(?s1, pan.n.03) ^ is_a(?s2, egg.n.02) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-1.550308   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ is_a(?s1, pan.n.03) ^ is_a(?s2, butter.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-0.352622   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ is_a(?s1, pan.n.03) ^ is_a(?s2, vanilla.n.02) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ is_a(?s1, pan.n.03) ^ is_a(?s2, add.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-3.561319   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ is_a(?s1, rib.n.03) ^ is_a(?s2, rib.n.03) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ is_a(?s1, rib.n.03) ^ is_a(?s2, egg.n.02) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ is_a(?s1, rib.n.03) ^ is_a(?s2, butter.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ is_a(?s1, rib.n.03) ^ is_a(?s2, vanilla.n.02) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ is_a(?s1, rib.n.03) ^ is_a(?s2, add.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-3.561319   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ is_a(?s1, egg.n.02) ^ is_a(?s2, egg.n.02) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ is_a(?s1, egg.n.02) ^ is_a(?s2, butter.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ is_a(?s1, egg.n.02) ^ is_a(?s2, vanilla.n.02) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ is_a(?s1, egg.n.02) ^ is_a(?s2, add.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-1.550308   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ is_a(?s1, butter.n.01) ^ is_a(?s2, butter.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-0.352622   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ is_a(?s1, butter.n.01) ^ is_a(?s2, vanilla.n.02) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ is_a(?s1, butter.n.01) ^ is_a(?s2, add.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-0.717531   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ is_a(?s1, vanilla.n.02) ^ is_a(?s2, vanilla.n.02) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ is_a(?s1, vanilla.n.02) ^ is_a(?s2, add.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-3.948565   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ is_a(?s1, add.v.01) ^ is_a(?s2, add.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-5.361917   has_pos(?w1, NN) ^ has_pos(?w2, NN) ^ is_a(?s1, pan.n.03) ^ is_a(?s2, pan.n.03) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, NN) ^ has_pos(?w2, NN) ^ is_a(?s1, pan.n.03) ^ is_a(?s2, rib.n.03) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, NN) ^ has_pos(?w2, NN) ^ is_a(?s1, pan.n.03) ^ is_a(?s2, egg.n.02) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+2.989260    has_pos(?w1, NN) ^ has_pos(?w2, NN) ^ is_a(?s1, pan.n.03) ^ is_a(?s2, butter.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+3.371182    has_pos(?w1, NN) ^ has_pos(?w2, NN) ^ is_a(?s1, pan.n.03) ^ is_a(?s2, vanilla.n.02) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-0.872428   has_pos(?w1, NN) ^ has_pos(?w2, NN) ^ is_a(?s1, pan.n.03) ^ is_a(?s2, add.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, NN) ^ has_pos(?w2, NN) ^ is_a(?s1, rib.n.03) ^ is_a(?s2, rib.n.03) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, NN) ^ has_pos(?w2, NN) ^ is_a(?s1, rib.n.03) ^ is_a(?s2, egg.n.02) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, NN) ^ has_pos(?w2, NN) ^ is_a(?s1, rib.n.03) ^ is_a(?s2, butter.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, NN) ^ has_pos(?w2, NN) ^ is_a(?s1, rib.n.03) ^ is_a(?s2, vanilla.n.02) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, NN) ^ has_pos(?w2, NN) ^ is_a(?s1, rib.n.03) ^ is_a(?s2, add.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, NN) ^ has_pos(?w2, NN) ^ is_a(?s1, egg.n.02) ^ is_a(?s2, egg.n.02) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, NN) ^ has_pos(?w2, NN) ^ is_a(?s1, egg.n.02) ^ is_a(?s2, butter.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, NN) ^ has_pos(?w2, NN) ^ is_a(?s1, egg.n.02) ^ is_a(?s2, vanilla.n.02) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, NN) ^ has_pos(?w2, NN) ^ is_a(?s1, egg.n.02) ^ is_a(?s2, add.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-5.361917   has_pos(?w1, NN) ^ has_pos(?w2, NN) ^ is_a(?s1, butter.n.01) ^ is_a(?s2, butter.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+3.371182    has_pos(?w1, NN) ^ has_pos(?w2, NN) ^ is_a(?s1, butter.n.01) ^ is_a(?s2, vanilla.n.02) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-0.872428   has_pos(?w1, NN) ^ has_pos(?w2, NN) ^ is_a(?s1, butter.n.01) ^ is_a(?s2, add.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-4.242857   has_pos(?w1, NN) ^ has_pos(?w2, NN) ^ is_a(?s1, vanilla.n.02) ^ is_a(?s2, vanilla.n.02) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-0.503422   has_pos(?w1, NN) ^ has_pos(?w2, NN) ^ is_a(?s1, vanilla.n.02) ^ is_a(?s2, add.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, NN) ^ has_pos(?w2, NN) ^ is_a(?s1, add.v.01) ^ is_a(?s2, add.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2

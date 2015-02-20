@@ -1,0 +1,34 @@
+
+// cut the pizza into eight separate slices.1.00 
+1.00 has_sense(cut-1, cut.v.01)
+1.00 has_sense(pizza, pizza.n.01)
+1.00 has_sense(slice-2, piece.n.08)
+1.00 ac_word(AC_CUT)
+
+---
+// cut each cheese thinly .
+1.00 has_sense(cut, cut.v.01)
+1.00 has_sense(cheese, cheese.n.01)
+1.00 ac_word(AC_CUT)
+
+---
+// cut the banana use a small knife .
+1.00 has_sense(cut, cut.v.01)
+1.00 has_sense(banana, banana.n.02)
+1.00 has_sense(knife, knife.n.01)
+1.00 ac_word(AC_CUT)
+
+---
+// cut the meat with a chopper
+1.00 has_sense(cut-1,cut.v.01)
+1.00 has_sense(meat,meat.n.01)
+1.00 has_sense(chopper,cleaver.n.01)
+1.00 ac_word(AC_CUT)
+
+---
+
+//cut the vegetables with a knife.
+1.00 has_sense(cut, cut.v.01)
+1.00 has_sense(vegetable, vegetable.n.01)
+1.00 has_sense(knife, knife.n.01)
+1.00 ac_word(AC_CUT)

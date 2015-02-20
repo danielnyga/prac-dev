@@ -1,0 +1,183 @@
+// domain declarations
+
+
+// predicate declarations
+ac_word(ac!)
+action_role(word,role!)
+has_pos(word,pos!)
+has_sense(word,sense!)
+dobj(word,word)
+is_a(sense,concept)
+
+// formulas
+1.559533    is_a(?s1, fill.v.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, ActionVerb) ^ is_a(?s2, milliliter.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Amount) ^ ac_word(PIPETING) ^ ?w1=/=?w2
+-2.529026   is_a(?s1, fill.v.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, ActionVerb) ^ is_a(?s2, liter.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Amount) ^ ac_word(PIPETING) ^ ?w1=/=?w2
+-1.310488   is_a(?s1, fruit_juice.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Liquid) ^ is_a(?s2, milliliter.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Amount) ^ ac_word(PIPETING) ^ ?w1=/=?w2
+-0.124013   is_a(?s1, fruit_juice.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Liquid) ^ is_a(?s2, liter.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Amount) ^ ac_word(PIPETING) ^ ?w1=/=?w2
+0.655062    is_a(?s1, dibasic_acid.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Liquid) ^ is_a(?s2, milliliter.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Amount) ^ ac_word(PIPETING) ^ ?w1=/=?w2
+-0.122492   is_a(?s1, cola.n.02) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Liquid) ^ is_a(?s2, liter.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Amount) ^ ac_word(PIPETING) ^ ?w1=/=?w2
+-0.555893   is_a(?s1, milk.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Liquid) ^ is_a(?s2, milliliter.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Amount) ^ ac_word(PIPETING) ^ ?w1=/=?w2
+-1.220025   is_a(?s1, coffee.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Liquid) ^ is_a(?s2, milliliter.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Amount) ^ ac_word(PIPETING) ^ ?w1=/=?w2
+2.578833    is_a(?s1, water.n.06) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Liquid) ^ is_a(?s2, milliliter.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Amount) ^ ac_word(PIPETING) ^ ?w1=/=?w2
+-0.648560   is_a(?s1, base.n.10) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Liquid) ^ is_a(?s2, liter.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Amount) ^ ac_word(PIPETING) ^ ?w1=/=?w2
+0.706023    is_a(?s1, pyridine.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Liquid) ^ is_a(?s2, milliliter.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Amount) ^ ac_word(PIPETING) ^ ?w1=/=?w2
+-0.678727   is_a(?s1, pyridine.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Liquid) ^ is_a(?s2, liter.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Amount) ^ ac_word(PIPETING) ^ ?w1=/=?w2
+-0.138253   is_a(?s1, tea.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Liquid) ^ is_a(?s2, liter.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Amount) ^ ac_word(PIPETING) ^ ?w1=/=?w2
+-0.138253   is_a(?s1, whiskey.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Liquid) ^ is_a(?s2, liter.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Amount) ^ ac_word(PIPETING) ^ ?w1=/=?w2
+0.706023    is_a(?s1, hydrocyanic_acid.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Liquid) ^ is_a(?s2, milliliter.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Amount) ^ ac_word(PIPETING) ^ ?w1=/=?w2
+-0.678727   is_a(?s1, hydrocyanic_acid.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Liquid) ^ is_a(?s2, liter.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Amount) ^ ac_word(PIPETING) ^ ?w1=/=?w2
+0.093283    is_a(?s1, fill.v.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, ActionVerb) ^ is_a(?s2, milliliter.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Amount) ^ ac_word(POURING) ^ ?w1=/=?w2
+2.919747    is_a(?s1, fill.v.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, ActionVerb) ^ is_a(?s2, liter.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Amount) ^ ac_word(POURING) ^ ?w1=/=?w2
+1.372055    is_a(?s1, fruit_juice.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Liquid) ^ is_a(?s2, milliliter.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Amount) ^ ac_word(POURING) ^ ?w1=/=?w2
+0.177265    is_a(?s1, fruit_juice.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Liquid) ^ is_a(?s2, liter.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Amount) ^ ac_word(POURING) ^ ?w1=/=?w2
+-0.596995   is_a(?s1, dibasic_acid.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Liquid) ^ is_a(?s2, milliliter.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Amount) ^ ac_word(POURING) ^ ?w1=/=?w2
+0.175340    is_a(?s1, cola.n.02) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Liquid) ^ is_a(?s2, liter.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Amount) ^ ac_word(POURING) ^ ?w1=/=?w2
+0.614541    is_a(?s1, milk.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Liquid) ^ is_a(?s2, milliliter.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Amount) ^ ac_word(POURING) ^ ?w1=/=?w2
+1.283827    is_a(?s1, coffee.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Liquid) ^ is_a(?s2, milliliter.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Amount) ^ ac_word(POURING) ^ ?w1=/=?w2
+-1.283107   is_a(?s1, water.n.06) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Liquid) ^ is_a(?s2, milliliter.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Amount) ^ ac_word(POURING) ^ ?w1=/=?w2
+0.706626    is_a(?s1, base.n.10) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Liquid) ^ is_a(?s2, liter.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Amount) ^ ac_word(POURING) ^ ?w1=/=?w2
+-0.648519   is_a(?s1, pyridine.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Liquid) ^ is_a(?s2, milliliter.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Amount) ^ ac_word(POURING) ^ ?w1=/=?w2
+0.736841    is_a(?s1, pyridine.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Liquid) ^ is_a(?s2, liter.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Amount) ^ ac_word(POURING) ^ ?w1=/=?w2
+0.193417    is_a(?s1, tea.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Liquid) ^ is_a(?s2, liter.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Amount) ^ ac_word(POURING) ^ ?w1=/=?w2
+0.193417    is_a(?s1, whiskey.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Liquid) ^ is_a(?s2, liter.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Amount) ^ ac_word(POURING) ^ ?w1=/=?w2
+-0.648519   is_a(?s1, hydrocyanic_acid.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Liquid) ^ is_a(?s2, milliliter.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Amount) ^ ac_word(POURING) ^ ?w1=/=?w2
+0.736841    is_a(?s1, hydrocyanic_acid.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Liquid) ^ is_a(?s2, liter.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Amount) ^ ac_word(POURING) ^ ?w1=/=?w2
+-1.652817   is_a(?s1, fill.v.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, ActionVerb) ^ is_a(?s2, milliliter.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Amount) ^ ac_word(TAPPING) ^ ?w1=/=?w2
+-0.390721   is_a(?s1, fill.v.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, ActionVerb) ^ is_a(?s2, liter.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Amount) ^ ac_word(TAPPING) ^ ?w1=/=?w2
+-0.061567   is_a(?s1, fruit_juice.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Liquid) ^ is_a(?s2, milliliter.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Amount) ^ ac_word(TAPPING) ^ ?w1=/=?w2
+-0.053252   is_a(?s1, fruit_juice.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Liquid) ^ is_a(?s2, liter.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Amount) ^ ac_word(TAPPING) ^ ?w1=/=?w2
+-0.058066   is_a(?s1, dibasic_acid.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Liquid) ^ is_a(?s2, milliliter.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Amount) ^ ac_word(TAPPING) ^ ?w1=/=?w2
+-0.052848   is_a(?s1, cola.n.02) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Liquid) ^ is_a(?s2, liter.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Amount) ^ ac_word(TAPPING) ^ ?w1=/=?w2
+-0.058647   is_a(?s1, milk.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Liquid) ^ is_a(?s2, milliliter.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Amount) ^ ac_word(TAPPING) ^ ?w1=/=?w2
+-0.063802   is_a(?s1, coffee.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Liquid) ^ is_a(?s2, milliliter.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Amount) ^ ac_word(TAPPING) ^ ?w1=/=?w2
+-1.295727   is_a(?s1, water.n.06) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Liquid) ^ is_a(?s2, milliliter.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Amount) ^ ac_word(TAPPING) ^ ?w1=/=?w2
+-0.058066   is_a(?s1, base.n.10) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Liquid) ^ is_a(?s2, liter.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Amount) ^ ac_word(TAPPING) ^ ?w1=/=?w2
+-0.057504   is_a(?s1, pyridine.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Liquid) ^ is_a(?s2, milliliter.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Amount) ^ ac_word(TAPPING) ^ ?w1=/=?w2
+-0.058114   is_a(?s1, pyridine.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Liquid) ^ is_a(?s2, liter.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Amount) ^ ac_word(TAPPING) ^ ?w1=/=?w2
+-0.055164   is_a(?s1, tea.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Liquid) ^ is_a(?s2, liter.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Amount) ^ ac_word(TAPPING) ^ ?w1=/=?w2
+-0.055164   is_a(?s1, whiskey.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Liquid) ^ is_a(?s2, liter.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Amount) ^ ac_word(TAPPING) ^ ?w1=/=?w2
+-0.057504   is_a(?s1, hydrocyanic_acid.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Liquid) ^ is_a(?s2, milliliter.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Amount) ^ ac_word(TAPPING) ^ ?w1=/=?w2
+-0.058114   is_a(?s1, hydrocyanic_acid.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Liquid) ^ is_a(?s2, liter.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Amount) ^ ac_word(TAPPING) ^ ?w1=/=?w2
+1.559533    is_a(?s1, milliliter.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Amount) ^ is_a(?s2, fill.v.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, ActionVerb) ^ ac_word(PIPETING) ^ ?w1=/=?w2
+-2.529026   is_a(?s1, liter.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Amount) ^ is_a(?s2, fill.v.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, ActionVerb) ^ ac_word(PIPETING) ^ ?w1=/=?w2
+-1.434502   is_a(?s1, fruit_juice.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Liquid) ^ is_a(?s2, fill.v.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, ActionVerb) ^ ac_word(PIPETING) ^ ?w1=/=?w2
+2.525653    is_a(?s1, dibasic_acid.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Liquid) ^ is_a(?s2, fill.v.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, ActionVerb) ^ ac_word(PIPETING) ^ ?w1=/=?w2
+-2.030340   is_a(?s1, cola.n.02) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Liquid) ^ is_a(?s2, fill.v.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, ActionVerb) ^ ac_word(PIPETING) ^ ?w1=/=?w2
+-1.959101   is_a(?s1, milk.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Liquid) ^ is_a(?s2, fill.v.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, ActionVerb) ^ ac_word(PIPETING) ^ ?w1=/=?w2
+-1.220025   is_a(?s1, coffee.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Liquid) ^ is_a(?s2, fill.v.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, ActionVerb) ^ ac_word(PIPETING) ^ ?w1=/=?w2
+-2.061500   is_a(?s1, water.n.06) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Liquid) ^ is_a(?s2, fill.v.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, ActionVerb) ^ ac_word(PIPETING) ^ ?w1=/=?w2
+2.384562    is_a(?s1, base.n.10) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Liquid) ^ is_a(?s2, fill.v.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, ActionVerb) ^ ac_word(PIPETING) ^ ?w1=/=?w2
+2.370914    is_a(?s1, pyridine.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Liquid) ^ is_a(?s2, fill.v.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, ActionVerb) ^ ac_word(PIPETING) ^ ?w1=/=?w2
+-0.138253   is_a(?s1, tea.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Liquid) ^ is_a(?s2, fill.v.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, ActionVerb) ^ ac_word(PIPETING) ^ ?w1=/=?w2
+-0.138253   is_a(?s1, whiskey.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Liquid) ^ is_a(?s2, fill.v.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, ActionVerb) ^ ac_word(PIPETING) ^ ?w1=/=?w2
+2.370914    is_a(?s1, hydrocyanic_acid.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Liquid) ^ is_a(?s2, fill.v.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, ActionVerb) ^ ac_word(PIPETING) ^ ?w1=/=?w2
+0.093283    is_a(?s1, milliliter.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Amount) ^ is_a(?s2, fill.v.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, ActionVerb) ^ ac_word(POURING) ^ ?w1=/=?w2
+2.919747    is_a(?s1, liter.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Amount) ^ is_a(?s2, fill.v.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, ActionVerb) ^ ac_word(POURING) ^ ?w1=/=?w2
+1.549320    is_a(?s1, fruit_juice.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Liquid) ^ is_a(?s2, fill.v.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, ActionVerb) ^ ac_word(POURING) ^ ?w1=/=?w2
+-1.847486   is_a(?s1, dibasic_acid.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Liquid) ^ is_a(?s2, fill.v.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, ActionVerb) ^ ac_word(POURING) ^ ?w1=/=?w2
+2.740951    is_a(?s1, cola.n.02) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Liquid) ^ is_a(?s2, fill.v.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, ActionVerb) ^ ac_word(POURING) ^ ?w1=/=?w2
+2.617331    is_a(?s1, milk.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Liquid) ^ is_a(?s2, fill.v.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, ActionVerb) ^ ac_word(POURING) ^ ?w1=/=?w2
+1.283827    is_a(?s1, coffee.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Liquid) ^ is_a(?s2, fill.v.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, ActionVerb) ^ ac_word(POURING) ^ ?w1=/=?w2
+-2.686458   is_a(?s1, water.n.06) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Liquid) ^ is_a(?s2, fill.v.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, ActionVerb) ^ ac_word(POURING) ^ ?w1=/=?w2
+-1.610519   is_a(?s1, base.n.10) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Liquid) ^ is_a(?s2, fill.v.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, ActionVerb) ^ ac_word(POURING) ^ ?w1=/=?w2
+-1.634957   is_a(?s1, pyridine.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Liquid) ^ is_a(?s2, fill.v.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, ActionVerb) ^ ac_word(POURING) ^ ?w1=/=?w2
+0.193417    is_a(?s1, tea.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Liquid) ^ is_a(?s2, fill.v.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, ActionVerb) ^ ac_word(POURING) ^ ?w1=/=?w2
+0.193417    is_a(?s1, whiskey.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Liquid) ^ is_a(?s2, fill.v.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, ActionVerb) ^ ac_word(POURING) ^ ?w1=/=?w2
+-1.634957   is_a(?s1, hydrocyanic_acid.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Liquid) ^ is_a(?s2, fill.v.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, ActionVerb) ^ ac_word(POURING) ^ ?w1=/=?w2
+-1.652817   is_a(?s1, milliliter.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Amount) ^ is_a(?s2, fill.v.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, ActionVerb) ^ ac_word(TAPPING) ^ ?w1=/=?w2
+-0.390721   is_a(?s1, liter.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Amount) ^ is_a(?s2, fill.v.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, ActionVerb) ^ ac_word(TAPPING) ^ ?w1=/=?w2
+-0.114819   is_a(?s1, fruit_juice.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Liquid) ^ is_a(?s2, fill.v.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, ActionVerb) ^ ac_word(TAPPING) ^ ?w1=/=?w2
+-0.678167   is_a(?s1, dibasic_acid.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Liquid) ^ is_a(?s2, fill.v.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, ActionVerb) ^ ac_word(TAPPING) ^ ?w1=/=?w2
+-0.710611   is_a(?s1, cola.n.02) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Liquid) ^ is_a(?s2, fill.v.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, ActionVerb) ^ ac_word(TAPPING) ^ ?w1=/=?w2
+-0.658229   is_a(?s1, milk.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Liquid) ^ is_a(?s2, fill.v.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, ActionVerb) ^ ac_word(TAPPING) ^ ?w1=/=?w2
+-0.063802   is_a(?s1, coffee.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Liquid) ^ is_a(?s2, fill.v.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, ActionVerb) ^ ac_word(TAPPING) ^ ?w1=/=?w2
+4.747959    is_a(?s1, water.n.06) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Liquid) ^ is_a(?s2, fill.v.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, ActionVerb) ^ ac_word(TAPPING) ^ ?w1=/=?w2
+-0.774043   is_a(?s1, base.n.10) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Liquid) ^ is_a(?s2, fill.v.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, ActionVerb) ^ ac_word(TAPPING) ^ ?w1=/=?w2
+-0.735957   is_a(?s1, pyridine.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Liquid) ^ is_a(?s2, fill.v.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, ActionVerb) ^ ac_word(TAPPING) ^ ?w1=/=?w2
+-0.055164   is_a(?s1, tea.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Liquid) ^ is_a(?s2, fill.v.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, ActionVerb) ^ ac_word(TAPPING) ^ ?w1=/=?w2
+-0.055164   is_a(?s1, whiskey.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Liquid) ^ is_a(?s2, fill.v.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, ActionVerb) ^ ac_word(TAPPING) ^ ?w1=/=?w2
+-0.735957   is_a(?s1, hydrocyanic_acid.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Liquid) ^ is_a(?s2, fill.v.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, ActionVerb) ^ ac_word(TAPPING) ^ ?w1=/=?w2
+-1.310488   is_a(?s1, milliliter.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Amount) ^ is_a(?s2, fruit_juice.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Liquid) ^ ac_word(PIPETING) ^ ?w1=/=?w2
+0.655062    is_a(?s1, milliliter.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Amount) ^ is_a(?s2, dibasic_acid.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Liquid) ^ ac_word(PIPETING) ^ ?w1=/=?w2
+-0.555893   is_a(?s1, milliliter.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Amount) ^ is_a(?s2, milk.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Liquid) ^ ac_word(PIPETING) ^ ?w1=/=?w2
+-1.220025   is_a(?s1, milliliter.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Amount) ^ is_a(?s2, coffee.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Liquid) ^ ac_word(PIPETING) ^ ?w1=/=?w2
+2.578833    is_a(?s1, milliliter.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Amount) ^ is_a(?s2, water.n.06) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Liquid) ^ ac_word(PIPETING) ^ ?w1=/=?w2
+0.706023    is_a(?s1, milliliter.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Amount) ^ is_a(?s2, pyridine.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Liquid) ^ ac_word(PIPETING) ^ ?w1=/=?w2
+0.706023    is_a(?s1, milliliter.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Amount) ^ is_a(?s2, hydrocyanic_acid.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Liquid) ^ ac_word(PIPETING) ^ ?w1=/=?w2
+-0.124013   is_a(?s1, liter.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Amount) ^ is_a(?s2, fruit_juice.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Liquid) ^ ac_word(PIPETING) ^ ?w1=/=?w2
+-0.122492   is_a(?s1, liter.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Amount) ^ is_a(?s2, cola.n.02) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Liquid) ^ ac_word(PIPETING) ^ ?w1=/=?w2
+-0.648560   is_a(?s1, liter.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Amount) ^ is_a(?s2, base.n.10) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Liquid) ^ ac_word(PIPETING) ^ ?w1=/=?w2
+-0.678727   is_a(?s1, liter.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Amount) ^ is_a(?s2, pyridine.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Liquid) ^ ac_word(PIPETING) ^ ?w1=/=?w2
+-0.138253   is_a(?s1, liter.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Amount) ^ is_a(?s2, tea.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Liquid) ^ ac_word(PIPETING) ^ ?w1=/=?w2
+-0.138253   is_a(?s1, liter.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Amount) ^ is_a(?s2, whiskey.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Liquid) ^ ac_word(PIPETING) ^ ?w1=/=?w2
+-0.678727   is_a(?s1, liter.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Amount) ^ is_a(?s2, hydrocyanic_acid.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Liquid) ^ ac_word(PIPETING) ^ ?w1=/=?w2
+-1.434502   is_a(?s1, fill.v.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, ActionVerb) ^ is_a(?s2, fruit_juice.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Liquid) ^ ac_word(PIPETING) ^ ?w1=/=?w2
+2.525653    is_a(?s1, fill.v.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, ActionVerb) ^ is_a(?s2, dibasic_acid.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Liquid) ^ ac_word(PIPETING) ^ ?w1=/=?w2
+-2.030340   is_a(?s1, fill.v.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, ActionVerb) ^ is_a(?s2, cola.n.02) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Liquid) ^ ac_word(PIPETING) ^ ?w1=/=?w2
+-1.959101   is_a(?s1, fill.v.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, ActionVerb) ^ is_a(?s2, milk.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Liquid) ^ ac_word(PIPETING) ^ ?w1=/=?w2
+-1.220025   is_a(?s1, fill.v.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, ActionVerb) ^ is_a(?s2, coffee.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Liquid) ^ ac_word(PIPETING) ^ ?w1=/=?w2
+-2.061500   is_a(?s1, fill.v.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, ActionVerb) ^ is_a(?s2, water.n.06) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Liquid) ^ ac_word(PIPETING) ^ ?w1=/=?w2
+2.384562    is_a(?s1, fill.v.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, ActionVerb) ^ is_a(?s2, base.n.10) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Liquid) ^ ac_word(PIPETING) ^ ?w1=/=?w2
+2.370914    is_a(?s1, fill.v.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, ActionVerb) ^ is_a(?s2, pyridine.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Liquid) ^ ac_word(PIPETING) ^ ?w1=/=?w2
+-0.138253   is_a(?s1, fill.v.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, ActionVerb) ^ is_a(?s2, tea.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Liquid) ^ ac_word(PIPETING) ^ ?w1=/=?w2
+-0.138253   is_a(?s1, fill.v.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, ActionVerb) ^ is_a(?s2, whiskey.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Liquid) ^ ac_word(PIPETING) ^ ?w1=/=?w2
+2.370914    is_a(?s1, fill.v.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, ActionVerb) ^ is_a(?s2, hydrocyanic_acid.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Liquid) ^ ac_word(PIPETING) ^ ?w1=/=?w2
+1.372055    is_a(?s1, milliliter.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Amount) ^ is_a(?s2, fruit_juice.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Liquid) ^ ac_word(POURING) ^ ?w1=/=?w2
+-0.596995   is_a(?s1, milliliter.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Amount) ^ is_a(?s2, dibasic_acid.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Liquid) ^ ac_word(POURING) ^ ?w1=/=?w2
+0.614541    is_a(?s1, milliliter.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Amount) ^ is_a(?s2, milk.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Liquid) ^ ac_word(POURING) ^ ?w1=/=?w2
+1.283827    is_a(?s1, milliliter.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Amount) ^ is_a(?s2, coffee.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Liquid) ^ ac_word(POURING) ^ ?w1=/=?w2
+-1.283107   is_a(?s1, milliliter.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Amount) ^ is_a(?s2, water.n.06) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Liquid) ^ ac_word(POURING) ^ ?w1=/=?w2
+-0.648519   is_a(?s1, milliliter.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Amount) ^ is_a(?s2, pyridine.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Liquid) ^ ac_word(POURING) ^ ?w1=/=?w2
+-0.648519   is_a(?s1, milliliter.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Amount) ^ is_a(?s2, hydrocyanic_acid.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Liquid) ^ ac_word(POURING) ^ ?w1=/=?w2
+0.177265    is_a(?s1, liter.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Amount) ^ is_a(?s2, fruit_juice.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Liquid) ^ ac_word(POURING) ^ ?w1=/=?w2
+0.175340    is_a(?s1, liter.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Amount) ^ is_a(?s2, cola.n.02) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Liquid) ^ ac_word(POURING) ^ ?w1=/=?w2
+0.706626    is_a(?s1, liter.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Amount) ^ is_a(?s2, base.n.10) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Liquid) ^ ac_word(POURING) ^ ?w1=/=?w2
+0.736841    is_a(?s1, liter.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Amount) ^ is_a(?s2, pyridine.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Liquid) ^ ac_word(POURING) ^ ?w1=/=?w2
+0.193417    is_a(?s1, liter.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Amount) ^ is_a(?s2, tea.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Liquid) ^ ac_word(POURING) ^ ?w1=/=?w2
+0.193417    is_a(?s1, liter.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Amount) ^ is_a(?s2, whiskey.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Liquid) ^ ac_word(POURING) ^ ?w1=/=?w2
+0.736841    is_a(?s1, liter.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Amount) ^ is_a(?s2, hydrocyanic_acid.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Liquid) ^ ac_word(POURING) ^ ?w1=/=?w2
+1.549320    is_a(?s1, fill.v.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, ActionVerb) ^ is_a(?s2, fruit_juice.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Liquid) ^ ac_word(POURING) ^ ?w1=/=?w2
+-1.847486   is_a(?s1, fill.v.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, ActionVerb) ^ is_a(?s2, dibasic_acid.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Liquid) ^ ac_word(POURING) ^ ?w1=/=?w2
+2.740951    is_a(?s1, fill.v.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, ActionVerb) ^ is_a(?s2, cola.n.02) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Liquid) ^ ac_word(POURING) ^ ?w1=/=?w2
+2.617331    is_a(?s1, fill.v.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, ActionVerb) ^ is_a(?s2, milk.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Liquid) ^ ac_word(POURING) ^ ?w1=/=?w2
+1.283827    is_a(?s1, fill.v.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, ActionVerb) ^ is_a(?s2, coffee.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Liquid) ^ ac_word(POURING) ^ ?w1=/=?w2
+-2.686458   is_a(?s1, fill.v.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, ActionVerb) ^ is_a(?s2, water.n.06) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Liquid) ^ ac_word(POURING) ^ ?w1=/=?w2
+-1.610519   is_a(?s1, fill.v.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, ActionVerb) ^ is_a(?s2, base.n.10) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Liquid) ^ ac_word(POURING) ^ ?w1=/=?w2
+-1.634957   is_a(?s1, fill.v.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, ActionVerb) ^ is_a(?s2, pyridine.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Liquid) ^ ac_word(POURING) ^ ?w1=/=?w2
+0.193417    is_a(?s1, fill.v.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, ActionVerb) ^ is_a(?s2, tea.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Liquid) ^ ac_word(POURING) ^ ?w1=/=?w2
+0.193417    is_a(?s1, fill.v.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, ActionVerb) ^ is_a(?s2, whiskey.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Liquid) ^ ac_word(POURING) ^ ?w1=/=?w2
+-1.634957   is_a(?s1, fill.v.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, ActionVerb) ^ is_a(?s2, hydrocyanic_acid.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Liquid) ^ ac_word(POURING) ^ ?w1=/=?w2
+-0.061567   is_a(?s1, milliliter.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Amount) ^ is_a(?s2, fruit_juice.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Liquid) ^ ac_word(TAPPING) ^ ?w1=/=?w2
+-0.058066   is_a(?s1, milliliter.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Amount) ^ is_a(?s2, dibasic_acid.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Liquid) ^ ac_word(TAPPING) ^ ?w1=/=?w2
+-0.058647   is_a(?s1, milliliter.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Amount) ^ is_a(?s2, milk.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Liquid) ^ ac_word(TAPPING) ^ ?w1=/=?w2
+-0.063802   is_a(?s1, milliliter.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Amount) ^ is_a(?s2, coffee.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Liquid) ^ ac_word(TAPPING) ^ ?w1=/=?w2
+-1.295727   is_a(?s1, milliliter.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Amount) ^ is_a(?s2, water.n.06) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Liquid) ^ ac_word(TAPPING) ^ ?w1=/=?w2
+-0.057504   is_a(?s1, milliliter.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Amount) ^ is_a(?s2, pyridine.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Liquid) ^ ac_word(TAPPING) ^ ?w1=/=?w2
+-0.057504   is_a(?s1, milliliter.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Amount) ^ is_a(?s2, hydrocyanic_acid.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Liquid) ^ ac_word(TAPPING) ^ ?w1=/=?w2
+-0.053252   is_a(?s1, liter.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Amount) ^ is_a(?s2, fruit_juice.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Liquid) ^ ac_word(TAPPING) ^ ?w1=/=?w2
+-0.052848   is_a(?s1, liter.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Amount) ^ is_a(?s2, cola.n.02) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Liquid) ^ ac_word(TAPPING) ^ ?w1=/=?w2
+-0.058066   is_a(?s1, liter.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Amount) ^ is_a(?s2, base.n.10) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Liquid) ^ ac_word(TAPPING) ^ ?w1=/=?w2
+-0.058114   is_a(?s1, liter.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Amount) ^ is_a(?s2, pyridine.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Liquid) ^ ac_word(TAPPING) ^ ?w1=/=?w2
+-0.055164   is_a(?s1, liter.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Amount) ^ is_a(?s2, tea.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Liquid) ^ ac_word(TAPPING) ^ ?w1=/=?w2
+-0.055164   is_a(?s1, liter.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Amount) ^ is_a(?s2, whiskey.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Liquid) ^ ac_word(TAPPING) ^ ?w1=/=?w2
+-0.058114   is_a(?s1, liter.n.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, Amount) ^ is_a(?s2, hydrocyanic_acid.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Liquid) ^ ac_word(TAPPING) ^ ?w1=/=?w2
+-0.114819   is_a(?s1, fill.v.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, ActionVerb) ^ is_a(?s2, fruit_juice.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Liquid) ^ ac_word(TAPPING) ^ ?w1=/=?w2
+-0.678167   is_a(?s1, fill.v.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, ActionVerb) ^ is_a(?s2, dibasic_acid.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Liquid) ^ ac_word(TAPPING) ^ ?w1=/=?w2
+-0.710611   is_a(?s1, fill.v.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, ActionVerb) ^ is_a(?s2, cola.n.02) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Liquid) ^ ac_word(TAPPING) ^ ?w1=/=?w2
+-0.658229   is_a(?s1, fill.v.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, ActionVerb) ^ is_a(?s2, milk.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Liquid) ^ ac_word(TAPPING) ^ ?w1=/=?w2
+-0.063802   is_a(?s1, fill.v.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, ActionVerb) ^ is_a(?s2, coffee.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Liquid) ^ ac_word(TAPPING) ^ ?w1=/=?w2
+4.747959    is_a(?s1, fill.v.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, ActionVerb) ^ is_a(?s2, water.n.06) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Liquid) ^ ac_word(TAPPING) ^ ?w1=/=?w2
+-0.774043   is_a(?s1, fill.v.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, ActionVerb) ^ is_a(?s2, base.n.10) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Liquid) ^ ac_word(TAPPING) ^ ?w1=/=?w2
+-0.735957   is_a(?s1, fill.v.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, ActionVerb) ^ is_a(?s2, pyridine.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Liquid) ^ ac_word(TAPPING) ^ ?w1=/=?w2
+-0.055164   is_a(?s1, fill.v.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, ActionVerb) ^ is_a(?s2, tea.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Liquid) ^ ac_word(TAPPING) ^ ?w1=/=?w2
+-0.055164   is_a(?s1, fill.v.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, ActionVerb) ^ is_a(?s2, whiskey.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Liquid) ^ ac_word(TAPPING) ^ ?w1=/=?w2
+-0.735957   is_a(?s1, fill.v.01) ^ has_sense(?w1, ?s1) ^ action_role(?w1, ActionVerb) ^ is_a(?s2, hydrocyanic_acid.n.01) ^ has_sense(?w2, ?s2) ^ action_role(?w2, Liquid) ^ ac_word(TAPPING) ^ ?w1=/=?w2
+1.340136    !action_role(?w1, Amount) ^ ac_word(PIPETING)
+-1.672230   !action_role(?w1, Amount) ^ ac_word(POURING)
+0.332094    !action_role(?w1, Amount) ^ ac_word(TAPPING)
+-0.299425   !action_role(?w1, ActionVerb) ^ ac_word(PIPETING)
+2.176915    !action_role(?w1, ActionVerb) ^ ac_word(POURING)
+-1.877490   !action_role(?w1, ActionVerb) ^ ac_word(TAPPING)
+-0.299425   !action_role(?w1, Liquid) ^ ac_word(PIPETING)
+2.176915    !action_role(?w1, Liquid) ^ ac_word(POURING)
+-1.877490   !action_role(?w1, Liquid) ^ ac_word(TAPPING)

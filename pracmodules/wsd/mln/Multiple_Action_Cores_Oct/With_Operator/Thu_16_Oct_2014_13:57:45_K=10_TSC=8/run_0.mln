@@ -1,0 +1,89 @@
+// domain declarations
+
+
+// predicate declarations
+is_a(sense, concept)
+ac_word(word, ac!)
+has_sense(word, sense!)
+
+// formulas
+0.908080    ac_word(?w1, AC_NONE) ^ is_a(?s1, foam.n.01) ^ is_a(?s2, foam.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+3.149580    ac_word(?w1, AC_NONE) ^ is_a(?s1, foam.n.01) ^ is_a(?s2, mug.n.04) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    ac_word(?w1, AC_NONE) ^ is_a(?s1, foam.n.01) ^ is_a(?s2, kettle.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    ac_word(?w1, AC_NONE) ^ is_a(?s1, foam.n.01) ^ is_a(?s2, water.n.06) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.836325    ac_word(?w1, AC_NONE) ^ is_a(?s1, foam.n.01) ^ is_a(?s2, fill.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-0.925200   ac_word(?w1, AC_NONE) ^ is_a(?s1, mug.n.04) ^ is_a(?s2, mug.n.04) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    ac_word(?w1, AC_NONE) ^ is_a(?s1, mug.n.04) ^ is_a(?s2, kettle.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    ac_word(?w1, AC_NONE) ^ is_a(?s1, mug.n.04) ^ is_a(?s2, water.n.06) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.230105    ac_word(?w1, AC_NONE) ^ is_a(?s1, mug.n.04) ^ is_a(?s2, fill.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-1.491308   ac_word(?w1, AC_NONE) ^ is_a(?s1, kettle.n.01) ^ is_a(?s2, kettle.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+1.728024    ac_word(?w1, AC_NONE) ^ is_a(?s1, kettle.n.01) ^ is_a(?s2, water.n.06) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-0.001928   ac_word(?w1, AC_NONE) ^ is_a(?s1, kettle.n.01) ^ is_a(?s2, fill.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-2.859012   ac_word(?w1, AC_NONE) ^ is_a(?s1, water.n.06) ^ is_a(?s2, water.n.06) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+1.911409    ac_word(?w1, AC_NONE) ^ is_a(?s1, water.n.06) ^ is_a(?s2, fill.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-3.056326   ac_word(?w1, AC_NONE) ^ is_a(?s1, fill.v.01) ^ is_a(?s2, fill.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-0.453334   ac_word(?w1, AC_FILL) ^ is_a(?s1, foam.n.01) ^ is_a(?s2, foam.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-0.113346   ac_word(?w1, AC_FILL) ^ is_a(?s1, foam.n.01) ^ is_a(?s2, mug.n.04) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    ac_word(?w1, AC_FILL) ^ is_a(?s1, foam.n.01) ^ is_a(?s2, kettle.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    ac_word(?w1, AC_FILL) ^ is_a(?s1, foam.n.01) ^ is_a(?s2, water.n.06) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-0.113329   ac_word(?w1, AC_FILL) ^ is_a(?s1, foam.n.01) ^ is_a(?s2, fill.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-0.114044   ac_word(?w1, AC_FILL) ^ is_a(?s1, mug.n.04) ^ is_a(?s2, mug.n.04) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    ac_word(?w1, AC_FILL) ^ is_a(?s1, mug.n.04) ^ is_a(?s2, kettle.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    ac_word(?w1, AC_FILL) ^ is_a(?s1, mug.n.04) ^ is_a(?s2, water.n.06) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-0.181657   ac_word(?w1, AC_FILL) ^ is_a(?s1, mug.n.04) ^ is_a(?s2, fill.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-0.878254   ac_word(?w1, AC_FILL) ^ is_a(?s1, kettle.n.01) ^ is_a(?s2, kettle.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-0.878254   ac_word(?w1, AC_FILL) ^ is_a(?s1, kettle.n.01) ^ is_a(?s2, water.n.06) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    ac_word(?w1, AC_FILL) ^ is_a(?s1, kettle.n.01) ^ is_a(?s2, fill.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-0.893666   ac_word(?w1, AC_FILL) ^ is_a(?s1, water.n.06) ^ is_a(?s2, water.n.06) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    ac_word(?w1, AC_FILL) ^ is_a(?s1, water.n.06) ^ is_a(?s2, fill.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-2.829667   ac_word(?w1, AC_FILL) ^ is_a(?s1, fill.v.01) ^ is_a(?s2, fill.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-0.453334   !ac_word(?w1, AC_NONE) ^ is_a(?s1, foam.n.01) ^ is_a(?s2, foam.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-0.113346   !ac_word(?w1, AC_NONE) ^ is_a(?s1, foam.n.01) ^ is_a(?s2, mug.n.04) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    !ac_word(?w1, AC_NONE) ^ is_a(?s1, foam.n.01) ^ is_a(?s2, kettle.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    !ac_word(?w1, AC_NONE) ^ is_a(?s1, foam.n.01) ^ is_a(?s2, water.n.06) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-0.113329   !ac_word(?w1, AC_NONE) ^ is_a(?s1, foam.n.01) ^ is_a(?s2, fill.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.908080    !ac_word(?w1, AC_FILL) ^ is_a(?s1, foam.n.01) ^ is_a(?s2, foam.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+3.149580    !ac_word(?w1, AC_FILL) ^ is_a(?s1, foam.n.01) ^ is_a(?s2, mug.n.04) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    !ac_word(?w1, AC_FILL) ^ is_a(?s1, foam.n.01) ^ is_a(?s2, kettle.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    !ac_word(?w1, AC_FILL) ^ is_a(?s1, foam.n.01) ^ is_a(?s2, water.n.06) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.836325    !ac_word(?w1, AC_FILL) ^ is_a(?s1, foam.n.01) ^ is_a(?s2, fill.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+1.655687    !ac_word(?w1, AC_NONE) ^ is_a(?s1, mug.n.04) ^ is_a(?s2, foam.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-0.114044   !ac_word(?w1, AC_NONE) ^ is_a(?s1, mug.n.04) ^ is_a(?s2, mug.n.04) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    !ac_word(?w1, AC_NONE) ^ is_a(?s1, mug.n.04) ^ is_a(?s2, kettle.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    !ac_word(?w1, AC_NONE) ^ is_a(?s1, mug.n.04) ^ is_a(?s2, water.n.06) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-0.181657   !ac_word(?w1, AC_NONE) ^ is_a(?s1, mug.n.04) ^ is_a(?s2, fill.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+1.380548    !ac_word(?w1, AC_FILL) ^ is_a(?s1, mug.n.04) ^ is_a(?s2, foam.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-0.925200   !ac_word(?w1, AC_FILL) ^ is_a(?s1, mug.n.04) ^ is_a(?s2, mug.n.04) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    !ac_word(?w1, AC_FILL) ^ is_a(?s1, mug.n.04) ^ is_a(?s2, kettle.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    !ac_word(?w1, AC_FILL) ^ is_a(?s1, mug.n.04) ^ is_a(?s2, water.n.06) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.230105    !ac_word(?w1, AC_FILL) ^ is_a(?s1, mug.n.04) ^ is_a(?s2, fill.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    !ac_word(?w1, AC_NONE) ^ is_a(?s1, kettle.n.01) ^ is_a(?s2, foam.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    !ac_word(?w1, AC_NONE) ^ is_a(?s1, kettle.n.01) ^ is_a(?s2, mug.n.04) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-0.878254   !ac_word(?w1, AC_NONE) ^ is_a(?s1, kettle.n.01) ^ is_a(?s2, kettle.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-0.878254   !ac_word(?w1, AC_NONE) ^ is_a(?s1, kettle.n.01) ^ is_a(?s2, water.n.06) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    !ac_word(?w1, AC_NONE) ^ is_a(?s1, kettle.n.01) ^ is_a(?s2, fill.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    !ac_word(?w1, AC_FILL) ^ is_a(?s1, kettle.n.01) ^ is_a(?s2, foam.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    !ac_word(?w1, AC_FILL) ^ is_a(?s1, kettle.n.01) ^ is_a(?s2, mug.n.04) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-1.491308   !ac_word(?w1, AC_FILL) ^ is_a(?s1, kettle.n.01) ^ is_a(?s2, kettle.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+1.728024    !ac_word(?w1, AC_FILL) ^ is_a(?s1, kettle.n.01) ^ is_a(?s2, water.n.06) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-0.001928   !ac_word(?w1, AC_FILL) ^ is_a(?s1, kettle.n.01) ^ is_a(?s2, fill.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    !ac_word(?w1, AC_NONE) ^ is_a(?s1, water.n.06) ^ is_a(?s2, foam.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    !ac_word(?w1, AC_NONE) ^ is_a(?s1, water.n.06) ^ is_a(?s2, mug.n.04) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-0.893666   !ac_word(?w1, AC_NONE) ^ is_a(?s1, water.n.06) ^ is_a(?s2, kettle.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-0.893666   !ac_word(?w1, AC_NONE) ^ is_a(?s1, water.n.06) ^ is_a(?s2, water.n.06) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    !ac_word(?w1, AC_NONE) ^ is_a(?s1, water.n.06) ^ is_a(?s2, fill.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    !ac_word(?w1, AC_FILL) ^ is_a(?s1, water.n.06) ^ is_a(?s2, foam.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    !ac_word(?w1, AC_FILL) ^ is_a(?s1, water.n.06) ^ is_a(?s2, mug.n.04) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+1.743436    !ac_word(?w1, AC_FILL) ^ is_a(?s1, water.n.06) ^ is_a(?s2, kettle.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-2.859012   !ac_word(?w1, AC_FILL) ^ is_a(?s1, water.n.06) ^ is_a(?s2, water.n.06) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+1.911409    !ac_word(?w1, AC_FILL) ^ is_a(?s1, water.n.06) ^ is_a(?s2, fill.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+1.244640    !ac_word(?w1, AC_NONE) ^ is_a(?s1, fill.v.01) ^ is_a(?s2, foam.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.570116    !ac_word(?w1, AC_NONE) ^ is_a(?s1, fill.v.01) ^ is_a(?s2, mug.n.04) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+1.889313    !ac_word(?w1, AC_NONE) ^ is_a(?s1, fill.v.01) ^ is_a(?s2, kettle.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+2.169836    !ac_word(?w1, AC_NONE) ^ is_a(?s1, fill.v.01) ^ is_a(?s2, water.n.06) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-2.829667   !ac_word(?w1, AC_NONE) ^ is_a(?s1, fill.v.01) ^ is_a(?s2, fill.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-0.521645   !ac_word(?w1, AC_FILL) ^ is_a(?s1, fill.v.01) ^ is_a(?s2, foam.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-0.521668   !ac_word(?w1, AC_FILL) ^ is_a(?s1, fill.v.01) ^ is_a(?s2, mug.n.04) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-1.891241   !ac_word(?w1, AC_FILL) ^ is_a(?s1, fill.v.01) ^ is_a(?s2, kettle.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-0.258426   !ac_word(?w1, AC_FILL) ^ is_a(?s1, fill.v.01) ^ is_a(?s2, water.n.06) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-3.056326   !ac_word(?w1, AC_FILL) ^ is_a(?s1, fill.v.01) ^ is_a(?s2, fill.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2

@@ -1,0 +1,17 @@
+// domain declarations
+
+
+// predicate declarations
+is_a(sense,concept)
+ac_word(ac!)
+has_sense(word,sense!)
+has_pos(word,pos!)
+dobj(word,word)
+
+// formulas
+12.913394   has_pos(?w1, VB) ^ is_a(?s1, fill.v.01) ^ has_sense(?w1, ?s1) ^ ac_word(AC_FILL)
+10.651372   has_pos(?w1, VB) ^ is_a(?s1, add.v.01) ^ has_sense(?w1, ?s1) ^ ac_word(AC_ADD)
+10.851658   has_pos(?w1, VB) ^ is_a(?s1, stir.v.01) ^ has_sense(?w1, ?s1) ^ ac_word(AC_STIR)
+10.818309   has_pos(?w1, VB) ^ is_a(?s1, stir.v.08) ^ has_sense(?w1, ?s1) ^ ac_word(AC_STIR)
+10.115151   has_pos(?w1, VB) ^ is_a(?s1, slice.v.03) ^ has_sense(?w1, ?s1) ^ ac_word(AC_SLICE)
+10.395421   has_pos(?w1, VB) ^ is_a(?s1, cut.v.01) ^ has_sense(?w1, ?s1) ^ ac_word(AC_CUT)

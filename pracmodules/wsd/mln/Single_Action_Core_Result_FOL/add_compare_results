@@ -1,0 +1,53 @@
+Single_Action_Core_Result_FOL/Mon_15_Sep_2014_15:59:50_K=10_TSC=9/FOL/conf_matrix.cm
+Average: : - Acc=0.95, Pre=0.41, Rec=0.57 F1=0.46
+
+Single_Action_Core_Result_FOL/Mon_15_Sep_2014_15:59:50_K=10_TSC=9/FUZZY/conf_matrix.cm
+Average: : - Acc=1.00, Pre=0.88, Rec=0.89 F1=0.88
+
+Single_Action_Core_Result_FOL/Mon_15_Sep_2014_16:00:31_K=10_TSC=8/FOL/conf_matrix.cm
+Average: : - Acc=0.97, Pre=0.54, Rec=0.67 F1=0.58
+
+Single_Action_Core_Result_FOL/Mon_15_Sep_2014_16:00:31_K=10_TSC=8/FUZZY/conf_matrix.cm
+Average: : - Acc=1.00, Pre=1.00, Rec=1.00 F1=1.00
+
+Single_Action_Core_Result_FOL/Mon_15_Sep_2014_16:01:19_K=10_TSC=7/FOL/conf_matrix.cm
+Average: : - Acc=0.99, Pre=0.68, Rec=0.73 F1=0.70
+
+Single_Action_Core_Result_FOL/Mon_15_Sep_2014_16:01:19_K=10_TSC=7/FUZZY/conf_matrix.cm
+Average: : - Acc=1.00, Pre=1.00, Rec=1.00 F1=1.00
+
+Single_Action_Core_Result_FOL/Mon_15_Sep_2014_16:02:20_K=10_TSC=6/FOL/conf_matrix.cm
+Average: : - Acc=0.99, Pre=0.77, Rec=0.80 F1=0.79
+
+Single_Action_Core_Result_FOL/Mon_15_Sep_2014_16:02:20_K=10_TSC=6/FUZZY/conf_matrix.cm
+Average: : - Acc=1.00, Pre=1.00, Rec=1.00 F1=1.00
+
+Single_Action_Core_Result_FOL/Mon_15_Sep_2014_16:03:19_K=10_TSC=5/FOL/conf_matrix.cm
+Average: : - Acc=0.99, Pre=0.88, Rec=0.89 F1=0.88
+
+Single_Action_Core_Result_FOL/Mon_15_Sep_2014_16:03:19_K=10_TSC=5/FUZZY/conf_matrix.cm
+Average: : - Acc=1.00, Pre=1.00, Rec=1.00 F1=1.00
+
+Single_Action_Core_Result_FOL/Mon_15_Sep_2014_16:04:13_K=10_TSC=4/FOL/conf_matrix.cm
+Average: : - Acc=1.00, Pre=1.00, Rec=1.00 F1=1.00
+
+Single_Action_Core_Result_FOL/Mon_15_Sep_2014_16:04:13_K=10_TSC=4/FUZZY/conf_matrix.cm
+Average: : - Acc=1.00, Pre=1.00, Rec=1.00 F1=1.00
+
+Single_Action_Core_Result_FOL/Mon_15_Sep_2014_16:05:03_K=10_TSC=3/FOL/conf_matrix.cm
+Average: : - Acc=1.00, Pre=1.00, Rec=1.00 F1=1.00
+
+Single_Action_Core_Result_FOL/Mon_15_Sep_2014_16:05:03_K=10_TSC=3/FUZZY/conf_matrix.cm
+Average: : - Acc=1.00, Pre=1.00, Rec=1.00 F1=1.00
+
+Single_Action_Core_Result_FOL/Mon_15_Sep_2014_16:05:47_K=10_TSC=2/FOL/conf_matrix.cm
+Average: : - Acc=1.00, Pre=1.00, Rec=1.00 F1=1.00
+
+Single_Action_Core_Result_FOL/Mon_15_Sep_2014_16:05:47_K=10_TSC=2/FUZZY/conf_matrix.cm
+Average: : - Acc=1.00, Pre=1.00, Rec=1.00 F1=1.00
+
+Single_Action_Core_Result_FOL/Mon_15_Sep_2014_16:06:25_K=10_TSC=1/FOL/conf_matrix.cm
+Average: : - Acc=1.00, Pre=1.00, Rec=1.00 F1=1.00
+
+Single_Action_Core_Result_FOL/Mon_15_Sep_2014_16:06:25_K=10_TSC=1/FUZZY/conf_matrix.cm
+Average: : - Acc=1.00, Pre=1.00, Rec=1.00 F1=1.00
