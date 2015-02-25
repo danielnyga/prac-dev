@@ -3,377 +3,385 @@
 
 // predicate declarations
 is_a(sense,concept)
-ac_word(ac!)
 has_sense(word,sense!)
+action_core(word,ac?)
 has_pos(word,pos!)
 dobj(word,word)
 
 // formulas
--0.320744   has_pos(?w1, VB) ^ is_a(?s1, corn.n.02) ^ has_sense(?w1, ?s1) ^ ac_word(Adding)
--0.320744   has_pos(?w1, VB) ^ is_a(?s1, chicken.n.01) ^ has_sense(?w1, ?s1) ^ ac_word(Adding)
--0.320744   has_pos(?w1, VB) ^ is_a(?s1, mixing_bowl.n.01) ^ has_sense(?w1, ?s1) ^ ac_word(Adding)
--0.813643   has_pos(?w1, VB) ^ is_a(?s1, stir.v.08) ^ has_sense(?w1, ?s1) ^ ac_word(Adding)
--0.744249   has_pos(?w1, VB) ^ is_a(?s1, stir.v.01) ^ has_sense(?w1, ?s1) ^ ac_word(Adding)
-7.021075    has_pos(?w1, VB) ^ is_a(?s1, add.v.01) ^ has_sense(?w1, ?s1) ^ ac_word(Adding)
--0.320744   has_pos(?w1, VB) ^ is_a(?s1, pan.n.01) ^ has_sense(?w1, ?s1) ^ ac_word(Adding)
--0.771693   has_pos(?w1, VB) ^ is_a(?s1, cut.v.01) ^ has_sense(?w1, ?s1) ^ ac_word(Adding)
--0.961415   has_pos(?w1, VB) ^ is_a(?s1, perform.v.01) ^ has_sense(?w1, ?s1) ^ ac_word(Adding)
--0.320744   has_pos(?w1, VB) ^ is_a(?s1, butter.n.01) ^ has_sense(?w1, ?s1) ^ ac_word(Adding)
--0.693244   has_pos(?w1, VB) ^ is_a(?s1, fill.v.01) ^ has_sense(?w1, ?s1) ^ ac_word(Adding)
--0.487909   has_pos(?w1, VB) ^ is_a(?s1, rib.n.03) ^ has_sense(?w1, ?s1) ^ ac_word(Adding)
--0.841076   has_pos(?w1, VB) ^ is_a(?s1, slice.v.03) ^ has_sense(?w1, ?s1) ^ ac_word(Adding)
--0.822734   has_pos(?w1, VB) ^ is_a(?s1, make.v.16) ^ has_sense(?w1, ?s1) ^ ac_word(Adding)
--0.487909   has_pos(?w1, VB) ^ is_a(?s1, piece.n.08) ^ has_sense(?w1, ?s1) ^ ac_word(Adding)
--0.748884   has_pos(?w1, VB) ^ is_a(?s1, neutralize.v.05) ^ has_sense(?w1, ?s1) ^ ac_word(Adding)
--0.320744   has_pos(?w1, VB) ^ is_a(?s1, sugar.n.01) ^ has_sense(?w1, ?s1) ^ ac_word(Adding)
--0.848682   has_pos(?w1, VB) ^ is_a(?s1, dibasic_acid.n.01) ^ has_sense(?w1, ?s1) ^ ac_word(Neutralisation)
--0.813643   has_pos(?w1, VB) ^ is_a(?s1, stir.v.08) ^ has_sense(?w1, ?s1) ^ ac_word(Neutralisation)
--0.744249   has_pos(?w1, VB) ^ is_a(?s1, stir.v.01) ^ has_sense(?w1, ?s1) ^ ac_word(Neutralisation)
--0.824158   has_pos(?w1, VB) ^ is_a(?s1, add.v.01) ^ has_sense(?w1, ?s1) ^ ac_word(Neutralisation)
--0.548196   has_pos(?w1, VB) ^ is_a(?s1, purine.n.01) ^ has_sense(?w1, ?s1) ^ ac_word(Neutralisation)
--0.771693   has_pos(?w1, VB) ^ is_a(?s1, cut.v.01) ^ has_sense(?w1, ?s1) ^ ac_word(Neutralisation)
-3.833771    has_pos(?w1, VB) ^ is_a(?s1, perform.v.01) ^ has_sense(?w1, ?s1) ^ ac_word(Neutralisation)
--0.693244   has_pos(?w1, VB) ^ is_a(?s1, fill.v.01) ^ has_sense(?w1, ?s1) ^ ac_word(Neutralisation)
--1.905407   has_pos(?w1, VB) ^ is_a(?s1, neutralization.n.01) ^ has_sense(?w1, ?s1) ^ ac_word(Neutralisation)
--0.324913   has_pos(?w1, VB) ^ is_a(?s1, lysergic_acid.n.01) ^ has_sense(?w1, ?s1) ^ ac_word(Neutralisation)
--0.841076   has_pos(?w1, VB) ^ is_a(?s1, slice.v.03) ^ has_sense(?w1, ?s1) ^ ac_word(Neutralisation)
-3.034512    has_pos(?w1, VB) ^ is_a(?s1, make.v.16) ^ has_sense(?w1, ?s1) ^ ac_word(Neutralisation)
--1.153169   has_pos(?w1, VB) ^ is_a(?s1, pyridine.n.01) ^ has_sense(?w1, ?s1) ^ ac_word(Neutralisation)
-5.336837    has_pos(?w1, VB) ^ is_a(?s1, neutralize.v.05) ^ has_sense(?w1, ?s1) ^ ac_word(Neutralisation)
--0.640481   has_pos(?w1, VB) ^ is_a(?s1, hydrocyanic_acid.n.01) ^ has_sense(?w1, ?s1) ^ ac_word(Neutralisation)
--0.321300   has_pos(?w1, VB) ^ is_a(?s1, mushroom.n.05) ^ has_sense(?w1, ?s1) ^ ac_word(Slicing)
--0.813643   has_pos(?w1, VB) ^ is_a(?s1, stir.v.08) ^ has_sense(?w1, ?s1) ^ ac_word(Slicing)
--0.744249   has_pos(?w1, VB) ^ is_a(?s1, stir.v.01) ^ has_sense(?w1, ?s1) ^ ac_word(Slicing)
--0.824158   has_pos(?w1, VB) ^ is_a(?s1, add.v.01) ^ has_sense(?w1, ?s1) ^ ac_word(Slicing)
--0.771693   has_pos(?w1, VB) ^ is_a(?s1, cut.v.01) ^ has_sense(?w1, ?s1) ^ ac_word(Slicing)
--0.961415   has_pos(?w1, VB) ^ is_a(?s1, perform.v.01) ^ has_sense(?w1, ?s1) ^ ac_word(Slicing)
--0.490296   has_pos(?w1, VB) ^ is_a(?s1, bacon.n.01) ^ has_sense(?w1, ?s1) ^ ac_word(Slicing)
--0.693244   has_pos(?w1, VB) ^ is_a(?s1, fill.v.01) ^ has_sense(?w1, ?s1) ^ ac_word(Slicing)
--0.321300   has_pos(?w1, VB) ^ is_a(?s1, meat.n.01) ^ has_sense(?w1, ?s1) ^ ac_word(Slicing)
--0.321300   has_pos(?w1, VB) ^ is_a(?s1, cleaver.n.01) ^ has_sense(?w1, ?s1) ^ ac_word(Slicing)
-6.961468    has_pos(?w1, VB) ^ is_a(?s1, slice.v.03) ^ has_sense(?w1, ?s1) ^ ac_word(Slicing)
--0.490296   has_pos(?w1, VB) ^ is_a(?s1, cabbage.n.01) ^ has_sense(?w1, ?s1) ^ ac_word(Slicing)
--0.321300   has_pos(?w1, VB) ^ is_a(?s1, knife.n.01) ^ has_sense(?w1, ?s1) ^ ac_word(Slicing)
--0.822734   has_pos(?w1, VB) ^ is_a(?s1, make.v.16) ^ has_sense(?w1, ?s1) ^ ac_word(Slicing)
--0.748884   has_pos(?w1, VB) ^ is_a(?s1, neutralize.v.05) ^ has_sense(?w1, ?s1) ^ ac_word(Slicing)
--0.490296   has_pos(?w1, VB) ^ is_a(?s1, lemon.n.01) ^ has_sense(?w1, ?s1) ^ ac_word(Slicing)
--0.813643   has_pos(?w1, VB) ^ is_a(?s1, stir.v.08) ^ has_sense(?w1, ?s1) ^ ac_word(Filling)
--0.744249   has_pos(?w1, VB) ^ is_a(?s1, stir.v.01) ^ has_sense(?w1, ?s1) ^ ac_word(Filling)
--0.824158   has_pos(?w1, VB) ^ is_a(?s1, add.v.01) ^ has_sense(?w1, ?s1) ^ ac_word(Filling)
--0.327586   has_pos(?w1, VB) ^ is_a(?s1, milk.n.01) ^ has_sense(?w1, ?s1) ^ ac_word(Filling)
--0.771693   has_pos(?w1, VB) ^ is_a(?s1, cut.v.01) ^ has_sense(?w1, ?s1) ^ ac_word(Filling)
--0.961415   has_pos(?w1, VB) ^ is_a(?s1, perform.v.01) ^ has_sense(?w1, ?s1) ^ ac_word(Filling)
--0.327586   has_pos(?w1, VB) ^ is_a(?s1, pitcher.n.02) ^ has_sense(?w1, ?s1) ^ ac_word(Filling)
-5.936298    has_pos(?w1, VB) ^ is_a(?s1, fill.v.01) ^ has_sense(?w1, ?s1) ^ ac_word(Filling)
--0.841076   has_pos(?w1, VB) ^ is_a(?s1, slice.v.03) ^ has_sense(?w1, ?s1) ^ ac_word(Filling)
--0.822734   has_pos(?w1, VB) ^ is_a(?s1, make.v.16) ^ has_sense(?w1, ?s1) ^ ac_word(Filling)
--0.327586   has_pos(?w1, VB) ^ is_a(?s1, foam.n.01) ^ has_sense(?w1, ?s1) ^ ac_word(Filling)
--0.748884   has_pos(?w1, VB) ^ is_a(?s1, neutralize.v.05) ^ has_sense(?w1, ?s1) ^ ac_word(Filling)
--0.504563   has_pos(?w1, VB) ^ is_a(?s1, jar.n.01) ^ has_sense(?w1, ?s1) ^ ac_word(Filling)
--0.327586   has_pos(?w1, VB) ^ is_a(?s1, mug.n.04) ^ has_sense(?w1, ?s1) ^ ac_word(Filling)
--0.327586   has_pos(?w1, VB) ^ is_a(?s1, water.n.06) ^ has_sense(?w1, ?s1) ^ ac_word(Filling)
--0.327586   has_pos(?w1, VB) ^ is_a(?s1, kettle.n.01) ^ has_sense(?w1, ?s1) ^ ac_word(Filling)
--0.829868   has_pos(?w1, VB) ^ is_a(?s1, mushroom.n.05) ^ has_sense(?w1, ?s1) ^ ac_word(Cutting)
--0.813643   has_pos(?w1, VB) ^ is_a(?s1, stir.v.08) ^ has_sense(?w1, ?s1) ^ ac_word(Cutting)
--0.320895   has_pos(?w1, VB) ^ is_a(?s1, apple.n.01) ^ has_sense(?w1, ?s1) ^ ac_word(Cutting)
--0.744249   has_pos(?w1, VB) ^ is_a(?s1, stir.v.01) ^ has_sense(?w1, ?s1) ^ ac_word(Cutting)
--0.824158   has_pos(?w1, VB) ^ is_a(?s1, add.v.01) ^ has_sense(?w1, ?s1) ^ ac_word(Cutting)
-6.029080    has_pos(?w1, VB) ^ is_a(?s1, cut.v.01) ^ has_sense(?w1, ?s1) ^ ac_word(Cutting)
-3.835615    has_pos(?w1, VB) ^ is_a(?s1, perform.v.01) ^ has_sense(?w1, ?s1) ^ ac_word(Cutting)
--0.822920   has_pos(?w1, VB) ^ is_a(?s1, bacon.n.01) ^ has_sense(?w1, ?s1) ^ ac_word(Cutting)
--0.693244   has_pos(?w1, VB) ^ is_a(?s1, fill.v.01) ^ has_sense(?w1, ?s1) ^ ac_word(Cutting)
--0.320895   has_pos(?w1, VB) ^ is_a(?s1, meat.n.01) ^ has_sense(?w1, ?s1) ^ ac_word(Cutting)
--0.841076   has_pos(?w1, VB) ^ is_a(?s1, slice.v.03) ^ has_sense(?w1, ?s1) ^ ac_word(Cutting)
--0.330328   has_pos(?w1, VB) ^ is_a(?s1, cabbage.n.01) ^ has_sense(?w1, ?s1) ^ ac_word(Cutting)
--0.330328   has_pos(?w1, VB) ^ is_a(?s1, knife.n.01) ^ has_sense(?w1, ?s1) ^ ac_word(Cutting)
-3.465348    has_pos(?w1, VB) ^ is_a(?s1, make.v.16) ^ has_sense(?w1, ?s1) ^ ac_word(Cutting)
--0.748884   has_pos(?w1, VB) ^ is_a(?s1, neutralize.v.05) ^ has_sense(?w1, ?s1) ^ ac_word(Cutting)
--0.829868   has_pos(?w1, VB) ^ is_a(?s1, lemon.n.01) ^ has_sense(?w1, ?s1) ^ ac_word(Cutting)
--1.589727   has_pos(?w1, VB) ^ is_a(?s1, cut.n.17) ^ has_sense(?w1, ?s1) ^ ac_word(Cutting)
-6.135106    has_pos(?w1, VB) ^ is_a(?s1, stir.v.08) ^ has_sense(?w1, ?s1) ^ ac_word(Stirring)
--0.516722   has_pos(?w1, VB) ^ is_a(?s1, apple.n.01) ^ has_sense(?w1, ?s1) ^ ac_word(Stirring)
-5.363018    has_pos(?w1, VB) ^ is_a(?s1, stir.v.01) ^ has_sense(?w1, ?s1) ^ ac_word(Stirring)
--0.547257   has_pos(?w1, VB) ^ is_a(?s1, coca_cola.n.01) ^ has_sense(?w1, ?s1) ^ ac_word(Stirring)
--0.824158   has_pos(?w1, VB) ^ is_a(?s1, add.v.01) ^ has_sense(?w1, ?s1) ^ ac_word(Stirring)
--0.547257   has_pos(?w1, VB) ^ is_a(?s1, milk.n.01) ^ has_sense(?w1, ?s1) ^ ac_word(Stirring)
--0.771693   has_pos(?w1, VB) ^ is_a(?s1, cut.v.01) ^ has_sense(?w1, ?s1) ^ ac_word(Stirring)
--0.961415   has_pos(?w1, VB) ^ is_a(?s1, perform.v.01) ^ has_sense(?w1, ?s1) ^ ac_word(Stirring)
--0.693244   has_pos(?w1, VB) ^ is_a(?s1, fill.v.01) ^ has_sense(?w1, ?s1) ^ ac_word(Stirring)
--0.841076   has_pos(?w1, VB) ^ is_a(?s1, slice.v.03) ^ has_sense(?w1, ?s1) ^ ac_word(Stirring)
--0.516722   has_pos(?w1, VB) ^ is_a(?s1, banana.n.02) ^ has_sense(?w1, ?s1) ^ ac_word(Stirring)
--0.822734   has_pos(?w1, VB) ^ is_a(?s1, make.v.16) ^ has_sense(?w1, ?s1) ^ ac_word(Stirring)
--0.547257   has_pos(?w1, VB) ^ is_a(?s1, coffee.n.01) ^ has_sense(?w1, ?s1) ^ ac_word(Stirring)
--0.748884   has_pos(?w1, VB) ^ is_a(?s1, neutralize.v.05) ^ has_sense(?w1, ?s1) ^ ac_word(Stirring)
--0.516722   has_pos(?w1, VB) ^ is_a(?s1, vegetable.n.01) ^ has_sense(?w1, ?s1) ^ ac_word(Stirring)
--0.516722   has_pos(?w1, VB) ^ is_a(?s1, peanut.n.04) ^ has_sense(?w1, ?s1) ^ ac_word(Stirring)
--0.200819   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cut.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, mushroom.n.05) ^ ac_word(Adding) ^ ?w1=/=?w2
--0.161475   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ has_sense(?w2, ?s2) ^ is_a(?s2, mushroom.n.05) ^ ac_word(Adding) ^ ?w1=/=?w2
--2.473208   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, corn.n.02) ^ ac_word(Adding) ^ ?w1=/=?w2
--0.320744   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, corn.n.02) ^ has_sense(?w2, ?s2) ^ is_a(?s2, chicken.n.01) ^ ac_word(Adding) ^ ?w1=/=?w2
--0.320744   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, chicken.n.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, chicken.n.01) ^ ac_word(Adding) ^ ?w1=/=?w2
-4.599367    has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, chicken.n.01) ^ ac_word(Adding) ^ ?w1=/=?w2
--0.249678   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, neutralize.v.05) ^ has_sense(?w2, ?s2) ^ is_a(?s2, dibasic_acid.n.01) ^ ac_word(Adding) ^ ?w1=/=?w2
--2.473208   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, mixing_bowl.n.01) ^ ac_word(Adding) ^ ?w1=/=?w2
--0.203411   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.08) ^ has_sense(?w2, ?s2) ^ is_a(?s2, apple.n.01) ^ ac_word(Adding) ^ ?w1=/=?w2
--0.248083   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, coca_cola.n.01) ^ ac_word(Adding) ^ ?w1=/=?w2
--4.800729   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ac_word(Adding) ^ ?w1=/=?w2
--0.248083   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, milk.n.01) ^ ac_word(Adding) ^ ?w1=/=?w2
--0.249100   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, neutralize.v.05) ^ has_sense(?w2, ?s2) ^ is_a(?s2, purine.n.01) ^ ac_word(Adding) ^ ?w1=/=?w2
--2.473208   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pan.n.01) ^ ac_word(Adding) ^ ?w1=/=?w2
--0.167204   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fill.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pitcher.n.02) ^ ac_word(Adding) ^ ?w1=/=?w2
-4.599367    has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, butter.n.01) ^ ac_word(Adding) ^ ?w1=/=?w2
--0.320744   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, pan.n.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, butter.n.01) ^ ac_word(Adding) ^ ?w1=/=?w2
--0.320744   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, butter.n.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, butter.n.01) ^ ac_word(Adding) ^ ?w1=/=?w2
--0.200817   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cut.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bacon.n.01) ^ ac_word(Adding) ^ ?w1=/=?w2
--0.172708   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bacon.n.01) ^ ac_word(Adding) ^ ?w1=/=?w2
-2.721664    has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, rib.n.03) ^ ac_word(Adding) ^ ?w1=/=?w2
--0.487909   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, rib.n.03) ^ has_sense(?w2, ?s2) ^ is_a(?s2, rib.n.03) ^ ac_word(Adding) ^ ?w1=/=?w2
--0.161475   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ has_sense(?w2, ?s2) ^ is_a(?s2, meat.n.01) ^ ac_word(Adding) ^ ?w1=/=?w2
--0.480713   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, perform.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, neutralization.n.01) ^ ac_word(Adding) ^ ?w1=/=?w2
--0.487567   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, make.v.16) ^ has_sense(?w2, ?s2) ^ is_a(?s2, neutralization.n.01) ^ ac_word(Adding) ^ ?w1=/=?w2
--0.169238   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cut.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cabbage.n.01) ^ ac_word(Adding) ^ ?w1=/=?w2
--0.172708   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cabbage.n.01) ^ ac_word(Adding) ^ ?w1=/=?w2
--0.203411   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.08) ^ has_sense(?w2, ?s2) ^ is_a(?s2, banana.n.02) ^ ac_word(Adding) ^ ?w1=/=?w2
--0.248083   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, coffee.n.01) ^ ac_word(Adding) ^ ?w1=/=?w2
--0.250107   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, neutralize.v.05) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pyridine.n.01) ^ ac_word(Adding) ^ ?w1=/=?w2
-2.721664    has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ac_word(Adding) ^ ?w1=/=?w2
--0.487909   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ac_word(Adding) ^ ?w1=/=?w2
--0.191630   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fill.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, jar.n.01) ^ ac_word(Adding) ^ ?w1=/=?w2
--0.167204   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fill.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, mug.n.04) ^ ac_word(Adding) ^ ?w1=/=?w2
--0.203411   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.08) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vegetable.n.01) ^ ac_word(Adding) ^ ?w1=/=?w2
--0.167204   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fill.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, kettle.n.01) ^ ac_word(Adding) ^ ?w1=/=?w2
--0.200819   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cut.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, lemon.n.01) ^ ac_word(Adding) ^ ?w1=/=?w2
--0.172708   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ has_sense(?w2, ?s2) ^ is_a(?s2, lemon.n.01) ^ ac_word(Adding) ^ ?w1=/=?w2
--0.480702   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, perform.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cut.n.17) ^ ac_word(Adding) ^ ?w1=/=?w2
--0.335167   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, make.v.16) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cut.n.17) ^ ac_word(Adding) ^ ?w1=/=?w2
--0.203411   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.08) ^ has_sense(?w2, ?s2) ^ is_a(?s2, peanut.n.04) ^ ac_word(Adding) ^ ?w1=/=?w2
--0.320744   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, mixing_bowl.n.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, sugar.n.01) ^ ac_word(Adding) ^ ?w1=/=?w2
-4.599367    has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, sugar.n.01) ^ ac_word(Adding) ^ ?w1=/=?w2
--0.320744   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, sugar.n.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, sugar.n.01) ^ ac_word(Adding) ^ ?w1=/=?w2
--0.200819   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cut.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, mushroom.n.05) ^ ac_word(Neutralisation) ^ ?w1=/=?w2
--0.161475   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ has_sense(?w2, ?s2) ^ is_a(?s2, mushroom.n.05) ^ ac_word(Neutralisation) ^ ?w1=/=?w2
--0.161094   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, chicken.n.01) ^ ac_word(Neutralisation) ^ ?w1=/=?w2
--0.529220   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, dibasic_acid.n.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, dibasic_acid.n.01) ^ ac_word(Neutralisation) ^ ?w1=/=?w2
--0.544598   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, perform.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, dibasic_acid.n.01) ^ ac_word(Neutralisation) ^ ?w1=/=?w2
-3.290454    has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, neutralize.v.05) ^ has_sense(?w2, ?s2) ^ is_a(?s2, dibasic_acid.n.01) ^ ac_word(Neutralisation) ^ ?w1=/=?w2
--0.203411   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.08) ^ has_sense(?w2, ?s2) ^ is_a(?s2, apple.n.01) ^ ac_word(Neutralisation) ^ ?w1=/=?w2
--0.248083   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, coca_cola.n.01) ^ ac_word(Neutralisation) ^ ?w1=/=?w2
--0.248083   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, milk.n.01) ^ ac_word(Neutralisation) ^ ?w1=/=?w2
--0.548196   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, purine.n.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, purine.n.01) ^ ac_word(Neutralisation) ^ ?w1=/=?w2
-3.303147    has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, neutralize.v.05) ^ has_sense(?w2, ?s2) ^ is_a(?s2, purine.n.01) ^ ac_word(Neutralisation) ^ ?w1=/=?w2
--1.287736   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, perform.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, perform.v.01) ^ ac_word(Neutralisation) ^ ?w1=/=?w2
--0.167204   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fill.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pitcher.n.02) ^ ac_word(Neutralisation) ^ ?w1=/=?w2
--0.161094   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, butter.n.01) ^ ac_word(Neutralisation) ^ ?w1=/=?w2
--0.200817   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cut.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bacon.n.01) ^ ac_word(Neutralisation) ^ ?w1=/=?w2
--0.172708   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bacon.n.01) ^ ac_word(Neutralisation) ^ ?w1=/=?w2
--0.170438   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, rib.n.03) ^ ac_word(Neutralisation) ^ ?w1=/=?w2
--0.161475   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ has_sense(?w2, ?s2) ^ is_a(?s2, meat.n.01) ^ ac_word(Neutralisation) ^ ?w1=/=?w2
--0.319462   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, dibasic_acid.n.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, neutralization.n.01) ^ ac_word(Neutralisation) ^ ?w1=/=?w2
-7.734249    has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, perform.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, neutralization.n.01) ^ ac_word(Neutralisation) ^ ?w1=/=?w2
--1.905407   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, neutralization.n.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, neutralization.n.01) ^ ac_word(Neutralisation) ^ ?w1=/=?w2
--0.324913   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, lysergic_acid.n.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, neutralization.n.01) ^ ac_word(Neutralisation) ^ ?w1=/=?w2
-7.970528    has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, make.v.16) ^ has_sense(?w2, ?s2) ^ is_a(?s2, neutralization.n.01) ^ ac_word(Neutralisation) ^ ?w1=/=?w2
--0.638170   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, pyridine.n.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, neutralization.n.01) ^ ac_word(Neutralisation) ^ ?w1=/=?w2
--0.640481   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, hydrocyanic_acid.n.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, neutralization.n.01) ^ ac_word(Neutralisation) ^ ?w1=/=?w2
--0.492071   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, make.v.16) ^ has_sense(?w2, ?s2) ^ is_a(?s2, lysergic_acid.n.01) ^ ac_word(Neutralisation) ^ ?w1=/=?w2
--0.169238   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cut.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cabbage.n.01) ^ ac_word(Neutralisation) ^ ?w1=/=?w2
--0.172708   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cabbage.n.01) ^ ac_word(Neutralisation) ^ ?w1=/=?w2
--0.203411   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.08) ^ has_sense(?w2, ?s2) ^ is_a(?s2, banana.n.02) ^ ac_word(Neutralisation) ^ ?w1=/=?w2
--1.213075   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, make.v.16) ^ has_sense(?w2, ?s2) ^ is_a(?s2, make.v.16) ^ ac_word(Neutralisation) ^ ?w1=/=?w2
--0.248083   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, coffee.n.01) ^ ac_word(Neutralisation) ^ ?w1=/=?w2
--0.544598   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, perform.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pyridine.n.01) ^ ac_word(Neutralisation) ^ ?w1=/=?w2
--0.492071   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, make.v.16) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pyridine.n.01) ^ ac_word(Neutralisation) ^ ?w1=/=?w2
--0.514999   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, pyridine.n.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pyridine.n.01) ^ ac_word(Neutralisation) ^ ?w1=/=?w2
-3.280898    has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, neutralize.v.05) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pyridine.n.01) ^ ac_word(Neutralisation) ^ ?w1=/=?w2
--0.170438   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ac_word(Neutralisation) ^ ?w1=/=?w2
--4.537662   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, neutralize.v.05) ^ has_sense(?w2, ?s2) ^ is_a(?s2, neutralize.v.05) ^ ac_word(Neutralisation) ^ ?w1=/=?w2
--0.191630   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fill.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, jar.n.01) ^ ac_word(Neutralisation) ^ ?w1=/=?w2
--0.167204   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fill.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, mug.n.04) ^ ac_word(Neutralisation) ^ ?w1=/=?w2
--0.203411   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.08) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vegetable.n.01) ^ ac_word(Neutralisation) ^ ?w1=/=?w2
--0.544598   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, perform.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, hydrocyanic_acid.n.01) ^ ac_word(Neutralisation) ^ ?w1=/=?w2
--0.492071   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, make.v.16) ^ has_sense(?w2, ?s2) ^ is_a(?s2, hydrocyanic_acid.n.01) ^ ac_word(Neutralisation) ^ ?w1=/=?w2
--0.167204   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fill.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, kettle.n.01) ^ ac_word(Neutralisation) ^ ?w1=/=?w2
--0.200819   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cut.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, lemon.n.01) ^ ac_word(Neutralisation) ^ ?w1=/=?w2
--0.172708   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ has_sense(?w2, ?s2) ^ is_a(?s2, lemon.n.01) ^ ac_word(Neutralisation) ^ ?w1=/=?w2
--0.978949   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, perform.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cut.n.17) ^ ac_word(Neutralisation) ^ ?w1=/=?w2
--2.246729   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, make.v.16) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cut.n.17) ^ ac_word(Neutralisation) ^ ?w1=/=?w2
--0.203411   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.08) ^ has_sense(?w2, ?s2) ^ is_a(?s2, peanut.n.04) ^ ac_word(Neutralisation) ^ ?w1=/=?w2
--0.161094   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, sugar.n.01) ^ ac_word(Neutralisation) ^ ?w1=/=?w2
--0.321300   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, mushroom.n.05) ^ has_sense(?w2, ?s2) ^ is_a(?s2, mushroom.n.05) ^ ac_word(Slicing) ^ ?w1=/=?w2
--0.200819   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cut.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, mushroom.n.05) ^ ac_word(Slicing) ^ ?w1=/=?w2
-4.567987    has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ has_sense(?w2, ?s2) ^ is_a(?s2, mushroom.n.05) ^ ac_word(Slicing) ^ ?w1=/=?w2
--0.321300   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, mushroom.n.05) ^ ac_word(Slicing) ^ ?w1=/=?w2
--0.161094   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, chicken.n.01) ^ ac_word(Slicing) ^ ?w1=/=?w2
--0.249678   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, neutralize.v.05) ^ has_sense(?w2, ?s2) ^ is_a(?s2, dibasic_acid.n.01) ^ ac_word(Slicing) ^ ?w1=/=?w2
--0.203411   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.08) ^ has_sense(?w2, ?s2) ^ is_a(?s2, apple.n.01) ^ ac_word(Slicing) ^ ?w1=/=?w2
--0.248083   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, coca_cola.n.01) ^ ac_word(Slicing) ^ ?w1=/=?w2
--0.248083   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, milk.n.01) ^ ac_word(Slicing) ^ ?w1=/=?w2
--0.249100   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, neutralize.v.05) ^ has_sense(?w2, ?s2) ^ is_a(?s2, purine.n.01) ^ ac_word(Slicing) ^ ?w1=/=?w2
--0.167204   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fill.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pitcher.n.02) ^ ac_word(Slicing) ^ ?w1=/=?w2
--0.161094   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, butter.n.01) ^ ac_word(Slicing) ^ ?w1=/=?w2
--0.200817   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cut.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bacon.n.01) ^ ac_word(Slicing) ^ ?w1=/=?w2
--0.490296   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, bacon.n.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bacon.n.01) ^ ac_word(Slicing) ^ ?w1=/=?w2
-2.627879    has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bacon.n.01) ^ ac_word(Slicing) ^ ?w1=/=?w2
--0.170438   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, rib.n.03) ^ ac_word(Slicing) ^ ?w1=/=?w2
--0.321300   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, meat.n.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, meat.n.01) ^ ac_word(Slicing) ^ ?w1=/=?w2
--0.321300   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cleaver.n.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, meat.n.01) ^ ac_word(Slicing) ^ ?w1=/=?w2
-4.567987    has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ has_sense(?w2, ?s2) ^ is_a(?s2, meat.n.01) ^ ac_word(Slicing) ^ ?w1=/=?w2
--0.480713   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, perform.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, neutralization.n.01) ^ ac_word(Slicing) ^ ?w1=/=?w2
--0.487567   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, make.v.16) ^ has_sense(?w2, ?s2) ^ is_a(?s2, neutralization.n.01) ^ ac_word(Slicing) ^ ?w1=/=?w2
--2.491266   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cleaver.n.01) ^ ac_word(Slicing) ^ ?w1=/=?w2
--5.075612   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ac_word(Slicing) ^ ?w1=/=?w2
--0.169238   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cut.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cabbage.n.01) ^ ac_word(Slicing) ^ ?w1=/=?w2
-2.627879    has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cabbage.n.01) ^ ac_word(Slicing) ^ ?w1=/=?w2
--0.490296   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cabbage.n.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cabbage.n.01) ^ ac_word(Slicing) ^ ?w1=/=?w2
--0.203411   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.08) ^ has_sense(?w2, ?s2) ^ is_a(?s2, banana.n.02) ^ ac_word(Slicing) ^ ?w1=/=?w2
--2.491266   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ has_sense(?w2, ?s2) ^ is_a(?s2, knife.n.01) ^ ac_word(Slicing) ^ ?w1=/=?w2
--0.248083   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, coffee.n.01) ^ ac_word(Slicing) ^ ?w1=/=?w2
--0.250107   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, neutralize.v.05) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pyridine.n.01) ^ ac_word(Slicing) ^ ?w1=/=?w2
--0.170438   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ac_word(Slicing) ^ ?w1=/=?w2
--0.191630   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fill.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, jar.n.01) ^ ac_word(Slicing) ^ ?w1=/=?w2
--0.167204   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fill.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, mug.n.04) ^ ac_word(Slicing) ^ ?w1=/=?w2
--0.203411   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.08) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vegetable.n.01) ^ ac_word(Slicing) ^ ?w1=/=?w2
--0.167204   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fill.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, kettle.n.01) ^ ac_word(Slicing) ^ ?w1=/=?w2
--0.200819   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cut.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, lemon.n.01) ^ ac_word(Slicing) ^ ?w1=/=?w2
-2.627879    has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ has_sense(?w2, ?s2) ^ is_a(?s2, lemon.n.01) ^ ac_word(Slicing) ^ ?w1=/=?w2
--0.490296   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, lemon.n.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, lemon.n.01) ^ ac_word(Slicing) ^ ?w1=/=?w2
--0.480702   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, perform.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cut.n.17) ^ ac_word(Slicing) ^ ?w1=/=?w2
--0.335167   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, make.v.16) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cut.n.17) ^ ac_word(Slicing) ^ ?w1=/=?w2
--0.203411   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.08) ^ has_sense(?w2, ?s2) ^ is_a(?s2, peanut.n.04) ^ ac_word(Slicing) ^ ?w1=/=?w2
--0.161094   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, sugar.n.01) ^ ac_word(Slicing) ^ ?w1=/=?w2
--0.200819   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cut.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, mushroom.n.05) ^ ac_word(Filling) ^ ?w1=/=?w2
--0.161475   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ has_sense(?w2, ?s2) ^ is_a(?s2, mushroom.n.05) ^ ac_word(Filling) ^ ?w1=/=?w2
--0.161094   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, chicken.n.01) ^ ac_word(Filling) ^ ?w1=/=?w2
--0.249678   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, neutralize.v.05) ^ has_sense(?w2, ?s2) ^ is_a(?s2, dibasic_acid.n.01) ^ ac_word(Filling) ^ ?w1=/=?w2
--0.203411   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.08) ^ has_sense(?w2, ?s2) ^ is_a(?s2, apple.n.01) ^ ac_word(Filling) ^ ?w1=/=?w2
--0.248083   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, coca_cola.n.01) ^ ac_word(Filling) ^ ?w1=/=?w2
--0.248083   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, milk.n.01) ^ ac_word(Filling) ^ ?w1=/=?w2
--2.389756   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fill.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, milk.n.01) ^ ac_word(Filling) ^ ?w1=/=?w2
--0.249100   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, neutralize.v.05) ^ has_sense(?w2, ?s2) ^ is_a(?s2, purine.n.01) ^ ac_word(Filling) ^ ?w1=/=?w2
--0.327586   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, milk.n.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pitcher.n.02) ^ ac_word(Filling) ^ ?w1=/=?w2
--0.327586   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, pitcher.n.02) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pitcher.n.02) ^ ac_word(Filling) ^ ?w1=/=?w2
-4.753730    has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fill.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pitcher.n.02) ^ ac_word(Filling) ^ ?w1=/=?w2
--0.161094   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, butter.n.01) ^ ac_word(Filling) ^ ?w1=/=?w2
--0.200817   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cut.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bacon.n.01) ^ ac_word(Filling) ^ ?w1=/=?w2
--0.172708   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bacon.n.01) ^ ac_word(Filling) ^ ?w1=/=?w2
--4.269988   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fill.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, fill.v.01) ^ ac_word(Filling) ^ ?w1=/=?w2
--0.170438   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, rib.n.03) ^ ac_word(Filling) ^ ?w1=/=?w2
--0.161475   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ has_sense(?w2, ?s2) ^ is_a(?s2, meat.n.01) ^ ac_word(Filling) ^ ?w1=/=?w2
--0.480713   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, perform.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, neutralization.n.01) ^ ac_word(Filling) ^ ?w1=/=?w2
--0.487567   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, make.v.16) ^ has_sense(?w2, ?s2) ^ is_a(?s2, neutralization.n.01) ^ ac_word(Filling) ^ ?w1=/=?w2
--0.169238   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cut.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cabbage.n.01) ^ ac_word(Filling) ^ ?w1=/=?w2
--0.172708   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cabbage.n.01) ^ ac_word(Filling) ^ ?w1=/=?w2
--0.203411   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.08) ^ has_sense(?w2, ?s2) ^ is_a(?s2, banana.n.02) ^ ac_word(Filling) ^ ?w1=/=?w2
--0.248083   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, coffee.n.01) ^ ac_word(Filling) ^ ?w1=/=?w2
--2.389756   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fill.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, foam.n.01) ^ ac_word(Filling) ^ ?w1=/=?w2
--0.250107   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, neutralize.v.05) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pyridine.n.01) ^ ac_word(Filling) ^ ?w1=/=?w2
--0.170438   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ac_word(Filling) ^ ?w1=/=?w2
-3.114365    has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fill.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, jar.n.01) ^ ac_word(Filling) ^ ?w1=/=?w2
--0.504563   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, jar.n.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, jar.n.01) ^ ac_word(Filling) ^ ?w1=/=?w2
-4.753730    has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fill.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, mug.n.04) ^ ac_word(Filling) ^ ?w1=/=?w2
--0.327586   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, foam.n.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, mug.n.04) ^ ac_word(Filling) ^ ?w1=/=?w2
--0.327586   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, mug.n.04) ^ has_sense(?w2, ?s2) ^ is_a(?s2, mug.n.04) ^ ac_word(Filling) ^ ?w1=/=?w2
--0.203411   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.08) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vegetable.n.01) ^ ac_word(Filling) ^ ?w1=/=?w2
--2.389756   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fill.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, water.n.06) ^ ac_word(Filling) ^ ?w1=/=?w2
-4.753730    has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fill.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, kettle.n.01) ^ ac_word(Filling) ^ ?w1=/=?w2
--0.327586   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, water.n.06) ^ has_sense(?w2, ?s2) ^ is_a(?s2, kettle.n.01) ^ ac_word(Filling) ^ ?w1=/=?w2
--0.327586   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, kettle.n.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, kettle.n.01) ^ ac_word(Filling) ^ ?w1=/=?w2
--0.200819   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cut.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, lemon.n.01) ^ ac_word(Filling) ^ ?w1=/=?w2
--0.172708   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ has_sense(?w2, ?s2) ^ is_a(?s2, lemon.n.01) ^ ac_word(Filling) ^ ?w1=/=?w2
--0.480702   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, perform.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cut.n.17) ^ ac_word(Filling) ^ ?w1=/=?w2
--0.335167   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, make.v.16) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cut.n.17) ^ ac_word(Filling) ^ ?w1=/=?w2
--0.203411   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.08) ^ has_sense(?w2, ?s2) ^ is_a(?s2, peanut.n.04) ^ ac_word(Filling) ^ ?w1=/=?w2
--0.161094   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, sugar.n.01) ^ ac_word(Filling) ^ ?w1=/=?w2
--0.503267   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, mushroom.n.05) ^ has_sense(?w2, ?s2) ^ is_a(?s2, mushroom.n.05) ^ ac_word(Cutting) ^ ?w1=/=?w2
-2.888802    has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cut.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, mushroom.n.05) ^ ac_word(Cutting) ^ ?w1=/=?w2
--0.161475   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ has_sense(?w2, ?s2) ^ is_a(?s2, mushroom.n.05) ^ ac_word(Cutting) ^ ?w1=/=?w2
--0.685971   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, make.v.16) ^ has_sense(?w2, ?s2) ^ is_a(?s2, mushroom.n.05) ^ ac_word(Cutting) ^ ?w1=/=?w2
--0.161094   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, chicken.n.01) ^ ac_word(Cutting) ^ ?w1=/=?w2
--0.249678   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, neutralize.v.05) ^ has_sense(?w2, ?s2) ^ is_a(?s2, dibasic_acid.n.01) ^ ac_word(Cutting) ^ ?w1=/=?w2
--0.203411   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.08) ^ has_sense(?w2, ?s2) ^ is_a(?s2, apple.n.01) ^ ac_word(Cutting) ^ ?w1=/=?w2
--0.544355   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, perform.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, apple.n.01) ^ ac_word(Cutting) ^ ?w1=/=?w2
--0.248083   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, coca_cola.n.01) ^ ac_word(Cutting) ^ ?w1=/=?w2
--0.248083   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, milk.n.01) ^ ac_word(Cutting) ^ ?w1=/=?w2
--0.249100   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, neutralize.v.05) ^ has_sense(?w2, ?s2) ^ is_a(?s2, purine.n.01) ^ ac_word(Cutting) ^ ?w1=/=?w2
--4.866392   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cut.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cut.v.01) ^ ac_word(Cutting) ^ ?w1=/=?w2
--1.287393   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, perform.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, perform.v.01) ^ ac_word(Cutting) ^ ?w1=/=?w2
--0.167204   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fill.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pitcher.n.02) ^ ac_word(Cutting) ^ ?w1=/=?w2
--0.161094   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, butter.n.01) ^ ac_word(Cutting) ^ ?w1=/=?w2
-2.888925    has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cut.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bacon.n.01) ^ ac_word(Cutting) ^ ?w1=/=?w2
--0.544355   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, perform.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bacon.n.01) ^ ac_word(Cutting) ^ ?w1=/=?w2
--0.503423   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, bacon.n.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bacon.n.01) ^ ac_word(Cutting) ^ ?w1=/=?w2
--0.172708   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bacon.n.01) ^ ac_word(Cutting) ^ ?w1=/=?w2
--0.170438   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, rib.n.03) ^ ac_word(Cutting) ^ ?w1=/=?w2
--0.544355   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, perform.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, meat.n.01) ^ ac_word(Cutting) ^ ?w1=/=?w2
--0.161475   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ has_sense(?w2, ?s2) ^ is_a(?s2, meat.n.01) ^ ac_word(Cutting) ^ ?w1=/=?w2
--0.980275   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, perform.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, neutralization.n.01) ^ ac_word(Cutting) ^ ?w1=/=?w2
--1.412132   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, make.v.16) ^ has_sense(?w2, ?s2) ^ is_a(?s2, neutralization.n.01) ^ ac_word(Cutting) ^ ?w1=/=?w2
-4.666711    has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cut.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cabbage.n.01) ^ ac_word(Cutting) ^ ?w1=/=?w2
--0.172708   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cabbage.n.01) ^ ac_word(Cutting) ^ ?w1=/=?w2
--0.330328   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cabbage.n.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cabbage.n.01) ^ ac_word(Cutting) ^ ?w1=/=?w2
--0.330328   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cabbage.n.01) ^ ac_word(Cutting) ^ ?w1=/=?w2
--0.203411   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.08) ^ has_sense(?w2, ?s2) ^ is_a(?s2, banana.n.02) ^ ac_word(Cutting) ^ ?w1=/=?w2
--2.437768   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cut.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, knife.n.01) ^ ac_word(Cutting) ^ ?w1=/=?w2
--1.137720   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, make.v.16) ^ has_sense(?w2, ?s2) ^ is_a(?s2, make.v.16) ^ ac_word(Cutting) ^ ?w1=/=?w2
--0.248083   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, coffee.n.01) ^ ac_word(Cutting) ^ ?w1=/=?w2
--0.250107   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, neutralize.v.05) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pyridine.n.01) ^ ac_word(Cutting) ^ ?w1=/=?w2
--0.170438   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ac_word(Cutting) ^ ?w1=/=?w2
--0.191630   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fill.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, jar.n.01) ^ ac_word(Cutting) ^ ?w1=/=?w2
--0.167204   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fill.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, mug.n.04) ^ ac_word(Cutting) ^ ?w1=/=?w2
--0.203411   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.08) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vegetable.n.01) ^ ac_word(Cutting) ^ ?w1=/=?w2
--0.167204   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fill.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, kettle.n.01) ^ ac_word(Cutting) ^ ?w1=/=?w2
-2.888802    has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cut.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, lemon.n.01) ^ ac_word(Cutting) ^ ?w1=/=?w2
--0.172708   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ has_sense(?w2, ?s2) ^ is_a(?s2, lemon.n.01) ^ ac_word(Cutting) ^ ?w1=/=?w2
--0.685971   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, make.v.16) ^ has_sense(?w2, ?s2) ^ is_a(?s2, lemon.n.01) ^ ac_word(Cutting) ^ ?w1=/=?w2
--0.503267   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, lemon.n.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, lemon.n.01) ^ ac_word(Cutting) ^ ?w1=/=?w2
--0.326600   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, mushroom.n.05) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cut.n.17) ^ ac_word(Cutting) ^ ?w1=/=?w2
--0.320895   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, apple.n.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cut.n.17) ^ ac_word(Cutting) ^ ?w1=/=?w2
-7.736350    has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, perform.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cut.n.17) ^ ac_word(Cutting) ^ ?w1=/=?w2
--0.319496   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, bacon.n.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cut.n.17) ^ ac_word(Cutting) ^ ?w1=/=?w2
--0.320895   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, meat.n.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cut.n.17) ^ ac_word(Cutting) ^ ?w1=/=?w2
-7.387142    has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, make.v.16) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cut.n.17) ^ ac_word(Cutting) ^ ?w1=/=?w2
--0.326600   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, lemon.n.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cut.n.17) ^ ac_word(Cutting) ^ ?w1=/=?w2
--1.589727   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cut.n.17) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cut.n.17) ^ ac_word(Cutting) ^ ?w1=/=?w2
--0.203411   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.08) ^ has_sense(?w2, ?s2) ^ is_a(?s2, peanut.n.04) ^ ac_word(Cutting) ^ ?w1=/=?w2
--0.161094   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, sugar.n.01) ^ ac_word(Cutting) ^ ?w1=/=?w2
--0.200819   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cut.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, mushroom.n.05) ^ ac_word(Stirring) ^ ?w1=/=?w2
--0.161475   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ has_sense(?w2, ?s2) ^ is_a(?s2, mushroom.n.05) ^ ac_word(Stirring) ^ ?w1=/=?w2
--0.161094   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, chicken.n.01) ^ ac_word(Stirring) ^ ?w1=/=?w2
--0.249678   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, neutralize.v.05) ^ has_sense(?w2, ?s2) ^ is_a(?s2, dibasic_acid.n.01) ^ ac_word(Stirring) ^ ?w1=/=?w2
--5.099060   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.08) ^ has_sense(?w2, ?s2) ^ is_a(?s2, stir.v.08) ^ ac_word(Stirring) ^ ?w1=/=?w2
-2.808542    has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.08) ^ has_sense(?w2, ?s2) ^ is_a(?s2, apple.n.01) ^ ac_word(Stirring) ^ ?w1=/=?w2
--0.516722   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, apple.n.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, apple.n.01) ^ ac_word(Stirring) ^ ?w1=/=?w2
--4.533248   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, stir.v.01) ^ ac_word(Stirring) ^ ?w1=/=?w2
-3.298755    has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, coca_cola.n.01) ^ ac_word(Stirring) ^ ?w1=/=?w2
--0.547257   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, coca_cola.n.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, coca_cola.n.01) ^ ac_word(Stirring) ^ ?w1=/=?w2
-3.298755    has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, milk.n.01) ^ ac_word(Stirring) ^ ?w1=/=?w2
--0.547257   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, milk.n.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, milk.n.01) ^ ac_word(Stirring) ^ ?w1=/=?w2
--0.249100   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, neutralize.v.05) ^ has_sense(?w2, ?s2) ^ is_a(?s2, purine.n.01) ^ ac_word(Stirring) ^ ?w1=/=?w2
--0.167204   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fill.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pitcher.n.02) ^ ac_word(Stirring) ^ ?w1=/=?w2
--0.161094   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, butter.n.01) ^ ac_word(Stirring) ^ ?w1=/=?w2
--0.200817   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cut.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bacon.n.01) ^ ac_word(Stirring) ^ ?w1=/=?w2
--0.172708   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bacon.n.01) ^ ac_word(Stirring) ^ ?w1=/=?w2
--0.170438   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, rib.n.03) ^ ac_word(Stirring) ^ ?w1=/=?w2
--0.161475   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ has_sense(?w2, ?s2) ^ is_a(?s2, meat.n.01) ^ ac_word(Stirring) ^ ?w1=/=?w2
--0.480713   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, perform.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, neutralization.n.01) ^ ac_word(Stirring) ^ ?w1=/=?w2
--0.487567   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, make.v.16) ^ has_sense(?w2, ?s2) ^ is_a(?s2, neutralization.n.01) ^ ac_word(Stirring) ^ ?w1=/=?w2
--0.169238   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cut.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cabbage.n.01) ^ ac_word(Stirring) ^ ?w1=/=?w2
--0.172708   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cabbage.n.01) ^ ac_word(Stirring) ^ ?w1=/=?w2
-2.808542    has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.08) ^ has_sense(?w2, ?s2) ^ is_a(?s2, banana.n.02) ^ ac_word(Stirring) ^ ?w1=/=?w2
--0.516722   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, banana.n.02) ^ has_sense(?w2, ?s2) ^ is_a(?s2, banana.n.02) ^ ac_word(Stirring) ^ ?w1=/=?w2
-3.298755    has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, coffee.n.01) ^ ac_word(Stirring) ^ ?w1=/=?w2
--0.547257   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, coffee.n.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, coffee.n.01) ^ ac_word(Stirring) ^ ?w1=/=?w2
--0.250107   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, neutralize.v.05) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pyridine.n.01) ^ ac_word(Stirring) ^ ?w1=/=?w2
--0.170438   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ac_word(Stirring) ^ ?w1=/=?w2
--0.191630   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fill.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, jar.n.01) ^ ac_word(Stirring) ^ ?w1=/=?w2
--0.167204   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fill.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, mug.n.04) ^ ac_word(Stirring) ^ ?w1=/=?w2
-2.808542    has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.08) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vegetable.n.01) ^ ac_word(Stirring) ^ ?w1=/=?w2
--0.516722   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, vegetable.n.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vegetable.n.01) ^ ac_word(Stirring) ^ ?w1=/=?w2
--0.167204   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fill.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, kettle.n.01) ^ ac_word(Stirring) ^ ?w1=/=?w2
--0.200819   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cut.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, lemon.n.01) ^ ac_word(Stirring) ^ ?w1=/=?w2
--0.172708   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ has_sense(?w2, ?s2) ^ is_a(?s2, lemon.n.01) ^ ac_word(Stirring) ^ ?w1=/=?w2
--0.480702   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, perform.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cut.n.17) ^ ac_word(Stirring) ^ ?w1=/=?w2
--0.335167   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, make.v.16) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cut.n.17) ^ ac_word(Stirring) ^ ?w1=/=?w2
-2.808542    has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.08) ^ has_sense(?w2, ?s2) ^ is_a(?s2, peanut.n.04) ^ ac_word(Stirring) ^ ?w1=/=?w2
--0.516722   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, peanut.n.04) ^ has_sense(?w2, ?s2) ^ is_a(?s2, peanut.n.04) ^ ac_word(Stirring) ^ ?w1=/=?w2
--0.161094   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, sugar.n.01) ^ ac_word(Stirring) ^ ?w1=/=?w2
+-0.362509   has_pos(?w1, VB) ^ is_a(?s1, corn.n.02) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Adding)
+-0.362509   has_pos(?w1, VB) ^ is_a(?s1, chicken.n.01) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Adding)
+-0.362509   has_pos(?w1, VB) ^ is_a(?s1, mixing_bowl.n.01) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Adding)
+-1.092898   has_pos(?w1, VB) ^ is_a(?s1, stir.v.08) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Adding)
+-1.088739   has_pos(?w1, VB) ^ is_a(?s1, stir.v.01) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Adding)
+9.743085    has_pos(?w1, VB) ^ is_a(?s1, add.v.01) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Adding)
+-0.362509   has_pos(?w1, VB) ^ is_a(?s1, pan.n.01) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Adding)
+-1.022951   has_pos(?w1, VB) ^ is_a(?s1, cut.v.01) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Adding)
+-1.001350   has_pos(?w1, VB) ^ is_a(?s1, fill.v.01) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Adding)
+-1.022951   has_pos(?w1, VB) ^ is_a(?s1, slice.v.03) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Adding)
+-9.312740   has_pos(?w1, VB) ^ is_a(?s1, perform.v.01) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Adding)
+-0.423186   has_pos(?w1, VB) ^ is_a(?s1, rib.n.03) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Adding)
+-8.814767   has_pos(?w1, VB) ^ is_a(?s1, make.v.16) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Adding)
+-0.423186   has_pos(?w1, VB) ^ is_a(?s1, piece.n.08) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Adding)
+-1.081810   has_pos(?w1, VB) ^ is_a(?s1, neutralize.v.05) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Adding)
+-0.362509   has_pos(?w1, VB) ^ is_a(?s1, butter.n.01) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Adding)
+-0.362509   has_pos(?w1, VB) ^ is_a(?s1, sugar.n.01) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Adding)
+-0.628206   has_pos(?w1, VB) ^ is_a(?s1, dibasic_acid.n.01) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Neutralisation)
+-1.092898   has_pos(?w1, VB) ^ is_a(?s1, stir.v.08) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Neutralisation)
+-1.088739   has_pos(?w1, VB) ^ is_a(?s1, stir.v.01) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Neutralisation)
+-1.014366   has_pos(?w1, VB) ^ is_a(?s1, add.v.01) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Neutralisation)
+-0.628206   has_pos(?w1, VB) ^ is_a(?s1, purine.n.01) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Neutralisation)
+-1.022951   has_pos(?w1, VB) ^ is_a(?s1, cut.v.01) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Neutralisation)
+-1.001350   has_pos(?w1, VB) ^ is_a(?s1, fill.v.01) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Neutralisation)
+-1.022951   has_pos(?w1, VB) ^ is_a(?s1, slice.v.03) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Neutralisation)
+-9.312740   has_pos(?w1, VB) ^ is_a(?s1, perform.v.01) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Neutralisation)
+-8.814767   has_pos(?w1, VB) ^ is_a(?s1, make.v.16) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Neutralisation)
+-0.628206   has_pos(?w1, VB) ^ is_a(?s1, pyridine.n.01) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Neutralisation)
+9.021596    has_pos(?w1, VB) ^ is_a(?s1, neutralize.v.05) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Neutralisation)
+-0.431291   has_pos(?w1, VB) ^ is_a(?s1, mushroom.n.05) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Slicing)
+-1.092898   has_pos(?w1, VB) ^ is_a(?s1, stir.v.08) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Slicing)
+-0.431291   has_pos(?w1, VB) ^ is_a(?s1, knife.n.01) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Slicing)
+-1.088739   has_pos(?w1, VB) ^ is_a(?s1, stir.v.01) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Slicing)
+-1.014366   has_pos(?w1, VB) ^ is_a(?s1, add.v.01) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Slicing)
+-1.022951   has_pos(?w1, VB) ^ is_a(?s1, cut.v.01) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Slicing)
+-0.491828   has_pos(?w1, VB) ^ is_a(?s1, bacon.n.01) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Slicing)
+-1.001350   has_pos(?w1, VB) ^ is_a(?s1, fill.v.01) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Slicing)
+-0.431291   has_pos(?w1, VB) ^ is_a(?s1, meat.n.01) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Slicing)
+-0.431291   has_pos(?w1, VB) ^ is_a(?s1, cleaver.n.01) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Slicing)
+9.480756    has_pos(?w1, VB) ^ is_a(?s1, slice.v.03) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Slicing)
+-0.491828   has_pos(?w1, VB) ^ is_a(?s1, cabbage.n.01) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Slicing)
+-9.312740   has_pos(?w1, VB) ^ is_a(?s1, perform.v.01) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Slicing)
+-8.814767   has_pos(?w1, VB) ^ is_a(?s1, make.v.16) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Slicing)
+-1.081810   has_pos(?w1, VB) ^ is_a(?s1, neutralize.v.05) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Slicing)
+-1.092898   has_pos(?w1, VB) ^ is_a(?s1, stir.v.08) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Filling)
+-1.088739   has_pos(?w1, VB) ^ is_a(?s1, stir.v.01) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Filling)
+-1.014366   has_pos(?w1, VB) ^ is_a(?s1, add.v.01) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Filling)
+-0.421361   has_pos(?w1, VB) ^ is_a(?s1, milk.n.01) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Filling)
+-0.422019   has_pos(?w1, VB) ^ is_a(?s1, pan.n.03) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Filling)
+-1.022951   has_pos(?w1, VB) ^ is_a(?s1, cut.v.01) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Filling)
+9.517016    has_pos(?w1, VB) ^ is_a(?s1, fill.v.01) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Filling)
+-0.421361   has_pos(?w1, VB) ^ is_a(?s1, pitcher.n.02) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Filling)
+-1.022951   has_pos(?w1, VB) ^ is_a(?s1, slice.v.03) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Filling)
+-9.312740   has_pos(?w1, VB) ^ is_a(?s1, perform.v.01) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Filling)
+-8.814767   has_pos(?w1, VB) ^ is_a(?s1, make.v.16) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Filling)
+-1.081810   has_pos(?w1, VB) ^ is_a(?s1, neutralize.v.05) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Filling)
+-0.481887   has_pos(?w1, VB) ^ is_a(?s1, jar.n.01) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Filling)
+-0.734044   has_pos(?w1, VB) ^ is_a(?s1, water.n.06) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Filling)
+-0.422019   has_pos(?w1, VB) ^ is_a(?s1, kettle.n.01) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Filling)
+-0.491828   has_pos(?w1, VB) ^ is_a(?s1, mushroom.n.05) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Cutting)
+-1.092898   has_pos(?w1, VB) ^ is_a(?s1, stir.v.08) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Cutting)
+-0.431291   has_pos(?w1, VB) ^ is_a(?s1, knife.n.01) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Cutting)
+-1.088739   has_pos(?w1, VB) ^ is_a(?s1, stir.v.01) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Cutting)
+-1.014366   has_pos(?w1, VB) ^ is_a(?s1, add.v.01) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Cutting)
+9.480756    has_pos(?w1, VB) ^ is_a(?s1, cut.v.01) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Cutting)
+-0.491828   has_pos(?w1, VB) ^ is_a(?s1, bacon.n.01) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Cutting)
+-1.001350   has_pos(?w1, VB) ^ is_a(?s1, fill.v.01) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Cutting)
+-0.431291   has_pos(?w1, VB) ^ is_a(?s1, meat.n.01) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Cutting)
+-0.431291   has_pos(?w1, VB) ^ is_a(?s1, cleaver.n.01) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Cutting)
+-1.022951   has_pos(?w1, VB) ^ is_a(?s1, slice.v.03) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Cutting)
+-0.431291   has_pos(?w1, VB) ^ is_a(?s1, cabbage.n.01) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Cutting)
+-9.312740   has_pos(?w1, VB) ^ is_a(?s1, perform.v.01) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Cutting)
+-8.814767   has_pos(?w1, VB) ^ is_a(?s1, make.v.16) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Cutting)
+-1.081810   has_pos(?w1, VB) ^ is_a(?s1, neutralize.v.05) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Cutting)
+9.584514    has_pos(?w1, VB) ^ is_a(?s1, stir.v.08) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Stirring)
+-0.453382   has_pos(?w1, VB) ^ is_a(?s1, apple.n.01) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Stirring)
+9.347100    has_pos(?w1, VB) ^ is_a(?s1, stir.v.01) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Stirring)
+-0.521665   has_pos(?w1, VB) ^ is_a(?s1, coca_cola.n.01) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Stirring)
+-1.014366   has_pos(?w1, VB) ^ is_a(?s1, add.v.01) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Stirring)
+-0.521665   has_pos(?w1, VB) ^ is_a(?s1, milk.n.01) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Stirring)
+-1.022951   has_pos(?w1, VB) ^ is_a(?s1, cut.v.01) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Stirring)
+-0.453382   has_pos(?w1, VB) ^ is_a(?s1, banana.n.02) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Stirring)
+-0.453382   has_pos(?w1, VB) ^ is_a(?s1, tomato.n.01) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Stirring)
+-1.001350   has_pos(?w1, VB) ^ is_a(?s1, fill.v.01) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Stirring)
+-1.022951   has_pos(?w1, VB) ^ is_a(?s1, slice.v.03) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Stirring)
+-9.312740   has_pos(?w1, VB) ^ is_a(?s1, perform.v.01) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Stirring)
+-0.521665   has_pos(?w1, VB) ^ is_a(?s1, coffee.n.01) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Stirring)
+-8.814767   has_pos(?w1, VB) ^ is_a(?s1, make.v.16) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Stirring)
+-1.081810   has_pos(?w1, VB) ^ is_a(?s1, neutralize.v.05) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Stirring)
+-0.453382   has_pos(?w1, VB) ^ is_a(?s1, vegetable.n.01) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Stirring)
+-0.521665   has_pos(?w1, VB) ^ is_a(?s1, water.n.06) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Stirring)
+-0.453382   has_pos(?w1, VB) ^ is_a(?s1, peanut.n.04) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Stirring)
+11.609118   has_pos(?w2, NN) ^ !dobj(?w1, ?w2) ^ !action_core(?w2, Adding)
+5.224989    has_pos(?w2, NN) ^ !dobj(?w1, ?w2) ^ !action_core(?w2, Neutralisation)
+5.372619    has_pos(?w2, NN) ^ !dobj(?w1, ?w2) ^ !action_core(?w2, Slicing)
+4.174424    has_pos(?w2, NN) ^ !dobj(?w1, ?w2) ^ !action_core(?w2, Filling)
+5.226398    has_pos(?w2, NN) ^ !dobj(?w1, ?w2) ^ !action_core(?w2, Cutting)
+11.609118   has_pos(?w2, NN) ^ !dobj(?w1, ?w2) ^ !action_core(?w2, Stirring)
+-0.065213   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cut.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, mushroom.n.05) ^ action_core(?w2, Adding) ^ ?w1=/=?w2
+-0.061361   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ has_sense(?w2, ?s2) ^ is_a(?s2, mushroom.n.05) ^ action_core(?w2, Adding) ^ ?w1=/=?w2
+-0.061361   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, chicken.n.01) ^ action_core(?w2, Adding) ^ ?w1=/=?w2
+-0.065213   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, neutralize.v.05) ^ has_sense(?w2, ?s2) ^ is_a(?s2, dibasic_acid.n.01) ^ action_core(?w2, Adding) ^ ?w1=/=?w2
+-0.065213   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.08) ^ has_sense(?w2, ?s2) ^ is_a(?s2, apple.n.01) ^ action_core(?w2, Adding) ^ ?w1=/=?w2
+-0.065213   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, coca_cola.n.01) ^ action_core(?w2, Adding) ^ ?w1=/=?w2
+-0.065213   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, milk.n.01) ^ action_core(?w2, Adding) ^ ?w1=/=?w2
+-0.065213   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, neutralize.v.05) ^ has_sense(?w2, ?s2) ^ is_a(?s2, purine.n.01) ^ action_core(?w2, Adding) ^ ?w1=/=?w2
+-0.061361   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fill.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pan.n.03) ^ action_core(?w2, Adding) ^ ?w1=/=?w2
+-0.065213   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.08) ^ has_sense(?w2, ?s2) ^ is_a(?s2, banana.n.02) ^ action_core(?w2, Adding) ^ ?w1=/=?w2
+-0.065213   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.08) ^ has_sense(?w2, ?s2) ^ is_a(?s2, tomato.n.01) ^ action_core(?w2, Adding) ^ ?w1=/=?w2
+-0.065213   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cut.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bacon.n.01) ^ action_core(?w2, Adding) ^ ?w1=/=?w2
+-0.065213   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bacon.n.01) ^ action_core(?w2, Adding) ^ ?w1=/=?w2
+-0.061361   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fill.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pitcher.n.02) ^ action_core(?w2, Adding) ^ ?w1=/=?w2
+-0.061361   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cut.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, meat.n.01) ^ action_core(?w2, Adding) ^ ?w1=/=?w2
+-0.061361   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ has_sense(?w2, ?s2) ^ is_a(?s2, meat.n.01) ^ action_core(?w2, Adding) ^ ?w1=/=?w2
+-0.122723   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, perform.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, neutralization.n.01) ^ action_core(?w2, Adding) ^ ?w1=/=?w2
+-0.184084   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, make.v.16) ^ has_sense(?w2, ?s2) ^ is_a(?s2, neutralization.n.01) ^ action_core(?w2, Adding) ^ ?w1=/=?w2
+-0.184084   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, perform.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, filling.n.06) ^ action_core(?w2, Adding) ^ ?w1=/=?w2
+-0.122723   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, make.v.16) ^ has_sense(?w2, ?s2) ^ is_a(?s2, filling.n.06) ^ action_core(?w2, Adding) ^ ?w1=/=?w2
+-0.061361   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cut.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cabbage.n.01) ^ action_core(?w2, Adding) ^ ?w1=/=?w2
+-0.065213   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cabbage.n.01) ^ action_core(?w2, Adding) ^ ?w1=/=?w2
+-0.184084   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, perform.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slicing.n.02) ^ action_core(?w2, Adding) ^ ?w1=/=?w2
+-0.061361   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, make.v.16) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slicing.n.02) ^ action_core(?w2, Adding) ^ ?w1=/=?w2
+-0.065213   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, rib.n.03) ^ action_core(?w2, Adding) ^ ?w1=/=?w2
+-0.065213   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, coffee.n.01) ^ action_core(?w2, Adding) ^ ?w1=/=?w2
+-0.065213   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, neutralize.v.05) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pyridine.n.01) ^ action_core(?w2, Adding) ^ ?w1=/=?w2
+-0.065213   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ action_core(?w2, Adding) ^ ?w1=/=?w2
+-0.065213   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fill.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, jar.n.01) ^ action_core(?w2, Adding) ^ ?w1=/=?w2
+-0.065213   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.08) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vegetable.n.01) ^ action_core(?w2, Adding) ^ ?w1=/=?w2
+-0.065213   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, water.n.06) ^ action_core(?w2, Adding) ^ ?w1=/=?w2
+-0.061361   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fill.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, kettle.n.01) ^ action_core(?w2, Adding) ^ ?w1=/=?w2
+-0.184084   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, perform.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cut.n.17) ^ action_core(?w2, Adding) ^ ?w1=/=?w2
+-0.122723   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, make.v.16) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cut.n.17) ^ action_core(?w2, Adding) ^ ?w1=/=?w2
+-0.065213   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.08) ^ has_sense(?w2, ?s2) ^ is_a(?s2, peanut.n.04) ^ action_core(?w2, Adding) ^ ?w1=/=?w2
+-0.061361   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, butter.n.01) ^ action_core(?w2, Adding) ^ ?w1=/=?w2
+-0.061361   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, sugar.n.01) ^ action_core(?w2, Adding) ^ ?w1=/=?w2
+-2.421913   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cut.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, mushroom.n.05) ^ action_core(?w2, Neutralisation) ^ ?w1=/=?w2
+-0.332745   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ has_sense(?w2, ?s2) ^ is_a(?s2, mushroom.n.05) ^ action_core(?w2, Neutralisation) ^ ?w1=/=?w2
+-0.332745   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, chicken.n.01) ^ action_core(?w2, Neutralisation) ^ ?w1=/=?w2
+-0.323203   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, perform.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, dibasic_acid.n.01) ^ action_core(?w2, Neutralisation) ^ ?w1=/=?w2
+-2.421913   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, neutralize.v.05) ^ has_sense(?w2, ?s2) ^ is_a(?s2, dibasic_acid.n.01) ^ action_core(?w2, Neutralisation) ^ ?w1=/=?w2
+-2.421913   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.08) ^ has_sense(?w2, ?s2) ^ is_a(?s2, apple.n.01) ^ action_core(?w2, Neutralisation) ^ ?w1=/=?w2
+-2.421913   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, coca_cola.n.01) ^ action_core(?w2, Neutralisation) ^ ?w1=/=?w2
+-2.421913   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, milk.n.01) ^ action_core(?w2, Neutralisation) ^ ?w1=/=?w2
+-2.421913   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, neutralize.v.05) ^ has_sense(?w2, ?s2) ^ is_a(?s2, purine.n.01) ^ action_core(?w2, Neutralisation) ^ ?w1=/=?w2
+-0.332745   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fill.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pan.n.03) ^ action_core(?w2, Neutralisation) ^ ?w1=/=?w2
+-2.421913   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.08) ^ has_sense(?w2, ?s2) ^ is_a(?s2, banana.n.02) ^ action_core(?w2, Neutralisation) ^ ?w1=/=?w2
+-2.421913   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.08) ^ has_sense(?w2, ?s2) ^ is_a(?s2, tomato.n.01) ^ action_core(?w2, Neutralisation) ^ ?w1=/=?w2
+-2.421913   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cut.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bacon.n.01) ^ action_core(?w2, Neutralisation) ^ ?w1=/=?w2
+-2.421913   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bacon.n.01) ^ action_core(?w2, Neutralisation) ^ ?w1=/=?w2
+-0.332745   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fill.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pitcher.n.02) ^ action_core(?w2, Neutralisation) ^ ?w1=/=?w2
+-0.332745   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cut.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, meat.n.01) ^ action_core(?w2, Neutralisation) ^ ?w1=/=?w2
+-0.332745   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ has_sense(?w2, ?s2) ^ is_a(?s2, meat.n.01) ^ action_core(?w2, Neutralisation) ^ ?w1=/=?w2
+-0.326306   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, dibasic_acid.n.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, neutralization.n.01) ^ action_core(?w2, Neutralisation) ^ ?w1=/=?w2
+-1.050769   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, neutralization.n.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, neutralization.n.01) ^ action_core(?w2, Neutralisation) ^ ?w1=/=?w2
+-0.217311   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, lysergic_acid.n.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, neutralization.n.01) ^ action_core(?w2, Neutralisation) ^ ?w1=/=?w2
+17.086993   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, perform.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, neutralization.n.01) ^ action_core(?w2, Neutralisation) ^ ?w1=/=?w2
+17.866142   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, make.v.16) ^ has_sense(?w2, ?s2) ^ is_a(?s2, neutralization.n.01) ^ action_core(?w2, Neutralisation) ^ ?w1=/=?w2
+-0.217311   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, pyridine.n.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, neutralization.n.01) ^ action_core(?w2, Neutralisation) ^ ?w1=/=?w2
+-0.509187   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, hydrocyanic_acid.n.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, neutralization.n.01) ^ action_core(?w2, Neutralisation) ^ ?w1=/=?w2
+-0.216649   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, make.v.16) ^ has_sense(?w2, ?s2) ^ is_a(?s2, lysergic_acid.n.01) ^ action_core(?w2, Neutralisation) ^ ?w1=/=?w2
+-0.205164   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, perform.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, filling.n.06) ^ action_core(?w2, Neutralisation) ^ ?w1=/=?w2
+-0.188610   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, make.v.16) ^ has_sense(?w2, ?s2) ^ is_a(?s2, filling.n.06) ^ action_core(?w2, Neutralisation) ^ ?w1=/=?w2
+-0.332745   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cut.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cabbage.n.01) ^ action_core(?w2, Neutralisation) ^ ?w1=/=?w2
+-2.421913   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cabbage.n.01) ^ action_core(?w2, Neutralisation) ^ ?w1=/=?w2
+-0.269865   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, perform.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slicing.n.02) ^ action_core(?w2, Neutralisation) ^ ?w1=/=?w2
+-0.211246   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, make.v.16) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slicing.n.02) ^ action_core(?w2, Neutralisation) ^ ?w1=/=?w2
+-0.590089   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, perform.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, perform.v.01) ^ action_core(?w2, Neutralisation) ^ ?w1=/=?w2
+-2.421913   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, rib.n.03) ^ action_core(?w2, Neutralisation) ^ ?w1=/=?w2
+-2.421913   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, coffee.n.01) ^ action_core(?w2, Neutralisation) ^ ?w1=/=?w2
+-0.597833   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, make.v.16) ^ has_sense(?w2, ?s2) ^ is_a(?s2, make.v.16) ^ action_core(?w2, Neutralisation) ^ ?w1=/=?w2
+-0.216649   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, make.v.16) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pyridine.n.01) ^ action_core(?w2, Neutralisation) ^ ?w1=/=?w2
+-2.421913   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, neutralize.v.05) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pyridine.n.01) ^ action_core(?w2, Neutralisation) ^ ?w1=/=?w2
+-2.421913   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ action_core(?w2, Neutralisation) ^ ?w1=/=?w2
+-2.421913   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fill.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, jar.n.01) ^ action_core(?w2, Neutralisation) ^ ?w1=/=?w2
+-2.421913   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.08) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vegetable.n.01) ^ action_core(?w2, Neutralisation) ^ ?w1=/=?w2
+-0.323203   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, perform.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, hydrocyanic_acid.n.01) ^ action_core(?w2, Neutralisation) ^ ?w1=/=?w2
+-0.216649   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, make.v.16) ^ has_sense(?w2, ?s2) ^ is_a(?s2, hydrocyanic_acid.n.01) ^ action_core(?w2, Neutralisation) ^ ?w1=/=?w2
+-2.421913   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, water.n.06) ^ action_core(?w2, Neutralisation) ^ ?w1=/=?w2
+-0.332745   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fill.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, kettle.n.01) ^ action_core(?w2, Neutralisation) ^ ?w1=/=?w2
+-0.255450   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, perform.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cut.n.17) ^ action_core(?w2, Neutralisation) ^ ?w1=/=?w2
+-0.260682   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, make.v.16) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cut.n.17) ^ action_core(?w2, Neutralisation) ^ ?w1=/=?w2
+-2.421913   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.08) ^ has_sense(?w2, ?s2) ^ is_a(?s2, peanut.n.04) ^ action_core(?w2, Neutralisation) ^ ?w1=/=?w2
+-0.332745   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, butter.n.01) ^ action_core(?w2, Neutralisation) ^ ?w1=/=?w2
+-0.332745   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, sugar.n.01) ^ action_core(?w2, Neutralisation) ^ ?w1=/=?w2
+-2.400039   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cut.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, mushroom.n.05) ^ action_core(?w2, Slicing) ^ ?w1=/=?w2
+-0.342394   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ has_sense(?w2, ?s2) ^ is_a(?s2, mushroom.n.05) ^ action_core(?w2, Slicing) ^ ?w1=/=?w2
+-0.342394   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, chicken.n.01) ^ action_core(?w2, Slicing) ^ ?w1=/=?w2
+-2.400039   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, neutralize.v.05) ^ has_sense(?w2, ?s2) ^ is_a(?s2, dibasic_acid.n.01) ^ action_core(?w2, Slicing) ^ ?w1=/=?w2
+-2.400039   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.08) ^ has_sense(?w2, ?s2) ^ is_a(?s2, apple.n.01) ^ action_core(?w2, Slicing) ^ ?w1=/=?w2
+-0.205568   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, perform.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, apple.n.01) ^ action_core(?w2, Slicing) ^ ?w1=/=?w2
+-2.400039   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, coca_cola.n.01) ^ action_core(?w2, Slicing) ^ ?w1=/=?w2
+-2.400039   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, milk.n.01) ^ action_core(?w2, Slicing) ^ ?w1=/=?w2
+-2.400039   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, neutralize.v.05) ^ has_sense(?w2, ?s2) ^ is_a(?s2, purine.n.01) ^ action_core(?w2, Slicing) ^ ?w1=/=?w2
+-0.342394   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fill.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pan.n.03) ^ action_core(?w2, Slicing) ^ ?w1=/=?w2
+-2.400039   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.08) ^ has_sense(?w2, ?s2) ^ is_a(?s2, banana.n.02) ^ action_core(?w2, Slicing) ^ ?w1=/=?w2
+-2.400039   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.08) ^ has_sense(?w2, ?s2) ^ is_a(?s2, tomato.n.01) ^ action_core(?w2, Slicing) ^ ?w1=/=?w2
+-2.400039   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cut.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bacon.n.01) ^ action_core(?w2, Slicing) ^ ?w1=/=?w2
+-2.400039   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bacon.n.01) ^ action_core(?w2, Slicing) ^ ?w1=/=?w2
+-0.205568   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, perform.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bacon.n.01) ^ action_core(?w2, Slicing) ^ ?w1=/=?w2
+-0.342394   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fill.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pitcher.n.02) ^ action_core(?w2, Slicing) ^ ?w1=/=?w2
+-0.342394   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cut.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, meat.n.01) ^ action_core(?w2, Slicing) ^ ?w1=/=?w2
+-0.342394   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ has_sense(?w2, ?s2) ^ is_a(?s2, meat.n.01) ^ action_core(?w2, Slicing) ^ ?w1=/=?w2
+-0.205568   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, perform.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, meat.n.01) ^ action_core(?w2, Slicing) ^ ?w1=/=?w2
+-0.261254   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, perform.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, neutralization.n.01) ^ action_core(?w2, Slicing) ^ ?w1=/=?w2
+-0.257169   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, make.v.16) ^ has_sense(?w2, ?s2) ^ is_a(?s2, neutralization.n.01) ^ action_core(?w2, Slicing) ^ ?w1=/=?w2
+-0.205233   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, perform.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, filling.n.06) ^ action_core(?w2, Slicing) ^ ?w1=/=?w2
+-0.186454   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, make.v.16) ^ has_sense(?w2, ?s2) ^ is_a(?s2, filling.n.06) ^ action_core(?w2, Slicing) ^ ?w1=/=?w2
+-0.342394   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cut.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cabbage.n.01) ^ action_core(?w2, Slicing) ^ ?w1=/=?w2
+-2.400039   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cabbage.n.01) ^ action_core(?w2, Slicing) ^ ?w1=/=?w2
+-0.205913   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, apple.n.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slicing.n.02) ^ action_core(?w2, Slicing) ^ ?w1=/=?w2
+-0.205913   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, bacon.n.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slicing.n.02) ^ action_core(?w2, Slicing) ^ ?w1=/=?w2
+-0.205913   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, meat.n.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slicing.n.02) ^ action_core(?w2, Slicing) ^ ?w1=/=?w2
+-1.061123   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slicing.n.02) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slicing.n.02) ^ action_core(?w2, Slicing) ^ ?w1=/=?w2
+18.243683   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, perform.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slicing.n.02) ^ action_core(?w2, Slicing) ^ ?w1=/=?w2
+16.828738   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, make.v.16) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slicing.n.02) ^ action_core(?w2, Slicing) ^ ?w1=/=?w2
+-0.720243   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, lemon.n.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slicing.n.02) ^ action_core(?w2, Slicing) ^ ?w1=/=?w2
+-0.575038   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, perform.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, perform.v.01) ^ action_core(?w2, Slicing) ^ ?w1=/=?w2
+-2.400039   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, rib.n.03) ^ action_core(?w2, Slicing) ^ ?w1=/=?w2
+-2.400039   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, coffee.n.01) ^ action_core(?w2, Slicing) ^ ?w1=/=?w2
+-0.705775   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, make.v.16) ^ has_sense(?w2, ?s2) ^ is_a(?s2, make.v.16) ^ action_core(?w2, Slicing) ^ ?w1=/=?w2
+-2.400039   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, neutralize.v.05) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pyridine.n.01) ^ action_core(?w2, Slicing) ^ ?w1=/=?w2
+-2.400039   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ action_core(?w2, Slicing) ^ ?w1=/=?w2
+-2.400039   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fill.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, jar.n.01) ^ action_core(?w2, Slicing) ^ ?w1=/=?w2
+-2.400039   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.08) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vegetable.n.01) ^ action_core(?w2, Slicing) ^ ?w1=/=?w2
+-2.400039   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, water.n.06) ^ action_core(?w2, Slicing) ^ ?w1=/=?w2
+-0.342394   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fill.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, kettle.n.01) ^ action_core(?w2, Slicing) ^ ?w1=/=?w2
+-0.705775   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, make.v.16) ^ has_sense(?w2, ?s2) ^ is_a(?s2, lemon.n.01) ^ action_core(?w2, Slicing) ^ ?w1=/=?w2
+-0.256903   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, perform.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cut.n.17) ^ action_core(?w2, Slicing) ^ ?w1=/=?w2
+-0.260784   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, make.v.16) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cut.n.17) ^ action_core(?w2, Slicing) ^ ?w1=/=?w2
+-2.400039   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.08) ^ has_sense(?w2, ?s2) ^ is_a(?s2, peanut.n.04) ^ action_core(?w2, Slicing) ^ ?w1=/=?w2
+-0.342394   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, butter.n.01) ^ action_core(?w2, Slicing) ^ ?w1=/=?w2
+-0.342394   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, sugar.n.01) ^ action_core(?w2, Slicing) ^ ?w1=/=?w2
+-3.251625   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cut.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, mushroom.n.05) ^ action_core(?w2, Filling) ^ ?w1=/=?w2
+-0.747635   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ has_sense(?w2, ?s2) ^ is_a(?s2, mushroom.n.05) ^ action_core(?w2, Filling) ^ ?w1=/=?w2
+-0.747635   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, chicken.n.01) ^ action_core(?w2, Filling) ^ ?w1=/=?w2
+-3.251625   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, neutralize.v.05) ^ has_sense(?w2, ?s2) ^ is_a(?s2, dibasic_acid.n.01) ^ action_core(?w2, Filling) ^ ?w1=/=?w2
+-3.251625   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.08) ^ has_sense(?w2, ?s2) ^ is_a(?s2, apple.n.01) ^ action_core(?w2, Filling) ^ ?w1=/=?w2
+-3.251625   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, coca_cola.n.01) ^ action_core(?w2, Filling) ^ ?w1=/=?w2
+-3.251625   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, milk.n.01) ^ action_core(?w2, Filling) ^ ?w1=/=?w2
+-0.167613   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, perform.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, milk.n.01) ^ action_core(?w2, Filling) ^ ?w1=/=?w2
+-3.251625   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, neutralize.v.05) ^ has_sense(?w2, ?s2) ^ is_a(?s2, purine.n.01) ^ action_core(?w2, Filling) ^ ?w1=/=?w2
+-0.747635   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fill.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pan.n.03) ^ action_core(?w2, Filling) ^ ?w1=/=?w2
+-0.167613   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, perform.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pan.n.03) ^ action_core(?w2, Filling) ^ ?w1=/=?w2
+-3.251625   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.08) ^ has_sense(?w2, ?s2) ^ is_a(?s2, banana.n.02) ^ action_core(?w2, Filling) ^ ?w1=/=?w2
+-3.251625   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.08) ^ has_sense(?w2, ?s2) ^ is_a(?s2, tomato.n.01) ^ action_core(?w2, Filling) ^ ?w1=/=?w2
+-3.251625   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cut.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bacon.n.01) ^ action_core(?w2, Filling) ^ ?w1=/=?w2
+-3.251625   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bacon.n.01) ^ action_core(?w2, Filling) ^ ?w1=/=?w2
+-0.747635   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fill.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pitcher.n.02) ^ action_core(?w2, Filling) ^ ?w1=/=?w2
+-0.167613   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, perform.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pitcher.n.02) ^ action_core(?w2, Filling) ^ ?w1=/=?w2
+-0.747635   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cut.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, meat.n.01) ^ action_core(?w2, Filling) ^ ?w1=/=?w2
+-0.747635   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ has_sense(?w2, ?s2) ^ is_a(?s2, meat.n.01) ^ action_core(?w2, Filling) ^ ?w1=/=?w2
+-0.414124   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, perform.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, neutralization.n.01) ^ action_core(?w2, Filling) ^ ?w1=/=?w2
+-0.389432   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, make.v.16) ^ has_sense(?w2, ?s2) ^ is_a(?s2, neutralization.n.01) ^ action_core(?w2, Filling) ^ ?w1=/=?w2
+-0.168034   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, milk.n.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, filling.n.06) ^ action_core(?w2, Filling) ^ ?w1=/=?w2
+-0.168263   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, pan.n.03) ^ has_sense(?w2, ?s2) ^ is_a(?s2, filling.n.06) ^ action_core(?w2, Filling) ^ ?w1=/=?w2
+-0.168034   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, pitcher.n.02) ^ has_sense(?w2, ?s2) ^ is_a(?s2, filling.n.06) ^ action_core(?w2, Filling) ^ ?w1=/=?w2
+-0.905366   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, filling.n.06) ^ has_sense(?w2, ?s2) ^ is_a(?s2, filling.n.06) ^ action_core(?w2, Filling) ^ ?w1=/=?w2
+19.897641   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, perform.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, filling.n.06) ^ action_core(?w2, Filling) ^ ?w1=/=?w2
+18.486227   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, make.v.16) ^ has_sense(?w2, ?s2) ^ is_a(?s2, filling.n.06) ^ action_core(?w2, Filling) ^ ?w1=/=?w2
+-0.168034   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, foam.n.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, filling.n.06) ^ action_core(?w2, Filling) ^ ?w1=/=?w2
+-0.319729   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, jar.n.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, filling.n.06) ^ action_core(?w2, Filling) ^ ?w1=/=?w2
+-0.168034   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, mug.n.04) ^ has_sense(?w2, ?s2) ^ is_a(?s2, filling.n.06) ^ action_core(?w2, Filling) ^ ?w1=/=?w2
+-0.421611   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, water.n.06) ^ has_sense(?w2, ?s2) ^ is_a(?s2, filling.n.06) ^ action_core(?w2, Filling) ^ ?w1=/=?w2
+-0.279342   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, kettle.n.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, filling.n.06) ^ action_core(?w2, Filling) ^ ?w1=/=?w2
+-0.747635   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cut.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cabbage.n.01) ^ action_core(?w2, Filling) ^ ?w1=/=?w2
+-3.251625   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cabbage.n.01) ^ action_core(?w2, Filling) ^ ?w1=/=?w2
+-0.422147   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, perform.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slicing.n.02) ^ action_core(?w2, Filling) ^ ?w1=/=?w2
+-0.361403   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, make.v.16) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slicing.n.02) ^ action_core(?w2, Filling) ^ ?w1=/=?w2
+-0.469183   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, perform.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, perform.v.01) ^ action_core(?w2, Filling) ^ ?w1=/=?w2
+-3.251625   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, rib.n.03) ^ action_core(?w2, Filling) ^ ?w1=/=?w2
+-3.251625   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, coffee.n.01) ^ action_core(?w2, Filling) ^ ?w1=/=?w2
+-0.545267   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, make.v.16) ^ has_sense(?w2, ?s2) ^ is_a(?s2, make.v.16) ^ action_core(?w2, Filling) ^ ?w1=/=?w2
+-0.167613   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, perform.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, foam.n.01) ^ action_core(?w2, Filling) ^ ?w1=/=?w2
+-3.251625   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, neutralize.v.05) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pyridine.n.01) ^ action_core(?w2, Filling) ^ ?w1=/=?w2
+-3.251625   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ action_core(?w2, Filling) ^ ?w1=/=?w2
+-3.251625   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fill.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, jar.n.01) ^ action_core(?w2, Filling) ^ ?w1=/=?w2
+-0.317421   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, make.v.16) ^ has_sense(?w2, ?s2) ^ is_a(?s2, jar.n.01) ^ action_core(?w2, Filling) ^ ?w1=/=?w2
+-0.167613   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, perform.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, mug.n.04) ^ action_core(?w2, Filling) ^ ?w1=/=?w2
+-3.251625   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.08) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vegetable.n.01) ^ action_core(?w2, Filling) ^ ?w1=/=?w2
+-3.251625   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, water.n.06) ^ action_core(?w2, Filling) ^ ?w1=/=?w2
+-0.167613   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, perform.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, water.n.06) ^ action_core(?w2, Filling) ^ ?w1=/=?w2
+-0.276702   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, make.v.16) ^ has_sense(?w2, ?s2) ^ is_a(?s2, water.n.06) ^ action_core(?w2, Filling) ^ ?w1=/=?w2
+-0.747635   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fill.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, kettle.n.01) ^ action_core(?w2, Filling) ^ ?w1=/=?w2
+-0.276702   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, make.v.16) ^ has_sense(?w2, ?s2) ^ is_a(?s2, kettle.n.01) ^ action_core(?w2, Filling) ^ ?w1=/=?w2
+-0.389645   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, perform.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cut.n.17) ^ action_core(?w2, Filling) ^ ?w1=/=?w2
+-0.413580   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, make.v.16) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cut.n.17) ^ action_core(?w2, Filling) ^ ?w1=/=?w2
+-3.251625   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.08) ^ has_sense(?w2, ?s2) ^ is_a(?s2, peanut.n.04) ^ action_core(?w2, Filling) ^ ?w1=/=?w2
+-0.747635   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, butter.n.01) ^ action_core(?w2, Filling) ^ ?w1=/=?w2
+-0.747635   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, sugar.n.01) ^ action_core(?w2, Filling) ^ ?w1=/=?w2
+-2.420397   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cut.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, mushroom.n.05) ^ action_core(?w2, Cutting) ^ ?w1=/=?w2
+-0.332382   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ has_sense(?w2, ?s2) ^ is_a(?s2, mushroom.n.05) ^ action_core(?w2, Cutting) ^ ?w1=/=?w2
+-0.322554   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, make.v.16) ^ has_sense(?w2, ?s2) ^ is_a(?s2, mushroom.n.05) ^ action_core(?w2, Cutting) ^ ?w1=/=?w2
+-0.332382   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, chicken.n.01) ^ action_core(?w2, Cutting) ^ ?w1=/=?w2
+-2.420397   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, neutralize.v.05) ^ has_sense(?w2, ?s2) ^ is_a(?s2, dibasic_acid.n.01) ^ action_core(?w2, Cutting) ^ ?w1=/=?w2
+-2.420397   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.08) ^ has_sense(?w2, ?s2) ^ is_a(?s2, apple.n.01) ^ action_core(?w2, Cutting) ^ ?w1=/=?w2
+-0.216527   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, perform.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, apple.n.01) ^ action_core(?w2, Cutting) ^ ?w1=/=?w2
+-2.420397   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, coca_cola.n.01) ^ action_core(?w2, Cutting) ^ ?w1=/=?w2
+-2.420397   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, milk.n.01) ^ action_core(?w2, Cutting) ^ ?w1=/=?w2
+-2.420397   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, neutralize.v.05) ^ has_sense(?w2, ?s2) ^ is_a(?s2, purine.n.01) ^ action_core(?w2, Cutting) ^ ?w1=/=?w2
+-0.332382   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fill.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pan.n.03) ^ action_core(?w2, Cutting) ^ ?w1=/=?w2
+-2.420397   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.08) ^ has_sense(?w2, ?s2) ^ is_a(?s2, banana.n.02) ^ action_core(?w2, Cutting) ^ ?w1=/=?w2
+-2.420397   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.08) ^ has_sense(?w2, ?s2) ^ is_a(?s2, tomato.n.01) ^ action_core(?w2, Cutting) ^ ?w1=/=?w2
+-2.420397   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cut.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bacon.n.01) ^ action_core(?w2, Cutting) ^ ?w1=/=?w2
+-2.420397   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bacon.n.01) ^ action_core(?w2, Cutting) ^ ?w1=/=?w2
+-0.216527   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, perform.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bacon.n.01) ^ action_core(?w2, Cutting) ^ ?w1=/=?w2
+-0.332382   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fill.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pitcher.n.02) ^ action_core(?w2, Cutting) ^ ?w1=/=?w2
+-0.332382   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cut.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, meat.n.01) ^ action_core(?w2, Cutting) ^ ?w1=/=?w2
+-0.332382   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ has_sense(?w2, ?s2) ^ is_a(?s2, meat.n.01) ^ action_core(?w2, Cutting) ^ ?w1=/=?w2
+-0.216527   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, perform.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, meat.n.01) ^ action_core(?w2, Cutting) ^ ?w1=/=?w2
+-0.260958   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, perform.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, neutralization.n.01) ^ action_core(?w2, Cutting) ^ ?w1=/=?w2
+-0.255524   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, make.v.16) ^ has_sense(?w2, ?s2) ^ is_a(?s2, neutralization.n.01) ^ action_core(?w2, Cutting) ^ ?w1=/=?w2
+-0.205125   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, perform.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, filling.n.06) ^ action_core(?w2, Cutting) ^ ?w1=/=?w2
+-0.188519   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, make.v.16) ^ has_sense(?w2, ?s2) ^ is_a(?s2, filling.n.06) ^ action_core(?w2, Cutting) ^ ?w1=/=?w2
+-0.332382   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cut.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cabbage.n.01) ^ action_core(?w2, Cutting) ^ ?w1=/=?w2
+-2.420397   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cabbage.n.01) ^ action_core(?w2, Cutting) ^ ?w1=/=?w2
+-0.269655   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, perform.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slicing.n.02) ^ action_core(?w2, Cutting) ^ ?w1=/=?w2
+-0.211033   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, make.v.16) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slicing.n.02) ^ action_core(?w2, Cutting) ^ ?w1=/=?w2
+-0.597583   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, perform.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, perform.v.01) ^ action_core(?w2, Cutting) ^ ?w1=/=?w2
+-2.420397   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, rib.n.03) ^ action_core(?w2, Cutting) ^ ?w1=/=?w2
+-2.420397   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, coffee.n.01) ^ action_core(?w2, Cutting) ^ ?w1=/=?w2
+-0.589051   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, make.v.16) ^ has_sense(?w2, ?s2) ^ is_a(?s2, make.v.16) ^ action_core(?w2, Cutting) ^ ?w1=/=?w2
+-2.420397   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, neutralize.v.05) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pyridine.n.01) ^ action_core(?w2, Cutting) ^ ?w1=/=?w2
+-2.420397   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ action_core(?w2, Cutting) ^ ?w1=/=?w2
+-2.420397   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fill.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, jar.n.01) ^ action_core(?w2, Cutting) ^ ?w1=/=?w2
+-2.420397   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.08) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vegetable.n.01) ^ action_core(?w2, Cutting) ^ ?w1=/=?w2
+-2.420397   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, water.n.06) ^ action_core(?w2, Cutting) ^ ?w1=/=?w2
+-0.332382   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fill.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, kettle.n.01) ^ action_core(?w2, Cutting) ^ ?w1=/=?w2
+-0.322554   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, make.v.16) ^ has_sense(?w2, ?s2) ^ is_a(?s2, lemon.n.01) ^ action_core(?w2, Cutting) ^ ?w1=/=?w2
+-0.325652   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, mushroom.n.05) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cut.n.17) ^ action_core(?w2, Cutting) ^ ?w1=/=?w2
+-0.217189   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, apple.n.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cut.n.17) ^ action_core(?w2, Cutting) ^ ?w1=/=?w2
+-0.217189   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, bacon.n.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cut.n.17) ^ action_core(?w2, Cutting) ^ ?w1=/=?w2
+-0.217189   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, meat.n.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cut.n.17) ^ action_core(?w2, Cutting) ^ ?w1=/=?w2
+17.869727   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, perform.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cut.n.17) ^ action_core(?w2, Cutting) ^ ?w1=/=?w2
+17.089315   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, make.v.16) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cut.n.17) ^ action_core(?w2, Cutting) ^ ?w1=/=?w2
+-0.325652   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, lemon.n.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cut.n.17) ^ action_core(?w2, Cutting) ^ ?w1=/=?w2
+-1.048878   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cut.n.17) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cut.n.17) ^ action_core(?w2, Cutting) ^ ?w1=/=?w2
+-2.420397   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.08) ^ has_sense(?w2, ?s2) ^ is_a(?s2, peanut.n.04) ^ action_core(?w2, Cutting) ^ ?w1=/=?w2
+-0.332382   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, butter.n.01) ^ action_core(?w2, Cutting) ^ ?w1=/=?w2
+-0.332382   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, sugar.n.01) ^ action_core(?w2, Cutting) ^ ?w1=/=?w2
+-0.065213   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cut.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, mushroom.n.05) ^ action_core(?w2, Stirring) ^ ?w1=/=?w2
+-0.061361   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ has_sense(?w2, ?s2) ^ is_a(?s2, mushroom.n.05) ^ action_core(?w2, Stirring) ^ ?w1=/=?w2
+-0.061361   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, chicken.n.01) ^ action_core(?w2, Stirring) ^ ?w1=/=?w2
+-0.065213   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, neutralize.v.05) ^ has_sense(?w2, ?s2) ^ is_a(?s2, dibasic_acid.n.01) ^ action_core(?w2, Stirring) ^ ?w1=/=?w2
+-0.065213   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.08) ^ has_sense(?w2, ?s2) ^ is_a(?s2, apple.n.01) ^ action_core(?w2, Stirring) ^ ?w1=/=?w2
+-0.065213   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, coca_cola.n.01) ^ action_core(?w2, Stirring) ^ ?w1=/=?w2
+-0.065213   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, milk.n.01) ^ action_core(?w2, Stirring) ^ ?w1=/=?w2
+-0.065213   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, neutralize.v.05) ^ has_sense(?w2, ?s2) ^ is_a(?s2, purine.n.01) ^ action_core(?w2, Stirring) ^ ?w1=/=?w2
+-0.061361   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fill.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pan.n.03) ^ action_core(?w2, Stirring) ^ ?w1=/=?w2
+-0.065213   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.08) ^ has_sense(?w2, ?s2) ^ is_a(?s2, banana.n.02) ^ action_core(?w2, Stirring) ^ ?w1=/=?w2
+-0.065213   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.08) ^ has_sense(?w2, ?s2) ^ is_a(?s2, tomato.n.01) ^ action_core(?w2, Stirring) ^ ?w1=/=?w2
+-0.065213   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cut.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bacon.n.01) ^ action_core(?w2, Stirring) ^ ?w1=/=?w2
+-0.065213   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bacon.n.01) ^ action_core(?w2, Stirring) ^ ?w1=/=?w2
+-0.061361   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fill.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pitcher.n.02) ^ action_core(?w2, Stirring) ^ ?w1=/=?w2
+-0.061361   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cut.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, meat.n.01) ^ action_core(?w2, Stirring) ^ ?w1=/=?w2
+-0.061361   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ has_sense(?w2, ?s2) ^ is_a(?s2, meat.n.01) ^ action_core(?w2, Stirring) ^ ?w1=/=?w2
+-0.122723   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, perform.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, neutralization.n.01) ^ action_core(?w2, Stirring) ^ ?w1=/=?w2
+-0.184084   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, make.v.16) ^ has_sense(?w2, ?s2) ^ is_a(?s2, neutralization.n.01) ^ action_core(?w2, Stirring) ^ ?w1=/=?w2
+-0.184084   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, perform.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, filling.n.06) ^ action_core(?w2, Stirring) ^ ?w1=/=?w2
+-0.122723   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, make.v.16) ^ has_sense(?w2, ?s2) ^ is_a(?s2, filling.n.06) ^ action_core(?w2, Stirring) ^ ?w1=/=?w2
+-0.061361   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cut.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cabbage.n.01) ^ action_core(?w2, Stirring) ^ ?w1=/=?w2
+-0.065213   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cabbage.n.01) ^ action_core(?w2, Stirring) ^ ?w1=/=?w2
+-0.184084   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, perform.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slicing.n.02) ^ action_core(?w2, Stirring) ^ ?w1=/=?w2
+-0.061361   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, make.v.16) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slicing.n.02) ^ action_core(?w2, Stirring) ^ ?w1=/=?w2
+-0.065213   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, rib.n.03) ^ action_core(?w2, Stirring) ^ ?w1=/=?w2
+-0.065213   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, coffee.n.01) ^ action_core(?w2, Stirring) ^ ?w1=/=?w2
+-0.065213   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, neutralize.v.05) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pyridine.n.01) ^ action_core(?w2, Stirring) ^ ?w1=/=?w2
+-0.065213   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ action_core(?w2, Stirring) ^ ?w1=/=?w2
+-0.065213   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fill.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, jar.n.01) ^ action_core(?w2, Stirring) ^ ?w1=/=?w2
+-0.065213   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.08) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vegetable.n.01) ^ action_core(?w2, Stirring) ^ ?w1=/=?w2
+-0.065213   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, water.n.06) ^ action_core(?w2, Stirring) ^ ?w1=/=?w2
+-0.061361   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fill.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, kettle.n.01) ^ action_core(?w2, Stirring) ^ ?w1=/=?w2
+-0.184084   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, perform.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cut.n.17) ^ action_core(?w2, Stirring) ^ ?w1=/=?w2
+-0.122723   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, make.v.16) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cut.n.17) ^ action_core(?w2, Stirring) ^ ?w1=/=?w2
+-0.065213   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.08) ^ has_sense(?w2, ?s2) ^ is_a(?s2, peanut.n.04) ^ action_core(?w2, Stirring) ^ ?w1=/=?w2
+-0.061361   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, butter.n.01) ^ action_core(?w2, Stirring) ^ ?w1=/=?w2
+-0.061361   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, sugar.n.01) ^ action_core(?w2, Stirring) ^ ?w1=/=?w2
