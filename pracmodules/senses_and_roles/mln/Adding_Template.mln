@@ -27,8 +27,8 @@ has_pos(word,pos!)
 is_a(sense, concept)
 dobj(word,word)
 has_sense(word, sense!)
-action_role(word,role!)
-ac_word(ac!)
+action_role(word,role?)
+action_core(word,actioncore?)
 prep_to(word,word)
 
 // hard fomulas 
