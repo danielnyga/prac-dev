@@ -79,7 +79,7 @@ class ActionCoreIdentification(PRACModule):
             inf_step.output_dbs.extend(result_db)
             print
             for r_db in result_db:
-                for q in r_db.query('ac_word(?ac)'):
+                for q in r_db.query('action_core(?w,?ac)'):
                     if q['?ac'] == 'null': continue
                     print 'Identified Action Core(s):', colorize(q['?ac'], (None, 'white', True), True)
                 print
