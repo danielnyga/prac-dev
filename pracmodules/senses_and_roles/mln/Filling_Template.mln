@@ -27,11 +27,11 @@ has_pos(word,pos!)
 is_a(sense, concept)
 dobj(word,word)
 has_sense(word, sense!)
-action_role(word,role!)
-ac_word(ac!)
+action_role(word,role?)
+action_core(word,actioncore?)
 
 // hard fomulas 
-//has_sense(?w, null) ^ action_role(?w, null).
+has_sense(?w, null) ^ !action_role(?w, +?r1).
 
 // weighted formulas
 #unique{+?r1,+?r2}
