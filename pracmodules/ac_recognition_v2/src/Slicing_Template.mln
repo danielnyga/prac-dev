@@ -29,20 +29,14 @@ dobj(word,word)
 has_sense(word, sense!)
 action_role(word,role?)
 action_core(word,actioncore?)
-prep_to(word,word)
-prep_into(word,word)
-prep_on(word,word)
-prep_in(word,word)
-prep_with(word,word)
 
 // hard fomulas 
-//has_sense(?w, null) ^ action_role(?w, null).
+//has_sense(?w, null) ^ !action_role(?w, +?r1).
 
 // weighted formulas
 #unique{+?r1,+?r2}
-0 action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, +?c1) ^ action_role(?w2, ObjectToBeStirred) ^ has_sense(?w2, ?s2) ^ is_a(?s2, +?c2) ^ ?w1 =/= ?w2 ^ !prep_into(?w1,?w2) ^ !prep_with(?w1,?w2)
-0 action_role(?w1, +?r1) ^ has_sense(?w1, ?s1) ^ is_a(?s1, +?c1) ^ action_role(?w2, +?r2) ^ ?w1 =/= ?w2 ^ prep_into(?w1,?w2)
-0 action_role(?w1, +?r1) ^ has_sense(?w1, ?s1) ^ is_a(?s1, +?c1) ^ action_role(?w2, +?r2) ^ ?w1 =/= ?w2 ^ prep_with(?w1,?w2)
+0 action_role(?w1, +?r1) ^ has_sense(?w1, ?s1) ^ is_a(?s1, +?c1) ^ action_role(?w2, +?r2) ^ has_sense(?w2, ?s2) ^ is_a(?s2, +?c2) ^ ?w1 =/= ?w2
+
 
 
 
