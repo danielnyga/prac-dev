@@ -35,7 +35,7 @@ S'FuzzyLogic'
 p17
 sS'queries'
 p18
-S'action_role'
+S'action_role,has_sense'
 p19
 sS'method'
 p20

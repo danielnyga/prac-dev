@@ -66,7 +66,7 @@ class SensesAndRoles(PRACModule):
         for db in dbs:
             db_ = db.duplicate()
 #             db_.write(sys.stdout, color=True)
-            for q in db.query('ac_word(?ac)'):
+            for q in db.query('action_core(?w,?ac)'):
                 actioncore = q['?ac']
                 if actioncore == 'null': continue
                 if kb is None:
