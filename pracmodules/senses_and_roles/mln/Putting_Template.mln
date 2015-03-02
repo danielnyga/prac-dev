@@ -27,9 +27,9 @@ has_pos(word,pos!)
 is_a(sense, concept)
 dobj(word,word)
 has_sense(word, sense!)
-action_role(word,role!)
-ac_word(ac!)
-prep_to(word,word)
+action_role(word,role?)
+action_core(word,actioncore?)
+
 prep_into(word,word)
 prep_on(word,word)
 prep_in(word,word)
@@ -38,17 +38,11 @@ prep_in(word,word)
 //has_sense(?w, null) ^ action_role(?w, null).
 
 // weighted formulas
-#unique{+?r1,+?r2}
-0 action_role(?w1, +?r1) ^ has_sense(?w1, ?s1) ^ is_a(?s1, +?c1) ^ action_role(?w2, +?r2) ^ has_sense(?w2, ?s2) ^ is_a(?s2, +?c2) ^ ?w1 =/= ?w2
-0 action_role(?w1, +?r1) ^ has_sense(?w1, ?s1) ^ is_a(?s1, +?c1) ^ action_role(?w2, +?r2) ^ ?w1 =/= ?w2 ^ prep_into(?w1,?w2)
-0 action_role(?w1, +?r1) ^ has_sense(?w1, ?s1) ^ is_a(?s1, +?c1) ^ action_role(?w2, +?r2) ^ ?w1 =/= ?w2 ^ prep_on(?w1,?w2)
-0 action_role(?w1, +?r1) ^ has_sense(?w1, ?s1) ^ is_a(?s1, +?c1) ^ action_role(?w2, +?r2) ^ ?w1 =/= ?w2 ^ prep_in(?w1,?w2)
 
-
-//TO SLOW
-//0 action_role(?w1, +?r1) ^ has_sense(?w1, ?s1) ^ is_a(?s1, +?c1) ^ action_role(?w2, +?r2) ^ has_sense(?w2, ?s2) ^ is_a(?s2, +?c2) ^ ?w1 =/= ?w2 ^ prep_into(?w1,?w2)
-//0 action_role(?w1, +?r1) ^ has_sense(?w1, ?s1) ^ is_a(?s1, +?c1) ^ action_role(?w2, +?r2) ^ has_sense(?w2, ?s2) ^ is_a(?s2, +?c2) ^ ?w1 =/= ?w2 ^ prep_on(?w1,?w2)
-//0 action_role(?w1, +?r1) ^ has_sense(?w1, ?s1) ^ is_a(?s1, +?c1) ^ action_role(?w2, +?r2) ^ has_sense(?w2, ?s2) ^ is_a(?s2, +?c2) ^ ?w1 =/= ?w2 ^ prep_in(?w1,?w2)
+0 action_role(?w1, +?r1) ^ has_sense(?w1, ?s1) ^ is_a(?s1, +?c1) ^ action_role(?w2, +?r2) ^ has_sense(?w2, ?s2) ^ is_a(?s2, +?c2) ^ ?w1 =/= ?w2 ^ !prep_into(?w1,?w2) ^ !prep_on(?w1,?w2) ^ !prep_in(?w1,?w2)
+0 action_role(?w1, +?r1) ^ has_sense(?w1, ?s1) ^ is_a(?s1, +?c1) ^ action_role(?w2, +?r2) ^ has_sense(?w2, ?s2) ^ is_a(?s2, +?c2) ^ ?w1 =/= ?w2 ^ prep_into(?w1,?w2)
+0 action_role(?w1, +?r1) ^ has_sense(?w1, ?s1) ^ is_a(?s1, +?c1) ^ action_role(?w2, +?r2) ^ has_sense(?w2, ?s2) ^ is_a(?s2, +?c2) ^ ?w1 =/= ?w2 ^ prep_on(?w1,?w2)
+0 action_role(?w1, +?r1) ^ has_sense(?w1, ?s1) ^ is_a(?s1, +?c1) ^ action_role(?w2, +?r2) ^ has_sense(?w2, ?s2) ^ is_a(?s2, +?c2) ^ ?w1 =/= ?w2 ^ prep_in(?w1,?w2)
 
 
 
