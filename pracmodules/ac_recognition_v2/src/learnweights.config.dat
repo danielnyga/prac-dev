@@ -12,7 +12,7 @@ S'has_pos, is_a, dobj,prep_to'
 p5
 sS'output_filename'
 p6
-S'wts.pydcll.Adding-Adding_Template.mln'
+S'wts.pydcll.fol_training-Cutting_Template.mln'
 p7
 sS'discrPredicates'
 p8
@@ -47,7 +47,7 @@ S'[discriminative] composite-log-likelihood'
 p20
 sS'db'
 p21
-S'Adding.db'
+S'fol_training.db'
 p22
 sS'priorMean'
 p23
@@ -69,7 +69,7 @@ S'1855x1056+65+24'
 p30
 sS'mln'
 p31
-S'Adding_Template.mln'
+S'Cutting_Template.mln'
 p32
 sS'logic'
 p33
