@@ -2,389 +2,539 @@
 
 
 // predicate declarations
-ac_word(ac!)
-action_role(word,role!)
+action_role(word,role?)
 has_pos(word,pos!)
 has_sense(word,sense!)
 dobj(word,word)
 is_a(sense,concept)
+action_core(word,actioncore?)
 
 // formulas
--1.208518   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cheese.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cheese.n.01) ^ ?w1=/=?w2
--0.807650   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cheese.n.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
--0.807650   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cheese.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
--0.185017   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, orange.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, orange.n.01) ^ ?w1=/=?w2
--0.185017   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, orange.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, orange.n.01) ^ ?w1=/=?w2
--0.681563   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, orange.n.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
--0.138616   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, orange.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
--0.866580   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, orange.n.01) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ?w1=/=?w2
--0.959001   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, orange.n.01) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ?w1=/=?w2
--0.681563   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, orange.n.01) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ?w1=/=?w2
--0.138604   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, orange.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ?w1=/=?w2
--1.208518   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, zucchini.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, zucchini.n.01) ^ ?w1=/=?w2
--0.807650   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, zucchini.n.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
--0.807650   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, zucchini.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
--1.208518   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cabbage.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cabbage.n.01) ^ ?w1=/=?w2
--0.807650   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cabbage.n.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
--0.807650   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cabbage.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
--0.186714   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, green_onion.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, green_onion.n.01) ^ ?w1=/=?w2
--0.186714   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, green_onion.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, green_onion.n.01) ^ ?w1=/=?w2
--0.675925   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, green_onion.n.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
--0.139217   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, green_onion.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
--0.862639   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, green_onion.n.01) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, knife.n.01) ^ ?w1=/=?w2
--0.675925   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, green_onion.n.01) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, knife.n.01) ^ ?w1=/=?w2
--0.139088   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, green_onion.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, knife.n.01) ^ ?w1=/=?w2
--0.185017   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, egg.n.02) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, egg.n.02) ^ ?w1=/=?w2
--0.185017   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, egg.n.02) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, egg.n.02) ^ ?w1=/=?w2
--0.681563   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, egg.n.02) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
--0.138616   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, egg.n.02) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
--0.866580   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, egg.n.02) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ?w1=/=?w2
--0.959001   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, egg.n.02) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ?w1=/=?w2
--0.681563   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, egg.n.02) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ?w1=/=?w2
--0.138604   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, egg.n.02) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ?w1=/=?w2
--0.138541   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, tomato.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, tomato.n.01) ^ ?w1=/=?w2
--0.139214   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, tomato.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, tomato.n.01) ^ ?w1=/=?w2
--0.138642   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, tomato.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, tomato.n.01) ^ ?w1=/=?w2
--0.416229   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, tomato.n.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
--0.138541   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, tomato.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
--0.554770   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, tomato.n.01) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, knife.n.01) ^ ?w1=/=?w2
--0.416197   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, tomato.n.01) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, knife.n.01) ^ ?w1=/=?w2
--0.138698   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, tomato.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, knife.n.01) ^ ?w1=/=?w2
--0.554770   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, tomato.n.01) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ?w1=/=?w2
--0.555411   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, tomato.n.01) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ?w1=/=?w2
--0.416225   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, tomato.n.01) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ?w1=/=?w2
--0.138559   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, tomato.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ?w1=/=?w2
--1.208518   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, bacon.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bacon.n.01) ^ ?w1=/=?w2
--0.807650   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, bacon.n.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
--0.807650   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, bacon.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
--0.611421   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cleaver.n.01) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cleaver.n.01) ^ ?w1=/=?w2
--0.904045   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cleaver.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cleaver.n.01) ^ ?w1=/=?w2
--0.537163   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cleaver.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, meat.n.01) ^ ?w1=/=?w2
--0.552349   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cleaver.n.01) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, meat.n.01) ^ ?w1=/=?w2
--0.794305   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cleaver.n.01) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, meat.n.01) ^ ?w1=/=?w2
-3.836536    action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cleaver.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, meat.n.01) ^ ?w1=/=?w2
--0.315811   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cleaver.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, meat.n.01) ^ ?w1=/=?w2
--0.208573   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cleaver.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, meat.n.01) ^ ?w1=/=?w2
--0.462905   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cleaver.n.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
--0.462161   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cleaver.n.01) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
--0.616639   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cleaver.n.01) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
--0.842886   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cleaver.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
--0.537163   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cleaver.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, flesh.n.01) ^ ?w1=/=?w2
--0.552349   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cleaver.n.01) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, flesh.n.01) ^ ?w1=/=?w2
--0.794305   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cleaver.n.01) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, flesh.n.01) ^ ?w1=/=?w2
-3.836536    action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cleaver.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, flesh.n.01) ^ ?w1=/=?w2
--0.315811   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cleaver.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, flesh.n.01) ^ ?w1=/=?w2
--0.208573   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cleaver.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, flesh.n.01) ^ ?w1=/=?w2
--0.185017   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, potato.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, potato.n.01) ^ ?w1=/=?w2
--0.185017   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, potato.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, potato.n.01) ^ ?w1=/=?w2
--0.681563   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, potato.n.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
--0.138616   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, potato.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
--0.866580   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, potato.n.01) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ?w1=/=?w2
--0.959001   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, potato.n.01) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ?w1=/=?w2
--0.681563   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, potato.n.01) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ?w1=/=?w2
--0.138604   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, potato.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ?w1=/=?w2
--0.863420   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, meat.n.01) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cleaver.n.01) ^ ?w1=/=?w2
--0.552349   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, meat.n.01) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cleaver.n.01) ^ ?w1=/=?w2
--0.208573   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, meat.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cleaver.n.01) ^ ?w1=/=?w2
--0.310600   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, meat.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, meat.n.01) ^ ?w1=/=?w2
--0.316680   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, meat.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, meat.n.01) ^ ?w1=/=?w2
--0.552820   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, meat.n.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
--0.231386   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, meat.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
--0.807650   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cheese.n.01) ^ ?w1=/=?w2
--1.176844   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cheese.n.01) ^ ?w1=/=?w2
--1.176844   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cheese.n.01) ^ ?w1=/=?w2
-7.821502    action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cheese.n.01) ^ ?w1=/=?w2
--1.176844   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cheese.n.01) ^ ?w1=/=?w2
--1.176844   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cheese.n.01) ^ ?w1=/=?w2
--0.807650   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cheese.n.01) ^ ?w1=/=?w2
--0.681563   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, orange.n.01) ^ ?w1=/=?w2
--0.959001   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, orange.n.01) ^ ?w1=/=?w2
--0.866580   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, orange.n.01) ^ ?w1=/=?w2
-3.540986    action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, orange.n.01) ^ ?w1=/=?w2
--0.138744   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, orange.n.01) ^ ?w1=/=?w2
--0.323535   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, orange.n.01) ^ ?w1=/=?w2
--0.138616   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, orange.n.01) ^ ?w1=/=?w2
--0.807650   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, zucchini.n.01) ^ ?w1=/=?w2
--1.176844   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, zucchini.n.01) ^ ?w1=/=?w2
--1.176844   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, zucchini.n.01) ^ ?w1=/=?w2
-7.821502    action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, zucchini.n.01) ^ ?w1=/=?w2
--1.176844   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, zucchini.n.01) ^ ?w1=/=?w2
--1.176844   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, zucchini.n.01) ^ ?w1=/=?w2
--0.807650   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, zucchini.n.01) ^ ?w1=/=?w2
--0.807650   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cabbage.n.01) ^ ?w1=/=?w2
--1.176844   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cabbage.n.01) ^ ?w1=/=?w2
--1.176844   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cabbage.n.01) ^ ?w1=/=?w2
-7.821502    action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cabbage.n.01) ^ ?w1=/=?w2
--1.176844   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cabbage.n.01) ^ ?w1=/=?w2
--1.176844   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cabbage.n.01) ^ ?w1=/=?w2
--0.807650   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cabbage.n.01) ^ ?w1=/=?w2
--0.675925   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, green_onion.n.01) ^ ?w1=/=?w2
--0.862639   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, green_onion.n.01) ^ ?w1=/=?w2
--0.950976   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, green_onion.n.01) ^ ?w1=/=?w2
-3.563150    action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, green_onion.n.01) ^ ?w1=/=?w2
--0.324806   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, green_onion.n.01) ^ ?w1=/=?w2
--0.140415   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, green_onion.n.01) ^ ?w1=/=?w2
--0.139217   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, green_onion.n.01) ^ ?w1=/=?w2
--0.681563   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, egg.n.02) ^ ?w1=/=?w2
--0.959001   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, egg.n.02) ^ ?w1=/=?w2
--0.866580   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, egg.n.02) ^ ?w1=/=?w2
-3.540986    action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, egg.n.02) ^ ?w1=/=?w2
--0.138744   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, egg.n.02) ^ ?w1=/=?w2
--0.323535   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, egg.n.02) ^ ?w1=/=?w2
--0.138616   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, egg.n.02) ^ ?w1=/=?w2
--0.416229   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, tomato.n.01) ^ ?w1=/=?w2
--0.555411   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, tomato.n.01) ^ ?w1=/=?w2
--0.554867   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, tomato.n.01) ^ ?w1=/=?w2
-2.548077    action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, tomato.n.01) ^ ?w1=/=?w2
--0.277170   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, tomato.n.01) ^ ?w1=/=?w2
--0.277112   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, tomato.n.01) ^ ?w1=/=?w2
--0.138541   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, tomato.n.01) ^ ?w1=/=?w2
--0.807650   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bacon.n.01) ^ ?w1=/=?w2
--1.176844   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bacon.n.01) ^ ?w1=/=?w2
--1.176844   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bacon.n.01) ^ ?w1=/=?w2
-7.821502    action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bacon.n.01) ^ ?w1=/=?w2
--1.176844   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bacon.n.01) ^ ?w1=/=?w2
--1.176844   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bacon.n.01) ^ ?w1=/=?w2
--0.807650   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bacon.n.01) ^ ?w1=/=?w2
--0.462905   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cleaver.n.01) ^ ?w1=/=?w2
-5.364160    action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cleaver.n.01) ^ ?w1=/=?w2
--0.631622   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cleaver.n.01) ^ ?w1=/=?w2
--1.321191   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cleaver.n.01) ^ ?w1=/=?w2
--0.462161   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cleaver.n.01) ^ ?w1=/=?w2
--0.681563   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, potato.n.01) ^ ?w1=/=?w2
--0.959001   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, potato.n.01) ^ ?w1=/=?w2
--0.866580   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, potato.n.01) ^ ?w1=/=?w2
-3.540986    action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, potato.n.01) ^ ?w1=/=?w2
--0.138744   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, potato.n.01) ^ ?w1=/=?w2
--0.323535   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, potato.n.01) ^ ?w1=/=?w2
--0.138616   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, potato.n.01) ^ ?w1=/=?w2
--0.552820   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, meat.n.01) ^ ?w1=/=?w2
--0.869030   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, meat.n.01) ^ ?w1=/=?w2
--0.794305   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, meat.n.01) ^ ?w1=/=?w2
-3.928650    action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, meat.n.01) ^ ?w1=/=?w2
--0.453547   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, meat.n.01) ^ ?w1=/=?w2
--0.308320   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, meat.n.01) ^ ?w1=/=?w2
--0.231386   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, meat.n.01) ^ ?w1=/=?w2
--1.487465   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
--1.016767   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
--3.896235   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
--0.807650   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, olive.n.01) ^ ?w1=/=?w2
--1.176844   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, olive.n.01) ^ ?w1=/=?w2
--1.176844   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, olive.n.01) ^ ?w1=/=?w2
-7.821502    action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, olive.n.01) ^ ?w1=/=?w2
--1.176844   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, olive.n.01) ^ ?w1=/=?w2
--1.176844   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, olive.n.01) ^ ?w1=/=?w2
--0.807650   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, olive.n.01) ^ ?w1=/=?w2
--0.699535   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, knife.n.01) ^ ?w1=/=?w2
-8.009185    action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, knife.n.01) ^ ?w1=/=?w2
--0.847210   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, knife.n.01) ^ ?w1=/=?w2
--1.899932   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, knife.n.01) ^ ?w1=/=?w2
--0.695098   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, knife.n.01) ^ ?w1=/=?w2
--0.675925   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, banana.n.02) ^ ?w1=/=?w2
--0.862639   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, banana.n.02) ^ ?w1=/=?w2
--0.950976   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, banana.n.02) ^ ?w1=/=?w2
-3.563150    action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, banana.n.02) ^ ?w1=/=?w2
--0.324806   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, banana.n.02) ^ ?w1=/=?w2
--0.140415   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, banana.n.02) ^ ?w1=/=?w2
--0.139217   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, banana.n.02) ^ ?w1=/=?w2
--0.332128   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, fork.n.01) ^ ?w1=/=?w2
-2.528321    action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, fork.n.01) ^ ?w1=/=?w2
--0.470729   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, fork.n.01) ^ ?w1=/=?w2
--0.655739   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, fork.n.01) ^ ?w1=/=?w2
--0.138567   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, fork.n.01) ^ ?w1=/=?w2
--0.831640   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ?w1=/=?w2
--1.196871   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ?w1=/=?w2
-9.612904    action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ?w1=/=?w2
--2.124704   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ?w1=/=?w2
--1.131715   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ?w1=/=?w2
--0.831612   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ?w1=/=?w2
--0.675925   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vegetable.n.01) ^ ?w1=/=?w2
--0.862639   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vegetable.n.01) ^ ?w1=/=?w2
--0.950976   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vegetable.n.01) ^ ?w1=/=?w2
-3.563150    action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vegetable.n.01) ^ ?w1=/=?w2
--0.324806   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vegetable.n.01) ^ ?w1=/=?w2
--0.140415   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vegetable.n.01) ^ ?w1=/=?w2
--0.139217   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vegetable.n.01) ^ ?w1=/=?w2
--0.552820   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, flesh.n.01) ^ ?w1=/=?w2
--0.869030   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, flesh.n.01) ^ ?w1=/=?w2
--0.794305   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, flesh.n.01) ^ ?w1=/=?w2
-3.928650    action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, flesh.n.01) ^ ?w1=/=?w2
--0.453547   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, flesh.n.01) ^ ?w1=/=?w2
--0.308320   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, flesh.n.01) ^ ?w1=/=?w2
--0.231386   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, flesh.n.01) ^ ?w1=/=?w2
--0.681563   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pizza.n.01) ^ ?w1=/=?w2
--0.959001   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pizza.n.01) ^ ?w1=/=?w2
--0.866580   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pizza.n.01) ^ ?w1=/=?w2
-3.540986    action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pizza.n.01) ^ ?w1=/=?w2
--0.138744   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pizza.n.01) ^ ?w1=/=?w2
--0.323535   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pizza.n.01) ^ ?w1=/=?w2
--0.138616   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pizza.n.01) ^ ?w1=/=?w2
--0.340747   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cake.n.03) ^ ?w1=/=?w2
--0.653611   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cake.n.03) ^ ?w1=/=?w2
--0.479347   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cake.n.03) ^ ?w1=/=?w2
-2.466578    action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cake.n.03) ^ ?w1=/=?w2
--0.299569   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cake.n.03) ^ ?w1=/=?w2
--0.277126   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cake.n.03) ^ ?w1=/=?w2
--0.138552   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cake.n.03) ^ ?w1=/=?w2
--0.801851   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, lemon.n.01) ^ ?w1=/=?w2
--1.211710   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, lemon.n.01) ^ ?w1=/=?w2
--1.160141   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, lemon.n.01) ^ ?w1=/=?w2
-7.886657    action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, lemon.n.01) ^ ?w1=/=?w2
--1.172954   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, lemon.n.01) ^ ?w1=/=?w2
--1.116039   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, lemon.n.01) ^ ?w1=/=?w2
--0.781408   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, lemon.n.01) ^ ?w1=/=?w2
--0.807650   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, olive.n.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
--0.807650   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, olive.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
--1.208518   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, olive.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, olive.n.01) ^ ?w1=/=?w2
--0.325490   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, green_onion.n.01) ^ ?w1=/=?w2
--0.675925   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, green_onion.n.01) ^ ?w1=/=?w2
--0.950976   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, green_onion.n.01) ^ ?w1=/=?w2
-3.562331    action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, green_onion.n.01) ^ ?w1=/=?w2
--0.140411   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, green_onion.n.01) ^ ?w1=/=?w2
--0.139088   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, green_onion.n.01) ^ ?w1=/=?w2
--0.277327   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, tomato.n.01) ^ ?w1=/=?w2
--0.416197   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, tomato.n.01) ^ ?w1=/=?w2
--0.554867   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, tomato.n.01) ^ ?w1=/=?w2
-2.550005    action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, tomato.n.01) ^ ?w1=/=?w2
--0.277627   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, tomato.n.01) ^ ?w1=/=?w2
--0.138698   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, tomato.n.01) ^ ?w1=/=?w2
--0.699535   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
--0.695098   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
--0.836907   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
--1.582507   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
--0.881746   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, knife.n.01) ^ ?w1=/=?w2
--0.138623   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, knife.n.01) ^ ?w1=/=?w2
--1.202544   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, knife.n.01) ^ ?w1=/=?w2
--0.325490   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, banana.n.02) ^ ?w1=/=?w2
--0.675925   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, banana.n.02) ^ ?w1=/=?w2
--0.950976   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, banana.n.02) ^ ?w1=/=?w2
-3.562331    action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, banana.n.02) ^ ?w1=/=?w2
--0.140411   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, banana.n.02) ^ ?w1=/=?w2
--0.139088   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, banana.n.02) ^ ?w1=/=?w2
--0.277327   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ?w1=/=?w2
--0.138589   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ?w1=/=?w2
-1.664726    action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ?w1=/=?w2
--0.297673   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ?w1=/=?w2
--0.139004   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ?w1=/=?w2
--0.325490   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vegetable.n.01) ^ ?w1=/=?w2
--0.675925   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vegetable.n.01) ^ ?w1=/=?w2
--0.950976   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vegetable.n.01) ^ ?w1=/=?w2
-3.562331    action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vegetable.n.01) ^ ?w1=/=?w2
--0.140411   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vegetable.n.01) ^ ?w1=/=?w2
--0.139088   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vegetable.n.01) ^ ?w1=/=?w2
--0.327482   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, lemon.n.01) ^ ?w1=/=?w2
--0.182687   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, lemon.n.01) ^ ?w1=/=?w2
--0.200426   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, lemon.n.01) ^ ?w1=/=?w2
-1.738228    action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, lemon.n.01) ^ ?w1=/=?w2
--0.148349   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, lemon.n.01) ^ ?w1=/=?w2
--0.141425   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, lemon.n.01) ^ ?w1=/=?w2
--0.675925   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, banana.n.02) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
--0.139217   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, banana.n.02) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
--0.862639   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, banana.n.02) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, knife.n.01) ^ ?w1=/=?w2
--0.675925   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, banana.n.02) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, knife.n.01) ^ ?w1=/=?w2
--0.139088   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, banana.n.02) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, knife.n.01) ^ ?w1=/=?w2
--0.186714   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, banana.n.02) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, banana.n.02) ^ ?w1=/=?w2
--0.186714   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, banana.n.02) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, banana.n.02) ^ ?w1=/=?w2
--0.332128   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fork.n.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
--0.138567   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fork.n.01) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
--0.277126   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fork.n.01) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
--0.277626   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fork.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
--0.138601   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fork.n.01) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, fork.n.01) ^ ?w1=/=?w2
--0.138601   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fork.n.01) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, fork.n.01) ^ ?w1=/=?w2
--0.356025   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fork.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, fork.n.01) ^ ?w1=/=?w2
--0.470729   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fork.n.01) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ?w1=/=?w2
--0.138565   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fork.n.01) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ?w1=/=?w2
-2.528317    action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fork.n.01) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ?w1=/=?w2
--0.289447   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fork.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ?w1=/=?w2
--0.332128   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fork.n.01) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ?w1=/=?w2
--0.470729   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fork.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cake.n.03) ^ ?w1=/=?w2
--0.307643   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fork.n.01) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cake.n.03) ^ ?w1=/=?w2
--0.479347   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fork.n.01) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cake.n.03) ^ ?w1=/=?w2
-3.332008    action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fork.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cake.n.03) ^ ?w1=/=?w2
--0.470729   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fork.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cake.n.03) ^ ?w1=/=?w2
--0.299714   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fork.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cake.n.03) ^ ?w1=/=?w2
--0.323535   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, orange.n.01) ^ ?w1=/=?w2
--0.138735   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, orange.n.01) ^ ?w1=/=?w2
--0.681563   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, orange.n.01) ^ ?w1=/=?w2
-3.540965    action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, orange.n.01) ^ ?w1=/=?w2
--0.138604   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, orange.n.01) ^ ?w1=/=?w2
--0.323535   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, egg.n.02) ^ ?w1=/=?w2
--0.138735   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, egg.n.02) ^ ?w1=/=?w2
--0.681563   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, egg.n.02) ^ ?w1=/=?w2
-3.540965    action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, egg.n.02) ^ ?w1=/=?w2
--0.138604   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, egg.n.02) ^ ?w1=/=?w2
--0.277109   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, tomato.n.01) ^ ?w1=/=?w2
--0.277431   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, tomato.n.01) ^ ?w1=/=?w2
--0.416225   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, tomato.n.01) ^ ?w1=/=?w2
-2.548385    action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, tomato.n.01) ^ ?w1=/=?w2
--0.138559   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, tomato.n.01) ^ ?w1=/=?w2
--0.323535   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, potato.n.01) ^ ?w1=/=?w2
--0.138735   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, potato.n.01) ^ ?w1=/=?w2
--0.681563   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, potato.n.01) ^ ?w1=/=?w2
-3.540965    action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, potato.n.01) ^ ?w1=/=?w2
--0.138604   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, potato.n.01) ^ ?w1=/=?w2
--0.831640   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
--0.831612   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
--1.857991   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
--0.277109   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, knife.n.01) ^ ?w1=/=?w2
--0.138589   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, knife.n.01) ^ ?w1=/=?w2
--0.139004   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, knife.n.01) ^ ?w1=/=?w2
--0.309024   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, knife.n.01) ^ ?w1=/=?w2
--0.277126   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, fork.n.01) ^ ?w1=/=?w2
--0.138565   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, fork.n.01) ^ ?w1=/=?w2
--0.332128   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, fork.n.01) ^ ?w1=/=?w2
--0.655739   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, fork.n.01) ^ ?w1=/=?w2
--1.016737   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ?w1=/=?w2
--0.364778   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ?w1=/=?w2
--1.293178   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ?w1=/=?w2
--0.323535   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pizza.n.01) ^ ?w1=/=?w2
--0.138735   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pizza.n.01) ^ ?w1=/=?w2
--0.681563   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pizza.n.01) ^ ?w1=/=?w2
-3.540965    action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pizza.n.01) ^ ?w1=/=?w2
--0.138604   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pizza.n.01) ^ ?w1=/=?w2
--0.277126   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cake.n.03) ^ ?w1=/=?w2
--0.364501   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cake.n.03) ^ ?w1=/=?w2
--0.340747   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cake.n.03) ^ ?w1=/=?w2
-2.466574    action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cake.n.03) ^ ?w1=/=?w2
--0.138550   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cake.n.03) ^ ?w1=/=?w2
--0.675925   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, vegetable.n.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
--0.139217   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, vegetable.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
--0.862639   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, vegetable.n.01) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, knife.n.01) ^ ?w1=/=?w2
--0.675925   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, vegetable.n.01) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, knife.n.01) ^ ?w1=/=?w2
--0.139088   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, vegetable.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, knife.n.01) ^ ?w1=/=?w2
--0.186714   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, vegetable.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vegetable.n.01) ^ ?w1=/=?w2
--0.186714   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, vegetable.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vegetable.n.01) ^ ?w1=/=?w2
--0.863420   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, flesh.n.01) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cleaver.n.01) ^ ?w1=/=?w2
--0.552349   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, flesh.n.01) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cleaver.n.01) ^ ?w1=/=?w2
--0.208573   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, flesh.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cleaver.n.01) ^ ?w1=/=?w2
--0.552820   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, flesh.n.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
--0.231386   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, flesh.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
--0.310600   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, flesh.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, flesh.n.01) ^ ?w1=/=?w2
--0.316680   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, flesh.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, flesh.n.01) ^ ?w1=/=?w2
--0.681563   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, pizza.n.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
--0.138616   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, pizza.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
--0.866580   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, pizza.n.01) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ?w1=/=?w2
--0.959001   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, pizza.n.01) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ?w1=/=?w2
--0.681563   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, pizza.n.01) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ?w1=/=?w2
--0.138604   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, pizza.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ?w1=/=?w2
--0.185017   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, pizza.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pizza.n.01) ^ ?w1=/=?w2
--0.185017   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, pizza.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pizza.n.01) ^ ?w1=/=?w2
--0.340747   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cake.n.03) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
--0.138552   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cake.n.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
--0.479347   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cake.n.03) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, fork.n.01) ^ ?w1=/=?w2
--0.307643   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cake.n.03) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, fork.n.01) ^ ?w1=/=?w2
--0.299714   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cake.n.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, fork.n.01) ^ ?w1=/=?w2
--0.479347   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cake.n.03) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ?w1=/=?w2
--0.653611   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cake.n.03) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ?w1=/=?w2
--0.340747   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cake.n.03) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ?w1=/=?w2
--0.138550   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cake.n.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ?w1=/=?w2
--0.138600   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cake.n.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cake.n.03) ^ ?w1=/=?w2
--0.345967   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cake.n.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cake.n.03) ^ ?w1=/=?w2
--0.138600   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cake.n.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cake.n.03) ^ ?w1=/=?w2
--0.801851   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, lemon.n.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
--0.781408   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, lemon.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
--0.352982   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, lemon.n.01) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, knife.n.01) ^ ?w1=/=?w2
--0.182687   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, lemon.n.01) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, knife.n.01) ^ ?w1=/=?w2
--0.141425   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, lemon.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, knife.n.01) ^ ?w1=/=?w2
--1.171472   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, lemon.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, lemon.n.01) ^ ?w1=/=?w2
--0.192074   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, lemon.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, lemon.n.01) ^ ?w1=/=?w2
+-0.890226   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, mushroom.n.05) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, mushroom.n.05) ^ ?w1=/=?w2
+-0.563365   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, mushroom.n.05) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slicing.n.02) ^ ?w1=/=?w2
+-0.563365   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, mushroom.n.05) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slicing.n.02) ^ ?w1=/=?w2
+-0.852482   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, mushroom.n.05) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
+-0.100124   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, mushroom.n.05) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
+-1.266694   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, mushroom.n.05) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, make.v.16) ^ ?w1=/=?w2
+-0.250310   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cheese.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cheese.n.01) ^ ?w1=/=?w2
+-0.852482   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cheese.n.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
+-0.100124   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cheese.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
+-0.851205   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, meat.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, meat.n.01) ^ ?w1=/=?w2
+-0.294941   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, meat.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, meat.n.01) ^ ?w1=/=?w2
+-0.561488   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, meat.n.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slicing.n.02) ^ ?w1=/=?w2
+-0.561488   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, meat.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slicing.n.02) ^ ?w1=/=?w2
+-0.574639   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, meat.n.01) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cleaver.n.01) ^ ?w1=/=?w2
+-0.396310   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, meat.n.01) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cleaver.n.01) ^ ?w1=/=?w2
+-0.179129   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, meat.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cleaver.n.01) ^ ?w1=/=?w2
+-0.407765   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, meat.n.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
+-0.100124   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, meat.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
+-1.266895   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, meat.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, perform.v.01) ^ ?w1=/=?w2
+-0.125155   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, bread.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bread.n.01) ^ ?w1=/=?w2
+-0.125344   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, bread.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bread.n.01) ^ ?w1=/=?w2
+-0.125188   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, bread.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bread.n.01) ^ ?w1=/=?w2
+-0.293308   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, bread.n.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
+-0.100124   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, bread.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
+-0.418463   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, bread.n.01) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, knife.n.01) ^ ?w1=/=?w2
+-0.293304   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, bread.n.01) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, knife.n.01) ^ ?w1=/=?w2
+-0.100173   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, bread.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, knife.n.01) ^ ?w1=/=?w2
+-0.418463   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, bread.n.01) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ?w1=/=?w2
+-0.418648   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, bread.n.01) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ?w1=/=?w2
+-0.293307   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, bread.n.01) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ?w1=/=?w2
+-0.100131   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, bread.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ?w1=/=?w2
+-0.166874   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, orange.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, orange.n.01) ^ ?w1=/=?w2
+-0.167261   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, orange.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, orange.n.01) ^ ?w1=/=?w2
+-0.450783   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, orange.n.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
+-0.100124   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, orange.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
+-0.617656   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, orange.n.01) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ?w1=/=?w2
+-0.619687   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, orange.n.01) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ?w1=/=?w2
+-0.450775   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, orange.n.01) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ?w1=/=?w2
+-0.100238   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, orange.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ?w1=/=?w2
+-0.250310   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, zucchini.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, zucchini.n.01) ^ ?w1=/=?w2
+-0.852482   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, zucchini.n.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
+-0.100124   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, zucchini.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
+-0.250310   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cabbage.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cabbage.n.01) ^ ?w1=/=?w2
+-0.852482   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cabbage.n.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
+-0.100124   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cabbage.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
+-0.166874   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, banana.n.02) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, banana.n.02) ^ ?w1=/=?w2
+-0.169153   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, banana.n.02) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, banana.n.02) ^ ?w1=/=?w2
+-0.448849   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, banana.n.02) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
+-0.100124   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, banana.n.02) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
+-0.615723   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, banana.n.02) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, knife.n.01) ^ ?w1=/=?w2
+-0.448792   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, banana.n.02) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, knife.n.01) ^ ?w1=/=?w2
+-0.100964   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, banana.n.02) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, knife.n.01) ^ ?w1=/=?w2
+-0.125155   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, tomato.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, tomato.n.01) ^ ?w1=/=?w2
+-0.125344   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, tomato.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, tomato.n.01) ^ ?w1=/=?w2
+-0.125188   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, tomato.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, tomato.n.01) ^ ?w1=/=?w2
+-0.293308   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, tomato.n.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
+-0.100124   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, tomato.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
+-0.418463   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, tomato.n.01) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, knife.n.01) ^ ?w1=/=?w2
+-0.293304   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, tomato.n.01) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, knife.n.01) ^ ?w1=/=?w2
+-0.100173   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, tomato.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, knife.n.01) ^ ?w1=/=?w2
+-0.418463   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, tomato.n.01) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ?w1=/=?w2
+-0.418648   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, tomato.n.01) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ?w1=/=?w2
+-0.293307   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, tomato.n.01) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ?w1=/=?w2
+-0.100131   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, tomato.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ?w1=/=?w2
+-0.890211   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, bacon.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bacon.n.01) ^ ?w1=/=?w2
+-0.563353   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, bacon.n.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slicing.n.02) ^ ?w1=/=?w2
+-0.563353   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, bacon.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slicing.n.02) ^ ?w1=/=?w2
+-0.852482   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, bacon.n.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
+-0.100124   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, bacon.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
+-1.266895   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, bacon.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, perform.v.01) ^ ?w1=/=?w2
+-0.563365   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slicing.n.02) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, mushroom.n.05) ^ ?w1=/=?w2
+-0.765016   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slicing.n.02) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, mushroom.n.05) ^ ?w1=/=?w2
+-0.765016   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slicing.n.02) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, mushroom.n.05) ^ ?w1=/=?w2
+8.719853    action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slicing.n.02) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, mushroom.n.05) ^ ?w1=/=?w2
+-0.765016   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slicing.n.02) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, mushroom.n.05) ^ ?w1=/=?w2
+-0.765016   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slicing.n.02) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, mushroom.n.05) ^ ?w1=/=?w2
+-0.563365   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slicing.n.02) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, mushroom.n.05) ^ ?w1=/=?w2
+-0.561488   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slicing.n.02) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, meat.n.01) ^ ?w1=/=?w2
+-0.761840   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slicing.n.02) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, meat.n.01) ^ ?w1=/=?w2
+-0.761840   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slicing.n.02) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, meat.n.01) ^ ?w1=/=?w2
+8.724624    action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slicing.n.02) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, meat.n.01) ^ ?w1=/=?w2
+-0.761840   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slicing.n.02) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, meat.n.01) ^ ?w1=/=?w2
+-0.761840   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slicing.n.02) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, meat.n.01) ^ ?w1=/=?w2
+-0.561488   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slicing.n.02) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, meat.n.01) ^ ?w1=/=?w2
+-0.563353   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slicing.n.02) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bacon.n.01) ^ ?w1=/=?w2
+-0.764998   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slicing.n.02) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bacon.n.01) ^ ?w1=/=?w2
+-0.764998   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slicing.n.02) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bacon.n.01) ^ ?w1=/=?w2
+8.719913    action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slicing.n.02) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bacon.n.01) ^ ?w1=/=?w2
+-0.764998   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slicing.n.02) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bacon.n.01) ^ ?w1=/=?w2
+-0.764998   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slicing.n.02) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bacon.n.01) ^ ?w1=/=?w2
+-0.563353   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slicing.n.02) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bacon.n.01) ^ ?w1=/=?w2
+-1.594396   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slicing.n.02) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slicing.n.02) ^ ?w1=/=?w2
+-2.236799   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slicing.n.02) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, perform.v.01) ^ ?w1=/=?w2
+-3.196600   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slicing.n.02) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, perform.v.01) ^ ?w1=/=?w2
+-3.196600   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slicing.n.02) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, perform.v.01) ^ ?w1=/=?w2
+-3.102494   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slicing.n.02) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, perform.v.01) ^ ?w1=/=?w2
+-2.236163   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slicing.n.02) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, make.v.16) ^ ?w1=/=?w2
+-3.196822   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slicing.n.02) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, make.v.16) ^ ?w1=/=?w2
+-3.196822   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slicing.n.02) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, make.v.16) ^ ?w1=/=?w2
+-3.103952   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slicing.n.02) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, make.v.16) ^ ?w1=/=?w2
+-0.566750   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slicing.n.02) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, lemon.n.01) ^ ?w1=/=?w2
+-0.770721   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slicing.n.02) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, lemon.n.01) ^ ?w1=/=?w2
+-0.770721   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slicing.n.02) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, lemon.n.01) ^ ?w1=/=?w2
+8.710559    action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slicing.n.02) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, lemon.n.01) ^ ?w1=/=?w2
+-0.770721   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slicing.n.02) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, lemon.n.01) ^ ?w1=/=?w2
+-0.770721   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slicing.n.02) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, lemon.n.01) ^ ?w1=/=?w2
+-0.566750   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slicing.n.02) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, lemon.n.01) ^ ?w1=/=?w2
+-0.166874   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, potato.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, potato.n.01) ^ ?w1=/=?w2
+-0.167261   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, potato.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, potato.n.01) ^ ?w1=/=?w2
+-0.450783   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, potato.n.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
+-0.100124   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, potato.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
+-0.617656   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, potato.n.01) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ?w1=/=?w2
+-0.619687   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, potato.n.01) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ?w1=/=?w2
+-0.450775   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, potato.n.01) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ?w1=/=?w2
+-0.100238   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, potato.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ?w1=/=?w2
+-0.369796   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cleaver.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, meat.n.01) ^ ?w1=/=?w2
+-0.396310   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cleaver.n.01) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, meat.n.01) ^ ?w1=/=?w2
+-0.558072   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cleaver.n.01) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, meat.n.01) ^ ?w1=/=?w2
+4.774796    action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cleaver.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, meat.n.01) ^ ?w1=/=?w2
+-0.270277   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cleaver.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, meat.n.01) ^ ?w1=/=?w2
+-0.179129   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cleaver.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, meat.n.01) ^ ?w1=/=?w2
+-0.333747   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cleaver.n.01) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cleaver.n.01) ^ ?w1=/=?w2
+-0.699926   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cleaver.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cleaver.n.01) ^ ?w1=/=?w2
+-0.405846   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cleaver.n.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
+-0.200248   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cleaver.n.01) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
+-0.200248   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cleaver.n.01) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
+-0.542202   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cleaver.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
+-0.369796   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cleaver.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, flesh.n.01) ^ ?w1=/=?w2
+-0.396310   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cleaver.n.01) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, flesh.n.01) ^ ?w1=/=?w2
+-0.558072   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cleaver.n.01) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, flesh.n.01) ^ ?w1=/=?w2
+4.774796    action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cleaver.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, flesh.n.01) ^ ?w1=/=?w2
+-0.270277   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cleaver.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, flesh.n.01) ^ ?w1=/=?w2
+-0.179129   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cleaver.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, flesh.n.01) ^ ?w1=/=?w2
+-0.852482   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, mushroom.n.05) ^ ?w1=/=?w2
+-1.269466   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, mushroom.n.05) ^ ?w1=/=?w2
+-1.269466   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, mushroom.n.05) ^ ?w1=/=?w2
+7.728461    action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, mushroom.n.05) ^ ?w1=/=?w2
+-0.100124   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, mushroom.n.05) ^ ?w1=/=?w2
+-0.100124   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, mushroom.n.05) ^ ?w1=/=?w2
+-0.100124   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, mushroom.n.05) ^ ?w1=/=?w2
+-0.852482   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cheese.n.01) ^ ?w1=/=?w2
+-1.269466   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cheese.n.01) ^ ?w1=/=?w2
+-1.269466   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cheese.n.01) ^ ?w1=/=?w2
+7.728461    action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cheese.n.01) ^ ?w1=/=?w2
+-0.100124   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cheese.n.01) ^ ?w1=/=?w2
+-0.100124   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cheese.n.01) ^ ?w1=/=?w2
+-0.100124   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cheese.n.01) ^ ?w1=/=?w2
+-0.407765   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, meat.n.01) ^ ?w1=/=?w2
+-0.691250   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, meat.n.01) ^ ?w1=/=?w2
+-0.558072   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, meat.n.01) ^ ?w1=/=?w2
+3.905869    action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, meat.n.01) ^ ?w1=/=?w2
+-0.309375   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, meat.n.01) ^ ?w1=/=?w2
+-0.100124   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, meat.n.01) ^ ?w1=/=?w2
+-0.100124   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, meat.n.01) ^ ?w1=/=?w2
+-0.293308   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bread.n.01) ^ ?w1=/=?w2
+-0.418648   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bread.n.01) ^ ?w1=/=?w2
+-0.418496   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bread.n.01) ^ ?w1=/=?w2
+2.912601    action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bread.n.01) ^ ?w1=/=?w2
+-0.225309   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bread.n.01) ^ ?w1=/=?w2
+-0.225290   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bread.n.01) ^ ?w1=/=?w2
+-0.100124   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bread.n.01) ^ ?w1=/=?w2
+-0.450783   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, orange.n.01) ^ ?w1=/=?w2
+-0.619687   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, orange.n.01) ^ ?w1=/=?w2
+-0.618036   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, orange.n.01) ^ ?w1=/=?w2
+4.181312    action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, orange.n.01) ^ ?w1=/=?w2
+-0.100124   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, orange.n.01) ^ ?w1=/=?w2
+-0.267234   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, orange.n.01) ^ ?w1=/=?w2
+-0.100124   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, orange.n.01) ^ ?w1=/=?w2
+-0.852482   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, zucchini.n.01) ^ ?w1=/=?w2
+-1.269466   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, zucchini.n.01) ^ ?w1=/=?w2
+-1.269466   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, zucchini.n.01) ^ ?w1=/=?w2
+7.728461    action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, zucchini.n.01) ^ ?w1=/=?w2
+-0.100124   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, zucchini.n.01) ^ ?w1=/=?w2
+-0.100124   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, zucchini.n.01) ^ ?w1=/=?w2
+-0.100124   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, zucchini.n.01) ^ ?w1=/=?w2
+-0.852482   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cabbage.n.01) ^ ?w1=/=?w2
+-1.269466   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cabbage.n.01) ^ ?w1=/=?w2
+-1.269466   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cabbage.n.01) ^ ?w1=/=?w2
+7.728461    action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cabbage.n.01) ^ ?w1=/=?w2
+-0.100124   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cabbage.n.01) ^ ?w1=/=?w2
+-0.100124   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cabbage.n.01) ^ ?w1=/=?w2
+-0.100124   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cabbage.n.01) ^ ?w1=/=?w2
+-0.448849   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, banana.n.02) ^ ?w1=/=?w2
+-0.617946   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, banana.n.02) ^ ?w1=/=?w2
+-0.616938   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, banana.n.02) ^ ?w1=/=?w2
+4.186568    action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, banana.n.02) ^ ?w1=/=?w2
+-0.267866   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, banana.n.02) ^ ?w1=/=?w2
+-0.100124   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, banana.n.02) ^ ?w1=/=?w2
+-0.100124   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, banana.n.02) ^ ?w1=/=?w2
+-0.293308   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, tomato.n.01) ^ ?w1=/=?w2
+-0.418648   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, tomato.n.01) ^ ?w1=/=?w2
+-0.418496   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, tomato.n.01) ^ ?w1=/=?w2
+2.912601    action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, tomato.n.01) ^ ?w1=/=?w2
+-0.225309   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, tomato.n.01) ^ ?w1=/=?w2
+-0.225290   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, tomato.n.01) ^ ?w1=/=?w2
+-0.100124   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, tomato.n.01) ^ ?w1=/=?w2
+-0.852482   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bacon.n.01) ^ ?w1=/=?w2
+-1.269466   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bacon.n.01) ^ ?w1=/=?w2
+-1.269466   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bacon.n.01) ^ ?w1=/=?w2
+7.728461    action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bacon.n.01) ^ ?w1=/=?w2
+-0.100124   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bacon.n.01) ^ ?w1=/=?w2
+-0.100124   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bacon.n.01) ^ ?w1=/=?w2
+-0.100124   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bacon.n.01) ^ ?w1=/=?w2
+-0.450783   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, potato.n.01) ^ ?w1=/=?w2
+-0.619687   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, potato.n.01) ^ ?w1=/=?w2
+-0.618036   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, potato.n.01) ^ ?w1=/=?w2
+4.181312    action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, potato.n.01) ^ ?w1=/=?w2
+-0.100124   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, potato.n.01) ^ ?w1=/=?w2
+-0.267234   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, potato.n.01) ^ ?w1=/=?w2
+-0.100124   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, potato.n.01) ^ ?w1=/=?w2
+-0.405846   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cleaver.n.01) ^ ?w1=/=?w2
+4.675136    action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cleaver.n.01) ^ ?w1=/=?w2
+-0.540553   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cleaver.n.01) ^ ?w1=/=?w2
+-1.058183   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cleaver.n.01) ^ ?w1=/=?w2
+-0.200248   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cleaver.n.01) ^ ?w1=/=?w2
+-1.320572   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
+-0.876869   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
+-3.625696   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
+-0.852482   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, olive.n.01) ^ ?w1=/=?w2
+-1.269466   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, olive.n.01) ^ ?w1=/=?w2
+-1.269466   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, olive.n.01) ^ ?w1=/=?w2
+7.728461    action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, olive.n.01) ^ ?w1=/=?w2
+-0.100124   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, olive.n.01) ^ ?w1=/=?w2
+-0.100124   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, olive.n.01) ^ ?w1=/=?w2
+-0.100124   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, olive.n.01) ^ ?w1=/=?w2
+-0.513312   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, knife.n.01) ^ ?w1=/=?w2
+7.632446    action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, knife.n.01) ^ ?w1=/=?w2
+-0.771522   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, knife.n.01) ^ ?w1=/=?w2
+-1.446307   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, knife.n.01) ^ ?w1=/=?w2
+-0.500621   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, knife.n.01) ^ ?w1=/=?w2
+-0.245344   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, fork.n.01) ^ ?w1=/=?w2
+2.696658    action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, fork.n.01) ^ ?w1=/=?w2
+-0.370594   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, fork.n.01) ^ ?w1=/=?w2
+-0.504140   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, fork.n.01) ^ ?w1=/=?w2
+-0.100124   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, fork.n.01) ^ ?w1=/=?w2
+-0.601289   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ?w1=/=?w2
+-1.029504   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ?w1=/=?w2
+9.068297    action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ?w1=/=?w2
+-1.644922   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ?w1=/=?w2
+-0.993776   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ?w1=/=?w2
+-0.600745   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ?w1=/=?w2
+-0.448849   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vegetable.n.01) ^ ?w1=/=?w2
+-0.617946   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vegetable.n.01) ^ ?w1=/=?w2
+-0.616938   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vegetable.n.01) ^ ?w1=/=?w2
+4.186568    action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vegetable.n.01) ^ ?w1=/=?w2
+-0.267866   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vegetable.n.01) ^ ?w1=/=?w2
+-0.100124   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vegetable.n.01) ^ ?w1=/=?w2
+-0.100124   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vegetable.n.01) ^ ?w1=/=?w2
+-0.407765   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, flesh.n.01) ^ ?w1=/=?w2
+-0.691250   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, flesh.n.01) ^ ?w1=/=?w2
+-0.558072   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, flesh.n.01) ^ ?w1=/=?w2
+3.905869    action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, flesh.n.01) ^ ?w1=/=?w2
+-0.309375   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, flesh.n.01) ^ ?w1=/=?w2
+-0.100124   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, flesh.n.01) ^ ?w1=/=?w2
+-0.100124   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, flesh.n.01) ^ ?w1=/=?w2
+-0.450783   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pizza.n.01) ^ ?w1=/=?w2
+-0.619687   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pizza.n.01) ^ ?w1=/=?w2
+-0.618036   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pizza.n.01) ^ ?w1=/=?w2
+4.181312    action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pizza.n.01) ^ ?w1=/=?w2
+-0.100124   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pizza.n.01) ^ ?w1=/=?w2
+-0.267234   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pizza.n.01) ^ ?w1=/=?w2
+-0.100124   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pizza.n.01) ^ ?w1=/=?w2
+-0.248687   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cake.n.03) ^ ?w1=/=?w2
+-0.503534   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cake.n.03) ^ ?w1=/=?w2
+-0.373937   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cake.n.03) ^ ?w1=/=?w2
+2.667980    action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cake.n.03) ^ ?w1=/=?w2
+-0.242785   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cake.n.03) ^ ?w1=/=?w2
+-0.225332   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cake.n.03) ^ ?w1=/=?w2
+-0.100124   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cake.n.03) ^ ?w1=/=?w2
+-0.807106   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, lemon.n.01) ^ ?w1=/=?w2
+-1.222626   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, lemon.n.01) ^ ?w1=/=?w2
+-1.181981   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, lemon.n.01) ^ ?w1=/=?w2
+7.871008    action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, lemon.n.01) ^ ?w1=/=?w2
+-0.373806   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, lemon.n.01) ^ ?w1=/=?w2
+-0.200248   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, lemon.n.01) ^ ?w1=/=?w2
+-0.200248   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, lemon.n.01) ^ ?w1=/=?w2
+-0.852482   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, olive.n.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
+-0.100124   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, olive.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
+-0.250310   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, olive.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, olive.n.01) ^ ?w1=/=?w2
+-0.225353   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bread.n.01) ^ ?w1=/=?w2
+-0.293304   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bread.n.01) ^ ?w1=/=?w2
+-0.418496   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bread.n.01) ^ ?w1=/=?w2
+2.913631    action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bread.n.01) ^ ?w1=/=?w2
+-0.225405   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bread.n.01) ^ ?w1=/=?w2
+-0.100173   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bread.n.01) ^ ?w1=/=?w2
+-0.268177   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, banana.n.02) ^ ?w1=/=?w2
+-0.448792   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, banana.n.02) ^ ?w1=/=?w2
+-0.616938   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, banana.n.02) ^ ?w1=/=?w2
+4.198892    action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, banana.n.02) ^ ?w1=/=?w2
+-0.102044   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, banana.n.02) ^ ?w1=/=?w2
+-0.100964   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, banana.n.02) ^ ?w1=/=?w2
+-0.225353   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, tomato.n.01) ^ ?w1=/=?w2
+-0.293304   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, tomato.n.01) ^ ?w1=/=?w2
+-0.418496   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, tomato.n.01) ^ ?w1=/=?w2
+2.913631    action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, tomato.n.01) ^ ?w1=/=?w2
+-0.225405   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, tomato.n.01) ^ ?w1=/=?w2
+-0.100173   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, tomato.n.01) ^ ?w1=/=?w2
+-0.513312   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
+-0.500621   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
+-0.750953   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
+-1.256844   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
+-0.750931   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, knife.n.01) ^ ?w1=/=?w2
+-0.250354   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, knife.n.01) ^ ?w1=/=?w2
+-0.936664   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, knife.n.01) ^ ?w1=/=?w2
+-0.450706   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ?w1=/=?w2
+-0.200276   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ?w1=/=?w2
+3.106279    action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ?w1=/=?w2
+-0.479152   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ?w1=/=?w2
+-0.200457   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ?w1=/=?w2
+-0.268177   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vegetable.n.01) ^ ?w1=/=?w2
+-0.448792   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vegetable.n.01) ^ ?w1=/=?w2
+-0.616938   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vegetable.n.01) ^ ?w1=/=?w2
+4.198892    action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vegetable.n.01) ^ ?w1=/=?w2
+-0.102044   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vegetable.n.01) ^ ?w1=/=?w2
+-0.100964   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vegetable.n.01) ^ ?w1=/=?w2
+-0.277182   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, lemon.n.01) ^ ?w1=/=?w2
+-0.149869   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, lemon.n.01) ^ ?w1=/=?w2
+-0.165665   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, lemon.n.01) ^ ?w1=/=?w2
+1.946308    action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, lemon.n.01) ^ ?w1=/=?w2
+-0.116623   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, lemon.n.01) ^ ?w1=/=?w2
+-0.107369   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, lemon.n.01) ^ ?w1=/=?w2
+-1.615691   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, perform.v.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, meat.n.01) ^ ?w1=/=?w2
+-1.598300   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, perform.v.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, meat.n.01) ^ ?w1=/=?w2
+-1.598300   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, perform.v.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, meat.n.01) ^ ?w1=/=?w2
+-1.266895   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, perform.v.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, meat.n.01) ^ ?w1=/=?w2
+-1.616681   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, perform.v.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bacon.n.01) ^ ?w1=/=?w2
+-1.598300   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, perform.v.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bacon.n.01) ^ ?w1=/=?w2
+-1.598300   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, perform.v.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bacon.n.01) ^ ?w1=/=?w2
+-1.266895   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, perform.v.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bacon.n.01) ^ ?w1=/=?w2
+-2.236799   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, perform.v.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slicing.n.02) ^ ?w1=/=?w2
+-1.617922   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, make.v.16) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, mushroom.n.05) ^ ?w1=/=?w2
+-1.598411   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, make.v.16) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, mushroom.n.05) ^ ?w1=/=?w2
+-1.598411   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, make.v.16) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, mushroom.n.05) ^ ?w1=/=?w2
+-1.266694   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, make.v.16) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, mushroom.n.05) ^ ?w1=/=?w2
+-2.236163   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, make.v.16) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slicing.n.02) ^ ?w1=/=?w2
+-1.619726   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, make.v.16) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, lemon.n.01) ^ ?w1=/=?w2
+-1.598411   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, make.v.16) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, lemon.n.01) ^ ?w1=/=?w2
+-1.598411   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, make.v.16) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, lemon.n.01) ^ ?w1=/=?w2
+-1.266694   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, make.v.16) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, lemon.n.01) ^ ?w1=/=?w2
+-0.245344   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fork.n.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
+-0.100124   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fork.n.01) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
+-0.225332   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fork.n.01) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
+-0.225849   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fork.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
+-0.125155   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fork.n.01) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, fork.n.01) ^ ?w1=/=?w2
+-0.125252   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fork.n.01) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, fork.n.01) ^ ?w1=/=?w2
+-0.277972   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fork.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, fork.n.01) ^ ?w1=/=?w2
+-0.370499   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fork.n.01) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ?w1=/=?w2
+-0.100169   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fork.n.01) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ?w1=/=?w2
+2.697250    action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fork.n.01) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ?w1=/=?w2
+-0.238377   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fork.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ?w1=/=?w2
+-0.245342   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fork.n.01) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ?w1=/=?w2
+-0.370499   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fork.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cake.n.03) ^ ?w1=/=?w2
+-0.229316   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fork.n.01) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cake.n.03) ^ ?w1=/=?w2
+-0.373937   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fork.n.01) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cake.n.03) ^ ?w1=/=?w2
+3.812714    action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fork.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cake.n.03) ^ ?w1=/=?w2
+-0.370594   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fork.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cake.n.03) ^ ?w1=/=?w2
+-0.226169   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fork.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cake.n.03) ^ ?w1=/=?w2
+-0.225290   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bread.n.01) ^ ?w1=/=?w2
+-0.225370   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bread.n.01) ^ ?w1=/=?w2
+-0.293307   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bread.n.01) ^ ?w1=/=?w2
+2.912786    action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bread.n.01) ^ ?w1=/=?w2
+-0.100131   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bread.n.01) ^ ?w1=/=?w2
+-0.267160   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, orange.n.01) ^ ?w1=/=?w2
+-0.100370   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, orange.n.01) ^ ?w1=/=?w2
+-0.450775   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, orange.n.01) ^ ?w1=/=?w2
+4.183344    action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, orange.n.01) ^ ?w1=/=?w2
+-0.100238   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, orange.n.01) ^ ?w1=/=?w2
+-0.225290   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, tomato.n.01) ^ ?w1=/=?w2
+-0.225370   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, tomato.n.01) ^ ?w1=/=?w2
+-0.293307   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, tomato.n.01) ^ ?w1=/=?w2
+2.912786    action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, tomato.n.01) ^ ?w1=/=?w2
+-0.100131   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, tomato.n.01) ^ ?w1=/=?w2
+-0.267160   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, potato.n.01) ^ ?w1=/=?w2
+-0.100370   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, potato.n.01) ^ ?w1=/=?w2
+-0.450775   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, potato.n.01) ^ ?w1=/=?w2
+4.183344    action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, potato.n.01) ^ ?w1=/=?w2
+-0.100238   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, potato.n.01) ^ ?w1=/=?w2
+-0.601289   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
+-0.600745   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
+-1.482898   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
+-0.450580   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, knife.n.01) ^ ?w1=/=?w2
+-0.200276   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, knife.n.01) ^ ?w1=/=?w2
+-0.200457   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, knife.n.01) ^ ?w1=/=?w2
+-0.493890   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, knife.n.01) ^ ?w1=/=?w2
+-0.225315   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, fork.n.01) ^ ?w1=/=?w2
+-0.100169   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, fork.n.01) ^ ?w1=/=?w2
+-0.245342   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, fork.n.01) ^ ?w1=/=?w2
+-0.504140   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, fork.n.01) ^ ?w1=/=?w2
+-0.876086   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ?w1=/=?w2
+-0.427950   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ?w1=/=?w2
+-1.043798   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ?w1=/=?w2
+-0.267160   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pizza.n.01) ^ ?w1=/=?w2
+-0.100370   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pizza.n.01) ^ ?w1=/=?w2
+-0.450775   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pizza.n.01) ^ ?w1=/=?w2
+4.183344    action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pizza.n.01) ^ ?w1=/=?w2
+-0.100238   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pizza.n.01) ^ ?w1=/=?w2
+-0.225315   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cake.n.03) ^ ?w1=/=?w2
+-0.277654   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cake.n.03) ^ ?w1=/=?w2
+-0.248685   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cake.n.03) ^ ?w1=/=?w2
+2.668572    action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cake.n.03) ^ ?w1=/=?w2
+-0.100148   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cake.n.03) ^ ?w1=/=?w2
+-0.448849   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, vegetable.n.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
+-0.100124   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, vegetable.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
+-0.615723   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, vegetable.n.01) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, knife.n.01) ^ ?w1=/=?w2
+-0.448792   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, vegetable.n.01) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, knife.n.01) ^ ?w1=/=?w2
+-0.100964   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, vegetable.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, knife.n.01) ^ ?w1=/=?w2
+-0.166874   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, vegetable.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vegetable.n.01) ^ ?w1=/=?w2
+-0.169153   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, vegetable.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vegetable.n.01) ^ ?w1=/=?w2
+-0.574639   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, flesh.n.01) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cleaver.n.01) ^ ?w1=/=?w2
+-0.396310   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, flesh.n.01) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cleaver.n.01) ^ ?w1=/=?w2
+-0.179129   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, flesh.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cleaver.n.01) ^ ?w1=/=?w2
+-0.407765   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, flesh.n.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
+-0.100124   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, flesh.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
+-0.166874   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, flesh.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, flesh.n.01) ^ ?w1=/=?w2
+-0.294941   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, flesh.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, flesh.n.01) ^ ?w1=/=?w2
+-0.450783   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, pizza.n.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
+-0.100124   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, pizza.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
+-0.617656   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, pizza.n.01) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ?w1=/=?w2
+-0.619687   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, pizza.n.01) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ?w1=/=?w2
+-0.450775   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, pizza.n.01) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ?w1=/=?w2
+-0.100238   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, pizza.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ?w1=/=?w2
+-0.166874   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, pizza.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pizza.n.01) ^ ?w1=/=?w2
+-0.167261   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, pizza.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pizza.n.01) ^ ?w1=/=?w2
+-0.248687   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cake.n.03) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
+-0.100124   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cake.n.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
+-0.373842   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cake.n.03) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, fork.n.01) ^ ?w1=/=?w2
+-0.229316   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cake.n.03) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, fork.n.01) ^ ?w1=/=?w2
+-0.226169   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cake.n.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, fork.n.01) ^ ?w1=/=?w2
+-0.373842   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cake.n.03) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ?w1=/=?w2
+-0.503534   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cake.n.03) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ?w1=/=?w2
+-0.248685   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cake.n.03) ^ action_role(?w2, Piece) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ?w1=/=?w2
+-0.100148   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cake.n.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, piece.n.08) ^ ?w1=/=?w2
+-0.125155   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cake.n.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cake.n.03) ^ ?w1=/=?w2
+-0.274219   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cake.n.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cake.n.03) ^ ?w1=/=?w2
+-0.125252   action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cake.n.03) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cake.n.03) ^ ?w1=/=?w2
+-0.566750   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, lemon.n.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slicing.n.02) ^ ?w1=/=?w2
+-0.566750   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, lemon.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slicing.n.02) ^ ?w1=/=?w2
+-0.807106   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, lemon.n.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
+-0.200248   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, lemon.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
+-0.299896   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, lemon.n.01) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, knife.n.01) ^ ?w1=/=?w2
+-0.149869   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, lemon.n.01) ^ action_role(?w2, CuttingTool) ^ has_sense(?w2, ?s2) ^ is_a(?s2, knife.n.01) ^ ?w1=/=?w2
+-0.107369   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, lemon.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, knife.n.01) ^ ?w1=/=?w2
+-1.266694   action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, lemon.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, make.v.16) ^ ?w1=/=?w2
+-0.976345   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, lemon.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, lemon.n.01) ^ ?w1=/=?w2
+-0.177890   action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, lemon.n.01) ^ action_role(?w2, ObjectToBeCutted) ^ has_sense(?w2, ?s2) ^ is_a(?s2, lemon.n.01) ^ ?w1=/=?w2
+-0.167553   has_pos(?w1, VB) ^ !action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, mushroom.n.05)
+-0.167877   has_pos(?w1, VB) ^ !action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, meat.n.01)
+-0.167551   has_pos(?w1, VB) ^ !action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, bacon.n.01)
+-0.667926   has_pos(?w1, VB) ^ !action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slicing.n.02)
+-7.210648   has_pos(?w1, VB) ^ !action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03)
+2.906190    has_pos(?w1, VB) ^ !action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, perform.v.01)
+2.904869    has_pos(?w1, VB) ^ !action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, make.v.16)
+-0.167191   has_pos(?w1, VB) ^ !action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, lemon.n.01)
+-0.417863   has_pos(?w1, VB) ^ !action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, mushroom.n.05)
+-0.250310   has_pos(?w1, VB) ^ !action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cheese.n.01)
+-0.334751   has_pos(?w1, VB) ^ !action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, meat.n.01)
+-0.125155   has_pos(?w1, VB) ^ !action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, bread.n.01)
+-0.166874   has_pos(?w1, VB) ^ !action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, orange.n.01)
+-0.250310   has_pos(?w1, VB) ^ !action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, zucchini.n.01)
+-0.250310   has_pos(?w1, VB) ^ !action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cabbage.n.01)
+-0.166874   has_pos(?w1, VB) ^ !action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, banana.n.02)
+-0.125155   has_pos(?w1, VB) ^ !action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, tomato.n.01)
+-0.417861   has_pos(?w1, VB) ^ !action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, bacon.n.01)
+-0.667926   has_pos(?w1, VB) ^ !action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slicing.n.02)
+-0.166874   has_pos(?w1, VB) ^ !action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, potato.n.01)
+-0.333747   has_pos(?w1, VB) ^ !action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cleaver.n.01)
+7.350782    has_pos(?w1, VB) ^ !action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03)
+-0.250310   has_pos(?w1, VB) ^ !action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, olive.n.01)
+-0.750931   has_pos(?w1, VB) ^ !action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01)
+3.865991    has_pos(?w1, VB) ^ !action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, perform.v.01)
+3.865529    has_pos(?w1, VB) ^ !action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, make.v.16)
+-0.125155   has_pos(?w1, VB) ^ !action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fork.n.01)
+-0.876086   has_pos(?w1, VB) ^ !action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08)
+-0.166874   has_pos(?w1, VB) ^ !action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, vegetable.n.01)
+-0.166874   has_pos(?w1, VB) ^ !action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, flesh.n.01)
+-0.166874   has_pos(?w1, VB) ^ !action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, pizza.n.01)
+-0.125155   has_pos(?w1, VB) ^ !action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cake.n.03)
+-0.584375   has_pos(?w1, VB) ^ !action_role(?w1, CuttingTool) ^ has_sense(?w1, ?s1) ^ is_a(?s1, lemon.n.01)
+-0.417863   has_pos(?w1, VB) ^ !action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, mushroom.n.05)
+-0.250310   has_pos(?w1, VB) ^ !action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cheese.n.01)
+-0.334751   has_pos(?w1, VB) ^ !action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, meat.n.01)
+-0.125155   has_pos(?w1, VB) ^ !action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, bread.n.01)
+-0.166874   has_pos(?w1, VB) ^ !action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, orange.n.01)
+-0.250310   has_pos(?w1, VB) ^ !action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, zucchini.n.01)
+-0.250310   has_pos(?w1, VB) ^ !action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cabbage.n.01)
+-0.166874   has_pos(?w1, VB) ^ !action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, banana.n.02)
+-0.125155   has_pos(?w1, VB) ^ !action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, tomato.n.01)
+-0.417861   has_pos(?w1, VB) ^ !action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, bacon.n.01)
+-0.667926   has_pos(?w1, VB) ^ !action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slicing.n.02)
+-0.166874   has_pos(?w1, VB) ^ !action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, potato.n.01)
+-0.333747   has_pos(?w1, VB) ^ !action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cleaver.n.01)
+7.350782    has_pos(?w1, VB) ^ !action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03)
+-0.250310   has_pos(?w1, VB) ^ !action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, olive.n.01)
+-0.750931   has_pos(?w1, VB) ^ !action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01)
+3.865991    has_pos(?w1, VB) ^ !action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, perform.v.01)
+3.865529    has_pos(?w1, VB) ^ !action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, make.v.16)
+-0.125155   has_pos(?w1, VB) ^ !action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fork.n.01)
+-0.876086   has_pos(?w1, VB) ^ !action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08)
+-0.166874   has_pos(?w1, VB) ^ !action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, vegetable.n.01)
+-0.166874   has_pos(?w1, VB) ^ !action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, flesh.n.01)
+-0.166874   has_pos(?w1, VB) ^ !action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, pizza.n.01)
+-0.125155   has_pos(?w1, VB) ^ !action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cake.n.03)
+-0.584375   has_pos(?w1, VB) ^ !action_role(?w1, Piece) ^ has_sense(?w1, ?s1) ^ is_a(?s1, lemon.n.01)
+-0.417863   has_pos(?w1, VB) ^ !action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, mushroom.n.05)
+-0.250310   has_pos(?w1, VB) ^ !action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cheese.n.01)
+-0.334751   has_pos(?w1, VB) ^ !action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, meat.n.01)
+-0.125155   has_pos(?w1, VB) ^ !action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, bread.n.01)
+-0.166874   has_pos(?w1, VB) ^ !action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, orange.n.01)
+-0.250310   has_pos(?w1, VB) ^ !action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, zucchini.n.01)
+-0.250310   has_pos(?w1, VB) ^ !action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cabbage.n.01)
+-0.166874   has_pos(?w1, VB) ^ !action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, banana.n.02)
+-0.125155   has_pos(?w1, VB) ^ !action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, tomato.n.01)
+-0.417861   has_pos(?w1, VB) ^ !action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, bacon.n.01)
+-0.667926   has_pos(?w1, VB) ^ !action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slicing.n.02)
+-0.166874   has_pos(?w1, VB) ^ !action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, potato.n.01)
+-0.333747   has_pos(?w1, VB) ^ !action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cleaver.n.01)
+7.350782    has_pos(?w1, VB) ^ !action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, slice.v.03)
+-0.250310   has_pos(?w1, VB) ^ !action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, olive.n.01)
+-0.750931   has_pos(?w1, VB) ^ !action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, knife.n.01)
+3.203181    has_pos(?w1, VB) ^ !action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, perform.v.01)
+3.202094    has_pos(?w1, VB) ^ !action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, make.v.16)
+-0.125155   has_pos(?w1, VB) ^ !action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fork.n.01)
+-0.876086   has_pos(?w1, VB) ^ !action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, piece.n.08)
+-0.166874   has_pos(?w1, VB) ^ !action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, vegetable.n.01)
+-0.166874   has_pos(?w1, VB) ^ !action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, flesh.n.01)
+-0.166874   has_pos(?w1, VB) ^ !action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, pizza.n.01)
+-0.125155   has_pos(?w1, VB) ^ !action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cake.n.03)
+-0.584375   has_pos(?w1, VB) ^ !action_role(?w1, ObjectToBeCutted) ^ has_sense(?w1, ?s1) ^ is_a(?s1, lemon.n.01)
