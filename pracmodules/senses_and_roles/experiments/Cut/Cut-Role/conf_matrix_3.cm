@@ -23,7 +23,7 @@ aS'ActionCause'
 p11
 asS'instanceCount'
 p12
-I7
+I10
 sS'matrix'
 p13
 (dp14
@@ -31,7 +31,7 @@ g11
 (dp15
 S'ActionCause'
 p16
-I2
+I3
 ssg8
 (dp17
 S'CuttingTool'
@@ -41,10 +41,10 @@ ssg9
 (dp19
 S'Piece'
 p20
-I1
+I2
 ssg10
 (dp21
 S'ObjectToBeCutted'
 p22
-I2
+I3
 sssb.
