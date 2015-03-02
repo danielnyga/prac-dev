@@ -15,13 +15,13 @@ p6
 (lp7
 S'ActionCause'
 p8
-aS'ObjectShouldBeUsedForStirring'
+aS'Goal'
 p9
 aS'ObjectToBeStirred'
 p10
 asS'instanceCount'
 p11
-I7
+I8
 sS'matrix'
 p12
 (dp13
@@ -32,9 +32,9 @@ p15
 I3
 ssg9
 (dp16
-S'ObjectShouldBeUsedForStirring'
+S'Goal'
 p17
-I1
+I2
 ssg10
 (dp18
 S'ObjectToBeStirred'
