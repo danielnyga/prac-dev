@@ -65,7 +65,7 @@ shapespecs = {  'crescent.s.01': (2,2,1,0),
                 'rhombic.a.01': (4,4,1,22),
                 'triangle.n.01': (3,3,1,24),
                 'triangular.s.01': (3,3,1,25),
-                'pyramidal': (5,5,5,26),
+                'pyramidal.s.01': (5,5,5,26),
                 'wedge-shaped.a.02': (9,6,5,27),
                 'pronged.s.01': (8,4,2,27),
                 'cuneate.s.01': (3,3,1,28), #keilfoermig
