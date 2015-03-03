@@ -1,0 +1,58 @@
+Slice_Results/Thu_11_Sep_2014_16:04:12_K=10_TSC=9/FOL/conf_matrix.cm
+Average: : - Acc=0.97, Pre=0.27, Rec=0.34 F1=0.28
+
+Slice_Results/Thu_11_Sep_2014_16:04:12_K=10_TSC=9/FUZZY/conf_matrix.cm
+Average: : - Acc=0.99, Pre=0.34, Rec=0.42 F1=0.36
+
+Slice_Results/Thu_11_Sep_2014_16:05:01_K=10_TSC=8/FOL/conf_matrix.cm
+Average: : - Acc=0.97, Pre=0.28, Rec=0.34 F1=0.30
+
+Slice_Results/Thu_11_Sep_2014_16:05:01_K=10_TSC=8/FUZZY/conf_matrix.cm
+Average: : - Acc=0.99, Pre=0.47, Rec=0.53 F1=0.49
+
+Slice_Results/Thu_11_Sep_2014_16:06:17_K=10_TSC=7/FOL/conf_matrix.cm
+Average: : - Acc=0.98, Pre=0.29, Rec=0.34 F1=0.30
+
+Slice_Results/Thu_11_Sep_2014_16:06:17_K=10_TSC=7/FUZZY/conf_matrix.cm
+Average: : - Acc=0.99, Pre=0.52, Rec=0.58 F1=0.54
+
+Slice_Results/Thu_11_Sep_2014_16:07:48_K=10_TSC=6/FOL/conf_matrix.cm
+Average: : - Acc=0.98, Pre=0.29, Rec=0.34 F1=0.31
+
+Slice_Results/Thu_11_Sep_2014_16:07:48_K=10_TSC=6/FUZZY/conf_matrix.cm
+Average: : - Acc=0.99, Pre=0.46, Rec=0.53 F1=0.48
+
+Slice_Results/Thu_11_Sep_2014_16:09:48_K=10_TSC=5/FOL/conf_matrix.cm
+Average: : - Acc=0.98, Pre=0.30, Rec=0.35 F1=0.31
+
+Slice_Results/Thu_11_Sep_2014_16:09:48_K=10_TSC=5/FUZZY/conf_matrix.cm
+Average: : - Acc=0.99, Pre=0.59, Rec=0.62 F1=0.60
+
+Slice_Results/Thu_11_Sep_2014_16:12:08_K=10_TSC=4/FOL/conf_matrix.cm
+Average: : - Acc=0.98, Pre=0.33, Rec=0.36 F1=0.34
+
+Slice_Results/Thu_11_Sep_2014_16:12:08_K=10_TSC=4/FUZZY/conf_matrix.cm
+Average: : - Acc=0.99, Pre=0.54, Rec=0.59 F1=0.56
+
+Slice_Results/Thu_11_Sep_2014_16:14:47_K=10_TSC=3/FOL/conf_matrix.cm
+Average: : - Acc=0.98, Pre=0.33, Rec=0.36 F1=0.34
+
+Slice_Results/Thu_11_Sep_2014_16:14:47_K=10_TSC=3/FUZZY/conf_matrix.cm
+Average: : - Acc=0.99, Pre=0.60, Rec=0.62 F1=0.61
+
+Slice_Results/Thu_11_Sep_2014_16:17:26_K=10_TSC=2/FOL/conf_matrix.cm
+Average: : - Acc=0.98, Pre=0.33, Rec=0.36 F1=0.34
+
+Slice_Results/Thu_11_Sep_2014_16:17:26_K=10_TSC=2/FUZZY/conf_matrix.cm
+Average: : - Acc=0.99, Pre=0.60, Rec=0.61 F1=0.61
+
+Slice_Results/Thu_11_Sep_2014_16:19:59_K=10_TSC=1/FOL/conf_matrix.cm
+Average: : - Acc=0.98, Pre=0.33, Rec=0.36 F1=0.34
+
+Slice_Results/Thu_11_Sep_2014_16:19:59_K=10_TSC=1/FUZZY/conf_matrix.cm
+Average: : - Acc=0.99, Pre=0.64, Rec=0.67 F1=0.65
+
+
+
+
+

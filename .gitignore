@@ -1,4 +1,10 @@
+*output/
+*.pydevproject
+*.settings/
+*.project
+*.pyo
 *.pyc
+*~
 apps
 env.sh
 documentation/_build

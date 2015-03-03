@@ -1,0 +1,44 @@
+2014-09-11 09:06:17,015 - xval - ERROR - 
+Traceback (most recent call last):
+  File "xvalWsd.py", line 377, in doXVal
+    result = workerPool.map_async(runFold, foldRunnables).get()
+  File "/usr/lib/python2.7/multiprocessing/pool.py", line 528, in get
+    raise self._value
+Exception: Traceback (most recent call last):
+  File "xvalWsd.py", line 281, in runFold
+    fold.run()
+  File "xvalWsd.py", line 205, in run
+    self.evalMLN(learnedMLN, testDBs_, 'FuzzyLogic',cm)
+  File "xvalWsd.py", line 148, in evalMLN
+    prac.run(infer,wsd,kb=kb)
+  File "/home/seba/workspace/prac/praccore/prac/core.py", line 147, in run
+    inferenceStep = inference(pracinfer, *args, **kwargs)
+  File "/home/seba/workspace/prac/praccore/prac/core.py", line 261, in wrapper
+    return method(self,*args,**kwargs)
+  File "/home/seba/workspace/prac/pracmodules/wsd/src/wsd.py", line 45, in __call__
+    result_db = list(kb.infer(db))
+  File "/home/seba/workspace/prac/praccore/prac/core.py", line 340, in infer
+    yield self.query_mln.infer(evidence_db=db, **self.query_params)
+  File "/home/seba/workspace/pracmln/python/mln/mln.py", line 278, in infer
+    resultDict = mrf.infer(what=queries, given=None, **params)
+  File "/home/seba/workspace/pracmln/python/mln/mrf.py", line 1062, in infer
+    return self.inferWCSP(what, given, verbose, **args)
+  File "/home/seba/workspace/pracmln/python/mln/mrf.py", line 1098, in inferWCSP
+    return self._infer(WCSPInference(self), what, given, verbose, **args)
+  File "/home/seba/workspace/pracmln/python/mln/mrf.py", line 1117, in _infer
+    return inferObj.infer(what, given, verbose=verbose, **args)
+  File "/home/seba/workspace/pracmln/python/mln/inference/inference.py", line 164, in infer
+    self.results = self._infer(verbose=verbose, details=details, **args)
+  File "/home/seba/workspace/pracmln/python/mln/inference/wcspinfer.py", line 37, in _infer
+    resultDB = converter.getMostProbableWorldDB(verbose).evidence
+  File "/home/seba/workspace/pracmln/python/wcsp/converter.py", line 397, in getMostProbableWorldDB
+    solution, _ = wcsp.solve(verbose)
+  File "/home/seba/workspace/pracmln/python/wcsp/wcsp.py", line 302, in solve
+    p = Popen(cmd, shell=True, stderr=PIPE, stdout=PIPE)
+  File "/usr/lib/python2.7/subprocess.py", line 679, in __init__
+    errread, errwrite)
+  File "/usr/lib/python2.7/subprocess.py", line 1143, in _execute_child
+    self.pid = os.fork()
+OSError: [Errno 12] Cannot allocate memory
+
+

@@ -66,7 +66,7 @@ class SensesAndRoles(PRACModule):
         for db in dbs:
             db_ = db.duplicate()
 #             db_.write(sys.stdout, color=True)
-            for q in db.query('action_core(?w, ?ac)'):
+            for q in db.query('ac_word(?ac)'):
                 actioncore = q['?ac']
                 if actioncore == 'null': continue
                 if kb is None:
@@ -98,7 +98,7 @@ class SensesAndRoles(PRACModule):
                 print 
                 concepts = useKB.query_mln.domains['concept']#mergeDomains(, self.merge_all_domains(pracinference))['concept']
                 log.info('adding senses. concepts=%s' % concepts)
-                db_ = self.prac.getModuleByName('wn_senses').add_senses_and_similiarities_for_concepts(db_, concepts)
+                db_ = self.prac.getModuleByName('wn_senses').get_senses_and_similarities(db_, concepts)
                 result_db = list(useKB.infer(db_))
                 for r_db in result_db:
                     if 'missing' not in params:
@@ -106,7 +106,7 @@ class SensesAndRoles(PRACModule):
                             if q['?r'] == 'null': continue
                             print colorize('ACTION ROLE:', (None, 'white', True), True), q['?r'], 
                             print colorize('  WORD:', (None, 'white', True), True), q['?w'], 
-                            print colorize('  TYPE:', (None, 'white', True), True), q['?s']
+                            print colorize('  SENSE:', (None, 'white', True), True), q['?s']
                 for ur in unknown_roles:
                     print '%s:' % colorize(ur, (None, 'red', True), True)
                     for q in r_db.query('action_role(?w, %s) ^ has_sense(?w, ?s)' % ur, truthThreshold=1):

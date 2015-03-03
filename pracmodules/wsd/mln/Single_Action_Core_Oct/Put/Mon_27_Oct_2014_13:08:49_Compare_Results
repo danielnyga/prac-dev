@@ -1,0 +1,24 @@
+Single_Action_Core_Oct/Put/Mon_27_Oct_2014_13:06:36_K=5_TSC=4/FOL/conf_matrix.cm
+Average: : - Acc=0.94, Pre=0.24, Rec=0.32 F1=0.24
+
+Single_Action_Core_Oct/Put/Mon_27_Oct_2014_13:06:36_K=5_TSC=4/FUZZY/conf_matrix.cm
+Average: : - Acc=0.97, Pre=0.24, Rec=0.37 F1=0.27
+
+Single_Action_Core_Oct/Put/Mon_27_Oct_2014_13:06:52_K=5_TSC=3/FOL/conf_matrix.cm
+Average: : - Acc=0.94, Pre=0.25, Rec=0.32 F1=0.26
+
+Single_Action_Core_Oct/Put/Mon_27_Oct_2014_13:06:52_K=5_TSC=3/FUZZY/conf_matrix.cm
+Average: : - Acc=0.97, Pre=0.26, Rec=0.33 F1=0.28
+
+Single_Action_Core_Oct/Put/Mon_27_Oct_2014_13:07:20_K=5_TSC=2/FOL/conf_matrix.cm
+Average: : - Acc=0.94, Pre=0.27, Rec=0.33 F1=0.29
+
+Single_Action_Core_Oct/Put/Mon_27_Oct_2014_13:07:20_K=5_TSC=2/FUZZY/conf_matrix.cm
+Average: : - Acc=0.97, Pre=0.37, Rec=0.42 F1=0.39
+
+Single_Action_Core_Oct/Put/Mon_27_Oct_2014_13:07:54_K=5_TSC=1/FOL/conf_matrix.cm
+Average: : - Acc=0.95, Pre=0.32, Rec=0.35 F1=0.33
+
+Single_Action_Core_Oct/Put/Mon_27_Oct_2014_13:07:54_K=5_TSC=1/FUZZY/conf_matrix.cm
+Average: : - Acc=0.97, Pre=0.50, Rec=0.50 F1=0.50
+

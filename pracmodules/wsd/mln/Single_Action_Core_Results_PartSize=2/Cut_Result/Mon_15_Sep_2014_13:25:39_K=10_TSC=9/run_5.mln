@@ -1,0 +1,69 @@
+// domain declarations
+
+
+// predicate declarations
+is_a(sense, concept)
+has_sense(word, sense!)
+has_pos(word, pos!)
+
+// formulas
+0.000000    has_pos(?w1, VB) ^ has_pos(?w2, VB) ^ is_a(?s1, egg.n.02) ^ is_a(?s2, egg.n.02) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, VB) ^ has_pos(?w2, VB) ^ is_a(?s1, egg.n.02) ^ is_a(?s2, piece.n.08) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, VB) ^ has_pos(?w2, VB) ^ is_a(?s1, egg.n.02) ^ is_a(?s2, cut.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, VB) ^ has_pos(?w2, VB) ^ is_a(?s1, egg.n.02) ^ is_a(?s2, cake.n.03) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, VB) ^ has_pos(?w2, VB) ^ is_a(?s1, egg.n.02) ^ is_a(?s2, fork.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, VB) ^ has_pos(?w2, VB) ^ is_a(?s1, piece.n.08) ^ is_a(?s2, piece.n.08) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, VB) ^ has_pos(?w2, VB) ^ is_a(?s1, piece.n.08) ^ is_a(?s2, cut.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, VB) ^ has_pos(?w2, VB) ^ is_a(?s1, piece.n.08) ^ is_a(?s2, cake.n.03) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, VB) ^ has_pos(?w2, VB) ^ is_a(?s1, piece.n.08) ^ is_a(?s2, fork.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, VB) ^ has_pos(?w2, VB) ^ is_a(?s1, cut.v.01) ^ is_a(?s2, cut.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, VB) ^ has_pos(?w2, VB) ^ is_a(?s1, cut.v.01) ^ is_a(?s2, cake.n.03) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, VB) ^ has_pos(?w2, VB) ^ is_a(?s1, cut.v.01) ^ is_a(?s2, fork.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, VB) ^ has_pos(?w2, VB) ^ is_a(?s1, cake.n.03) ^ is_a(?s2, cake.n.03) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, VB) ^ has_pos(?w2, VB) ^ is_a(?s1, cake.n.03) ^ is_a(?s2, fork.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, VB) ^ has_pos(?w2, VB) ^ is_a(?s1, fork.n.01) ^ is_a(?s2, fork.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-1.171249   has_pos(?w1, NN) ^ has_pos(?w2, VB) ^ is_a(?s1, egg.n.02) ^ is_a(?s2, egg.n.02) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-1.780705   has_pos(?w1, NN) ^ has_pos(?w2, VB) ^ is_a(?s1, egg.n.02) ^ is_a(?s2, piece.n.08) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+8.180323    has_pos(?w1, NN) ^ has_pos(?w2, VB) ^ is_a(?s1, egg.n.02) ^ is_a(?s2, cut.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, NN) ^ has_pos(?w2, VB) ^ is_a(?s1, egg.n.02) ^ is_a(?s2, cake.n.03) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, NN) ^ has_pos(?w2, VB) ^ is_a(?s1, egg.n.02) ^ is_a(?s2, fork.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-1.442932   has_pos(?w1, NN) ^ has_pos(?w2, VB) ^ is_a(?s1, piece.n.08) ^ is_a(?s2, piece.n.08) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+6.148901    has_pos(?w1, NN) ^ has_pos(?w2, VB) ^ is_a(?s1, piece.n.08) ^ is_a(?s2, cut.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, NN) ^ has_pos(?w2, VB) ^ is_a(?s1, piece.n.08) ^ is_a(?s2, cake.n.03) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, NN) ^ has_pos(?w2, VB) ^ is_a(?s1, piece.n.08) ^ is_a(?s2, fork.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.354256    has_pos(?w1, NN) ^ has_pos(?w2, VB) ^ is_a(?s1, cut.v.01) ^ is_a(?s2, cut.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+2.959013    has_pos(?w1, NN) ^ has_pos(?w2, VB) ^ is_a(?s1, cut.v.01) ^ is_a(?s2, cake.n.03) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-0.642905   has_pos(?w1, NN) ^ has_pos(?w2, VB) ^ is_a(?s1, cut.v.01) ^ is_a(?s2, fork.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-1.100141   has_pos(?w1, NN) ^ has_pos(?w2, VB) ^ is_a(?s1, cake.n.03) ^ is_a(?s2, cake.n.03) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-1.564194   has_pos(?w1, NN) ^ has_pos(?w2, VB) ^ is_a(?s1, cake.n.03) ^ is_a(?s2, fork.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-1.350932   has_pos(?w1, NN) ^ has_pos(?w2, VB) ^ is_a(?s1, fork.n.01) ^ is_a(?s2, fork.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-1.171249   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ is_a(?s1, egg.n.02) ^ is_a(?s2, egg.n.02) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-2.618045   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ is_a(?s1, egg.n.02) ^ is_a(?s2, piece.n.08) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+1.439561    has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ is_a(?s1, egg.n.02) ^ is_a(?s2, cut.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ is_a(?s1, egg.n.02) ^ is_a(?s2, cake.n.03) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ is_a(?s1, egg.n.02) ^ is_a(?s2, fork.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-1.442932   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ is_a(?s1, piece.n.08) ^ is_a(?s2, piece.n.08) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.334346    has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ is_a(?s1, piece.n.08) ^ is_a(?s2, cut.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ is_a(?s1, piece.n.08) ^ is_a(?s2, cake.n.03) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ is_a(?s1, piece.n.08) ^ is_a(?s2, fork.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.354256    has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ is_a(?s1, cut.v.01) ^ is_a(?s2, cut.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+7.273683    has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ is_a(?s1, cut.v.01) ^ is_a(?s2, cake.n.03) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+11.456746   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ is_a(?s1, cut.v.01) ^ is_a(?s2, fork.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-1.100141   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ is_a(?s1, cake.n.03) ^ is_a(?s2, cake.n.03) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-3.877416   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ is_a(?s1, cake.n.03) ^ is_a(?s2, fork.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-1.350932   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ is_a(?s1, fork.n.01) ^ is_a(?s2, fork.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-4.397880   has_pos(?w1, NN) ^ has_pos(?w2, NN) ^ is_a(?s1, egg.n.02) ^ is_a(?s2, egg.n.02) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+6.934919    has_pos(?w1, NN) ^ has_pos(?w2, NN) ^ is_a(?s1, egg.n.02) ^ is_a(?s2, piece.n.08) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+2.691330    has_pos(?w1, NN) ^ has_pos(?w2, NN) ^ is_a(?s1, egg.n.02) ^ is_a(?s2, cut.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, NN) ^ has_pos(?w2, NN) ^ is_a(?s1, egg.n.02) ^ is_a(?s2, cake.n.03) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, NN) ^ has_pos(?w2, NN) ^ is_a(?s1, egg.n.02) ^ is_a(?s2, fork.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-4.549152   has_pos(?w1, NN) ^ has_pos(?w2, NN) ^ is_a(?s1, piece.n.08) ^ is_a(?s2, piece.n.08) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-0.297842   has_pos(?w1, NN) ^ has_pos(?w2, NN) ^ is_a(?s1, piece.n.08) ^ is_a(?s2, cut.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, NN) ^ has_pos(?w2, NN) ^ is_a(?s1, piece.n.08) ^ is_a(?s2, cake.n.03) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+0.000000    has_pos(?w1, NN) ^ has_pos(?w2, NN) ^ is_a(?s1, piece.n.08) ^ is_a(?s2, fork.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-0.232125   has_pos(?w1, NN) ^ has_pos(?w2, NN) ^ is_a(?s1, cut.v.01) ^ is_a(?s2, cut.v.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-0.542727   has_pos(?w1, NN) ^ has_pos(?w2, NN) ^ is_a(?s1, cut.v.01) ^ is_a(?s2, cake.n.03) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+2.825635    has_pos(?w1, NN) ^ has_pos(?w2, NN) ^ is_a(?s1, cut.v.01) ^ is_a(?s2, fork.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-3.379645   has_pos(?w1, NN) ^ has_pos(?w2, NN) ^ is_a(?s1, cake.n.03) ^ is_a(?s2, cake.n.03) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+8.531719    has_pos(?w1, NN) ^ has_pos(?w2, NN) ^ is_a(?s1, cake.n.03) ^ is_a(?s2, fork.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2
+-5.128957   has_pos(?w1, NN) ^ has_pos(?w2, NN) ^ is_a(?s1, fork.n.01) ^ is_a(?s2, fork.n.01) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^ ?w1=/=?w2

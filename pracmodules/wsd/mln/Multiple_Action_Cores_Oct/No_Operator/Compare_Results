@@ -1,0 +1,54 @@
+Random/Thu_16_Oct_2014_15:43:51_K=10_TSC=9/FOL/conf_matrix.cm
+Average: : - Acc=0.96, Pre=0.32, Rec=0.37 F1=0.33
+
+Random/Thu_16_Oct_2014_15:43:51_K=10_TSC=9/FUZZY/conf_matrix.cm
+Average: : - Acc=0.98, Pre=0.18, Rec=0.31 F1=0.21
+
+Random/Thu_16_Oct_2014_15:44:41_K=10_TSC=8/FOL/conf_matrix.cm
+Average: : - Acc=0.96, Pre=0.33, Rec=0.37 F1=0.33
+
+Random/Thu_16_Oct_2014_15:44:41_K=10_TSC=8/FUZZY/conf_matrix.cm
+Average: : - Acc=0.98, Pre=0.19, Rec=0.29 F1=0.22
+
+Random/Thu_16_Oct_2014_15:46:25_K=10_TSC=7/FOL/conf_matrix.cm
+Average: : - Acc=0.96, Pre=0.33, Rec=0.37 F1=0.34
+
+Random/Thu_16_Oct_2014_15:46:25_K=10_TSC=7/FUZZY/conf_matrix.cm
+Average: : - Acc=0.98, Pre=0.19, Rec=0.32 F1=0.22
+
+Random/Thu_16_Oct_2014_15:49:05_K=10_TSC=6/FOL/conf_matrix.cm
+Average: : - Acc=0.96, Pre=0.32, Rec=0.37 F1=0.33
+
+Random/Thu_16_Oct_2014_15:49:05_K=10_TSC=6/FUZZY/conf_matrix.cm
+Average: : - Acc=0.98, Pre=0.28, Rec=0.41 F1=0.32
+
+Random/Thu_16_Oct_2014_15:52:58_K=10_TSC=5/FOL/conf_matrix.cm
+Average: : - Acc=0.96, Pre=0.34, Rec=0.37 F1=0.35
+
+Random/Thu_16_Oct_2014_15:52:58_K=10_TSC=5/FUZZY/conf_matrix.cm
+Average: : - Acc=0.98, Pre=0.30, Rec=0.38 F1=0.33
+
+Random/Thu_16_Oct_2014_15:57:46_K=10_TSC=4/FOL/conf_matrix.cm
+Average: : - Acc=0.96, Pre=0.33, Rec=0.37 F1=0.33
+
+Random/Thu_16_Oct_2014_15:57:46_K=10_TSC=4/FUZZY/conf_matrix.cm
+Average: : - Acc=0.98, Pre=0.41, Rec=0.46 F1=0.42
+
+Random/Thu_16_Oct_2014_16:02:53_K=10_TSC=3/FOL/conf_matrix.cm
+Average: : - Acc=0.96, Pre=0.36, Rec=0.38 F1=0.37
+
+Random/Thu_16_Oct_2014_16:02:53_K=10_TSC=3/FUZZY/conf_matrix.cm
+Average: : - Acc=0.98, Pre=0.44, Rec=0.48 F1=0.45
+
+Random/Thu_16_Oct_2014_16:07:55_K=10_TSC=2/FOL/conf_matrix.cm
+Average: : - Acc=0.96, Pre=0.36, Rec=0.38 F1=0.37
+
+Random/Thu_16_Oct_2014_16:07:55_K=10_TSC=2/FUZZY/conf_matrix.cm
+Average: : - Acc=0.98, Pre=0.43, Rec=0.44 F1=0.43
+
+Random/Thu_16_Oct_2014_16:12:41_K=10_TSC=1/FOL/conf_matrix.cm
+Average: : - Acc=0.96, Pre=0.36, Rec=0.38 F1=0.37
+
+Random/Thu_16_Oct_2014_16:12:41_K=10_TSC=1/FUZZY/conf_matrix.cm
+Average: : - Acc=0.98, Pre=0.44, Rec=0.44 F1=0.44
+

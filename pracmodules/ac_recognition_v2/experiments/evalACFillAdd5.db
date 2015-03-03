@@ -1,0 +1,108 @@
+// fill a pan with water .
+1.00 has_pos(fill,VB)
+1.00 has_pos(pan,NN)
+//1.00 has_pos(water,NN)
+1.00 has_sense(fill,fill.v.01)
+1.00 has_sense(pan,pan.n.03)
+//1.00 has_sense(water,water.n.06)
+1.00 ac_word(AC_FILL)
+1.00 dobj(fill, pan)
+
+---
+// fill the mug with the froth , leaving about an inch of space .
+1.00 has_pos(fill,VB)
+1.00 has_pos(mug,NN)
+//1.00 has_pos(froth,NN)
+1.00 ac_word(AC_FILL)
+1.00 has_sense(fill,fill.v.01)
+1.00 has_sense(mug,mug.n.04)
+//1.00 has_sense(froth,foam.n.01)
+1.00 dobj(fill, mug)
+---
+//fill the metal pitcher with a cup of milk 
+1.00 has_pos(fill,VB)
+1.00 has_pos(pitcher,NN)
+//1.00 has_pos(milk,NN)
+1.00 ac_word(AC_FILL)
+1.00 has_sense(fill,fill.v.01)
+1.00 has_sense(pitcher,pitcher.n.02)
+//1.00 has_sense(milk,milk.n.01)
+1.00 dobj(fill, pitcher)
+---
+// fill the kettle with boiling water .
+1.00 has_pos(fill,VB)
+1.00 has_pos(kettle,NN)
+//1.00 has_pos(water,NN)
+1.00 ac_word(AC_FILL)
+1.00 has_sense(fill,fill.v.01)
+1.00 has_sense(kettle,kettle.n.01)
+//1.00 has_sense(water,water.n.06)
+1.00 dobj(fill, kettle)
+---
+// Fill the jar
+1.00 has_pos(fill,VB)
+1.00 has_pos(jar,NN)
+1.00 ac_word(AC_FILL)
+1.00 has_sense(fill,fill.v.01)
+1.00 has_sense(jar,jar.n.01)
+1.00 dobj(fill, jar)
+
+---
+// add your rib and cover.
+//add
+1.00 has_pos(add,VB)
+1.00 has_sense(add, add.v.01)
+
+//rib
+1.00 has_pos(rib,NN)
+1.00 has_sense(rib, rib.n.03)
+
+1.00 dobj(add,rib)
+1.00 ac_word(AC_ADD)
+
+---
+// add sugar and butter to mixing_bowl and beat well .
+1.00 has_sense(add-1,add.v.01)
+1.00 has_sense(sugar-2,sugar.n.01)
+//1.00 has_sense(butter-4,butter.n.01)
+//1.00 has_sense(mixing_bowl-6,mixing_bowl.n.01)
+1.00 has_pos(add-1,VB)
+1.00 has_pos(sugar-2,NN)
+//1.00 has_pos(butter-4,NN)
+//1.00 has_pos(mixing_bowl-6,NN)
+1.00 dobj(add-1,sugar-2)
+1.00 ac_word(AC_ADD)
+
+---
+// Add the butter and vanilla to the pan.
+1.00 has_sense(add-7,add.v.01)
+1.00 has_sense(butter-9,butter.n.01)
+//1.00 has_sense(vanilla-11,vanilla.n.02)
+//1.00 has_sense(pan-2, pan.n.01)
+//1.00 has_pos(pan-2,NN)
+1.00 has_pos(add-7,VB)
+1.00 has_pos(butter-9,NN)
+//1.00 has_pos(vanilla-11,NN)
+1.00 dobj(add-7,butter-9)
+1.00 ac_word(AC_ADD)
+
+---
+// then add the top slice right away .
+1.00 has_sense(add-2,add.v.01)
+1.00 has_sense(slice-5,piece.n.08)
+1.00 has_pos(add-2,VB)
+1.00 has_pos(slice-5,NN)
+1.00 dobj(add-2,slice-5)
+1.00 ac_word(AC_ADD)
+
+---
+
+// add chicken into finished corn .
+1.00 has_sense(chicken-2,chicken.n.01)
+1.00 has_sense(add-7,add.v.01)
+//1.00 has_sense(corn-10,corn.n.02)
+1.00 has_pos(chicken-2,NN)
+1.00 has_pos(add-7,VB)
+//1.00 has_pos(corn-10,NN)
+1.00 dobj(add-7,chicken-2)
+1.00 ac_word(AC_ADD)

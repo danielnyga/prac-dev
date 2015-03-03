@@ -1,0 +1,41 @@
+is_a(sense, concept)
+ac_word(ac)
+has_pos(word,pos!)
+
+//fill
+1 is_a(?w1, fill.v.01) ^ is_a(?w2, liquid.n.01) ^ is_a(?w3, container.n.01) ^ ac_word(AC_FILL_1) ^ ?w1 =/= ?w2 ^ ?w1 =/= ?w3 ^ ?w2 =/= ?w3
+1 is_a(?w1, fill.v.01) ^ is_a(?w2, container.n.01) ^ ac_word(AC_FILL_2)^ ?w1 =/= ?w2
+
+//cut
+1 is_a(?w1, cut.v.01) ^ is_a(?w2, solid.n.01) ^ is_a(?w3, cutter.n.06) ^ ac_word(AC_CUT_1) ^ ?w1 =/= ?w2 ^ ?w1 =/= ?w3 ^ ?w2 =/= ?w3
+1 is_a(?w1, cut.v.01) ^ is_a(?w2, solid.n.01) ^ ac_word(AC_CUT_2)^ ?w1 =/= ?w2
+
+//stir
+1 is_a(?w1, stir.v.01) ^ is_a(?w2, liquid.n.01) ^ ac_word(AC_STIR) ^ ?w1 =/= ?w2
+1 is_a(?w1, stir.v.08) ^ is_a(?w2, food.n.01) ^ ac_word(AC_ADD_STIR_1) ^ ?w1 =/= ?w2
+1 is_a(?w1, stir.v.08) ^ is_a(?w2, food.n.01) ^ is_a(?w3, food.n.01) ^ ac_word(AC_ADD_STIR_2) ^ ?w1 =/= ?w2 ^ ?w1 =/= ?w3 ^ ?w2 =/= ?w3
+
+//slice
+1 is_a(?w1, slice.v.03) ^ is_a(?w2, solid.n.01) ^ is_a(?w3, cutter.n.06) ^ ac_word(AC_SLICE_1) ^ ?w1 =/= ?w2 ^ ?w1 =/= ?w3 ^ ?w2 =/= ?w3
+1 is_a(?w1, slice.v.03) ^ is_a(?w2, solid.n.01) ^ ac_word(AC_SLICE_2)^ ?w1 =/= ?w2
+
+//add
+1 is_a(?w1, add.v.01) ^ is_a(?w2, food.n.01) ^ ac_word(AC_ADD_1) ^ ?w1 =/= ?w2
+1 is_a(?w1, add.v.01) ^ is_a(?w2, food.n.01) ^ is_a(?w3, food.n.01) ^ ac_word(AC_ADD_2) ^ ?w1 =/= ?w2 ^ ?w1 =/= ?w3 ^ ?w2 =/= ?w3
+1 is_a(?w1, add.v.01) ^ is_a(?w2, food.n.01) ^ is_a(?w3, container.n.01) ^ ac_word(AC_ADD_3) ^ ?w1 =/= ?w2 ^ ?w1 =/= ?w3 ^ ?w2 =/= ?w3
+
+//put 
+//Need to determine if add to food or put in container AC 1 is_a(?w1, put.v.01) ^ is_a(?w2, food.n.01) ^ ac_word(AC_ADD) ^ ?w1 =/= ?w2
+1 is_a(?w1, put.v.01) ^ is_a(?w2, food.n.01) ^ is_a(?w3, food.n.01) ^ ac_word(AC_ADD_PUT) ^ ?w1 =/= ?w2 ^ ?w1 =/= ?w3 ^ ?w2 =/= ?w3
+1 is_a(?w1, put.v.01) ^ is_a(?w2, food.n.01) ^ is_a(?w3, container.n.01) ^ ac_word(AC_PUT_1) ^ ?w1 =/= ?w2 ^ ?w1 =/= ?w3 ^ ?w2 =/= ?w3
+1 is_a(?w1, put.v.01) ^ is_a(?w2, food.n.01) ^ is_a(?w3, home_appliance.n.01) ^ ac_word(AC_PUT_2) ^ ?w1 =/= ?w2 ^ ?w1 =/= ?w3 ^ ?w2 =/= ?w3
+
+
+
+
+
+
+
+
+
+

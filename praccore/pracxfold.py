@@ -11,7 +11,7 @@ from random import shuffle, sample
 import math
 from mln.methods import LearningMethods, InferenceMethods
 from wcsp.converter import WCSPConverter
-from utils.eval import ConfusionMatrix
+from pracutils.evalSim import ConfusionMatrixSim
 from mln.util import strFormula, mergeDomains
 from utils.clustering import SAHN, Cluster, computeClosestCluster
 import logging
@@ -22,7 +22,7 @@ from prac.wordnet import WordNet
 from prac.inference import PRACInference, PRACInferenceStep
 from prac.learning import PRACLearning
 
-from utils.pool_ import Pool_
+from utils.multicore import NDPool
 
 
 def parse_list(option, opt, value, parser):
@@ -99,7 +99,7 @@ class XValFold(object):
         '''
         self.params = params
         self.fold_id = 'Fold-%d' % params.foldIdx
-        self.confMatrix = ConfusionMatrix()
+        self.confMatrix = ConfusionMatrixSim()
         # write the training and testing databases into a file
         dbfile = open(os.path.join(params.directory, 'train_dbs_%d.db' % params.foldIdx), 'w+')
         Database.writeDBs(params.learnDBs, dbfile)
@@ -392,12 +392,12 @@ if __name__ == '__main__':
     if multicore:
         # set up a pool of (non-daemon!!) worker processes
         try:
-            workerPool = Pool_()
+            workerPool = NDPool()
             log.info('Starting %d-fold Cross-Validation in %d processes.' % (folds, workerPool._processes))
             result = workerPool.map_async(runFold, foldRunnables).get()
             workerPool.close()
             workerPool.join()
-            cm = ConfusionMatrix()
+            cm = ConfusionMatrixSim()
             for r in result:
                 cm.combine(r.confMatrix)
             elapsedTime = time.time() - startTime
@@ -423,7 +423,7 @@ if __name__ == '__main__':
             exit(1)
     else:
         log.info('Starting {}-fold Cross-Validation in 1 process.'.format(folds))
-        cm = ConfusionMatrix()
+        cm = ConfusionMatrixSim()
         for fold in foldRunnables:
             cm.combine(runFold(fold).confMatrix)
         elapsedTime = time.time() - startTime

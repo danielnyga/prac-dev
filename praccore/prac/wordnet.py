@@ -239,6 +239,21 @@ class WordNet(object):
 #         similarity = synset1.path_similarity(synset2)
         return max(0.001, 0. if similarity is None else similarity)
     
+    def path_similarity(self, synset1, synset2):
+        '''
+        Returns the WUP similariy of the two given synsets, which
+        may be given as strings of the synset id or the respective Synset objects themselves.
+        '''
+        if type(synset1) is str:
+            synset1 = self.synset(synset1)
+        if type(synset2) is str:
+            synset2 = self.synset(synset2)
+        if synset1 is None or synset2 is None:
+            return 0.
+        similarity = synset1.path_similarity(synset2)
+#         similarity = synset1.path_similarity(synset2)
+        return max(0.001, 0. if similarity is None else similarity)
+    
     def lowest_common_hypernyms(self, synset, other, simulate_root=False, use_min_depth=False):
         """
         -- NOTE: THIS CODE IS COPIED FROM NLTK3 --

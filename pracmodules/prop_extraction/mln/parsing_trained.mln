@@ -1,0 +1,1134 @@
+// domain declarations
+concept = {null}
+prop = {null}
+
+
+// predicate declarations
+prep_below(word,word)
+prepc_in(word,word)
+predet(word,word)
+prep_during(word,word)
+prepc_with(word,word)
+prep_about(word,word)
+mwe(word,word)
+prep_form(word,word)
+aux(word,word)
+prepc_depending_on(word,word)
+parataxis(word,word)
+prep_over(word,word)
+nsubj(word,word)
+complm(word,word)
+prep_next_to(word,word)
+prep_inside(word,word)
+prep_onto(word,word)
+npadvmod(word,word)
+num(word,word)
+amod(word,word)
+prep_on(word,word)
+prep_of(word,word)
+prep_by(word,word)
+prep_with(word,word)
+prepc_before(word,word)
+prepc_according_to(word,word)
+prep_across(word,word)
+ccomp(word,word)
+prep_through(word,word)
+prepc_for(word,word)
+is_a(sense,concept)
+prep_in_case_of(word,word)
+neg(word,word)
+auxpass(word,word)
+infmod(word,word)
+prep_till(word,word)
+prep_for(word,word)
+prepc_until(word,word)
+prep_on_top_of(word,word)
+prep_as(word,word)
+prep_at(word,word)
+advmod(word,word)
+acomp(word,word)
+pcomp(word,word)
+prep_per(word,word)
+prep_around(word,word)
+poss(word,word)
+xcomp(word,word)
+cop(word,word)
+conj_but(word,word)
+prep_like(word,word)
+dobj(word,word)
+prep_in(word,word)
+prep_above(word,word)
+prep_if(word,word)
+has_pos(word,pos!)
+cc(word,word)
+number(word,word)
+nsubjpass(word,word)
+conj_or(word,word)
+csubj(word,word)
+prep_without(word,word)
+prep_under(word,word)
+prep_after(word,word)
+prep_underneath(word,word)
+prep_out_of(word,word)
+mark(word,word)
+prepc_on(word,word)
+det(word,word)
+prep(word,word)
+prepc_over(word,word)
+conj_and(word,word)
+has_sense(word,sense!)
+advcl(word,word)
+prep_along_with(word,word)
+prep_to(word,word)
+quantmod(word,word)
+tmod(word,word)
+prep_before(word,word)
+prep_by_means_of(word,word)
+attr(word,word)
+dep(word,word)
+prep_except(word,word)
+pobj(word,word)
+iobj(word,word)
+expl(word,word)
+prep_such_as(word,word)
+property(word,prop)
+root(root,word)
+appos(word,word)
+prepc_around(word,word)
+agent(word,word)
+prt(word,word)
+prep_into(word,word)
+prep_from(word,word)
+nn(word,word)
+rcmod(word,word)
+prep_behind(word,word)
+prep_between(word,word)
+partmod(word,word)
+prep_together_with(word,word)
+prep_near(word,word)
+prep_in_front_of(word,word)
+prep_until(word,word)
+
+// formulas
+-1.493293   nsubj(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+2.711292    nsubj(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ property(?w1, COLOR) ^ ?w1=/=?w2
+-3.808706   nsubj(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ property(?w1, HASA) ^ ?w1=/=?w2
+-0.553861   nsubj(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ property(?w1, SHAPE) ^ ?w1=/=?w2
+-5.251584   nsubj(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ property(?w1, null) ^ ?w1=/=?w2
+3.497748    nsubj(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ property(?w1, SIZE) ^ ?w1=/=?w2
+-0.666427   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, wide.a.01) ^ property(?w2, HYPERNYM) ^ ?w1=/=?w2
+-2.436928   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, wide.a.01) ^ property(?w2, COLOR) ^ ?w1=/=?w2
+-0.451415   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, wide.a.01) ^ property(?w2, HASA) ^ ?w1=/=?w2
+-2.518270   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, wide.a.01) ^ property(?w2, SHAPE) ^ ?w1=/=?w2
+8.776669    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, wide.a.01) ^ property(?w2, null) ^ ?w1=/=?w2
+-1.161337   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, wide.a.01) ^ property(?w2, SIZE) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, own.v.01) ^ property(?w2, HYPERNYM) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, own.v.01) ^ property(?w2, COLOR) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, own.v.01) ^ property(?w2, HASA) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, own.v.01) ^ property(?w2, SHAPE) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, own.v.01) ^ property(?w2, null) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, own.v.01) ^ property(?w2, SIZE) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vegetable_oil.n.01) ^ property(?w2, HYPERNYM) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vegetable_oil.n.01) ^ property(?w2, COLOR) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vegetable_oil.n.01) ^ property(?w2, HASA) ^ ?w1=/=?w2
+-0.028638   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vegetable_oil.n.01) ^ property(?w2, SHAPE) ^ ?w1=/=?w2
+-5.886374   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vegetable_oil.n.01) ^ property(?w2, null) ^ ?w1=/=?w2
+-0.666000   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vegetable_oil.n.01) ^ property(?w2, SIZE) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, hold.v.11) ^ property(?w2, HYPERNYM) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, hold.v.11) ^ property(?w2, COLOR) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, hold.v.11) ^ property(?w2, HASA) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, hold.v.11) ^ property(?w2, SHAPE) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, hold.v.11) ^ property(?w2, null) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, hold.v.11) ^ property(?w2, SIZE) ^ ?w1=/=?w2
+-0.365788   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, rind.n.01) ^ property(?w2, HYPERNYM) ^ ?w1=/=?w2
+-2.045364   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, rind.n.01) ^ property(?w2, COLOR) ^ ?w1=/=?w2
+12.509160   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, rind.n.01) ^ property(?w2, HASA) ^ ?w1=/=?w2
+-2.823287   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, rind.n.01) ^ property(?w2, SHAPE) ^ ?w1=/=?w2
+-7.164180   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, rind.n.01) ^ property(?w2, null) ^ ?w1=/=?w2
+-1.978981   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, rind.n.01) ^ property(?w2, SIZE) ^ ?w1=/=?w2
+-1.285131   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, yellow.s.01) ^ property(?w2, HYPERNYM) ^ ?w1=/=?w2
+13.471540   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, yellow.s.01) ^ property(?w2, COLOR) ^ ?w1=/=?w2
+-0.992260   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, yellow.s.01) ^ property(?w2, HASA) ^ ?w1=/=?w2
+-3.424828   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, yellow.s.01) ^ property(?w2, SHAPE) ^ ?w1=/=?w2
+-9.563894   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, yellow.s.01) ^ property(?w2, null) ^ ?w1=/=?w2
+-1.901823   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, yellow.s.01) ^ property(?w2, SIZE) ^ ?w1=/=?w2
+-0.665180   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, orange.s.01) ^ property(?w2, HYPERNYM) ^ ?w1=/=?w2
+12.566187   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, orange.s.01) ^ property(?w2, COLOR) ^ ?w1=/=?w2
+-0.451415   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, orange.s.01) ^ property(?w2, HASA) ^ ?w1=/=?w2
+-2.518270   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, orange.s.01) ^ property(?w2, SHAPE) ^ ?w1=/=?w2
+-8.419185   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, orange.s.01) ^ property(?w2, null) ^ ?w1=/=?w2
+-1.161337   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, orange.s.01) ^ property(?w2, SIZE) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, oblong.s.02) ^ property(?w2, HYPERNYM) ^ ?w1=/=?w2
+-0.020796   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, oblong.s.02) ^ property(?w2, COLOR) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, oblong.s.02) ^ property(?w2, HASA) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, oblong.s.02) ^ property(?w2, SHAPE) ^ ?w1=/=?w2
+-6.789869   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, oblong.s.02) ^ property(?w2, null) ^ ?w1=/=?w2
+-0.999964   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, oblong.s.02) ^ property(?w2, SIZE) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, rubber.n.02) ^ property(?w2, HYPERNYM) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, rubber.n.02) ^ property(?w2, COLOR) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, rubber.n.02) ^ property(?w2, HASA) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, rubber.n.02) ^ property(?w2, SHAPE) ^ ?w1=/=?w2
+-5.758680   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, rubber.n.02) ^ property(?w2, null) ^ ?w1=/=?w2
+-0.976711   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, rubber.n.02) ^ property(?w2, SIZE) ^ ?w1=/=?w2
+-0.665180   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, acidic.s.02) ^ property(?w2, HYPERNYM) ^ ?w1=/=?w2
+-2.437503   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, acidic.s.02) ^ property(?w2, COLOR) ^ ?w1=/=?w2
+-0.451415   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, acidic.s.02) ^ property(?w2, HASA) ^ ?w1=/=?w2
+-2.518736   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, acidic.s.02) ^ property(?w2, SHAPE) ^ ?w1=/=?w2
+2.318935    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, acidic.s.02) ^ property(?w2, null) ^ ?w1=/=?w2
+-1.161337   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, acidic.s.02) ^ property(?w2, SIZE) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, envelop.v.01) ^ property(?w2, HYPERNYM) ^ ?w1=/=?w2
+-0.009140   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, envelop.v.01) ^ property(?w2, COLOR) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, envelop.v.01) ^ property(?w2, HASA) ^ ?w1=/=?w2
+-0.049406   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, envelop.v.01) ^ property(?w2, SHAPE) ^ ?w1=/=?w2
+-7.041390   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, envelop.v.01) ^ property(?w2, null) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, envelop.v.01) ^ property(?w2, SIZE) ^ ?w1=/=?w2
+-2.137458   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, null) ^ property(?w2, HYPERNYM) ^ ?w1=/=?w2
+-4.469707   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, null) ^ property(?w2, COLOR) ^ ?w1=/=?w2
+-1.744988   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, null) ^ property(?w2, HASA) ^ ?w1=/=?w2
+-4.563383   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, null) ^ property(?w2, SHAPE) ^ ?w1=/=?w2
+1.498066    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, null) ^ property(?w2, null) ^ ?w1=/=?w2
+5.923409    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, null) ^ property(?w2, SIZE) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, blackish.s.01) ^ property(?w2, HYPERNYM) ^ ?w1=/=?w2
+-0.009140   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, blackish.s.01) ^ property(?w2, COLOR) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, blackish.s.01) ^ property(?w2, HASA) ^ ?w1=/=?w2
+-0.049406   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, blackish.s.01) ^ property(?w2, SHAPE) ^ ?w1=/=?w2
+-7.041390   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, blackish.s.01) ^ property(?w2, null) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, blackish.s.01) ^ property(?w2, SIZE) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, flat.s.02) ^ property(?w2, HYPERNYM) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, flat.s.02) ^ property(?w2, COLOR) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, flat.s.02) ^ property(?w2, HASA) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, flat.s.02) ^ property(?w2, SHAPE) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, flat.s.02) ^ property(?w2, null) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, flat.s.02) ^ property(?w2, SIZE) ^ ?w1=/=?w2
+-0.665180   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bowl-shaped.s.01) ^ property(?w2, HYPERNYM) ^ ?w1=/=?w2
+-2.436928   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bowl-shaped.s.01) ^ property(?w2, COLOR) ^ ?w1=/=?w2
+-0.451415   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bowl-shaped.s.01) ^ property(?w2, HASA) ^ ?w1=/=?w2
+12.469462   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bowl-shaped.s.01) ^ property(?w2, SHAPE) ^ ?w1=/=?w2
+-8.419185   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bowl-shaped.s.01) ^ property(?w2, null) ^ ?w1=/=?w2
+-1.162047   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bowl-shaped.s.01) ^ property(?w2, SIZE) ^ ?w1=/=?w2
+-0.016914   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vessel.n.03) ^ property(?w2, HYPERNYM) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vessel.n.03) ^ property(?w2, COLOR) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vessel.n.03) ^ property(?w2, HASA) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vessel.n.03) ^ property(?w2, SHAPE) ^ ?w1=/=?w2
+-0.736157   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vessel.n.03) ^ property(?w2, null) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vessel.n.03) ^ property(?w2, SIZE) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, melon.n.01) ^ property(?w2, HYPERNYM) ^ ?w1=/=?w2
+-0.045065   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, melon.n.01) ^ property(?w2, COLOR) ^ ?w1=/=?w2
+-0.042518   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, melon.n.01) ^ property(?w2, HASA) ^ ?w1=/=?w2
+-0.049660   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, melon.n.01) ^ property(?w2, SHAPE) ^ ?w1=/=?w2
+-7.064766   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, melon.n.01) ^ property(?w2, null) ^ ?w1=/=?w2
+-0.999964   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, melon.n.01) ^ property(?w2, SIZE) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, food.n.02) ^ property(?w2, HYPERNYM) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, food.n.02) ^ property(?w2, COLOR) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, food.n.02) ^ property(?w2, HASA) ^ ?w1=/=?w2
+-0.028638   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, food.n.02) ^ property(?w2, SHAPE) ^ ?w1=/=?w2
+-5.886374   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, food.n.02) ^ property(?w2, null) ^ ?w1=/=?w2
+-0.666000   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, food.n.02) ^ property(?w2, SIZE) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, handle.n.01) ^ property(?w2, HYPERNYM) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, handle.n.01) ^ property(?w2, COLOR) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, handle.n.01) ^ property(?w2, HASA) ^ ?w1=/=?w2
+-0.050566   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, handle.n.01) ^ property(?w2, SHAPE) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, handle.n.01) ^ property(?w2, null) ^ ?w1=/=?w2
+-0.016282   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, handle.n.01) ^ property(?w2, SIZE) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, peel.n.02) ^ property(?w2, HYPERNYM) ^ ?w1=/=?w2
+-0.009140   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, peel.n.02) ^ property(?w2, COLOR) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, peel.n.02) ^ property(?w2, HASA) ^ ?w1=/=?w2
+-0.049406   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, peel.n.02) ^ property(?w2, SHAPE) ^ ?w1=/=?w2
+-7.041390   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, peel.n.02) ^ property(?w2, null) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, peel.n.02) ^ property(?w2, SIZE) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, mildly.r.01) ^ property(?w2, HYPERNYM) ^ ?w1=/=?w2
+-0.014344   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, mildly.r.01) ^ property(?w2, COLOR) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, mildly.r.01) ^ property(?w2, HASA) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, mildly.r.01) ^ property(?w2, SHAPE) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, mildly.r.01) ^ property(?w2, null) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, mildly.r.01) ^ property(?w2, SIZE) ^ ?w1=/=?w2
+-0.665180   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, olive_tree.n.01) ^ property(?w2, HYPERNYM) ^ ?w1=/=?w2
+-2.436928   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, olive_tree.n.01) ^ property(?w2, COLOR) ^ ?w1=/=?w2
+-0.451415   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, olive_tree.n.01) ^ property(?w2, HASA) ^ ?w1=/=?w2
+-2.518736   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, olive_tree.n.01) ^ property(?w2, SHAPE) ^ ?w1=/=?w2
+1.600213    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, olive_tree.n.01) ^ property(?w2, null) ^ ?w1=/=?w2
+-1.327420   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, olive_tree.n.01) ^ property(?w2, SIZE) ^ ?w1=/=?w2
+-0.665180   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cylindrical.s.01) ^ property(?w2, HYPERNYM) ^ ?w1=/=?w2
+-2.437400   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cylindrical.s.01) ^ property(?w2, COLOR) ^ ?w1=/=?w2
+-0.468416   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cylindrical.s.01) ^ property(?w2, HASA) ^ ?w1=/=?w2
+12.471622   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cylindrical.s.01) ^ property(?w2, SHAPE) ^ ?w1=/=?w2
+-8.470016   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cylindrical.s.01) ^ property(?w2, null) ^ ?w1=/=?w2
+-1.161337   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cylindrical.s.01) ^ property(?w2, SIZE) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, long.s.03) ^ property(?w2, HYPERNYM) ^ ?w1=/=?w2
+-0.056584   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, long.s.03) ^ property(?w2, COLOR) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, long.s.03) ^ property(?w2, HASA) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, long.s.03) ^ property(?w2, SHAPE) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, long.s.03) ^ property(?w2, null) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, long.s.03) ^ property(?w2, SIZE) ^ ?w1=/=?w2
+-0.665180   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, elongate.s.02) ^ property(?w2, HYPERNYM) ^ ?w1=/=?w2
+-2.437287   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, elongate.s.02) ^ property(?w2, COLOR) ^ ?w1=/=?w2
+-0.451415   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, elongate.s.02) ^ property(?w2, HASA) ^ ?w1=/=?w2
+-2.519158   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, elongate.s.02) ^ property(?w2, SHAPE) ^ ?w1=/=?w2
+0.941101    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, elongate.s.02) ^ property(?w2, null) ^ ?w1=/=?w2
+-1.161337   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, elongate.s.02) ^ property(?w2, SIZE) ^ ?w1=/=?w2
+-1.346829   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, green.s.01) ^ property(?w2, HYPERNYM) ^ ?w1=/=?w2
+13.890980   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, green.s.01) ^ property(?w2, COLOR) ^ ?w1=/=?w2
+-2.552953   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, green.s.01) ^ property(?w2, HASA) ^ ?w1=/=?w2
+-3.715678   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, green.s.01) ^ property(?w2, SHAPE) ^ ?w1=/=?w2
+-9.596535   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, green.s.01) ^ property(?w2, null) ^ ?w1=/=?w2
+-2.449004   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, green.s.01) ^ property(?w2, SIZE) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cutlery.n.02) ^ property(?w2, HYPERNYM) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cutlery.n.02) ^ property(?w2, COLOR) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cutlery.n.02) ^ property(?w2, HASA) ^ ?w1=/=?w2
+-0.050566   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cutlery.n.02) ^ property(?w2, SHAPE) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cutlery.n.02) ^ property(?w2, null) ^ ?w1=/=?w2
+-0.016282   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cutlery.n.02) ^ property(?w2, SIZE) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, fruit.n.01) ^ property(?w2, HYPERNYM) ^ ?w1=/=?w2
+-0.103075   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, fruit.n.01) ^ property(?w2, COLOR) ^ ?w1=/=?w2
+-0.042518   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, fruit.n.01) ^ property(?w2, HASA) ^ ?w1=/=?w2
+-0.163474   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, fruit.n.01) ^ property(?w2, SHAPE) ^ ?w1=/=?w2
+-7.874199   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, fruit.n.01) ^ property(?w2, null) ^ ?w1=/=?w2
+-0.976662   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, fruit.n.01) ^ property(?w2, SIZE) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, lid.n.02) ^ property(?w2, HYPERNYM) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, lid.n.02) ^ property(?w2, COLOR) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, lid.n.02) ^ property(?w2, HASA) ^ ?w1=/=?w2
+-0.055371   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, lid.n.02) ^ property(?w2, SHAPE) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, lid.n.02) ^ property(?w2, null) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, lid.n.02) ^ property(?w2, SIZE) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, scoop.v.01) ^ property(?w2, HYPERNYM) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, scoop.v.01) ^ property(?w2, COLOR) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, scoop.v.01) ^ property(?w2, HASA) ^ ?w1=/=?w2
+-0.050566   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, scoop.v.01) ^ property(?w2, SHAPE) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, scoop.v.01) ^ property(?w2, null) ^ ?w1=/=?w2
+-0.016282   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, scoop.v.01) ^ property(?w2, SIZE) ^ ?w1=/=?w2
+-0.665180   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pear-shaped.s.01) ^ property(?w2, HYPERNYM) ^ ?w1=/=?w2
+-2.437070   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pear-shaped.s.01) ^ property(?w2, COLOR) ^ ?w1=/=?w2
+-0.451415   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pear-shaped.s.01) ^ property(?w2, HASA) ^ ?w1=/=?w2
+12.471687   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pear-shaped.s.01) ^ property(?w2, SHAPE) ^ ?w1=/=?w2
+-8.590493   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pear-shaped.s.01) ^ property(?w2, null) ^ ?w1=/=?w2
+-1.161337   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pear-shaped.s.01) ^ property(?w2, SIZE) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, root.n.01) ^ property(?w2, HYPERNYM) ^ ?w1=/=?w2
+-0.056584   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, root.n.01) ^ property(?w2, COLOR) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, root.n.01) ^ property(?w2, HASA) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, root.n.01) ^ property(?w2, SHAPE) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, root.n.01) ^ property(?w2, null) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, root.n.01) ^ property(?w2, SIZE) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, plant.n.02) ^ property(?w2, HYPERNYM) ^ ?w1=/=?w2
+-0.014515   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, plant.n.02) ^ property(?w2, COLOR) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, plant.n.02) ^ property(?w2, HASA) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, plant.n.02) ^ property(?w2, SHAPE) ^ ?w1=/=?w2
+-5.845010   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, plant.n.02) ^ property(?w2, null) ^ ?w1=/=?w2
+-0.666023   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, plant.n.02) ^ property(?w2, SIZE) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, round.a.01) ^ property(?w2, HYPERNYM) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, round.a.01) ^ property(?w2, COLOR) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, round.a.01) ^ property(?w2, HASA) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, round.a.01) ^ property(?w2, SHAPE) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, round.a.01) ^ property(?w2, null) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, round.a.01) ^ property(?w2, SIZE) ^ ?w1=/=?w2
+15.425472   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cooking_utensil.n.01) ^ property(?w2, HYPERNYM) ^ ?w1=/=?w2
+-2.436928   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cooking_utensil.n.01) ^ property(?w2, COLOR) ^ ?w1=/=?w2
+-0.451415   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cooking_utensil.n.01) ^ property(?w2, HASA) ^ ?w1=/=?w2
+-2.518270   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cooking_utensil.n.01) ^ property(?w2, SHAPE) ^ ?w1=/=?w2
+-8.419221   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cooking_utensil.n.01) ^ property(?w2, null) ^ ?w1=/=?w2
+-1.161337   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, cooking_utensil.n.01) ^ property(?w2, SIZE) ^ ?w1=/=?w2
+-0.665180   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, downy.s.02) ^ property(?w2, HYPERNYM) ^ ?w1=/=?w2
+-2.437287   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, downy.s.02) ^ property(?w2, COLOR) ^ ?w1=/=?w2
+-0.451415   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, downy.s.02) ^ property(?w2, HASA) ^ ?w1=/=?w2
+-2.518270   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, downy.s.02) ^ property(?w2, SHAPE) ^ ?w1=/=?w2
+2.319438    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, downy.s.02) ^ property(?w2, null) ^ ?w1=/=?w2
+-1.161337   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, downy.s.02) ^ property(?w2, SIZE) ^ ?w1=/=?w2
+-0.665180   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, rectangular.s.01) ^ property(?w2, HYPERNYM) ^ ?w1=/=?w2
+-2.436928   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, rectangular.s.01) ^ property(?w2, COLOR) ^ ?w1=/=?w2
+-0.451415   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, rectangular.s.01) ^ property(?w2, HASA) ^ ?w1=/=?w2
+12.463618   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, rectangular.s.01) ^ property(?w2, SHAPE) ^ ?w1=/=?w2
+-8.419185   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, rectangular.s.01) ^ property(?w2, null) ^ ?w1=/=?w2
+-1.161337   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, rectangular.s.01) ^ property(?w2, SIZE) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, yellowish.s.01) ^ property(?w2, HYPERNYM) ^ ?w1=/=?w2
+-0.020796   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, yellowish.s.01) ^ property(?w2, COLOR) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, yellowish.s.01) ^ property(?w2, HASA) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, yellowish.s.01) ^ property(?w2, SHAPE) ^ ?w1=/=?w2
+-6.789869   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, yellowish.s.01) ^ property(?w2, null) ^ ?w1=/=?w2
+-0.999964   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, yellowish.s.01) ^ property(?w2, SIZE) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, whitish.s.02) ^ property(?w2, HYPERNYM) ^ ?w1=/=?w2
+-0.021249   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, whitish.s.02) ^ property(?w2, COLOR) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, whitish.s.02) ^ property(?w2, HASA) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, whitish.s.02) ^ property(?w2, SHAPE) ^ ?w1=/=?w2
+-5.256131   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, whitish.s.02) ^ property(?w2, null) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, whitish.s.02) ^ property(?w2, SIZE) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, european.a.01) ^ property(?w2, HYPERNYM) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, european.a.01) ^ property(?w2, COLOR) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, european.a.01) ^ property(?w2, HASA) ^ ?w1=/=?w2
+-0.028638   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, european.a.01) ^ property(?w2, SHAPE) ^ ?w1=/=?w2
+-5.886374   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, european.a.01) ^ property(?w2, null) ^ ?w1=/=?w2
+-0.666000   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, european.a.01) ^ property(?w2, SIZE) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bag.n.01) ^ property(?w2, HYPERNYM) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bag.n.01) ^ property(?w2, COLOR) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bag.n.01) ^ property(?w2, HASA) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bag.n.01) ^ property(?w2, SHAPE) ^ ?w1=/=?w2
+-5.758680   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bag.n.01) ^ property(?w2, null) ^ ?w1=/=?w2
+-0.976711   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, bag.n.01) ^ property(?w2, SIZE) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, related.a.02) ^ property(?w2, HYPERNYM) ^ ?w1=/=?w2
+-0.027189   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, related.a.02) ^ property(?w2, COLOR) ^ ?w1=/=?w2
+-0.042518   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, related.a.02) ^ property(?w2, HASA) ^ ?w1=/=?w2
+-0.049660   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, related.a.02) ^ property(?w2, SHAPE) ^ ?w1=/=?w2
+-5.930163   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, related.a.02) ^ property(?w2, null) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, related.a.02) ^ property(?w2, SIZE) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, open.s.10) ^ property(?w2, HYPERNYM) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, open.s.10) ^ property(?w2, COLOR) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, open.s.10) ^ property(?w2, HASA) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, open.s.10) ^ property(?w2, SHAPE) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, open.s.10) ^ property(?w2, null) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, open.s.10) ^ property(?w2, SIZE) ^ ?w1=/=?w2
+-0.665180   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, crescent.s.01) ^ property(?w2, HYPERNYM) ^ ?w1=/=?w2
+-2.437287   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, crescent.s.01) ^ property(?w2, COLOR) ^ ?w1=/=?w2
+-0.451415   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, crescent.s.01) ^ property(?w2, HASA) ^ ?w1=/=?w2
+12.460811   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, crescent.s.01) ^ property(?w2, SHAPE) ^ ?w1=/=?w2
+-8.513959   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, crescent.s.01) ^ property(?w2, null) ^ ?w1=/=?w2
+-1.161337   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, crescent.s.01) ^ property(?w2, SIZE) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, normally.r.01) ^ property(?w2, HYPERNYM) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, normally.r.01) ^ property(?w2, COLOR) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, normally.r.01) ^ property(?w2, HASA) ^ ?w1=/=?w2
+-0.055371   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, normally.r.01) ^ property(?w2, SHAPE) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, normally.r.01) ^ property(?w2, null) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, normally.r.01) ^ property(?w2, SIZE) ^ ?w1=/=?w2
+-0.665180   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, red.s.01) ^ property(?w2, HYPERNYM) ^ ?w1=/=?w2
+13.051005   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, red.s.01) ^ property(?w2, COLOR) ^ ?w1=/=?w2
+-0.451415   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, red.s.01) ^ property(?w2, HASA) ^ ?w1=/=?w2
+-2.518270   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, red.s.01) ^ property(?w2, SHAPE) ^ ?w1=/=?w2
+-8.550586   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, red.s.01) ^ property(?w2, null) ^ ?w1=/=?w2
+-1.473133   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, red.s.01) ^ property(?w2, SIZE) ^ ?w1=/=?w2
+-0.016914   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, metallic.a.01) ^ property(?w2, HYPERNYM) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, metallic.a.01) ^ property(?w2, COLOR) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, metallic.a.01) ^ property(?w2, HASA) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, metallic.a.01) ^ property(?w2, SHAPE) ^ ?w1=/=?w2
+-0.736157   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, metallic.a.01) ^ property(?w2, null) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, metallic.a.01) ^ property(?w2, SIZE) ^ ?w1=/=?w2
+-1.185979   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, small.a.01) ^ property(?w2, HYPERNYM) ^ ?w1=/=?w2
+-3.248262   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, small.a.01) ^ property(?w2, COLOR) ^ ?w1=/=?w2
+-0.882296   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, small.a.01) ^ property(?w2, HASA) ^ ?w1=/=?w2
+-3.335940   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, small.a.01) ^ property(?w2, SHAPE) ^ ?w1=/=?w2
+-9.453247   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, small.a.01) ^ property(?w2, null) ^ ?w1=/=?w2
+8.900946    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, small.a.01) ^ property(?w2, SIZE) ^ ?w1=/=?w2
+-0.665180   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, shallow.a.01) ^ property(?w2, HYPERNYM) ^ ?w1=/=?w2
+-2.436928   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, shallow.a.01) ^ property(?w2, COLOR) ^ ?w1=/=?w2
+-0.451415   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, shallow.a.01) ^ property(?w2, HASA) ^ ?w1=/=?w2
+-2.519151   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, shallow.a.01) ^ property(?w2, SHAPE) ^ ?w1=/=?w2
+-8.419185   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, shallow.a.01) ^ property(?w2, null) ^ ?w1=/=?w2
+14.561976   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, shallow.a.01) ^ property(?w2, SIZE) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pulpy.s.01) ^ property(?w2, HYPERNYM) ^ ?w1=/=?w2
+-0.014344   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pulpy.s.01) ^ property(?w2, COLOR) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pulpy.s.01) ^ property(?w2, HASA) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pulpy.s.01) ^ property(?w2, SHAPE) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pulpy.s.01) ^ property(?w2, null) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pulpy.s.01) ^ property(?w2, SIZE) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, black.a.01) ^ property(?w2, HYPERNYM) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, black.a.01) ^ property(?w2, COLOR) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, black.a.01) ^ property(?w2, HASA) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, black.a.01) ^ property(?w2, SHAPE) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, black.a.01) ^ property(?w2, null) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, black.a.01) ^ property(?w2, SIZE) ^ ?w1=/=?w2
+-0.665180   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, inedible.a.01) ^ property(?w2, HYPERNYM) ^ ?w1=/=?w2
+-2.437164   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, inedible.a.01) ^ property(?w2, COLOR) ^ ?w1=/=?w2
+-0.451415   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, inedible.a.01) ^ property(?w2, HASA) ^ ?w1=/=?w2
+-2.518270   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, inedible.a.01) ^ property(?w2, SHAPE) ^ ?w1=/=?w2
+1.646556    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, inedible.a.01) ^ property(?w2, null) ^ ?w1=/=?w2
+-1.327427   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, inedible.a.01) ^ property(?w2, SIZE) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, seed.n.02) ^ property(?w2, HYPERNYM) ^ ?w1=/=?w2
+-0.009140   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, seed.n.02) ^ property(?w2, COLOR) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, seed.n.02) ^ property(?w2, HASA) ^ ?w1=/=?w2
+-0.049406   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, seed.n.02) ^ property(?w2, SHAPE) ^ ?w1=/=?w2
+-7.041390   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, seed.n.02) ^ property(?w2, null) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, seed.n.02) ^ property(?w2, SIZE) ^ ?w1=/=?w2
+-0.665180   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, prairie_gourd.n.02) ^ property(?w2, HYPERNYM) ^ ?w1=/=?w2
+-2.437164   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, prairie_gourd.n.02) ^ property(?w2, COLOR) ^ ?w1=/=?w2
+-0.451415   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, prairie_gourd.n.02) ^ property(?w2, HASA) ^ ?w1=/=?w2
+-2.518270   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, prairie_gourd.n.02) ^ property(?w2, SHAPE) ^ ?w1=/=?w2
+1.646556    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, prairie_gourd.n.02) ^ property(?w2, null) ^ ?w1=/=?w2
+-1.327427   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, prairie_gourd.n.02) ^ property(?w2, SIZE) ^ ?w1=/=?w2
+-0.975686   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, large.a.01) ^ property(?w2, HYPERNYM) ^ ?w1=/=?w2
+-2.942039   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, large.a.01) ^ property(?w2, COLOR) ^ ?w1=/=?w2
+-0.703207   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, large.a.01) ^ property(?w2, HASA) ^ ?w1=/=?w2
+-3.027789   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, large.a.01) ^ property(?w2, SHAPE) ^ ?w1=/=?w2
+-0.707657   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, large.a.01) ^ property(?w2, null) ^ ?w1=/=?w2
+8.103110    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, large.a.01) ^ property(?w2, SIZE) ^ ?w1=/=?w2
+-0.665180   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, juicy.a.01) ^ property(?w2, HYPERNYM) ^ ?w1=/=?w2
+-2.437646   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, juicy.a.01) ^ property(?w2, COLOR) ^ ?w1=/=?w2
+-0.451415   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, juicy.a.01) ^ property(?w2, HASA) ^ ?w1=/=?w2
+-2.518736   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, juicy.a.01) ^ property(?w2, SHAPE) ^ ?w1=/=?w2
+1.648157    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, juicy.a.01) ^ property(?w2, null) ^ ?w1=/=?w2
+-1.161337   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, juicy.a.01) ^ property(?w2, SIZE) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vegetable.n.01) ^ property(?w2, HYPERNYM) ^ ?w1=/=?w2
+-0.039402   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vegetable.n.01) ^ property(?w2, COLOR) ^ ?w1=/=?w2
+-0.042518   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vegetable.n.01) ^ property(?w2, HASA) ^ ?w1=/=?w2
+-0.049660   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vegetable.n.01) ^ property(?w2, SHAPE) ^ ?w1=/=?w2
+-5.930163   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vegetable.n.01) ^ property(?w2, null) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, vegetable.n.01) ^ property(?w2, SIZE) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, container.n.01) ^ property(?w2, HYPERNYM) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, container.n.01) ^ property(?w2, COLOR) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, container.n.01) ^ property(?w2, HASA) ^ ?w1=/=?w2
+-0.095217   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, container.n.01) ^ property(?w2, SHAPE) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, container.n.01) ^ property(?w2, null) ^ ?w1=/=?w2
+-0.016282   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, container.n.01) ^ property(?w2, SIZE) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, roundish.s.01) ^ property(?w2, HYPERNYM) ^ ?w1=/=?w2
+-0.020796   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, roundish.s.01) ^ property(?w2, COLOR) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, roundish.s.01) ^ property(?w2, HASA) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, roundish.s.01) ^ property(?w2, SHAPE) ^ ?w1=/=?w2
+-6.789869   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, roundish.s.01) ^ property(?w2, null) ^ ?w1=/=?w2
+-0.999964   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, roundish.s.01) ^ property(?w2, SIZE) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, liquid.n.03) ^ property(?w2, HYPERNYM) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, liquid.n.03) ^ property(?w2, COLOR) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, liquid.n.03) ^ property(?w2, HASA) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, liquid.n.03) ^ property(?w2, SHAPE) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, liquid.n.03) ^ property(?w2, null) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, liquid.n.03) ^ property(?w2, SIZE) ^ ?w1=/=?w2
+-0.975686   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, egg-shaped.s.01) ^ property(?w2, HYPERNYM) ^ ?w1=/=?w2
+-2.941980   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, egg-shaped.s.01) ^ property(?w2, COLOR) ^ ?w1=/=?w2
+-0.703207   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, egg-shaped.s.01) ^ property(?w2, HASA) ^ ?w1=/=?w2
+13.107283   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, egg-shaped.s.01) ^ property(?w2, SHAPE) ^ ?w1=/=?w2
+-9.077589   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, egg-shaped.s.01) ^ property(?w2, null) ^ ?w1=/=?w2
+-1.658895   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, egg-shaped.s.01) ^ property(?w2, SIZE) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, white.a.01) ^ property(?w2, HYPERNYM) ^ ?w1=/=?w2
+-0.039669   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, white.a.01) ^ property(?w2, COLOR) ^ ?w1=/=?w2
+-0.042518   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, white.a.01) ^ property(?w2, HASA) ^ ?w1=/=?w2
+-0.049660   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, white.a.01) ^ property(?w2, SHAPE) ^ ?w1=/=?w2
+-6.485262   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, white.a.01) ^ property(?w2, null) ^ ?w1=/=?w2
+-0.666023   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, white.a.01) ^ property(?w2, SIZE) ^ ?w1=/=?w2
+0.000000    amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pulp.n.02) ^ property(?w2, HYPERNYM) ^ ?w1=/=?w2
+-0.098267   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pulp.n.02) ^ property(?w2, COLOR) ^ ?w1=/=?w2
+-0.042518   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pulp.n.02) ^ property(?w2, HASA) ^ ?w1=/=?w2
+-0.146988   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pulp.n.02) ^ property(?w2, SHAPE) ^ ?w1=/=?w2
+-7.952000   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pulp.n.02) ^ property(?w2, null) ^ ?w1=/=?w2
+-0.999964   amod(?w1, ?w2) ^ has_pos(?w2, JJ) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pulp.n.02) ^ property(?w2, SIZE) ^ ?w1=/=?w2
+0.000000    dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, own.v.01) ^ has_sense(?w2, ?s2) ^ property(?w2, HASA) ^ ?w1=/=?w2
+0.000000    dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, own.v.01) ^ has_sense(?w2, ?s2) ^ !property(?w2, HASA) ^ ?w1=/=?w2
+9.433481    dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, envelop.v.01) ^ has_sense(?w2, ?s2) ^ property(?w2, HASA) ^ ?w1=/=?w2
+-1.440168   dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, envelop.v.01) ^ has_sense(?w2, ?s2) ^ !property(?w2, HASA) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, wide.a.01) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, own.v.01) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+-0.402963   cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, vegetable_oil.n.01) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+-1.264125   cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, hold.v.11) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+-0.402142   cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, rind.n.01) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+-1.051647   cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, yellow.s.01) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+-1.640395   cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, orange.s.01) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+-0.013138   cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, oblong.s.02) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+-1.100928   cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, rubber.n.02) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+-0.402287   cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, acidic.s.02) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+-0.402112   cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, envelop.v.01) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+-2.465523   cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, null) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+-0.402112   cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, blackish.s.01) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, flat.s.02) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, bowl-shaped.s.01) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+7.711903    cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, vessel.n.03) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+-0.402142   cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, melon.n.01) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+9.716332    cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, food.n.02) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, handle.n.01) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+-0.402112   cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, peel.n.02) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, mildly.r.01) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+-0.402963   cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, olive_tree.n.01) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+-0.402142   cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cylindrical.s.01) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+-1.640395   cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, long.s.03) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+-0.402338   cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, elongate.s.02) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+-0.806354   cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, green.s.01) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cutlery.n.02) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+9.717845    cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fruit.n.01) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+-1.443041   cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, lid.n.02) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, scoop.v.01) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+-0.402112   cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, pear-shaped.s.01) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+7.076032    cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, root.n.01) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+-0.402226   cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, plant.n.02) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+-1.264125   cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, round.a.01) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cooking_utensil.n.01) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+-0.402281   cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, downy.s.02) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+-1.443041   cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, rectangular.s.01) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, yellowish.s.01) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+-0.402281   cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, whitish.s.02) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+-0.402963   cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, european.a.01) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+8.014048    cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, bag.n.01) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+-0.402142   cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, related.a.02) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+-1.264125   cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, open.s.10) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+-0.402338   cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, crescent.s.01) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+-1.443041   cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, normally.r.01) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, red.s.01) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, metallic.a.01) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+-1.268965   cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, small.a.01) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, shallow.a.01) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, pulpy.s.01) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, black.a.01) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+-0.402226   cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, inedible.a.01) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+-0.402112   cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, seed.n.02) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+-0.402226   cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, prairie_gourd.n.02) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+-0.402112   cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, large.a.01) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+-0.806436   cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, juicy.a.01) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+-0.402142   cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, vegetable.n.01) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+7.400982    cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, container.n.01) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, roundish.s.01) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+-1.264125   cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, liquid.n.03) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+-0.806608   cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, egg-shaped.s.01) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+-0.636819   cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, white.a.01) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+-1.147059   cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, pulp.n.02) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+-1.560586   cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, wide.a.01) ^ !property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, own.v.01) ^ !property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, vegetable_oil.n.01) ^ !property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, hold.v.11) ^ !property(?w1, HYPERNYM) ^ ?w1=/=?w2
+-0.021297   cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, rind.n.01) ^ !property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, yellow.s.01) ^ !property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, orange.s.01) ^ !property(?w1, HYPERNYM) ^ ?w1=/=?w2
+13.794982   cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, oblong.s.02) ^ !property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, rubber.n.02) ^ !property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, acidic.s.02) ^ !property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, envelop.v.01) ^ !property(?w1, HYPERNYM) ^ ?w1=/=?w2
+7.204463    cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, null) ^ !property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, blackish.s.01) ^ !property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, flat.s.02) ^ !property(?w1, HYPERNYM) ^ ?w1=/=?w2
+-1.559948   cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, bowl-shaped.s.01) ^ !property(?w1, HYPERNYM) ^ ?w1=/=?w2
+-2.753331   cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, vessel.n.03) ^ !property(?w1, HYPERNYM) ^ ?w1=/=?w2
+-0.021297   cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, melon.n.01) ^ !property(?w1, HYPERNYM) ^ ?w1=/=?w2
+-1.306053   cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, food.n.02) ^ !property(?w1, HYPERNYM) ^ ?w1=/=?w2
+-1.559948   cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, handle.n.01) ^ !property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, peel.n.02) ^ !property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, mildly.r.01) ^ !property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, olive_tree.n.01) ^ !property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cylindrical.s.01) ^ !property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, long.s.03) ^ !property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, elongate.s.02) ^ !property(?w1, HYPERNYM) ^ ?w1=/=?w2
+-0.021297   cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, green.s.01) ^ !property(?w1, HYPERNYM) ^ ?w1=/=?w2
+-1.559948   cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cutlery.n.02) ^ !property(?w1, HYPERNYM) ^ ?w1=/=?w2
+-2.669150   cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fruit.n.01) ^ !property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, lid.n.02) ^ !property(?w1, HYPERNYM) ^ ?w1=/=?w2
+-1.559948   cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, scoop.v.01) ^ !property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, pear-shaped.s.01) ^ !property(?w1, HYPERNYM) ^ ?w1=/=?w2
+-3.086641   cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, root.n.01) ^ !property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, plant.n.02) ^ !property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, round.a.01) ^ !property(?w1, HYPERNYM) ^ ?w1=/=?w2
+-1.560586   cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cooking_utensil.n.01) ^ !property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, downy.s.02) ^ !property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, rectangular.s.01) ^ !property(?w1, HYPERNYM) ^ ?w1=/=?w2
+-0.021297   cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, yellowish.s.01) ^ !property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, whitish.s.02) ^ !property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, european.a.01) ^ !property(?w1, HYPERNYM) ^ ?w1=/=?w2
+-2.399964   cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, bag.n.01) ^ !property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, related.a.02) ^ !property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, open.s.10) ^ !property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, crescent.s.01) ^ !property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, normally.r.01) ^ !property(?w1, HYPERNYM) ^ ?w1=/=?w2
+-0.021297   cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, red.s.01) ^ !property(?w1, HYPERNYM) ^ ?w1=/=?w2
+-1.560586   cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, metallic.a.01) ^ !property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, small.a.01) ^ !property(?w1, HYPERNYM) ^ ?w1=/=?w2
+-1.559948   cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, shallow.a.01) ^ !property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, pulpy.s.01) ^ !property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, black.a.01) ^ !property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, inedible.a.01) ^ !property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, seed.n.02) ^ !property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, prairie_gourd.n.02) ^ !property(?w1, HYPERNYM) ^ ?w1=/=?w2
+-0.021297   cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, large.a.01) ^ !property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, juicy.a.01) ^ !property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, vegetable.n.01) ^ !property(?w1, HYPERNYM) ^ ?w1=/=?w2
+-2.948654   cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, container.n.01) ^ !property(?w1, HYPERNYM) ^ ?w1=/=?w2
+-0.021297   cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, roundish.s.01) ^ !property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, liquid.n.03) ^ !property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, egg-shaped.s.01) ^ !property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, white.a.01) ^ !property(?w1, HYPERNYM) ^ ?w1=/=?w2
+-0.021297   cop(?w1, ?w2) ^ has_pos(?w1, NN) ^ has_sense(?w1, ?s1) ^ is_a(?s1, pulp.n.02) ^ !property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, wide.a.01) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, wide.a.01) ^ property(?w1, COLOR) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, wide.a.01) ^ property(?w1, HASA) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, wide.a.01) ^ property(?w1, SHAPE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, wide.a.01) ^ property(?w1, null) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, wide.a.01) ^ property(?w1, SIZE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, own.v.01) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, own.v.01) ^ property(?w1, COLOR) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, own.v.01) ^ property(?w1, HASA) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, own.v.01) ^ property(?w1, SHAPE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, own.v.01) ^ property(?w1, null) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, own.v.01) ^ property(?w1, SIZE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, vegetable_oil.n.01) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, vegetable_oil.n.01) ^ property(?w1, COLOR) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, vegetable_oil.n.01) ^ property(?w1, HASA) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, vegetable_oil.n.01) ^ property(?w1, SHAPE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, vegetable_oil.n.01) ^ property(?w1, null) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, vegetable_oil.n.01) ^ property(?w1, SIZE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, hold.v.11) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, hold.v.11) ^ property(?w1, COLOR) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, hold.v.11) ^ property(?w1, HASA) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, hold.v.11) ^ property(?w1, SHAPE) ^ ?w1=/=?w2
+-0.175236   cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, hold.v.11) ^ property(?w1, null) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, hold.v.11) ^ property(?w1, SIZE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, rind.n.01) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, rind.n.01) ^ property(?w1, COLOR) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, rind.n.01) ^ property(?w1, HASA) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, rind.n.01) ^ property(?w1, SHAPE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, rind.n.01) ^ property(?w1, null) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, rind.n.01) ^ property(?w1, SIZE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, yellow.s.01) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+-0.128699   cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, yellow.s.01) ^ property(?w1, COLOR) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, yellow.s.01) ^ property(?w1, HASA) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, yellow.s.01) ^ property(?w1, SHAPE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, yellow.s.01) ^ property(?w1, null) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, yellow.s.01) ^ property(?w1, SIZE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, orange.s.01) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, orange.s.01) ^ property(?w1, COLOR) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, orange.s.01) ^ property(?w1, HASA) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, orange.s.01) ^ property(?w1, SHAPE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, orange.s.01) ^ property(?w1, null) ^ ?w1=/=?w2
+-0.279676   cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, orange.s.01) ^ property(?w1, SIZE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, oblong.s.02) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, oblong.s.02) ^ property(?w1, COLOR) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, oblong.s.02) ^ property(?w1, HASA) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, oblong.s.02) ^ property(?w1, SHAPE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, oblong.s.02) ^ property(?w1, null) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, oblong.s.02) ^ property(?w1, SIZE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, rubber.n.02) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, rubber.n.02) ^ property(?w1, COLOR) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, rubber.n.02) ^ property(?w1, HASA) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, rubber.n.02) ^ property(?w1, SHAPE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, rubber.n.02) ^ property(?w1, null) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, rubber.n.02) ^ property(?w1, SIZE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, acidic.s.02) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+-0.128699   cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, acidic.s.02) ^ property(?w1, COLOR) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, acidic.s.02) ^ property(?w1, HASA) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, acidic.s.02) ^ property(?w1, SHAPE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, acidic.s.02) ^ property(?w1, null) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, acidic.s.02) ^ property(?w1, SIZE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, envelop.v.01) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, envelop.v.01) ^ property(?w1, COLOR) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, envelop.v.01) ^ property(?w1, HASA) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, envelop.v.01) ^ property(?w1, SHAPE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, envelop.v.01) ^ property(?w1, null) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, envelop.v.01) ^ property(?w1, SIZE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, null) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+-0.514300   cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, null) ^ property(?w1, COLOR) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, null) ^ property(?w1, HASA) ^ ?w1=/=?w2
+-0.049962   cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, null) ^ property(?w1, SHAPE) ^ ?w1=/=?w2
+-0.175236   cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, null) ^ property(?w1, null) ^ ?w1=/=?w2
+-0.408016   cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, null) ^ property(?w1, SIZE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, blackish.s.01) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, blackish.s.01) ^ property(?w1, COLOR) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, blackish.s.01) ^ property(?w1, HASA) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, blackish.s.01) ^ property(?w1, SHAPE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, blackish.s.01) ^ property(?w1, null) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, blackish.s.01) ^ property(?w1, SIZE) ^ ?w1=/=?w2
+-0.107702   cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, flat.s.02) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+-4.066598   cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, flat.s.02) ^ property(?w1, COLOR) ^ ?w1=/=?w2
+-0.429701   cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, flat.s.02) ^ property(?w1, HASA) ^ ?w1=/=?w2
+12.586333   cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, flat.s.02) ^ property(?w1, SHAPE) ^ ?w1=/=?w2
+-1.344691   cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, flat.s.02) ^ property(?w1, null) ^ ?w1=/=?w2
+-4.453249   cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, flat.s.02) ^ property(?w1, SIZE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, bowl-shaped.s.01) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, bowl-shaped.s.01) ^ property(?w1, COLOR) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, bowl-shaped.s.01) ^ property(?w1, HASA) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, bowl-shaped.s.01) ^ property(?w1, SHAPE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, bowl-shaped.s.01) ^ property(?w1, null) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, bowl-shaped.s.01) ^ property(?w1, SIZE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, vessel.n.03) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, vessel.n.03) ^ property(?w1, COLOR) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, vessel.n.03) ^ property(?w1, HASA) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, vessel.n.03) ^ property(?w1, SHAPE) ^ ?w1=/=?w2
+-0.175236   cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, vessel.n.03) ^ property(?w1, null) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, vessel.n.03) ^ property(?w1, SIZE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, melon.n.01) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, melon.n.01) ^ property(?w1, COLOR) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, melon.n.01) ^ property(?w1, HASA) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, melon.n.01) ^ property(?w1, SHAPE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, melon.n.01) ^ property(?w1, null) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, melon.n.01) ^ property(?w1, SIZE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, food.n.02) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, food.n.02) ^ property(?w1, COLOR) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, food.n.02) ^ property(?w1, HASA) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, food.n.02) ^ property(?w1, SHAPE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, food.n.02) ^ property(?w1, null) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, food.n.02) ^ property(?w1, SIZE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, handle.n.01) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, handle.n.01) ^ property(?w1, COLOR) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, handle.n.01) ^ property(?w1, HASA) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, handle.n.01) ^ property(?w1, SHAPE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, handle.n.01) ^ property(?w1, null) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, handle.n.01) ^ property(?w1, SIZE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, peel.n.02) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, peel.n.02) ^ property(?w1, COLOR) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, peel.n.02) ^ property(?w1, HASA) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, peel.n.02) ^ property(?w1, SHAPE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, peel.n.02) ^ property(?w1, null) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, peel.n.02) ^ property(?w1, SIZE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, mildly.r.01) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+-0.128699   cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, mildly.r.01) ^ property(?w1, COLOR) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, mildly.r.01) ^ property(?w1, HASA) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, mildly.r.01) ^ property(?w1, SHAPE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, mildly.r.01) ^ property(?w1, null) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, mildly.r.01) ^ property(?w1, SIZE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, olive_tree.n.01) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, olive_tree.n.01) ^ property(?w1, COLOR) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, olive_tree.n.01) ^ property(?w1, HASA) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, olive_tree.n.01) ^ property(?w1, SHAPE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, olive_tree.n.01) ^ property(?w1, null) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, olive_tree.n.01) ^ property(?w1, SIZE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cylindrical.s.01) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cylindrical.s.01) ^ property(?w1, COLOR) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cylindrical.s.01) ^ property(?w1, HASA) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cylindrical.s.01) ^ property(?w1, SHAPE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cylindrical.s.01) ^ property(?w1, null) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cylindrical.s.01) ^ property(?w1, SIZE) ^ ?w1=/=?w2
+-0.107702   cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, long.s.03) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+-4.065627   cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, long.s.03) ^ property(?w1, COLOR) ^ ?w1=/=?w2
+-0.429701   cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, long.s.03) ^ property(?w1, HASA) ^ ?w1=/=?w2
+-2.420201   cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, long.s.03) ^ property(?w1, SHAPE) ^ ?w1=/=?w2
+-1.344691   cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, long.s.03) ^ property(?w1, null) ^ ?w1=/=?w2
+10.226968   cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, long.s.03) ^ property(?w1, SIZE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, elongate.s.02) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, elongate.s.02) ^ property(?w1, COLOR) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, elongate.s.02) ^ property(?w1, HASA) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, elongate.s.02) ^ property(?w1, SHAPE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, elongate.s.02) ^ property(?w1, null) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, elongate.s.02) ^ property(?w1, SIZE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, green.s.01) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, green.s.01) ^ property(?w1, COLOR) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, green.s.01) ^ property(?w1, HASA) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, green.s.01) ^ property(?w1, SHAPE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, green.s.01) ^ property(?w1, null) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, green.s.01) ^ property(?w1, SIZE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cutlery.n.02) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cutlery.n.02) ^ property(?w1, COLOR) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cutlery.n.02) ^ property(?w1, HASA) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cutlery.n.02) ^ property(?w1, SHAPE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cutlery.n.02) ^ property(?w1, null) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cutlery.n.02) ^ property(?w1, SIZE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fruit.n.01) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+-0.128699   cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fruit.n.01) ^ property(?w1, COLOR) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fruit.n.01) ^ property(?w1, HASA) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fruit.n.01) ^ property(?w1, SHAPE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fruit.n.01) ^ property(?w1, null) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, fruit.n.01) ^ property(?w1, SIZE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, lid.n.02) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, lid.n.02) ^ property(?w1, COLOR) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, lid.n.02) ^ property(?w1, HASA) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, lid.n.02) ^ property(?w1, SHAPE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, lid.n.02) ^ property(?w1, null) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, lid.n.02) ^ property(?w1, SIZE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, scoop.v.01) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, scoop.v.01) ^ property(?w1, COLOR) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, scoop.v.01) ^ property(?w1, HASA) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, scoop.v.01) ^ property(?w1, SHAPE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, scoop.v.01) ^ property(?w1, null) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, scoop.v.01) ^ property(?w1, SIZE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, pear-shaped.s.01) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, pear-shaped.s.01) ^ property(?w1, COLOR) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, pear-shaped.s.01) ^ property(?w1, HASA) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, pear-shaped.s.01) ^ property(?w1, SHAPE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, pear-shaped.s.01) ^ property(?w1, null) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, pear-shaped.s.01) ^ property(?w1, SIZE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, root.n.01) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, root.n.01) ^ property(?w1, COLOR) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, root.n.01) ^ property(?w1, HASA) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, root.n.01) ^ property(?w1, SHAPE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, root.n.01) ^ property(?w1, null) ^ ?w1=/=?w2
+-0.279676   cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, root.n.01) ^ property(?w1, SIZE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, plant.n.02) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, plant.n.02) ^ property(?w1, COLOR) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, plant.n.02) ^ property(?w1, HASA) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, plant.n.02) ^ property(?w1, SHAPE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, plant.n.02) ^ property(?w1, null) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, plant.n.02) ^ property(?w1, SIZE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, round.a.01) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+-0.182650   cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, round.a.01) ^ property(?w1, COLOR) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, round.a.01) ^ property(?w1, HASA) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, round.a.01) ^ property(?w1, SHAPE) ^ ?w1=/=?w2
+-0.175236   cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, round.a.01) ^ property(?w1, null) ^ ?w1=/=?w2
+-0.114098   cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, round.a.01) ^ property(?w1, SIZE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cooking_utensil.n.01) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cooking_utensil.n.01) ^ property(?w1, COLOR) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cooking_utensil.n.01) ^ property(?w1, HASA) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cooking_utensil.n.01) ^ property(?w1, SHAPE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cooking_utensil.n.01) ^ property(?w1, null) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cooking_utensil.n.01) ^ property(?w1, SIZE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, downy.s.02) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, downy.s.02) ^ property(?w1, COLOR) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, downy.s.02) ^ property(?w1, HASA) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, downy.s.02) ^ property(?w1, SHAPE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, downy.s.02) ^ property(?w1, null) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, downy.s.02) ^ property(?w1, SIZE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, rectangular.s.01) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, rectangular.s.01) ^ property(?w1, COLOR) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, rectangular.s.01) ^ property(?w1, HASA) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, rectangular.s.01) ^ property(?w1, SHAPE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, rectangular.s.01) ^ property(?w1, null) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, rectangular.s.01) ^ property(?w1, SIZE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, yellowish.s.01) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, yellowish.s.01) ^ property(?w1, COLOR) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, yellowish.s.01) ^ property(?w1, HASA) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, yellowish.s.01) ^ property(?w1, SHAPE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, yellowish.s.01) ^ property(?w1, null) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, yellowish.s.01) ^ property(?w1, SIZE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, whitish.s.02) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, whitish.s.02) ^ property(?w1, COLOR) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, whitish.s.02) ^ property(?w1, HASA) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, whitish.s.02) ^ property(?w1, SHAPE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, whitish.s.02) ^ property(?w1, null) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, whitish.s.02) ^ property(?w1, SIZE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, european.a.01) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, european.a.01) ^ property(?w1, COLOR) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, european.a.01) ^ property(?w1, HASA) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, european.a.01) ^ property(?w1, SHAPE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, european.a.01) ^ property(?w1, null) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, european.a.01) ^ property(?w1, SIZE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, bag.n.01) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, bag.n.01) ^ property(?w1, COLOR) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, bag.n.01) ^ property(?w1, HASA) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, bag.n.01) ^ property(?w1, SHAPE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, bag.n.01) ^ property(?w1, null) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, bag.n.01) ^ property(?w1, SIZE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, related.a.02) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, related.a.02) ^ property(?w1, COLOR) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, related.a.02) ^ property(?w1, HASA) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, related.a.02) ^ property(?w1, SHAPE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, related.a.02) ^ property(?w1, null) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, related.a.02) ^ property(?w1, SIZE) ^ ?w1=/=?w2
+-0.230078   cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, open.s.10) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+-4.527124   cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, open.s.10) ^ property(?w1, COLOR) ^ ?w1=/=?w2
+-0.020486   cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, open.s.10) ^ property(?w1, HASA) ^ ?w1=/=?w2
+-2.129300   cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, open.s.10) ^ property(?w1, SHAPE) ^ ?w1=/=?w2
+10.820201   cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, open.s.10) ^ property(?w1, null) ^ ?w1=/=?w2
+-3.541940   cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, open.s.10) ^ property(?w1, SIZE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, crescent.s.01) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, crescent.s.01) ^ property(?w1, COLOR) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, crescent.s.01) ^ property(?w1, HASA) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, crescent.s.01) ^ property(?w1, SHAPE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, crescent.s.01) ^ property(?w1, null) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, crescent.s.01) ^ property(?w1, SIZE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, normally.r.01) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, normally.r.01) ^ property(?w1, COLOR) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, normally.r.01) ^ property(?w1, HASA) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, normally.r.01) ^ property(?w1, SHAPE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, normally.r.01) ^ property(?w1, null) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, normally.r.01) ^ property(?w1, SIZE) ^ ?w1=/=?w2
+-0.393147   cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, red.s.01) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+11.151372   cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, red.s.01) ^ property(?w1, COLOR) ^ ?w1=/=?w2
+-0.444070   cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, red.s.01) ^ property(?w1, HASA) ^ ?w1=/=?w2
+-2.885790   cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, red.s.01) ^ property(?w1, SHAPE) ^ ?w1=/=?w2
+-4.086846   cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, red.s.01) ^ property(?w1, null) ^ ?w1=/=?w2
+-4.763685   cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, red.s.01) ^ property(?w1, SIZE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, metallic.a.01) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, metallic.a.01) ^ property(?w1, COLOR) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, metallic.a.01) ^ property(?w1, HASA) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, metallic.a.01) ^ property(?w1, SHAPE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, metallic.a.01) ^ property(?w1, null) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, metallic.a.01) ^ property(?w1, SIZE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, small.a.01) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, small.a.01) ^ property(?w1, COLOR) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, small.a.01) ^ property(?w1, HASA) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, small.a.01) ^ property(?w1, SHAPE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, small.a.01) ^ property(?w1, null) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, small.a.01) ^ property(?w1, SIZE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, shallow.a.01) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, shallow.a.01) ^ property(?w1, COLOR) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, shallow.a.01) ^ property(?w1, HASA) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, shallow.a.01) ^ property(?w1, SHAPE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, shallow.a.01) ^ property(?w1, null) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, shallow.a.01) ^ property(?w1, SIZE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, pulpy.s.01) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+-0.128699   cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, pulpy.s.01) ^ property(?w1, COLOR) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, pulpy.s.01) ^ property(?w1, HASA) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, pulpy.s.01) ^ property(?w1, SHAPE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, pulpy.s.01) ^ property(?w1, null) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, pulpy.s.01) ^ property(?w1, SIZE) ^ ?w1=/=?w2
+-0.392375   cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, black.a.01) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+10.757962   cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, black.a.01) ^ property(?w1, COLOR) ^ ?w1=/=?w2
+-0.040024   cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, black.a.01) ^ property(?w1, HASA) ^ ?w1=/=?w2
+-2.616837   cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, black.a.01) ^ property(?w1, SHAPE) ^ ?w1=/=?w2
+-4.489493   cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, black.a.01) ^ property(?w1, null) ^ ?w1=/=?w2
+-4.092060   cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, black.a.01) ^ property(?w1, SIZE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, inedible.a.01) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, inedible.a.01) ^ property(?w1, COLOR) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, inedible.a.01) ^ property(?w1, HASA) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, inedible.a.01) ^ property(?w1, SHAPE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, inedible.a.01) ^ property(?w1, null) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, inedible.a.01) ^ property(?w1, SIZE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, seed.n.02) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, seed.n.02) ^ property(?w1, COLOR) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, seed.n.02) ^ property(?w1, HASA) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, seed.n.02) ^ property(?w1, SHAPE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, seed.n.02) ^ property(?w1, null) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, seed.n.02) ^ property(?w1, SIZE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, prairie_gourd.n.02) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, prairie_gourd.n.02) ^ property(?w1, COLOR) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, prairie_gourd.n.02) ^ property(?w1, HASA) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, prairie_gourd.n.02) ^ property(?w1, SHAPE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, prairie_gourd.n.02) ^ property(?w1, null) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, prairie_gourd.n.02) ^ property(?w1, SIZE) ^ ?w1=/=?w2
+-0.262289   cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, large.a.01) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+-4.756656   cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, large.a.01) ^ property(?w1, COLOR) ^ ?w1=/=?w2
+-2.444723   cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, large.a.01) ^ property(?w1, HASA) ^ ?w1=/=?w2
+-2.988142   cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, large.a.01) ^ property(?w1, SHAPE) ^ ?w1=/=?w2
+-3.929883   cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, large.a.01) ^ property(?w1, null) ^ ?w1=/=?w2
+11.317279   cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, large.a.01) ^ property(?w1, SIZE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, juicy.a.01) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, juicy.a.01) ^ property(?w1, COLOR) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, juicy.a.01) ^ property(?w1, HASA) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, juicy.a.01) ^ property(?w1, SHAPE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, juicy.a.01) ^ property(?w1, null) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, juicy.a.01) ^ property(?w1, SIZE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, vegetable.n.01) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+-0.128699   cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, vegetable.n.01) ^ property(?w1, COLOR) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, vegetable.n.01) ^ property(?w1, HASA) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, vegetable.n.01) ^ property(?w1, SHAPE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, vegetable.n.01) ^ property(?w1, null) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, vegetable.n.01) ^ property(?w1, SIZE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, container.n.01) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, container.n.01) ^ property(?w1, COLOR) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, container.n.01) ^ property(?w1, HASA) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, container.n.01) ^ property(?w1, SHAPE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, container.n.01) ^ property(?w1, null) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, container.n.01) ^ property(?w1, SIZE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, roundish.s.01) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, roundish.s.01) ^ property(?w1, COLOR) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, roundish.s.01) ^ property(?w1, HASA) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, roundish.s.01) ^ property(?w1, SHAPE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, roundish.s.01) ^ property(?w1, null) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, roundish.s.01) ^ property(?w1, SIZE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, liquid.n.03) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, liquid.n.03) ^ property(?w1, COLOR) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, liquid.n.03) ^ property(?w1, HASA) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, liquid.n.03) ^ property(?w1, SHAPE) ^ ?w1=/=?w2
+-0.175236   cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, liquid.n.03) ^ property(?w1, null) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, liquid.n.03) ^ property(?w1, SIZE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, egg-shaped.s.01) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+-0.130242   cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, egg-shaped.s.01) ^ property(?w1, COLOR) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, egg-shaped.s.01) ^ property(?w1, HASA) ^ ?w1=/=?w2
+-0.049962   cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, egg-shaped.s.01) ^ property(?w1, SHAPE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, egg-shaped.s.01) ^ property(?w1, null) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, egg-shaped.s.01) ^ property(?w1, SIZE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, white.a.01) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+-0.182650   cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, white.a.01) ^ property(?w1, COLOR) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, white.a.01) ^ property(?w1, HASA) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, white.a.01) ^ property(?w1, SHAPE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, white.a.01) ^ property(?w1, null) ^ ?w1=/=?w2
+-0.114098   cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, white.a.01) ^ property(?w1, SIZE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, pulp.n.02) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, pulp.n.02) ^ property(?w1, COLOR) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, pulp.n.02) ^ property(?w1, HASA) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, pulp.n.02) ^ property(?w1, SHAPE) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, pulp.n.02) ^ property(?w1, null) ^ ?w1=/=?w2
+0.000000    cop(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ is_a(?s1, pulp.n.02) ^ property(?w1, SIZE) ^ ?w1=/=?w2
+-0.526981   conj_or(?w1, ?w2) ^ has_pos(?w1, JJ) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+1.852686    conj_or(?w1, ?w2) ^ has_pos(?w1, JJ) ^ property(?w1, COLOR) ^ ?w1=/=?w2
+-0.259912   conj_or(?w1, ?w2) ^ has_pos(?w1, JJ) ^ property(?w1, HASA) ^ ?w1=/=?w2
+-1.011083   conj_or(?w1, ?w2) ^ has_pos(?w1, JJ) ^ property(?w1, SHAPE) ^ ?w1=/=?w2
+-1.653476   conj_or(?w1, ?w2) ^ has_pos(?w1, JJ) ^ property(?w1, null) ^ ?w1=/=?w2
+-0.833790   conj_or(?w1, ?w2) ^ has_pos(?w1, JJ) ^ property(?w1, SIZE) ^ ?w1=/=?w2
+-0.975686   conj_or(?w1, ?w2) ^ has_pos(?w2, JJ) ^ property(?w2, HYPERNYM) ^ ?w1=/=?w2
+13.205056   conj_or(?w1, ?w2) ^ has_pos(?w2, JJ) ^ property(?w2, COLOR) ^ ?w1=/=?w2
+-0.703207   conj_or(?w1, ?w2) ^ has_pos(?w2, JJ) ^ property(?w2, HASA) ^ ?w1=/=?w2
+-3.027328   conj_or(?w1, ?w2) ^ has_pos(?w2, JJ) ^ property(?w2, SHAPE) ^ ?w1=/=?w2
+-9.041419   conj_or(?w1, ?w2) ^ has_pos(?w2, JJ) ^ property(?w2, null) ^ ?w1=/=?w2
+-1.559572   conj_or(?w1, ?w2) ^ has_pos(?w2, JJ) ^ property(?w2, SIZE) ^ ?w1=/=?w2
+-0.884866   conj_and(?w1, ?w2) ^ has_pos(?w1, JJ) ^ property(?w1, HYPERNYM) ^ ?w1=/=?w2
+-0.568957   conj_and(?w1, ?w2) ^ has_pos(?w1, JJ) ^ property(?w1, COLOR) ^ ?w1=/=?w2
+3.743848    conj_and(?w1, ?w2) ^ has_pos(?w1, JJ) ^ property(?w1, HASA) ^ ?w1=/=?w2
+0.418347    conj_and(?w1, ?w2) ^ has_pos(?w1, JJ) ^ property(?w1, SHAPE) ^ ?w1=/=?w2
+-3.649243   conj_and(?w1, ?w2) ^ has_pos(?w1, JJ) ^ property(?w1, null) ^ ?w1=/=?w2
+1.139829    conj_and(?w1, ?w2) ^ has_pos(?w1, JJ) ^ property(?w1, SIZE) ^ ?w1=/=?w2
+-1.683146   conj_and(?w1, ?w2) ^ has_pos(?w2, JJ) ^ property(?w2, HYPERNYM) ^ ?w1=/=?w2
+5.594896    conj_and(?w1, ?w2) ^ has_pos(?w2, JJ) ^ property(?w2, COLOR) ^ ?w1=/=?w2
+-1.324047   conj_and(?w1, ?w2) ^ has_pos(?w2, JJ) ^ property(?w2, HASA) ^ ?w1=/=?w2
+5.480657    conj_and(?w1, ?w2) ^ has_pos(?w2, JJ) ^ property(?w2, SHAPE) ^ ?w1=/=?w2
+-3.131538   conj_and(?w1, ?w2) ^ has_pos(?w2, JJ) ^ property(?w2, null) ^ ?w1=/=?w2
+-2.386744   conj_and(?w1, ?w2) ^ has_pos(?w2, JJ) ^ property(?w2, SIZE) ^ ?w1=/=?w2
+1.986855    prep_with(?w1, ?w2) ^ has_sense(?w2, ?s2) ^ property(?w2, HASA) ^ ?w1=/=?w2
+-1.986855   prep_with(?w1, ?w2) ^ has_sense(?w2, ?s2) ^ !property(?w2, HASA) ^ ?w1=/=?w2
+0.000000    prep_without(?w1, ?w2) ^ property(?w2, HASA) ^ ?w1=/=?w2
+0.000000    prep_without(?w1, ?w2) ^ !property(?w2, HASA) ^ ?w1=/=?w2
+-7.231211   has_pos(?w1, MD) ^ property(?w1, HYPERNYM)
+-7.231211   has_pos(?w1, MD) ^ property(?w1, COLOR)
+-7.231211   has_pos(?w1, MD) ^ property(?w1, HASA)
+-7.231211   has_pos(?w1, MD) ^ property(?w1, SHAPE)
+7.231211    has_pos(?w1, MD) ^ property(?w1, null)
+-7.231211   has_pos(?w1, MD) ^ property(?w1, SIZE)
+-8.460960   has_pos(?w1, VB) ^ property(?w1, HYPERNYM)
+-8.460960   has_pos(?w1, VB) ^ property(?w1, COLOR)
+-8.460960   has_pos(?w1, VB) ^ property(?w1, HASA)
+-8.460960   has_pos(?w1, VB) ^ property(?w1, SHAPE)
+8.460960    has_pos(?w1, VB) ^ property(?w1, null)
+-8.460960   has_pos(?w1, VB) ^ property(?w1, SIZE)
+-8.204051   has_pos(?w1, VBG) ^ property(?w1, HYPERNYM)
+-8.204051   has_pos(?w1, VBG) ^ property(?w1, COLOR)
+-8.204051   has_pos(?w1, VBG) ^ property(?w1, HASA)
+-8.204051   has_pos(?w1, VBG) ^ property(?w1, SHAPE)
+8.204051    has_pos(?w1, VBG) ^ property(?w1, null)
+-8.204051   has_pos(?w1, VBG) ^ property(?w1, SIZE)
+-8.460960   has_pos(?w1, RB) ^ property(?w1, HYPERNYM)
+-8.460960   has_pos(?w1, RB) ^ property(?w1, COLOR)
+-8.460960   has_pos(?w1, RB) ^ property(?w1, HASA)
+-8.460960   has_pos(?w1, RB) ^ property(?w1, SHAPE)
+8.460960    has_pos(?w1, RB) ^ property(?w1, null)
+-8.460960   has_pos(?w1, RB) ^ property(?w1, SIZE)
+-2.078984   has_pos(?w1, NN) ^ property(?w1, HYPERNYM)
+-3.218703   has_pos(?w1, NN) ^ property(?w1, COLOR)
+-2.028025   has_pos(?w1, NN) ^ property(?w1, HASA)
+-2.793109   has_pos(?w1, NN) ^ property(?w1, SHAPE)
+-0.722129   has_pos(?w1, NN) ^ property(?w1, null)
+-10.783542  has_pos(?w1, NN) ^ property(?w1, SIZE)
+-7.231211   has_pos(?w1, CC) ^ property(?w1, HYPERNYM)
+-7.231211   has_pos(?w1, CC) ^ property(?w1, COLOR)
+-7.231211   has_pos(?w1, CC) ^ property(?w1, HASA)
+-7.231211   has_pos(?w1, CC) ^ property(?w1, SHAPE)
+7.231211    has_pos(?w1, CC) ^ property(?w1, null)
+-7.231211   has_pos(?w1, CC) ^ property(?w1, SIZE)
+-8.660798   has_pos(?w1, VBN) ^ property(?w1, HYPERNYM)
+-8.660798   has_pos(?w1, VBN) ^ property(?w1, COLOR)
+-8.660798   has_pos(?w1, VBN) ^ property(?w1, HASA)
+-8.660798   has_pos(?w1, VBN) ^ property(?w1, SHAPE)
+8.660798    has_pos(?w1, VBN) ^ property(?w1, null)
+-8.660798   has_pos(?w1, VBN) ^ property(?w1, SIZE)
+-7.231211   has_pos(?w1, RP) ^ property(?w1, HYPERNYM)
+-7.231211   has_pos(?w1, RP) ^ property(?w1, COLOR)
+-7.231211   has_pos(?w1, RP) ^ property(?w1, HASA)
+-7.231211   has_pos(?w1, RP) ^ property(?w1, SHAPE)
+7.231211    has_pos(?w1, RP) ^ property(?w1, null)
+-7.231211   has_pos(?w1, RP) ^ property(?w1, SIZE)
+-7.231211   has_pos(?w1, TO) ^ property(?w1, HYPERNYM)
+-7.231211   has_pos(?w1, TO) ^ property(?w1, COLOR)
+-7.231211   has_pos(?w1, TO) ^ property(?w1, HASA)
+-7.231211   has_pos(?w1, TO) ^ property(?w1, SHAPE)
+7.231211    has_pos(?w1, TO) ^ property(?w1, null)
+-7.231211   has_pos(?w1, TO) ^ property(?w1, SIZE)
+-7.231211   has_pos(?w1, WDT) ^ property(?w1, HYPERNYM)
+-7.231211   has_pos(?w1, WDT) ^ property(?w1, COLOR)
+-7.231211   has_pos(?w1, WDT) ^ property(?w1, HASA)
+-7.231211   has_pos(?w1, WDT) ^ property(?w1, SHAPE)
+7.231211    has_pos(?w1, WDT) ^ property(?w1, null)
+-7.231211   has_pos(?w1, WDT) ^ property(?w1, SIZE)
+-10.368084  has_pos(?w1, PRP) ^ property(?w1, HYPERNYM)
+-10.368084  has_pos(?w1, PRP) ^ property(?w1, COLOR)
+-10.368084  has_pos(?w1, PRP) ^ property(?w1, HASA)
+-10.368084  has_pos(?w1, PRP) ^ property(?w1, SHAPE)
+10.368084   has_pos(?w1, PRP) ^ property(?w1, null)
+-10.368084  has_pos(?w1, PRP) ^ property(?w1, SIZE)
+-8.952347   has_pos(?w1, JJ) ^ property(?w1, HYPERNYM)
+-5.882905   has_pos(?w1, JJ) ^ property(?w1, COLOR)
+-9.550693   has_pos(?w1, JJ) ^ property(?w1, HASA)
+-5.768659   has_pos(?w1, JJ) ^ property(?w1, SHAPE)
+1.340145    has_pos(?w1, JJ) ^ property(?w1, null)
+-7.899736   has_pos(?w1, JJ) ^ property(?w1, SIZE)
+-7.843420   has_pos(?w1, IN) ^ property(?w1, HYPERNYM)
+-7.843420   has_pos(?w1, IN) ^ property(?w1, COLOR)
+-7.843420   has_pos(?w1, IN) ^ property(?w1, HASA)
+-7.843420   has_pos(?w1, IN) ^ property(?w1, SHAPE)
+7.843420    has_pos(?w1, IN) ^ property(?w1, null)
+-7.843420   has_pos(?w1, IN) ^ property(?w1, SIZE)
+-10.368084  has_pos(?w1, VBZ) ^ property(?w1, HYPERNYM)
+-10.368084  has_pos(?w1, VBZ) ^ property(?w1, COLOR)
+-10.368084  has_pos(?w1, VBZ) ^ property(?w1, HASA)
+-10.368084  has_pos(?w1, VBZ) ^ property(?w1, SHAPE)
+10.368084   has_pos(?w1, VBZ) ^ property(?w1, null)
+-10.368084  has_pos(?w1, VBZ) ^ property(?w1, SIZE)
+-10.250294  has_pos(?w1, DT) ^ property(?w1, HYPERNYM)
+-10.250294  has_pos(?w1, DT) ^ property(?w1, COLOR)
+-10.250294  has_pos(?w1, DT) ^ property(?w1, HASA)
+-10.250294  has_pos(?w1, DT) ^ property(?w1, SHAPE)
+10.250294   has_pos(?w1, DT) ^ property(?w1, null)
+-10.250294  has_pos(?w1, DT) ^ property(?w1, SIZE)
+-7.843420   has_pos(?w1, NNS) ^ property(?w1, HYPERNYM)
+-7.843420   has_pos(?w1, NNS) ^ property(?w1, COLOR)
+-7.843420   has_pos(?w1, NNS) ^ property(?w1, HASA)
+-7.843420   has_pos(?w1, NNS) ^ property(?w1, SHAPE)
+7.843420    has_pos(?w1, NNS) ^ property(?w1, null)
+-7.843420   has_pos(?w1, NNS) ^ property(?w1, SIZE)
+-8.204051   has_pos(?w1, NNP) ^ property(?w1, HYPERNYM)
+-0.693043   has_pos(?w1, NNP) ^ property(?w1, COLOR)
+-8.204051   has_pos(?w1, NNP) ^ property(?w1, HASA)
+-0.693043   has_pos(?w1, NNP) ^ property(?w1, SHAPE)
+-0.693043   has_pos(?w1, NNP) ^ property(?w1, null)
+-8.204051   has_pos(?w1, NNP) ^ property(?w1, SIZE)
