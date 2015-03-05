@@ -8,7 +8,7 @@ S'2'
 p3
 sS'evidencePreds'
 p4
-S'has_pos, is_a, dobj,prep_to'
+S'has_pos, is_a, dobj,action_core'
 p5
 sS'output_filename'
 p6
