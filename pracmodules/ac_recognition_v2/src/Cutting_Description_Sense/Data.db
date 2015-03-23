@@ -221,4 +221,60 @@
 1.00  has_sense(piece, piece.n.08)
 1.00  action_core(cut,Cutting)
 
+---
+
+1.00  dobj(Make, cut)
+1.00  has_pos(Make, VB)
+1.00  has_pos(cut, NN)
+1.00  has_pos(mushroom, NN)
+1.00  has_sense(Make, make.v.16)
+1.00  has_sense(cut, cut.n.17)
+1.00  has_sense(mushroom, mushroom.n.05)
+1.00  action_role(mushroom, ObjectToBeCutted)
+1.00  action_role(cut, ActionCause)
+1.00  action_core(cut,Cutting)
+---
+1.00  has_pos(Make, VB)
+1.00  has_pos(cut, NN)
+1.00  has_pos(lemon, NN)
+1.00  has_sense(Make, make.v.16)
+1.00  has_sense(cut, cut.n.17)
+1.00  has_sense(lemon, lemon.n.01)
+1.00  action_role(lemon, ObjectToBeCutted)
+1.00  action_role(cut, ActionCause)
+1.00  action_core(cut,Cutting)
+---
+1.00  has_pos(Perform, VB)
+1.00  has_pos(apple, NN)
+1.00  has_pos(cut, NN)
+1.00  has_sense(Perform, perform.v.01)
+1.00  has_sense(apple, apple.n.01)
+1.00  has_sense(cut, cut.n.17)
+1.00  action_role(apple, ObjectToBeCutted)
+1.00  action_role(cut, ActionCause)
+1.00  action_core(cut,Cutting)
+---
+1.00  has_pos(Perform, VB)
+1.00  has_pos(cut, NN)
+1.00  has_pos(meat, NN)
+1.00  has_sense(Perform, perform.v.01)
+1.00  has_sense(cut, cut.n.17)
+1.00  has_sense(meat, meat.n.01)
+
+1.00  action_role(meat, ObjectToBeCutted)
+1.00  action_role(cut, ActionCause)
+1.00  action_core(cut,Cutting)
+---
+1.00  has_pos(Perform, VB)
+1.00  has_pos(bacon, NN)
+1.00  has_pos(cut, NN)
+1.00  has_sense(Perform, perform.v.01)
+1.00  has_sense(bacon, bacon.n.01)
+1.00  has_sense(cut, cut.n.17)
+1.00  action_core(cut,Cutting)
+1.00  action_role(bacon, ObjectToBeCutted)
+1.00  action_role(cut, ActionCause)
+
+
+
 
