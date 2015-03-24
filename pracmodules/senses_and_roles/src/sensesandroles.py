@@ -98,15 +98,19 @@ class SensesAndRoles(PRACModule):
                 print 
                 concepts = useKB.query_mln.domains['concept']#mergeDomains(, self.merge_all_domains(pracinference))['concept']
                 log.info('adding senses. concepts=%s' % concepts)
-                db_ = self.prac.getModuleByName('wn_senses').get_senses_and_similarities(db_, concepts)
+                wordnet_module = self.prac.getModuleByName('wn_senses')
+                db_ = wordnet_module.get_senses_and_similarities(db_, concepts)
                 result_db = list(useKB.infer(db_))
                 for r_db in result_db:
                     if 'missing' not in params:
                         for q in r_db.query('action_role(?w, ?r) ^ has_sense(?w, ?s)', truthThreshold=1):
                             if q['?r'] == 'null': continue
+                            
                             print colorize('ACTION ROLE:', (None, 'white', True), True), q['?r'], 
                             print colorize('  WORD:', (None, 'white', True), True), q['?w'], 
                             print colorize('  SENSE:', (None, 'white', True), True), q['?s']
+                            wordnet_module.printWordSenses(wordnet_module.get_possible_meanings_of_word(r_db, q['?w']), q['?s'])
+                            print
                 for ur in unknown_roles:
                     print '%s:' % colorize(ur, (None, 'red', True), True)
                     for q in r_db.query('action_role(?w, %s) ^ has_sense(?w, ?s)' % ur, truthThreshold=1):
