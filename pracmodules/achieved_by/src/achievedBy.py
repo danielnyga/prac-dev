@@ -49,9 +49,21 @@ class AchievedBy(PRACModule):
     @PRACPIPE
     def __call__(self, pracinference, **params):
         log = logging.getLogger(self.name)
-        print 'Started achievedby module'
-        
+        print colorize('+==========================================+', (None, 'green', True), True)
+        print colorize('| PRAC INFERENCE: RECOGNIZING ACHIEVED BY  ' , (None, 'green', True), True)
+        print colorize('+==========================================+', (None, 'green', True), True)
     
+        kb = params.get('kb', None)
+        if kb is None:
+            # load the default arguments
+            dbs = pracinference.inference_steps[-1].output_dbs
+        else:
+            kb = params['kb']
+            dbs = kb.dbs
+        self.kbs = []
+        inf_step = PRACInferenceStep(pracinference, self)
+        for db in dbs:
+            db.printEvidence()
         
     
     
