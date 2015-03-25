@@ -74,8 +74,11 @@ class AchievedBy(PRACModule):
                     useKB = kb
                 self.kbs.append(useKB)  
                 params.update(useKB.query_params)
+                #TODO ask why sensesandroles uses a list
                 result_db = list(useKB.infer(db_))
-                print
-                result_db.printEvidence()
-    
+                
+                for r_db in result_db:
+                    for q in r_db.query('achieved_by('+actioncore+',?nac)'):
+                        print  q['?nac'] 
+                
     
