@@ -31,7 +31,7 @@ action_role(word,role?)
 action_core(word,actioncore?)
 
 // hard fomulas 
-has_sense(?w, null) ^ !action_role(?w, +?r1).
+//has_sense(?w, null) ^ !action_role(?w, +?r1).
 
 // weighted formulas
 #unique{+?r1,+?r2}
