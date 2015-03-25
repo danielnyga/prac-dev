@@ -63,8 +63,19 @@ class AchievedBy(PRACModule):
         self.kbs = []
         inf_step = PRACInferenceStep(pracinference, self)
         for db in dbs:
-            db.printEvidence()
-        
-    
+            db_ = db.duplicate()
+            
+            for q in db.query('action_core(?w,?ac)'):
+                actioncore = q['?ac']
+                if kb is None:
+                    print 'Loading Markov Logic Network: %s' % colorize(actioncore, (None, 'white', True), True)
+                    useKB = self.load_pracmt(actioncore)
+                else:
+                    useKB = kb
+                self.kbs.append(useKB)  
+                params.update(useKB.query_params)
+                result_db = list(useKB.infer(db_))
+                print
+                result_db.printEvidence()
     
     
