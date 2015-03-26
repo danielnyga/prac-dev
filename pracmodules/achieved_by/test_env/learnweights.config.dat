@@ -12,7 +12,7 @@ S''
 p5
 sS'output_filename'
 p6
-S'wts.pydcll.fol_training-Adding.mln'
+S'wts.pydcll.is_fill-Filling.mln'
 p7
 sS'discrPredicates'
 p8
@@ -45,7 +45,7 @@ S'[discriminative] composite-log-likelihood'
 p18
 sS'db'
 p19
-S'fol_training.db'
+S'is_fill.db'
 p20
 sS'priorMean'
 p21
@@ -64,11 +64,11 @@ S'PRACGrammar'
 p27
 sS'geometry'
 p28
-V1007x933+65+24
+S'1007x933+73+108'
 p29
 sS'mln'
 p30
-S'Adding.mln'
+S'Filling.mln'
 p31
 sS'logic'
 p32

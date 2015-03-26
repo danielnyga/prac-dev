@@ -33,6 +33,7 @@ from prac.inference import PRACInferenceStep
 from mln.util import mergeDomains
 from utils import colorize
 from pracutils import printListAndTick
+from prac.wordnet import WordNet
 
 
 class AchievedBy(PRACModule):
@@ -66,19 +67,42 @@ class AchievedBy(PRACModule):
             db_ = db.duplicate()
             
             for q in db.query('action_core(?w,?ac)'):
+                running = True
+                wordnet = WordNet(concepts=None)
+                actionword = q['?w']
                 actioncore = q['?ac']
+                i = 0
                 if kb is None:
                     print 'Loading Markov Logic Network: %s' % colorize(actioncore, (None, 'white', True), True)
                     useKB = self.load_pracmt(actioncore)
                 else:
                     useKB = kb
-                self.kbs.append(useKB)  
-                params.update(useKB.query_params)
-                #TODO ask why sensesandroles uses a list
-                result_db = list(useKB.infer(db_))
-                
-                for r_db in result_db:
-                    for q in r_db.query('achieved_by('+actioncore+',?nac)'):
-                        print  q['?nac'] 
-                
+                while running and i < 2 :
+                    concepts = useKB.query_mln.domains.get('concept', [])
+                    for q in db_.query("has_sense(?w,?s)"):
+                        for concept in concepts:
+                            sim = wordnet.path_similarity(q["?s"], concept)
+                            db_.addGroundAtom('is_a(%s,%s)' % (q["?s"], concept),sim)
+                    self.kbs.append(useKB)  
+                    params.update(useKB.query_params)
+                    result_db = list(useKB.infer(db_))
+                    
+                    for r_db in result_db:
+                        for q in r_db.query('achieved_by('+actioncore+',?nac)'):
+                            print "OLD ACTION_CORE " + actioncore
+                            print "ACHIEVED_BY ACTION_CORE " + q['?nac']
+                            i += 1
+                            if actioncore == q['?nac']:
+                                running = False
+                            else:
+                                actioncore = q['?nac']
+                                print "NEW ACTIONCORE: " + actioncore
+                                useKB = self.load_pracmt(actioncore)
+                                db_temp = Database(useKB.query_mln)
+                                for atom, truth in sorted(db_.evidence.iteritems()):
+                                    if 'action_core' in atom or 'is_a' in atom: continue
+                                    db_temp.addGroundAtom(atom,truth)
+                                db_temp.addGroundAtom('action_core('+actionword+","+actioncore+")")
+                                db_ = db_temp
+                print "Specific action_core: " + actioncore
     
