@@ -21,7 +21,7 @@
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-from prac.core import PRACModule, PRACPIPE, PRACKnowledgeBase
+from prac.core import PRACModule, PRACPIPE, PRACKnowledgeBase, PRAC
 import logging
 from mln import readMLNFromFile, readDBFromFile#, MLNParsingError
 from mln.methods import LearningMethods
@@ -29,7 +29,7 @@ import sys
 from wcsp.converter import WCSPConverter
 from mln.database import Database
 import os
-from prac.inference import PRACInferenceStep
+from prac.inference import PRACInferenceStep, PRACInference
 from mln.util import mergeDomains
 from utils import colorize
 from pracutils import printListAndTick
@@ -91,11 +91,38 @@ class AchievedBy(PRACModule):
                         for q in r_db.query('achieved_by('+actioncore+',?nac)'):
                             print "OLD ACTION_CORE " + actioncore
                             print "ACHIEVED_BY ACTION_CORE " + q['?nac']
-                            i += 1
                             if actioncore == q['?nac']:
                                 running = False
                             else:
                                 actioncore = q['?nac']
+                                #Init new PRAC instance for inference roles
+                                prac = PRAC()
+                                prac.wordnet = WordNet(concepts=None)
+                                infer = PRACInference(prac, 'None')
+                                senses = prac.getModuleByName('senses_and_roles')
+                                senses.initialize()
+                                sensesKBFile = senses.load_pracmt(actioncore)
+                                
+                                #Create senses and roles DB
+                                db_senses = Database(sensesKBFile.query_mln)
+                                for atom, truth in sorted(db_.evidence.iteritems()):
+                                    if 'action_core' in atom or 'is_a' in atom or 'action_role' in atom: continue
+                                    db_senses.addGroundAtom(atom,truth)
+                                db_senses.addGroundAtom('action_core('+actionword+","+actioncore+")")
+                                sensesKB = PRACKnowledgeBase(prac)
+                                sensesKB.filename = sensesKBFile.filename
+                                sensesKB.query_mln = sensesKBFile.query_mln
+                                sensesKB.query_mln_str = sensesKBFile.query_mln_str
+                                sensesKB.query_params = sensesKBFile.query_params
+                                sensesKB.dbs.append(db_senses)
+                                print "DB_SENSES:"
+                                db_senses.printEvidence()
+                                #start new role inference
+                                prac.run(infer,senses,kb=sensesKB)
+                                inferStep = infer.inference_steps[0]
+                                resultDB = inferStep.output_dbs[0]
+                                resultDB.printEvidence()
+                                
                                 print "NEW ACTIONCORE: " + actioncore
                                 useKB = self.load_pracmt(actioncore)
                                 db_temp = Database(useKB.query_mln)
