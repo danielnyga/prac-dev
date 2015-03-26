@@ -201,3 +201,29 @@
 1.00  has_sense(put, put.v.01)
 1.00  has_sense(soup, soup.n.01)
 1.00  prep_in(put, microwave)
+
+---
+
+1.00  action_role(table, Goal)
+1.00  action_role(put, ActionCause)
+1.00  action_role(plate, ObjectToBePutted)
+1.00  has_pos(plate, NN)
+1.00  has_pos(put, VB)
+1.00  has_pos(table, NN)
+1.00  has_sense(plate, plate.n.04)
+1.00  has_sense(put, put.v.01)
+1.00  has_sense(table, table.n.03)
+1.00  prep_on(put, table)
+
+---
+
+1.00  action_role(table, Goal)
+1.00  action_role(put, ActionCause)
+1.00  action_role(dish, ObjectToBePutted)
+1.00  has_pos(dish, NN)
+1.00  has_pos(put, VB)
+1.00  has_pos(table, NN)
+1.00  has_sense(dish, dish.n.02)
+1.00  has_sense(put, put.v.01)
+1.00  has_sense(table, table.n.03)
+1.00  prep_on(put, table)
