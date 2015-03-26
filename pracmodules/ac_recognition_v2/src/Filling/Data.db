@@ -161,7 +161,7 @@
 1.00  has_sense(apples, apple.n.01)
 1.00  has_sense(blender, blender.n.01)
 1.00  has_sense(fill, fill.v.01)
-1.00  has_sense(kilogram, gram.n.01)
+1.00  has_sense(kilogram, kilogram.n.01)
 ---
 1.00  action_role(carafe, Goal)
 1.00  action_role(fill, ActionCause)
