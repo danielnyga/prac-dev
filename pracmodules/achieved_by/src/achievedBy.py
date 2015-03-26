@@ -77,7 +77,7 @@ class AchievedBy(PRACModule):
                     useKB = self.load_pracmt(actioncore)
                 else:
                     useKB = kb
-                while running and i < 2 :
+                while running :
                     concepts = useKB.query_mln.domains.get('concept', [])
                     for q in db_.query("has_sense(?w,?s)"):
                         for concept in concepts:
