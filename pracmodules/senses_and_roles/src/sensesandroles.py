@@ -116,11 +116,7 @@ class SensesAndRoles(PRACModule):
                     for q in r_db.query('action_role(?w, %s) ^ has_sense(?w, ?s)' % ur, truthThreshold=1):
                         self.prac.getModuleByName('wn_senses').printWordSenses(concepts, q['?s'])
                     print
-                                                
-                db_ = db_.union(None, *result_db)
-                
-    #             db_.write(sys.stdout, color=True)
-                inf_step.output_dbs.append(db_)
+                inf_step.output_dbs.extend(result_db)
         return inf_step
         
     
