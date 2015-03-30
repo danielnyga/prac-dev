@@ -94,7 +94,7 @@ class AchievedBy(PRACModule):
                             print "ACHIEVED_BY ACTION_CORE " + q['?nac']
                             if actioncore == q['?nac']:
                                 running = False
-                                inf_step.output_dbs.append(db_)
+                                inf_step.output_dbs.extend(db_)
                             else:
                                 actioncore = q['?nac']
                                 #Init new PRAC instance for inference roles
