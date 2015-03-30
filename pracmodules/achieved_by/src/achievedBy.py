@@ -71,12 +71,13 @@ class AchievedBy(PRACModule):
                 wordnet = WordNet(concepts=None)
                 actionword = q['?w']
                 actioncore = q['?ac']
-                i = 0
+
                 if kb is None:
                     print 'Loading Markov Logic Network: %s' % colorize(actioncore, (None, 'white', True), True)
                     useKB = self.load_pracmt(actioncore)
                 else:
                     useKB = kb
+                
                 while running :
                     concepts = useKB.query_mln.domains.get('concept', [])
                     for q in db_.query("has_sense(?w,?s)"):
@@ -93,6 +94,7 @@ class AchievedBy(PRACModule):
                             print "ACHIEVED_BY ACTION_CORE " + q['?nac']
                             if actioncore == q['?nac']:
                                 running = False
+                                inf_step.output_dbs.append(db_)
                             else:
                                 actioncore = q['?nac']
                                 #Init new PRAC instance for inference roles
@@ -115,20 +117,27 @@ class AchievedBy(PRACModule):
                                 sensesKB.query_mln_str = sensesKBFile.query_mln_str
                                 sensesKB.query_params = sensesKBFile.query_params
                                 sensesKB.dbs.append(db_senses)
-                                print "DB_SENSES:"
-                                db_senses.printEvidence()
+                           
                                 #start new role inference
                                 prac.run(infer,senses,kb=sensesKB)
-                                inferStep = infer.inference_steps[0]
-                                resultDB = inferStep.output_dbs[0]
-                                resultDB.printEvidence()
-                                
+                                inferStep = infer.inference_steps[-1]
+                                resultSensesDB = inferStep.output_dbs[-1]
+                                print "####################"
+                                resultSensesDB.printEvidence()
+                                print "####################"
+                                print 
                                 print "NEW ACTIONCORE: " + actioncore
                                 useKB = self.load_pracmt(actioncore)
                                 db_temp = Database(useKB.query_mln)
                                 for atom, truth in sorted(db_.evidence.iteritems()):
-                                    if 'action_core' in atom or 'is_a' in atom: continue
+                                    if 'action_core' in atom or 'is_a' in atom or 'action_role' in atom: continue
                                     db_temp.addGroundAtom(atom,truth)
+                                
+                                for atom, truth in sorted(resultSensesDB.evidence.iteritems()):
+                                    if 'action_role' in atom:
+                                        print "ADDED role"
+                                        db_temp.addGroundAtom(atom,truth)
+                                        
                                 db_temp.addGroundAtom('action_core('+actionword+","+actioncore+")")
                                 db_ = db_temp
                 print "Specific action_core: " + actioncore

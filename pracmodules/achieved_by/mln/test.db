@@ -1,8 +1,8 @@
 1.00  action_core(add, Adding)
 1.00  action_role(add, ActionCause)
-1.00  action_role(water, Item)
+1.00  action_role(milk, Item)
 1.00  has_pos(add, VB)
-1.00  has_pos(water, NN)
+1.00  has_pos(milk, NN)
 1.00  has_sense(add, add.v.01)
-1.00  has_sense(water, water.n.06)
+1.00  has_sense(milk, milk.n.01)
 
