@@ -84,20 +84,26 @@ class AchievedBy(PRACModule):
         print colorize('+==========================================+', (None, 'green', True), True)
         print colorize('| PRAC INFERENCE: RECOGNIZING ACHIEVED BY  ' , (None, 'green', True), True)
         print colorize('+==========================================+', (None, 'green', True), True)
-    
+        
         kb = params.get('kb', None)
         if kb is None:
             # load the default arguments
             dbs = pracinference.inference_steps[-1].output_dbs
+            for atom, truth in sorted(dbs[0].evidence.iteritems()):
+                if 'is_a' in atom: continue
+                print atom
+            print "NO KB"
         else:
             kb = params['kb']
             dbs = kb.dbs
+            print "KBS"
         self.kbs = []
         inf_step = PRACInferenceStep(pracinference, self)
         for db in dbs:
             db_ = db.duplicate()
             
             for q in db.query('action_core(?w,?ac)'):
+                print "action_core found"
                 running = True
                 wordnet = WordNet(concepts=None)
                 actionword = q['?w']
@@ -121,12 +127,13 @@ class AchievedBy(PRACModule):
                     
                     for r_db in result_db:
                         for q in r_db.query('achieved_by('+actioncore+',?nac)'):
-                            print "OLD ACTION_CORE " + actioncore
-                            print "ACHIEVED_BY ACTION_CORE " + q['?nac']
                             #TODO add file which contains actioncores defining a plan
                             if actioncore == q['?nac']:
                                 running = False
-                                inf_step.output_dbs.extend(db_)
+                                for atom, truth in sorted(db_.evidence.iteritems()):
+                                    if 'is_a' in atom : continue
+                                    r_db.addGroundAtom(atom,truth)
+                                inf_step.output_dbs.append(r_db)
                             else:
                                 actioncore = q['?nac']
                                 
@@ -145,5 +152,6 @@ class AchievedBy(PRACModule):
                                         
                                 db_temp.addGroundAtom('action_core('+actionword+","+actioncore+")")
                                 db_ = db_temp
-                print "Specific action_core: " + actioncore
+                print actionword + "achieved by: " + actioncore
+            return inf_step
     

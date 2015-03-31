@@ -64,14 +64,16 @@ if __name__ == '__main__':
     else: # regular PRAC pipeline
         # get the action cores activated
         actionCore = prac.getModuleByName('ac_recognition')
-        prac.run(infer,actionCore,kb=actionCore.load_pracmt('robohow'))
+        prac.run(infer,actionCore,kb=actionCore.load_pracmt('cooking_ac'))
         
         # assign the roles to the words
         actionRoles = prac.getModuleByName('senses_and_roles')
         prac.run(infer,actionRoles)
 #         
-#         # infer the missing roles
-        prac.run(infer, actionRoles, missing=True)    
+#         # infer the achieved by predicate
+        achievedBy = prac.getModuleByName('achieved_by')
+        prac.run(infer,achievedBy)
+        #prac.run(infer, actionRoles, missing=True)    
         
 #     
     step = infer.inference_steps[-1]
@@ -82,7 +84,7 @@ if __name__ == '__main__':
     for db in step.output_dbs:
         for a in sorted(db.evidence.keys()):
             v = db.evidence[a]
-            if v > 0.001 and (a.startswith('action_core') or a.startswith('action_role') or a.startswith('has_sense')):
+            if v > 0.001 and (a.startswith('action_core') or a.startswith('action_role') or a.startswith('has_sense') or a.startswith('achieved_by')):
                 print '%.3f    %s' % (v, a)
         print '---'
     
