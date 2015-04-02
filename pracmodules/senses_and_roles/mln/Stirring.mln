@@ -12,6 +12,7 @@ prep_into(word,word)
 action_core(word,actioncore?)
 
 // formulas
+has_sense(?w1,null) ^ !action_role(?w1,?r1).
 -0.553725   dobj(?w1, ?w2) ^ action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.08) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, apple.n.01) ^ ?w1=/=?w2
 -0.553725   dobj(?w1, ?w2) ^ action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.08) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, banana.n.02) ^ ?w1=/=?w2
 -0.257241   dobj(?w1, ?w2) ^ action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, stir.v.08) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, egg.n.02) ^ ?w1=/=?w2

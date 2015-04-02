@@ -11,6 +11,7 @@ is_a(sense,concept)
 action_core(word,actioncore?)
 
 // formulas
+has_sense(?w1,null) ^ !action_role(?w1,?r1).
 -0.159576   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, corn.n.03) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2 ^ !prep_to(?w1, ?w2)
 -0.215694   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, mixing_bowl.n.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2 ^ !prep_to(?w1, ?w2)
 -0.146330   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, dish.n.02) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, add.v.01) ^ ?w1=/=?w2 ^ !prep_to(?w1, ?w2)

@@ -9,11 +9,7 @@ has_pos(word,pos!)
 action_core(word,actioncore?)
 
 // formulas
-has_sense(?w1, null) ^ !action_core(?w1, Adding).
-has_sense(?w1, null) ^ !action_core(?w1, Filling).
-has_sense(?w1, null) ^ !action_core(?w1, Cutting).
-has_sense(?w1, null) ^ !action_core(?w1, Stirring).
-has_sense(?w1, null) ^ !action_core(?w1, Slicing).
+has_sense(?w1, null) => !action_core(?w1, ?ac1).
 
 -0.277809   has_pos(?w1, VB) ^ is_a(?s1, mushroom.n.05) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Slicing)
 -0.854347   has_pos(?w1, VB) ^ is_a(?s1, stir.v.08) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Slicing)

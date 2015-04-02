@@ -10,6 +10,7 @@ is_a(sense,concept)
 action_core(word,actioncore?)
 
 // formulas
+has_sense(?w1,null) ^ !action_role(?w1,?r1).
 -0.062753   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, thermos.n.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, thermos.n.01) ^ ?w1=/=?w2
 -0.065333   action_role(?w1, Amount) ^ has_sense(?w1, ?s1) ^ is_a(?s1, thermos.n.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, thermos.n.01) ^ ?w1=/=?w2
 -0.090510   action_role(?w1, ObjectToBeSpilled) ^ has_sense(?w1, ?s1) ^ is_a(?s1, thermos.n.01) ^ action_role(?w2, Goal) ^ has_sense(?w2, ?s2) ^ is_a(?s2, thermos.n.01) ^ ?w1=/=?w2

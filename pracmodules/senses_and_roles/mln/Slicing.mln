@@ -10,6 +10,7 @@ is_a(sense,concept)
 action_core(word,actioncore?)
 
 // formulas
+has_sense(?w1,null) ^ !action_role(?w1,?r1).
 -0.324220   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, mushroom.n.05) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
 -0.215102   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, mushroom.n.05) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slicing.n.02) ^ ?w1=/=?w2
 -0.322790   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, cheese.n.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, slice.v.03) ^ ?w1=/=?w2
