@@ -34,7 +34,11 @@ from mln.util import mergeDomains
 from utils import colorize
 from pracutils import printListAndTick
 from prac.wordnet import WordNet
+import yaml
 
+PRAC_HOME = os.environ['PRAC_HOME']
+achievedByModulePath = os.path.join(PRAC_HOME, 'pracmodules', 'achieved_by')
+planListFilePath = achievedByModulePath = os.path.join(achievedByModulePath,'plan_list.yaml')
 
 class AchievedBy(PRACModule):
     '''
@@ -46,6 +50,12 @@ class AchievedBy(PRACModule):
     
     def shutdown(self):
         pass
+    
+    def getPlanList(self):
+        planListFile = open(planListFilePath, 'r')
+        yamlData = yaml.load(planListFile)
+        
+        return yamlData['planList']
     
     def updateActionRoles(self,db,actionword,actioncore):
         #Init new PRAC instance for inference roles
@@ -89,21 +99,16 @@ class AchievedBy(PRACModule):
         if kb is None:
             # load the default arguments
             dbs = pracinference.inference_steps[-1].output_dbs
-            for atom, truth in sorted(dbs[0].evidence.iteritems()):
-                if 'is_a' in atom: continue
-                print atom
-            print "NO KB"
         else:
             kb = params['kb']
             dbs = kb.dbs
-            print "KBS"
         self.kbs = []
         inf_step = PRACInferenceStep(pracinference, self)
+        planList = self.getPlanList()
         for db in dbs:
             db_ = db.duplicate()
             
             for q in db.query('action_core(?w,?ac)'):
-                print "action_core found"
                 running = True
                 wordnet = WordNet(concepts=None)
                 actionword = q['?w']
@@ -127,16 +132,14 @@ class AchievedBy(PRACModule):
                     
                     for r_db in result_db:
                         for q in r_db.query('achieved_by('+actionword+',?nac)'):
-                            #TODO add file which contains actioncores defining a plan
-                            if actioncore == q['?nac']:
+                            actioncore = q['?nac']
+                            if actioncore in planList:
                                 running = False
                                 for atom, truth in sorted(db_.evidence.iteritems()):
                                     if 'is_a' in atom : continue
                                     r_db.addGroundAtom(atom,truth)
                                 inf_step.output_dbs.append(r_db)
                             else:
-                                actioncore = q['?nac']
-                                
                                 resultSensesDB = self.updateActionRoles(db_,actionword,actioncore)
                                 
                                 #Prepare evidence db for the next inference of the achieved_by predicate
@@ -152,6 +155,6 @@ class AchievedBy(PRACModule):
                                         
                                 db_temp.addGroundAtom('action_core('+actionword+","+actioncore+")")
                                 db_ = db_temp
-                print actionword + "achieved by: " + actioncore
+                print actionword + " achieved by: " + actioncore
             return inf_step
     
