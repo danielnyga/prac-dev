@@ -10,7 +10,7 @@
 1.00  has_sense(pan, pan.n.03)
 1.00  prep_to(add, pan)
 1.00  action_core(add,Adding)
-1.00  achieved_by(Adding,AddingPlan)
+1.00  achieved_by(add,AddingPlan)
 ---
 1.00  action_role(add, ActionCause)
 1.00  action_role(pan, Goal)
@@ -23,7 +23,7 @@
 1.00  has_sense(vanilla, vanilla.n.02)
 1.00  prep_to(add, pan)
 1.00  action_core(add,Adding)
-1.00  achieved_by(Adding,AddingPlan)
+1.00  achieved_by(add,AddingPlan)
 ---
 1.00  action_role(add, ActionCause)
 1.00  action_role(vegetables, ObjectToBeAdded)
@@ -32,7 +32,7 @@
 1.00  has_sense(add, add.v.01)
 1.00  has_sense(vegetables, vegetable.n.01)
 1.00  action_core(add,Adding)
-1.00  achieved_by(Adding,AddingPlan)
+1.00  achieved_by(add,AddingPlan)
 ---
 
 1.00  action_role(add, ActionCause)
@@ -49,7 +49,7 @@
 1.00  has_sense(mixing_bowl, mixing_bowl.n.01)
 1.00  prep_to(add, mixing_bowl)
 1.00  action_core(add,Adding)
-1.00  achieved_by(Adding,AddingPlan)
+1.00  achieved_by(add,AddingPlan)
 ---
 1.00  action_role(add, ActionCause)
 1.00  action_role(meat, Goal)
@@ -62,7 +62,7 @@
 1.00  has_sense(salt, salt.n.02)
 1.00  prep_to(add, meat)
 1.00  action_core(add,Adding)
-1.00  achieved_by(Adding,AddingPlan)
+1.00  achieved_by(add,AddingPlan)
 ---
 
 1.00  action_role(add, ActionCause)
@@ -76,7 +76,7 @@
 1.00  has_sense(steak, steak.n.01)
 1.00  prep_to(add, steak)
 1.00  action_core(add,Adding)
-1.00  achieved_by(Adding,AddingPlan)
+1.00  achieved_by(add,AddingPlan)
 ---
 1.00  action_role(add, ActionCause)
 1.00  action_role(dressing, ObjectToBeAdded)
@@ -89,7 +89,7 @@
 1.00  has_sense(salad, salad.n.01)
 1.00  prep_to(add, salad)
 1.00  action_core(add,Adding)
-1.00  achieved_by(Adding,Pouring)
+1.00  achieved_by(add,Filling)
 ---
 
 1.00  action_role(add, ActionCause)
@@ -102,7 +102,7 @@
 1.00  has_sense(milk, milk.n.01)
 1.00  has_sense(water, water.n.06)
 1.00  action_core(add,Adding)
-1.00  achieved_by(Adding,Pouring)
+1.00  achieved_by(add,Filling)
 ---
 1.00  action_role(add, ActionCause)
 1.00  action_role(corn, ObjectToBeAdded)
@@ -115,7 +115,7 @@
 1.00  has_sense(dish, dish.n.02)
 1.00  prep_to(add, dish)
 1.00  action_core(add,Adding)
-1.00  achieved_by(Adding,AddingPlan)
+1.00  achieved_by(add,AddingPlan)
 ---
 1.00  action_role(add, ActionCause)
 1.00  action_role(apple, ObjectToBeAdded)
@@ -124,7 +124,7 @@
 1.00  has_sense(add, add.v.01)
 1.00  has_sense(apple, apple.n.01)
 1.00  action_core(add,Adding)
-1.00  achieved_by(Adding,AddingPlan)
+1.00  achieved_by(add,AddingPlan)
 ---
 
 1.00  action_role(add, ActionCause)
@@ -141,7 +141,7 @@
 1.00  has_sense(mixture, concoction.n.01)
 1.00  prep_to(add, mixture)
 1.00  action_core(add,Adding)
-1.00  achieved_by(Adding,AddingPlan)
+1.00  achieved_by(add,AddingPlan)
 ---
 1.00  action_role(add, ActionCause)
 1.00  action_role(water, ObjectToBeAdded)
@@ -150,7 +150,7 @@
 1.00  has_sense(add, add.v.01)
 1.00  has_sense(water, water.n.06)
 1.00  action_core(add,Adding)
-1.00  achieved_by(Adding,Pouring)
+1.00  achieved_by(add,Filling)
 ---
 
 1.00  action_role(add, ActionCause)
@@ -160,7 +160,7 @@
 1.00  has_sense(add, add.v.01)
 1.00  has_sense(juice, fruit_juice.n.01)
 1.00  action_core(add,Adding)
-1.00  achieved_by(Adding,Pouring)
+1.00  achieved_by(add,Filling)
 
 ---
 
@@ -171,7 +171,7 @@
 1.00  has_sense(add, add.v.01)
 1.00  has_sense(pesto, pesto.n.01)
 1.00  action_core(add,Adding)
-1.00  achieved_by(Adding,Pouring)
+1.00  achieved_by(add,Filling)
 
 ---
 
@@ -186,7 +186,7 @@
 1.00  has_sense(dish, dish.n.02)
 1.00  prep_to(add, dish)
 1.00  action_core(add,Adding)
-1.00  achieved_by(Adding,AddingPlan)
+1.00  achieved_by(add,AddingPlan)
 
 ---
 
@@ -197,7 +197,7 @@
 1.00  has_sense(add, add.v.01)
 1.00  has_sense(cola, cola.n.02)
 1.00  action_core(add,Adding)
-1.00  achieved_by(Adding,Pouring)
+1.00  achieved_by(add,Filling)
 
 ---
 
@@ -208,7 +208,7 @@
 1.00  has_sense(add, add.v.01)
 1.00  has_sense(cola, cola.n.02)
 1.00  action_core(add,Adding)
-1.00  achieved_by(Adding,Pouring)
+1.00  achieved_by(add,Filling)
 
 ---
 
@@ -219,7 +219,7 @@
 1.00  has_sense(add, add.v.01)
 1.00  has_sense(whisky, whisky.n.01)
 1.00  action_core(add,Adding)
-1.00  achieved_by(Adding,Pouring)
+1.00  achieved_by(add,Filling)
 
 ---
 
@@ -230,7 +230,7 @@
 1.00  has_sense(add, add.v.01)
 1.00  has_sense(coffee, coffee.n.01)
 1.00  action_core(add,Adding)
-1.00  achieved_by(Adding,Pouring)
+1.00  achieved_by(add,Filling)
 
 ---
 
@@ -241,4 +241,4 @@
 1.00  has_sense(add, add.v.01)
 1.00  has_sense(coffee, coffee.n.01)
 1.00  action_core(add,Adding)
-1.00  achieved_by(Adding,Pouring)
+1.00  achieved_by(add,Filling)
