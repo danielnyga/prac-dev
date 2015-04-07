@@ -8,7 +8,7 @@
 1.00  has_sense(pan, pan.n.03)
 1.00  has_sense(water, water.n.06)
 1.00  action_core(fill,Filling)
-1.00  achieved_by(Filling,Tapping)
+1.00  achieved_by(fill,Tapping)
 ---
 1.00  action_role(batter, ObjectToBeSpilled)
 1.00  action_role(fill, ActionCause)
@@ -20,7 +20,7 @@
 1.00  has_sense(fill, fill.v.01)
 1.00  has_sense(gap, opening.n.01)
 1.00  action_core(fill,Filling)
-1.00  achieved_by(Filling,Adding)
+1.00  achieved_by(fill,Adding)
 ---
 1.00  action_role(fill, ActionCause)
 1.00  action_role(froth, ObjectToBeSpilled)
@@ -32,7 +32,7 @@
 1.00  has_sense(froth, foam.n.01)
 1.00  has_sense(mug, mug.n.04)
 1.00  action_core(fill,Filling)
-1.00  achieved_by(Filling,Pouring)
+1.00  achieved_by(fill,Pouring)
 
 ---
 1.00  action_role(fill, ActionCause)
@@ -45,7 +45,7 @@
 1.00  has_sense(milk, milk.n.01)
 1.00  has_sense(pitcher, pitcher.n.02)
 1.00  action_core(fill,Filling)
-1.00  achieved_by(Filling,Pouring)
+1.00  achieved_by(fill,Pouring)
 
 ---
 1.00  action_role(fill, ActionCause)
@@ -58,7 +58,7 @@
 1.00  has_sense(kettle, kettle.n.01)
 1.00  has_sense(water, water.n.06)
 1.00  action_core(fill,Filling)
-1.00  achieved_by(Filling,Tapping)
+1.00  achieved_by(fill,Tapping)
 
 ---
 
@@ -72,7 +72,7 @@
 1.00  has_sense(pesto, pesto.n.01)
 1.00  has_sense(jar, jar.n.01)
 1.00  action_core(fill,Filling)
-1.00  achieved_by(Filling,Pouring)
+1.00  achieved_by(fill,Pouring)
 
 ---
 
@@ -86,7 +86,7 @@
 1.00  has_sense(dressing, dressing.n.01)
 1.00  has_sense(jar, jar.n.01)
 1.00  action_core(fill,Filling)
-1.00  achieved_by(Filling,Pouring)
+1.00  achieved_by(fill,Pouring)
 
 ---
 1.00  action_role(fill, ActionCause)
@@ -99,7 +99,7 @@
 1.00  has_sense(gravy, gravy.n.01)
 1.00  has_sense(jar, jar.n.01)
 1.00  action_core(fill,Filling)
-1.00  achieved_by(Filling,Pouring)
+1.00  achieved_by(fill,Pouring)
 
 ---
 
@@ -113,7 +113,7 @@
 1.00  has_sense(fill, fill.v.01)
 1.00  has_sense(ice, ice.n.01)
 1.00  action_core(fill,Filling)
-1.00  achieved_by(Filling,Adding)
+1.00  achieved_by(fill,Adding)
 
 ---
 1.00  action_role(fill, ActionCause)
@@ -126,7 +126,7 @@
 1.00  has_sense(glass, glass.n.02)
 1.00  has_sense(milk, milk.n.01)
 1.00  action_core(fill,Filling)
-1.00  achieved_by(Filling,Pouring)
+1.00  achieved_by(fill,Pouring)
 
 ---
 1.00  action_role(fill, ActionCause)
@@ -139,7 +139,7 @@
 1.00  has_sense(teapot, teapot.n.01)
 1.00  has_sense(water, water.n.06)
 1.00  action_core(fill,Filling)
-1.00  achieved_by(Filling,Tapping)
+1.00  achieved_by(fill,Tapping)
 
 ---
 1.00  action_role(fill, ActionCause)
@@ -152,7 +152,7 @@
 1.00  has_sense(pot, pot.n.01)
 1.00  has_sense(water, water.n.06)
 1.00  action_core(fill,Filling)
-1.00  achieved_by(Filling,Tapping)
+1.00  achieved_by(fill,Tapping)
 
 ---
 1.00  action_role(bottle, Goal)
@@ -165,7 +165,7 @@
 1.00  has_sense(fill, fill.v.01)
 1.00  has_sense(juice, fruit_juice.n.01)
 1.00  action_core(fill,Filling)
-1.00  achieved_by(Filling,Pouring)
+1.00  achieved_by(fill,Pouring)
 
 ---
 1.00  action_role(fill, ActionCause)
@@ -178,7 +178,7 @@
 1.00  has_sense(salt, salt.n.02)
 1.00  has_sense(saltcellar, saltcellar.n.01)
 1.00  action_core(fill,Filling)
-1.00  achieved_by(Filling,Adding)
+1.00  achieved_by(fill,Adding)
 
 ---
 1.00  action_role(carafe, Goal)
@@ -191,7 +191,7 @@
 1.00  has_sense(fill, fill.v.01)
 1.00  has_sense(whisky, whiskey.n.01)
 1.00  action_core(fill,Filling)
-1.00  achieved_by(Filling,Pouring)
+1.00  achieved_by(fill,Pouring)
 
 ---
 1.00  action_role(cola, ObjectToBeSpilled)
@@ -207,7 +207,7 @@
 1.00  has_sense(fill, fill.v.01)
 1.00  has_sense(milliliter, milliliter.n.01)
 1.00  action_core(fill,Filling)
-1.00  achieved_by(Filling,Pouring)
+1.00  achieved_by(fill,Pouring)
 
 ---
 1.00  action_role(fill, ActionCause)
@@ -223,7 +223,7 @@
 1.00  has_sense(rice, rice.n.01)
 1.00  has_sense(wok, wok.n.01)
 1.00  action_core(fill,Filling)
-1.00  achieved_by(Filling,Adding)
+1.00  achieved_by(fill,Adding)
 
 ---
 
@@ -240,7 +240,7 @@
 1.00  has_sense(corn, corn.n.03)
 1.00  has_sense(pot, pot.n.01)
 1.00  action_core(fill,Filling)
-1.00  achieved_by(Filling,Adding)
+1.00  achieved_by(fill,Adding)
 
 ---
 1.00  action_role(coffee, ObjectToBeSpilled)
@@ -256,7 +256,7 @@
 1.00  has_sense(liter, liter.n.01)
 1.00  has_sense(thermos_flask, thermos.n.01)
 1.00  action_core(fill,Filling)
-1.00  achieved_by(Filling,Pouring)
+1.00  achieved_by(fill,Pouring)
 
 ---
 1.00  action_role(apples, ObjectToBeSpilled)
@@ -272,7 +272,7 @@
 1.00  has_sense(fill, fill.v.01)
 1.00  has_sense(kilogram, gram.n.01)
 1.00  action_core(fill,Filling)
-1.00  achieved_by(Filling,Adding)
+1.00  achieved_by(fill,Adding)
 
 ---
 
@@ -289,7 +289,7 @@
 1.00  has_sense(fill, fill.v.01)
 1.00  has_sense(kilogram, gram.n.01)
 1.00  action_core(fill,Filling)
-1.00  achieved_by(Filling,Adding)
+1.00  achieved_by(fill,Adding)
 
 ---
 1.00  action_role(carafe, Goal)
@@ -305,7 +305,7 @@
 1.00  has_sense(liter, liter.n.01)
 1.00  has_sense(whisky, whiskey.n.01)
 1.00  action_core(fill,Filling)
-1.00  achieved_by(Filling,Pouring)
+1.00  achieved_by(fill,Pouring)
 
 ---
 1.00  action_role(fill, ActionCause)
@@ -321,7 +321,7 @@
 1.00  has_sense(salt, salt.n.02)
 1.00  has_sense(saltcellar, saltcellar.n.01)
 1.00  action_core(fill,Filling)
-1.00  achieved_by(Filling,Adding)
+1.00  achieved_by(fill,Adding)
 
 ---
 1.00  action_role(bottle, Goal)
@@ -337,7 +337,7 @@
 1.00  has_sense(juice, fruit_juice.n.01)
 1.00  has_sense(milliliter, milliliter.n.01)
 1.00  action_core(fill,Filling)
-1.00  achieved_by(Filling,Pouring)
+1.00  achieved_by(fill,Pouring)
 
 ---
 1.00  action_role(batter, ObjectToBeSpilled)
@@ -353,7 +353,7 @@
 1.00  has_sense(gap, opening.n.01)
 1.00  has_sense(kilogram, kilogram.n.01)
 1.00  action_core(fill,Filling)
-1.00  achieved_by(Filling,Adding)
+1.00  achieved_by(fill,Adding)
 
 ---
 1.00  action_role(fill, ActionCause)
@@ -369,5 +369,5 @@
 1.00  has_sense(pepper, pepper.n.03)
 1.00  has_sense(saltcellar, saltcellar.n.01)
 1.00  action_core(fill,Filling)
-1.00  achieved_by(Filling,Adding)
+1.00  achieved_by(fill,Adding)
 

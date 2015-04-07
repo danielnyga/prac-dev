@@ -1,5 +1,5 @@
 1.00  achieved_by(fill, Tapping)
-1.00  action_core(fill, Filling)
+1.00  action_core(fill, Pouring)
 1.00  action_role(fill, ActionCause)
 1.00  action_role(pan, Goal)
 1.00  action_role(water, ObjectToBeSpilled)
@@ -14,7 +14,7 @@
 1.00  is_a(water.n.06, water.n.06)
 ---
 1.00  achieved_by(fill, Adding)
-1.00  action_core(fill, Filling)
+1.00  action_core(fill, Pouring)
 1.00  action_role(batter, ObjectToBeSpilled)
 1.00  action_role(fill, ActionCause)
 1.00  action_role(gap, Goal)
@@ -28,8 +28,8 @@
 1.00  is_a(fill.v.01, fill.v.01)
 1.00  is_a(opening.n.01, opening.n.01)
 ---
-1.00  achieved_by(fill, Filling)
-1.00  action_core(fill, Filling)
+1.00  achieved_by(fill, Pouring)
+1.00  action_core(fill, Pouring)
 1.00  action_role(fill, ActionCause)
 1.00  action_role(froth, ObjectToBeSpilled)
 1.00  action_role(mug, Goal)
@@ -43,8 +43,8 @@
 1.00  is_a(foam.n.01, foam.n.01)
 1.00  is_a(mug.n.04, mug.n.04)
 ---
-1.00  achieved_by(fill, Filling)
-1.00  action_core(fill, Filling)
+1.00  achieved_by(fill, Pouring)
+1.00  action_core(fill, Pouring)
 1.00  action_role(fill, ActionCause)
 1.00  action_role(milk, ObjectToBeSpilled)
 1.00  action_role(pitcher, Goal)
@@ -59,7 +59,7 @@
 1.00  is_a(pitcher.n.02, pitcher.n.02)
 ---
 1.00  achieved_by(fill, Tapping)
-1.00  action_core(fill, Filling)
+1.00  action_core(fill, Pouring)
 1.00  action_role(fill, ActionCause)
 1.00  action_role(kettle, Goal)
 1.00  action_role(water, ObjectToBeSpilled)
@@ -73,8 +73,8 @@
 1.00  is_a(kettle.n.01, kettle.n.01)
 1.00  is_a(water.n.06, water.n.06)
 ---
-1.00  achieved_by(fill, Filling)
-1.00  action_core(fill, Filling)
+1.00  achieved_by(fill, Pouring)
+1.00  action_core(fill, Pouring)
 1.00  action_role(fill, ActionCause)
 1.00  action_role(jar, Goal)
 1.00  action_role(pesto, ObjectToBeSpilled)
@@ -88,8 +88,8 @@
 1.00  is_a(jar.n.01, jar.n.01)
 1.00  is_a(pesto.n.01, pesto.n.01)
 ---
-1.00  achieved_by(fill, Filling)
-1.00  action_core(fill, Filling)
+1.00  achieved_by(fill, Pouring)
+1.00  action_core(fill, Pouring)
 1.00  action_role(dressing, ObjectToBeSpilled)
 1.00  action_role(fill, ActionCause)
 1.00  action_role(jar, Goal)
@@ -103,8 +103,8 @@
 1.00  is_a(fill.v.01, fill.v.01)
 1.00  is_a(jar.n.01, jar.n.01)
 ---
-1.00  achieved_by(fill, Filling)
-1.00  action_core(fill, Filling)
+1.00  achieved_by(fill, Pouring)
+1.00  action_core(fill, Pouring)
 1.00  action_role(fill, ActionCause)
 1.00  action_role(gravy, ObjectToBeSpilled)
 1.00  action_role(jar, Goal)
@@ -119,7 +119,7 @@
 1.00  is_a(jar.n.01, jar.n.01)
 ---
 1.00  achieved_by(fill, Adding)
-1.00  action_core(fill, Filling)
+1.00  action_core(fill, Pouring)
 1.00  action_role(bowl, Goal)
 1.00  action_role(fill, ActionCause)
 1.00  action_role(ice, ObjectToBeSpilled)
@@ -133,8 +133,8 @@
 1.00  is_a(fill.v.01, fill.v.01)
 1.00  is_a(ice.n.01, ice.n.01)
 ---
-1.00  achieved_by(fill, Filling)
-1.00  action_core(fill, Filling)
+1.00  achieved_by(fill, Pouring)
+1.00  action_core(fill, Pouring)
 1.00  action_role(fill, ActionCause)
 1.00  action_role(glass, Goal)
 1.00  action_role(milk, ObjectToBeSpilled)
@@ -149,7 +149,7 @@
 1.00  is_a(milk.n.01, milk.n.01)
 ---
 1.00  achieved_by(fill, Tapping)
-1.00  action_core(fill, Filling)
+1.00  action_core(fill, Pouring)
 1.00  action_role(fill, ActionCause)
 1.00  action_role(teapot, Goal)
 1.00  action_role(water, ObjectToBeSpilled)
@@ -164,7 +164,7 @@
 1.00  is_a(water.n.06, water.n.06)
 ---
 1.00  achieved_by(fill, Tapping)
-1.00  action_core(fill, Filling)
+1.00  action_core(fill, Pouring)
 1.00  action_role(fill, ActionCause)
 1.00  action_role(pot, Goal)
 1.00  action_role(water, ObjectToBeSpilled)
@@ -178,8 +178,8 @@
 1.00  is_a(pot.n.01, pot.n.01)
 1.00  is_a(water.n.06, water.n.06)
 ---
-1.00  achieved_by(fill, Filling)
-1.00  action_core(fill, Filling)
+1.00  achieved_by(fill, Pouring)
+1.00  action_core(fill, Pouring)
 1.00  action_role(bottle, Goal)
 1.00  action_role(fill, ActionCause)
 1.00  action_role(juice, ObjectToBeSpilled)
@@ -194,7 +194,7 @@
 1.00  is_a(fruit_juice.n.01, fruit_juice.n.01)
 ---
 1.00  achieved_by(fill, Adding)
-1.00  action_core(fill, Filling)
+1.00  action_core(fill, Pouring)
 1.00  action_role(fill, ActionCause)
 1.00  action_role(salt, ObjectToBeSpilled)
 1.00  action_role(saltcellar, Goal)
@@ -208,8 +208,8 @@
 1.00  is_a(salt.n.02, salt.n.02)
 1.00  is_a(saltcellar.n.01, saltcellar.n.01)
 ---
-1.00  achieved_by(fill, Filling)
-1.00  action_core(fill, Filling)
+1.00  achieved_by(fill, Pouring)
+1.00  action_core(fill, Pouring)
 1.00  action_role(carafe, Goal)
 1.00  action_role(fill, ActionCause)
 1.00  action_role(whisky, ObjectToBeSpilled)
@@ -223,8 +223,8 @@
 1.00  is_a(fill.v.01, fill.v.01)
 1.00  is_a(whiskey.n.01, whiskey.n.01)
 ---
-1.00  achieved_by(fill, Filling)
-1.00  action_core(fill, Filling)
+1.00  achieved_by(fill, Pouring)
+1.00  action_core(fill, Pouring)
 1.00  action_role(cola, ObjectToBeSpilled)
 1.00  action_role(cup, Goal)
 1.00  action_role(fill, ActionCause)
@@ -243,7 +243,7 @@
 1.00  is_a(milliliter.n.01, milliliter.n.01)
 ---
 1.00  achieved_by(fill, Adding)
-1.00  action_core(fill, Filling)
+1.00  action_core(fill, Pouring)
 1.00  action_role(fill, ActionCause)
 1.00  action_role(gram, Amount)
 1.00  action_role(rice, ObjectToBeSpilled)
@@ -262,7 +262,7 @@
 1.00  is_a(wok.n.01, wok.n.01)
 ---
 1.00  achieved_by(fill, Adding)
-1.00  action_core(fill, Filling)
+1.00  action_core(fill, Pouring)
 1.00  action_role(corn, ObjectToBeSpilled)
 1.00  action_role(fill, ActionCause)
 1.00  action_role(gram, Amount)
@@ -280,8 +280,8 @@
 1.00  is_a(gram.n.01, gram.n.01)
 1.00  is_a(pot.n.01, pot.n.01)
 ---
-1.00  achieved_by(fill, Filling)
-1.00  action_core(fill, Filling)
+1.00  achieved_by(fill, Pouring)
+1.00  action_core(fill, Pouring)
 1.00  action_role(coffee, ObjectToBeSpilled)
 1.00  action_role(fill, ActionCause)
 1.00  action_role(liter, Amount)
@@ -300,7 +300,7 @@
 1.00  is_a(thermos.n.01, thermos.n.01)
 ---
 1.00  achieved_by(fill, Adding)
-1.00  action_core(fill, Filling)
+1.00  action_core(fill, Pouring)
 1.00  action_role(apples, ObjectToBeSpilled)
 1.00  action_role(blender, Goal)
 1.00  action_role(fill, ActionCause)
@@ -319,7 +319,7 @@
 1.00  is_a(gram.n.01, gram.n.01)
 ---
 1.00  achieved_by(fill, Adding)
-1.00  action_core(fill, Filling)
+1.00  action_core(fill, Pouring)
 1.00  action_role(blender, Goal)
 1.00  action_role(fill, ActionCause)
 1.00  action_role(kilogram, Amount)
@@ -337,8 +337,8 @@
 1.00  is_a(gram.n.01, gram.n.01)
 1.00  is_a(orange.n.01, orange.n.01)
 ---
-1.00  achieved_by(fill, Filling)
-1.00  action_core(fill, Filling)
+1.00  achieved_by(fill, Pouring)
+1.00  action_core(fill, Pouring)
 1.00  action_role(carafe, Goal)
 1.00  action_role(fill, ActionCause)
 1.00  action_role(liter, Amount)
@@ -357,7 +357,7 @@
 1.00  is_a(whiskey.n.01, whiskey.n.01)
 ---
 1.00  achieved_by(fill, Adding)
-1.00  action_core(fill, Filling)
+1.00  action_core(fill, Pouring)
 1.00  action_role(fill, ActionCause)
 1.00  action_role(gram, Amount)
 1.00  action_role(salt, ObjectToBeSpilled)
@@ -375,8 +375,8 @@
 1.00  is_a(salt.n.02, salt.n.02)
 1.00  is_a(saltcellar.n.01, saltcellar.n.01)
 ---
-1.00  achieved_by(fill, Filling)
-1.00  action_core(fill, Filling)
+1.00  achieved_by(fill, Pouring)
+1.00  action_core(fill, Pouring)
 1.00  action_role(bottle, Goal)
 1.00  action_role(fill, ActionCause)
 1.00  action_role(juice, ObjectToBeSpilled)
@@ -395,7 +395,7 @@
 1.00  is_a(milliliter.n.01, milliliter.n.01)
 ---
 1.00  achieved_by(fill, Adding)
-1.00  action_core(fill, Filling)
+1.00  action_core(fill, Pouring)
 1.00  action_role(batter, ObjectToBeSpilled)
 1.00  action_role(fill, ActionCause)
 1.00  action_role(gap, Goal)
@@ -414,7 +414,7 @@
 1.00  is_a(opening.n.01, opening.n.01)
 ---
 1.00  achieved_by(fill, Adding)
-1.00  action_core(fill, Filling)
+1.00  action_core(fill, Pouring)
 1.00  action_role(fill, ActionCause)
 1.00  action_role(gram, Amount)
 1.00  action_role(pepper, ObjectToBeSpilled)
