@@ -126,7 +126,7 @@ class AchievedBy(PRACModule):
                     result_db = list(useKB.infer(db_))
                     
                     for r_db in result_db:
-                        for q in r_db.query('achieved_by('+actioncore+',?nac)'):
+                        for q in r_db.query('achieved_by('+actionword+',?nac)'):
                             #TODO add file which contains actioncores defining a plan
                             if actioncore == q['?nac']:
                                 running = False
