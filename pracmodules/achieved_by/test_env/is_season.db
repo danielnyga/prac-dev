@@ -1,24 +1,3 @@
-//Flavour something1 with something2.
-//something1 = goal
-//something2 = spice
-
-//season.v.01
-
-//soup.n.01
-//salt.n.02
-
-//steak.n.01
-//pepper.n.03
-
-//chicken.n.01
-//sassafras.n.02
-
-//sauce.n.01
-//coriander.n.02
-
-//meat.n.01
-//fenugreek.n.02
-
 1.00  action_role(flavour, ActionCause)
 1.00  action_role(soup, Goal)
 1.00  action_role(salt, Spice)
@@ -101,7 +80,7 @@
 1.00  has_sense(meat, meat.n.01)
 1.00  has_sense(fenugreek, fenugreek.n.02)
 1.00  is_a(season.v.01, season.v.01)
-1.00  is_a(sauce.n.01, sauce.n.01)
+1.00  is_a(meat.n.01, meat.n.01)
 1.00  is_a(fenugreek.n.02, fenugreek.n.02)
 1.00  achieved_by(flavour,UsingSpiceJar)
 1.00  action_core(flavour,Flavouring)

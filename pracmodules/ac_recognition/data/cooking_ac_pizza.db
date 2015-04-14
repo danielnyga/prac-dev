@@ -527,7 +527,7 @@
 1.00  has_sense(meat, meat.n.01)
 1.00  has_sense(fenugreek, fenugreek.n.02)
 1.00  is_a(season.v.01, season.v.01)
-1.00  is_a(sauce.n.01, sauce.n.01)
+1.00  is_a(meat.n.01, meat.n.01)
 1.00  is_a(fenugreek.n.02, fenugreek.n.02)
 1.00  action_core(flavour,Flavouring)
 1.00  dobj(flavour, meat)
