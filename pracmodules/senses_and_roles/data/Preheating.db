@@ -6,8 +6,8 @@
 1.00  has_pos(degrees, NNS)
 1.00  has_sense(preheat, preheat.v.01)
 1.00  has_sense(oven, oven.n.01)
-1.00  has_sense(degrees, degree.n.06)
-1.00  is_a(degree.n.06, degree.n.06)
+1.00  has_sense(degrees, degree_centigrade.n.01)
+1.00  is_a(degree_centigrade.n.01, degree_centigrade.n.01)
 1.00  is_a(preheat.v.01, preheat.v.01)
 1.00  is_a(oven.n.01, oven.n.01)
 
