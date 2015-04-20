@@ -105,11 +105,17 @@ class AchievedBy(PRACModule):
         self.kbs = []
         inf_step = PRACInferenceStep(pracinference, self)
         planList = self.getPlanList()
+        
         for db in dbs:
             db_ = db.duplicate()
             
             for q in db.query('action_core(?w,?ac)'):
                 running = True
+                #This list is used to avoid an infinite loop during the achieved by inference.
+                #To avoid this infinite loop, the list contains the pracmlns which were inferenced during the process.
+                #Every pracmln should be used only once during the process because the evidence for the inference will always remain the same.
+                #So if the pracmln hadnt inferenced a plan in the first time, it will never do it.
+                inferencedAchievedByList = []
                 wordnet = WordNet(concepts=None)
                 actionword = q['?w']
                 actioncore = q['?ac']
@@ -122,10 +128,12 @@ class AchievedBy(PRACModule):
                 
                 while running :
                     concepts = useKB.query_mln.domains.get('concept', [])
+                    
                     for q in db_.query("has_sense(?w,?s)"):
                         for concept in concepts:
                             sim = wordnet.path_similarity(q["?s"], concept)
                             db_.addGroundAtom('is_a(%s,%s)' % (q["?s"], concept),sim)
+                    #Inference achieved_by predicate        
                     self.kbs.append(useKB)  
                     params.update(useKB.query_params)
                     result_db = list(useKB.infer(db_))
@@ -139,12 +147,27 @@ class AchievedBy(PRACModule):
                                     if 'is_a' in atom : continue
                                     r_db.addGroundAtom(atom,truth)
                                 inf_step.output_dbs.append(r_db)
+                                print actionword + " achieved by: " + actioncore
+                                
+                            elif actioncore in inferencedAchievedByList:
+                                running = False
+                                db_ = Database(useKB.query_mln)
+                                
+                                for atom, truth in sorted(db.evidence.iteritems()):
+                                    db_.addGroundAtom(atom,truth)
+                                
+                                db_.addGroundAtom('achieved_by('+actionword+",null)")                       
+                                inf_step.output_dbs.append(db_)
+                                print "Could not inference a correct plan."
+                                
                             else:
+                                inferencedAchievedByList.append(actioncore)
                                 resultSensesDB = self.updateActionRoles(db_,actionword,actioncore)
                                 
                                 #Prepare evidence db for the next inference of the achieved_by predicate
                                 useKB = self.load_pracmt(actioncore)
                                 db_temp = Database(useKB.query_mln)
+                                
                                 for atom, truth in sorted(db_.evidence.iteritems()):
                                     if 'action_core' in atom or 'is_a' in atom or 'action_role' in atom: continue
                                     db_temp.addGroundAtom(atom,truth)
@@ -155,6 +178,7 @@ class AchievedBy(PRACModule):
                                         
                                 db_temp.addGroundAtom('action_core('+actionword+","+actioncore+")")
                                 db_ = db_temp
-                print actionword + " achieved by: " + actioncore
+                                
+                
             return inf_step
     
