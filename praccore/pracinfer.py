@@ -30,6 +30,7 @@ from gui.querytool import PRACQueryGUI
 from prac.wordnet import WordNet
 from mln.database import readDBFromString
 from utils import colorize
+import re
 
 parser = OptionParser()
 parser.add_option("-i", "--interactive", dest="interactive", default=False, action='store_true',
@@ -81,11 +82,26 @@ if __name__ == '__main__':
     print colorize('+========================+',  (None, 'green', True), True)
     print colorize('| PRAC INFERENCE RESULTS |',  (None, 'green', True), True)
     print colorize('+========================+',  (None, 'green', True), True)
+    wordnet_module = prac.getModuleByName('wn_senses')
     for db in step.output_dbs:
         for a in sorted(db.evidence.keys()):
             v = db.evidence[a]
             if v > 0.001 and (a.startswith('action_core') or a.startswith('action_role') or a.startswith('has_sense') or a.startswith('achieved_by')):
-                print '%.3f    %s' % (v, a)
+                if a.startswith('has_sense'): 
+                    
+                    group = re.split(',',re.split('has_sense\w*\(|\)',a)[1])
+                    word = group[0];
+                    sense = group[1];
+                    if sense != 'null':
+                        print
+                        print colorize('  WORD:', (None, 'white', True), True), word, 
+                        print colorize('  SENSE:', (None, 'white', True), True), sense
+                        wordnet_module.printWordSenses(wordnet_module.get_possible_meanings_of_word(db, word), sense)
+                        print
+                    else:
+                        print '%.3f    %s' % (v, a)
+                else:
+                    print '%.3f    %s' % (v, a)
         print '---'
     
     
