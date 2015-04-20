@@ -38,7 +38,7 @@ import yaml
 
 PRAC_HOME = os.environ['PRAC_HOME']
 achievedByModulePath = os.path.join(PRAC_HOME, 'pracmodules', 'achieved_by')
-planListFilePath = achievedByModulePath = os.path.join(achievedByModulePath,'plan_list.yaml')
+planListFilePath = os.path.join(achievedByModulePath,'plan_list.yaml')
 
 class AchievedBy(PRACModule):
     '''
@@ -108,7 +108,6 @@ class AchievedBy(PRACModule):
         
         for db in dbs:
             db_ = db.duplicate()
-            
             for q in db.query('action_core(?w,?ac)'):
                 running = True
                 #This list is used to avoid an infinite loop during the achieved by inference.
@@ -122,7 +121,12 @@ class AchievedBy(PRACModule):
 
                 if kb is None:
                     print 'Loading Markov Logic Network: %s' % colorize(actioncore, (None, 'white', True), True)
-                    useKB = self.load_pracmt(actioncore)
+                    if os.path.isfile(os.path.join(achievedByModulePath,'bin',actioncore+".pracmln")):
+                        useKB = self.load_pracmt(actioncore)
+                    else:
+                        running = False
+                        inf_step.output_dbs.append(db_)
+                        print actioncore + ".pracmln does not exist."
                 else:
                     useKB = kb
                 
@@ -149,16 +153,13 @@ class AchievedBy(PRACModule):
                                 inf_step.output_dbs.append(r_db)
                                 print actionword + " achieved by: " + actioncore
                                 
-                            elif actioncore in inferencedAchievedByList:
+                            elif actioncore in inferencedAchievedByList or not os.path.isfile(os.path.join(achievedByModulePath,'bin',actioncore+".pracmln")):
                                 running = False
-                                db_ = Database(useKB.query_mln)
-                                
-                                for atom, truth in sorted(db.evidence.iteritems()):
-                                    db_.addGroundAtom(atom,truth)
-                                
-                                db_.addGroundAtom('achieved_by('+actionword+",null)")                       
-                                inf_step.output_dbs.append(db_)
-                                print "Could not inference a correct plan."
+                                inf_step.output_dbs.append(db.duplicate())
+                                if actioncore in inferencedAchievedByList:
+                                    print "Could not inference a correct plan."
+                                else:
+                                    print actioncore + ".pracmln does not exist."
                                 
                             else:
                                 inferencedAchievedByList.append(actioncore)
