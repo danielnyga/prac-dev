@@ -11,6 +11,7 @@ action_core(word,actioncore?)
 
 // formulas
 has_sense(?w1,null) ^ !action_role(?w1,?r1).
+has_pos(?w1,CD) ^ action_role(?w1,Number).
 -0.307331   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, oven.n.01) ^ action_role(?w2, ObjectToBeHeated) ^ has_sense(?w2, ?s2) ^ is_a(?s2, oven.n.01) ^ ?w1=/=?w2
 -0.165824   action_role(?w1, ObjectToBeHeated) ^ has_sense(?w1, ?s1) ^ is_a(?s1, oven.n.01) ^ action_role(?w2, Temperature) ^ has_sense(?w2, ?s2) ^ is_a(?s2, oven.n.01) ^ ?w1=/=?w2
 -0.236583   action_role(?w1, ActionCause) ^ has_sense(?w1, ?s1) ^ is_a(?s1, oven.n.01) ^ action_role(?w2, ActionCause) ^ has_sense(?w2, ?s2) ^ is_a(?s2, preheat.v.01) ^ ?w1=/=?w2
