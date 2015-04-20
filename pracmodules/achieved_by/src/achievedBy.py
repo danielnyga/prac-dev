@@ -143,7 +143,9 @@ class AchievedBy(PRACModule):
                     result_db = list(useKB.infer(db_))
                     
                     for r_db in result_db:
+                        countOfGeneratorItems = 0
                         for q in r_db.query('achieved_by('+actionword+',?nac)'):
+                            countOfGeneratorItems += 1
                             actioncore = q['?nac']
                             if actioncore in planList:
                                 running = False
@@ -180,6 +182,9 @@ class AchievedBy(PRACModule):
                                 db_temp.addGroundAtom('action_core('+actionword+","+actioncore+")")
                                 db_ = db_temp
                                 
-                
+                        if countOfGeneratorItems == 0:
+                            running = False
+                            inf_step.output_dbs.append(db.duplicate())
+                            print "Could not inference a correct plan." 
             return inf_step
     
