@@ -13,6 +13,7 @@ action_cause(word,actioncore?)
 spice(word,actioncore?)
 
 // formulas
+
 -0.519639   action_core(?w3, ?ac) ^ goal(?w1, ?ac) ^ spice(?w2, ?ac) ^ has_sense(?w1, ?s1) ^ is_a(?s1, chicken.n.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, season.v.01) ^ ?w1=/=?w2 ^ !prep_with(?w1, ?w2)
 -0.334029   action_core(?w3, ?ac) ^ goal(?w1, ?ac) ^ spice(?w2, ?ac) ^ has_sense(?w1, ?s1) ^ is_a(?s1, egg.n.02) ^ has_sense(?w2, ?s2) ^ is_a(?s2, season.v.01) ^ ?w1=/=?w2 ^ !prep_with(?w1, ?w2)
 -0.334029   action_core(?w3, ?ac) ^ goal(?w1, ?ac) ^ spice(?w2, ?ac) ^ has_sense(?w1, ?s1) ^ is_a(?s1, omelet.n.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, season.v.01) ^ ?w1=/=?w2 ^ !prep_with(?w1, ?w2)
@@ -347,6 +348,12 @@ spice(word,actioncore?)
 -0.471175   action_core(?w3, ?ac) ^ action_cause(?w2, ?ac) ^ action_cause(?w1, ?ac) ^ has_sense(?w1, ?s1) ^ is_a(?s1, season.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, fenugreek.n.02) ^ ?w1=/=?w2 ^ prep_with(?w1, ?w2)
 -0.471175   action_core(?w3, ?ac) ^ action_cause(?w2, ?ac) ^ action_cause(?w1, ?ac) ^ has_sense(?w1, ?s1) ^ is_a(?s1, season.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, coriander.n.02) ^ ?w1=/=?w2 ^ prep_with(?w1, ?w2)
 -0.471175   action_core(?w3, ?ac) ^ action_cause(?w2, ?ac) ^ action_cause(?w1, ?ac) ^ has_sense(?w1, ?s1) ^ is_a(?s1, season.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, chili_powder.n.01) ^ ?w1=/=?w2 ^ prep_with(?w1, ?w2)
+
+
+
+
+
+
 
 
 
