@@ -1,6 +1,6 @@
-1.00  action_cause(flavour,Flavouring)
-1.00  goal(soup, Flavouring)
-1.00  spice(salt, Flavouring)
+1.00  action_role(flavour, ActionCause)
+1.00  action_role(soup, Goal)
+1.00  action_role(salt, Spice)
 1.00  has_pos(flavour, VB)
 1.00  has_pos(soup, NN)
 1.00  has_pos(salt, NN)
@@ -16,9 +16,9 @@
 
 ---
 
-1.00  action_cause(flavour,Flavouring)
-1.00  goal(steak, Flavouring)
-1.00  spice(pepper, Flavouring)
+1.00  action_role(flavour, ActionCause)
+1.00  action_role(steak, Goal)
+1.00  action_role(pepper, Spice)
 1.00  has_pos(flavour, VB)
 1.00  has_pos(steak, NN)
 1.00  has_pos(pepper, NN)
@@ -34,9 +34,9 @@
 
 ---
 
-1.00  action_cause(flavour,Flavouring)
-1.00  goal(chicken, Flavouring)
-1.00  spice(sassafras, Flavouring)
+1.00  action_role(flavour, ActionCause)
+1.00  action_role(chicken, Goal)
+1.00  action_role(sassafras, Spice)
 1.00  has_pos(flavour, VB)
 1.00  has_pos(chicken, NN)
 1.00  has_pos(sassafras, NN)
@@ -52,9 +52,9 @@
 
 ---
 
-1.00  action_cause(flavour,Flavouring)
-1.00  goal(sauce, Flavouring)
-1.00  spice(coriander, Flavouring)
+1.00  action_role(flavour, ActionCause)
+1.00  action_role(sauce, Goal)
+1.00  action_role(coriander, Spice)
 1.00  has_pos(flavour, VB)
 1.00  has_pos(sauce, NN)
 1.00  has_pos(coriander, NN)
@@ -70,9 +70,9 @@
 
 ---
 
-1.00  action_cause(flavour,Flavouring)
-1.00  goal(meat, Flavouring)
-1.00  spice(fenugreek, Flavouring)
+1.00  action_role(flavour, ActionCause)
+1.00  action_role(meat, Goal)
+1.00  action_role(fenugreek, Spice)
 1.00  has_pos(flavour, VB)
 1.00  has_pos(meat, NN)
 1.00  has_pos(fenugreek, NN)
@@ -88,9 +88,9 @@
 
 ---
 
-1.00  action_cause(flavour,Flavouring)
-1.00  goal(omelette, Flavouring)
-1.00  spice(salt, Flavouring)
+1.00  action_role(flavour, ActionCause)
+1.00  action_role(omelette, Goal)
+1.00  action_role(salt, Spice)
 1.00  has_pos(flavour, VB)
 1.00  has_pos(omelette, NN)
 1.00  has_pos(salt, NN)
@@ -105,9 +105,9 @@
 1.00  achieved_by(flavour,Adding)
 ---
 
-1.00  action_cause(flavour,Flavouring)
-1.00  goal(rib, Flavouring)
-1.00  spice(pepper, Flavouring)
+1.00  action_role(flavour, ActionCause)
+1.00  action_role(rib, Goal)
+1.00  action_role(pepper, Spice)
 1.00  has_pos(flavour, VB)
 1.00  has_pos(rib, NN)
 1.00  has_pos(pepper, NN)
@@ -122,9 +122,9 @@
 1.00  achieved_by(flavour,Adding)
 ---
 
-1.00  action_cause(flavour,Flavouring)
-1.00  goal(egg, Flavouring)
-1.00  spice(salt, Flavouring)
+1.00  action_role(flavour, ActionCause)
+1.00  action_role(egg, Goal)
+1.00  action_role(salt, Spice)
 1.00  has_pos(flavour, VB)
 1.00  has_pos(egg, NN)
 1.00  has_pos(salt, NN)
@@ -139,9 +139,9 @@
 1.00  achieved_by(flavour,Adding)
 ---
 
-1.00  action_cause(flavour,Flavouring)
-1.00  goal(jambalaya, Flavouring)
-1.00  spice(chili_powder, Flavouring)
+1.00  action_role(flavour, ActionCause)
+1.00  action_role(jambalaya, Goal)
+1.00  action_role(chili_powder, Spice)
 1.00  has_pos(flavour, VB)
 1.00  has_pos(jambalaya, NN)
 1.00  has_pos(chili_powder, NN)
