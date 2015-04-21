@@ -1,0 +1,13 @@
+// domain declarations
+
+
+// predicate declarations
+goal(word,actioncore)
+objectToBeAdded(word,actioncore)
+achieved_by(word,actioncore)
+action_core(word,actioncore?)
+action_cause(word,actioncore)
+spice(word,actioncore)
+
+// formulas
+2.642886    action_core(?w1, Flavouring) ^ spice(?w2, Flavouring) ^ goal(?w3, Flavouring) ^ objectToBeAdded(?w2, Adding) ^ goal(?w3, Adding) ^ achieved_by(?w1, Adding) ^ action_cause(?w1, Adding) ^ ?w1=/=?w2 ^ ?w1=/=?w3 ^ ?w3=/=?w2

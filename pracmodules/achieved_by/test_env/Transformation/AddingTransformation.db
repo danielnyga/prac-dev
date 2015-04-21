@@ -1,0 +1,97 @@
+1.00  action_cause(flavour,Flavouring)
+1.00  goal(soup, Flavouring)
+1.00  spice(salt, Flavouring)
+1.00  achieved_by(flavour,Adding)
+1.00  action_core(flavour,Flavouring)
+1.00  action_cause(flavour,Adding)
+1.00  goal(soup, Adding)
+1.00  objectToBeAdded(pepper, Adding)
+
+---
+
+1.00  action_cause(flavour,Flavouring)
+1.00  goal(steak, Flavouring)
+1.00  spice(pepper, Flavouring)
+1.00  achieved_by(flavour,Adding)
+1.00  action_core(flavour,Flavouring)
+1.00  action_cause(flavour,Adding)
+1.00  goal(steak, Adding)
+1.00  objectToBeAdded(pepper, Adding)
+
+---
+
+1.00  action_cause(flavour,Flavouring)
+1.00  goal(chicken, Flavouring)
+1.00  spice(sassafras, Flavouring)
+1.00  achieved_by(flavour,Adding)
+1.00  action_core(flavour,Flavouring)
+1.00  action_cause(flavour,Adding)
+1.00  goal(chicken, Adding)
+1.00  objectToBeAdded(sassafras, Adding)
+
+---
+
+1.00  action_cause(flavour,Flavouring)
+1.00  goal(sauce, Flavouring)
+1.00  spice(coriander, Flavouring)
+1.00  achieved_by(flavour,Adding)
+1.00  action_core(flavour,Flavouring)
+1.00  action_cause(flavour,Adding)
+1.00  goal(sauce, Adding)
+1.00  objectToBeAdded(coriander, Adding)
+
+---
+
+1.00  action_cause(flavour,Flavouring)
+1.00  goal(meat, Flavouring)
+1.00  spice(fenugreek, Flavouring)
+1.00  achieved_by(flavour,Adding)
+1.00  action_core(flavour,Flavouring)
+1.00  action_cause(flavour,Adding)
+1.00  goal(meat, Adding)
+1.00  objectToBeAdded(fenugreek, Adding)
+
+---
+
+1.00  action_cause(flavour,Flavouring)
+1.00  goal(omelette, Flavouring)
+1.00  spice(salt, Flavouring)
+1.00  action_core(flavour,Flavouring)
+1.00  achieved_by(flavour,Adding)
+1.00  action_cause(flavour,Adding)
+1.00  goal(omelette, Adding)
+1.00  objectToBeAdded(salt, Adding)
+
+---
+
+1.00  action_cause(flavour,Flavouring)
+1.00  goal(rib, Flavouring)
+1.00  spice(pepper, Flavouring)
+1.00  action_core(flavour,Flavouring)
+1.00  achieved_by(flavour,Adding)
+1.00  action_cause(flavour,Adding)
+1.00  goal(rib, Adding)
+1.00  objectToBeAdded(pepper, Adding)
+
+---
+
+1.00  action_cause(flavour,Flavouring)
+1.00  goal(egg, Flavouring)
+1.00  spice(salt, Flavouring)
+1.00  action_core(flavour,Flavouring)
+1.00  achieved_by(flavour,Adding)
+1.00  action_cause(flavour,Adding)
+1.00  goal(egg, Adding)
+1.00  objectToBeAdded(salt, Adding)
+
+---
+
+1.00  action_cause(flavour,Flavouring)
+1.00  goal(jambalaya, Flavouring)
+1.00  spice(chili_powder, Flavouring)
+1.00  action_core(flavour,Flavouring)
+1.00  achieved_by(flavour,Adding)
+1.00  action_cause(flavour,Adding)
+1.00  goal(jambalaya, Adding)
+1.00  objectToBeAdded(chili_powder, Adding)
+
