@@ -4,13 +4,13 @@
 // predicate declarations
 has_pos(word,pos!)
 prep_with(word,word)
-goal(word,actioncore?)
+goal(word,actioncore)
 has_sense(word,sense!)
 dobj(word,word)
 is_a(sense,concept)
 action_core(word,actioncore?)
-action_cause(word,actioncore?)
-spice(word,actioncore?)
+action_cause(word,actioncore)
+spice(word,actioncore)
 
 // formulas
 
