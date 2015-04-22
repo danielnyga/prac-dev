@@ -149,15 +149,14 @@ class AchievedBy(PRACModule):
                                 inferencedAchievedByList.append(actioncore)
                                 resultRolesDB = self.updateActionRoles(r_db,actionword,actioncore)
                                 
-
                                 #Prepare evidence db for the next inference of the achieved_by predicate
                                 useKB = self.load_pracmt(actioncore)
                                 db_temp = Database(useKB.query_mln)
                                 
                                 for atom, truth in sorted(resultRolesDB.evidence.iteritems()):
-                                    if 'action_core' in atom: continue
+                                    if 'action_core' in atom or 'achieved_by' in atom: continue
                                     db_temp.addGroundAtom(atom,truth)
-                                
+                                    
                                 db_temp.addGroundAtom('action_core('+actionword+","+actioncore+")")
                                 db_ = db_temp
                                 

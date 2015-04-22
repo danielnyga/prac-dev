@@ -1,0 +1,4 @@
+spice(word,actioncore)
+goal(word,actioncore)
+action_cause(word,actioncore)
+objectToBeAdded(word,actioncore)

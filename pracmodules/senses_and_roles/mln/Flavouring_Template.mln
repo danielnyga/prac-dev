@@ -23,13 +23,12 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ******************************************************************************/
 
+#include Roles.mln
+
 has_pos(word,pos!)
 is_a(sense, concept)
 dobj(word,word)
 has_sense(word, sense!)
-spice(word,actioncore)
-goal(word,actioncore)
-action_cause(word,actioncore)
 action_core(word,actioncore?)
 prep_with(word,word)
 

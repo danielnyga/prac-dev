@@ -2,15 +2,13 @@
 
 
 // predicate declarations
+#include  ../../senses_and_roles/mln/Roles.mln
 has_pos(word,pos!)
-goal(word,actioncore)
 has_sense(word,sense!)
 achieved_by(word,actioncore)
 dobj(word,word)
 is_a(sense,concept)
 action_core(word,actioncore?)
-action_cause(word,actioncore)
-spice(word,actioncore)
 
 // formulas
 0.101299    spice(?w1, ?ac1) ^ has_sense(?w1, ?s1) ^ is_a(?s1, salt.n.02) ^ achieved_by(?w2, Adding) ^ action_core(?w2, ?ac1) ^ ?w1=/=?w2
