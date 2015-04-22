@@ -61,13 +61,7 @@ class AchievedBy(PRACModule):
         #Init new PRAC instance for inference roles
         
         transformationKB = self.load_pracmt(actioncore+'Transformation')
-        db_ = Database(transformationKB.query_mln)
-        
-        for a in sorted(db.evidence.keys()):
-            v = db.evidence[a]
-            if v > 0.001:
-                db_.addGroundAtom(a,v)
-        resultDB = list(transformationKB.infer(db_))[0]
+        resultDB = list(transformationKB.infer(db))[0]
         return resultDB     
 
     @PRACPIPE
@@ -123,7 +117,15 @@ class AchievedBy(PRACModule):
                     self.kbs.append(useKB)  
                     params.update(useKB.query_params)
                     result_db = list(useKB.infer(db_))
-                    
+                    result_db_ = []
+                    #Removing achieved_by predicates with prob zero
+                    for r_db in result_db:
+                        r_db_ = Database(useKB.query_mln)
+                        for atom, truth in sorted(r_db.evidence.iteritems()):
+                            if 'achieved_by' in atom and truth == 0: continue
+                            r_db_.addGroundAtom(atom,truth)
+                        result_db_.append(r_db_)
+                        
                     for r_db in result_db:
                         countOfGeneratorItems = 0
                         for q in r_db.query('achieved_by('+actionword+',?nac)'):
