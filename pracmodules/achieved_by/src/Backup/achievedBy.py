@@ -59,16 +59,34 @@ class AchievedBy(PRACModule):
     
     def updateActionRoles(self,db,actionword,actioncore):
         #Init new PRAC instance for inference roles
+        prac = PRAC()
+        prac.wordnet = WordNet(concepts=None)
+        infer = PRACInference(prac, 'None')
+        senses = prac.getModuleByName('senses_and_roles')
+        senses.initialize()
+        sensesKBFile = senses.load_pracmt(actioncore)
         
-        transformationKB = self.load_pracmt(actioncore+'Transformation')
-        db_ = Database(transformationKB.query_mln)
+        #Create senses and roles evidence DB
+        db_senses = Database(sensesKBFile.query_mln)
+        for atom, truth in sorted(db.evidence.iteritems()):
+            if 'action_core' in atom or 'is_a' in atom or 'action_role' in atom: continue
+            db_senses.addGroundAtom(atom,truth)
+        db_senses.addGroundAtom('action_core('+actionword+","+actioncore+")")
         
-        for a in sorted(db.evidence.keys()):
-            v = db.evidence[a]
-            if v > 0.001:
-                db_.addGroundAtom(a,v)
-        resultDB = list(transformationKB.infer(db_))[0]
-        return resultDB     
+        #Neccessary to avoid not defined attributes due to pickled object
+        sensesKB = PRACKnowledgeBase(prac)
+        sensesKB.filename = sensesKBFile.filename
+        sensesKB.query_mln = sensesKBFile.query_mln
+        sensesKB.query_mln_str = sensesKBFile.query_mln_str
+        sensesKB.query_params = sensesKBFile.query_params
+        sensesKB.dbs.append(db_senses)
+   
+        #start new role inference
+        prac.run(infer,senses,kb=sensesKB)
+        inferStep = infer.inference_steps[-1]
+        
+        return inferStep.output_dbs[-1]
+        
 
     @PRACPIPE
     def __call__(self, pracinference, **params):
@@ -147,17 +165,20 @@ class AchievedBy(PRACModule):
                                 
                             else:
                                 inferencedAchievedByList.append(actioncore)
-                                resultRolesDB = self.updateActionRoles(r_db,actionword,actioncore)
+                                resultSensesDB = self.updateActionRoles(db_,actionword,actioncore)
                                 
-
                                 #Prepare evidence db for the next inference of the achieved_by predicate
                                 useKB = self.load_pracmt(actioncore)
                                 db_temp = Database(useKB.query_mln)
                                 
-                                for atom, truth in sorted(resultRolesDB.evidence.iteritems()):
-                                    if 'action_core' in atom: continue
+                                for atom, truth in sorted(db_.evidence.iteritems()):
+                                    if 'action_core' in atom or 'is_a' in atom or 'action_role' in atom: continue
                                     db_temp.addGroundAtom(atom,truth)
                                 
+                                for atom, truth in sorted(resultSensesDB.evidence.iteritems()):
+                                    if 'action_role' in atom:
+                                        db_temp.addGroundAtom(atom,truth)
+                                        
                                 db_temp.addGroundAtom('action_core('+actionword+","+actioncore+")")
                                 db_ = db_temp
                                 
