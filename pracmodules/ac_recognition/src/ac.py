@@ -76,13 +76,21 @@ class ActionCoreIdentification(PRACModule):
 #             db.write(sys.stdout, color=True)
 #             print '---'
             result_db = list(kb.infer(db))
-            inf_step.output_dbs.extend(result_db)
+            result_db_ = []
+            
             print
             for r_db in result_db:
                 for q in r_db.query('action_core(?w,?ac)'):
                     if q['?ac'] == 'null': continue
                     print 'Identified Action Core(s):', colorize(q['?ac'], (None, 'white', True), True)
+                    #Remove AC which have the probability zero
+                    r_db_ = Database(mln)
+                    for atom, truth in sorted(r_db.evidence.iteritems()):
+                        if 'action_core' in atom and truth == 0: continue
+                        r_db_.addGroundAtom(atom,truth)
+                    result_db_.append(r_db_)
                 print
+            inf_step.output_dbs.extend(result_db_)
         return inf_step
     
     
