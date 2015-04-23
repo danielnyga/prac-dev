@@ -47,7 +47,9 @@ print cmd
 
 f = file("env.sh", "w+")
 f.write("#!/bin/sh\n")
-f.write("export PYTHONPATH=%s\n" % os.path.pathsep.join(["$PYTHONPATH", os.path.join(home, "praccore"), 
+f.write("export PYTHONPATH=%s\n" % os.path.pathsep.join(["$PYTHONPATH", 
+                                                        os.path.join(home, "praccore"), 
+                                                        os.path.join(home, "pracGUI"), 
                                                         os.path.join(home, "semcore_annotation_tool", "src"), 
                                                         os.path.join('3rdparty', 'webpy_jsonrpc'),
                                                         os.path.join('3rdparty', 'dill-0.2b1'),
