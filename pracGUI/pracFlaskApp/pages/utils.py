@@ -1,4 +1,4 @@
-from webrob.pracinit import pracApp
+from pracFlaskApp.pracinit import pracApp
 from flask import request, jsonify
 from prac.inference import PRACInference
 import os
@@ -175,7 +175,6 @@ def add_wn_similarities(db, concepts, wn):
 
 def initFileStorage():
     home = expanduser("~")
-    print 'home: ', home
     pracApp.app.config['ALLOWED_EXTENSIONS'] = set(['mln','db','pracmln'])
     pracApp.app.config['UPLOAD_FOLDER'] = home + '/pracfiles/'
     if not os.path.exists(os.path.join(pracApp.app.config['UPLOAD_FOLDER'])):

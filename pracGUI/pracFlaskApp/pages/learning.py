@@ -3,8 +3,8 @@ from mln.mln import readMLNFromString
 from mln.methods import LearningMethods
 from wtforms import BooleanField, TextField, TextAreaField, validators, SelectField, FileField, SubmitField, HiddenField
 from flask_wtf import Form
-from webrob.pages.fileupload import upload
-from webrob.pages.utils import updateMLNList, updateEvidenceList, GRAMMAR, LOGICS, MODULES
+from pracFlaskApp.pages.fileupload import upload
+from pracFlaskApp.pages.utils import updateMLNList, updateEvidenceList, GRAMMAR, LOGICS, MODULES
 import os, sys
 import StringIO
 
