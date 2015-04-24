@@ -46,9 +46,8 @@ if __name__ == '__main__':
     
     log = logging.getLogger()
     log.setLevel(logging.ERROR)
-
+    actionRoles = None
     prac = PRAC()
-#     actionCore = prac.getModuleByName('ac_recognition')
     prac.wordnet = WordNet(concepts=None)
     
     infer = PRACInference(prac, sentences)
@@ -102,7 +101,8 @@ if __name__ == '__main__':
                         print '%.3f    %s' % (v, a)
                 else:
                     print '%.3f    %s' % (v, a)
-        actionRoles.getRolesBasedOnCurrentAC(db).printEvidence()
+        if actionRoles != None :
+            actionRoles.getRolesBasedOnCurrentAC(db).printEvidence()
         print '---'
         
     
