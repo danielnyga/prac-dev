@@ -37,7 +37,7 @@
 <h1>Visualization</h1>
 <div id='viz'>
 </div>
-<script type="text/javascript" src="{{ '/prac/static/script/graph.js' }}"></script>
+<script type="text/javascript" src="{{ url_for('download_static', filename='script/graph.js') }}"></script>
   <input type="button" name="Start" value="&#9654;" onclick="loadGraph({{ result.steps }})">
   <input type="button" name="Next" value="&raquo;" onclick="drawGraph()">
   <input type="button" name="Clear" value="clear" onclick="clearGraph()">

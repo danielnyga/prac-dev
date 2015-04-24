@@ -1,4 +1,4 @@
-from webrob.pracinit import pracApp
+from pracFlaskApp.pracinit import pracApp
 from flask import redirect
 
 @pracApp.app.route('/')

@@ -1,4 +1,4 @@
-from webrob.pracinit import pracApp
+from pracFlaskApp.pracinit import pracApp
 from prac.inference import PRACInference, PRACInferenceStep
 from mln import readMLNFromFile, readDBFromFile
 from mln.database import readDBFromString
@@ -7,8 +7,8 @@ from mln.mln import readMLNFromString
 from flask import render_template, redirect, request, jsonify, url_for
 from wtforms import BooleanField, TextField, TextAreaField, validators, SelectField, FileField, SubmitField
 from flask_wtf import Form
-from webrob.pages.fileupload import upload
-from webrob.pages.utils import updateKBList, updateMLNList, updateEvidenceList, LOGICS, FILEDIRS, MODULES, getFileContent, save_kb, add_wn_similarities
+from pracFlaskApp.pages.fileupload import upload
+from pracFlaskApp.pages.utils import updateKBList, updateMLNList, updateEvidenceList, LOGICS, FILEDIRS, MODULES, getFileContent, save_kb, add_wn_similarities
 import os, sys
 import pickle
 import StringIO

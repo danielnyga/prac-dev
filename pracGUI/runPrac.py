@@ -1,8 +1,8 @@
-from webrob.pracinit import pracApp
+from pracFlaskApp.pracinit import pracApp
 
 def init_app(app):
 
-    from webrob.pages.routes import register_routes
+    from pracFlaskApp.pages.routes import register_routes
     # Load all views.py files to register @app.routes() with Flask
     register_routes()
     

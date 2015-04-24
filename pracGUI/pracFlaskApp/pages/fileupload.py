@@ -1,8 +1,8 @@
 import os
 from flask import request, send_from_directory, jsonify
 from werkzeug import secure_filename
-from webrob.pracinit import pracApp
-from webrob.pages.utils import FILEDIRS, initFileStorage
+from pracFlaskApp.pracinit import pracApp
+from pracFlaskApp.pages.utils import FILEDIRS, initFileStorage
 
 @pracApp.app.route('/prac/uploads/<filedir>/<filename>')
 def uploaded_file(filedir, filename):

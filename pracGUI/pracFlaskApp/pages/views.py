@@ -1,12 +1,12 @@
-from webrob.pracinit import pracApp
+from pracFlaskApp.pracinit import pracApp
 
 from flask import render_template, request, send_from_directory, url_for, jsonify
 
 # from webrob.pages.routes import ensure_prac_started
-from webrob.pages.learning import learn, PRACLearningForm
-from webrob.pages.inference import infer, PRACInferenceForm
-from webrob.pages.fileupload import upload, saveMLN
-from webrob.pages.utils import initFileStorage
+from pracFlaskApp.pages.learning import learn, PRACLearningForm
+from pracFlaskApp.pages.inference import infer, PRACInferenceForm
+from pracFlaskApp.pages.fileupload import upload, saveMLN
+from pracFlaskApp.pages.utils import initFileStorage
 
 import json
 
@@ -19,7 +19,8 @@ def test():
 
 @pracApp.app.route('/prac/static/<path:filename>')
 def download_static(filename):
-  return send_from_directory(os.path.join(pracApp.app.root_path, "static"), filename)
+    return send_from_directory(pracApp.app.config['PRAC_STATIC_PATH'], filename)
+    # return send_from_directory(os.path.join(pracApp.app.root_path, "static"), filename)
 
 @pracApp.app.route('/prac/')
 def prac():
