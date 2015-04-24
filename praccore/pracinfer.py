@@ -86,7 +86,7 @@ if __name__ == '__main__':
     for db in step.output_dbs:
         for a in sorted(db.evidence.keys()):
             v = db.evidence[a]
-            if v > 0.001 and (a.startswith('action_core') or a.startswith('action_role') or a.startswith('has_sense') or a.startswith('achieved_by')):
+            if v > 0.001 and (a.startswith('action_core') or a.startswith('has_sense') or a.startswith('achieved_by')):
                 if a.startswith('has_sense'): 
                     
                     group = re.split(',',re.split('has_sense\w*\(|\)',a)[1])
@@ -102,7 +102,9 @@ if __name__ == '__main__':
                         print '%.3f    %s' % (v, a)
                 else:
                     print '%.3f    %s' % (v, a)
+        actionRoles.getRolesBasedOnCurrentAC(db).printEvidence()
         print '---'
+        
     
     
             
