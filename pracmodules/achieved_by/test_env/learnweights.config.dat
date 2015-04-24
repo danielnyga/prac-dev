@@ -12,7 +12,7 @@ S''
 p5
 sS'output_filename'
 p6
-S'wts.pydcll.is_preheat-Preheating_Template.mln'
+S'wts.pydcll.is_fill-Filling.mln'
 p7
 sS'discrPredicates'
 p8
@@ -46,7 +46,7 @@ S'[discriminative] composite-log-likelihood'
 p19
 sS'db'
 p20
-S'is_preheat.db'
+S'is_fill.db'
 p21
 sS'priorMean'
 p22
@@ -65,11 +65,11 @@ S'PRACGrammar'
 p28
 sS'geometry'
 p29
-V927x716+439+80
+V1247x1028+1312+52
 p30
 sS'mln'
 p31
-S'Preheating_Template.mln'
+S'Filling.mln'
 p32
 sS'logic'
 p33
