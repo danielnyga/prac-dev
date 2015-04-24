@@ -4,7 +4,7 @@
 // predicate declarations
 #include  ../../senses_and_roles/mln/Roles.mln
 
-achieved_by(word,actioncore)
+achieved_by(word,actioncore?)
 action_core(word,actioncore?)
 
 // formulas
