@@ -45,6 +45,23 @@ class SensesAndRoles(PRACModule):
     
     def shutdown(self):
         pass
+    
+    def getRolesBasedOnCurrentAC(self,db):
+        db_ = Database(db.mln)
+        for q in db.query('action_core(?w,?ac)'):
+                actioncore = q['?ac']
+                if actioncore == 'null': continue
+                kb = self.load_pracmt(actioncore)
+                queryPredicates = kb.query_params['queries'].split(",")
+                for p in queryPredicates:
+                    if p == 'has_sense': continue
+                    query = self.roleQueryBuilder(actioncore,p, kb.query_mln)
+                    for q in db.query(query, truthThreshold=1):
+                        for var, val in q.iteritems():
+                            query = query.replace(var,val)
+                        db_.addGroundAtom(query)
+        return db_            
+                
     def roleQueryBuilder(self, actioncore,predicate, mln):
         query = predicate+'('
         domainList =  mln.predicates[predicate]
