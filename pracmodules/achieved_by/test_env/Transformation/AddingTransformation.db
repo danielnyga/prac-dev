@@ -95,3 +95,125 @@
 1.00  goal(jambalaya, Adding)
 1.00  objectToBeAdded(chili_powder, Adding)
 
+---
+
+1.00  achieved_by(fill, Adding)
+1.00  action_core(fill, Filling)
+1.00  obj_to_be_spilled(batter,Filling)
+ 1.00 objectToBeAdded(batter,Adding)
+1.00  action_cause(fill,Filling)
+ 1.00 action_cause(fill,Adding)
+1.00  goal(gap,Filling)
+ 1.00 goal(gap,Adding)
+
+---
+
+1.00  achieved_by(fill, Adding)
+1.00  action_core(fill, Filling)
+1.00  goal(bowl,Filling)
+ 1.00 goal(bowl,Adding)
+1.00  action_cause(fill,Filling)
+ 1.00 action_cause(fill,Adding)
+1.00  obj_to_be_spilled(ice,Filling)
+ 1.00 objectToBeAdded(ice,Adding)
+
+---
+
+1.00  achieved_by(fill, Adding)
+1.00  action_core(fill, Filling)
+1.00 action_cause(fill,Filling)
+ 1.00 action_cause(fill,Adding)
+1.00   obj_to_be_spilled(salt,Filling)
+ 1.00 objectToBeAdded(salt,Adding)
+1.00  goal(saltcellar,Filling)
+ 1.00 goal(saltcellar,Adding)
+
+---
+
+1.00  achieved_by(fill, Adding)
+1.00  action_core(fill, Filling)
+1.00 action_cause(fill,Filling)
+ 1.00 action_cause(fill,Adding)
+1.00  amount(gram,Filling)
+ 1.00 amount(gram,Adding)
+1.00   obj_to_be_spilled(rice,Filling)
+ 1.00 objectToBeAdded(rice,Adding)
+1.00  goal(wok,Filling)
+ 1.00 goal(wok,Adding)
+
+---
+1.00  achieved_by(fill, Adding)
+1.00  action_core(fill, Filling)
+1.00   obj_to_be_spilled(corn,Filling)
+ 1.00 objectToBeAdded(corn,Adding)
+1.00 action_cause(fill,Filling)
+ 1.00 action_cause(fill,Adding)
+1.00  amount(gram,Filling)
+ 1.00 amount(gram,Adding)
+1.00  goal(pot,Filling)
+ 1.00 goal(pot,Adding)
+
+---
+
+1.00  achieved_by(fill, Adding)
+1.00  action_core(fill, Filling)
+1.00   obj_to_be_spilled(apples,Filling)
+ 1.00 objectToBeAdded(apples,Adding)
+1.00  goal(blender,Filling)
+ 1.00 goal(blender,Adding)
+1.00 action_cause(fill,Filling)
+ 1.00 action_cause(fill,Adding)
+1.00  amount(kilogram,Filling)
+ 1.00 amount(kilogram,Adding)
+
+---
+1.00  achieved_by(fill, Adding)
+1.00  action_core(fill, Filling)
+1.00  goal(blender,Filling)
+ 1.00 goal(blender,Adding)
+1.00 action_cause(fill,Filling)
+ 1.00 action_cause(fill,Adding)
+1.00  amount(kilogram,Filling)
+ 1.00 amount(kilogram,Adding)
+1.00   obj_to_be_spilled(oranges,Filling)
+ 1.00 objectToBeAdded(oranges,Adding)
+
+---
+
+1.00  achieved_by(fill, Adding)
+1.00  action_core(fill, Filling)
+1.00 action_cause(fill,Filling)
+ 1.00 action_cause(fill,Adding)
+1.00  amount(gram,Filling)
+ 1.00 amount(gram,Adding)
+1.00   obj_to_be_spilled(salt,Filling)
+ 1.00 objectToBeAdded(salt,Adding)
+1.00  goal(saltcellar,Filling)
+ 1.00 goal(saltcellar,Adding)
+
+---
+
+1.00  achieved_by(fill, Adding)
+1.00  action_core(fill, Filling)
+1.00   obj_to_be_spilled(batter,Filling)
+ 1.00 objectToBeAdded(batter,Adding)
+1.00 action_cause(fill,Filling)
+ 1.00 action_cause(fill,Adding)
+1.00  goal(gap,Filling)
+ 1.00 goal(gap,Adding)
+1.00  amount(kilogram,Filling)
+ 1.00 amount(kilogram,Adding)
+
+---
+1.00  achieved_by(fill, Adding)
+1.00  action_core(fill, Filling)
+1.00 action_cause(fill,Filling)
+ 1.00 action_cause(fill,Adding)
+1.00  amount(gram,Filling)
+ 1.00 amount(gram,Adding)
+1.00   obj_to_be_spilled(pepper,Filling)
+ 1.00 objectToBeAdded(pepper,Adding)
+1.00  goal(saltcellar,Filling)
+ 1.00 goal(saltcellar,Adding)
+
+
