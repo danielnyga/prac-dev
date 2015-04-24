@@ -6,22 +6,23 @@
 
 <table id='tb_form'>
     <!-- {{ render_field(form.description, onkeyup="updateDescr(this)") }} -->
-    {{ render_fields(fs=[(form.description, {'onkeyup':"updateDescr(this)"}), (form.parse, {'value':"Parse"})], title='Description') }}
-    {{ render_Line() }}
+    {{ render_field(form.description, onkeyup="updateDescr(this)") }}
+    {{ render_field(form.parse, value="Parse") }}
+    <!-- {{ render_Line() }} -->
     {{ render_field(form.module, onchange="updateModule(this,true)") }}
     {{ render_field(form.kb, onchange="updateKB(this)", onmouseup="updateKB(this)") }}
     {{ render_field(form.kbName) }}
     {{ render_field(form.saveKB) }}
     {{ render_field(form.logic) }}
-    {{ render_Line() }}
+    <!-- {{ render_Line() }} -->
     {{ render_field(form.mln_dd, onchange="updateMLN(this)", onmouseup="updateMLN(this)") }}
     {{ render_fields( fs=[(form.mlnFile, {'accept':"application/mln"}), (form.uploadMLNFile, {"value":"Upload MLN File", "onsubmit":"uploadFile()"})], title='') }}
     {{ render_field(form.mln) }}
-    {{ render_Line() }}
+    <!-- {{ render_Line() }} -->
     {{ render_field(form.evidence_dd, onchange="updateEvidence(this)", onmouseup="updateEvidence(this)") }}
     {{ render_fields( fs=[(form.evidenceFile, {'accept':"application/db"}), (form.uploadMLNFile, {"value":"Upload DB File", "onsubmit":"uploadFile()"})], title='') }}
     {{ render_field(form.evidence) }}
-    {{ render_Line() }}
+    <!-- {{ render_Line() }} -->
     {{ render_field(form.method) }}
     {{ render_field(form.queries) }}
     {{ render_field(form.parameters) }}
