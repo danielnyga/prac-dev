@@ -74,14 +74,14 @@ class SensesAndRoles(PRACModule):
         if len(domainList) == 1:
             query += ")"
         else:
+            i = 1
             for d in domainList[1:]:
                 query += ","
                 if d.lower() == 'actioncore':
                     query += actioncore
                 else:
-                    query += "?"+d
+                    query += "?"+str(i)+d
             query += ")"
-            
         return query
             
     @PRACPIPE
@@ -139,7 +139,7 @@ class SensesAndRoles(PRACModule):
                 wordnet_module = self.prac.getModuleByName('wn_senses')
                 db_senses = wordnet_module.get_senses_and_similarities(db_, concepts)
                 for atom, truth in sorted(db_senses.evidence.iteritems()):
-                    if 'is_a' in atom or 'action_role' in atom:
+                    if 'is_a' in atom or 'has_sense' in atom:
                         db_.addGroundAtom(atom,truth)  
                 #db_.printEvidence()
                 result_db_temp = list(useKB.infer(db_))
@@ -158,7 +158,6 @@ class SensesAndRoles(PRACModule):
                         for p in queryPredicates:
                             if p == 'has_sense': continue
                             query = self.roleQueryBuilder(actioncore,p, useKB.query_mln)
-                            
                             for q in r_db.query(query, truthThreshold=1):
                                 for var, val in q.iteritems():
                                     query = query.replace(var,val)
