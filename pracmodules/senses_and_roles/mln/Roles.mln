@@ -2,3 +2,6 @@ spice(word,actioncore)
 goal(word,actioncore)
 action_cause(word,actioncore)
 objectToBeAdded(word,actioncore)
+temperature_setting(word,word,actioncore)
+obj_to_be_heated(word,actioncore)
+

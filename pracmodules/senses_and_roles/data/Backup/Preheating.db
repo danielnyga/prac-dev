@@ -1,25 +1,20 @@
-1.00  action_core(preheat,Flavouring)
-1.00  action_cause(preheat,Flavouring)
-1.00  temperature_setting(degrees,350,Flavouring)
-1.00  obj_to_be_heated(oven,Flavouring)
+1.00  action_role(preheat, ActionCause)
+1.00  action_role(degrees, Temperature)
+1.00  action_role(oven, ObjectToBeHeated)
 1.00  has_pos(preheat, VB)
 1.00  has_pos(oven, NN)
 1.00  has_pos(degrees, NNS)
-1.00  has_pos(350, CD)
 1.00  has_sense(preheat, preheat.v.01)
 1.00  has_sense(oven, oven.n.01)
-1.00  has_sense(350, hundred.n.01)
 1.00  has_sense(degrees, degree_centigrade.n.01)
 1.00  is_a(degree_centigrade.n.01, degree_centigrade.n.01)
 1.00  is_a(preheat.v.01, preheat.v.01)
 1.00  is_a(oven.n.01, oven.n.01)
-1.00  is_a(hundred.n.01, hundred.n.01)
-1.00  num(degrees, 350)
 
 ---
-1.00  action_core(preheat,Flavouring)
-1.00  action_cause(preheat,Flavouring)
-1.00  obj_to_be_heated(oven,Flavouring)
+
+1.00  action_role(preheat, ActionCause)
+1.00  action_role(oven, ObjectToBeHeated)
 1.00  has_pos(preheat, VB)
 1.00  has_pos(oven, NN)
 1.00  has_sense(preheat, preheat.v.01)
@@ -28,10 +23,9 @@
 1.00  is_a(oven.n.01, oven.n.01)
 
 ---
-1.00  action_core(preheat,Flavouring)
 
-1.00  action_cause(preheat,Flavouring)
-1.00  obj_to_be_heated(pan,Flavouring)
+1.00  action_role(preheat, ActionCause)
+1.00  action_role(pan, ObjectToBeHeated)
 1.00  has_pos(preheat, VB)
 1.00  has_pos(pan, NN)
 1.00  has_sense(preheat, preheat.v.01)
@@ -40,10 +34,9 @@
 1.00  is_a(pan.n.03, pan.n.03)
 
 ---
-1.00  action_core(preheat,Flavouring)
 
-1.00  action_cause(preheat,Flavouring)
-1.00  obj_to_be_heated(barbecue,Flavouring)
+1.00  action_role(preheat, ActionCause)
+1.00  action_role(barbecue, ObjectToBeHeated)
 1.00  has_pos(preheat, VB)
 1.00  has_pos(barbecue, NN)
 1.00  has_sense(preheat, preheat.v.01)
