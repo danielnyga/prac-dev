@@ -20,6 +20,22 @@ for app in ("pracinfer", "praclearn", 'pracparse', 'senses', 'pracserver', 'prac
     print '\t Wrote app %s' % colorize(app, BOLD, True)
     os.system("chmod a+x %s" % filepath)
 
+# write pracGUI app
+fp = os.path.join(appfolder, 'pracGUI')
+f = file(fp, "w+")
+f.write("#!/bin/sh\n")
+f.write('cd %s/%s\n' % (home,'pracGUI'))
+# f.write("python %s \"$@\"\n" % os.path.join(home, "pracGUI", "runPrac.py"))
+f.write("python %s \"$@\"\n" % os.path.join(home, "pracGUI", "runPrac.py"))
+f.close()
+print '\t Wrote app %s' % colorize('pracGUI', BOLD, True)
+os.system("chmod a+x %s" % fp)
+
+
+
+
+
+
 # filepath = os.path.join(appfolder, "knowrob")
 # f = file(filepath, "w+")
 # f.write("#!/bin/sh\n")

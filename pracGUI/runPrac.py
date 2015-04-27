@@ -1,8 +1,8 @@
-from pracFlaskApp.pracinit import pracApp
+from pracWEB.pracinit import pracApp
 
 def init_app(app):
 
-    from pracFlaskApp.pages.routes import register_routes
+    from pracWEB.pages.routes import register_routes
     # Load all views.py files to register @app.routes() with Flask
     register_routes()
     
