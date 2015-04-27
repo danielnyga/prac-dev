@@ -1,4 +1,4 @@
-1.00 action_cause(pour,Pouring)
+1.00 action_verb(pour,Pouring)
 1.00  goal(pan,Pouring)
 1.00   obj_to_be_spilled(water,Pouring)
 1.00  has_pos(pour, VB)
@@ -13,7 +13,7 @@
 ---
 1.00  action_core(pour,Pouring)
 1.00   obj_to_be_spilled(batter,Pouring)
-1.00 action_cause(pour,Pouring)
+1.00 action_verb(pour,Pouring)
 1.00  goal(gap,Pouring)
 1.00  has_pos(batter, NN)
 1.00  has_pos(pour, VB)
@@ -26,7 +26,7 @@
 1.00  is_a(opening.n.01, opening.n.01)
 ---
 1.00  action_core(pour,Pouring)
-1.00 action_cause(pour,Pouring)
+1.00 action_verb(pour,Pouring)
 1.00   obj_to_be_spilled(froth,Pouring)
 1.00  goal(mug,Pouring)
 1.00  has_pos(pour, VB)
@@ -40,7 +40,7 @@
 1.00  is_a(mug.n.04, mug.n.04)
 ---
 1.00  action_core(pour,Pouring)
-1.00 action_cause(pour,Pouring)
+1.00 action_verb(pour,Pouring)
 1.00  goal(kettle,Pouring)
 1.00   obj_to_be_spilled(water,Pouring)
 1.00  has_pos(pour, VB)
@@ -54,7 +54,7 @@
 1.00  is_a(water.n.06, water.n.06)
 ---
 1.00  action_core(pour,Pouring)
-1.00 action_cause(pour,Pouring)
+1.00 action_verb(pour,Pouring)
 1.00   obj_to_be_spilled(gravy,Pouring)
 1.00  goal(jar,Pouring)
 1.00  has_pos(pour, VB)
@@ -69,7 +69,7 @@
 ---
 1.00  action_core(pour,Pouring)
 1.00  goal(bowl,Pouring)
-1.00 action_cause(pour,Pouring)
+1.00 action_verb(pour,Pouring)
 1.00   obj_to_be_spilled(ice,Pouring)
 1.00  has_pos(bowl, NN)
 1.00  has_pos(pour, VB)
@@ -82,7 +82,7 @@
 1.00  is_a(ice.n.01, ice.n.01)
 ---
 1.00  action_core(pour,Pouring)
-1.00 action_cause(pour,Pouring)
+1.00 action_verb(pour,Pouring)
 1.00  goal(glass,Pouring)
 1.00   obj_to_be_spilled(milk,Pouring)
 1.00  has_pos(pour, VB)
@@ -96,7 +96,7 @@
 1.00  is_a(milk.n.01, milk.n.01)
 ---
 1.00  action_core(pour,Pouring)
-1.00 action_cause(pour,Pouring)
+1.00 action_verb(pour,Pouring)
 1.00  goal(pot,Pouring)
 1.00   obj_to_be_spilled(water,Pouring)
 1.00  has_pos(pour, VB)
@@ -111,7 +111,7 @@
 ---
 1.00  action_core(pour,Pouring)
 1.00  goal(bottle,Pouring)
-1.00 action_cause(pour,Pouring)
+1.00 action_verb(pour,Pouring)
 1.00   obj_to_be_spilled(juice,Pouring)
 1.00  has_pos(bottle, NN)
 1.00  has_pos(pour, VB)
@@ -124,7 +124,7 @@
 1.00  is_a(fruit_juice.n.01, fruit_juice.n.01)
 ---
 1.00  action_core(pour,Pouring)
-1.00 action_cause(pour,Pouring)
+1.00 action_verb(pour,Pouring)
 1.00   obj_to_be_spilled(salt,Pouring)
 1.00  goal(saltcellar,Pouring)
 1.00  has_pos(pour, VB)
@@ -139,7 +139,7 @@
 ---
 1.00  action_core(pour,Pouring)
 1.00  goal(carafe,Pouring)
-1.00 action_cause(pour,Pouring)
+1.00 action_verb(pour,Pouring)
 1.00   obj_to_be_spilled(whisky,Pouring)
 1.00  has_pos(carafe, NN)
 1.00  has_pos(pour, VB)
@@ -154,7 +154,7 @@
 1.00  action_core(pour,Pouring)
 1.00   obj_to_be_spilled(cola,Pouring)
 1.00  goal(cup,Pouring)
-1.00 action_cause(pour,Pouring)
+1.00 action_verb(pour,Pouring)
 1.00  amount(milliliter,Pouring)
 1.00  has_pos(cola, NN)
 1.00  has_pos(cup, NN)
@@ -170,7 +170,7 @@
 1.00  is_a(milliliter.n.01, milliliter.n.01)
 ---
 1.00  action_core(pour,Pouring)
-1.00 action_cause(pour,Pouring)
+1.00 action_verb(pour,Pouring)
 1.00  amount(gram,Pouring)
 1.00   obj_to_be_spilled(rice,Pouring)
 1.00  goal(wok,Pouring)
@@ -189,7 +189,7 @@
 ---
 1.00  action_core(pour,Pouring)
 1.00   obj_to_be_spilled(coffee,Pouring)
-1.00 action_cause(pour,Pouring)
+1.00 action_verb(pour,Pouring)
 1.00  amount(liter,Pouring)
 1.00  goal(thermos_flask,Pouring)
 1.00  has_pos(coffee, NN)
@@ -208,7 +208,7 @@
 1.00  action_core(pour,Pouring)
 1.00   obj_to_be_spilled(apples,Pouring)
 1.00  goal(blender,Pouring)
-1.00 action_cause(pour,Pouring)
+1.00 action_verb(pour,Pouring)
 1.00  amount(kilogram,Pouring)
 1.00  has_pos(apples, NN)
 1.00  has_pos(blender, NN)
@@ -225,7 +225,7 @@
 ---
 1.00  action_core(pour,Pouring)
 1.00  goal(carafe,Pouring)
-1.00 action_cause(pour,Pouring)
+1.00 action_verb(pour,Pouring)
 1.00  amount(liter,Pouring)
 1.00   obj_to_be_spilled(whisky,Pouring)
 1.00  has_pos(carafe, NN)
@@ -242,7 +242,7 @@
 1.00  is_a(whiskey.n.01, whiskey.n.01)
 ---
 1.00  action_core(pour,Pouring)
-1.00 action_cause(pour,Pouring)
+1.00 action_verb(pour,Pouring)
 1.00  amount(gram,Pouring)
 1.00   obj_to_be_spilled(salt,Pouring)
 1.00  goal(saltcellar,Pouring)
@@ -261,7 +261,7 @@
 ---
 1.00  action_core(pour,Pouring)
 1.00  goal(bottle,Pouring)
-1.00 action_cause(pour,Pouring)
+1.00 action_verb(pour,Pouring)
 1.00   obj_to_be_spilled(juice,Pouring)
 1.00  amount(milliliter,Pouring)
 1.00  has_pos(bottle, NN)
@@ -279,7 +279,7 @@
 ---
 1.00  action_core(pour,Pouring)
 1.00   obj_to_be_spilled(batter,Pouring)
-1.00 action_cause(pour,Pouring)
+1.00 action_verb(pour,Pouring)
 1.00  goal(gap,Pouring)
 1.00  amount(kilogram,Pouring)
 1.00  has_pos(batter, NN)
@@ -296,7 +296,7 @@
 1.00  is_a(opening.n.01, opening.n.01)
 ---
 1.00  action_core(pour,Pouring)
-1.00 action_cause(pour,Pouring)
+1.00 action_verb(pour,Pouring)
 1.00  amount(gram,Pouring)
 1.00   obj_to_be_spilled(pepper,Pouring)
 1.00  goal(saltcellar,Pouring)

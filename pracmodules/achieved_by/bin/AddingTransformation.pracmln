@@ -35,7 +35,7 @@ S'FirstOrderLogic'
 p17
 sS'queries'
 p18
-S'goal,objectToBeAdded,action_cause,amount'
+S'goal,objectToBeAdded,action_verb,amount'
 p19
 sS'method'
 p20
@@ -45,6 +45,6 @@ ssS'filename'
 p22
 NsS'query_mln_str'
 p23
-V// domain declarations\u000a\u000a\u000a// predicate declarations\u000a#include  ../../senses_and_roles/mln/Roles.mln\u000aachieved_by(word,actioncore)\u000aaction_core(word,actioncore?)\u000a\u000a\u000a// formulas\u000a2.642885    action_core(?w1, Flavouring) ^ spice(?w2, Flavouring) ^ goal(?w3, Flavouring) ^ objectToBeAdded(?w2, Adding) ^ goal(?w3, Adding) ^ achieved_by(?w1, Adding) ^ action_cause(?w1, Adding) ^ ?w1=/=?w2 ^ ?w1=/=?w3 ^ ?w3=/=?w2\u000a2.656846    action_core(?w1, Filling) ^ obj_to_be_spilled(?w2, Filling) ^ goal(?w3, Filling) ^ objectToBeAdded(?w2, Adding) ^ goal(?w3, Adding) ^ achieved_by(?w1, Adding) ^ action_cause(?w1, Adding) ^ ?w1=/=?w2 ^ ?w1=/=?w3 ^ ?w3=/=?w2\u000a2.986528    action_core(?w1, Filling) ^ obj_to_be_spilled(?w2, Filling) ^ goal(?w3, Filling) ^ amount(?w4, Filling) ^ objectToBeAdded(?w2, Adding) ^ goal(?w3, Adding) ^ amount(?w4, Adding) ^ achieved_by(?w1, Adding) ^ action_cause(?w1, Adding) ^ ?w1=/=?w2 ^ ?w1=/=?w3 ^ ?w3=/=?w2 ^ ?w1=/=?w4 ^ ?w2=/=?w4 ^ ?w3=/=?w4\u000a\u000a\u000a
+V// domain declarations\u000a\u000a\u000a// predicate declarations\u000a#include  ../../senses_and_roles/mln/Roles.mln\u000aachieved_by(word,actioncore)\u000aaction_core(word,actioncore?)\u000a\u000a\u000a// formulas\u000a2.642885    action_core(?w1, Flavouring) ^ spice(?w2, Flavouring) ^ goal(?w3, Flavouring) ^ objectToBeAdded(?w2, Adding) ^ goal(?w3, Adding) ^ achieved_by(?w1, Adding) ^ action_verb(?w1, Adding) ^ ?w1=/=?w2 ^ ?w1=/=?w3 ^ ?w3=/=?w2\u000a2.656846    action_core(?w1, Filling) ^ obj_to_be_spilled(?w2, Filling) ^ goal(?w3, Filling) ^ objectToBeAdded(?w2, Adding) ^ goal(?w3, Adding) ^ achieved_by(?w1, Adding) ^ action_verb(?w1, Adding) ^ ?w1=/=?w2 ^ ?w1=/=?w3 ^ ?w3=/=?w2\u000a2.986528    action_core(?w1, Filling) ^ obj_to_be_spilled(?w2, Filling) ^ goal(?w3, Filling) ^ amount(?w4, Filling) ^ objectToBeAdded(?w2, Adding) ^ goal(?w3, Adding) ^ amount(?w4, Adding) ^ achieved_by(?w1, Adding) ^ action_verb(?w1, Adding) ^ ?w1=/=?w2 ^ ?w1=/=?w3 ^ ?w3=/=?w2 ^ ?w1=/=?w4 ^ ?w2=/=?w4 ^ ?w3=/=?w4\u000a\u000a\u000a
 p24
 sb.

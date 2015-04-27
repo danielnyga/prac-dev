@@ -34,17 +34,17 @@ action_core(word,actioncore?)
 //has_sense(?w, null) ^ !action_role(?w, +?r1).
 
 // weighted formulas
-0 action_core(?w3,?ac) ^ action_cause(?w1,?ac) ^ obj_to_be_spilled(?w2,?ac) ^ has_sense(?w1, ?s1) ^ is_a(?s1, +?c1)  ^ has_sense(?w2, ?s2) ^ is_a(?s2, +?c2) ^ ?w1 =/= ?w2 
-0 action_core(?w3,?ac) ^ action_cause(?w2,?ac) ^ obj_to_be_spilled(?w1,?ac) ^ has_sense(?w1, ?s1) ^ is_a(?s1, +?c1)  ^ has_sense(?w2, ?s2) ^ is_a(?s2, +?c2) ^ ?w1 =/= ?w2 
+0 action_core(?w3,?ac) ^ action_verb(?w1,?ac) ^ obj_to_be_spilled(?w2,?ac) ^ has_sense(?w1, ?s1) ^ is_a(?s1, +?c1)  ^ has_sense(?w2, ?s2) ^ is_a(?s2, +?c2) ^ ?w1 =/= ?w2 
+0 action_core(?w3,?ac) ^ action_verb(?w2,?ac) ^ obj_to_be_spilled(?w1,?ac) ^ has_sense(?w1, ?s1) ^ is_a(?s1, +?c1)  ^ has_sense(?w2, ?s2) ^ is_a(?s2, +?c2) ^ ?w1 =/= ?w2 
 0 action_core(?w3,?ac) ^ obj_to_be_spilled(?w1,?ac) ^ obj_to_be_spilled(?w2,?ac) ^ has_sense(?w1, ?s1) ^ is_a(?s1, +?c1)  ^ has_sense(?w2, ?s2) ^ is_a(?s2, +?c2) ^ ?w1 =/= ?w2 
-0 action_core(?w3,?ac) ^ action_cause(?w1,?ac) ^ action_cause(?w2,?ac) ^ has_sense(?w1, ?s1) ^ is_a(?s1, +?c1)  ^ has_sense(?w2, ?s2) ^ is_a(?s2, +?c2) ^ ?w1 =/= ?w2 
-0 action_core(?w3,?ac) ^ action_cause(?w1,?ac) ^ goal(?w2,?ac) ^ has_sense(?w1, ?s1) ^ is_a(?s1, +?c1)  ^ has_sense(?w2, ?s2) ^ is_a(?s2, +?c2) ^ ?w1 =/= ?w2 
+0 action_core(?w3,?ac) ^ action_verb(?w1,?ac) ^ action_verb(?w2,?ac) ^ has_sense(?w1, ?s1) ^ is_a(?s1, +?c1)  ^ has_sense(?w2, ?s2) ^ is_a(?s2, +?c2) ^ ?w1 =/= ?w2 
+0 action_core(?w3,?ac) ^ action_verb(?w1,?ac) ^ goal(?w2,?ac) ^ has_sense(?w1, ?s1) ^ is_a(?s1, +?c1)  ^ has_sense(?w2, ?s2) ^ is_a(?s2, +?c2) ^ ?w1 =/= ?w2 
 0 action_core(?w3,?ac) ^ goal(?w2,?ac) ^ obj_to_be_spilled(?w1,?ac) ^ has_sense(?w1, ?s1) ^ is_a(?s1, +?c1)  ^ has_sense(?w2, ?s2) ^ is_a(?s2, +?c2) ^ ?w1 =/= ?w2 
 0 action_core(?w3,?ac) ^ goal(?w1,?ac) ^ obj_to_be_spilled(?w2,?ac) ^ has_sense(?w1, ?s1) ^ is_a(?s1, +?c1)  ^ has_sense(?w2, ?s2) ^ is_a(?s2, +?c2) ^ ?w1 =/= ?w2 
-0 action_core(?w3,?ac) ^ goal(?w1,?ac) ^ action_cause(?w2,?ac) ^ has_sense(?w1, ?s1) ^ is_a(?s1, +?c1)  ^ has_sense(?w2, ?s2) ^ is_a(?s2, +?c2) ^ ?w1 =/= ?w2 
+0 action_core(?w3,?ac) ^ goal(?w1,?ac) ^ action_verb(?w2,?ac) ^ has_sense(?w1, ?s1) ^ is_a(?s1, +?c1)  ^ has_sense(?w2, ?s2) ^ is_a(?s2, +?c2) ^ ?w1 =/= ?w2 
 0 action_core(?w3,?ac) ^ goal(?w1,?ac) ^ goal(?w2,?ac) ^ has_sense(?w1, ?s1) ^ is_a(?s1, +?c1)  ^ has_sense(?w2, ?s2) ^ is_a(?s2, +?c2) ^ ?w1 =/= ?w2 
 0 action_core(?w3,?ac) ^ amount(?w1,?ac) ^ obj_to_be_spilled(?w2,?ac) ^ has_sense(?w1, ?s1) ^ is_a(?s1, +?c1)  ^ has_sense(?w2, ?s2) ^ is_a(?s2, +?c2) ^ ?w1 =/= ?w2 
-0 action_core(?w3,?ac) ^ action_cause(?w2,?ac) ^ amount(?w1,?ac) ^ has_sense(?w1, ?s1) ^ is_a(?s1, +?c1)  ^ has_sense(?w2, ?s2) ^ is_a(?s2, +?c2) ^ ?w1 =/= ?w2 
+0 action_core(?w3,?ac) ^ action_verb(?w2,?ac) ^ amount(?w1,?ac) ^ has_sense(?w1, ?s1) ^ is_a(?s1, +?c1)  ^ has_sense(?w2, ?s2) ^ is_a(?s2, +?c2) ^ ?w1 =/= ?w2 
 0 action_core(?w3,?ac) ^ obj_to_be_spilled(?w1,?ac) ^ amount(?w2,?ac) ^ has_sense(?w1, ?s1) ^ is_a(?s1, +?c1)  ^ has_sense(?w2, ?s2) ^ is_a(?s2, +?c2) ^ ?w1 =/= ?w2 
 0 action_core(?w3,?ac) ^ amount(?w1,?ac) ^ obj_to_be_spilled(?w2,?ac) ^ has_sense(?w1, ?s1) ^ is_a(?s1, +?c1)  ^ has_sense(?w2, ?s2) ^ is_a(?s2, +?c2) ^ ?w1 =/= ?w2 
 0 action_core(?w3,?ac) ^ amount(?w1,?ac) ^ amount(?w2,?ac) ^ has_sense(?w1, ?s1) ^ is_a(?s1, +?c1)  ^ has_sense(?w2, ?s2) ^ is_a(?s2, +?c2) ^ ?w1 =/= ?w2 

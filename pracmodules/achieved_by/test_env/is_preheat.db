@@ -1,5 +1,5 @@
 1.00  action_core(preheat,Preheating)
-1.00  action_cause(preheat,Preheating)
+1.00  action_verb(preheat,Preheating)
 1.00  temperature_setting(degrees,350,Preheating)
 1.00  obj_to_be_heated(oven,Preheating)
 1.00  has_pos(preheat, VB)
@@ -18,7 +18,7 @@
 1.00  achieved_by(preheat,TurningOnElectricalDevice)
 ---
 1.00  action_core(preheat,Preheating)
-1.00  action_cause(preheat,Preheating)
+1.00  action_verb(preheat,Preheating)
 1.00  obj_to_be_heated(oven,Preheating)
 1.00  has_pos(preheat, VB)
 1.00  has_pos(oven, NN)
@@ -30,7 +30,7 @@
 ---
 1.00  action_core(preheat,Preheating)
 
-1.00  action_cause(preheat,Preheating)
+1.00  action_verb(preheat,Preheating)
 1.00  obj_to_be_heated(pan,Preheating)
 1.00  has_pos(preheat, VB)
 1.00  has_pos(pan, NN)
@@ -42,7 +42,7 @@
 ---
 1.00  action_core(preheat,Preheating)
 
-1.00  action_cause(preheat,Preheating)
+1.00  action_verb(preheat,Preheating)
 1.00  obj_to_be_heated(barbecue,Preheating)
 1.00  has_pos(preheat, VB)
 1.00  has_pos(barbecue, NN)
