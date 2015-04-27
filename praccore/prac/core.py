@@ -24,7 +24,7 @@
 import os
 import sys
 from prac.wordnet import WordNet
-from mln.database import Database, readDBFromString
+from mln.database import Database, readDBFromString, readDBFromFile
 from mln.mln import readMLNFromString, MLN
 from mln.util import mergeDomains
 
@@ -44,6 +44,7 @@ import fnmatch
 from mln import readMLNFromFile
 import yaml
 from praclog import logging
+from utils import colorize
 
 
 
@@ -442,6 +443,7 @@ class PRACModule(object):
         f = open(os.path.join(prac_module_path, self.name, 'bin', binaryFileName), 'w+')
         pickle.dump(prac_mt, f)
         f.close()
+
     
     @PRACPIPE
     def infer(self, pracinference):

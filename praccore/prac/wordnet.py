@@ -28,12 +28,21 @@ import logging
 from itertools import chain
 from nltk.corpus.reader.wordnet import Synset
 from utils.graphml import Graph, Node as GMLNode, Edge
+import itertools
 import os
+from scipy import spatial
+import properties # contains similarity dictionaries for colors, shapes, sizes, consistencies and dimensions
 
 PRAC_HOME = os.environ['PRAC_HOME']
 nltk.data.path = [os.path.join(PRAC_HOME, 'data', 'nltk_data')]
 
 NLTK_POS = ['n', 'v', 'a', 'r']
+
+colorsims = {}
+shapesims = {}
+sizesims = {}
+consistencysims = {}
+dimensionsims = {}
 
 known_concepts = ['soup.n.01', 
                   'milk.n.01', 
@@ -46,10 +55,6 @@ known_concepts = ['soup.n.01',
                   'bowl.n.04',
                   'spoon.n.01',
                   'spoon.n.02',
-#                   'sugar.n.01',
-                  'fill.v.01',
-                  'add.v.01',
-                  'add.v.04',
                   'one.n.01',
                   'two.n.01',
                   'three.n.01',
@@ -59,9 +64,8 @@ known_concepts = ['soup.n.01',
                   'seven.n.01',
                   'eight.n.01',
                   'nine.n.01',
-#                   'fruit_juice.n.01',
-#                   'juice.n.03'
                   ]
+
 
 class WordNet(object):
     '''
@@ -75,6 +79,50 @@ class WordNet(object):
         self.core_taxonomy = None
         if concepts is not None:
             self.initialize_taxonomy(concepts)
+            self.initialize_csimilarities(colorsims, properties.chrcolorspecs, properties.achrcolorspecs)
+            self.initialize_similarities(shapesims, properties.shapespecs)
+            self.initialize_similarities(sizesims, properties.sizespecs)
+            # self.initialize_similarities(consistencysims, properties.consistencyspecs)
+            # self.initialize_similarities(dimensionsims, properties.dimensionspecs)
+
+
+    def initialize_similarities(self, simdct, specs):
+        # calculate euclidean distance between HSV values
+        maxDist = 0.
+        for k in specs.keys():
+            simdct[k] = {}
+            for c in specs.keys():
+                simdct[k][c] = spatial.distance.euclidean(specs[k],specs[c])
+                maxDist = max(maxDist,simdct[k][c])
+
+        # normalize
+        for x in simdct:
+            for y in simdct:
+                simdct[x][y] = 1-(simdct[x][y]/maxDist)
+
+    def initialize_csimilarities(self, colorsims, specs, achrspecs):
+        maxDist = 0.
+        tempDict = dict(specs.items() + achrspecs.items())
+        for k in tempDict.keys():
+            colorsims[k] = {}
+            for c in tempDict.keys():
+                if k == c: # same color
+                    colorsims[k][c] = 0.0
+                elif not (k in specs and c in specs) and not (k in achrspecs and c in achrspecs): # one chromatic, one achromatic
+                    colorsims[k][c] = 130.
+                elif abs(tempDict[k][0] - tempDict[c][0]) > 180: # colors on different halves of the hue-circle
+                    a = [(tempDict[k][0]+180)%360,tempDict[k][1],tempDict[k][2]]
+                    b = [(tempDict[c][0]+180)%360,tempDict[c][1],tempDict[c][2]]
+                    colorsims[k][c] = spatial.distance.euclidean(a,b)
+                else:
+                    colorsims[k][c] = spatial.distance.euclidean(tempDict[k],tempDict[c])
+                maxDist = max(maxDist,colorsims[k][c])
+
+        # normalize
+        for x in colorsims:
+            for y in colorsims:
+                temp = 1-(colorsims[x][y]/maxDist)
+                colorsims[x][y] = temp
 
             
     def initialize_taxonomy(self, concepts=None, collapse=True):
@@ -274,6 +322,157 @@ class WordNet(object):
         except ValueError:
             return []
     
+
+    # returns generator of 1-dimensional list
+    def flatten(self, iterable):
+        iterable = iter(iterable)
+
+        while 1:
+            try:
+                item = iterable.next()
+            except StopIteration:
+                break
+
+            try:
+                data = iter(item)
+                iterable = itertools.chain(data, iterable)
+            except:
+                yield item
+
+    # gets the synsets of the derivationally related forms of adjSynsets' Lemmas
+    # flattens the list to get one-dimensional list without duplicates as result
+    def unpackNoun(self, adjSynset):
+        return list(set(self.flatten([drf.synset for drf in self.flatten([lemma.derivationally_related_forms() for lemma in adjSynset.lemmas])])))
+
+
+    def similarity(self, synset1, synset2):
+        '''
+        Returns a custom semantic similarity for adjectives
+
+        Note: the original wordnet similarity between an adjective and another
+        object is always None. To be able to supply information
+        about the similarity of adjectives, the derivationally 
+        related forms (= nltk.corpus.reader.wordnet.Lemma)
+        of the respecting Lemmas are retrieved. 
+        The synsets of the resulting list of Lemmas have generally
+        NLTK_POS 'n', and can therefore be used for a modified WUP 
+        similarity, which adds a penalizing factor for inferring 
+        another synset from adjectives.
+        '''
+        log = logging.getLogger(__name__)
+
+        ADJ_POS = ['s','a']
+        posDiff = 0.
+
+	if type(synset1) is str:
+            synset1 = self.synset(synset1)
+        if type(synset2) is str:
+            synset2 = self.synset(synset2)
+        if synset1 is None or synset2 is None:
+            return 0.
+        if synset1 == synset2:
+            return 1.0
+
+        # separate check for color similarity
+        if synset1.name in colorsims and synset2.name in colorsims:
+            return colorsims[synset1.name][synset2.name]
+        elif synset1.name in colorsims or synset2.name in colorsims: # colors are maximially dissimilar to everything else
+            return 0.
+
+        # separate check for shape similarity
+        if synset1.name in shapesims and synset2.name in shapesims:
+            return shapesims[synset1.name][synset2.name]
+        elif synset1.name in shapesims or synset2.name in shapesims: # shapes are maximially dissimilar to everything else
+            return 0.
+
+        # separate check for size similarity
+        if synset1.name in sizesims and synset2.name in sizesims:
+            return sizesims[synset1.name][synset2.name]
+        elif synset1.name in sizesims or synset2.name in sizesims: # sizes are maximially dissimilar to everything else
+            return 0.    
+
+        # separate check for consistency similarity
+        if synset1.name in consistencysims and synset2.name in consistencysims:
+            return consistencysims[synset1.name][synset2.name]
+        elif synset1.name in consistencysims or synset2.name in consistencysims: # consistencies are maximially dissimilar to everything else
+            return 0.    
+
+        # separate check for dimension similarity
+        if synset1.name in dimensionsims and synset2.name in dimensionsims:
+            return dimensionsims[synset1.name][synset2.name]
+        elif synset1.name in dimensionsims or synset2.name in dimensionsims: # dimensions are maximially dissimilar to everything else
+            return 0.  
+
+        
+        if synset1.pos in ADJ_POS:
+            syns1 = self.unpackNoun(synset1)
+            if len(syns1) == 0: return 0.
+            synset1 = syns1[0]
+            posDiff += .5
+        if synset2.pos in ADJ_POS:
+            syns2 = self.unpackNoun(synset2)
+            if len(syns2) == 0: return 0.
+            synset2 = syns2[0]
+            posDiff += .5
+        if synset1 is None or synset2 is None:
+            return 0.
+        if synset1 == synset2:
+            return 1.0              
+
+        # additional knowledge: if one synset is in the hypernym path of the other, they are considered
+        # closely related
+        if self.synsHypRelation(synset1, synset2) > 0.: #return self.synsHypRelation(synset1, synset2)
+            return self.synsHypRelation(synset1,synset2)
+            # return self.synsHypRelation(synset1,synset2)
+
+        # add additional knowledge: decrease similarity of synsets from different taxonomy branches
+        # if not synsInPreDefTaxonomyBranch(synset1, synset2): posDiff += .5
+        posDiff += 1 - self.synsTaxonomyBranchRelation(synset1, synset2)
+        return self.wup(synset1,synset2,posDiff)
+
+    def wup(self, synset1, synset2, posDiff=0.):
+        # equates WUP Similarity: 2 * depth(lowestCommonHypernym) / depth(synset1) + depth(synset2) because:
+        # depth(X) == X.max_depth() + 1
+        # posDiff is used to decrease the similarity if one of the synsets is an adjective, to punish
+        # inferring another synset which is used for similarity check
+        lcss = synset1.lowest_common_hypernyms(synset2)
+        if len(lcss) == 0: return 0.
+        lcs = lcss[0]
+        dlcs = lcs.max_depth() + 1
+        ds1 = synset1.shortest_path_distance(lcs)
+        ds2 = synset2.shortest_path_distance(lcs)
+        if ds1 == None or ds2 == None: return 0.
+        ds1 += dlcs
+        ds2 += dlcs
+
+        return 2. * dlcs / (ds1 + ds2 + posDiff)
+
+
+    def synsTaxonomyBranchRelation(self, synset1, synset2):
+	if not synset1.lowest_common_hypernyms(synset2): return 0
+        return min([x.min_depth() for x in synset1.lowest_common_hypernyms(synset2)]) / max(synset1.min_depth(), synset2.min_depth())
+
+    def synsHypRelation(self, syn1, syn2):
+        lch = syn1.lowest_common_hypernyms(syn2)    
+        if not syn1 in lch and not syn2 in lch: return 0.
+        if not any(syn2 in path for path in syn1.hypernym_paths()):
+            syn1Len = min([float(len(x)) for x in syn1.hypernym_paths()])
+        else:
+            for path in syn1.hypernym_paths():
+                if not syn2 in path: continue
+                else:
+                    syn1Len = float(len(path))
+        if not any(syn1 in path for path in syn2.hypernym_paths()):
+            syn2Len = min([float(len(x)) for x in syn2.hypernym_paths()])
+        else:
+            for path in syn2.hypernym_paths():
+                if not syn1 in path: continue
+                else:
+                    syn2Len = float(len(path))
+
+        return 1. - (abs(syn1Len - syn2Len) / max(syn1Len, syn2Len))
+
+
     def semilarity(self, synset1, synset2):
         '''
         Returns the our custom semantic similarity by Daniel Nyga and Dominik
@@ -386,12 +585,6 @@ class WordNet(object):
         
 
 if __name__ == '__main__':
-#     known_concepts = ['milk.n.01', 'bowl.n.01', 'bowl.n.04', 'cup.n.01', ]
-#     unknown_concepts = ['mug.n.04', 'glass.n.02', 'tea.n.01', 'milk.n.01', 'cup.n.02']
-    logging.getLogger().setLevel(logging.INFO)
+
     wn = WordNet()
-    wn.asGraphML().write(file('/home/nyga/tmp/wordnet.graphml', 'w+'))
-#     wn.get_mln_similarity_and_sense_assertions(known_concepts, unknown_concepts)
     
-#     print 'semil: %.3f' % wn.semilarity(c1, c2)
-#     print 'wup:   %.3f' % wn.wup_similarity(c1, c2)

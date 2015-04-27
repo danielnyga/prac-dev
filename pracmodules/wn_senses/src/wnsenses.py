@@ -37,11 +37,15 @@ from utils import colorize
 # mapping from PennTreebank POS tags to NLTK POS Tags
 nounTags = ['NN', 'NNS', 'NNP', 'CD']
 verbTags = ['VB', 'VBG', 'VBZ', 'VBD', 'VBN', 'VBP', 'MD']
+adjTags = ['JJ', 'JJR', 'JJS']
 posMap = {}
 for n in nounTags:
     posMap[n] = 'n'
 for v in verbTags:
     posMap[v] = 'v'
+for a in adjTags:
+    posMap[a] = 'a'
+
 
 class WNSenses(PRACModule):
     '''
@@ -89,11 +93,13 @@ class WNSenses(PRACModule):
             if pos is None: # if no possible sense can be determined by WordNet, assert null
                 db_.addGroundAtom('has_sense(%s,null)' % word_const)
                 continue
-            word = word_const.split('-')[0]
+            word = '-'.join(word_const.split('-')[:-1])# extract everything except the number (e.g. compound words like heart-shaped from heart-shaped-4)
             for i, synset in enumerate(wordnet.synsets(word, pos)):
                 sense_id = synset.name#'%s-%.2d' % (word_const, i+1)
                 word2senses[word_const].append(sense_id)
                 for concept in concepts:
+                    sim = wordnet.similarity(synset,concept)
+#                     db_.addGroundAtom('is_a(%s,%s)' % (sense_id, concept), sim) 
 #                     sim = wordnet.semilarity(synset, concept)
                     sim = wordnet.path_similarity(synset, concept)
                     db_.addGroundAtom('is_a(%s,%s)' % (sense_id, concept),sim)
@@ -101,7 +107,8 @@ class WNSenses(PRACModule):
             for word2, senses in word2senses.iteritems():
                 if word2 == word: continue
                 else: 
-                    for s in senses: db_.addGroundAtom('!has_sense(%s,%s)' % (word, s))
+                    for s in senses: 
+                        db_.addGroundAtom('!has_sense(%s,%s)' % (word, s))
             db_.addGroundAtom('!has_sense(%s,null)' % (word))
 #         for c in concepts:
 #             db_.addGroundAtom('!is_a(null,%s)' % c)
@@ -133,10 +140,49 @@ class WNSenses(PRACModule):
             sense_id = synset.name.lower().rsplit('.', 2)[0]
             for c2 in concepts:
                 synset2 = self.wordnet.synset(c2)
-#                 db.addGroundAtom('is_a(%s-sense, %s)' % (sense_id, synset2.name), self.wordnet.wup_similarity(synset, synset2))
-                db.addGroundAtom('is_a(%s, %s)' % (synset.name, synset2.name), self.wordnet.wup_similarity(synset, synset2))
+                db.addGroundAtom('is_a(%s, %s)' % (synset.name, synset2.name), self.wordnet.similarity(synset, synset2))
         return db
-            
+
+    def add_similarities(self, db, domains, propsFound):
+        '''
+        For each property found in the evidence, we add one atom for each property of the same
+        domain that can be found in the model. The degree of truth of the new atom is the similarity
+        between the two properties (= wordnet concepts). This enables us to use previously unknown 
+        concepts.
+
+        Example: 
+        If the evidence contains
+
+        ``color(c, orange.s.01)'',
+
+        the atoms 
+
+        ``0.9 color(c, yellow.s.01)''
+        ``0.95 color(c, red.s.01)''
+        
+        are added if yellow.s.01 and red.s.01 are in the color domain.
+
+        '''
+        db = db.duplicate()
+        cluster = propsFound.pop('cluster', 'cluster')
+        for prop in propsFound:
+            for propFoundVal in propsFound[prop]:
+                if prop in domains:
+                    for domVal in domains[prop]:
+                        if domVal not in propsFound[prop]:
+                            if domVal not in [item for sublist in propsFound.values() for item in sublist]:
+                                synset1 = self.wordnet.synset(propFoundVal)
+                                synset2 = self.wordnet.synset(domVal)
+                                sim = self.wordnet.similarity(synset1, synset2)
+                                if prop == 'hasa' or prop == 'hypernym':
+                                    if sim < .85: continue
+                                    db.addGroundAtom('{}({}, {})'.format(prop, cluster, domVal), sim)
+                                else:
+                                    if sim < .6: continue
+                                    db.addGroundAtom('{}({}, {})'.format(prop, cluster, domVal), sim)
+        return db
+
+           
     def printWordSenses(self, synsets, tick):
         '''
         Prints the list of synsets or synset ids and ticks the one specified by the given index.
@@ -164,9 +210,12 @@ class WNSenses(PRACModule):
         for q in db.query('has_sense(%s, ?s) ^ has_pos(%s, ?pos)' % (word, word)):
             s = q['?s']
             pos = q['?pos']
+            print pos
             pos = posMap.get(pos, None)
             if pos is None: continue
-            word = word.split('-')[0]
+            # make sure that words like bowl-shaped are left untouched
+            # bowl-shaped-5 should become bowl-shaped and not bowl
+            word = '-'.join(word.split('-')[:-1])
             return self.prac.wordnet.synsets(word, pos)
         return None
     
@@ -181,7 +230,8 @@ class WNSenses(PRACModule):
                 sense = q['?s']
                 concept = q['?c']
                 for c in full_domain['concept']:
-                    sim = wordnet.wup_similarity(c, concept)
+                    #sim = wordnet.wup_similarity(c, concept)
+                    sim = wordnet.similarity(c, concept)
                     db_.addGroundAtom('is_a(%s,%s)' % (sense, c), sim)
             yield db_
             

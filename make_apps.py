@@ -10,7 +10,7 @@ BOLD = (None, None, True)
 
 if not os.path.exists(appfolder):
     os.mkdir(appfolder)
-for app in ("pracinfer", "praclearn", 'pracparse', 'senses', 'pracserver'):
+for app in ("pracinfer", "praclearn", 'pracparse', 'senses', 'pracserver', 'pracobjrec','pracxfold'):
     filepath = os.path.join(appfolder, app)
     f = file(filepath, "w+")
     f.write("#!/bin/sh\n")
@@ -19,6 +19,22 @@ for app in ("pracinfer", "praclearn", 'pracparse', 'senses', 'pracserver'):
     f.close()
     print '\t Wrote app %s' % colorize(app, BOLD, True)
     os.system("chmod a+x %s" % filepath)
+
+# write pracGUI app
+fp = os.path.join(appfolder, 'pracGUI')
+f = file(fp, "w+")
+f.write("#!/bin/sh\n")
+f.write('cd %s/%s\n' % (home,'pracGUI'))
+# f.write("python %s \"$@\"\n" % os.path.join(home, "pracGUI", "runPrac.py"))
+f.write("python %s \"$@\"\n" % os.path.join(home, "pracGUI", "runPrac.py"))
+f.close()
+print '\t Wrote app %s' % colorize('pracGUI', BOLD, True)
+os.system("chmod a+x %s" % fp)
+
+
+
+
+
 
 # filepath = os.path.join(appfolder, "knowrob")
 # f = file(filepath, "w+")
@@ -41,13 +57,15 @@ print '\t Building %s...' % colorize('pracviz', BOLD, True)
 cmd = 'PYJSPATH=$PYJSPATH:../../praccore/src %s --output=%s pracviz.py' % (os.path.join('..', '..', '3rdparty', 'pyjs', 'bin', 'pyjsbuild'), 
                                                                            os.path.join('output'))
 print cmd
-Popen(cmd, cwd=os.path.join('pracviz', 'src'), shell=True).wait()
+#Popen(cmd, cwd=os.path.join('pracviz', 'src'), shell=True).wait()
 
 
 
 f = file("env.sh", "w+")
 f.write("#!/bin/sh\n")
-f.write("export PYTHONPATH=%s\n" % os.path.pathsep.join(["$PYTHONPATH", os.path.join(home, "praccore"), 
+f.write("export PYTHONPATH=%s\n" % os.path.pathsep.join(["$PYTHONPATH", 
+                                                        os.path.join(home, "praccore"), 
+                                                        os.path.join(home, "pracGUI"), 
                                                         os.path.join(home, "semcore_annotation_tool", "src"), 
                                                         os.path.join('3rdparty', 'webpy_jsonrpc'),
                                                         os.path.join('3rdparty', 'dill-0.2b1'),
