@@ -38,6 +38,8 @@ qx.Class.define("pracweb.Application",
      * 
      * @lint ignoreDeprecated(alert)
      */
+
+
     main : function()
     {
       // Call super class
@@ -56,27 +58,27 @@ qx.Class.define("pracweb.Application",
 
       // new container
       var container = new qx.ui.container.Composite(new qx.ui.layout.VBox(0)).set({
-        padding: 0,
+        minHeight: 700,
         allowShrinkX: false,
         allowShrinkY: false
       });
 
-      var splitPane = new qx.ui.splitpane.Pane("horizontal");
-      splitPane.setHeight(400);
+      var splitPane = new qx.ui.splitpane.Pane("horizontal").set({
+      minHeight: 600,
+      minWidth: 1000
+      });
 
       this.__pane = splitPane;
 
       // Create container with fixed dimensions for the left:
-      var left = new qx.ui.container.Composite(new qx.ui.layout.Grow).set({
-        width : 200,
-        height: 100,
+      var left = new qx.ui.container.Composite(new qx.ui.layout.Basic()).set({
+        minWidth : 300,
         decorator : "main"
       });
 
       // Create container for the right:
       var right = new qx.ui.container.Composite(new qx.ui.layout.VBox(10)).set({
         padding : 10,
-        maxWidth : 450,
         decorator : "main"
       });
 
@@ -86,24 +88,31 @@ qx.Class.define("pracweb.Application",
       left.add(form);
 
       // Right
-      var vizEmbedGrp = new qx.ui.groupbox.GroupBox("Visualization", "icon/16/apps/utilities-text-editor.png");
+      var vizEmbedGrp = new qx.ui.groupbox.GroupBox("Visualization");
 
-      var vizLayout = new qx.ui.layout.HBox(0);
+      var vizLayout = new qx.ui.layout.VBox(10);
       vizEmbedGrp.setLayout(vizLayout);
+      vizEmbedGrp.setMinHeight(600);
 
       var vizHTML = "<div id='viz'></div>";
       var vizEmbed = new qx.ui.embed.Html(vizHTML);
-      vizEmbedGrp.add(vizEmbedGrp);
       var playButton = new qx.ui.form.Button("Play");
       playButton.addListener();
       var fwdButton = new qx.ui.form.Button("Next");
       var clearButton = new qx.ui.form.Button("Clear");
 
+      var buttonGrp = new qx.ui.groupbox.GroupBox("");
+      var buttonGrpLayout = new qx.ui.layout.HBox(20);
+      buttonGrp.setLayout(buttonGrpLayout);
+
+      buttonGrp.add(playButton);
+      buttonGrp.add(fwdButton);
+      buttonGrp.add(clearButton);
+      
+      vizEmbedGrp.add(buttonGrp);
+      vizEmbedGrp.add(vizEmbed);
 
       right.add(vizEmbedGrp);
-      right.add(playButton);
-      right.add(fwdButton);
-      right.add(clearButton);
 
       this._left = left;
       this._right = right;
@@ -114,16 +123,26 @@ qx.Class.define("pracweb.Application",
       var mainPane = this.buildMainPane();
       this._mainPane = mainPane;
 
-      container.add(splitPane, { height : "85%" });
+      container.add(splitPane, { height : "90%" });
       container.add(mainPane);
 
       // add container to content div
       contentIsle.add(container);
     },
 
+
+    pracGraph : function() {
+      var nodes = [];
+
+      this.addNode = function (id) {
+        nodes.push({"id":id});
+        update();
+      };
+    },
+
     buildMainPane : function()
     {
-      var mainGroup = new qx.ui.groupbox.GroupBox("PRAC Inference", "icon/16/apps/utilities-text-editor.png");
+      var mainGroup = new qx.ui.groupbox.GroupBox("PRAC Inference");
 
       var mainLayout = new qx.ui.layout.HBox(20);
       mainGroup.setLayout(mainLayout);
@@ -135,12 +154,25 @@ qx.Class.define("pracweb.Application",
       expSettings.setValue(false);
       var stepInf = new qx.ui.form.CheckBox("Step-by-step inference");
       var vizButton = new qx.ui.form.Button("Play");
+      var nextButton = new qx.ui.form.Button("Next");
+
+      var steps = { 0:[{'source':'A', 'target': 'B', 'value': 'object', 'arcStyle':'arrow'},
+                      {'source':'B', 'target': 'C', 'value': 'object', 'arcStyle':'arrow'}
+                      ], 
+                    1:[{'source':'A', 'target': 'B', 'value': 'object', 'arcStyle':'arrow'},
+                      {'source':'C', 'target': 'D', 'value': 'object', 'arcStyle':'arrow'},
+                      {'source':'D', 'target': 'E', 'value': 'object', 'arcStyle':'arrow'}
+                    ]};
+
+      var data = [];
+      var links = [];
 
       mainGroup.add(new qx.ui.basic.Label("Description"));
       mainGroup.add(description);
       mainGroup.add(expSettings);
       mainGroup.add(stepInf);
       mainGroup.add(vizButton);
+      mainGroup.add(nextButton);
 
       return mainGroup;
     },
@@ -148,7 +180,7 @@ qx.Class.define("pracweb.Application",
     buildForm : function()
     {
       // build form
-      var group = new qx.ui.groupbox.GroupBox("Expert Settings", "icon/16/apps/utilities-text-editor.png");
+      var group = new qx.ui.groupbox.GroupBox("Expert Settings");
       var grouplayout = new qx.ui.layout.HBox();
       group.setLayout(grouplayout);
       var formLayout = new qx.ui.layout.Grid();
@@ -207,7 +239,7 @@ qx.Class.define("pracweb.Application",
       mlnGroup.setLayout(mlnLayout);
       mlnGroup.add(mlnFile);
       mlnGroup.add(uploadMLNFile);
-      formgroup.add(mlnGroup, {row: 3, column: 2});
+      formgroup.add(mlnGroup, {row: 4, column: 1});
       formgroup.add(mln, {row: 5, column: 1});
 
       formgroup.add(new qx.ui.basic.Label("Evidence"), {row: 6, column: 0});
