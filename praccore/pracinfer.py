@@ -64,7 +64,7 @@ if __name__ == '__main__':
     else: # regular PRAC pipeline
         # get the action cores activated
         actionCore = prac.getModuleByName('ac_recognition')
-        prac.run(infer,actionCore,kb=actionCore.load_pracmt('cooking_ac_pizza'))
+        prac.run(infer,actionCore,kb=actionCore.load_pracmt('cooking_ac'))
         
         # assign the roles to the words
         actionRoles = prac.getModuleByName('senses_and_roles')
