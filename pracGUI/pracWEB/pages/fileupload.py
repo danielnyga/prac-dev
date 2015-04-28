@@ -1,5 +1,5 @@
 import os
-from flask import request, send_from_directory, jsonify
+from flask import request, send_from_directory, jsonify, redirect
 from werkzeug import secure_filename
 from pracWEB.pracinit import pracApp
 from pracWEB.pages.utils import FILEDIRS, initFileStorage
@@ -9,6 +9,10 @@ def uploaded_file(filedir, filename):
     if not 'UPLOAD_FOLDER' in pracApp.app.config:
         initFileStorage()
     return send_from_directory(os.path.join(pracApp.app.config['UPLOAD_FOLDER'], filedir), filename)
+
+@pracApp.app.route('/prac/resource/<path:filename>')
+def resource_file(filename):
+    return redirect('/prac/static/resource/{}'.format(filename)) 
 
 
 def allowed_file(filename):
