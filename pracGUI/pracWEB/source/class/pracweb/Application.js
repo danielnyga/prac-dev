@@ -43,6 +43,8 @@ qx.Class.define("pracweb.Application",
       // Call super class
       this.base(arguments);
 
+	  var that = this;
+	  
       // Enable logging in debug variant
       if (qx.core.Environment.get("qx.debug"))
       {
@@ -53,39 +55,34 @@ qx.Class.define("pracweb.Application",
       }
 
       var contentIsle = new qx.ui.root.Inline(document.getElementById("container", true, true));
-
+      contentIsle.setWidth(window.innerWidth);
+      contentIsle.setHeight(window.innerHeight);
+      window.addEventListener("resize", function() {
+      	contentIsle.setWidth(window.innerWidth);
+      	contentIsle.setHeight(window.innerHeight);
+      });
+      contentIsle.setLayout(new qx.ui.layout.Grow());
+	
+	
       // new container
-      var container = new qx.ui.container.Composite(new qx.ui.layout.VBox(0)).set({
-        padding: 0,
-        allowShrinkX: false,
-        allowShrinkY: false
+      var container = new qx.ui.container.Composite(new qx.ui.layout.VBox()).set({
+        padding: 0
       });
 
       var splitPane = new qx.ui.splitpane.Pane("horizontal");
-      splitPane.setHeight(400);
 
       this.__pane = splitPane;
 
       // Create container with fixed dimensions for the left:
-      var left = new qx.ui.container.Composite(new qx.ui.layout.Grow).set({
-        width : 200,
-        height: 100,
-        decorator : "main"
-      });
-
+      var left = new qx.ui.container.Composite(new qx.ui.layout.VBox());
       // Create container for the right:
-      var right = new qx.ui.container.Composite(new qx.ui.layout.VBox(10)).set({
-        padding : 10,
-        maxWidth : 450,
-        decorator : "main"
-      });
+      var right = new qx.ui.container.Composite(new qx.ui.layout.VBox());
 
 
-      // Left
-      var form = this.buildForm();
+      // // Left
+	  var form = this.buildForm();
       left.add(form);
-
-      // Right
+	  // Right
       var vizEmbedGrp = new qx.ui.groupbox.GroupBox("Visualization", "icon/16/apps/utilities-text-editor.png");
 
       var vizLayout = new qx.ui.layout.HBox(0);
@@ -95,7 +92,10 @@ qx.Class.define("pracweb.Application",
       var vizEmbed = new qx.ui.embed.Html(vizHTML);
       vizEmbedGrp.add(vizEmbedGrp);
       var playButton = new qx.ui.form.Button("Play");
-      playButton.addListener();
+      playButton.addListener("execute", function() { 
+			var req = that._build_inference_step_request();
+			req.send();
+      });
       var fwdButton = new qx.ui.form.Button("Next");
       var clearButton = new qx.ui.form.Button("Clear");
 
@@ -103,8 +103,9 @@ qx.Class.define("pracweb.Application",
       right.add(vizEmbedGrp);
       right.add(playButton);
       right.add(fwdButton);
-      right.add(clearButton);
-
+  
+	   right.add(clearButton);
+	
       this._left = left;
       this._right = right;
 
@@ -114,7 +115,7 @@ qx.Class.define("pracweb.Application",
       var mainPane = this.buildMainPane();
       this._mainPane = mainPane;
 
-      container.add(splitPane, { height : "85%" });
+      container.add(splitPane, {flex: 1}); //, { height : "auto" }
       container.add(mainPane);
 
       // add container to content div
@@ -143,6 +144,27 @@ qx.Class.define("pracweb.Application",
       mainGroup.add(vizButton);
 
       return mainGroup;
+    },
+
+    _build_inference_step_request : function() {
+    	req = new qx.io.request.Xhr(); 
+		req.setUrl("/_inference_step");
+		req.setMethod("GET");
+		req.setRequestData({'argument': 'hello'});
+		var that = this;
+		req.addListener("success", function(e) {
+			var tar = e.getTarget();								
+			response = tar.getResponse();
+			console.log(response);
+			if (response == "finish")
+				return;
+			else {
+				console.log("sending new request");
+				var req = that._build_inference_step_request();
+				req.send();
+			}
+		});
+		return req;
     },
 
     buildForm : function()
