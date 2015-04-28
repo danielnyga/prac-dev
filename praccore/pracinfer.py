@@ -53,32 +53,18 @@ if __name__ == '__main__':
     infer = PRACInference(prac, sentences)
 #     actionCore.insertdbs(infer, *readDBFromString(prac.mln, dbs))
     
-    # in case we have natural-language parameters, parse them
-    if len(infer.instructions) > 0:
-        parser = prac.getModuleByName('nl_parsing')
-        prac.run(infer, parser)
-        
     if interactive: # use the GUI
+        # in case we have natural-language parameters, parse them
+        if len(infer.instructions) > 0:
+            parser = prac.getModuleByName('nl_parsing')
+            prac.run(infer, parser)
         gui = PRACQueryGUI(infer)
         gui.open()
     else: # regular PRAC pipeline
-        # get the action cores activated
-        actionCore = prac.getModuleByName('ac_recognition')
-        prac.run(infer,actionCore,kb=actionCore.load_pracmt('cooking_ac'))
-        
-        # assign the roles to the words
-        actionRoles = prac.getModuleByName('senses_and_roles')
-        prac.run(infer,actionRoles)
-#         
-        achievedBy = prac.getModuleByName('achieved_by')
-        rolesTransformation =  prac.getModuleByName('roles_transformation')
-        
-        prac.run(infer,achievedBy)
-        
-        #TODO need to add feature to determine how often these two modules have to be called
-        prac.run(infer,rolesTransformation)
-        prac.run(infer,achievedBy)
-        
+        while infer.next_module() != None :
+            module = prac.getModuleByName(infer.next_module())
+            prac.run(infer,module)
+    
     step = infer.inference_steps[-1]
     print
     print colorize('+========================+',  (None, 'green', True), True)
@@ -107,6 +93,7 @@ if __name__ == '__main__':
         if actionRoles != None :
             actionRoles.getRolesBasedOnCurrentAC(db).printEvidence()
         print '---'
+    
         
     
     

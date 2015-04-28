@@ -41,14 +41,15 @@ achievedByModulePath = os.path.join(PRAC_HOME, 'pracmodules', 'roles_transformat
 planListFilePath = os.path.join(achievedByModulePath,'plan_list.yaml')
 
 
+
 class RolesTransformation(PRACModule):
     '''
     
     '''
-    
+        
     def initialize(self):
-        pass
-    
+        self.isLastActionCoreAPlan = False
+        
     def shutdown(self):
         pass
     
@@ -98,5 +99,6 @@ class RolesTransformation(PRACModule):
                         r_db_.addGroundAtom("action_core("+actionverb+","+actioncore+")")
                         inf_step.output_dbs.append(r_db_)
                 else:
+                    self.isLastActionCoreAPlan = True
                     inf_step.output_dbs.extend(result_db)
         return inf_step

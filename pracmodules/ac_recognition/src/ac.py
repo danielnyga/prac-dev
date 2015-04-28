@@ -61,7 +61,7 @@ class ActionCoreIdentification(PRACModule):
         if params.get('kb', None) is None:
             # load the default arguments
             dbs = pracinference.inference_steps[-1].output_dbs
-            kb = self.load_pracmt('default')
+            kb = self.load_pracmt('cooking_ac')
             kb.dbs = dbs
         else:
             kb = params['kb']

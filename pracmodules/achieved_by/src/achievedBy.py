@@ -67,7 +67,7 @@ class AchievedBy(PRACModule):
         inf_step = PRACInferenceStep(pracinference, self)
         
         for db in dbs:
-            db_ = db.duplicate()
+            
             for q in db.query('action_core(?w,?ac)'):
                 #running = True
                 #This list is used to avoid an infinite loop during the achieved by inference.
@@ -75,6 +75,12 @@ class AchievedBy(PRACModule):
                 #Every pracmln should be used only once during the process because the evidence for the inference will always remain the same.
                 #So if the pracmln hadnt inferenced a plan in the first time, it will never do it.
                 
+                db_ = Database(db.mln)
+                #Need to remove possible achieved_by predicates from previous achieved_by inferences
+                for atom, truth in sorted(db.evidence.iteritems()):
+                    if 'achieved_by' in atom: continue
+                    db_.addGroundAtom(atom,truth)
+                    
                 wordnet = WordNet(concepts=None)
                 actionword = q['?w']
                 actioncore = q['?ac']
