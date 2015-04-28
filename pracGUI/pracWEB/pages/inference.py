@@ -12,10 +12,35 @@ from pracWEB.pages.utils import updateKBList, updateMLNList, updateEvidenceList,
 import os, sys
 import pickle
 import StringIO
+import logging
+from flask.globals import session
+import json
 
 INFMETHODS = [(InferenceMethods.byName(method),method) for method in InferenceMethods.name2value]
 
 
+@pracApp.app.route('/_pracinfer_step', methods=['POST', 'GET'])
+def _pracinfer_step():
+    log = logging.getLogger(__name__)
+    print pracApp.app.session_store
+    pracsession = pracApp.app.session_store[session]
+    prac = pracsession.prac
+    if request.method == 'POST':
+        data = json.loads(request.get_data())
+        pracsession.count = 1
+        log.info('starting new PRAC inference on "%s"' % data['sentence'])
+        infer = PRACInference(prac, [data['sentence']])
+        parser = prac.getModuleByName('nl_parsing')
+        prac.run(infer, parser)
+        return 'the new graph'
+    else:
+        if pracsession.count < 5:
+            pracsession.count += 1
+            return 'the very new graph'
+        else:
+            return 'finish'
+        
+    
 # def infer(data, files):
 #     if data['module'] in pracApp.prac.moduleManifestByName: # call module's inference method
 #         print 'Running Inference for module ', data['module']
