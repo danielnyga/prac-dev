@@ -37,7 +37,7 @@ from prac.wordnet import WordNet
 import yaml
 
 PRAC_HOME = os.environ['PRAC_HOME']
-achievedByModulePath = os.path.join(PRAC_HOME, 'pracmodules', 'achieved_by')
+achievedByModulePath = os.path.join(PRAC_HOME, 'pracmodules', 'roles_transformation')
 planListFilePath = os.path.join(achievedByModulePath,'plan_list.yaml')
 
 

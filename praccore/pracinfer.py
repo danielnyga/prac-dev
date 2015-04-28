@@ -74,11 +74,10 @@ if __name__ == '__main__':
         rolesTransformation =  prac.getModuleByName('roles_transformation')
         
         prac.run(infer,achievedBy)
-        #prac.run(infer, actionRoles, missing=True)    
         
         #TODO need to add feature to determine how often these two modules have to be called
-        #prac.run(infer,rolesTransformation)
-        #prac.run(infer,achievedBy)
+        prac.run(infer,rolesTransformation)
+        prac.run(infer,achievedBy)
         
     step = infer.inference_steps[-1]
     print
