@@ -1,4 +1,5 @@
 from pracWEB.pracinit import pracApp
+import logging
 
 def init_app(app):
 
@@ -16,4 +17,5 @@ init_app(pracApp.app)
 
 
 if __name__ == '__main__':
+    logging.getLogger().setLevel(logging.INFO)
     pracApp.app.run(host='0.0.0.0', debug=True, threaded=True)
