@@ -28,14 +28,52 @@ from praclog import logging
 from prac.inference import PRACInference
 from gui.querytool import PRACQueryGUI
 from prac.wordnet import WordNet
-from mln.database import readDBFromString
+from mln.database import readDBFromString,Database
 from utils import colorize
 import re
+
 
 parser = OptionParser()
 parser.add_option("-i", "--interactive", dest="interactive", default=False, action='store_true',
                   help="Starts PRAC inference with an interactive GUI tool.")
 
+def queryBuilder(actioncore,predicate, mln):
+    query = predicate+'('
+    domainList =  mln.predicates[predicate]
+    
+    if domainList[0].lower() == 'actioncore':
+        query += actioncore
+    else:
+        query += "?"+domainList[0]
+        
+    if len(domainList) == 1:
+        query += ")"
+    else:
+        i = 1
+        for d in domainList[1:]:
+            query += ","
+            if d.lower() == 'actioncore':
+                query += actioncore
+            else:
+                query += "?"+str(i)+d
+        query += ")"
+    return query
+
+def printInferencedPlanRoles(db,module):
+    db_ = Database(db.mln)
+    for q in db.query('achieved_by(?w,?ac)'):
+            actioncore = q['?ac']
+            if actioncore == 'null': continue
+            kb = module.load_pracmt(actioncore+"Transformation")
+            queryPredicates = kb.query_params['queries'].split(",")
+            for p in queryPredicates:
+                query = queryBuilder(actioncore,p, kb.query_mln)
+                for q in db.query(query, truthThreshold=1):
+                    for var, val in q.iteritems():
+                        query = query.replace(var,val)
+                    db_.addGroundAtom(query)
+    db_.printEvidence()
+                
 if __name__ == '__main__':
     
     (options, args) = parser.parse_args()
@@ -90,8 +128,8 @@ if __name__ == '__main__':
                         print '%.3f    %s' % (v, a)
                 else:
                     print '%.3f    %s' % (v, a)
-        if actionRoles != None :
-            actionRoles.getRolesBasedOnCurrentAC(db).printEvidence()
+        
+        printInferencedPlanRoles(db,prac.getModuleByName('roles_transformation'))
         print '---'
     
         
