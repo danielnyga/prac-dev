@@ -90,26 +90,12 @@ qx.Class.define("pracweb.Application",
       // Right
       var vizEmbedGrp = new qx.ui.groupbox.GroupBox("Visualization");
 
-      var vizLayout = new qx.ui.layout.VBox(10);
+      var vizLayout = new qx.ui.layout.Grow();
       vizEmbedGrp.setLayout(vizLayout);
-      vizEmbedGrp.setMinHeight(600);
 
       var vizHTML = "<div id='viz'></div>";
       var vizEmbed = new qx.ui.embed.Html(vizHTML);
-      var playButton = new qx.ui.form.Button("Play");
-      playButton.addListener();
-      var fwdButton = new qx.ui.form.Button("Next");
-      var clearButton = new qx.ui.form.Button("Clear");
 
-      var buttonGrp = new qx.ui.groupbox.GroupBox("");
-      var buttonGrpLayout = new qx.ui.layout.HBox(20);
-      buttonGrp.setLayout(buttonGrpLayout);
-
-      buttonGrp.add(playButton);
-      buttonGrp.add(fwdButton);
-      buttonGrp.add(clearButton);
-      
-      vizEmbedGrp.add(buttonGrp);
       vizEmbedGrp.add(vizEmbed);
 
       right.add(vizEmbedGrp);
@@ -128,16 +114,46 @@ qx.Class.define("pracweb.Application",
 
       // add container to content div
       contentIsle.add(container);
+      
+      this.__data = [];
     },
 
 
-    pracGraph : function() {
-      var nodes = [];
+    loadGraph : function() {
+      var viz = document.getElementById("viz", true, true);
+      if (typeof this.__graph === 'undefined') {
+        this.__graph = new pracweb.Graph(viz);
+      } 
+      this.__graph.clear();
 
-      this.addNode = function (id) {
-        nodes.push({"id":id});
-        update();
-      };
+      var steps = { 0:[
+                    {'source': 'A', 'target': 'B', 'value': 'object', 'arcStyle': 'dashedgreen'},
+                    {'source': 'B', 'target': 'C', 'value': 'object', 'arcStyle': 'dashedgreen'},
+                    {'source': 'C', 'target': 'A', 'value': 'object', 'arcStyle': 'dashedgreen'}
+                    ],
+                    1: [
+                    {'source': 'A', 'target': 'B', 'value': 'object', 'arcStyle': 'dashedgreen'},
+                    {'source': 'B', 'target': 'D', 'value': 'object', 'arcStyle': 'dashedgreen'},
+                    {'source': 'E', 'target': 'F', 'value': 'object', 'arcStyle': 'dashedgreen'}
+                    ]
+                  };
+
+      for (var key in steps) {
+        if (steps.hasOwnProperty(key)) {
+          var stp = steps[key];
+          var links = [];
+          for (var y = 0, link; y < stp.length; y++) {
+            var link = stp[y];
+            links.push({source: link['source'], target: link['target'], value: link['value'], arcStyle: link['arcStyle']});
+          }
+          this.__data.push(links);
+        }
+      }
+      this.__graph.updateData(this.__data[0]);
+    },
+
+    updateGraph : function() {
+      this.__graph.updateData(this.__data[1]);
     },
 
     buildMainPane : function()
@@ -156,16 +172,8 @@ qx.Class.define("pracweb.Application",
       var vizButton = new qx.ui.form.Button("Play");
       var nextButton = new qx.ui.form.Button("Next");
 
-      var steps = { 0:[{'source':'A', 'target': 'B', 'value': 'object', 'arcStyle':'arrow'},
-                      {'source':'B', 'target': 'C', 'value': 'object', 'arcStyle':'arrow'}
-                      ], 
-                    1:[{'source':'A', 'target': 'B', 'value': 'object', 'arcStyle':'arrow'},
-                      {'source':'C', 'target': 'D', 'value': 'object', 'arcStyle':'arrow'},
-                      {'source':'D', 'target': 'E', 'value': 'object', 'arcStyle':'arrow'}
-                    ]};
-
-      var data = [];
-      var links = [];
+      vizButton.addListener('execute', this.loadGraph, this);
+      nextButton.addListener('execute', this.updateGraph, this);
 
       mainGroup.add(new qx.ui.basic.Label("Description"));
       mainGroup.add(description);
