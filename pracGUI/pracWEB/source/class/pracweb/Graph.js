@@ -24,14 +24,15 @@ qx.Class.define("pracweb.Graph",
   */
   construct: function(viz) {
     this.d3 = new qxd3.Svg().getD3();
-    this.WAITMSEC = 100;
+    this.WAITMSEC = 500;
 
     this.svnContainer = this.d3.select('#viz')
       .append("svg:svg")
-      .attr("width", this.w)
-      .attr("height", this.h)
+      .attr("width", "100%")
+      .attr("height", "100%")
       .attr("id","svg")
       .append('svg:g');
+
 
     this.svnContainer.append("defs").selectAll("marker")
       .data(["dashedred", "strokegreen", "dashed", "strokeblue", "arrowhead", "default"])
@@ -124,7 +125,7 @@ qx.Class.define("pracweb.Graph",
           dataIndex++;
           if (dataIndex >= data.length) {
             nodesCopy = t.nodes.slice();
-            removenodes(0, this); 
+            removenodes(0, t);
           } else {
             addnodesandlinks(dataIndex, t);
           }
@@ -142,28 +143,21 @@ qx.Class.define("pracweb.Graph",
             while (i < t.links.length) {
               if ((t.links[i]['source'] == n)||(t.links[i]['target'] == n))
               {
-                console.log('removing ');
-                console.log(t.links[i]['source']);
                 t.links.splice(i,1);
               }
               else i++;
             }
-            console.log('removing ' + t.findNodeIndex(nodesCopy[dIndex].id));
             t.nodes.splice(t.findNodeIndex(nodesCopy[dIndex].id),1);
-            // setTimeout( function() { t.update(); }, t.WAITMSEC);
           }
-
-          t.update();
           dIndex++;
           if (dIndex < nodesCopy.length) {
+            t.update();
             removenodes(dIndex, t);
           }
         }, t.WAITMSEC);
       };
 
       addnodesandlinks(0, this);
-      console.log('Graph.js 3 ');
-      console.log(this.nodes);
     },
 
     test : function(no) {
@@ -172,8 +166,8 @@ qx.Class.define("pracweb.Graph",
     },
 
     nodeInList : function(id, n) {
-      for (var i in n) {
-        if (n[i] === id) {
+      for (var no = 0; no < n.length; no++) {
+        if (n[no] == id) {
           return true;
         }
       }
@@ -261,6 +255,7 @@ qx.Class.define("pracweb.Graph",
     },
 
     update : function () {
+
       var path = this.svnContainer.selectAll("path.link")
         .data(this.links, function(d) {
                 return d.source.id + "-" + d.target.id; 
@@ -292,14 +287,14 @@ qx.Class.define("pracweb.Graph",
         .attr("class", "node")
         .call(this.force.drag);
 
-      // circleEnter.append("svg:circle")
-      //   .attr("r", 6)
-      //   .attr("id", function(d) { return d.id; } );
-
-      circleEnter.append("svg:rect")
-        .attr("width", function(d) {return 15*d.id.length;}) // set width according to text length
-        .attr("height", 25)
+      circleEnter.append("svg:circle")
+        .attr("r", 6)
         .attr("id", function(d) { return d.id; } );
+
+      // circleEnter.append("svg:rect")
+      //   .attr("width", function(d) {return 15*d.id.length;}) // set width according to text length
+      //   .attr("height", 25)
+      //   .attr("id", function(d) { return d.id; } );
 
       circleEnter.append("svg:text")
         .attr("class","textClass")

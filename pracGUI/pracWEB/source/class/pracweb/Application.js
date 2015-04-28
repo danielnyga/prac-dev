@@ -45,6 +45,8 @@ qx.Class.define("pracweb.Application",
       // Call super class
       this.base(arguments);
 
+	  var that = this;
+	  
       // Enable logging in debug variant
       if (qx.core.Environment.get("qx.debug"))
       {
@@ -55,38 +57,33 @@ qx.Class.define("pracweb.Application",
       }
 
       var contentIsle = new qx.ui.root.Inline(document.getElementById("container", true, true));
-
+      contentIsle.setWidth(window.innerWidth);
+      contentIsle.setHeight(window.innerHeight);
+      window.addEventListener("resize", function() {
+      	contentIsle.setWidth(window.innerWidth);
+      	contentIsle.setHeight(window.innerHeight);
+      });
+      contentIsle.setLayout(new qx.ui.layout.Grow());
+	
+	
       // new container
-      var container = new qx.ui.container.Composite(new qx.ui.layout.VBox(0)).set({
-        minHeight: 700,
-        allowShrinkX: false,
-        allowShrinkY: false
+      var container = new qx.ui.container.Composite(new qx.ui.layout.VBox()).set({
+        padding: 0
       });
 
-      var splitPane = new qx.ui.splitpane.Pane("horizontal").set({
-      minHeight: 600,
-      minWidth: 1000
-      });
+      var splitPane = new qx.ui.splitpane.Pane("horizontal");
 
       this.__pane = splitPane;
 
       // Create container with fixed dimensions for the left:
-      var left = new qx.ui.container.Composite(new qx.ui.layout.Basic()).set({
-        minWidth : 300,
-        decorator : "main"
-      });
-
+      var left = new qx.ui.container.Composite(new qx.ui.layout.VBox());
       // Create container for the right:
-      var right = new qx.ui.container.Composite(new qx.ui.layout.VBox(10)).set({
-        padding : 10,
-        decorator : "main"
-      });
+      var right = new qx.ui.container.Composite(new qx.ui.layout.Grow());
 
 
-      // Left
-      var form = this.buildForm();
+      // // Left
+	  var form = this.buildForm();
       left.add(form);
-
       // Right
       var vizEmbedGrp = new qx.ui.groupbox.GroupBox("Visualization");
 
@@ -99,7 +96,6 @@ qx.Class.define("pracweb.Application",
       vizEmbedGrp.add(vizEmbed);
 
       right.add(vizEmbedGrp);
-
       this._left = left;
       this._right = right;
 
@@ -109,7 +105,7 @@ qx.Class.define("pracweb.Application",
       var mainPane = this.buildMainPane();
       this._mainPane = mainPane;
 
-      container.add(splitPane, { height : "90%" });
+      container.add(splitPane, {flex: 1}); //, { height : "auto" }
       container.add(mainPane);
 
       // add container to content div
@@ -127,14 +123,14 @@ qx.Class.define("pracweb.Application",
       this.__graph.clear();
 
       var steps = { 0:[
-                    {'source': 'A', 'target': 'B', 'value': 'object', 'arcStyle': 'dashedgreen'},
-                    {'source': 'B', 'target': 'C', 'value': 'object', 'arcStyle': 'dashedgreen'},
-                    {'source': 'C', 'target': 'A', 'value': 'object', 'arcStyle': 'dashedgreen'}
+                    {'source': 'A', 'target': 'B', 'value': 'object', 'arcStyle': 'default'},
+                    {'source': 'B', 'target': 'C', 'value': 'object', 'arcStyle': 'default'},
+                    {'source': 'C', 'target': 'A', 'value': 'object', 'arcStyle': 'default'}
                     ],
                     1: [
-                    {'source': 'A', 'target': 'B', 'value': 'object', 'arcStyle': 'dashedgreen'},
-                    {'source': 'B', 'target': 'D', 'value': 'object', 'arcStyle': 'dashedgreen'},
-                    {'source': 'E', 'target': 'F', 'value': 'object', 'arcStyle': 'dashedgreen'}
+                    {'source': 'A', 'target': 'B', 'value': 'object', 'arcStyle': 'default'},
+                    {'source': 'B', 'target': 'D', 'value': 'object', 'arcStyle': 'default'},
+                    {'source': 'E', 'target': 'F', 'value': 'object', 'arcStyle': 'default'}
                     ]
                   };
 
@@ -183,6 +179,27 @@ qx.Class.define("pracweb.Application",
       mainGroup.add(nextButton);
 
       return mainGroup;
+    },
+
+    _build_inference_step_request : function() {
+    	req = new qx.io.request.Xhr(); 
+		req.setUrl("/_inference_step");
+		req.setMethod("GET");
+		req.setRequestData({'argument': 'hello'});
+		var that = this;
+		req.addListener("success", function(e) {
+			var tar = e.getTarget();								
+			response = tar.getResponse();
+			console.log(response);
+			if (response == "finish")
+				return;
+			else {
+				console.log("sending new request");
+				var req = that._build_inference_step_request();
+				req.send();
+			}
+		});
+		return req;
     },
 
     buildForm : function()
