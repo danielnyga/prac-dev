@@ -36,9 +36,6 @@ from pracutils import printListAndTick
 from prac.wordnet import WordNet
 import yaml
 
-PRAC_HOME = os.environ['PRAC_HOME']
-achievedByModulePath = os.path.join(PRAC_HOME, 'pracmodules', 'achieved_by')
-planListFilePath = os.path.join(achievedByModulePath,'plan_list.yaml')
 
 class RolesTransformation(PRACModule):
     '''
@@ -51,24 +48,11 @@ class RolesTransformation(PRACModule):
     def shutdown(self):
         pass
     
-    def getPlanList(self):
-        planListFile = open(planListFilePath, 'r')
-        yamlData = yaml.load(planListFile)
-        
-        return yamlData['planList']
-    
-    def updateActionRoles(self,db,actionword,actioncore):
-        #Init new PRAC instance for inference roles
-        
-        transformationKB = self.load_pracmt(actioncore+'Transformation')
-        resultDB = list(transformationKB.infer(db))[0]
-        return resultDB     
-
     @PRACPIPE
     def __call__(self, pracinference, **params):
         log = logging.getLogger(self.name)
         print colorize('+==========================================+', (None, 'green', True), True)
-        print colorize('| PRAC INFERENCE: RECOGNIZING ACHIEVED BY  ' , (None, 'green', True), True)
+        print colorize('| PRAC INFERENCE: Update roles based on achieved_by' , (None, 'green', True), True)
         print colorize('+==========================================+', (None, 'green', True), True)
         
         kb = params.get('kb', None)
@@ -80,91 +64,20 @@ class RolesTransformation(PRACModule):
             dbs = kb.dbs
         self.kbs = []
         inf_step = PRACInferenceStep(pracinference, self)
-        planList = self.getPlanList()
         
         for db in dbs:
             db_ = db.duplicate()
-            for q in db.query('action_core(?w,?ac)'):
-                running = True
-                #This list is used to avoid an infinite loop during the achieved by inference.
-                #To avoid this infinite loop, the list contains the pracmlns which were inferenced during the process.
-                #Every pracmln should be used only once during the process because the evidence for the inference will always remain the same.
-                #So if the pracmln hadnt inferenced a plan in the first time, it will never do it.
-                inferencedAchievedByList = []
-                wordnet = WordNet(concepts=None)
-                actionword = q['?w']
+            for q in db.query('achieved_by(?w,?ac)'):
+                
                 actioncore = q['?ac']
 
                 if kb is None:
                     print 'Loading Markov Logic Network: %s' % colorize(actioncore, (None, 'white', True), True)
-                    if os.path.isfile(os.path.join(achievedByModulePath,'bin',actioncore+".pracmln")):
-                        useKB = self.load_pracmt(actioncore)
-                    else:
-                        running = False
-                        inf_step.output_dbs.append(db_)
-                        print actioncore + ".pracmln does not exist."
+                    useKB = self.load_pracmt(actioncore+'Transformation')
                 else:
                     useKB = kb
                 
-                while running :
-                    concepts = useKB.query_mln.domains.get('concept', [])
-                    
-                    for q in db_.query("has_sense(?w,?s)"):
-                        for concept in concepts:
-                            sim = wordnet.path_similarity(q["?s"], concept)
-                            db_.addGroundAtom('is_a(%s,%s)' % (q["?s"], concept),sim)
-                    #Inference achieved_by predicate        
-                    self.kbs.append(useKB)  
-                    params.update(useKB.query_params)
-                    result_db = list(useKB.infer(db_))
-                    result_db_ = []
-                    #Removing achieved_by predicates with prob zero
-                    for r_db in result_db:
-                        r_db_ = Database(useKB.query_mln)
-                        for atom, truth in sorted(r_db.evidence.iteritems()):
-                            if 'achieved_by' in atom and truth == 0: continue
-                            r_db_.addGroundAtom(atom,truth)
-                        result_db_.append(r_db_)
-                        
-                    for r_db in result_db:
-                        countOfGeneratorItems = 0
-                        for q in r_db.query('achieved_by('+actionword+',?nac)'):
-                            countOfGeneratorItems += 1
-                            actioncore = q['?nac']
-                            if actioncore in planList:
-                                running = False
-                                for atom, truth in sorted(db_.evidence.iteritems()):
-                                    if 'is_a' in atom : continue
-                                    r_db.addGroundAtom(atom,truth)
-                                inf_step.output_dbs.append(r_db)
-                                print actionword + " achieved by: " + actioncore
-                                
-                            elif actioncore in inferencedAchievedByList or not os.path.isfile(os.path.join(achievedByModulePath,'bin',actioncore+".pracmln")):
-                                running = False
-                                inf_step.output_dbs.append(db.duplicate())
-                                if actioncore in inferencedAchievedByList:
-                                    print "Could not inference a correct plan."
-                                else:
-                                    print actioncore + ".pracmln does not exist."
-                                
-                            else:
-                                inferencedAchievedByList.append(actioncore)
-                                resultRolesDB = self.updateActionRoles(r_db,actionword,actioncore)
-                                
-                                #Prepare evidence db for the next inference of the achieved_by predicate
-                                useKB = self.load_pracmt(actioncore)
-                                db_temp = Database(useKB.query_mln)
-                                
-                                for atom, truth in sorted(resultRolesDB.evidence.iteritems()):
-                                    if 'action_core' in atom or 'achieved_by' in atom: continue
-                                    db_temp.addGroundAtom(atom,truth)
-                                    
-                                db_temp.addGroundAtom('action_core('+actionword+","+actioncore+")")
-                                db_ = db_temp
-                                
-                        if countOfGeneratorItems == 0:
-                            running = False
-                            inf_step.output_dbs.append(db.duplicate())
-                            print "Could not inference a correct plan." 
-            return inf_step
-    
+                result_db = list(useKB.infer(db_))            
+                inf_step.output_dbs.append(result_db)
+            
+        return inf_step
