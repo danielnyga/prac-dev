@@ -1,4 +1,4 @@
-#include  ../../../senses_and_roles/mln/Roles.mln
+#include  ../../senses_and_roles/mln/Roles.mln
 action_core(word,actioncore?)
 achieved_by(word,actioncore)
 

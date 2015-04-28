@@ -1,0 +1,18 @@
+// domain declarations
+
+
+// predicate declarations
+action_verb(word,actioncore)
+goal(word,actioncore)
+objectToBeAdded(word,actioncore)
+obj_to_be_spilled(word,actioncore)
+amount(word,actioncore)
+spice_jar_content(word,actioncore)
+temperature_setting(word,word,actioncore)
+achieved_by(word,actioncore)
+action_core(word,actioncore?)
+obj_to_be_heated(word,actioncore)
+spice(word,actioncore)
+
+// formulas
+3.649537    action_core(?w1, Adding) ^ objectToBeAdded(?w2, Adding) ^ goal(?w3, Adding) ^ spice_jar_content(?w2, UsingSpiceJar) ^ goal(?w3, UsingSpiceJar) ^ achieved_by(?w1, UsingSpiceJar) ^ action_verb(?w1, UsingSpiceJar) ^ ?w1=/=?w2 ^ ?w1=/=?w3 ^ ?w3=/=?w2

@@ -13,7 +13,7 @@ num(word,word)
 temperature_setting(word,word,actioncore)
 action_core(word,actioncore?)
 obj_to_be_heated(word,actioncore)
-action_cause(word,actioncore)
+action_verb(word,actioncore)
 spice(word,actioncore)
 
 // formulas

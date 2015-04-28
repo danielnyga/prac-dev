@@ -1,4 +1,4 @@
-1.00  action_cause(add,Adding)
+1.00  action_verb(add,Adding)
 1.00  objectToBeAdded(butter,Adding)
 1.00  goal(pan,Adding)
 1.00  achieved_by(add, Spooning)
@@ -16,7 +16,7 @@
 ---
 1.00  achieved_by(add, Spooning)
 1.00  action_core(add, Adding)
-1.00  action_cause(add,Adding)
+1.00  action_verb(add,Adding)
 1.00  objectToBeAdded(vanilla,Adding)
 1.00  goal(pan,Adding)
 1.00  has_pos(add, VB)
@@ -32,7 +32,7 @@
 ---
 1.00  achieved_by(add, Spooning)
 1.00  action_core(add, Adding)
-1.00  action_cause(add,Adding)
+1.00  action_verb(add,Adding)
 1.00  objectToBeAdded(vegetables,Adding)
 1.00  has_pos(add, VB)
 1.00  has_pos(vegetables, NN)
@@ -43,7 +43,7 @@
 ---
 1.00  achieved_by(add, Spooning)
 1.00  action_core(add, Adding)
-1.00  action_cause(add,Adding)
+1.00  action_verb(add,Adding)
 1.00  objectToBeAdded(flour,Adding)
 1.00  objectToBeAdded(eggs,Adding)
 1.00  goal(mixing_bowl,Adding)
@@ -63,7 +63,7 @@
 ---
 1.00  achieved_by(add, UsingSpiceJar)
 1.00  action_core(add, Adding)
-1.00  action_cause(add,Adding)
+1.00  action_verb(add,Adding)
 1.00  objectToBeAdded(salt,Adding)
 1.00  goal(meat,Adding)
 1.00  has_pos(add, VB)
@@ -79,7 +79,7 @@
 ---
 1.00  achieved_by(add, Spooning)
 1.00  action_core(add, Adding)
-1.00  action_cause(add,Adding)
+1.00  action_verb(add,Adding)
 1.00  objectToBeAdded(fries,Adding)
 1.00  goal(steak,Adding)
 1.00  has_pos(add, VB)
@@ -95,7 +95,7 @@
 ---
 1.00  achieved_by(add, Filling)
 1.00  action_core(add, Adding)
-1.00  action_cause(add,Adding)
+1.00  action_verb(add,Adding)
 1.00  objectToBeAdded(dressing,Adding)
 1.00  goal(salad,Adding)
 1.00  has_pos(add, VB)
@@ -111,7 +111,7 @@
 ---
 1.00  achieved_by(add, Filling)
 1.00  action_core(add, Adding)
-1.00  action_cause(add,Adding)
+1.00  action_verb(add,Adding)
 1.00  objectToBeAdded(milk,Adding)
 1.00  objectToBeAdded(water,Adding)
 1.00  has_pos(add, VB)
@@ -126,7 +126,7 @@
 ---
 1.00  achieved_by(add, Spooning)
 1.00  action_core(add, Adding)
-1.00  action_cause(add,Adding)
+1.00  action_verb(add,Adding)
 1.00  objectToBeAdded(corn,Adding)
 1.00  goal(dish,Adding)
 1.00  has_pos(add, VB)
@@ -142,7 +142,7 @@
 ---
 1.00  achieved_by(add, Spooning)
 1.00  action_core(add, Adding)
-1.00  action_cause(add,Adding)
+1.00  action_verb(add,Adding)
 1.00  objectToBeAdded(apple,Adding)
 1.00  has_pos(add, VB)
 1.00  has_pos(apple, NN)
@@ -153,7 +153,7 @@
 ---
 1.00  achieved_by(add, Spooning)
 1.00  action_core(add, Adding)
-1.00  action_cause(add,Adding)
+1.00  action_verb(add,Adding)
 1.00  objectToBeAdded(cream,Adding)
 1.00  objectToBeAdded(ingredient,Adding)
 1.00  goal(mixture,Adding)
@@ -173,7 +173,7 @@
 ---
 1.00  achieved_by(add, Filling)
 1.00  action_core(add, Adding)
-1.00  action_cause(add,Adding)
+1.00  action_verb(add,Adding)
 1.00  objectToBeAdded(water,Adding)
 
 1.00  has_pos(add, VB)
@@ -185,7 +185,7 @@
 ---
 1.00  achieved_by(add, Filling)
 1.00  action_core(add, Adding)
-1.00  action_cause(add,Adding)
+1.00  action_verb(add,Adding)
 1.00  objectToBeAdded(juice,Adding)
 1.00  has_pos(add, VB)
 1.00  has_pos(juice, NN)
@@ -196,7 +196,7 @@
 ---
 1.00  achieved_by(add, Filling)
 1.00  action_core(add, Adding)
-1.00  action_cause(add,Adding)
+1.00  action_verb(add,Adding)
 1.00  objectToBeAdded(pesto,Adding)
 1.00  has_pos(add, VB)
 1.00  has_pos(pesto, NN)
@@ -207,7 +207,7 @@
 ---
 1.00  achieved_by(add, Spooning)
 1.00  action_core(add, Adding)
-1.00  action_cause(add,Adding)
+1.00  action_verb(add,Adding)
 1.00  objectToBeAdded(rice,Adding)
 1.00  goal(dish,Adding)
 1.00  has_pos(add, VB)
@@ -223,7 +223,7 @@
 ---
 1.00  achieved_by(add, Filling)
 1.00  action_core(add, Adding)
-1.00  action_cause(add,Adding)
+1.00  action_verb(add,Adding)
 1.00  objectToBeAdded(cola,Adding)
 1.00  has_pos(add, VB)
 1.00  has_pos(cola, NN)
@@ -234,7 +234,7 @@
 ---
 1.00  achieved_by(add, Filling)
 1.00  action_core(add, Adding)
-1.00  action_cause(add,Adding)
+1.00  action_verb(add,Adding)
 1.00  objectToBeAdded(cola,Adding)
 1.00  has_pos(add, VB)
 1.00  has_pos(cola, NN)
@@ -245,7 +245,7 @@
 ---
 1.00  achieved_by(add, Filling)
 1.00  action_core(add, Adding)
-1.00  action_cause(add,Adding)
+1.00  action_verb(add,Adding)
 1.00  objectToBeAdded(whisky,Adding)
 1.00  has_pos(add, VB)
 1.00  has_pos(whisky, NN)
@@ -256,7 +256,7 @@
 ---
 1.00  achieved_by(add, Filling)
 1.00  action_core(add, Adding)
-1.00  action_cause(add,Adding)
+1.00  action_verb(add,Adding)
 1.00  objectToBeAdded(coffee,Adding)
 1.00  has_pos(add, VB)
 1.00  has_pos(coffee, NN)
@@ -267,7 +267,7 @@
 
 ---
 
-1.00  action_cause(add,Adding)
+1.00  action_verb(add,Adding)
 1.00  objectToBeAdded(salt,Adding)
 1.00  goal(soup,Adding)
 1.00  has_pos(add, VB)
@@ -283,7 +283,7 @@
 1.00  action_core(add,Adding)
 
 ---
-1.00  action_cause(add,Adding)
+1.00  action_verb(add,Adding)
 1.00  objectToBeAdded(pepper,Adding)
 1.00  goal(steak,Adding)
 1.00  has_pos(add, VB)
@@ -299,7 +299,7 @@
 1.00  action_core(add,Adding)
 
 ---
-1.00  action_cause(add,Adding)
+1.00  action_verb(add,Adding)
 1.00  objectToBeAdded(sassafras,Adding)
 1.00  goal(chicken,Adding)
 1.00  has_pos(add, VB)
@@ -315,7 +315,7 @@
 1.00  action_core(add,Adding)
 
 ---
-1.00  action_cause(add,Adding)
+1.00  action_verb(add,Adding)
 1.00  objectToBeAdded(coriander,Adding)
 1.00  goal(sauce,Adding)
 1.00  has_pos(add, VB)
@@ -331,7 +331,7 @@
 1.00  action_core(add,Adding)
 
 ---
-1.00  action_cause(add,Adding)
+1.00  action_verb(add,Adding)
 1.00  objectToBeAdded(fenugreek,Adding)
 1.00  goal(meat,Adding)
 
@@ -348,7 +348,7 @@
 1.00  action_core(add,Adding)
 
 ---
-1.00  action_cause(add,Adding)
+1.00  action_verb(add,Adding)
 1.00  objectToBeAdded(salt,Adding)
 1.00  goal(omelette,Adding)
 1.00  has_pos(add, VB)
@@ -363,7 +363,7 @@
 1.00  action_core(add,Adding)
 1.00  achieved_by(add,UsingSpiceJar)
 ---
-1.00  action_cause(add,Adding)
+1.00  action_verb(add,Adding)
 1.00  objectToBeAdded(pepper,Adding)
 1.00  goal(rib,Adding)
 1.00  has_pos(add, VB)
@@ -378,7 +378,7 @@
 1.00  action_core(add,Adding)
 1.00  achieved_by(add,UsingSpiceJar)
 ---
-1.00  action_cause(add,Adding)
+1.00  action_verb(add,Adding)
 1.00  objectToBeAdded(salt,Adding)
 1.00  goal(egg,Adding)
 1.00  has_pos(add, VB)
@@ -393,7 +393,7 @@
 1.00  action_core(add,Adding)
 1.00  achieved_by(add,UsingSpiceJar)
 ---
-1.00  action_cause(add,Adding)
+1.00  action_verb(add,Adding)
 1.00  objectToBeAdded(chili_powder,Adding)
 1.00  goal(jambalaya,Adding)
 1.00  has_pos(add, VB)
