@@ -2,7 +2,6 @@ from pracWEB.pracinit import pracApp
 
 from flask import render_template, request, send_from_directory, url_for, jsonify, session
 
-# from webrob.pages.routes import ensure_prac_started
 from pracWEB.pages.learning import learn 
 from pracWEB.pages.fileupload import upload, saveMLN
 from pracWEB.pages.utils import initFileStorage

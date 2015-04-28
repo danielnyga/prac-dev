@@ -1,8 +1,6 @@
 from mln.database import readDBFromString
 from mln.mln import readMLNFromString
 from mln.methods import LearningMethods
-from wtforms import BooleanField, TextField, TextAreaField, validators, SelectField, FileField, SubmitField, HiddenField
-from flask_wtf import Form
 from pracWEB.pages.fileupload import upload
 from pracWEB.pages.utils import updateMLNList, updateEvidenceList, GRAMMAR, LOGICS
 import os, sys

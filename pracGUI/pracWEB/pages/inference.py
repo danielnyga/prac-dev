@@ -5,8 +5,6 @@ from mln.database import readDBFromString
 from mln.methods import InferenceMethods
 from mln.mln import readMLNFromString
 from flask import render_template, redirect, request, jsonify, url_for
-from wtforms import BooleanField, TextField, TextAreaField, validators, SelectField, FileField, SubmitField
-from flask_wtf import Form
 from pracWEB.pages.fileupload import upload
 from pracWEB.pages.utils import updateKBList, updateMLNList, updateEvidenceList, LOGICS, FILEDIRS, getFileContent, save_kb, add_wn_similarities
 import os, sys
