@@ -36,9 +36,6 @@ from pracutils import printListAndTick
 from prac.wordnet import WordNet
 import yaml
 
-PRAC_HOME = os.environ['PRAC_HOME']
-achievedByModulePath = os.path.join(PRAC_HOME, 'pracmodules', 'achieved_by')
-planListFilePath = os.path.join(achievedByModulePath,'plan_list.yaml')
 
 class AchievedBy(PRACModule):
     '''
@@ -51,11 +48,6 @@ class AchievedBy(PRACModule):
     def shutdown(self):
         pass
     
-    def getPlanList(self):
-        planListFile = open(planListFilePath, 'r')
-        yamlData = yaml.load(planListFile)
-        
-        return yamlData['planList']
     
     @PRACPIPE
     def __call__(self, pracinference, **params):
@@ -71,9 +63,8 @@ class AchievedBy(PRACModule):
         else:
             kb = params['kb']
             dbs = kb.dbs
-        self.kbs = []
+        
         inf_step = PRACInferenceStep(pracinference, self)
-        planList = self.getPlanList()
         
         for db in dbs:
             db_ = db.duplicate()
@@ -83,18 +74,15 @@ class AchievedBy(PRACModule):
                 #To avoid this infinite loop, the list contains the pracmlns which were inferenced during the process.
                 #Every pracmln should be used only once during the process because the evidence for the inference will always remain the same.
                 #So if the pracmln hadnt inferenced a plan in the first time, it will never do it.
-                inferencedAchievedByList = []
+                
                 wordnet = WordNet(concepts=None)
                 actionword = q['?w']
                 actioncore = q['?ac']
 
                 if kb is None:
                     print 'Loading Markov Logic Network: %s' % colorize(actioncore, (None, 'white', True), True)
-                    if os.path.isfile(os.path.join(achievedByModulePath,'bin',actioncore+".pracmln")):
-                        useKB = self.load_pracmt(actioncore)
-                    else:
-                        inf_step.output_dbs.append(db_)
-                        print actioncore + ".pracmln does not exist."
+                    useKB = self.load_pracmt(actioncore)
+                    
                 else:
                     useKB = kb
                 
@@ -124,20 +112,15 @@ class AchievedBy(PRACModule):
                 for r_db in result_db:
                     for q in r_db.query('achieved_by('+actionword+',?nac)'):
                         achievedByAc = q['?nac']
-                        removingPredicateList = ['is_a']
+                        
                         r_db_ = Database(r_db.mln)
                         
-                        if achievedByAc not in planList:
-                            removingPredicateList.append("action_core")
-                            
                         for atom, truth in sorted(r_db.evidence.iteritems()):
-                            if atom.split("(")[0] in removingPredicateList: continue
+                            if 'is_a' in atom: continue
                             r_db_.addGroundAtom(atom,truth)
                         
-                        if achievedByAc not in planList:
-                            r_db_.addGroundAtom('action_core('+actionword+","+achievedByAc+")")
                         inf_step.output_dbs.append(r_db_)
-                        print actionword + " achieved by: " + actioncore
+                        print actionword + " achieved by: " + achievedByAc
                             
                 return inf_step
     

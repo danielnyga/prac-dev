@@ -70,12 +70,16 @@ if __name__ == '__main__':
         actionRoles = prac.getModuleByName('senses_and_roles')
         prac.run(infer,actionRoles)
 #         
-#         # infer the achieved by predicate
         achievedBy = prac.getModuleByName('achieved_by')
+        rolesTransformation =  prac.getModuleByName('roles_transformation')
+        
         prac.run(infer,achievedBy)
         #prac.run(infer, actionRoles, missing=True)    
         
-#     
+        #TODO need to add feature to determine how often these two modules have to be called
+        #prac.run(infer,rolesTransformation)
+        #prac.run(infer,achievedBy)
+        
     step = infer.inference_steps[-1]
     print
     print colorize('+========================+',  (None, 'green', True), True)

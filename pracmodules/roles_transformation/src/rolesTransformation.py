@@ -36,6 +36,10 @@ from pracutils import printListAndTick
 from prac.wordnet import WordNet
 import yaml
 
+PRAC_HOME = os.environ['PRAC_HOME']
+achievedByModulePath = os.path.join(PRAC_HOME, 'pracmodules', 'achieved_by')
+planListFilePath = os.path.join(achievedByModulePath,'plan_list.yaml')
+
 
 class RolesTransformation(PRACModule):
     '''
@@ -47,6 +51,12 @@ class RolesTransformation(PRACModule):
     
     def shutdown(self):
         pass
+    
+    def getPlanList(self):
+        planListFile = open(planListFilePath, 'r')
+        yamlData = yaml.load(planListFile)
+        
+        return yamlData['planList']
     
     @PRACPIPE
     def __call__(self, pracinference, **params):
@@ -62,22 +72,31 @@ class RolesTransformation(PRACModule):
         else:
             kb = params['kb']
             dbs = kb.dbs
-        self.kbs = []
+        
         inf_step = PRACInferenceStep(pracinference, self)
+        planList = self.getPlanList()
         
         for db in dbs:
             db_ = db.duplicate()
             for q in db.query('achieved_by(?w,?ac)'):
-                
+                actionverb = q['?w']
                 actioncore = q['?ac']
 
                 if kb is None:
-                    print 'Loading Markov Logic Network: %s' % colorize(actioncore, (None, 'white', True), True)
+                    print 'Loading Markov Logic Network: %s' % colorize(actioncore+'Transformation', (None, 'white', True), True)
                     useKB = self.load_pracmt(actioncore+'Transformation')
                 else:
                     useKB = kb
                 
-                result_db = list(useKB.infer(db_))            
-                inf_step.output_dbs.append(result_db)
-            
+                result_db = list(useKB.infer(db_))
+                if actioncore not in planList:
+                    for r_db in result_db:
+                        r_db_ = Database(r_db.mln)
+                        for atom, truth in sorted(r_db.evidence.iteritems()):
+                            if 'action_core' in atom: continue
+                            r_db_.addGroundAtom(atom,truth)
+                        r_db_.addGroundAtom("action_core("+actionverb+","+actioncore+")")
+                        inf_step.output_dbs.append(r_db_)
+                else:
+                    inf_step.output_dbs.extend(result_db)
         return inf_step
