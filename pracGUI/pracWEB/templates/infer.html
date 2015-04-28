@@ -1,8 +1,9 @@
 {% extends "layout.html" %}
 {% block head %}
+{{ super() }}
 <script type="text/javascript" src="{{ url_for('download_static', filename='script/pracweb.js') }}"></script>
 {% endblock %}
 
   {% block content %}
-    {% include 'infer_content.html' %}
+  {{ super() }}
   {% endblock %}

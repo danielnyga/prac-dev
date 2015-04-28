@@ -9,5 +9,5 @@ class PRACFlask(object):
     def __init__(self):
         print 'creating PRACFlask object'
         self.app = None
-        self.prac = PRAC()
-        self.prac.wordnet = WordNet(concepts=None)
+#         self.prac = PRAC()
+#         self.prac.wordnet = WordNet(concepts=None)

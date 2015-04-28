@@ -7,9 +7,9 @@ from os.path import expanduser
 
 FILEDIRS = {'mln':'mln', 'pracmln':'bin', 'db':'db'}
 LOGICS = [('FirstOrderLogic','FOL'),('FuzzyLogic','Fuzzy')]
-MODULES = [(module,module) for module in pracApp.prac.moduleManifestByName]
+# MODULES = [(module,module) for module in pracApp.prac.moduleManifestByName]
 GRAMMAR = [('PRACGrammar','PRAC Grammar'), ('StandardGrammar','Standard Grammar')]
-MODULES = [('None','None')] + [(module,module) for module in pracApp.prac.moduleManifestByName]
+# MODULES = [('None','None')] + [(module,module) for module in pracApp.prac.moduleManifestByName]
 
 
 

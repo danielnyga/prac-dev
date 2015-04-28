@@ -235,14 +235,14 @@ var update = function () {
     .attr("class", "node")
     .call(force.drag);
 
-  circleEnter.append("svg:circle")
-    .attr("r", 6)
-    .attr("id", function(d) { return d.id; } );
-
-  // circleEnter.append("svg:rect")
-  //   .attr("width", function(d) {return 15*d.id.length;}) // set width according to text length
-  //   .attr("height", 25)
+  // circleEnter.append("svg:circle")
+  //   .attr("r", 6)
   //   .attr("id", function(d) { return d.id; } );
+
+  circleEnter.append("svg:rect")
+    .attr("width", function(d) {return 15*d.id.length;}) // set width according to text length
+    .attr("height", 25)
+    .attr("id", function(d) { return d.id; } );
 
   circleEnter.append("svg:text")
     .attr("class","textClass")

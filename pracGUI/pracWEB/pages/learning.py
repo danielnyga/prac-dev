@@ -4,7 +4,7 @@ from mln.methods import LearningMethods
 from wtforms import BooleanField, TextField, TextAreaField, validators, SelectField, FileField, SubmitField, HiddenField
 from flask_wtf import Form
 from pracWEB.pages.fileupload import upload
-from pracWEB.pages.utils import updateMLNList, updateEvidenceList, GRAMMAR, LOGICS, MODULES
+from pracWEB.pages.utils import updateMLNList, updateEvidenceList, GRAMMAR, LOGICS
 import os, sys
 import StringIO
 
@@ -22,36 +22,6 @@ ENGINES = [ ('PRACMLNs', "PRACMLNs"),
             ({"path": r"c:\users\Domini~1\Research\code\alchemy-2010-08-23\bin", "usage": new_usage},"Alchemy (Win32 desktop)"),
             ({"path": r"c:\research\code\alchemy\bin", "usage": new_usage},"Alchemy (Win32 laptop)")]
 
-
-class PRACLearningForm(Form):
-    engine = SelectField('Engine', validators=[validators.optional()], coerce=str)
-    grammar = SelectField('Grammar', validators=[validators.optional()], coerce=str)
-    module = SelectField('Module', validators=[validators.optional()], coerce=str)
-    logic = SelectField('Logic', validators=[validators.optional()], coerce=str)
-    mln_dd = SelectField('MLN', validators=[validators.optional()], coerce=str)
-    mlnFile = FileField('')
-    mln = TextAreaField('')
-    trainedMLN = TextAreaField('')
-    evidence_dd = SelectField('Databases', validators=[validators.optional()], coerce=str)
-    evidenceFile = FileField('')
-    evidence = TextAreaField('')
-    parameters = TextField('Parameters', [validators.optional()])
-    evidencePreds = TextField('Evidence Predicates', [validators.optional()])
-    method =  SelectField('Method', validators=[validators.optional()], coerce=str)
-    useMultiCPU = BooleanField('Use all CPU\'s', [validators.optional()], default='')
-
-    submit = SubmitField('')
-    uploadMLNFile = SubmitField('')
-    uploadDBFile = SubmitField('')
-
-    def updateChoices(self):
-        self.engine.choices = ENGINES
-        self.grammar.choices = GRAMMAR
-        self.module.choices = MODULES
-        self.method.choices = LEARNMETHODS
-        self.logic.choices = LOGICS
-        self.mln_dd.choices = updateMLNList(self.module.data)
-        self.evidence_dd.choices = updateEvidenceList(self.module.data)
 
 
 def learn(data, files):
