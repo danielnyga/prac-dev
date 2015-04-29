@@ -49,7 +49,7 @@ def _pracinfer_step():
             a_tuple = _grammar.parseLiteral(atom)
             if not db.evidence[atom] == 1: continue
             if a_tuple[1] in pracsession.synPreds.keys() and not pracsession.leaveSynPreds: continue
-            if 'null' in a_tuple[2]: continue
+            if 'null' in a_tuple[2] or a_tuple[1] == 'is_a': continue
             if len(a_tuple[2]) == 2:
                 result.append({'source': a_tuple[2][0], 'target': a_tuple[2][1] , 'value': a_tuple[1] , 'arcStyle': 'strokegreen'})
             else:

@@ -312,7 +312,7 @@ qx.Class.define("pracweb.Graph",
 
       // move arc label to arc
       var calcLabelPos = function (d, bbox) {
-        var scale = 0.3;
+        var scale = 0.4; // distance from arc
         var origPos = { x: (d.source.x + d.target.x ) /2 - bbox.width/2, y: (d.source.y + d.target.y) /2 }; // exact middle between source and target
         var dir = { x: d.target.x - d.source.x, y: d.target.y - d.source.y }; // direction source -> target
         var rot = { x: dir.y, y: -dir.x }; // rotate direction -90 degrees
