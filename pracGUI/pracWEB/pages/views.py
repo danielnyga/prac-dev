@@ -14,6 +14,19 @@ import logging
 from prac.core import PRAC
 from pracWEB.app import PRACSession
 
+def ensure_prac_session(session):
+    log = logging.getLogger(__name__)
+    prac_session = pracApp.app.session_store[session]
+    if prac_session is None:
+        session['id'] = os.urandom(24)
+        prac_session = PRACSession(session)
+        prac_session.prac = PRAC()
+        # initialize the nl_parsing module so the JVM is started
+        prac_session.prac.getModuleByName('nl_parsing')
+        log.info('created new PRAC session %s' % str(prac_session.id))
+        pracApp.app.session_store.put(prac_session)
+    return prac_session
+        
 
 @pracApp.app.route('/prac/test/')
 def test():
@@ -30,13 +43,7 @@ def prac():
     error=""
     host_url = urlparse(request.host_url).hostname
     container_name = ''
-    session['id'] = os.urandom(24)
-    prac_session = PRACSession(session)
-    prac_session.prac = PRAC()
-    # initialize the nl_parsing module so the JVM is started
-    prac_session.prac.getModuleByName('nl_parsing')
-    log.info('created new PRAC session %s' % str(prac_session.id))
-    pracApp.app.session_store.put(prac_session)
+    ensure_prac_session(session)
     return render_template('prac.html', **locals())
 
 @pracApp.app.after_request
@@ -95,6 +102,7 @@ def praclearn():
 
 @pracApp.app.route('/prac/pracinfer', methods=['GET', 'POST'])
 def pracinfer():
+    ensure_prac_session(session)
 #     if not 'UPLOAD_FOLDER' in pracApp.app.config:
 #         initFileStorage()
 #     form = PRACInferenceForm(csrf_enabled=False)
