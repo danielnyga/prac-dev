@@ -22,7 +22,7 @@ class SessionStore():
         del self.sessions[s['id']]
         
     def __str__(self):
-        return self.sessions
+        return str(self.sessions)
     
 app = Flask(__name__)
 app.session_store = SessionStore()

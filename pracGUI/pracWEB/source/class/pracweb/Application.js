@@ -178,10 +178,22 @@ qx.Class.define("pracweb.Application",
       expSettings.setValue(true);
       expSettings.setValue(false);
       var stepInf = new qx.ui.form.CheckBox("Step-by-step inference");
-      var vizButton = new qx.ui.form.Button("Play");
+      
+      var vizButton = new qx.ui.form.Button("Run Inference", "/prac/static/images/resultset_next.png");
+      
       var nextButton = new qx.ui.form.Button("Next");
 
-      vizButton.addListener('execute', this.loadGraph, this);
+	  /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	   * Trigger the PRAC inference
+	   */
+      vizButton.addListener('execute', function() {
+      	 var req = this._run_inference("POST");
+      	 console.log(description.getValue());
+      	 req.setRequestHeader("Content-Type", "application/json");
+      	 req.setRequestData({"sentence": description.getValue()});
+      	 req.send();
+      }, this);
+      
       nextButton.addListener('execute', this.updateGraph, this);
 
       mainGroup.add(new qx.ui.basic.Label("Description"));
@@ -194,11 +206,10 @@ qx.Class.define("pracweb.Application",
       return mainGroup;
     },
 
-    _build_inference_step_request : function() {
+    _run_inference : function(method) {
     	req = new qx.io.request.Xhr(); 
-		req.setUrl("/_inference_step");
-		req.setMethod("GET");
-		req.setRequestData({'argument': 'hello'});
+		req.setUrl("/_pracinfer_step");
+		req.setMethod(method);
 		var that = this;
 		req.addListener("success", function(e) {
 			var tar = e.getTarget();								
@@ -208,7 +219,7 @@ qx.Class.define("pracweb.Application",
 				return;
 			else {
 				console.log("sending new request");
-				var req = that._build_inference_step_request();
+				var req = that._run_inference("GET");
 				req.send();
 			}
 		});
