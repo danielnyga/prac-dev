@@ -55,7 +55,7 @@ qx.Class.define("pracweb.Application",
         // support additional cross-browser console. Press F7 to toggle visibility
         qx.log.appender.Console;
       }
-
+      
 	  // destroy the session before leaving PRAC
 	  window.onbeforeunload = function () {
 	  	// getSession().invalidate();
@@ -96,6 +96,10 @@ qx.Class.define("pracweb.Application",
 
       // // Left
 	  var form = this.buildForm();
+	  // placeholder
+      var placeholder = new qx.ui.container.Composite();
+      placeholder.setHeight(80);
+      left.add(placeholder);
       left.add(form);
       // Right
       var vizEmbedGrp = new qx.ui.groupbox.GroupBox("Visualization");
