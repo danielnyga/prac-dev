@@ -30,14 +30,43 @@ def _pracinfer_step():
         infer = PRACInference(prac, [data['sentence']])
         parser = prac.getModuleByName('nl_parsing')
         prac.run(infer, parser)
-        return 'the new graph'
+        pracsession.infer = infer
     else:
         if pracsession.count < 5:
             pracsession.count += 1
-            return 'the very new graph'
+            # step = prac.run(infer, MODULENAME)
+            # pracsession.infer.inference_steps.append(step)
         else:
-            return 'finish'
-        
+            return jsonify( {'result': 'finish'} )
+
+    result = []
+    for db in pracsession.infer.inference_steps[-1].output_dbs:
+        _grammar = db.mln.logic.grammar
+        for atom in db.evidence:
+            a_tuple = _grammar.parseLiteral(atom)
+            if not a_tuple[0]: continue
+            if len(a_tuple[2]) == 2:
+                result.append({'source': a_tuple[2][0], 'target': a_tuple[2][1] , 'value': a_tuple[1] , 'arcStyle': 'default'})
+            else:
+                result.append({'source': a_tuple[2][2], 'target': a_tuple[2][0] , 'value': a_tuple[1] , 'arcStyle': 'default'})
+                result.append({'source': a_tuple[2][2], 'target': a_tuple[2][1] , 'value': a_tuple[1] , 'arcStyle': 'default'})
+    print 'result: ', result
+    return jsonify( {'result': result} )
+
+
+
+# !p(A,B)
+# (False, "p", ["A", "B"])
+#         for db in stp.output_dbs:
+#             for ek in db.evidence:
+#                 e = db.evidence[ek]
+#                 src = ek.split('(')[1].split(',')[0]
+#                 tar = ek.split('(')[1].split(',')[1].split(')')[0]
+#                 val = ek.split('(')[0] # db.evidence[ek]?\
+#                 arcStyle = 'default'
+#                 stepx.append({'source': src, 'target': tar , 'value': val , 'arcStyle': arcStyle})
+#         result[stpno] = stepx
+#         stpno += 1
     
 # def infer(data, files):
 #     if data['module'] in pracApp.prac.moduleManifestByName: # call module's inference method

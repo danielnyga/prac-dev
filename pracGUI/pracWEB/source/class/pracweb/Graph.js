@@ -22,7 +22,7 @@ qx.Class.define("pracweb.Graph",
      MEMBERS
   *****************************************************************************
   */
-  construct: function(viz) {
+  construct: function() {
     this.d3 = new qxd3.Svg().getD3();
     this.WAITMSEC = 500;
 
@@ -48,7 +48,6 @@ qx.Class.define("pracweb.Graph",
       .attr("d", "M0,-5L10,0L0,5");
       // .attr("d", "M 0,0 V 4 L6,2 Z");
 
-    console.log(viz);
 
     this.w = 500;
     this.h = 500;

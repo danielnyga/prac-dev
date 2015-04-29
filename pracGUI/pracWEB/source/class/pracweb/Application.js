@@ -71,10 +71,10 @@ qx.Class.define("pracweb.Application",
 
       var contentIsle = new qx.ui.root.Inline(document.getElementById("container", true, true));
       contentIsle.setWidth(window.innerWidth);
-      contentIsle.setHeight(window.innerHeight);
+      contentIsle.setHeight(.9*window.innerHeight);
       window.addEventListener("resize", function() {
       	contentIsle.setWidth(window.innerWidth);
-      	contentIsle.setHeight(window.innerHeight);
+      	contentIsle.setHeight(.9*window.innerHeight);
       });
       contentIsle.setLayout(new qx.ui.layout.Grow());
 	
@@ -129,40 +129,39 @@ qx.Class.define("pracweb.Application",
 
 
     loadGraph : function() {
-      var viz = document.getElementById("viz", true, true);
       if (typeof this.__graph === 'undefined') {
-        this.__graph = new pracweb.Graph(viz);
+        this.__graph = new pracweb.Graph();
       } 
       this.__graph.clear();
 
-      var steps = { 0:[
-                    {'source': 'A', 'target': 'B', 'value': 'object', 'arcStyle': 'default'},
-                    {'source': 'B', 'target': 'C', 'value': 'object', 'arcStyle': 'default'},
-                    {'source': 'C', 'target': 'A', 'value': 'object', 'arcStyle': 'default'}
-                    ],
-                    1: [
-                    {'source': 'A', 'target': 'B', 'value': 'object', 'arcStyle': 'default'},
-                    {'source': 'B', 'target': 'D', 'value': 'object', 'arcStyle': 'default'},
-                    {'source': 'E', 'target': 'F', 'value': 'object', 'arcStyle': 'default'}
-                    ]
-                  };
+      // var steps = { 0:[
+      //               {'source': 'A', 'target': 'B', 'value': 'object', 'arcStyle': 'default'},
+      //               {'source': 'B', 'target': 'C', 'value': 'object', 'arcStyle': 'default'},
+      //               {'source': 'C', 'target': 'A', 'value': 'object', 'arcStyle': 'default'}
+      //               ],
+      //               1: [
+      //               {'source': 'A', 'target': 'B', 'value': 'object', 'arcStyle': 'default'},
+      //               {'source': 'B', 'target': 'D', 'value': 'object', 'arcStyle': 'default'},
+      //               {'source': 'E', 'target': 'F', 'value': 'object', 'arcStyle': 'default'}
+      //               ]
+      //             };
 
-      for (var key in steps) {
-        if (steps.hasOwnProperty(key)) {
-          var stp = steps[key];
-          var links = [];
-          for (var y = 0, link; y < stp.length; y++) {
-            var link = stp[y];
-            links.push({source: link['source'], target: link['target'], value: link['value'], arcStyle: link['arcStyle']});
-          }
-          this.__data.push(links);
-        }
-      }
-      this.__graph.updateData(this.__data[0]);
+      // for (var key in steps) {
+      //   if (steps.hasOwnProperty(key)) {
+      //     var stp = steps[key];
+      //     var links = [];
+      //     for (var y = 0, link; y < stp.length; y++) {
+      //       var link = stp[y];
+      //       links.push({source: link['source'], target: link['target'], value: link['value'], arcStyle: link['arcStyle']});
+      //     }
+      //     this.__data.push(links);
+      //   }
+      // }
+      // this.__graph.updateData(this.__data[0]);
     },
 
-    updateGraph : function() {
-      this.__graph.updateData(this.__data[1]);
+    updateGraph : function(data) {
+      this.__graph.updateData(data);
     },
 
     buildMainPane : function()
@@ -187,6 +186,7 @@ qx.Class.define("pracweb.Application",
 	   * Trigger the PRAC inference
 	   */
       vizButton.addListener('execute', function() {
+         this.loadGraph();
       	 var req = this._run_inference("POST");
       	 console.log(description.getValue());
       	 req.setRequestHeader("Content-Type", "application/json");
@@ -212,22 +212,23 @@ qx.Class.define("pracweb.Application",
 
     _run_inference : function(method) {
     	req = new qx.io.request.Xhr(); 
-		req.setUrl("/_pracinfer_step");
-		req.setMethod(method);
-		var that = this;
-		req.addListener("success", function(e) {
-			var tar = e.getTarget();								
-			response = tar.getResponse();
-			console.log(response);
-			if (response == "finish")
-				return;
-			else {
-				console.log("sending new request");
-				var req = that._run_inference("GET");
-				req.send();
-			}
-		});
-		return req;
+  		req.setUrl("/_pracinfer_step");
+  		req.setMethod(method);
+  		var that = this;
+  		req.addListener("success", function(e) {
+  			var tar = e.getTarget();								
+  			response = tar.getResponse();
+  			console.log(response.result);
+  			if (response.result == "finish")
+  				return;
+  			else {
+          that.updateGraph(response.result);
+  				console.log("sending new request");
+  				var req = that._run_inference("GET");
+  				req.send();
+  			}
+  		});
+		  return req;
     },
 
     buildForm : function()
