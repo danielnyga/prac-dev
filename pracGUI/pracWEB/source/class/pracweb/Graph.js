@@ -45,8 +45,8 @@ qx.Class.define("pracweb.Graph",
       .attr("markerHeight", 6)
       .attr("orient", "auto")
       .append("path")
-      .attr("d", "M0,-5L10,0L0,5");
-      // .attr("d", "M 0,0 V 4 L6,2 Z");
+      // .attr("d", "M0,-5L10,0L0,5");
+      .attr("d", "M 0,0 V 4 L6,2 Z");
 
 
     this.w = 500;
@@ -262,7 +262,7 @@ qx.Class.define("pracweb.Graph",
 
       var pathEnter = path.enter().append("path")
         .attr("id", function(d) { return d.source.id + "-" + d.target.id; })
-        .attr("class", function(d) { return "link " + d.value; })
+        .attr("class", function(d) { return "link " + d.arcStyle; })
         .attr("marker-end", function(d) { return "url(#" + d.arcStyle + ")"; });
 
       path.exit().remove();
