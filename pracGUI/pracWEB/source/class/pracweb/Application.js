@@ -194,6 +194,10 @@ qx.Class.define("pracweb.Application",
       	 req.send();
       }, this);
       
+      nextButton.setEnabled(false);
+      stepInf.addListener("changeValue", function(e) {
+        nextButton.setEnabled(e.getData());
+      }, this);
       nextButton.addListener('execute', this.updateGraph, this);
 
       mainGroup.add(new qx.ui.basic.Label("Description"));
