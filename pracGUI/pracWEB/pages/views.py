@@ -33,6 +33,8 @@ def prac():
     session['id'] = os.urandom(24)
     prac_session = PRACSession(session)
     prac_session.prac = PRAC()
+    # initialize the nl_parsing module so the JVM is started
+    prac_session.prac.getModuleByName('nl_parsing')
     log.info('created new PRAC session %s' % str(prac_session.id))
     pracApp.app.session_store.put(prac_session)
     return render_template('prac.html', **locals())
