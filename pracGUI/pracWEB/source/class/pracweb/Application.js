@@ -4,7 +4,7 @@
 
    License:
 
-   Authors:
+   Authors: Daniel Nyga, Mareike Picklum
 
 ************************************************************************ */
 
@@ -137,31 +137,6 @@ qx.Class.define("pracweb.Application",
         this.__graph = new pracweb.Graph();
       } 
       this.__graph.clear();
-
-      // var steps = { 0:[
-      //               {'source': 'A', 'target': 'B', 'value': 'object', 'arcStyle': 'default'},
-      //               {'source': 'B', 'target': 'C', 'value': 'object', 'arcStyle': 'default'},
-      //               {'source': 'C', 'target': 'A', 'value': 'object', 'arcStyle': 'default'}
-      //               ],
-      //               1: [
-      //               {'source': 'A', 'target': 'B', 'value': 'object', 'arcStyle': 'default'},
-      //               {'source': 'B', 'target': 'D', 'value': 'object', 'arcStyle': 'default'},
-      //               {'source': 'E', 'target': 'F', 'value': 'object', 'arcStyle': 'default'}
-      //               ]
-      //             };
-
-      // for (var key in steps) {
-      //   if (steps.hasOwnProperty(key)) {
-      //     var stp = steps[key];
-      //     var links = [];
-      //     for (var y = 0, link; y < stp.length; y++) {
-      //       var link = stp[y];
-      //       links.push({source: link['source'], target: link['target'], value: link['value'], arcStyle: link['arcStyle']});
-      //     }
-      //     this.__data.push(links);
-      //   }
-      // }
-      // this.__graph.updateData(this.__data[0]);
     },
 
     updateGraph : function(data) {

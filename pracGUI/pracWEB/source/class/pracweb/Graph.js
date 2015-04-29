@@ -4,7 +4,7 @@
 
    License:
 
-   Authors:
+   Authors: Mareike Picklum
 
 ************************************************************************ */
 
@@ -15,7 +15,7 @@
  */
 qx.Class.define("pracweb.Graph",
 {
-  extend : qx.ui.core.Widget, //TODO
+  extend : qx.ui.core.Widget,
 
   /*
   *****************************************************************************
@@ -45,12 +45,11 @@ qx.Class.define("pracweb.Graph",
       .attr("markerHeight", 6)
       .attr("orient", "auto")
       .append("path")
-      // .attr("d", "M0,-5L10,0L0,5");
-      .attr("d", "M 0,0 V 4 L6,2 Z");
+      .attr("d", "M0,-5L10,0L0,5");
 
 
-    this.w = 500;
-    this.h = 500;
+    this.w = window.innerWidth;
+    this.h = .8*window.innerHeight;
 
     this.force = this.d3.layout.force();
     this.nodes = this.force.nodes();
@@ -62,33 +61,6 @@ qx.Class.define("pracweb.Graph",
 
   members :
   {
-    /**
-     * This method contains the initial application code and gets called 
-     * during startup of the application
-     * 
-     * @lint ignoreDeprecated(alert)
-     */
-    // main : function()
-    // {
-    //   // Call super class
-    //   this.base(arguments);
-
-    //   // Enable logging in debug variant
-    //   if (qx.core.Environment.get("qx.debug"))
-    //   {
-    //     // support native logging capabilities, e.g. Firebug for Firefox
-    //     qx.log.appender.Native;
-    //     // support additional cross-browser console. Press F7 to toggle visibility
-    //     qx.log.appender.Console;
-    //   }
-
-    //   /*
-    //   -------------------------------------------------------------------------
-    //     Below is your actual application code...
-    //   -------------------------------------------------------------------------
-    //   */
-    // },
-
 
     addNode : function (id) {
       this.nodes.push({"id":id});
@@ -368,11 +340,11 @@ qx.Class.define("pracweb.Graph",
 
       this.force
         .size([this.w, this.h])
-        .linkDistance( this.h/6 )
+        .linkDistance( this.h/2 )
         .charge(-300)
         .on("tick", tick)
         .gravity( .03 )
-        .distance( 150 )
+        .distance( 250 )
         .start();
     }
   }
