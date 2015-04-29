@@ -177,6 +177,8 @@ qx.Class.define("pracweb.Application",
       mainGroup.setLayout(mainLayout);
       
       var description = new qx.ui.form.TextField("");
+      description.setMinWidth(300);
+      
       var expSettings = new qx.ui.form.CheckBox("Use expert settings");
       expSettings.addListener("changeValue", this._changeVisiblity, this);
       expSettings.setValue(true);
@@ -204,7 +206,7 @@ qx.Class.define("pracweb.Application",
       }, this);
       nextButton.addListener('execute', this.updateGraph, this);
 
-      mainGroup.add(new qx.ui.basic.Label("Description"));
+      mainGroup.add(new qx.ui.basic.Label("Natural-language instruction:"));
       mainGroup.add(description);
       mainGroup.add(expSettings);
       mainGroup.add(stepInf);
