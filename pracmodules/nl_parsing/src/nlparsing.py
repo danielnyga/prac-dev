@@ -194,6 +194,8 @@ class NLParsing(PRACModule):
 
     @PRACPIPE
     def __call__(self, pracinference):
+        if not jpype.isThreadAttachedToJVM():
+            jpype.attachThreadToJVM()
         log = logging.getLogger()
         log.info('Running %s' % self.name)
         parser = self.stanford_parser
