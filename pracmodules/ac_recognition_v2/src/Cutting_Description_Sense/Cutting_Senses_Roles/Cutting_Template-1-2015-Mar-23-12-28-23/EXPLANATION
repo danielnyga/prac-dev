@@ -1,0 +1,4 @@
+-For wrong PIECE role inference:
+	piece training sets are raw (so objected to be cutted has low sim possibility)
+	piece.n.08 has only a high sim to piece.n.08
+	slice.n.05 has compare to piece.n.08 higher sim to the 

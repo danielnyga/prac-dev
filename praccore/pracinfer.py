@@ -28,13 +28,52 @@ from praclog import logging
 from prac.inference import PRACInference
 from gui.querytool import PRACQueryGUI
 from prac.wordnet import WordNet
-from mln.database import readDBFromString
+from mln.database import readDBFromString,Database
 from utils import colorize
+import re
+
 
 parser = OptionParser()
 parser.add_option("-i", "--interactive", dest="interactive", default=False, action='store_true',
                   help="Starts PRAC inference with an interactive GUI tool.")
 
+def queryBuilder(actioncore,predicate, mln):
+    query = predicate+'('
+    domainList =  mln.predicates[predicate]
+    
+    if domainList[0].lower() == 'actioncore':
+        query += actioncore
+    else:
+        query += "?"+domainList[0]
+        
+    if len(domainList) == 1:
+        query += ")"
+    else:
+        i = 1
+        for d in domainList[1:]:
+            query += ","
+            if d.lower() == 'actioncore':
+                query += actioncore
+            else:
+                query += "?"+str(i)+d
+        query += ")"
+    return query
+
+def printInferencedPlanRoles(db,module):
+    db_ = Database(db.mln)
+    for q in db.query('achieved_by(?w,?ac)'):
+            actioncore = q['?ac']
+            if actioncore == 'null': continue
+            kb = module.load_pracmt(actioncore+"Transformation")
+            queryPredicates = kb.query_params['queries'].split(",")
+            for p in queryPredicates:
+                query = queryBuilder(actioncore,p, kb.query_mln)
+                for q in db.query(query, truthThreshold=1):
+                    for var, val in q.iteritems():
+                        query = query.replace(var,val)
+                    db_.addGroundAtom(query)
+    db_.printEvidence()
+                
 if __name__ == '__main__':
     
     (options, args) = parser.parse_args()
@@ -45,46 +84,55 @@ if __name__ == '__main__':
     
     log = logging.getLogger()
     log.setLevel(logging.ERROR)
-
+    actionRoles = None
     prac = PRAC()
-#     actionCore = prac.getModuleByName('ac_recognition')
     prac.wordnet = WordNet(concepts=None)
     
     infer = PRACInference(prac, sentences)
 #     actionCore.insertdbs(infer, *readDBFromString(prac.mln, dbs))
     
-    # in case we have natural-language parameters, parse them
-    if len(infer.instructions) > 0:
-        parser = prac.getModuleByName('nl_parsing')
-        prac.run(infer, parser)
-        
     if interactive: # use the GUI
+        # in case we have natural-language parameters, parse them
+        if len(infer.instructions) > 0:
+            parser = prac.getModuleByName('nl_parsing')
+            prac.run(infer, parser)
         gui = PRACQueryGUI(infer)
         gui.open()
     else: # regular PRAC pipeline
-        # get the action cores activated
-        actionCore = prac.getModuleByName('ac_recognition')
-        prac.run(infer,actionCore,kb=actionCore.load_pracmt('robohow'))
-        
-        # assign the roles to the words
-        actionRoles = prac.getModuleByName('senses_and_roles')
-        prac.run(infer,actionRoles)
-#         
-#         # infer the missing roles
-        prac.run(infer, actionRoles, missing=True)    
-        
-#     
+        while infer.next_module() != None :
+            module = prac.getModuleByName(infer.next_module())
+            prac.run(infer,module)
+    
     step = infer.inference_steps[-1]
     print
     print colorize('+========================+',  (None, 'green', True), True)
     print colorize('| PRAC INFERENCE RESULTS |',  (None, 'green', True), True)
     print colorize('+========================+',  (None, 'green', True), True)
+    wordnet_module = prac.getModuleByName('wn_senses')
     for db in step.output_dbs:
         for a in sorted(db.evidence.keys()):
             v = db.evidence[a]
-            if v > 0.001 and (a.startswith('action_core') or a.startswith('action_role') or a.startswith('has_sense')):
-                print '%.3f    %s' % (v, a)
+            if v > 0.001 and (a.startswith('action_core') or a.startswith('has_sense') or a.startswith('achieved_by')):
+                if a.startswith('has_sense'): 
+                    
+                    group = re.split(',',re.split('has_sense\w*\(|\)',a)[1])
+                    word = group[0];
+                    sense = group[1];
+                    if sense != 'null':
+                        print
+                        print colorize('  WORD:', (None, 'white', True), True), word, 
+                        print colorize('  SENSE:', (None, 'white', True), True), sense
+                        wordnet_module.printWordSenses(wordnet_module.get_possible_meanings_of_word(db, word), sense)
+                        print
+                    else:
+                        print '%.3f    %s' % (v, a)
+                else:
+                    print '%.3f    %s' % (v, a)
+        
+        printInferencedPlanRoles(db,prac.getModuleByName('roles_transformation'))
         print '---'
+    
+        
     
     
             

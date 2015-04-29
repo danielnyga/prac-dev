@@ -1,0 +1,21 @@
+
+		\documentclass[10pt]{article}
+		\usepackage{color}
+		\usepackage{rotating}
+		\usepackage[table]{xcolor}
+		\definecolor{cfmcolor}{rgb}{0.2,0.4,0.6}
+		\begin{document}
+		\pagenumbering{gobble}
+		\resizebox{\columnwidth}{!}{
+		\footnotesize
+\begin{tabular}{|l|l|l|l|l|}
+\hline
+Prediction/Ground Truth & \begin{turn}{90}ActionCause\end{turn} & \begin{turn}{90}Amount\end{turn} & \begin{turn}{90}Goal\end{turn} & \begin{turn}{90}ObjectToBeSpilled\end{turn}\\ \hline
+ActionCause & \cellcolor{cfmcolor!100}\textbf{20} & \cellcolor{cfmcolor!0}0 & \cellcolor{cfmcolor!0}0 & \cellcolor{cfmcolor!0}0\\ \hline
+Amount & \cellcolor{cfmcolor!0}0 & \cellcolor{cfmcolor!100}\textbf{9} & \cellcolor{cfmcolor!0}0 & \cellcolor{cfmcolor!0}0\\ \hline
+Goal & \cellcolor{cfmcolor!0}0 & \cellcolor{cfmcolor!0}0 & \cellcolor{cfmcolor!100}\textbf{20} & \cellcolor{cfmcolor!0}0\\ \hline
+ObjectToBeSpilled & \cellcolor{cfmcolor!0}0 & \cellcolor{cfmcolor!0}0 & \cellcolor{cfmcolor!0}0 & \cellcolor{cfmcolor!100}\textbf{20}\\ \hline
+\end{tabular}
+}
+		\end{document}
+		

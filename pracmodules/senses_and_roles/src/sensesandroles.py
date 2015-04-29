@@ -46,6 +46,44 @@ class SensesAndRoles(PRACModule):
     def shutdown(self):
         pass
     
+    def getRolesBasedOnCurrentAC(self,db):
+        db_ = Database(db.mln)
+        for q in db.query('action_core(?w,?ac)'):
+                actioncore = q['?ac']
+                if actioncore == 'null': continue
+                kb = self.load_pracmt(actioncore)
+                queryPredicates = kb.query_params['queries'].split(",")
+                for p in queryPredicates:
+                    if p == 'has_sense': continue
+                    query = self.roleQueryBuilder(actioncore,p, kb.query_mln)
+                    for q in db.query(query, truthThreshold=1):
+                        for var, val in q.iteritems():
+                            query = query.replace(var,val)
+                        db_.addGroundAtom(query)
+        return db_            
+                
+    def roleQueryBuilder(self, actioncore,predicate, mln):
+        query = predicate+'('
+        domainList =  mln.predicates[predicate]
+        
+        if domainList[0].lower() == 'actioncore':
+            query += actioncore
+        else:
+            query += "?"+domainList[0]
+            
+        if len(domainList) == 1:
+            query += ")"
+        else:
+            i = 1
+            for d in domainList[1:]:
+                query += ","
+                if d.lower() == 'actioncore':
+                    query += actioncore
+                else:
+                    query += "?"+str(i)+d
+            query += ")"
+        return query
+            
     @PRACPIPE
     def __call__(self, pracinference, **params):
         log = logging.getLogger(self.name)
@@ -66,7 +104,7 @@ class SensesAndRoles(PRACModule):
         for db in dbs:
             db_ = db.duplicate()
 #             db_.write(sys.stdout, color=True)
-            for q in db.query('ac_word(?ac)'):
+            for q in db.query('action_core(?w,?ac)'):
                 actioncore = q['?ac']
                 if actioncore == 'null': continue
                 if kb is None:
@@ -98,25 +136,45 @@ class SensesAndRoles(PRACModule):
                 print 
                 concepts = useKB.query_mln.domains['concept']#mergeDomains(, self.merge_all_domains(pracinference))['concept']
                 log.info('adding senses. concepts=%s' % concepts)
-                db_ = self.prac.getModuleByName('wn_senses').get_senses_and_similarities(db_, concepts)
-                result_db = list(useKB.infer(db_))
-                for r_db in result_db:
+                wordnet_module = self.prac.getModuleByName('wn_senses')
+                db_senses = wordnet_module.get_senses_and_similarities(db_, concepts)
+                for atom, truth in sorted(db_senses.evidence.iteritems()):
+                    if 'is_a' in atom or 'has_sense' in atom:
+                        db_.addGroundAtom(atom,truth)  
+                #db_.printEvidence()
+                result_db_temp = list(useKB.infer(db_))
+                result_db = []
+                for r_db in result_db_temp:
                     if 'missing' not in params:
-                        for q in r_db.query('action_role(?w, ?r) ^ has_sense(?w, ?s)', truthThreshold=1):
-                            if q['?r'] == 'null': continue
-                            print colorize('ACTION ROLE:', (None, 'white', True), True), q['?r'], 
+                        for q in r_db.query('has_sense(?w, ?s)', truthThreshold=1):
+                            #TODO Add additional formulas to avoid the using of null values
+                            if q['?s'] == 'null': continue
                             print colorize('  WORD:', (None, 'white', True), True), q['?w'], 
                             print colorize('  SENSE:', (None, 'white', True), True), q['?s']
+                            wordnet_module.printWordSenses(wordnet_module.get_possible_meanings_of_word(r_db, q['?w']), q['?s'])
+                            print
+                        queryPredicates = useKB.query_params['queries'].split(",")
+                        
+                        for p in queryPredicates:
+                            if p == 'has_sense': continue
+                            query = self.roleQueryBuilder(actioncore,p, useKB.query_mln)
+                            for q in r_db.query(query, truthThreshold=1):
+                                for var, val in q.iteritems():
+                                    query = query.replace(var,val)
+                                print colorize('  ROLES:', (None, 'white', True), True), query
+                        
+                        for atom, truth in sorted(db.evidence.iteritems()):
+                            if 'is_a' in atom : continue
+                            r_db.addGroundAtom(atom,truth)
+                        result_db.append(r_db)
+                        
                 for ur in unknown_roles:
                     print '%s:' % colorize(ur, (None, 'red', True), True)
                     for q in r_db.query('action_role(?w, %s) ^ has_sense(?w, ?s)' % ur, truthThreshold=1):
                         self.prac.getModuleByName('wn_senses').printWordSenses(concepts, q['?s'])
                     print
-                                                
-                db_ = db_.union(None, *result_db)
                 
-    #             db_.write(sys.stdout, color=True)
-                inf_step.output_dbs.append(db_)
+                inf_step.output_dbs.extend(result_db)
         return inf_step
         
     

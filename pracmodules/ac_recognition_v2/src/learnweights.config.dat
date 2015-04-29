@@ -8,11 +8,11 @@ S'2'
 p3
 sS'evidencePreds'
 p4
-S'has_pos, is_a'
+S'has_pos, is_a, dobj,action_core'
 p5
 sS'output_filename'
 p6
-S'wts.pydcll.fol_training-action_cores.mln'
+S'wts.pydcll.fol_training-Cutting_Template.mln'
 p7
 sS'discrPredicates'
 p8
@@ -22,7 +22,7 @@ p9
 I0
 sS'params1'
 p10
-S"partSize=1, optimizer='cg'"
+S"partSize=1, optimizer='cg', ignoreZeroWeightFormulas=True"
 p11
 sS'pattern'
 p12
@@ -65,11 +65,11 @@ S'PRACGrammar'
 p28
 sS'geometry'
 p29
-S'1007x933+912+136'
+S'1855x1056+65+24'
 p30
 sS'mln'
 p31
-S'action_cores.mln'
+S'Cutting_Template.mln'
 p32
 sS'logic'
 p33

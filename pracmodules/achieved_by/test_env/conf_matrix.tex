@@ -1,0 +1,19 @@
+
+		\documentclass[10pt]{article}
+		\usepackage{color}
+		\usepackage{rotating}
+		\usepackage[table]{xcolor}
+		\definecolor{cfmcolor}{rgb}{0.2,0.4,0.6}
+		\begin{document}
+		\pagenumbering{gobble}
+		\resizebox{\columnwidth}{!}{
+		\footnotesize
+\begin{tabular}{|l|l|l|}
+\hline
+Prediction/Ground Truth & \begin{turn}{90}AddingPlan\end{turn} & \begin{turn}{90}Pouring\end{turn}\\ \hline
+AddingPlan & \cellcolor{cfmcolor!100}\textbf{10} & \cellcolor{cfmcolor!0}0\\ \hline
+Pouring & \cellcolor{cfmcolor!0}0 & \cellcolor{cfmcolor!100}\textbf{10}\\ \hline
+\end{tabular}
+}
+		\end{document}
+		

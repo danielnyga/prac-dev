@@ -1,0 +1,9 @@
+#include  ../../senses_and_roles/mln/Roles.mln
+action_core(word,actioncore?)
+achieved_by(word,actioncore)
+
+0 action_core(?w1,+?ac1) ^ obj_to_be_spilled(?w2,+?ac2) ^ goal(?w3,+?ac1) ^ objectToBeAdded(?w2,+?ac1) ^ goal(?w3,+?ac2) ^ achieved_by(?w1,+?ac2) ^ action_verb(?w1,+?ac2) ^ ?w1 =/= ?w2 ^ ?w1 =/= ?w3 ^ ?w3 =/= ?w2
+
+
+
+

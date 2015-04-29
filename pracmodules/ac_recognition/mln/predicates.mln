@@ -27,7 +27,7 @@
 #include ../../wn_senses/mln/predicates.mln
 
 
-action_core(word, actioncore!)
+action_core(word, actioncore?)
 
-actioncore = {null}
+//actioncore = {null}
 //possible_sense(word,sense)

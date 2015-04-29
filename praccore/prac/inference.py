@@ -35,7 +35,6 @@ import re
 import math
 import operator
 
-
 class PRACInferenceStep(object):
     '''
     Wrapper class encapsulating a single inference step in the PRAC
@@ -71,7 +70,26 @@ class PRACInference(object):
         self.instructions = instructions
         self.inference_steps = []
         self.watch = StopWatch()
-
+    
+    def next_module(self):
+        if not self.inference_steps:
+            return 'nl_parsing'
+        previous_module = self.inference_steps[-1].module.name 
+         
+        if previous_module == 'nl_parsing':
+            return 'ac_recognition'
+        elif previous_module == 'ac_recognition':
+            return 'senses_and_roles'
+        elif previous_module == 'senses_and_roles':
+            return 'achieved_by'
+        elif previous_module == 'achieved_by':
+            return 'roles_transformation'
+        elif previous_module == 'roles_transformation':
+            if self.inference_steps[-1].module.isLastActionCoreAPlan:
+                return None
+            return 'achieved_by'
+        
+        return None 
 # class PRACInit(PRACReasoner):
 #     
 #     def __init__(self, actioncore):

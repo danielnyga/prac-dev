@@ -60,7 +60,7 @@ class WNSenses(PRACModule):
     
     
     @DB_TRANSFORM
-    def get_senses_and_similarities(self, db, concepts,fol=False):
+    def get_senses_and_similarities(self, db, concepts):
         '''
         Returns a new database with possible senses and the pairwise
         semantic similarities asserted. Assumes the part-of-speeches
@@ -102,14 +102,7 @@ class WNSenses(PRACModule):
 #                     db_.addGroundAtom('is_a(%s,%s)' % (sense_id, concept), sim) 
 #                     sim = wordnet.semilarity(synset, concept)
                     sim = wordnet.path_similarity(synset, concept)
-                    if fol == False:
-                        atom =  'is_a(%s,%s)' % (sense_id, concept)
-                        atomExists = False
-                        #To aviod the same evidences
-                        for _ in db_.query(atom):
-                            atomExists = True
-                        if atomExists == False:
-                            db_.addGroundAtom('is_a(%s,%s)' % (sense_id, concept),sim)
+                    db_.addGroundAtom('is_a(%s,%s)' % (sense_id, concept),sim)
         for word in word2senses:
             for word2, senses in word2senses.iteritems():
                 if word2 == word: continue
