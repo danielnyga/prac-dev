@@ -59,12 +59,12 @@ qx.Class.define("pracweb.Application",
 	  // destroy the session before leaving PRAC
 	  window.onbeforeunload = function () {
 	  	// getSession().invalidate();
-	  	req = new qx.io.request.Xhr(); 
+	  var	req = new qx.io.request.Xhr(); 
 		req.setUrl("/_destroy_session");
 		req.setMethod("POST");
 		req.addListener("success", function(e) { 
 			var tar = e.getTarget();								
-			response = tar.getResponse();
+			var response = tar.getResponse();
 		});
 		req.send();
 	  }; 
@@ -206,13 +206,13 @@ qx.Class.define("pracweb.Application",
     },
 
     _run_inference : function(method) {
-    	req = new qx.io.request.Xhr(); 
+    	var req = new qx.io.request.Xhr(); 
   		req.setUrl("/_pracinfer_step");
   		req.setMethod(method);
   		var that = this;
   		req.addListener("success", function(e) {
   			var tar = e.getTarget();								
-  			response = tar.getResponse();
+  			var response = tar.getResponse();
   			console.log(response.result);
   			if (response.result == "finish") {
           //TODO: Show that inference is done, highlight result?
