@@ -14,7 +14,8 @@ num(word,word)
 // formulas
 has_sense(?w1,null) ^ !achieved_by(?w1,?ac).
 obj_to_be_heated(?w1, ?ac1) ^ !achieved_by(?w1,?ac2).
-temperature_setting(?w1, ?w2,?ac1) ^ !achieved_by(?w1,?ac2) ^ !achieved_by(?w2,?ac2).
+temperature_setting(?w1,?w2,?ac1) ^ !achieved_by(?w1,?ac2).
+temperature_setting(?w1,?w2,?ac1) ^ !achieved_by(?w2,?ac2).
 
 // formulas
 -0.128555   obj_to_be_heated(?w1, ?ac1) ^ has_sense(?w1, ?s1) ^ is_a(?s1, oven.n.01) ^ achieved_by(?w2, Preheating) ^ action_core(?w2, ?ac1) ^ ?w1=/=?w2
@@ -31,4 +32,5 @@ temperature_setting(?w1, ?w2,?ac1) ^ !achieved_by(?w1,?ac2) ^ !achieved_by(?w2,?
 0.449893    obj_to_be_heated(?w1, ?ac1) ^ has_sense(?w1, ?s1) ^ !is_a(?s1, pan.n.03) ^ achieved_by(?w2, TurningOnElectricalDevice) ^ action_core(?w2, ?ac1) ^ ?w1=/=?w2
 0.752351    obj_to_be_heated(?w1, ?ac1) ^ has_sense(?w1, ?s1) ^ !is_a(?s1, hundred.n.01) ^ achieved_by(?w2, TurningOnElectricalDevice) ^ action_core(?w2, ?ac1) ^ ?w1=/=?w2
 0.752351    obj_to_be_heated(?w1, ?ac1) ^ has_sense(?w1, ?s1) ^ !is_a(?s1, degree_centigrade.n.01) ^ achieved_by(?w2, TurningOnElectricalDevice) ^ action_core(?w2, ?ac1) ^ ?w1=/=?w2
+
 
