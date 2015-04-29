@@ -45,6 +45,6 @@ ssS'filename'
 p22
 NsS'query_mln_str'
 p23
-V// domain declarations\u000a\u000a\u000a// predicate declarations\u000a#include  ../../senses_and_roles/mln/Roles.mln\u000a\u000aachieved_by(word,actioncore)\u000aaction_core(word,actioncore?)\u000a\u000a// formulas\u000a2.804632    action_core(?w1, Adding) ^ objectToBeAdded(?w2, Adding) ^ goal(?w3, Adding) ^ ingredient_to_be_added(?w2, Spooning) ^ goal(?w3, Spooning) ^ achieved_by(?w1, Spooning) ^ action_verb(?w1, Spooning) ^ ?w1=/=?w2 ^ ?w1=/=?w3 ^ ?w3=/=?w2\u000a2.119816    action_core(?w1, Adding) ^ objectToBeAdded(?w2, Adding) ^ ingredient_to_be_added(?w2, Spooning) ^ achieved_by(?w1, Spooning) ^ action_verb(?w1, Spooning) ^ ?w1=/=?w2\u000a\u000a
+V// domain declarations\u000a\u000a\u000a// predicate declarations\u000a#include  ../../senses_and_roles/mln/Roles.mln\u000a\u000aachieved_by(word,actioncore)\u000aaction_core(word,actioncore?)\u000a\u000a// formulas\u000a2.804632    action_core(?w1, Adding) ^ obj_to_be_added(?w2, Adding) ^ goal(?w3, Adding) ^ ingredient_to_be_added(?w2, Spooning) ^ goal(?w3, Spooning) ^ achieved_by(?w1, Spooning) ^ action_verb(?w1, Spooning) ^ ?w1=/=?w2 ^ ?w1=/=?w3 ^ ?w3=/=?w2\u000a2.119816    action_core(?w1, Adding) ^ obj_to_be_added(?w2, Adding) ^ ingredient_to_be_added(?w2, Spooning) ^ achieved_by(?w1, Spooning) ^ action_verb(?w1, Spooning) ^ ?w1=/=?w2\u000a\u000a
 p24
 sb.

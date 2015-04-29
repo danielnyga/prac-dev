@@ -5,7 +5,7 @@
 1.00  action_core(flavour,Flavouring)
 1.00  action_verb(flavour,Adding)
 1.00  goal(soup, Adding)
-1.00  objectToBeAdded(pepper, Adding)
+1.00  obj_to_be_added(pepper, Adding)
 
 ---
 
@@ -16,7 +16,7 @@
 1.00  action_core(flavour,Flavouring)
 1.00  action_verb(flavour,Adding)
 1.00  goal(steak, Adding)
-1.00  objectToBeAdded(pepper, Adding)
+1.00  obj_to_be_added(pepper, Adding)
 
 ---
 
@@ -27,7 +27,7 @@
 1.00  action_core(flavour,Flavouring)
 1.00  action_verb(flavour,Adding)
 1.00  goal(chicken, Adding)
-1.00  objectToBeAdded(sassafras, Adding)
+1.00  obj_to_be_added(sassafras, Adding)
 
 ---
 
@@ -38,7 +38,7 @@
 1.00  action_core(flavour,Flavouring)
 1.00  action_verb(flavour,Adding)
 1.00  goal(sauce, Adding)
-1.00  objectToBeAdded(coriander, Adding)
+1.00  obj_to_be_added(coriander, Adding)
 
 ---
 
@@ -49,7 +49,7 @@
 1.00  action_core(flavour,Flavouring)
 1.00  action_verb(flavour,Adding)
 1.00  goal(meat, Adding)
-1.00  objectToBeAdded(fenugreek, Adding)
+1.00  obj_to_be_added(fenugreek, Adding)
 
 ---
 
@@ -60,7 +60,7 @@
 1.00  achieved_by(flavour,Adding)
 1.00  action_verb(flavour,Adding)
 1.00  goal(omelette, Adding)
-1.00  objectToBeAdded(salt, Adding)
+1.00  obj_to_be_added(salt, Adding)
 
 ---
 
@@ -71,7 +71,7 @@
 1.00  achieved_by(flavour,Adding)
 1.00  action_verb(flavour,Adding)
 1.00  goal(rib, Adding)
-1.00  objectToBeAdded(pepper, Adding)
+1.00  obj_to_be_added(pepper, Adding)
 
 ---
 
@@ -82,7 +82,7 @@
 1.00  achieved_by(flavour,Adding)
 1.00  action_verb(flavour,Adding)
 1.00  goal(egg, Adding)
-1.00  objectToBeAdded(salt, Adding)
+1.00  obj_to_be_added(salt, Adding)
 
 ---
 
@@ -93,14 +93,14 @@
 1.00  achieved_by(flavour,Adding)
 1.00  action_verb(flavour,Adding)
 1.00  goal(jambalaya, Adding)
-1.00  objectToBeAdded(chili_powder, Adding)
+1.00  obj_to_be_added(chili_powder, Adding)
 
 ---
 
 1.00  achieved_by(fill, Adding)
 1.00  action_core(fill, Filling)
 1.00  obj_to_be_poured(batter,Filling)
- 1.00 objectToBeAdded(batter,Adding)
+ 1.00 obj_to_be_added(batter,Adding)
 1.00  action_verb(fill,Filling)
  1.00 action_verb(fill,Adding)
 1.00  goal(gap,Filling)
@@ -115,7 +115,7 @@
 1.00  action_verb(fill,Filling)
  1.00 action_verb(fill,Adding)
 1.00  obj_to_be_poured(ice,Filling)
- 1.00 objectToBeAdded(ice,Adding)
+ 1.00 obj_to_be_added(ice,Adding)
 
 ---
 
@@ -124,7 +124,7 @@
 1.00 action_verb(fill,Filling)
  1.00 action_verb(fill,Adding)
 1.00   obj_to_be_poured(salt,Filling)
- 1.00 objectToBeAdded(salt,Adding)
+ 1.00 obj_to_be_added(salt,Adding)
 1.00  goal(saltcellar,Filling)
  1.00 goal(saltcellar,Adding)
 
@@ -137,7 +137,7 @@
 1.00  amount(gram,Filling)
  1.00 amount(gram,Adding)
 1.00   obj_to_be_poured(rice,Filling)
- 1.00 objectToBeAdded(rice,Adding)
+ 1.00 obj_to_be_added(rice,Adding)
 1.00  goal(wok,Filling)
  1.00 goal(wok,Adding)
 
@@ -145,7 +145,7 @@
 1.00  achieved_by(fill, Adding)
 1.00  action_core(fill, Filling)
 1.00   obj_to_be_poured(corn,Filling)
- 1.00 objectToBeAdded(corn,Adding)
+ 1.00 obj_to_be_added(corn,Adding)
 1.00 action_verb(fill,Filling)
  1.00 action_verb(fill,Adding)
 1.00  amount(gram,Filling)
@@ -158,7 +158,7 @@
 1.00  achieved_by(fill, Adding)
 1.00  action_core(fill, Filling)
 1.00   obj_to_be_poured(apples,Filling)
- 1.00 objectToBeAdded(apples,Adding)
+ 1.00 obj_to_be_added(apples,Adding)
 1.00  goal(blender,Filling)
  1.00 goal(blender,Adding)
 1.00 action_verb(fill,Filling)
@@ -176,7 +176,7 @@
 1.00  amount(kilogram,Filling)
  1.00 amount(kilogram,Adding)
 1.00   obj_to_be_poured(oranges,Filling)
- 1.00 objectToBeAdded(oranges,Adding)
+ 1.00 obj_to_be_added(oranges,Adding)
 
 ---
 
@@ -187,7 +187,7 @@
 1.00  amount(gram,Filling)
  1.00 amount(gram,Adding)
 1.00   obj_to_be_poured(salt,Filling)
- 1.00 objectToBeAdded(salt,Adding)
+ 1.00 obj_to_be_added(salt,Adding)
 1.00  goal(saltcellar,Filling)
  1.00 goal(saltcellar,Adding)
 
@@ -196,7 +196,7 @@
 1.00  achieved_by(fill, Adding)
 1.00  action_core(fill, Filling)
 1.00   obj_to_be_poured(batter,Filling)
- 1.00 objectToBeAdded(batter,Adding)
+ 1.00 obj_to_be_added(batter,Adding)
 1.00 action_verb(fill,Filling)
  1.00 action_verb(fill,Adding)
 1.00  goal(gap,Filling)
@@ -212,7 +212,7 @@
 1.00  amount(gram,Filling)
  1.00 amount(gram,Adding)
 1.00   obj_to_be_poured(pepper,Filling)
- 1.00 objectToBeAdded(pepper,Adding)
+ 1.00 obj_to_be_added(pepper,Adding)
 1.00  goal(saltcellar,Filling)
  1.00 goal(saltcellar,Adding)
 

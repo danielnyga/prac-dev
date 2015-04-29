@@ -3,7 +3,7 @@
 1.00  action_verb(add,Filling)
  1.00 action_verb(add,Adding)
 1.00  obj_to_be_poured(dressing,Filling)
- 1.00 objectToBeAdded(dressing,Adding)
+ 1.00 obj_to_be_added(dressing,Adding)
 1.00  goal(salad,Adding)
  1.00 goal(salad,Filling)
 
@@ -13,9 +13,9 @@
 1.00  action_verb(add,Filling)
  1.00 action_verb(add,Adding)
 1.00  obj_to_be_poured(milk,Filling)
- 1.00 objectToBeAdded(milk,Adding)
+ 1.00 obj_to_be_added(milk,Adding)
 1.00  obj_to_be_poured(water,Filling)
- 1.00 objectToBeAdded(water,Adding)
+ 1.00 obj_to_be_added(water,Adding)
 1.00  goal(coffee,Adding)
  1.00 goal(coffee,Filling)
 ---
@@ -25,7 +25,7 @@
 1.00  action_verb(add,Filling)
  1.00 action_verb(add,Adding)
 1.00  obj_to_be_poured(water,Filling)
- 1.00 objectToBeAdded(water,Adding)
+ 1.00 obj_to_be_added(water,Adding)
 
 1.00  goal(glas,Adding)
  1.00 goal(glas,Filling)
@@ -35,7 +35,7 @@
 1.00  action_verb(add,Filling)
  1.00 action_verb(add,Adding)
 1.00  obj_to_be_poured(juice,Filling)
- 1.00 objectToBeAdded(juice,Adding)
+ 1.00 obj_to_be_added(juice,Adding)
 1.00  goal(glas,Adding)
  1.00 goal(glas,Filling)
 ---
@@ -44,7 +44,7 @@
 1.00  action_verb(add,Filling)
  1.00 action_verb(add,Adding)
 1.00  obj_to_be_poured(pesto,Filling)
- 1.00 objectToBeAdded(pesto,Adding)
+ 1.00 obj_to_be_added(pesto,Adding)
 1.00  goal(bowl,Adding)
  1.00 goal(bowl,Filling)
 ---
@@ -54,7 +54,7 @@
 1.00  action_verb(add,Filling)
  1.00 action_verb(add,Adding)
 1.00  obj_to_be_poured(cola,Filling)
- 1.00 objectToBeAdded(cola,Adding)
+ 1.00 obj_to_be_added(cola,Adding)
 1.00  goal(glass,Adding)
  1.00 goal(glass,Filling)
 ---
@@ -63,7 +63,7 @@
 1.00  action_verb(add,Filling)
  1.00 action_verb(add,Adding)
 1.00  obj_to_be_poured(cola,Filling)
- 1.00 objectToBeAdded(cola,Adding)
+ 1.00 obj_to_be_added(cola,Adding)
 1.00  goal(cup,Adding)
  1.00 goal(cup,Filling)
 ---
@@ -72,7 +72,7 @@
 1.00  action_verb(add,Filling)
  1.00 action_verb(add,Adding)
 1.00  obj_to_be_poured(whisky,Filling)
- 1.00 objectToBeAdded(whisky,Adding)
+ 1.00 obj_to_be_added(whisky,Adding)
 1.00  goal(glas,Adding)
  1.00 goal(glas,Filling)
 ---
@@ -81,7 +81,7 @@
 1.00  action_verb(add,Filling)
  1.00 action_verb(add,Adding)
 1.00  obj_to_be_poured(coffee,Filling)
- 1.00 objectToBeAdded(coffee,Adding)
+ 1.00 obj_to_be_added(coffee,Adding)
 1.00  goal(cup,Adding)
  1.00 goal(cup,Filling)
 

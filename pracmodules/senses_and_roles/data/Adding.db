@@ -1,6 +1,6 @@
 1.00  action_core(add,Adding)
 1.00  action_verb(add,Adding)
-1.00  objectToBeAdded(rib,Adding)
+1.00  obj_to_be_added(rib,Adding)
 1.00  has_pos(add, VB)
 1.00  has_pos(rib, NN)
 1.00  has_sense(add, add.v.01)
@@ -10,9 +10,9 @@
 ---
 1.00  action_core(add,Adding)
 1.00  action_verb(add,Adding)
-1.00  objectToBeAdded(butter,Adding)
+1.00  obj_to_be_added(butter,Adding)
 1.00  goal(mixing_bowl,Adding)
-1.00  objectToBeAdded(sugar,Adding)
+1.00  obj_to_be_added(sugar,Adding)
 1.00  has_pos(add, VB)
 1.00  has_pos(butter, NN)
 1.00  has_pos(mixing_bowl, NN)
@@ -29,9 +29,9 @@
 ---
 1.00  action_core(add,Adding)
 1.00  action_verb(add,Adding)
-1.00  objectToBeAdded(butter,Adding)
+1.00  obj_to_be_added(butter,Adding)
 1.00  goal(pan,Adding)
-1.00  objectToBeAdded(vanilla,Adding)
+1.00  obj_to_be_added(vanilla,Adding)
 1.00  has_pos(add, VB)
 1.00  has_pos(butter, NN)
 1.00  has_pos(pan, NN)
@@ -48,7 +48,7 @@
 ---
 1.00  action_core(add,Adding)
 1.00  action_verb(add,Adding)
-1.00  objectToBeAdded(eggs,Adding)
+1.00  obj_to_be_added(eggs,Adding)
 1.00  has_pos(add, VB)
 1.00  has_pos(eggs, NN)
 1.00  has_sense(add, add.v.01)
@@ -58,7 +58,7 @@
 ---
 1.00  action_core(add,Adding)
 1.00  action_verb(add,Adding)
-1.00  objectToBeAdded(butter,Adding)
+1.00  obj_to_be_added(butter,Adding)
 1.00  goal(pan,Adding)
 1.00  has_pos(add, VB)
 1.00  has_pos(butter, NN)
@@ -74,7 +74,7 @@
 1.00  action_core(add,Adding)
 1.00  action_verb(add,Adding)
 1.00  goal(pan,Adding)
-1.00  objectToBeAdded(vanilla,Adding)
+1.00  obj_to_be_added(vanilla,Adding)
 1.00  has_pos(add, VB)
 1.00  has_pos(pan, NN)
 1.00  has_pos(vanilla, NN)
@@ -88,7 +88,7 @@
 ---
 1.00  action_core(add,Adding)
 1.00  action_verb(add,Adding)
-1.00  objectToBeAdded(vegetables,Adding)
+1.00  obj_to_be_added(vegetables,Adding)
 1.00  has_pos(add, VB)
 1.00  has_pos(vegetables, NN)
 1.00  has_sense(add, add.v.01)
@@ -98,7 +98,7 @@
 ---
 1.00  action_core(add,Adding)
 1.00  action_verb(add,Adding)
-1.00  objectToBeAdded(beans,Adding)
+1.00  obj_to_be_added(beans,Adding)
 1.00  goal(pot,Adding)
 1.00  has_pos(add, VB)
 1.00  has_pos(beans, NN)
@@ -113,8 +113,8 @@
 ---
 1.00  action_core(add,Adding)
 1.00  action_verb(add,Adding)
-1.00  objectToBeAdded(eggs,Adding)
-1.00  objectToBeAdded(flour,Adding)
+1.00  obj_to_be_added(eggs,Adding)
+1.00  obj_to_be_added(flour,Adding)
 1.00  goal(mixing_bowl,Adding)
 1.00  has_pos(add, VB)
 1.00  has_pos(eggs, NN)
@@ -133,7 +133,7 @@
 1.00  action_core(add,Adding)
 1.00  action_verb(add,Adding)
 1.00  goal(meat,Adding)
-1.00  objectToBeAdded(salt,Adding)
+1.00  obj_to_be_added(salt,Adding)
 1.00  has_pos(add, VB)
 1.00  has_pos(meat, NN)
 1.00  has_pos(salt, NN)
@@ -147,7 +147,7 @@
 ---
 1.00  action_core(add,Adding)
 1.00  action_verb(add,Adding)
-1.00  objectToBeAdded(onion,Adding)
+1.00  obj_to_be_added(onion,Adding)
 1.00  has_pos(add, VB)
 1.00  has_pos(onion, NN)
 1.00  has_sense(add, add.v.01)
@@ -157,7 +157,7 @@
 ---
 1.00  action_core(add,Adding)
 1.00  action_verb(add,Adding)
-1.00  objectToBeAdded(fries,Adding)
+1.00  obj_to_be_added(fries,Adding)
 1.00  goal(steak,Adding)
 1.00  has_pos(add, VB)
 1.00  has_pos(fries, NN)
@@ -172,7 +172,7 @@
 ---
 1.00  action_core(add,Adding)
 1.00  action_verb(add,Adding)
-1.00  objectToBeAdded(dressing,Adding)
+1.00  obj_to_be_added(dressing,Adding)
 1.00  goal(salad,Adding)
 1.00  has_pos(add, VB)
 1.00  has_pos(dressing, NN)
@@ -187,7 +187,7 @@
 ---
 1.00  action_core(add,Adding)
 1.00  action_verb(add,Adding)
-1.00  objectToBeAdded(ingredient,Adding)
+1.00  obj_to_be_added(ingredient,Adding)
 1.00  has_pos(add, VB)
 1.00  has_pos(ingredient, NN)
 1.00  has_sense(add, add.v.01)
@@ -197,8 +197,8 @@
 ---
 1.00  action_core(add,Adding)
 1.00  action_verb(add,Adding)
-1.00  objectToBeAdded(asparagus,Adding)
-1.00  objectToBeAdded(salad,Adding)
+1.00  obj_to_be_added(asparagus,Adding)
+1.00  obj_to_be_added(salad,Adding)
 1.00  has_pos(add, VB)
 1.00  has_pos(asparagus, NN)
 1.00  has_pos(salad, NN)
@@ -211,8 +211,8 @@
 ---
 1.00  action_core(add,Adding)
 1.00  action_verb(add,Adding)
-1.00  objectToBeAdded(milk,Adding)
-1.00  objectToBeAdded(water,Adding)
+1.00  obj_to_be_added(milk,Adding)
+1.00  obj_to_be_added(water,Adding)
 1.00  has_pos(add, VB)
 1.00  has_pos(milk, NN)
 1.00  has_pos(water, NN)
@@ -225,7 +225,7 @@
 ---
 1.00  action_core(add,Adding)
 1.00  action_verb(add,Adding)
-1.00  objectToBeAdded(corn,Adding)
+1.00  obj_to_be_added(corn,Adding)
 1.00  goal(dish,Adding)
 1.00  has_pos(add, VB)
 1.00  has_pos(corn, NN)
@@ -240,7 +240,7 @@
 ---
 1.00  action_core(add,Adding)
 1.00  action_verb(add,Adding)
-1.00  objectToBeAdded(apple,Adding)
+1.00  obj_to_be_added(apple,Adding)
 1.00  has_pos(add, VB)
 1.00  has_pos(apple, NN)
 1.00  has_sense(add, add.v.01)
@@ -250,7 +250,7 @@
 ---
 1.00  action_core(add,Adding)
 1.00  action_verb(add,Adding)
-1.00  objectToBeAdded(cream,Adding)
+1.00  obj_to_be_added(cream,Adding)
 1.00  goal(sauce,Adding)
 1.00  has_pos(add, VB)
 1.00  has_pos(cream, NN)
@@ -265,8 +265,8 @@
 ---
 1.00  action_core(add,Adding)
 1.00  action_verb(add,Adding)
-1.00  objectToBeAdded(cream,Adding)
-1.00  objectToBeAdded(ingredient,Adding)
+1.00  obj_to_be_added(cream,Adding)
+1.00  obj_to_be_added(ingredient,Adding)
 1.00  goal(mixture,Adding)
 1.00  has_pos(add, VB)
 1.00  has_pos(cream, NN)
@@ -285,7 +285,7 @@
 ---
 
 1.00  action_verb(add,Adding)
-1.00  objectToBeAdded(salt,Adding)
+1.00  obj_to_be_added(salt,Adding)
 1.00  goal(soup,Adding)
 1.00  has_pos(add, VB)
 1.00  has_pos(soup, NN)
@@ -302,7 +302,7 @@
 ---
 
 1.00  action_verb(add,Adding)
-1.00  objectToBeAdded(coriander,Adding)
+1.00  obj_to_be_added(coriander,Adding)
 1.00  goal(sauce,Adding)
 1.00  has_pos(add, VB)
 1.00  has_pos(sauce, NN)

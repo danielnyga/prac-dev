@@ -1,7 +1,7 @@
 spice(word,actioncore)
 goal(word,actioncore)
 action_verb(word,actioncore)
-objectToBeAdded(word,actioncore)
+obj_to_be_added(word,actioncore)
 temperature_setting(word,word,actioncore)
 obj_to_be_heated(word,actioncore)
 obj_to_be_poured(word,actioncore)
