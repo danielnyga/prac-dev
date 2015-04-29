@@ -12,6 +12,7 @@ from urlparse import urlparse
 import os
 import logging
 from prac.core import PRAC
+from prac.wordnet import WordNet
 from pracWEB.app import PRACSession
 
 def ensure_prac_session(session):
@@ -21,6 +22,7 @@ def ensure_prac_session(session):
         session['id'] = os.urandom(24)
         prac_session = PRACSession(session)
         prac_session.prac = PRAC()
+        prac_session.prac.wordnet = WordNet(concepts=None)
         # initialize the nl_parsing module so the JVM is started
         prac_session.prac.getModuleByName('nl_parsing')
         log.info('created new PRAC session %s' % str(prac_session.id))

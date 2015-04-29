@@ -26,6 +26,9 @@ qx.Class.define("pracweb.Graph",
     this.d3 = new qxd3.Svg().getD3();
     this.WAITMSEC = 500;
 
+    this.w = window.innerWidth;
+    this.h = window.innerHeight;
+
     this.svnContainer = this.d3.select('#viz')
       .append("svg:svg")
       .attr("width", "100%")
@@ -48,8 +51,6 @@ qx.Class.define("pracweb.Graph",
       .attr("d", "M0,-5L10,0L0,5");
 
 
-    this.w = window.innerWidth;
-    this.h = .8*window.innerHeight;
 
     this.force = this.d3.layout.force();
     this.nodes = this.force.nodes();
@@ -72,7 +73,7 @@ qx.Class.define("pracweb.Graph",
       var tmpNodes = [];
       var nodesCopy = [];
 
-      // create temporary nodes
+      // create temporary list of nodes containing only new ones
       for (var a in data) {
         if (!this.nodeInList(data[a].source, tmpNodes) && typeof this.findNodeInList(data[a].source, tmpNodes) === "undefined") {
           tmpNodes.push(data[a].source);
@@ -263,7 +264,7 @@ qx.Class.define("pracweb.Graph",
         .attr("id", function(d) { return d.id; } );
 
       // circleEnter.append("svg:rect")
-      //   .attr("width", function(d) {return 15*d.id.length;}) // set width according to text length
+      //   .attr("width", function(d) {return 10*d.id.length;}) // set width according to text length
       //   .attr("height", 25)
       //   .attr("id", function(d) { return d.id; } );
 
@@ -315,7 +316,8 @@ qx.Class.define("pracweb.Graph",
         var origPos = { x: (d.source.x + d.target.x ) /2 - bbox.width/2, y: (d.source.y + d.target.y) /2 }; // exact middle between source and target
         var dir = { x: d.target.x - d.source.x, y: d.target.y - d.source.y }; // direction source -> target
         var rot = { x: dir.y, y: -dir.x }; // rotate direction -90 degrees
-        var length = Math.sqrt(rot.x * rot.x + rot.y * rot.y) / 100 // normalize length
+        var ltemp = Math.sqrt(rot.x * rot.x + rot.y * rot.y) / 100 // normalize length
+        var length = ltemp !== 0 ? ltemp : 0.1; // if length is 0, set to small value to prevent NaN
         var rotNorm = { x: rot.x / length, y: rot.y / length }; // normalize rotation direction
         return { x: origPos.x - scale * rotNorm.x, y: origPos.y - scale * rotNorm.y};// return moved position
       };
@@ -339,7 +341,7 @@ qx.Class.define("pracweb.Graph",
       };
 
       this.force
-        .size([this.w, this.h])
+        .size([this.w, .8*this.h])
         .linkDistance( this.h/2 )
         .charge(-300)
         .on("tick", tick)

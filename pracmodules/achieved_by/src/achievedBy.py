@@ -128,5 +128,5 @@ class AchievedBy(PRACModule):
                         inf_step.output_dbs.append(r_db_)
                         print actionword + " achieved by: " + achievedByAc
                             
-                return inf_step
+        return inf_step
     

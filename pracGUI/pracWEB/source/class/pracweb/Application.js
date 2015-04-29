@@ -200,13 +200,17 @@ qx.Class.define("pracweb.Application",
   			var tar = e.getTarget();								
   			response = tar.getResponse();
   			console.log(response.result);
-  			if (response.result == "finish")
+  			if (response.result == "finish") {
+          console.log(" I am DONE! ");
   				return;
-  			else {
+        }	else {
           that.updateGraph(response.result);
-  				console.log("sending new request");
-  				var req = that._run_inference("GET");
-  				req.send();
+          console.log('idle before sending new request...');
+          setTimeout( function() {
+            var req = that._run_inference("GET");
+            console.log("sending new request");
+            req.send();
+          }, 5000);
   			}
   		});
 		  return req;

@@ -23,6 +23,7 @@ def _pracinfer_step():
     print pracApp.app.session_store
     pracsession = pracApp.app.session_store[session]
     prac = pracsession.prac
+
     if request.method == 'POST':
         data = json.loads(request.get_data())
         pracsession.count = 1
@@ -31,6 +32,8 @@ def _pracinfer_step():
         parser = prac.getModuleByName('nl_parsing')
         prac.run(infer, parser)
         pracsession.infer = infer
+        pracsession.synPreds = parser.mln.predicates
+        pracsession.leaveSynPreds = True
     else:
         if pracsession.infer.next_module() is not None :
             module = prac.getModuleByName(pracsession.infer.next_module())
@@ -40,19 +43,22 @@ def _pracinfer_step():
 
     result = []
     for db in pracsession.infer.inference_steps[-1].output_dbs:
+        db.write(sys.stdout, color=True)
         _grammar = db.mln.logic.grammar
         for atom in db.evidence:
             a_tuple = _grammar.parseLiteral(atom)
             if not db.evidence[atom] == 1: continue
+            if a_tuple[1] in pracsession.synPreds.keys() and not pracsession.leaveSynPreds: continue
+            if 'null' in a_tuple[2]: continue
             if len(a_tuple[2]) == 2:
                 result.append({'source': a_tuple[2][0], 'target': a_tuple[2][1] , 'value': a_tuple[1] , 'arcStyle': 'strokegreen'})
             else:
                 result.append({'source': a_tuple[2][2], 'target': a_tuple[2][0] , 'value': a_tuple[1] , 'arcStyle': 'strokegreen'})
                 result.append({'source': a_tuple[2][2], 'target': a_tuple[2][1] , 'value': a_tuple[1] , 'arcStyle': 'strokegreen'})
+    pracsession.leaveSynPreds = False
     return jsonify( {'result': result} )
 
-
-    
+ 
 # def infer(data, files):
 #     if data['module'] in pracApp.prac.moduleManifestByName: # call module's inference method
 #         print 'Running Inference for module ', data['module']
