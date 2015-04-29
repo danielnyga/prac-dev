@@ -1,0 +1,11 @@
+// domain declarations
+
+
+// predicate declarations
+action_core(word,actioncore?)
+achieved_by(word,actioncore)
+#include  ../../senses_and_roles/mln/Roles.mln
+
+// formulas
+3.394532    action_core(?w1, Pouring) ^ obj_to_be_poured(?w2, Pouring) ^ goal(?w3, Pouring) ^ obj_to_be_poured(?w2, Pouring) ^ goal(?w3, Pouring) ^ achieved_by(?w1, Pouring) ^ action_verb(?w1, Pouring) ^ ?w1=/=?w2 ^ ?w1=/=?w3 ^ ?w3=/=?w2
+3.813239    action_core(?w1, Filling) ^ obj_to_be_poured(?w2, Filling) ^ goal(?w3, Filling) ^ obj_to_be_poured(?w2, Pouring) ^ goal(?w3, Pouring) ^ achieved_by(?w1, Pouring) ^ action_verb(?w1, Pouring) ^ ?w1=/=?w2 ^ ?w1=/=?w3 ^ ?w3=/=?w2
