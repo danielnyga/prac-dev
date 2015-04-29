@@ -16,6 +16,7 @@ class SessionStore():
         self.sessions[prac_session.id] = prac_session
         
     def __getitem__(self, s):
+        if 'id' not in s: return None
         return self.sessions.get(s['id'])
     
     def remove(self, s):
