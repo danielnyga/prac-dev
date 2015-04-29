@@ -32,10 +32,9 @@ def _pracinfer_step():
         prac.run(infer, parser)
         pracsession.infer = infer
     else:
-        if pracsession.count < 5:
-            pracsession.count += 1
-            # step = prac.run(infer, MODULENAME)
-            # pracsession.infer.inference_steps.append(step)
+        if pracsession.infer.next_module() is not None :
+            module = prac.getModuleByName(pracsession.infer.next_module())
+            prac.run(pracsession.infer,module)
         else:
             return jsonify( {'result': 'finish'} )
 
@@ -44,29 +43,15 @@ def _pracinfer_step():
         _grammar = db.mln.logic.grammar
         for atom in db.evidence:
             a_tuple = _grammar.parseLiteral(atom)
-            if not a_tuple[0]: continue
+            if not db.evidence[atom] == 1: continue
             if len(a_tuple[2]) == 2:
                 result.append({'source': a_tuple[2][0], 'target': a_tuple[2][1] , 'value': a_tuple[1] , 'arcStyle': 'strokegreen'})
             else:
                 result.append({'source': a_tuple[2][2], 'target': a_tuple[2][0] , 'value': a_tuple[1] , 'arcStyle': 'strokegreen'})
                 result.append({'source': a_tuple[2][2], 'target': a_tuple[2][1] , 'value': a_tuple[1] , 'arcStyle': 'strokegreen'})
-    print 'result: ', result
     return jsonify( {'result': result} )
 
 
-
-# !p(A,B)
-# (False, "p", ["A", "B"])
-#         for db in stp.output_dbs:
-#             for ek in db.evidence:
-#                 e = db.evidence[ek]
-#                 src = ek.split('(')[1].split(',')[0]
-#                 tar = ek.split('(')[1].split(',')[1].split(')')[0]
-#                 val = ek.split('(')[0] # db.evidence[ek]?\
-#                 arcStyle = 'default'
-#                 stepx.append({'source': src, 'target': tar , 'value': val , 'arcStyle': arcStyle})
-#         result[stpno] = stepx
-#         stpno += 1
     
 # def infer(data, files):
 #     if data['module'] in pracApp.prac.moduleManifestByName: # call module's inference method
@@ -110,19 +95,3 @@ def _pracinfer_step():
 # 
 #     else: # inference without module (no WN)
 #         print 'Running Inference w/o module'
-# 
-#     result = {}
-#     stpno = 0
-#     for stp in infer.inference_steps:
-#         stepx = []
-#         for db in stp.output_dbs:
-#             for ek in db.evidence:
-#                 e = db.evidence[ek]
-#                 src = ek.split('(')[1].split(',')[0]
-#                 tar = ek.split('(')[1].split(',')[1].split(')')[0]
-#                 val = ek.split('(')[0] # db.evidence[ek]?\
-#                 arcStyle = 'default'
-#                 stepx.append({'source': src, 'target': tar , 'value': val , 'arcStyle': arcStyle})
-#         result[stpno] = stepx
-#         stpno += 1
-#     return result
