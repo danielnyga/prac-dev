@@ -45,6 +45,6 @@ ssS'filename'
 p22
 NsS'query_mln_str'
 p23
-V// domain declarations\u000a\u000a\u000a// predicate declarations\u000aaction_verb(word,actioncore)\u000agoal(word,actioncore)\u000aobjectToBeAdded(word,actioncore)\u000aobj_to_be_spilled(word,actioncore)\u000aamount(word,actioncore)\u000aspice_jar_content(word,actioncore)\u000atemperature_setting(word,word,actioncore)\u000aachieved_by(word,actioncore)\u000aaction_core(word,actioncore?)\u000aobj_to_be_heated(word,actioncore)\u000aspice(word,actioncore)\u000a\u000a// formulas\u000a3.649537    action_core(?w1, Adding) ^ objectToBeAdded(?w2, Adding) ^ goal(?w3, Adding) ^ spice_jar_content(?w2, UsingSpiceJar) ^ goal(?w3, UsingSpiceJar) ^ achieved_by(?w1, UsingSpiceJar) ^ action_verb(?w1, UsingSpiceJar) ^ ?w1=/=?w2 ^ ?w1=/=?w3 ^ ?w3=/=?w2\u000a\u000a
+V// domain declarations\u000a\u000a\u000a// predicate declarations\u000aaction_verb(word,actioncore)\u000agoal(word,actioncore)\u000aobjectToBeAdded(word,actioncore)\u000aobj_to_be_poured(word,actioncore)\u000aamount(word,actioncore)\u000aspice_jar_content(word,actioncore)\u000atemperature_setting(word,word,actioncore)\u000aachieved_by(word,actioncore)\u000aaction_core(word,actioncore?)\u000aobj_to_be_heated(word,actioncore)\u000aspice(word,actioncore)\u000a\u000a// formulas\u000a3.649537    action_core(?w1, Adding) ^ objectToBeAdded(?w2, Adding) ^ goal(?w3, Adding) ^ spice_jar_content(?w2, UsingSpiceJar) ^ goal(?w3, UsingSpiceJar) ^ achieved_by(?w1, UsingSpiceJar) ^ action_verb(?w1, UsingSpiceJar) ^ ?w1=/=?w2 ^ ?w1=/=?w3 ^ ?w3=/=?w2\u000a\u000a
 p24
 sb.

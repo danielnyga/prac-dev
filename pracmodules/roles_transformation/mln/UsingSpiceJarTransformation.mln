@@ -5,7 +5,7 @@
 action_verb(word,actioncore)
 goal(word,actioncore)
 objectToBeAdded(word,actioncore)
-obj_to_be_spilled(word,actioncore)
+obj_to_be_poured(word,actioncore)
 amount(word,actioncore)
 spice_jar_content(word,actioncore)
 temperature_setting(word,word,actioncore)

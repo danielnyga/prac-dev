@@ -9,6 +9,6 @@ action_core(word,actioncore?)
 
 // formulas
 2.642885    action_core(?w1, Flavouring) ^ spice(?w2, Flavouring) ^ goal(?w3, Flavouring) ^ objectToBeAdded(?w2, Adding) ^ goal(?w3, Adding) ^ achieved_by(?w1, Adding) ^ action_verb(?w1, Adding) ^ ?w1=/=?w2 ^ ?w1=/=?w3 ^ ?w3=/=?w2
-2.656846    action_core(?w1, Filling) ^ obj_to_be_spilled(?w2, Filling) ^ goal(?w3, Filling) ^ objectToBeAdded(?w2, Adding) ^ goal(?w3, Adding) ^ achieved_by(?w1, Adding) ^ action_verb(?w1, Adding) ^ ?w1=/=?w2 ^ ?w1=/=?w3 ^ ?w3=/=?w2
-2.986528    action_core(?w1, Filling) ^ obj_to_be_spilled(?w2, Filling) ^ goal(?w3, Filling) ^ amount(?w4, Filling) ^ objectToBeAdded(?w2, Adding) ^ goal(?w3, Adding) ^ amount(?w4, Adding) ^ achieved_by(?w1, Adding) ^ action_verb(?w1, Adding) ^ ?w1=/=?w2 ^ ?w1=/=?w3 ^ ?w3=/=?w2 ^ ?w1=/=?w4 ^ ?w2=/=?w4 ^ ?w3=/=?w4
+2.656846    action_core(?w1, Filling) ^ obj_to_be_poured(?w2, Filling) ^ goal(?w3, Filling) ^ objectToBeAdded(?w2, Adding) ^ goal(?w3, Adding) ^ achieved_by(?w1, Adding) ^ action_verb(?w1, Adding) ^ ?w1=/=?w2 ^ ?w1=/=?w3 ^ ?w3=/=?w2
+2.986528    action_core(?w1, Filling) ^ obj_to_be_poured(?w2, Filling) ^ goal(?w3, Filling) ^ amount(?w4, Filling) ^ objectToBeAdded(?w2, Adding) ^ goal(?w3, Adding) ^ amount(?w4, Adding) ^ achieved_by(?w1, Adding) ^ action_verb(?w1, Adding) ^ ?w1=/=?w2 ^ ?w1=/=?w3 ^ ?w3=/=?w2 ^ ?w1=/=?w4 ^ ?w2=/=?w4 ^ ?w3=/=?w4
 
