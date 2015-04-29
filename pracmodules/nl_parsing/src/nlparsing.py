@@ -146,16 +146,16 @@ class NLParsing(PRACModule):
     def __init__(self, prac):
         PRACModule.__init__(self, prac)
         self.stanford_parser = None
-    
-    def initialize(self):
         if not java.isJvmRunning():
             java.startJvm()
+    
+    def initialize(self):
         logging.getLogger().info('initializing nl_parsing')
-        if self.stanford_parser is None:
-            self.stanford_parser = StanfordParser(grammarPath)
         # this fixes some multithreading issues with jpype
         if not jpype.isThreadAttachedToJVM():
             jpype.attachThreadToJVM()
+        if self.stanford_parser is None:
+            self.stanford_parser = StanfordParser(grammarPath)
         self.mln = readMLNFromFile(os.path.join(self.module_path, 'mln', 'predicates.mln'), grammar='PRACGrammar', logic='FuzzyLogic')
 
     
