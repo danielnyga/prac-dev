@@ -13,7 +13,7 @@ Rp4
 S'labels'
 p6
 (lp7
-S'Tapping'
+S'OperatingATap'
 p8
 aS'Pouring'
 p9
@@ -30,7 +30,7 @@ p14
 I1
 ssg8
 (dp15
-S'Tapping'
+S'OperatingATap'
 p16
 I2
 sssb.

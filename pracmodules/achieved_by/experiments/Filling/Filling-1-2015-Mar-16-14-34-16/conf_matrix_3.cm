@@ -17,7 +17,7 @@ S'AddingIngredient'
 p8
 aS'Pouring'
 p9
-aS'Tapping'
+aS'OperatingATap'
 p10
 asS'instanceCount'
 p11
@@ -37,7 +37,7 @@ p17
 I1
 ssg10
 (dp18
-S'Tapping'
+S'OperatingATap'
 p19
 I1
 sssb.

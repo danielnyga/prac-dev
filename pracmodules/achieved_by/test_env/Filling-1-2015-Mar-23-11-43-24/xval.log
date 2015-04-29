@@ -1568,11 +1568,11 @@ warning flags: 0
 2015-03-23 11:43:52,022 - FastConjunctionGrounding - INFO - created 72 ground formulas.
 2015-03-23 11:43:52,180 - MLN - INFO - 1.000    achieved_by(Pouring,Pouring)
 2015-03-23 11:43:52,180 - MLN - INFO - 1.000    achieved_by(Adding,Pouring)
-2015-03-23 11:43:52,180 - MLN - INFO - 1.000    achieved_by(Filling,Tapping)
-2015-03-23 11:43:52,181 - MLN - INFO - 1.000    achieved_by(Tapping,Pouring)
+2015-03-23 11:43:52,180 - MLN - INFO - 1.000    achieved_by(Filling,OperatingATap)
+2015-03-23 11:43:52,181 - MLN - INFO - 1.000    achieved_by(OperatingATap,Pouring)
 2015-03-23 11:43:52,217 - FastConjunctionGrounding - INFO - created 64 ground formulas.
 2015-03-23 11:43:52,328 - MLN - INFO - 1.000    achieved_by(Filling,Pouring)
-2015-03-23 11:43:52,328 - MLN - INFO - 1.000    achieved_by(Tapping,Pouring)
+2015-03-23 11:43:52,328 - MLN - INFO - 1.000    achieved_by(OperatingATap,Pouring)
 2015-03-23 11:43:52,329 - MLN - INFO - 1.000    achieved_by(Adding,Pouring)
 2015-03-23 11:43:52,329 - MLN - INFO - 1.000    achieved_by(Pouring,Pouring)
 2015-03-23 11:43:52,818 - MLN - INFO - materializing formula templates...
@@ -1580,7 +1580,7 @@ warning flags: 0
 2015-03-23 11:43:52,918 - MRF - INFO - Asserting evidence...
 2015-03-23 11:43:52,919 - FastConjunctionGrounding - INFO - Grounding formulas...
 2015-03-23 11:43:53,324 - FastConjunctionGrounding - INFO - created 72 ground formulas.
-2015-03-23 11:43:53,489 - MLN - INFO - 1.000    achieved_by(Tapping,Pouring)
+2015-03-23 11:43:53,489 - MLN - INFO - 1.000    achieved_by(OperatingATap,Pouring)
 2015-03-23 11:43:53,489 - MLN - INFO - 1.000    achieved_by(Adding,Pouring)
 2015-03-23 11:43:53,490 - MLN - INFO - 1.000    achieved_by(Pouring,Pouring)
 2015-03-23 11:43:53,490 - MLN - INFO - 1.000    achieved_by(Filling,Pouring)
@@ -1600,14 +1600,14 @@ warning flags: 0
 2015-03-23 11:43:54,359 - MRF - INFO - Asserting evidence...
 2015-03-23 11:43:54,361 - FastConjunctionGrounding - INFO - Grounding formulas...
 2015-03-23 11:43:54,403 - MLN - INFO - 1.000    achieved_by(Adding,Pouring)
-2015-03-23 11:43:54,412 - MLN - INFO - 1.000    achieved_by(Filling,Tapping)
-2015-03-23 11:43:54,412 - MLN - INFO - 1.000    achieved_by(Tapping,Pouring)
+2015-03-23 11:43:54,412 - MLN - INFO - 1.000    achieved_by(Filling,OperatingATap)
+2015-03-23 11:43:54,412 - MLN - INFO - 1.000    achieved_by(OperatingATap,Pouring)
 2015-03-23 11:43:54,412 - MLN - INFO - 1.000    achieved_by(Pouring,Pouring)
 2015-03-23 11:43:54,407 - MRF - INFO - Loading FastConjunctionGrounding...
 2015-03-23 11:43:54,457 - MRF - INFO - Asserting evidence...
 2015-03-23 11:43:54,458 - FastConjunctionGrounding - INFO - Grounding formulas...
 2015-03-23 11:43:54,500 - MLN - INFO - 1.000    achieved_by(Filling,Adding)
-2015-03-23 11:43:54,500 - MLN - INFO - 1.000    achieved_by(Tapping,Pouring)
+2015-03-23 11:43:54,500 - MLN - INFO - 1.000    achieved_by(OperatingATap,Pouring)
 2015-03-23 11:43:54,501 - MLN - INFO - 1.000    achieved_by(Adding,Pouring)
 2015-03-23 11:43:54,501 - MLN - INFO - 1.000    achieved_by(Pouring,Pouring)
 2015-03-23 11:43:54,609 - MLN - INFO - materializing formula templates...
@@ -1618,16 +1618,16 @@ warning flags: 0
 2015-03-23 11:43:54,910 - MLN - INFO - 1.000    achieved_by(Adding,Adding)
 2015-03-23 11:43:54,910 - MLN - INFO - 1.000    achieved_by(Filling,Pouring)
 2015-03-23 11:43:54,911 - MLN - INFO - 1.000    achieved_by(Pouring,Adding)
-2015-03-23 11:43:54,911 - MLN - INFO - 1.000    achieved_by(Tapping,Adding)
+2015-03-23 11:43:54,911 - MLN - INFO - 1.000    achieved_by(OperatingATap,Adding)
 2015-03-23 11:43:54,939 - FastConjunctionGrounding - INFO - created 68 ground formulas.
 2015-03-23 11:43:55,175 - MLN - INFO - 1.000    achieved_by(Filling,Adding)
 2015-03-23 11:43:55,176 - MLN - INFO - 1.000    achieved_by(Adding,Pouring)
-2015-03-23 11:43:55,176 - MLN - INFO - 1.000    achieved_by(Tapping,Pouring)
+2015-03-23 11:43:55,176 - MLN - INFO - 1.000    achieved_by(OperatingATap,Pouring)
 2015-03-23 11:43:55,176 - MLN - INFO - 1.000    achieved_by(Pouring,Pouring)
 2015-03-23 11:43:55,234 - FastConjunctionGrounding - INFO - created 72 ground formulas.
 2015-03-23 11:43:55,454 - MLN - INFO - 1.000    achieved_by(Pouring,Pouring)
-2015-03-23 11:43:55,454 - MLN - INFO - 1.000    achieved_by(Filling,Tapping)
-2015-03-23 11:43:55,456 - MLN - INFO - 1.000    achieved_by(Tapping,Pouring)
+2015-03-23 11:43:55,454 - MLN - INFO - 1.000    achieved_by(Filling,OperatingATap)
+2015-03-23 11:43:55,456 - MLN - INFO - 1.000    achieved_by(OperatingATap,Pouring)
 2015-03-23 11:43:55,456 - MLN - INFO - 1.000    achieved_by(Adding,Pouring)
 2015-03-23 11:43:55,464 - MLN - INFO - materializing formula templates...
 2015-03-23 11:43:55,469 - MLN - INFO - materializing formula templates...
@@ -1776,7 +1776,7 @@ warning flags: 0
 2015-03-23 11:43:56,089 - DCLL - INFO - query preds: ['achieved_by']
 2015-03-23 11:43:56,089 - MultipleDatabaseLearner - INFO - grounding MRF for database 21/24 using NoGroundingFactory...
 2015-03-23 11:43:56,094 - MLN - INFO - 1.000    achieved_by(Adding,Pouring)
-2015-03-23 11:43:56,094 - MLN - INFO - 1.000    achieved_by(Tapping,Pouring)
+2015-03-23 11:43:56,094 - MLN - INFO - 1.000    achieved_by(OperatingATap,Pouring)
 2015-03-23 11:43:56,094 - MLN - INFO - 1.000    achieved_by(Filling,Pouring)
 2015-03-23 11:43:56,095 - MLN - INFO - 1.000    achieved_by(Pouring,Pouring)
 2015-03-23 11:43:56,096 - MRF - INFO - Loading NoGroundingFactory...
@@ -1805,15 +1805,15 @@ warning flags: 0
 2015-03-23 11:43:56,151 - MLN - INFO - learner: MultipleDatabaseLearner[24*DCLL[queryPreds:achieved_by]]
 2015-03-23 11:43:56,211 - FastConjunctionGrounding - INFO - created 68 ground formulas.
 2015-03-23 11:43:56,248 - MLN - INFO - 1.000    achieved_by(Adding,Pouring)
-2015-03-23 11:43:56,248 - MLN - INFO - 1.000    achieved_by(Tapping,Pouring)
+2015-03-23 11:43:56,248 - MLN - INFO - 1.000    achieved_by(OperatingATap,Pouring)
 2015-03-23 11:43:56,248 - MLN - INFO - 1.000    achieved_by(Filling,Pouring)
 2015-03-23 11:43:56,249 - MLN - INFO - 1.000    achieved_by(Pouring,Pouring)
 2015-03-23 11:43:56,266 - FastConjunctionGrounding - INFO - created 64 ground formulas.
 2015-03-23 11:43:56,357 - MLN - INFO - 1.000    achieved_by(Filling,Pouring)
 2015-03-23 11:43:56,357 - MLN - INFO - 1.000    achieved_by(Pouring,Pouring)
-2015-03-23 11:43:56,357 - MLN - INFO - 1.000    achieved_by(Tapping,Pouring)
+2015-03-23 11:43:56,357 - MLN - INFO - 1.000    achieved_by(OperatingATap,Pouring)
 2015-03-23 11:43:56,358 - MLN - INFO - 1.000    achieved_by(Adding,Pouring)
-2015-03-23 11:43:56,425 - MLN - INFO - 1.000    achieved_by(Tapping,Adding)
+2015-03-23 11:43:56,425 - MLN - INFO - 1.000    achieved_by(OperatingATap,Adding)
 2015-03-23 11:43:56,425 - MLN - INFO - 1.000    achieved_by(Filling,Adding)
 2015-03-23 11:43:56,425 - MLN - INFO - 1.000    achieved_by(Pouring,Adding)
 2015-03-23 11:43:56,426 - MLN - INFO - 1.000    achieved_by(Adding,Adding)
@@ -1908,8 +1908,8 @@ warning flags: 0
 2015-03-23 11:43:56,678 - DCLL - INFO - query preds: ['achieved_by']
 2015-03-23 11:43:56,678 - MultipleDatabaseLearner - INFO - grounding MRF for database 15/26 using NoGroundingFactory...
 2015-03-23 11:43:56,682 - MLN - INFO - 1.000    achieved_by(Adding,Pouring)
-2015-03-23 11:43:56,682 - MLN - INFO - 1.000    achieved_by(Filling,Tapping)
-2015-03-23 11:43:56,682 - MLN - INFO - 1.000    achieved_by(Tapping,Pouring)
+2015-03-23 11:43:56,682 - MLN - INFO - 1.000    achieved_by(Filling,OperatingATap)
+2015-03-23 11:43:56,682 - MLN - INFO - 1.000    achieved_by(OperatingATap,Pouring)
 2015-03-23 11:43:56,683 - MLN - INFO - 1.000    achieved_by(Pouring,Pouring)
 2015-03-23 11:43:56,685 - MRF - INFO - Loading NoGroundingFactory...
 2015-03-23 11:43:56,688 - MRF - INFO - Applying CW assumption...
@@ -1992,14 +1992,14 @@ warning flags: 0
 2015-03-23 11:43:57,130 - FastConjunctionGrounding - INFO - Grounding formulas...
 2015-03-23 11:43:57,206 - FastConjunctionGrounding - INFO - created 68 ground formulas.
 2015-03-23 11:43:57,409 - MLN - INFO - 1.000    achieved_by(Filling,Adding)
-2015-03-23 11:43:57,409 - MLN - INFO - 1.000    achieved_by(Tapping,Pouring)
+2015-03-23 11:43:57,409 - MLN - INFO - 1.000    achieved_by(OperatingATap,Pouring)
 2015-03-23 11:43:57,409 - MLN - INFO - 1.000    achieved_by(Adding,Pouring)
 2015-03-23 11:43:57,410 - MLN - INFO - 1.000    achieved_by(Pouring,Pouring)
 2015-03-23 11:43:57,415 - FastConjunctionGrounding - INFO - created 64 ground formulas.
 2015-03-23 11:43:57,491 - MLN - INFO - 1.000    achieved_by(Pouring,Pouring)
 2015-03-23 11:43:57,491 - MLN - INFO - 1.000    achieved_by(Adding,Pouring)
 2015-03-23 11:43:57,492 - MLN - INFO - 1.000    achieved_by(Filling,Adding)
-2015-03-23 11:43:57,492 - MLN - INFO - 1.000    achieved_by(Tapping,Pouring)
+2015-03-23 11:43:57,492 - MLN - INFO - 1.000    achieved_by(OperatingATap,Pouring)
 2015-03-23 11:43:57,683 - MLN - INFO - materializing formula templates...
 2015-03-23 11:43:57,858 - MRF - INFO - Loading FastConjunctionGrounding...
 2015-03-23 11:43:57,895 - MRF - INFO - Asserting evidence...
@@ -2024,24 +2024,24 @@ warning flags: 0
 2015-03-23 11:43:58,535 - FastConjunctionGrounding - INFO - Grounding formulas...
 2015-03-23 11:43:58,578 - FastConjunctionGrounding - INFO - created 68 ground formulas.
 2015-03-23 11:43:58,586 - MLN - INFO - 1.000    achieved_by(Filling,Pouring)
-2015-03-23 11:43:58,586 - MLN - INFO - 1.000    achieved_by(Tapping,Pouring)
+2015-03-23 11:43:58,586 - MLN - INFO - 1.000    achieved_by(OperatingATap,Pouring)
 2015-03-23 11:43:58,586 - MLN - INFO - 1.000    achieved_by(Adding,Pouring)
 2015-03-23 11:43:58,587 - MLN - INFO - 1.000    achieved_by(Pouring,Pouring)
 2015-03-23 11:43:58,687 - FastConjunctionGrounding - INFO - created 68 ground formulas.
-2015-03-23 11:43:58,717 - MLN - INFO - 1.000    achieved_by(Tapping,Pouring)
+2015-03-23 11:43:58,717 - MLN - INFO - 1.000    achieved_by(OperatingATap,Pouring)
 2015-03-23 11:43:58,718 - MLN - INFO - 1.000    achieved_by(Adding,Pouring)
 2015-03-23 11:43:58,718 - MLN - INFO - 1.000    achieved_by(Pouring,Pouring)
 2015-03-23 11:43:58,718 - MLN - INFO - 1.000    achieved_by(Filling,Pouring)
-2015-03-23 11:43:58,778 - MLN - INFO - 1.000    achieved_by(Filling,Tapping)
+2015-03-23 11:43:58,778 - MLN - INFO - 1.000    achieved_by(Filling,OperatingATap)
 2015-03-23 11:43:58,778 - MLN - INFO - 1.000    achieved_by(Pouring,Pouring)
-2015-03-23 11:43:58,778 - MLN - INFO - 1.000    achieved_by(Tapping,Pouring)
+2015-03-23 11:43:58,778 - MLN - INFO - 1.000    achieved_by(OperatingATap,Pouring)
 2015-03-23 11:43:58,779 - MLN - INFO - 1.000    achieved_by(Adding,Pouring)
 2015-03-23 11:43:58,854 - MLN - INFO - 1.000    achieved_by(Filling,Pouring)
-2015-03-23 11:43:58,854 - MLN - INFO - 1.000    achieved_by(Tapping,Pouring)
+2015-03-23 11:43:58,854 - MLN - INFO - 1.000    achieved_by(OperatingATap,Pouring)
 2015-03-23 11:43:58,855 - MLN - INFO - 1.000    achieved_by(Pouring,Pouring)
 2015-03-23 11:43:58,855 - MLN - INFO - 1.000    achieved_by(Adding,Pouring)
 2015-03-23 11:43:59,004 - FastConjunctionGrounding - INFO - created 64 ground formulas.
-2015-03-23 11:43:59,298 - MLN - INFO - 1.000    achieved_by(Tapping,Adding)
+2015-03-23 11:43:59,298 - MLN - INFO - 1.000    achieved_by(OperatingATap,Adding)
 2015-03-23 11:43:59,298 - MLN - INFO - 1.000    achieved_by(Filling,Pouring)
 2015-03-23 11:43:59,298 - MLN - INFO - 1.000    achieved_by(Pouring,Adding)
 2015-03-23 11:43:59,299 - MLN - INFO - 1.000    achieved_by(Adding,Adding)
@@ -2060,15 +2060,15 @@ warning flags: 0
 2015-03-23 11:43:59,933 - FastConjunctionGrounding - INFO - created 68 ground formulas.
 2015-03-23 11:44:00,108 - MLN - INFO - 1.000    achieved_by(Adding,Pouring)
 2015-03-23 11:44:00,109 - MLN - INFO - 1.000    achieved_by(Pouring,Pouring)
-2015-03-23 11:44:00,109 - MLN - INFO - 1.000    achieved_by(Tapping,Pouring)
+2015-03-23 11:44:00,109 - MLN - INFO - 1.000    achieved_by(OperatingATap,Pouring)
 2015-03-23 11:44:00,109 - MLN - INFO - 1.000    achieved_by(Filling,Adding)
 2015-03-23 11:44:00,159 - FastConjunctionGrounding - INFO - created 68 ground formulas.
 2015-03-23 11:44:00,210 - FastConjunctionGrounding - INFO - created 68 ground formulas.
 2015-03-23 11:44:00,313 - MLN - INFO - 1.000    achieved_by(Pouring,Pouring)
-2015-03-23 11:44:00,314 - MLN - INFO - 1.000    achieved_by(Tapping,Pouring)
+2015-03-23 11:44:00,314 - MLN - INFO - 1.000    achieved_by(OperatingATap,Pouring)
 2015-03-23 11:44:00,314 - MLN - INFO - 1.000    achieved_by(Adding,Pouring)
 2015-03-23 11:44:00,314 - MLN - INFO - 1.000    achieved_by(Filling,Adding)
-2015-03-23 11:44:00,373 - MLN - INFO - 1.000    achieved_by(Tapping,Pouring)
+2015-03-23 11:44:00,373 - MLN - INFO - 1.000    achieved_by(OperatingATap,Pouring)
 2015-03-23 11:44:00,373 - MLN - INFO - 1.000    achieved_by(Filling,Adding)
 2015-03-23 11:44:00,374 - MLN - INFO - 1.000    achieved_by(Adding,Pouring)
 2015-03-23 11:44:00,374 - MLN - INFO - 1.000    achieved_by(Pouring,Pouring)
@@ -2077,7 +2077,7 @@ warning flags: 0
 2015-03-23 11:44:01,185 - MRF - INFO - Asserting evidence...
 2015-03-23 11:44:01,185 - FastConjunctionGrounding - INFO - Grounding formulas...
 2015-03-23 11:44:01,336 - FastConjunctionGrounding - INFO - created 68 ground formulas.
-2015-03-23 11:44:01,439 - MLN - INFO - 1.000    achieved_by(Tapping,Pouring)
+2015-03-23 11:44:01,439 - MLN - INFO - 1.000    achieved_by(OperatingATap,Pouring)
 2015-03-23 11:44:01,439 - MLN - INFO - 1.000    achieved_by(Pouring,Pouring)
 2015-03-23 11:44:01,439 - MLN - INFO - 1.000    achieved_by(Filling,Pouring)
 2015-03-23 11:44:01,439 - MLN - INFO - 1.000    achieved_by(Adding,Pouring)
@@ -2101,7 +2101,7 @@ warning flags: 0
 2015-03-23 11:44:10,595 - FastConjunctionGrounding - INFO - Grounding formulas...
 2015-03-23 11:44:10,882 - FastConjunctionGrounding - INFO - created 64 ground formulas.
 2015-03-23 11:44:10,987 - MLN - INFO - 1.000    achieved_by(Filling,Adding)
-2015-03-23 11:44:10,988 - MLN - INFO - 1.000    achieved_by(Tapping,Pouring)
+2015-03-23 11:44:10,988 - MLN - INFO - 1.000    achieved_by(OperatingATap,Pouring)
 2015-03-23 11:44:10,988 - MLN - INFO - 1.000    achieved_by(Adding,Pouring)
 2015-03-23 11:44:10,988 - MLN - INFO - 1.000    achieved_by(Pouring,Pouring)
 2015-03-23 11:44:11,779 - MLN - INFO - materializing formula templates...
@@ -2111,7 +2111,7 @@ warning flags: 0
 2015-03-23 11:44:12,084 - FastConjunctionGrounding - INFO - created 64 ground formulas.
 2015-03-23 11:44:12,227 - MLN - INFO - 1.000    achieved_by(Pouring,Pouring)
 2015-03-23 11:44:12,227 - MLN - INFO - 1.000    achieved_by(Adding,Pouring)
-2015-03-23 11:44:12,227 - MLN - INFO - 1.000    achieved_by(Tapping,Pouring)
-2015-03-23 11:44:12,227 - MLN - INFO - 1.000    achieved_by(Filling,Tapping)
+2015-03-23 11:44:12,227 - MLN - INFO - 1.000    achieved_by(OperatingATap,Pouring)
+2015-03-23 11:44:12,227 - MLN - INFO - 1.000    achieved_by(Filling,OperatingATap)
 2015-03-23 11:44:12,502 - root - INFO - creating pdf if confusion matrix...
 2015-03-23 11:44:12,657 - root - INFO - 10-fold crossvalidation (MP) took 0.80 min

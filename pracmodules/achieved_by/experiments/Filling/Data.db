@@ -11,7 +11,7 @@
 1.00  is_a(pan.n.03, pan.n.03)
 1.00  is_a(water.n.06, water.n.06)
 1.00  action_core(fill,Filling)
-1.00  achieved_by(Filling,Tapping)
+1.00  achieved_by(Filling,OperatingATap)
 ---
 1.00  action_role(batter, ObjectToBeSpilled)
 1.00  action_role(fill, ActionCause)
@@ -73,7 +73,7 @@
 1.00  is_a(kettle.n.01, kettle.n.01)
 1.00  is_a(water.n.06, water.n.06)
 1.00  action_core(fill,Filling)
-1.00  achieved_by(Filling,Tapping)
+1.00  achieved_by(Filling,OperatingATap)
 
 ---
 
@@ -138,7 +138,7 @@
 1.00  is_a(teapot.n.01, teapot.n.01)
 1.00  is_a(water.n.06, water.n.06)
 1.00  action_core(fill,Filling)
-1.00  achieved_by(Filling,Tapping)
+1.00  achieved_by(Filling,OperatingATap)
 
 ---
 1.00  action_role(fill, ActionCause)
@@ -154,7 +154,7 @@
 1.00  is_a(pot.n.01, pot.n.01)
 1.00  is_a(water.n.06, water.n.06)
 1.00  action_core(fill,Filling)
-1.00  achieved_by(Filling,Tapping)
+1.00  achieved_by(Filling,OperatingATap)
 
 ---
 1.00  action_role(bottle, Goal)

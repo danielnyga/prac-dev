@@ -1,4 +1,4 @@
-1.00  achieved_by(Filling, Tapping)
+1.00  achieved_by(Filling, OperatingATap)
 1.00  action_core(fill, Filling)
 1.00  action_role(fill, ActionCause)
 1.00  action_role(kettle, Goal)

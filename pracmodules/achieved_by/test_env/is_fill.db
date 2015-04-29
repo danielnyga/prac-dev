@@ -1,4 +1,4 @@
-1.00  achieved_by(fill, Tapping)
+1.00  achieved_by(fill, OperatingATap)
 1.00  action_core(fill, Filling)
 1.00 action_verb(fill,Filling)
 1.00  goal(pan,Filling)
@@ -58,7 +58,7 @@
 1.00  is_a(milk.n.01, milk.n.01)
 1.00  is_a(pitcher.n.02, pitcher.n.02)
 ---
-1.00  achieved_by(fill, Tapping)
+1.00  achieved_by(fill, OperatingATap)
 1.00  action_core(fill, Filling)
 1.00 action_verb(fill,Filling)
 1.00  goal(kettle,Filling)
@@ -148,7 +148,7 @@
 1.00  is_a(glass.n.02, glass.n.02)
 1.00  is_a(milk.n.01, milk.n.01)
 ---
-1.00  achieved_by(fill, Tapping)
+1.00  achieved_by(fill, OperatingATap)
 1.00  action_core(fill, Filling)
 1.00 action_verb(fill,Filling)
 1.00  goal(teapot,Filling)
@@ -163,7 +163,7 @@
 1.00  is_a(teapot.n.01, teapot.n.01)
 1.00  is_a(water.n.06, water.n.06)
 ---
-1.00  achieved_by(fill, Tapping)
+1.00  achieved_by(fill, OperatingATap)
 1.00  action_core(fill, Filling)
 1.00 action_verb(fill,Filling)
 1.00  goal(pot,Filling)

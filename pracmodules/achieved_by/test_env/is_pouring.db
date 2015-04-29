@@ -1,4 +1,4 @@
-1.00  achieved_by(pour, Tapping)
+1.00  achieved_by(pour, OperatingATap)
 1.00  action_core(pour, Pouring)
 1.00 action_verb(pour,Pouring)
 1.00  goal(pan,Pouring)
@@ -44,7 +44,7 @@
 1.00  is_a(milk.n.01, milk.n.01)
 1.00  is_a(pitcher.n.02, pitcher.n.02)
 ---
-1.00  achieved_by(pour, Tapping)
+1.00  achieved_by(pour, OperatingATap)
 1.00  action_core(pour, Pouring)
 1.00 action_verb(pour,Pouring)
 1.00  goal(kettle,Pouring)
@@ -120,7 +120,7 @@
 1.00  is_a(glass.n.02, glass.n.02)
 1.00  is_a(milk.n.01, milk.n.01)
 ---
-1.00  achieved_by(pour, Tapping)
+1.00  achieved_by(pour, OperatingATap)
 1.00  action_core(pour, Pouring)
 1.00 action_verb(pour,Pouring)
 1.00  goal(teapot,Pouring)
@@ -135,7 +135,7 @@
 1.00  is_a(teapot.n.01, teapot.n.01)
 1.00  is_a(water.n.06, water.n.06)
 ---
-1.00  achieved_by(pour, Tapping)
+1.00  achieved_by(pour, OperatingATap)
 1.00  action_core(pour, Pouring)
 1.00 action_verb(pour,Pouring)
 1.00  goal(pot,Pouring)
