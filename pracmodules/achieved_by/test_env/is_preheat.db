@@ -38,17 +38,4 @@
 1.00  has_sense(pan, pan.n.03)
 1.00  is_a(preheat.v.01, preheat.v.01)
 1.00  is_a(pan.n.03, pan.n.03)
-1.00  achieved_by(preheat,HeatingUp)
----
-1.00  action_core(preheat,Preheating)
-
-1.00  action_verb(preheat,Preheating)
-1.00  obj_to_be_heated(barbecue,Preheating)
-1.00  has_pos(preheat, VB)
-1.00  has_pos(barbecue, NN)
-1.00  has_sense(preheat, preheat.v.01)
-1.00  has_sense(barbecue, barbecue.n.02)
-1.00  is_a(preheat.v.01, preheat.v.01)
-1.00  is_a(barbecue.n.02, barbecue.n.02)
-
-1.00  achieved_by(preheat,LightingUp)
+1.00  achieved_by(preheat,TurningOnElectricalDevice)

@@ -12,7 +12,7 @@ S''
 p5
 sS'output_filename'
 p6
-S'wts.pydcll.is_pouring-Pouring_Template.mln'
+S'wts.pydcll.is_preheat-Preheating_Template.mln'
 p7
 sS'discrPredicates'
 p8
@@ -46,7 +46,7 @@ S'[discriminative] composite-log-likelihood'
 p19
 sS'db'
 p20
-S'is_pouring.db'
+S'is_preheat.db'
 p21
 sS'priorMean'
 p22
@@ -69,7 +69,7 @@ S'1247x1028+672+52'
 p30
 sS'mln'
 p31
-S'Pouring_Template.mln'
+S'Preheating_Template.mln'
 p32
 sS'logic'
 p33
