@@ -59,3 +59,8 @@ roles: ['ingredient_to_be_added','goal','action_verb']
 action_core: Flavouring
 roles: ['spice','goal','action_verb']
 
+---
+
+action_core: TurningOnElectricalDevice
+roles: ['obj_to_be_heated','temperature_setting','action_verb']
+
