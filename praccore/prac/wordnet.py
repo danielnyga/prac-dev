@@ -31,7 +31,9 @@ from utils.graphml import Graph, Node as GMLNode, Edge
 import itertools
 import os
 from scipy import spatial
+import graphviz as gv
 import properties # contains similarity dictionaries for colors, shapes, sizes, consistencies and dimensions
+from pracutils.pracgraphviz import render_gv
 
 PRAC_HOME = os.environ['PRAC_HOME']
 nltk.data.path = [os.path.join(PRAC_HOME, 'data', 'nltk_data')]
@@ -51,19 +53,32 @@ known_concepts = ['soup.n.01',
                   'cup.n.02', 
                   'glass.n.02', 
                   'bowl.n.03', 
-                  'coffee.n.01', 
+#                   'coffee.n.01', 
                   'bowl.n.04',
                   'spoon.n.01',
                   'spoon.n.02',
-                  'one.n.01',
-                  'two.n.01',
-                  'three.n.01',
-                  'four.n.01',
-                  'five.n.01',
-                  'six.n.01',
-                  'seven.n.01',
-                  'eight.n.01',
-                  'nine.n.01',
+#                   'marjoram.n.01',
+#                   'rosemary.n.01',
+#                   'tomato_sauce.n.01',
+#                   'carbonara.n.01',
+#                   'batter.n.02',
+#                   'baking_tray.n.01',
+#                   'cheese.n.01',
+#                   'mozzarella.n.01',
+#                   'water_faucet.n.01',
+#                   'oven.n.01',
+#                   'degree_celsius.n.01',
+#                   'refrigerator.n.01',
+#                   'stove.n.01'
+#                 'one.n.01',
+#                 'two.n.01',
+#                 'three.n.01',
+#                 'four.n.01',
+#                 'five.n.01',
+#                 'six.n.01',
+#                 'seven.n.01',
+#                 'eight.n.01',
+#                 'nine.n.01',
                   ]
 
 
@@ -582,9 +597,30 @@ class WordNet(object):
                 Edge(g, c_node, p_node)
 #                 log.info('adding edge %s ---> %s' % (c_node, p_node))
         return g
+    
+    
+    def to_svg(self):
+        log = logging.getLogger(self.__class__.__name__)
+        if self.core_taxonomy is None:
+            raise Exception('Need a collapsed taxonomy')
+        tax = self.core_taxonomy
+        g = gv.Digraph(format='svg')
+        g.attr('graph', nodesep='.5', splines='true', rankdir='BT', ratio='fill', bgcolor='white')
+        processed = {}
+        for c in tax.traverse(algo='BFS'):
+            g.node(c.data, fillcolor='#dddddd', style='filled', shape='box', fontname='Helvetica, Arial, sans-serif')
+            processed[c.data] = c.data
+        for p in tax.traverse(algo='BFS'):
+            p_node = processed[p.data]
+            for c in p.children:
+                c_node = processed[c.data]
+                g.edge(c_node, p_node, weight='1')
+        return render_gv(g, 'wordnet.svg')
+        
         
 
 if __name__ == '__main__':
 
     wn = WordNet()
+    print wn.to_svg()
     

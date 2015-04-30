@@ -25,7 +25,7 @@ def ensure_prac_session(session):
         prac_session.prac.wordnet = WordNet(concepts=None)
         # initialize the nl_parsing module so the JVM is started
         prac_session.prac.getModuleByName('nl_parsing')
-        log.info('created new PRAC session %s' % str(prac_session.id))
+        log.info('created new PRAC session %s' % str(prac_session.id.encode('base-64')))
         pracApp.app.session_store.put(prac_session)
     return prac_session
         
@@ -54,14 +54,17 @@ def remove_if_invalid(response):
     if "__invalidate__" in session:
         response.delete_cookie(pracApp.app.session_cookie_name)
         prac_session = pracApp.app.session_store[session]
-        log.info('removed PRAC session %s' % str(prac_session.id))
-        pracApp.app.session_store.remove(session)
+        if prac_session is not None:
+            log.info('removed PRAC session %s' % prac_session.id.encode('base-64'))
+            pracApp.app.session_store.remove(session)
     return response
 
 @pracApp.app.route('/_destroy_session', methods=['POST', 'OPTIONS'])
 def destroy():
     log = logging.getLogger(__name__)
-    log.info('invalidating session %s' % str(pracApp.app.session_store[session].id))
+    prac_session = pracApp.app.session_store[session]
+    if prac_session is None: return ''
+    log.info('invalidating session %s' % prac_session.id.encode('base-64'))
     session["__invalidate__"] = True
     return ''
 

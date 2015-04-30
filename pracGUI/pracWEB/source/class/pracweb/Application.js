@@ -161,8 +161,9 @@ qx.Class.define("pracweb.Application",
       
       var vizButton = new qx.ui.form.Button("Run Inference", "/prac/static/images/resultset_next.png");
       
-      var nextButton = new qx.ui.form.Button("Next");
+      var nextButton = new qx.ui.form.Button("Next Step",  "/prac/static/images/resultset_last.png");
       nextButton.setEnabled(false);
+      
 
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
      * Trigger the PRAC inference

@@ -13,6 +13,7 @@ import StringIO
 import logging
 from flask.globals import session
 import json
+from pracWEB.pages.views import ensure_prac_session
 
 INFMETHODS = [(InferenceMethods.byName(method),method) for method in InferenceMethods.name2value]
 
@@ -21,7 +22,7 @@ INFMETHODS = [(InferenceMethods.byName(method),method) for method in InferenceMe
 def _pracinfer_step():
     log = logging.getLogger(__name__)
     print pracApp.app.session_store
-    pracsession = pracApp.app.session_store[session]
+    pracsession = ensure_prac_session(session)
     prac = pracsession.prac
 
     if request.method == 'POST':
