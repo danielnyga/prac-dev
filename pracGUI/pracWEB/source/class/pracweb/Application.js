@@ -59,12 +59,12 @@ qx.Class.define("pracweb.Application",
 	  // destroy the session before leaving PRAC
 	  window.onbeforeunload = function () {
 	  	// getSession().invalidate();
-	  	req = new qx.io.request.Xhr(); 
+	  var	req = new qx.io.request.Xhr(); 
 		req.setUrl("/_destroy_session");
 		req.setMethod("POST");
 		req.addListener("success", function(e) { 
 			var tar = e.getTarget();								
-			response = tar.getResponse();
+			var response = tar.getResponse();
 		});
 		req.send();
 	  }; 
@@ -128,7 +128,9 @@ qx.Class.define("pracweb.Application",
       // add container to content div
       contentIsle.add(container);
       
-      this.__data = [];
+      // initially do not show form and do NOT use stepwise inference by default
+      this._left.exclude();
+      this.__stepwise = false;
     },
 
 
@@ -155,31 +157,44 @@ qx.Class.define("pracweb.Application",
       
       var expSettings = new qx.ui.form.CheckBox("Use expert settings");
       expSettings.addListener("changeValue", this._changeVisiblity, this);
-      expSettings.setValue(true);
-      expSettings.setValue(false);
-      var stepInf = new qx.ui.form.CheckBox("Infer Next Step", "/prac/static/images/result_last.png");
+      var stepInf = new qx.ui.form.CheckBox("Step-by-step inference");
       
       var vizButton = new qx.ui.form.Button("Run Inference", "/prac/static/images/resultset_next.png");
       
-      var nextButton = new qx.ui.form.Button("Next");
+      var nextButton = new qx.ui.form.Button("Next Step",  "/prac/static/images/resultset_last.png");
+      nextButton.setEnabled(false);
+      
 
-	  /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-	   * Trigger the PRAC inference
-	   */
+    /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+     * Trigger the PRAC inference
+     */
       vizButton.addListener('execute', function() {
          this.loadGraph();
-      	 var req = this._run_inference("POST");
-      	 console.log(description.getValue());
-      	 req.setRequestHeader("Content-Type", "application/json");
-      	 req.setRequestData({"sentence": description.getValue()});
-      	 req.send();
+         var req = this._run_inference("POST");
+         console.log(description.getValue());
+         req.setRequestHeader("Content-Type", "application/json");
+         req.setRequestData({"sentence": description.getValue()});
+         req.send();
       }, this);
       
-      nextButton.setEnabled(false);
+    /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+     * Toggling Step-by-step check box will enable/disable 'Next'-Button and
+     * set the inference type
+     */
       stepInf.addListener("changeValue", function(e) {
+        var that = this;
         nextButton.setEnabled(e.getData());
+        that.__stepwise = e.getData();
       }, this);
-      nextButton.addListener('execute', this.updateGraph, this);
+
+    /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+     * 'Next'-Button will trigger new inference step
+     */
+      nextButton.addListener('execute', function(e) {
+        var that = this;
+        var req = that._run_inference("GET");
+            req.send();
+      }, this);
 
       mainGroup.add(new qx.ui.basic.Label("Natural-language instruction:"));
       mainGroup.add(description);
@@ -192,21 +207,28 @@ qx.Class.define("pracweb.Application",
     },
 
     _run_inference : function(method) {
-    	req = new qx.io.request.Xhr(); 
+    	var req = new qx.io.request.Xhr(); 
   		req.setUrl("/_pracinfer_step");
   		req.setMethod(method);
   		var that = this;
   		req.addListener("success", function(e) {
   			var tar = e.getTarget();								
-  			response = tar.getResponse();
+  			var response = tar.getResponse();
   			console.log(response.result);
-  			if (response.result == "finish")
+  			if (response.result == "finish") {
+          //TODO: Show that inference is done, highlight result?
+          console.log(" I am DONE! ");
   				return;
-  			else {
+        }	else {
           that.updateGraph(response.result);
-  				console.log("sending new request");
-  				var req = that._run_inference("GET");
-  				req.send();
+          if (!that.__stepwise) {
+            console.log('bumming around for five seconds before sending new request...');
+            setTimeout( function() {
+              var req = that._run_inference("GET");
+              console.log("sending new request...");
+              req.send();
+            }, response.result.length * 1000);
+          }
   			}
   		});
 		  return req;
