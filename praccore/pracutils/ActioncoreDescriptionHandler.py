@@ -1,6 +1,6 @@
-# Markov Logic Networks -- WCSP conversion
+# Markov Logic Networks
 #
-# (C) 2012 by Daniel Nyga (nyga@cs.tum.edu)
+# (C) 2015 by Sebastian Koralewski (seba@informatik.uni-bremen.de)
 #
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
@@ -25,18 +25,22 @@ import re
 import yaml
 import os
 
-PRAC_HOME = os.environ['PRAC_HOME']
-actioncoreDescriptionFilePath = os.path.join(PRAC_HOME, 'models', 'actioncores.yaml')
-actioncoreDescription = {}
-
-def loadActioncoreDescription():
-    actioncoreRawList =re.compile("\n\s*-+\s*\n").split(open(actioncoreDescriptionFilePath).read())
-    actioncoreYamlList = map(yaml.load,actioncoreRawList)
+class ActioncoreDescriptionHandler(object):
+    PRAC_HOME = os.environ['PRAC_HOME']
+    actioncoreDescriptionFilePath = os.path.join(PRAC_HOME, 'models', 'actioncores.yaml')
+    actioncoreDescription = {}
     
-    for e in actioncoreYamlList:
-        actioncoreDescription[e['action_core']] = e
-
-def getRolesBasedOnActioncore(actioncore):
-    if actioncoreDescription == {}:
-        loadActioncoreDescription()
-    return actioncoreDescription[actioncore]['roles']
+    @staticmethod
+    def loadActioncoreDescription():
+        ADHandler = ActioncoreDescriptionHandler
+        actioncoreRawList =re.compile("\n\s*-+\s*\n").split(open(ADHandler.actioncoreDescriptionFilePath).read())
+        actioncoreYamlList = map(yaml.load,actioncoreRawList)
+        
+        for e in actioncoreYamlList:
+            ADHandler.actioncoreDescription[e['action_core']] = e
+    @staticmethod
+    def getRolesBasedOnActioncore(actioncore):
+        ADHandler = ActioncoreDescriptionHandler
+        if ADHandler.actioncoreDescription == {}:
+            ADHandler.loadActioncoreDescription()
+        return ADHandler.actioncoreDescription[actioncore]['roles']

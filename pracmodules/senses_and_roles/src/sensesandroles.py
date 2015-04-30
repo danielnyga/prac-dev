@@ -32,8 +32,8 @@ import os
 from prac.inference import PRACInferenceStep
 from mln.util import mergeDomains
 from utils import colorize
-from pracutils import printListAndTick,ActioncoreDescriptionHandler
-
+from pracutils import printListAndTick
+from pracutils.ActioncoreDescriptionHandler import ActioncoreDescriptionHandler
 class SensesAndRoles(PRACModule):
     '''
     
