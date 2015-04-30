@@ -37,13 +37,37 @@ def _pracinfer_step():
     else:
         if pracsession.infer.next_module() is not None :
             module = prac.getModuleByName(pracsession.infer.next_module())
+            pracsession.lastModule = module
             prac.run(pracsession.infer,module)
         else:
-            return jsonify( {'result': 'finish'} )
+            result = []
+            for db in pracsession.infer.inference_steps[-1].output_dbs:
+                db.write(sys.stdout, color=True)
+                evPreds = list(set([x.split('(')[0] for x in db.evidence.keys()]))
+                for q in db.query("action_core(?w, ?ac)"):
+                    ac = q['?ac']
+                    kb = pracsession.lastModule.load_pracmt(ac+"Transformation")
+                    queryPredicates = kb.query_params['queries'].split(",")
+                    print queryPredicates
+
+                    # add querypredicates
+                    for role in queryPredicates:
+                        print 'querying {}(?w, {}) ^ has_sense(?w, ?s)'.format(role, ac)
+                        for q2 in db.query("{}(?w, {}) ^ has_sense(?w, ?s)".format(role, ac)):
+                            result.append({'source': ac, 'target': q2['?s'] , 'value': role , 'arcStyle': 'strokegreen'})
+
+                    # add other predicates
+                    for s in evPreds:
+                        if s in pracsession.synPreds.keys() + queryPredicates + ['has_sense']: 
+                            evPreds.remove(s)
+                        else:
+                            for q3 in db.query("{}(?w, ?w2) ^ has_sense(?w, ?s)".format(s)):
+                                result.append({'source': q3['?w'], 'target': q3['?w2'] , 'value': s , 'arcStyle': 'strokegreen'})
+            print 'result: ', result
+            return jsonify( {'result': result, 'finish': True} )
 
     result = []
     for db in pracsession.infer.inference_steps[-1].output_dbs:
-        db.write(sys.stdout, color=True)
         _grammar = db.mln.logic.grammar
         for atom in db.evidence:
             a_tuple = _grammar.parseLiteral(atom)
@@ -56,7 +80,7 @@ def _pracinfer_step():
                 result.append({'source': a_tuple[2][2], 'target': a_tuple[2][0] , 'value': a_tuple[1] , 'arcStyle': 'strokegreen'})
                 result.append({'source': a_tuple[2][2], 'target': a_tuple[2][1] , 'value': a_tuple[1] , 'arcStyle': 'strokegreen'})
     pracsession.leaveSynPreds = False
-    return jsonify( {'result': result} )
+    return jsonify( {'result': result, 'finish': False} )
 
  
 # def infer(data, files):

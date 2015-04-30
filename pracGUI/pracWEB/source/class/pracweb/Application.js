@@ -214,19 +214,20 @@ qx.Class.define("pracweb.Application",
   			var tar = e.getTarget();								
   			var response = tar.getResponse();
   			console.log(response.result);
-  			if (response.result == "finish") {
+  			if (response.finish) {
           //TODO: Show that inference is done, highlight result?
+          that.updateGraph(response.result);
           console.log(" I am DONE! ");
   				return;
         }	else {
           that.updateGraph(response.result);
           if (!that.__stepwise) {
-            console.log('bumming around for five seconds before sending new request...');
+            console.log('bumming around for', response.result.length * 1000, ' mseconds before sending new request...');
             setTimeout( function() {
               var req = that._run_inference("GET");
               console.log("sending new request...");
               req.send();
-            }, response.result.length * 1000);
+            }, response.result.length * 1000); // wait for graph to be updated
           }
   			}
   		});
