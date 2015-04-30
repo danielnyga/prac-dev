@@ -99,7 +99,7 @@
 
 1.00  achieved_by(fill, Adding)
 1.00  action_core(fill, Filling)
-1.00  obj_to_be_poured(batter,Filling)
+1.00  stuff(batter,Filling)
  1.00 obj_to_be_added(batter,Adding)
 1.00  action_verb(fill,Filling)
  1.00 action_verb(fill,Adding)
@@ -114,7 +114,7 @@
  1.00 goal(bowl,Adding)
 1.00  action_verb(fill,Filling)
  1.00 action_verb(fill,Adding)
-1.00  obj_to_be_poured(ice,Filling)
+1.00  stuff(ice,Filling)
  1.00 obj_to_be_added(ice,Adding)
 
 ---
@@ -123,7 +123,7 @@
 1.00  action_core(fill, Filling)
 1.00 action_verb(fill,Filling)
  1.00 action_verb(fill,Adding)
-1.00   obj_to_be_poured(salt,Filling)
+1.00   stuff(salt,Filling)
  1.00 obj_to_be_added(salt,Adding)
 1.00  goal(saltcellar,Filling)
  1.00 goal(saltcellar,Adding)
@@ -136,7 +136,7 @@
  1.00 action_verb(fill,Adding)
 1.00  amount(gram,Filling)
  1.00 amount(gram,Adding)
-1.00   obj_to_be_poured(rice,Filling)
+1.00   stuff(rice,Filling)
  1.00 obj_to_be_added(rice,Adding)
 1.00  goal(wok,Filling)
  1.00 goal(wok,Adding)
@@ -144,7 +144,7 @@
 ---
 1.00  achieved_by(fill, Adding)
 1.00  action_core(fill, Filling)
-1.00   obj_to_be_poured(corn,Filling)
+1.00   stuff(corn,Filling)
  1.00 obj_to_be_added(corn,Adding)
 1.00 action_verb(fill,Filling)
  1.00 action_verb(fill,Adding)
@@ -157,7 +157,7 @@
 
 1.00  achieved_by(fill, Adding)
 1.00  action_core(fill, Filling)
-1.00   obj_to_be_poured(apples,Filling)
+1.00   stuff(apples,Filling)
  1.00 obj_to_be_added(apples,Adding)
 1.00  goal(blender,Filling)
  1.00 goal(blender,Adding)
@@ -175,7 +175,7 @@
  1.00 action_verb(fill,Adding)
 1.00  amount(kilogram,Filling)
  1.00 amount(kilogram,Adding)
-1.00   obj_to_be_poured(oranges,Filling)
+1.00   stuff(oranges,Filling)
  1.00 obj_to_be_added(oranges,Adding)
 
 ---
@@ -186,7 +186,7 @@
  1.00 action_verb(fill,Adding)
 1.00  amount(gram,Filling)
  1.00 amount(gram,Adding)
-1.00   obj_to_be_poured(salt,Filling)
+1.00   stuff(salt,Filling)
  1.00 obj_to_be_added(salt,Adding)
 1.00  goal(saltcellar,Filling)
  1.00 goal(saltcellar,Adding)
@@ -195,7 +195,7 @@
 
 1.00  achieved_by(fill, Adding)
 1.00  action_core(fill, Filling)
-1.00   obj_to_be_poured(batter,Filling)
+1.00   stuff(batter,Filling)
  1.00 obj_to_be_added(batter,Adding)
 1.00 action_verb(fill,Filling)
  1.00 action_verb(fill,Adding)
@@ -211,7 +211,7 @@
  1.00 action_verb(fill,Adding)
 1.00  amount(gram,Filling)
  1.00 amount(gram,Adding)
-1.00   obj_to_be_poured(pepper,Filling)
+1.00   stuff(pepper,Filling)
  1.00 obj_to_be_added(pepper,Adding)
 1.00  goal(saltcellar,Filling)
  1.00 goal(saltcellar,Adding)

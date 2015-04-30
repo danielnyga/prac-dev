@@ -32,9 +32,9 @@ action_core(word,actioncore?)
 achieved_by(word,actioncore?)
 
 
-0 obj_to_be_poured(?w1, ?ac1) ^ has_sense(?w1, ?s1) ^ is_a(?s1, +?c1) ^ achieved_by(?w2,+?ac2) ^ action_core(?w2,?ac1) ^ ?w1 =/= ?w2
+0 stuff(?w1, ?ac1) ^ has_sense(?w1, ?s1) ^ is_a(?s1, +?c1) ^ achieved_by(?w2,+?ac2) ^ action_core(?w2,?ac1) ^ ?w1 =/= ?w2
 //Consider dissimilarity too
-0 obj_to_be_poured(?w1, ?ac1) ^ has_sense(?w1, ?s1) ^ !is_a(?s1, +?c1) ^ achieved_by(?w2,+?ac2)^ action_core(?w2,?ac1) ^ ?w1 =/= ?w2
+0 stuff(?w1, ?ac1) ^ has_sense(?w1, ?s1) ^ !is_a(?s1, +?c1) ^ achieved_by(?w2,+?ac2)^ action_core(?w2,?ac1) ^ ?w1 =/= ?w2
 
 
 
