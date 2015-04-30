@@ -21,179 +21,41 @@
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-action_core: BeingLocated
-definiton: A Theme is in a stable position with respect to a Location.
-inherits_from: State 
-action_roles:
-    - Theme: 
-        - definition: An entity which is at a particular Location.
-    - Location:
-        - definition: A salient entity that the Theme is located with respect to.
-        - range: LocativeRelation
-action_verbs:
-    - be: be.v.03
-    - lie: lie.v.01
-    - located: located.s.01
-    - fill: occupy.v.03
-formula_templates:
-    - "action_role(?w, +?role) ^ has_sense(?w, ?s) ^ is_a(?s, ?c)"
-    - "has_pos(?w,+?pos) ^ action_role(?w, +?role)"
-    - "has_sense(?w, ?s) ^ is_a(?s, NULL) => action_role(?w, NULL)"
-    - "action_role(?w, +?role) ^ has_sense(?w, ?sid) ^ is_a(?sid, +?sense)"
-    - "action_role(?w1, Theme) ^ has_sense(?w1, ?sid1) ^ is_a(?sid1, +?s1) ^ action_role(?w2, Theme) ^ has_sense(?w2, ?sid2) ^ is_a(?sid2, +?s2)"
-    - "action_role(?w1, Location) ^ has_sense(?w1, ?sid1) ^ is_a(?sid1, +?s1) ^ action_role(?w2, Theme) ^ has_sense(?w2, ?sid2) ^ is_a(?sid2, +?s2)"
-    - "action_role(?w1, Location) ^ has_sense(?w1, ?sid1) ^ is_a(?sid1, +?s1) ^ action_role(?w2, Location) ^ has_sense(?w2, ?sid2) ^ is_a(?sid2, +?s2)"
-    #- "nsubjpass(?w1, ?w2) ^ action_role(?w1, +?role1) ^ action_role(?w2, +?role2)"
-    - "nsubj(?w1, ?w2) ^ action_role(?w1, +?role1) ^ action_role(?w2, +?role2)"
-    #- "aux(?w1, ?w2) ^ action_role(?w1, +?role1) ^ action_role(?w2, +?role2)"
-    #- "auxpass(?w1, ?w2) ^ action_role(?w1, +?role1) ^ action_role(?w2, +?role2)"
-    #- "prep_in(?w1, ?w2) ^ nsubj(?w1, ?w3) ^ action_role(?w1, +?role1) ^ action_role(?w2, +?role2) ^ action_role(?w3, +?role3)"
-    #- "action_role(?w1, ?role) ^ action_role(?w2, ?role) ^ !(?w1 = ?w2)"
----
-action_core: Flipping
-definition: An Agent causes a Theme to move with respect to a FixedLocation, generally with a certain Periodicity, without undergoing unbounded translational motion or significant alteration of configuration/shape.
-controlled_template: The INSTRUMENT flips the THEME from FIXEDLOCATION. 
-inherits_from: CauseMotion
-action_roles:
-    - Theme:
-        - definition: "A physical entity that is participating in a flipping motion."
-    #- FixedLocation:
-        #- definition: "The point or set of points that define the limits of motion for the Theme. For spinning motions, it is the axis, for vibrating it is a boundary, for swinging it is a point."
-        #- range: LocativeRelation
-    - Instrument: 
-        - definition: "The tool that is used to perform the flipping action."
-action_verbs:
-    - flip: flip.v.08
-formula_templates:
-    - "action_role(?w, +?role) ^ has_sense(?w, ?s) ^ is_a(?s, ?c)"
-    - "has_pos(?w,+?pos) ^ action_role(?w, +?role)"
-    - "has_sense(?w, ?s) ^ is_a(?s, NULL) => action_role(?w, NULL)"
-    - "action_role(?w, +?r) ^ has_sense(?w, ?sid) ^ is_a(?sid, +?sense)"
-    - "prep_with(?w1, ?w2) ^ action_role(?w1, +?role1) ^ action_role(?w2, +?role2)"
-    - "prep_in(?w1, ?w2) ^ action_role(?w1, +?role1) ^ action_role(?w2, +?role2)"
-    - "prep_on(?w1, ?w2) ^ action_role(?w1, +?role1) ^ action_role(?w2, +?role2)"
-    - "dobj(?w1, ?w2) ^ action_role(?w1, +?role1) ^ action_role(?w2, +?role2)"
-    - "dobj(?w1, ?w2) ^ prep_from(?w1, ?w3) ^ action_role(?w1, +?r1) ^ action_role(?w2, +?r2) ^ action_role(?w3, +?r3)"
-    - "dobj(?w1, ?w2) ^ prep_with(?w1, ?w3) ^ action_role(?w1, +?r1) ^ action_role(?w2, +?r2) ^ action_role(?w3, +?r3)"
-    - "dobj(?w1, ?w2) ^ prep_into(?w1, ?w3) ^ action_role(?w1, +?r1) ^ action_role(?w2, +?r2) ^ action_role(?w3, +?r3)"
-
----
-action_core: LocativeRelation
-definition: A Figure is located relative to a Ground location. The location of the Figure may be further specified by its Distance from a reference location (generally, the deictic center) and the Direction in which the Figure lies from a reference location (generally, the deictic center).
-examples:
-    - Figure(The cat) is ON Ground(the mat).
-    - Figure(The kitchen, with its breakfast / snack bar), ADJOINS on one side while the dining area adjoins on the other side. Ground(DNI)
-inherits_from: [State, Relation]
-action_roles:
-    - Figure:
-        - definition: The Figure is perceived as located relative to a certain Ground location. 
-    - Ground:
-        - definition: The Ground serves as a basis for describing the location of the Figure. 
-#    - Direction: None
-#    - Distance: None
-#    - Time: None
-formula_templates:
-    - has_sense(?w, ?sid) ^ is_a(?sid, +?s) ^ action_role(?w, +?role)
-    - prep_in(?w1, ?w2) ^ action_role(?w1, +?role1) ^ action_role(?w2, +?role2)
-    - prep_on(?w1, ?w2) ^ action_role(?w1, +?role1) ^ action_role(?w2, +?role2)
-    - prep_under(?w1, ?w2) ^ action_role(?w1, +?role1) ^ action_role(?w2, +?role2)
-    - prep_into(?w1, ?w2) ^ action_role(?w1, +?role1) ^ action_role(?w2, +?role2)
-    - prep_from(?w1, ?w2) ^ action_role(?w1, +?role1) ^ action_role(?w2, +?role2)
----
-action_core: In-LocativeRelation
-inherits_from: LocativeRelation
-action_verbs:
-    - hold.v.11
----
-action_core: Under-LocativeRelation
-inherits_from: LocativeRelation
----
-action_core: Underneath-LocativeRelation
-inherits_from: Under-LocativeRelation
-action_verbs:
-    - hold.v.10
----
-action_core: Between-LocativeRelation
-inherits_from: LocativeRelation
----
-action_core: OnTopOf-LocativeRelation
-inherits_from: LocativeRelation
-action_verbs:
-    - hold.v.10
----
-action_core: Off-LocativeRelation
-inherits_from: LocativeRelation
----
-action_core: NextTo-LocativeRelation
-inherits_from: LocativeRelation
-action_verbs:
-    - border.v.05
----
-action_core: LeftOf-LocativeRelation
-inherits_from: LocativeRelation
----
-action_core: RightOf-LocativeRelation
-inherits_from: LocativeRelation
----
-action_core: Adjoin-LocationRelation
-inherits_from: LocativeRelation
-action_verbs:
-    - touch.v.05
----
 action_core: Filling
-definition: These are words relating to filling containers and covering areas with some thing, things or substance, the Theme. The area or container can appear as the direct object with all these verbs, and is designated Goal because it is the goal of motion of the Theme. Corresponding to its nuclear argument status, it is also affected in some crucial way, unlike goals in other frames. 
-inherits_from: ContainerFocusedPlacing
-examples:
-    - Agent(Lionel Hutz) COATED Goal(the wall) Theme(with paint).
-action_roles:
-    #- Agent:
-        #- definition: The Agent is the actor who instigates the filling.
-    - Goal:
-        - definition: The Goal is the area or container being filled. Goal is generally the NP Object in this Action Core.
-    - Theme:
-        - definition: The Theme is the physical object or substance which changes location. 
-    - Source:
-        - definition:
-    #- Amount:
-        #- definition: Amount/Degree to which the filling occurs.
-        #- range: Quantity
-    #- Instrument:
-    #- Manner:
-    #- Place:
-    #- Path:
-formula_templates:
-    - "action_role(?w, ?role)"
-    - "action_role(?w, +?role) ^ has_sense(?w, ?s) ^ is_a(?s, ?c)"
-    - "has_sense(?w, ?s) ^ is_a(?s, NULL) => action_role(?w, NULL)"
-    - "action_role(?w, +?r) ^ has_sense(?w, ?sid) ^ is_a(?sid, +?sense)"
-    - "has_pos(?w,+?pos) ^ action_role(?w, +?role)"
-    - "prep_with(?w1, ?w2) ^ action_role(?w1, +?role1) ^ action_role(?w2, +?role2)"
-    - "prep_into(?w1, ?w2) ^ action_role(?w1, +?role1) ^ action_role(?w2, +?role2)"
-    - "prep_from(?w1, ?w2) ^ action_role(?w1, +?role1) ^ action_role(?w2, +?role2)"
-    - "dobj(?w1, ?w2) ^ action_role(?w2, +?role1)"
-    - "prep_with(?w1, ?w2) ^ action_role(?w2, +?role1)"
-    - "prep_into(?w1, ?w2) ^ action_role(?w2, +?role1)"
-    - "prep_from(?w1, ?w2) ^ action_role(?w2, +?role1)"
-    #- "dobj(?w1, ?w2) ^ action_role(?w1, +?role1) ^ action_role(?w2, +?role2)"
-    #- "dobj(?w1, ?w2) ^ prep_from(?w1, ?w3) ^ action_role(?w1, +?r1) ^ action_role(?w2, +?r2) ^ action_role(?w3, +?r3)"
-    #- "dobj(?w1, ?w2) ^ prep_with(?w1, ?w3) ^ action_role(?w1, +?r1) ^ action_role(?w2, +?r2) ^ action_role(?w3, +?r3)"
-    #- "dobj(?w1, ?w2) ^ prep_into(?w1, ?w3) ^ action_role(?w1, +?r1) ^ action_role(?w2, +?r2) ^ action_role(?w3, +?r3)"
----
-action_core: Quantity
-definition: This frame contains nouns denoting Quantities of a specified Entity and their numerical Values. Note that the nouns in this frame DO NOT convey a gradable amount on thier own. 
-inherits_from: Dimension
-examples:
-    - His heart attack was caused by a high cholesterol level.
-    - His Entity(cholesterol level) was Value(124) MeasuringUnit(mg/dL).
-    - He bought Value(4) Entity(apples). [MeasuringUnit(Pieces)]
-action_roles:
-    - Entity:
-        - definition: Entity identifies the concept or substance being quantified by a Quantity. 
-    - Value:
-        - definition: An exact (e.g. a number) or an underspecified (e.g. a few) term specifying the amount of some entity in terms of a MeasuringUnit.
-    - MeasuringUnit:
-        - definition: The measuring unit related to the Value.
-action_verbs:
-formula_templates:
+roles: ['obj_to_be_poured','goal','action_verb']
 
-         
+---
+
+action_core: Pouring
+roles: ['obj_to_be_poured','goal','action_verb']
+
+---
+
+action_core: Adding
+roles: ['obj_to_be_added','goal','action_verb']
+
+---
+
+action_core: Preheating
+roles: ['obj_to_be_heated','temperature_setting','action_verb']
+
+---
+
+action_core: OperatingATap
+roles: ['obj_to_be_poured','goal','action_verb']
+
+---
+
+action_core: UsingSpiceJar
+roles: ['spice_jar_content','goal','action_verb']
+
+---
+
+action_core: Spooning
+roles: ['ingredient_to_be_added','goal','action_verb']
+
+---
+
+action_core: Flavouring
+roles: ['spice','goal','action_verb']
+
