@@ -157,7 +157,7 @@ qx.Class.define("pracweb.Application",
       expSettings.addListener("changeValue", this._changeVisiblity, this);
       expSettings.setValue(true);
       expSettings.setValue(false);
-      var stepInf = new qx.ui.form.CheckBox("Step-by-step inference");
+      var stepInf = new qx.ui.form.CheckBox("Infer Next Step", "/prac/static/images/result_last.png");
       
       var vizButton = new qx.ui.form.Button("Run Inference", "/prac/static/images/resultset_next.png");
       
