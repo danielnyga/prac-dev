@@ -14,6 +14,7 @@ import logging
 from flask.globals import session
 import json
 from pracWEB.pages.views import ensure_prac_session
+from pracutils.RolequeryHandler import RolequeryHandler
 
 INFMETHODS = [(InferenceMethods.byName(method),method) for method in InferenceMethods.name2value]
 
@@ -43,27 +44,30 @@ def _pracinfer_step():
         else:
             result = []
             for db in pracsession.infer.inference_steps[-1].output_dbs:
-                db.write(sys.stdout, color=True)
-                evPreds = list(set([x.split('(')[0] for x in db.evidence.keys()]))
-                for q in db.query("action_core(?w, ?ac)"):
-                    ac = q['?ac']
-                    kb = pracsession.lastModule.load_pracmt(ac+"Transformation")
-                    queryPredicates = kb.query_params['queries'].split(",")
-                    print queryPredicates
+                print 'rolequerydingen'
+                RolequeryHandler.queryRolesBasedOnAchievedBy(db).printEvidence()
+                print '/rolequerydingen'
+            #     db.write(sys.stdout, color=True)
+            #     evPreds = list(set([x.split('(')[0] for x in db.evidence.keys()]))
+            #     for q in db.query("action_core(?w, ?ac)"):
+            #         ac = q['?ac']
+            #         kb = pracsession.lastModule.load_pracmt(ac+"Transformation")
+            #         queryPredicates = kb.query_params['queries'].split(",")
+            #         print queryPredicates
 
-                    # add querypredicates
-                    for role in queryPredicates:
-                        print 'querying {}(?w, {}) ^ has_sense(?w, ?s)'.format(role, ac)
-                        for q2 in db.query("{}(?w, {}) ^ has_sense(?w, ?s)".format(role, ac)):
-                            result.append({'source': ac, 'target': q2['?s'] , 'value': role , 'arcStyle': 'strokegreen'})
+            #         # add querypredicates
+            #         for role in queryPredicates:
+            #             print 'querying {}(?w, {}) ^ has_sense(?w, ?s)'.format(role, ac)
+            #             for q2 in db.query("{}(?w, {}) ^ has_sense(?w, ?s)".format(role, ac)):
+            #                 result.append({'source': ac, 'target': q2['?s'] , 'value': role , 'arcStyle': 'strokegreen'})
 
-                    # add other predicates
-                    for s in evPreds:
-                        if s in pracsession.synPreds.keys() + queryPredicates + ['has_sense']: 
-                            evPreds.remove(s)
-                        else:
-                            for q3 in db.query("{}(?w, ?w2) ^ has_sense(?w, ?s)".format(s)):
-                                result.append({'source': q3['?w'], 'target': q3['?w2'] , 'value': s , 'arcStyle': 'strokegreen'})
+            #         # add other predicates
+            #         for s in evPreds:
+            #             if s in pracsession.synPreds.keys() + queryPredicates + ['has_sense']: 
+            #                 evPreds.remove(s)
+            #             else:
+            #                 for q3 in db.query("{}(?w, ?w2) ^ has_sense(?w, ?s)".format(s)):
+            #                     result.append({'source': q3['?w'], 'target': q3['?w2'] , 'value': s , 'arcStyle': 'strokegreen'})
             print 'result: ', result
             return jsonify( {'result': result, 'finish': True} )
 
@@ -74,6 +78,9 @@ def _pracinfer_step():
             a_tuple = _grammar.parseLiteral(atom)
             if not db.evidence[atom] == 1: continue
             if a_tuple[1] in pracsession.synPreds.keys() and not pracsession.leaveSynPreds: continue
+            print 'rolequerydingen'
+            # RolequeryHandler.queryRolesBasedOnAchievedBy(db).printEvidence()
+            print '/rolequerydingen'        
             if 'null' in a_tuple[2] or a_tuple[1] == 'is_a': continue
             if len(a_tuple[2]) == 2:
                 result.append({'source': a_tuple[2][0], 'target': a_tuple[2][1] , 'value': a_tuple[1] , 'arcStyle': 'strokegreen'})

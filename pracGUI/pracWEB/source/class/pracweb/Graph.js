@@ -71,9 +71,12 @@ qx.Class.define("pracweb.Graph",
 
     updateData : function (data) {
       var tmpNodes = [];
+      var tmpLinks = [];
       var nodesCopy = [];
+      var linksCopy = [];
+      console.log('data initial', data);
 
-      // create temporary list of nodes containing only new ones
+      // create temporary lists of nodes and links containing only new entries
       for (var a in data) {
         if (!this.nodeInList(data[a].source, tmpNodes) && typeof this.findNodeInList(data[a].source, tmpNodes) === "undefined") {
           tmpNodes.push(data[a].source);
@@ -81,7 +84,11 @@ qx.Class.define("pracweb.Graph",
         if (!this.nodeInList(data[a].target, tmpNodes) && typeof this.findNodeInList(data[a].target, tmpNodes) === "undefined") {
           tmpNodes.push(data[a].target);
         }
+        if (!this.linkInList(data[a], tmpLinks)) {
+          tmpLinks.push({"source": this.findNode(data[a].source),"target": this.findNode(data[a].target),"value": data[a].value});
+        }
       }
+      console.log('tmpnodes initial', tmpNodes);
 
       // add all nodes and links
       var addnodesandlinks = function(dataIndex, t) {
@@ -92,10 +99,18 @@ qx.Class.define("pracweb.Graph",
           if (typeof t.findNode(data[dataIndex].target) === "undefined") {
             t.nodes.push({"id":data[dataIndex].target});
           }
-          t.links.push({"source":t.findNode(data[dataIndex].source),"target":t.findNode(data[dataIndex].target),"value":data[dataIndex].value, "arcStyle":data[dataIndex].arcStyle});
+
+          //check if link already exists or if label needs to be updated
+          var index = t.findLinkIndex(t.findNode(data[dataIndex].source), t.findNode(data[dataIndex].target), data[dataIndex].value, t.links);
+          // only add link if it does not exist yet
+          if (index == -1) {
+            t.links.push({"source": t.findNode(data[dataIndex].source),"target": t.findNode(data[dataIndex].target),"value": data[dataIndex].value, "arcStyle":data[dataIndex].arcStyle});
+          }
+
           t.update();
           dataIndex++;
           if (dataIndex >= data.length) {
+            console.log('t.links after adding', t.links);
             nodesCopy = t.nodes.slice();
             removenodes(0, t);
           } else {
@@ -108,33 +123,66 @@ qx.Class.define("pracweb.Graph",
       // remove all nodes and links, that are not in the new data
       var removenodes = function(dIndex, t) {
         var rInterval = setTimeout( function() {
+          var n = nodesCopy[dIndex].id;
+          
           if (!t.nodeInList(nodesCopy[dIndex].id, tmpNodes)) {
             // this.removeNode(nodes[r].id);
             var i = 0;
-            var n = t.findNode(nodesCopy[dIndex].id);
             while (i < t.links.length) {
-              if ((t.links[i]['source'] == n)||(t.links[i]['target'] == n))
+              if ((t.links[i]['source'].id == n)||(t.links[i]['target'].id == n))
               {
+                console.log('removing link', t.links[i].source, '-', t.links[i].target, ':', t.links[i].value);
                 t.links.splice(i,1);
               }
               else i++;
             }
+            console.log('removing node ', nodesCopy[dIndex].id);
             t.nodes.splice(t.findNodeIndex(nodesCopy[dIndex].id),1);
+            t.update();
           }
+
           dIndex++;
           if (dIndex < nodesCopy.length) {
-            t.update();
             removenodes(dIndex, t);
+          } else {
+            linksCopy = t.links.slice();
+            // removedoubleLinks(0, t)
+            console.log('t.links after removing', t.links);
           }
         }, t.WAITMSEC);
       };
 
+      // remove all links, that are not in the new data
+      var removedoubleLinks = function(lIndex, t) {
+          var lInterval = setTimeout( function() {
+            var l = linksCopy[lIndex];
+            
+            if (!t.linkInList(linksCopy[lIndex], tmpLinks)) {
+              t.links.splice(lIndex,1);
+              console.log('remove double link ', t.links[lIndex]);
+            }
+            t.update();
+            lIndex++;
+            if (lIndex < linksCopy.length) {
+              removedoubleLinks(lIndex, t);
+            } else {
+              console.log('t.links after removing duplicates', t.links);
+            }
+          }, 0 );
+        };
+
       addnodesandlinks(0, this);
+      this.update();
     },
 
-    test : function(no) {
-      console.log('test');
-      console.log(no);
+
+    findLinkIndex : function(source, target, value) {
+      for (var i=0; i < this.links.length; i++) {
+        if (this.links[i].source.id == source.id && this.links[i].target.id == target.id && this.links[i].value == value) {
+          return i;
+        }
+      }
+      return -1; // if link does not exist in l
     },
 
     nodeInList : function(id, n) {
@@ -146,6 +194,16 @@ qx.Class.define("pracweb.Graph",
       return false;
     },
 
+    linkInList : function(id, l) {
+      for (var no = 0; no < l.length; no++) {
+        // console.log('id',id);
+        // console.log('no', l[no]);
+        if (l[no].source == id.source && l[no].target == id.target && l[no].value == id.value ) {
+          return true;
+        }
+      }
+      return false;
+    },
 
     findNodeInList : function(id, n) {
       for (var i in n) {
