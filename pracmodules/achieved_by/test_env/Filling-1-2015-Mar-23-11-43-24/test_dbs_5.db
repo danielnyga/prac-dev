@@ -1,4 +1,4 @@
-1.00  achieved_by(Filling, Tapping)
+1.00  achieved_by(Filling, OperatingATap)
 1.00  action_core(fill, Filling)
 1.00  action_role(fill, ActionCause)
 1.00  action_role(pan, Goal)
@@ -1284,7 +1284,7 @@
 1.00  is_a(whiskey.n.01, whiskey.n.01)
 0.06  is_a(whiskey.n.01, wok.n.01)
 ---
-1.00  achieved_by(Filling, Tapping)
+1.00  achieved_by(Filling, OperatingATap)
 1.00  action_core(fill, Filling)
 1.00  action_role(fill, ActionCause)
 1.00  action_role(teapot, Goal)

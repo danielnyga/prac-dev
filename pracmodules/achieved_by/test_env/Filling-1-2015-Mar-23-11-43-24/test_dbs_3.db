@@ -1,4 +1,4 @@
-1.00  achieved_by(Filling, Tapping)
+1.00  achieved_by(Filling, OperatingATap)
 1.00  action_core(fill, Filling)
 1.00  action_role(fill, ActionCause)
 1.00  action_role(pot, Goal)
@@ -973,7 +973,7 @@
 0.08  is_a(water_system.n.02, whiskey.n.01)
 0.10  is_a(water_system.n.02, wok.n.01)
 ---
-1.00  achieved_by(Filling, Tapping)
+1.00  achieved_by(Filling, OperatingATap)
 1.00  action_core(fill, Filling)
 1.00  action_role(fill, ActionCause)
 1.00  action_role(kettle, Goal)

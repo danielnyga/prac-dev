@@ -8,7 +8,7 @@
 1.00  has_sense(pan, pan.n.03)
 1.00  has_sense(water, water.n.06)
 1.00  action_core(fill,Filling)
-1.00  achieved_by(fill,Tapping)
+1.00  achieved_by(fill,OperatingATap)
 ---
 1.00  action_role(batter, ObjectToBeSpilled)
 1.00  action_role(fill, ActionCause)
@@ -58,7 +58,7 @@
 1.00  has_sense(kettle, kettle.n.01)
 1.00  has_sense(water, water.n.06)
 1.00  action_core(fill,Filling)
-1.00  achieved_by(fill,Tapping)
+1.00  achieved_by(fill,OperatingATap)
 
 ---
 
@@ -139,7 +139,7 @@
 1.00  has_sense(teapot, teapot.n.01)
 1.00  has_sense(water, water.n.06)
 1.00  action_core(fill,Filling)
-1.00  achieved_by(fill,Tapping)
+1.00  achieved_by(fill,OperatingATap)
 
 ---
 1.00  action_role(fill, ActionCause)
@@ -152,7 +152,7 @@
 1.00  has_sense(pot, pot.n.01)
 1.00  has_sense(water, water.n.06)
 1.00  action_core(fill,Filling)
-1.00  achieved_by(fill,Tapping)
+1.00  achieved_by(fill,OperatingATap)
 
 ---
 1.00  action_role(bottle, Goal)

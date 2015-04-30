@@ -1,0 +1,68 @@
+1.00  achieved_by(fill, OperatingATap)
+1.00  action_core(fill, Filling)
+1.00  action_verb(fill,Filling)
+1.00  action_verb(fill,OperatingATap)
+1.00  goal(pan,Filling)
+1.00  goal(pan,OperatingATap)
+1.00  obj_to_be_poured(water,Filling)
+1.00  obj_to_be_poured(water,OperatingATap)
+---
+
+1.00  achieved_by(fill, OperatingATap)
+1.00  action_core(fill, Filling)
+1.00  action_verb(fill,Filling)
+ 1.00  action_verb(fill,OperatingATap)
+1.00  goal(kettle,Filling)
+1.00  obj_to_be_poured(water,Filling)
+1.00  goal(kettle,OperatingATap)
+1.00  obj_to_be_poured(water,OperatingATap)
+---
+
+1.00  achieved_by(fill, OperatingATap)
+1.00  action_core(fill, Filling)
+1.00  action_verb(fill,Filling)
+ 1.00  action_verb(fill,OperatingATap)
+1.00  goal(pot,Filling)
+1.00  goal(pot,OperatingATap)
+1.00  obj_to_be_poured(water,Filling)
+1.00  obj_to_be_poured(water,OperatingATap)
+---
+
+1.00  achieved_by(pour, OperatingATap)
+1.00  action_core(pour, Pouring)
+1.00  action_verb(pour,Pouring)
+ 1.00  action_verb(pour,OperatingATap)
+1.00  goal(pan,Pouring)
+1.00  goal(pan,OperatingATap)
+1.00  obj_to_be_poured(water,Pouring)
+
+---
+
+1.00  achieved_by(pour, OperatingATap)
+1.00  action_core(pour, Pouring)
+1.00  action_verb(pour,Pouring)
+ 1.00  action_verb(pour,OperatingATap)
+1.00  goal(kettle,Pouring)
+1.00  obj_to_be_poured(water,Pouring)
+1.00  goal(kettle,OperatingATap)
+1.00  obj_to_be_poured(water,OperatingATap)
+---
+
+1.00  achieved_by(pour, OperatingATap)
+1.00  action_core(pour, Pouring)
+1.00  action_verb(pour,Pouring)
+ 1.00  action_verb(pour,OperatingATap)
+1.00  goal(teapot,Pouring)
+1.00  goal(teapot,OperatingATap)
+1.00  obj_to_be_poured(water,Pouring)
+1.00  obj_to_be_poured(water,OperatingATap)
+---
+1.00  achieved_by(pour, OperatingATap)
+1.00  action_core(pour, Pouring)
+1.00  action_verb(pour,Pouring)
+ 1.00  action_verb(pour,OperatingATap)
+1.00  goal(pot,Pouring)
+1.00  goal(pot,OperatingATap)
+1.00  obj_to_be_poured(water,Pouring)
+1.00  obj_to_be_poured(water,OperatingATap)
+

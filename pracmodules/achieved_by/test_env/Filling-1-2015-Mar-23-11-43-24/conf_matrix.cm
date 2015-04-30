@@ -17,7 +17,7 @@ S'Pouring'
 p8
 aS'Adding'
 p9
-aS'Tapping'
+aS'OperatingATap'
 p10
 asS'instanceCount'
 p11
@@ -29,7 +29,7 @@ g8
 (dp14
 g8
 I11
-sS'Tapping'
+sS'OperatingATap'
 p15
 I1
 sg9

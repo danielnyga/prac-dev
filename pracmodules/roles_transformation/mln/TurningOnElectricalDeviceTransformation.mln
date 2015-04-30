@@ -1,0 +1,12 @@
+// domain declarations
+
+
+// predicate declarations
+#include  ../../senses_and_roles/mln/Roles.mln
+action_core(word,actioncore?)
+achieved_by(word,actioncore)
+
+// formulas
+1.683692    action_core(?w1, Preheating) ^ obj_to_be_heated(?w2, Preheating) ^ obj_to_be_heated(?w2, TurningOnElectricalDevice) ^ achieved_by(?w1, TurningOnElectricalDevice) ^ action_verb(?w1, TurningOnElectricalDevice) ^ ?w1=/=?w2
+0.430762    action_core(?w1, Preheating) ^ obj_to_be_heated(?w2, Preheating) ^ temperature_setting(?w3, ?w4, Preheating) ^ obj_to_be_heated(?w2, TurningOnElectricalDevice) ^ temperature_setting(?w3, ?w4, TurningOnElectricalDevice) ^ achieved_by(?w1, TurningOnElectricalDevice) ^ action_verb(?w1, TurningOnElectricalDevice) ^ ?w1=/=?w2 ^ ?w1=/=?w3 ^ ?w3=/=?w2 ^ ?w1=/=?w4 ^ ?w4=/=?w2 ^ ?w4=/=?w3
+

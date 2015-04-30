@@ -157,7 +157,7 @@
 1.00  is_a(fill.v.01, fill.v.01)
 1.00  is_a(opening.n.01, opening.n.01)
 ---
-1.00  achieved_by(Filling, Tapping)
+1.00  achieved_by(Filling, OperatingATap)
 1.00  action_core(fill, Filling)
 1.00  action_role(fill, ActionCause)
 1.00  action_role(pot, Goal)
@@ -172,7 +172,7 @@
 1.00  is_a(pot.n.01, pot.n.01)
 1.00  is_a(water.n.06, water.n.06)
 ---
-1.00  achieved_by(Filling, Tapping)
+1.00  achieved_by(Filling, OperatingATap)
 1.00  action_core(fill, Filling)
 1.00  action_role(fill, ActionCause)
 1.00  action_role(kettle, Goal)
@@ -251,7 +251,7 @@
 1.00  is_a(milk.n.01, milk.n.01)
 1.00  is_a(pitcher.n.02, pitcher.n.02)
 ---
-1.00  achieved_by(Filling, Tapping)
+1.00  achieved_by(Filling, OperatingATap)
 1.00  action_core(fill, Filling)
 1.00  action_role(fill, ActionCause)
 1.00  action_role(pan, Goal)
@@ -285,7 +285,7 @@
 1.00  is_a(liter.n.01, liter.n.01)
 1.00  is_a(whiskey.n.01, whiskey.n.01)
 ---
-1.00  achieved_by(Filling, Tapping)
+1.00  achieved_by(Filling, OperatingATap)
 1.00  action_core(fill, Filling)
 1.00  action_role(fill, ActionCause)
 1.00  action_role(teapot, Goal)
