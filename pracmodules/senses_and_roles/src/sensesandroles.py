@@ -33,7 +33,7 @@ from prac.inference import PRACInferenceStep
 from mln.util import mergeDomains
 from utils import colorize
 from pracutils import printListAndTick
-from pracutils.ActioncoreDescriptionHandler import ActioncoreDescriptionHandler
+from pracutils.RolequeryHandler import RolequeryHandler
 class SensesAndRoles(PRACModule):
     '''
     
@@ -135,14 +135,8 @@ class SensesAndRoles(PRACModule):
                             print colorize('  SENSE:', (None, 'white', True), True), q['?s']
                             wordnet_module.printWordSenses(wordnet_module.get_possible_meanings_of_word(r_db, q['?w']), q['?s'])
                             print
-                        rolePredicates = ActioncoreDescriptionHandler.getRolesBasedOnActioncore(actioncore)
                         
-                        for p in rolePredicates:
-                            query = self.roleQueryBuilder(actioncore,p, r_db.mln.predicates[p])
-                            for q in r_db.query(query, truthThreshold=1):
-                                for var, val in q.iteritems():
-                                    query = query.replace(var,val)
-                                print colorize('  ROLES:', (None, 'white', True), True), query
+                        RolequeryHandler.queryRoles(actioncore,r_db).printEvidence()
                         
                         for atom, truth in sorted(db.evidence.iteritems()):
                             if 'is_a' in atom : continue
