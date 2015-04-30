@@ -33,6 +33,11 @@ from prac.inference import PRACInferenceStep
 from mln.util import mergeDomains
 from utils import colorize
 from pracutils import printListAndTick
+import re
+import yaml
+
+PRAC_HOME = os.environ['PRAC_HOME']
+actioncoreDescriptionFilePath = os.path.join(PRAC_HOME, 'models', 'actioncores.yaml')
 
 
 class SensesAndRoles(PRACModule):
@@ -46,21 +51,19 @@ class SensesAndRoles(PRACModule):
     def shutdown(self):
         pass
     
-    def getRolesBasedOnCurrentAC(self,db):
-        db_ = Database(db.mln)
-        for q in db.query('action_core(?w,?ac)'):
-                actioncore = q['?ac']
-                if actioncore == 'null': continue
-                kb = self.load_pracmt(actioncore)
-                queryPredicates = kb.query_params['queries'].split(",")
-                for p in queryPredicates:
-                    if p == 'has_sense': continue
-                    query = self.roleQueryBuilder(actioncore,p, kb.query_mln)
-                    for q in db.query(query, truthThreshold=1):
-                        for var, val in q.iteritems():
-                            query = query.replace(var,val)
-                        db_.addGroundAtom(query)
-        return db_            
+    def loadActioncoreDescription(self):
+        actioncoreDescription = {}
+        actioncoreRawList =re.compile("\n\s*-+\s*\n").split(open(actioncoreDescriptionFilePath).read())
+        actioncoreYamlList = map(yaml.load,actioncoreRawList)
+        
+        for e in actioncoreYamlList:
+            actioncoreDescription[e['action_core']] = e
+        
+        return actioncoreDescription
+    
+    def getRolesBasedOnActioncore(self,actioncore):
+        return actioncoreDescription[actioncore]['roles']
+                    
                 
     def roleQueryBuilder(self, actioncore,predicate, mln):
         query = predicate+'('
