@@ -4,10 +4,10 @@
 // predicate declarations
 #include  ../../senses_and_roles/mln/Roles.mln
 action_core(word,actioncore?)
-achieved_by(word,actioncore)
+achieved_by(actioncore,actioncore?)
 
 
 // formulas
-2.227532    action_core(?w1, Pouring) ^ obj_to_be_poured(?w2, Pouring) ^ goal(?w3, Pouring) ^ obj_to_be_poured(?w2, OperatingATap) ^ goal(?w3, OperatingATap) ^ achieved_by(?w1, OperatingATap) ^ action_verb(?w1, OperatingATap) ^ ?w1=/=?w2 ^ ?w1=/=?w3 ^ ?w3=/=?w2
-2.958940    action_core(?w1, Filling) ^ obj_to_be_poured(?w2, Filling) ^ goal(?w3, Filling) ^ obj_to_be_poured(?w2, OperatingATap) ^ goal(?w3, OperatingATap) ^ achieved_by(?w1, OperatingATap) ^ action_verb(?w1, OperatingATap) ^ ?w1=/=?w2 ^ ?w1=/=?w3 ^ ?w3=/=?w2
+2.227532    action_core(?w1, Pouring) ^ obj_to_be_poured(?w2, Pouring) ^ goal(?w3, Pouring) ^ obj_to_be_poured(?w2, OperatingATap) ^ goal(?w3, OperatingATap) ^ achieved_by(Pouring, OperatingATap) ^ action_verb(?w1, OperatingATap) ^ ?w1=/=?w2 ^ ?w1=/=?w3 ^ ?w3=/=?w2
+2.958940    action_core(?w1, Filling) ^ obj_to_be_poured(?w2, Filling) ^ goal(?w3, Filling) ^ obj_to_be_poured(?w2, OperatingATap) ^ goal(?w3, OperatingATap) ^ achieved_by(Filling, OperatingATap) ^ action_verb(?w1, OperatingATap) ^ ?w1=/=?w2 ^ ?w1=/=?w3 ^ ?w3=/=?w2
 

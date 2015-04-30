@@ -3,11 +3,13 @@
 
 // predicate declarations
 #include  ../../senses_and_roles/mln/Roles.mln
-achieved_by(word,actioncore)
+achieved_by(actioncore,actioncore?)
 action_core(word,actioncore?)
 
 
 // formulas
-3.394536    action_core(?w1, Adding) ^ obj_to_be_poured(?w2, Filling) ^ goal(?w3, Adding) ^ obj_to_be_added(?w2, Adding) ^ goal(?w3, Filling) ^ achieved_by(?w1, Filling) ^ action_verb(?w1, Filling) ^ ?w1=/=?w2 ^ ?w1=/=?w3 ^ ?w3=/=?w2
+3.394536    action_core(?w1, Adding) ^ obj_to_be_poured(?w2, Filling) ^ goal(?w3, Adding) ^ obj_to_be_added(?w2, Adding) ^ goal(?w3, Filling) ^ achieved_by(Adding, Filling) ^ action_verb(?w1, Filling) ^ ?w1=/=?w2 ^ ?w1=/=?w3 ^ ?w3=/=?w2
+
+
 
 
