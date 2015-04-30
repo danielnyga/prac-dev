@@ -33,6 +33,24 @@ class RolequeryHandler(object):
     actioncoreDescription = {}
     
     @staticmethod
+    def queryRolesBasedOnAchievedBy(db):
+        actioncore = ""
+        #It will be assumed that there is only one true achieved_by predicate per database 
+        for q in db.query("achieved_by(?w,?ac)"):
+            actioncore = q["?ac"]
+        
+        return RolequeryHandler.queryRoles(actioncore,db)
+    
+    @staticmethod
+    def queryRolesBasedOnActioncore(db):
+        actioncore = ""
+        #It will be assumed that there is only one true action_core predicate per database 
+        for q in db.query("action_core(?w,?ac)"):
+            actioncore = q["?ac"]
+        
+        return RolequeryHandler.queryRoles(actioncore,db)
+    
+    @staticmethod
     def queryRoles(actioncore,db):
         db_ = Database(db.mln)
         rolePredicates = ActioncoreDescriptionHandler.getRolesBasedOnActioncore(actioncore)
