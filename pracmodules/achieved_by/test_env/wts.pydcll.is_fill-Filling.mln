@@ -5,7 +5,7 @@
 action_role(word,role?)
 has_pos(word,pos!)
 goal(word,actioncore)
-obj_to_be_added(word,actioncore)
+theme(word,actioncore)
 has_sense(word,sense!)
 stuff(word,actioncore)
 dobj(word,word)

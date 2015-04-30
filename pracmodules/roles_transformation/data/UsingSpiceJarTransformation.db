@@ -4,7 +4,7 @@
 1.00  action_core(flavour,Adding)
 1.00  action_verb(flavour,Adding)
 1.00  goal(soup, Adding)
-1.00  obj_to_be_added(salt, Adding)
+1.00  theme(salt, Adding)
 1.00  spice_jar_content(salt,UsingSpiceJar)
 ---
 
@@ -14,7 +14,7 @@
 1.00  action_core(flavour,Adding)
 1.00  action_verb(flavour,Adding)
 1.00  goal(steak, Adding)
-1.00  obj_to_be_added(pepper, Adding)
+1.00  theme(pepper, Adding)
 1.00  spice_jar_content(pepper,UsingSpiceJar)
 ---
 
@@ -24,7 +24,7 @@
 1.00  action_core(flavour,Adding)
 1.00  action_verb(flavour,Adding)
 1.00  goal(chicken, Adding)
-1.00  obj_to_be_added(sassafras, Adding)
+1.00  theme(sassafras, Adding)
 1.00  spice_jar_content(sassafras,UsingSpiceJar)
 ---
 
@@ -34,7 +34,7 @@
 1.00  action_core(flavour,Adding)
 1.00  action_verb(flavour,Adding)
 1.00  goal(sauce, Adding)
-1.00  obj_to_be_added(coriander, Adding)
+1.00  theme(coriander, Adding)
 1.00  spice_jar_content(coriander,UsingSpiceJar)
 ---
 
@@ -44,7 +44,7 @@
 1.00  action_core(flavour,Adding)
 1.00  action_verb(flavour,Adding)
 1.00  goal(meat, Adding)
-1.00  obj_to_be_added(fenugreek, Adding)
+1.00  theme(fenugreek, Adding)
 1.00  spice_jar_content(fenugreek,UsingSpiceJar)
 ---
 
@@ -54,7 +54,7 @@
 1.00  achieved_by(flavour,UsingSpiceJar)
 1.00  action_verb(flavour,Adding)
 1.00  goal(omelette, Adding)
-1.00  obj_to_be_added(salt, Adding)
+1.00  theme(salt, Adding)
 1.00  spice_jar_content(salt,UsingSpiceJar)
 ---
 
@@ -64,7 +64,7 @@
 1.00  achieved_by(flavour,UsingSpiceJar)
 1.00  action_verb(flavour,Adding)
 1.00  goal(rib, Adding)
-1.00  obj_to_be_added(pepper, Adding)
+1.00  theme(pepper, Adding)
 1.00  spice_jar_content(pepper,UsingSpiceJar)
 ---
 
@@ -74,7 +74,7 @@
 1.00  achieved_by(flavour,UsingSpiceJar)
 1.00  action_verb(flavour,Adding)
 1.00  goal(egg, Adding)
-1.00  obj_to_be_added(salt, Adding)
+1.00  theme(salt, Adding)
 1.00  spice_jar_content(salt,UsingSpiceJar)
 ---
 
@@ -84,5 +84,5 @@
 1.00  achieved_by(flavour,UsingSpiceJar)
 1.00  action_verb(flavour,Adding)
 1.00  goal(jambalaya, Adding)
-1.00  obj_to_be_added(chili_powder, Adding)
+1.00  theme(chili_powder, Adding)
 1.00  spice_jar_content(chili_powder,UsingSpiceJar)

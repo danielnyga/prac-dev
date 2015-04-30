@@ -3,7 +3,7 @@
 1.00  action_verb(add,Filling)
  1.00 action_verb(add,Adding)
 1.00  stuff(dressing,Filling)
- 1.00 obj_to_be_added(dressing,Adding)
+ 1.00 theme(dressing,Adding)
 1.00  goal(salad,Adding)
  1.00 goal(salad,Filling)
 
@@ -13,9 +13,9 @@
 1.00  action_verb(add,Filling)
  1.00 action_verb(add,Adding)
 1.00  stuff(milk,Filling)
- 1.00 obj_to_be_added(milk,Adding)
+ 1.00 theme(milk,Adding)
 1.00  stuff(water,Filling)
- 1.00 obj_to_be_added(water,Adding)
+ 1.00 theme(water,Adding)
 1.00  goal(coffee,Adding)
  1.00 goal(coffee,Filling)
 ---
@@ -25,7 +25,7 @@
 1.00  action_verb(add,Filling)
  1.00 action_verb(add,Adding)
 1.00  stuff(water,Filling)
- 1.00 obj_to_be_added(water,Adding)
+ 1.00 theme(water,Adding)
 
 1.00  goal(glas,Adding)
  1.00 goal(glas,Filling)
@@ -35,7 +35,7 @@
 1.00  action_verb(add,Filling)
  1.00 action_verb(add,Adding)
 1.00  stuff(juice,Filling)
- 1.00 obj_to_be_added(juice,Adding)
+ 1.00 theme(juice,Adding)
 1.00  goal(glas,Adding)
  1.00 goal(glas,Filling)
 ---
@@ -44,7 +44,7 @@
 1.00  action_verb(add,Filling)
  1.00 action_verb(add,Adding)
 1.00  stuff(pesto,Filling)
- 1.00 obj_to_be_added(pesto,Adding)
+ 1.00 theme(pesto,Adding)
 1.00  goal(bowl,Adding)
  1.00 goal(bowl,Filling)
 ---
@@ -54,7 +54,7 @@
 1.00  action_verb(add,Filling)
  1.00 action_verb(add,Adding)
 1.00  stuff(cola,Filling)
- 1.00 obj_to_be_added(cola,Adding)
+ 1.00 theme(cola,Adding)
 1.00  goal(glass,Adding)
  1.00 goal(glass,Filling)
 ---
@@ -63,7 +63,7 @@
 1.00  action_verb(add,Filling)
  1.00 action_verb(add,Adding)
 1.00  stuff(cola,Filling)
- 1.00 obj_to_be_added(cola,Adding)
+ 1.00 theme(cola,Adding)
 1.00  goal(cup,Adding)
  1.00 goal(cup,Filling)
 ---
@@ -72,7 +72,7 @@
 1.00  action_verb(add,Filling)
  1.00 action_verb(add,Adding)
 1.00  stuff(whisky,Filling)
- 1.00 obj_to_be_added(whisky,Adding)
+ 1.00 theme(whisky,Adding)
 1.00  goal(glas,Adding)
  1.00 goal(glas,Filling)
 ---
@@ -81,7 +81,7 @@
 1.00  action_verb(add,Filling)
  1.00 action_verb(add,Adding)
 1.00  stuff(coffee,Filling)
- 1.00 obj_to_be_added(coffee,Adding)
+ 1.00 theme(coffee,Adding)
 1.00  goal(cup,Adding)
  1.00 goal(cup,Filling)
 

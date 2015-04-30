@@ -3,11 +3,11 @@
 
 // predicate declarations
 goal(word,actioncore)
-obj_to_be_added(word,actioncore)
+theme(word,actioncore)
 achieved_by(word,actioncore)
 action_core(word,actioncore?)
 action_verb(word,actioncore)
 spice(word,actioncore)
 
 // formulas
-2.642886    action_core(?w1, Flavouring) ^ spice(?w2, Flavouring) ^ goal(?w3, Flavouring) ^ obj_to_be_added(?w2, Adding) ^ goal(?w3, Adding) ^ achieved_by(?w1, Adding) ^ action_verb(?w1, Adding) ^ ?w1=/=?w2 ^ ?w1=/=?w3 ^ ?w3=/=?w2
+2.642886    action_core(?w1, Flavouring) ^ spice(?w2, Flavouring) ^ goal(?w3, Flavouring) ^ theme(?w2, Adding) ^ goal(?w3, Adding) ^ achieved_by(?w1, Adding) ^ action_verb(?w1, Adding) ^ ?w1=/=?w2 ^ ?w1=/=?w3 ^ ?w3=/=?w2

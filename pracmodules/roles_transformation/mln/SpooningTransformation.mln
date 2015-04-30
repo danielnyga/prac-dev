@@ -8,5 +8,5 @@ achieved_by(actioncore,actioncore?)
 action_core(word,actioncore?)
 
 // formulas
-2.804632    action_core(?w1, Adding) ^ obj_to_be_added(?w2, Adding) ^ goal(?w3, Adding) ^ ingredient_to_be_added(?w2, Spooning) ^ goal(?w3, Spooning) ^ achieved_by(Adding, Spooning) ^ action_verb(?w1, Spooning) ^ ?w1=/=?w2 ^ ?w1=/=?w3 ^ ?w3=/=?w2
-2.119816    action_core(?w1, Adding) ^ obj_to_be_added(?w2, Adding) ^ ingredient_to_be_added(?w2, Spooning) ^ achieved_by(Adding, Spooning) ^ action_verb(?w1, Spooning) ^ ?w1=/=?w2
+2.804632    action_core(?w1, Adding) ^ theme(?w2, Adding) ^ goal(?w3, Adding) ^ ingredient_to_be_added(?w2, Spooning) ^ goal(?w3, Spooning) ^ achieved_by(Adding, Spooning) ^ action_verb(?w1, Spooning) ^ ?w1=/=?w2 ^ ?w1=/=?w3 ^ ?w3=/=?w2
+2.119816    action_core(?w1, Adding) ^ theme(?w2, Adding) ^ ingredient_to_be_added(?w2, Spooning) ^ achieved_by(Adding, Spooning) ^ action_verb(?w1, Spooning) ^ ?w1=/=?w2
