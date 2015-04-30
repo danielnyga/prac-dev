@@ -80,7 +80,6 @@ class RolesTransformation(PRACModule):
         for db in dbs:
             db_ = db.duplicate()
             for q in db.query('achieved_by(?w,?ac)'):
-                actionverb = q['?w']
                 actioncore = q['?ac']
 
                 if kb is None:
@@ -93,6 +92,12 @@ class RolesTransformation(PRACModule):
                 if actioncore not in planList:
                     for r_db in result_db:
                         r_db_ = Database(r_db.mln)
+                        actionverb = ""
+                        
+                        #It will be assumed that there is only one true action_core predicate per database 
+                        for q1 in db.query("action_core(?w,?ac)"):
+                            actionverb = q1["?w"]
+                            
                         for atom, truth in sorted(r_db.evidence.iteritems()):
                             if 'action_core' in atom: continue
                             r_db_.addGroundAtom(atom,truth)
