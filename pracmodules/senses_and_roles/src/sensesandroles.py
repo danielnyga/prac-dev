@@ -32,13 +32,7 @@ import os
 from prac.inference import PRACInferenceStep
 from mln.util import mergeDomains
 from utils import colorize
-from pracutils import printListAndTick
-import re
-import yaml
-
-PRAC_HOME = os.environ['PRAC_HOME']
-actioncoreDescriptionFilePath = os.path.join(PRAC_HOME, 'models', 'actioncores.yaml')
-
+from pracutils import printListAndTick,ActioncoreDescriptionHandler
 
 class SensesAndRoles(PRACModule):
     '''
@@ -51,20 +45,6 @@ class SensesAndRoles(PRACModule):
     def shutdown(self):
         pass
     
-    def loadActioncoreDescription(self):
-        actioncoreDescription = {}
-        actioncoreRawList =re.compile("\n\s*-+\s*\n").split(open(actioncoreDescriptionFilePath).read())
-        actioncoreYamlList = map(yaml.load,actioncoreRawList)
-        
-        for e in actioncoreYamlList:
-            actioncoreDescription[e['action_core']] = e
-        
-        return actioncoreDescription
-    
-    def getRolesBasedOnActioncore(self,actioncore):
-        return self.loadActioncoreDescription()[actioncore]['roles']
-                    
-                
     def roleQueryBuilder(self, actioncore,predicate, domainList):
         query = predicate+'('
         
@@ -155,7 +135,7 @@ class SensesAndRoles(PRACModule):
                             print colorize('  SENSE:', (None, 'white', True), True), q['?s']
                             wordnet_module.printWordSenses(wordnet_module.get_possible_meanings_of_word(r_db, q['?w']), q['?s'])
                             print
-                        rolePredicates = self.getRolesBasedOnActioncore(actioncore)
+                        rolePredicates = ActioncoreDescriptionHandler.getRolesBasedOnActioncore(actioncore)
                         
                         for p in rolePredicates:
                             query = self.roleQueryBuilder(actioncore,p, r_db.mln.predicates[p])
@@ -168,7 +148,6 @@ class SensesAndRoles(PRACModule):
                             if 'is_a' in atom : continue
                             r_db.addGroundAtom(atom,truth)
                         result_db.append(r_db)
-                        
                 for ur in unknown_roles:
                     print '%s:' % colorize(ur, (None, 'red', True), True)
                     for q in r_db.query('action_role(?w, %s) ^ has_sense(?w, ?s)' % ur, truthThreshold=1):
