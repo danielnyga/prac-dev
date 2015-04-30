@@ -62,12 +62,11 @@ class SensesAndRoles(PRACModule):
         return actioncoreDescription
     
     def getRolesBasedOnActioncore(self,actioncore):
-        return actioncoreDescription[actioncore]['roles']
+        return self.loadActioncoreDescription()[actioncore]['roles']
                     
                 
-    def roleQueryBuilder(self, actioncore,predicate, mln):
+    def roleQueryBuilder(self, actioncore,predicate, domainList):
         query = predicate+'('
-        domainList =  mln.predicates[predicate]
         
         if domainList[0].lower() == 'actioncore':
             query += actioncore
@@ -156,11 +155,10 @@ class SensesAndRoles(PRACModule):
                             print colorize('  SENSE:', (None, 'white', True), True), q['?s']
                             wordnet_module.printWordSenses(wordnet_module.get_possible_meanings_of_word(r_db, q['?w']), q['?s'])
                             print
-                        queryPredicates = useKB.query_params['queries'].split(",")
+                        rolePredicates = self.getRolesBasedOnActioncore(actioncore)
                         
-                        for p in queryPredicates:
-                            if p == 'has_sense': continue
-                            query = self.roleQueryBuilder(actioncore,p, useKB.query_mln)
+                        for p in rolePredicates:
+                            query = self.roleQueryBuilder(actioncore,p, r_db.mln.predicates[p])
                             for q in r_db.query(query, truthThreshold=1):
                                 for var, val in q.iteritems():
                                     query = query.replace(var,val)
