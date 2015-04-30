@@ -22,37 +22,37 @@
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 action_core: Filling
-roles: ['obj_to_be_poured','goal','action_verb']
+roles: ['stuff','goal','action_verb']
 
 ---
 
 action_core: Pouring
-roles: ['obj_to_be_poured','goal','action_verb']
+roles: ['stuff','goal','action_verb']
 
 ---
 
 action_core: Adding
-roles: ['obj_to_be_added','goal','action_verb']
+roles: ['theme','goal','action_verb']
 
 ---
 
 action_core: Preheating
-roles: ['obj_to_be_heated','temperature_setting','action_verb']
+roles: ['obj_to_be_heated','temperature','action_verb']
 
 ---
 
 action_core: OperatingATap
-roles: ['obj_to_be_poured','goal','action_verb']
+roles: ['liquid','goal','action_verb']
 
 ---
 
 action_core: UsingSpiceJar
-roles: ['spice_jar_content','goal','action_verb']
+roles: ['content','goal','action_verb']
 
 ---
 
 action_core: Spooning
-roles: ['ingredient_to_be_added','goal','action_verb']
+roles: ['substance','goal','action_verb']
 
 ---
 
@@ -62,5 +62,5 @@ roles: ['spice','goal','action_verb']
 ---
 
 action_core: TurningOnElectricalDevice
-roles: ['obj_to_be_heated','temperature_setting','action_verb']
+roles: ['device','setting','action_verb']
 
