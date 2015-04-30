@@ -2,17 +2,10 @@
 
 
 // predicate declarations
-action_verb(word,actioncore)
-goal(word,actioncore)
-obj_to_be_added(word,actioncore)
-obj_to_be_poured(word,actioncore)
-amount(word,actioncore)
-spice_jar_content(word,actioncore)
-temperature_setting(word,word,actioncore)
-achieved_by(word,actioncore)
+#include  ../../senses_and_roles/mln/Roles.mln
+achieved_by(actioncore,actioncore?)
 action_core(word,actioncore?)
-obj_to_be_heated(word,actioncore)
-spice(word,actioncore)
 
 // formulas
-3.649537    action_core(?w1, Adding) ^ obj_to_be_added(?w2, Adding) ^ goal(?w3, Adding) ^ spice_jar_content(?w2, UsingSpiceJar) ^ goal(?w3, UsingSpiceJar) ^ achieved_by(?w1, UsingSpiceJar) ^ action_verb(?w1, UsingSpiceJar) ^ ?w1=/=?w2 ^ ?w1=/=?w3 ^ ?w3=/=?w2
+3.649537    action_core(?w1, Adding) ^ theme(?w2, Adding) ^ goal(?w3, Adding) ^ content(?w2, UsingSpiceJar) ^ goal(?w3, UsingSpiceJar) ^ achieved_by(Adding, UsingSpiceJar) ^ action_verb(?w1, UsingSpiceJar) ^ ?w1=/=?w2 ^ ?w1=/=?w3 ^ ?w3=/=?w2
+

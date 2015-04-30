@@ -1,6 +1,7 @@
 # PROBABILISTIC ROBOT ACTION CORES 
 #
-# (C) 2012 by Daniel Nyga (nyga@cs.tum.edu)
+# (C) 2012-2015 by Daniel Nyga (nyga@cs.tum.edu)
+# (C) 2015 by Sebastian Koralewski (seba@informatik.uni-bremen.de)
 #
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
@@ -48,6 +49,25 @@ class AchievedBy(PRACModule):
     def shutdown(self):
         pass
     
+    def extendDBWithAchievedByEvidence(self,db,queryMln):
+        actioncore = ""
+        #It will be assumed that there is only one true action_core predicate per database
+        for q in db.query("action_core(?w,?ac)"):
+            actioncore = q["?ac"]
+        acDomain = db.mln.domains.get("actioncore")
+        acDomain.extend(queryMln.domains.get("actioncore"))
+        acDomain = set(acDomain)
+        db_ = Database(queryMln)
+        
+        for ac1 in acDomain:
+            for ac2 in acDomain:
+                if ac1 == actioncore: continue
+                db_.addGroundAtom("achieved_by({},{})".format(ac1,ac2),0)
+        
+        for atom, truth in sorted(db.evidence.iteritems()):
+            db_.addGroundAtom(atom,truth)
+        
+        return db_
     
     @PRACPIPE
     def __call__(self, pracinference, **params):
@@ -102,9 +122,9 @@ class AchievedBy(PRACModule):
                 #Inference achieved_by predicate        
                 #self.kbs.append(useKB)  
                 #params.update(useKB.query_params)
+                db_ = self.extendDBWithAchievedByEvidence(db_,useKB.query_mln)
                 result_db = list(useKB.infer(db_))
                 result_db_ = []
-                
                 #Removing achieved_by predicates with prob zero
                 for r_db in result_db:
                     r_db_ = Database(useKB.query_mln)
@@ -116,7 +136,7 @@ class AchievedBy(PRACModule):
                 result_db = result_db_
                     
                 for r_db in result_db:
-                    for q in r_db.query('achieved_by('+actionword+',?nac)'):
+                    for q in r_db.query('achieved_by('+actioncore+',?nac)'):
                         achievedByAc = q['?nac']
                         
                         r_db_ = Database(r_db.mln)

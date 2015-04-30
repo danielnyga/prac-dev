@@ -1,6 +1,6 @@
-# ACTION CORE DEFINITIONS
-# 
-# (C) 2012 by Daniel Nyga
+# Markov Logic Networks
+#
+# (C) 2015 by Sebastian Koralewski (seba@informatik.uni-bremen.de)
 #
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
@@ -21,46 +21,26 @@
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-action_core: Filling
-roles: ['stuff','goal','action_verb']
+import re
+import yaml
+import os
 
----
-
-action_core: Pouring
-roles: ['stuff','goal','action_verb']
-
----
-
-action_core: Adding
-roles: ['theme','goal','action_verb']
-
----
-
-action_core: Preheating
-roles: ['obj_to_be_heated','temperature','action_verb']
-
----
-
-action_core: OperatingATap
-roles: ['liquid','goal','action_verb']
-
----
-
-action_core: UsingSpiceJar
-roles: ['content','goal','action_verb']
-
----
-
-action_core: Spooning
-roles: ['substance','goal','action_verb']
-
----
-
-action_core: Flavouring
-roles: ['spice','goal','action_verb']
-
----
-
-action_core: TurningOnElectricalDevice
-roles: ['device','setting','action_verb']
-
+class ActioncoreDescriptionHandler(object):
+    PRAC_HOME = os.environ['PRAC_HOME']
+    actioncoreDescriptionFilePath = os.path.join(PRAC_HOME, 'models', 'actioncores.yaml')
+    actioncoreDescription = {}
+    
+    @staticmethod
+    def loadActioncoreDescription():
+        ADHandler = ActioncoreDescriptionHandler
+        actioncoreRawList =re.compile("\n\s*-+\s*\n").split(open(ADHandler.actioncoreDescriptionFilePath).read())
+        actioncoreYamlList = map(yaml.load,actioncoreRawList)
+        
+        for e in actioncoreYamlList:
+            ADHandler.actioncoreDescription[e['action_core']] = e
+    @staticmethod
+    def getRolesBasedOnActioncore(actioncore):
+        ADHandler = ActioncoreDescriptionHandler
+        if ADHandler.actioncoreDescription == {}:
+            ADHandler.loadActioncoreDescription()
+        return ADHandler.actioncoreDescription[actioncore]['roles']

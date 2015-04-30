@@ -33,8 +33,7 @@ from prac.inference import PRACInferenceStep
 from mln.util import mergeDomains
 from utils import colorize
 from pracutils import printListAndTick
-
-
+from pracutils.RolequeryHandler import RolequeryHandler
 class SensesAndRoles(PRACModule):
     '''
     
@@ -46,25 +45,8 @@ class SensesAndRoles(PRACModule):
     def shutdown(self):
         pass
     
-    def getRolesBasedOnCurrentAC(self,db):
-        db_ = Database(db.mln)
-        for q in db.query('action_core(?w,?ac)'):
-                actioncore = q['?ac']
-                if actioncore == 'null': continue
-                kb = self.load_pracmt(actioncore)
-                queryPredicates = kb.query_params['queries'].split(",")
-                for p in queryPredicates:
-                    if p == 'has_sense': continue
-                    query = self.roleQueryBuilder(actioncore,p, kb.query_mln)
-                    for q in db.query(query, truthThreshold=1):
-                        for var, val in q.iteritems():
-                            query = query.replace(var,val)
-                        db_.addGroundAtom(query)
-        return db_            
-                
-    def roleQueryBuilder(self, actioncore,predicate, mln):
+    def roleQueryBuilder(self, actioncore,predicate, domainList):
         query = predicate+'('
-        domainList =  mln.predicates[predicate]
         
         if domainList[0].lower() == 'actioncore':
             query += actioncore
@@ -153,21 +135,13 @@ class SensesAndRoles(PRACModule):
                             print colorize('  SENSE:', (None, 'white', True), True), q['?s']
                             wordnet_module.printWordSenses(wordnet_module.get_possible_meanings_of_word(r_db, q['?w']), q['?s'])
                             print
-                        queryPredicates = useKB.query_params['queries'].split(",")
                         
-                        for p in queryPredicates:
-                            if p == 'has_sense': continue
-                            query = self.roleQueryBuilder(actioncore,p, useKB.query_mln)
-                            for q in r_db.query(query, truthThreshold=1):
-                                for var, val in q.iteritems():
-                                    query = query.replace(var,val)
-                                print colorize('  ROLES:', (None, 'white', True), True), query
+                        RolequeryHandler.queryRoles(actioncore,r_db).printEvidence()
                         
                         for atom, truth in sorted(db.evidence.iteritems()):
                             if 'is_a' in atom : continue
                             r_db.addGroundAtom(atom,truth)
                         result_db.append(r_db)
-                        
                 for ur in unknown_roles:
                     print '%s:' % colorize(ur, (None, 'red', True), True)
                     for q in r_db.query('action_role(?w, %s) ^ has_sense(?w, ?s)' % ur, truthThreshold=1):
