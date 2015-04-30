@@ -122,10 +122,9 @@ class AchievedBy(PRACModule):
                 #Inference achieved_by predicate        
                 #self.kbs.append(useKB)  
                 #params.update(useKB.query_params)
-                #self.extendDBWithAchievedByEvidence(db_,useKB.query_mln)
+                db_ = self.extendDBWithAchievedByEvidence(db_,useKB.query_mln)
                 result_db = list(useKB.infer(db_))
                 result_db_ = []
-                
                 #Removing achieved_by predicates with prob zero
                 for r_db in result_db:
                     r_db_ = Database(useKB.query_mln)
@@ -137,7 +136,7 @@ class AchievedBy(PRACModule):
                 result_db = result_db_
                     
                 for r_db in result_db:
-                    for q in r_db.query('achieved_by('+actionword+',?nac)'):
+                    for q in r_db.query('achieved_by('+actioncore+',?nac)'):
                         achievedByAc = q['?nac']
                         
                         r_db_ = Database(r_db.mln)
