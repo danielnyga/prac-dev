@@ -7,5 +7,5 @@ achieved_by(actioncore,actioncore?)
 action_core(word,actioncore?)
 
 // formulas
-3.649537    action_core(?w1, Adding) ^ theme(?w2, Adding) ^ goal(?w3, Adding) ^ spice_jar_content(?w2, UsingSpiceJar) ^ goal(?w3, UsingSpiceJar) ^ achieved_by(Adding, UsingSpiceJar) ^ action_verb(?w1, UsingSpiceJar) ^ ?w1=/=?w2 ^ ?w1=/=?w3 ^ ?w3=/=?w2
+3.649537    action_core(?w1, Adding) ^ theme(?w2, Adding) ^ goal(?w3, Adding) ^ content(?w2, UsingSpiceJar) ^ goal(?w3, UsingSpiceJar) ^ achieved_by(Adding, UsingSpiceJar) ^ action_verb(?w1, UsingSpiceJar) ^ ?w1=/=?w2 ^ ?w1=/=?w3 ^ ?w3=/=?w2
 
