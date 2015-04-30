@@ -7,6 +7,7 @@ action_core(word,actioncore?)
 achieved_by(actioncore,actioncore?)
 
 // formulas
-1.683692    action_core(?w1, Preheating) ^ obj_to_be_heated(?w2, Preheating) ^ obj_to_be_heated(?w2, TurningOnElectricalDevice) ^ achieved_by(Preheating, TurningOnElectricalDevice) ^ action_verb(?w1, TurningOnElectricalDevice) ^ ?w1=/=?w2
-0.430762    action_core(?w1, Preheating) ^ obj_to_be_heated(?w2, Preheating) ^ temperature(?w3, ?w4, Preheating) ^ obj_to_be_heated(?w2, TurningOnElectricalDevice) ^ temperature(?w3, ?w4, TurningOnElectricalDevice) ^ achieved_by(Preheating, TurningOnElectricalDevice) ^ action_verb(?w1, TurningOnElectricalDevice) ^ ?w1=/=?w2 ^ ?w1=/=?w3 ^ ?w3=/=?w2 ^ ?w1=/=?w4 ^ ?w4=/=?w2 ^ ?w4=/=?w3
+1.683692    action_core(?w1, Preheating) ^ obj_to_be_heated(?w2, Preheating) ^ device(?w2, TurningOnElectricalDevice) ^ achieved_by(Preheating, TurningOnElectricalDevice) ^ action_verb(?w1, TurningOnElectricalDevice) ^ ?w1=/=?w2
+0.430762    action_core(?w1, Preheating) ^ obj_to_be_heated(?w2, Preheating) ^ temperature(?w3, ?w4, Preheating) ^ device(?w2, TurningOnElectricalDevice) ^ setting(?w3, ?w4, TurningOnElectricalDevice) ^ achieved_by(Preheating, TurningOnElectricalDevice) ^ action_verb(?w1, TurningOnElectricalDevice) ^ ?w1=/=?w2 ^ ?w1=/=?w3 ^ ?w3=/=?w2 ^ ?w1=/=?w4 ^ ?w4=/=?w2 ^ ?w4=/=?w3
+
 
