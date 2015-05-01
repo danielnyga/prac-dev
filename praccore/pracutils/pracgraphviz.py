@@ -44,15 +44,12 @@ def render_gv(graph, filename=None, directory=None):
         with NamedTemporaryFile(suffix='dot', delete=False) as tmpfile:
             tmpfile.write(text_type(graph.source))
         cmd = [graph._engine, '-T%s' % graph._format, tmpfile.name]
-        print cmd
-        print ' '.join(cmd)
         p = subprocess.Popen(' '.join(cmd), shell=True, stderr=PIPE, stdout=PIPE)
         while True:
             l = p.stdout.readline()
             if not l: break
             rendered += l
         p.wait()
-        print p.returncode
     except OSError as e:
         if e.errno == errno.ENOENT:
             raise RuntimeError('failed to execute %r, '

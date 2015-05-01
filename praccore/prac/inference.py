@@ -67,6 +67,7 @@ class PRACInference(object):
     
     def __init__(self, prac, instructions):
         self.prac = prac
+        prac.uninitAllModules()
         self.instructions = instructions
         self.inference_steps = []
         self.watch = StopWatch()
