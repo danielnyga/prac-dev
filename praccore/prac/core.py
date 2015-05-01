@@ -119,6 +119,10 @@ class PRAC(object):
             self.moduleByName[modulename] = module
         return self.moduleByName[modulename]
     
+    def uninitAllModules(self):
+        for module in self.moduleByName.values():
+            module._initialized = False
+    
         
     def getActionCoreTrainingDBs(self, actioncore_name=None):
         '''
