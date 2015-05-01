@@ -48,7 +48,7 @@ qx.Class.define("pracweb.Graph",
       .attr("markerHeight", 6)
       .attr("orient", "auto")
       .append("path")
-      .attr("d", "M0,-5L10,0L0,5");
+      .attr("d", "M0,-5L10,0L0,5 Z");
 
 
 
@@ -98,7 +98,7 @@ qx.Class.define("pracweb.Graph",
           if (typeof t.findNode(data[dataIndex].target) === "undefined") {
             t.nodes.push({"id":data[dataIndex].target});
           }
-
+          t.update();
           //check if there is already a link between source and target node
           var index = t.findLinkIndex(t.findNode(data[dataIndex].source), t.findNode(data[dataIndex].target), data[dataIndex].value, t.links);
           if (index == -1) {
@@ -142,6 +142,7 @@ qx.Class.define("pracweb.Graph",
               {
                 console.log('removing link', t.links[i].source, '-', t.links[i].target, ':', t.links[i].value);
                 t.links.splice(i,1);
+                t.update();
               }
               else i++;
             }
@@ -149,7 +150,7 @@ qx.Class.define("pracweb.Graph",
             t.nodes.splice(t.findNodeIndex(nodesCopy[dIndex].id),1);
             t.update();
           }
-
+          t.update();
           dIndex++;
           if (dIndex < nodesCopy.length) {
             removenodes(dIndex, t);
@@ -310,7 +311,7 @@ qx.Class.define("pracweb.Graph",
           .attr('class', 'label')
           .text(function(d){ 
             console.log('redrawing edgelabel with text',d.value.join('/'));
-            return d.value.join('/'); });
+            return d.value.join(' / '); });
 
       edgelabels.exit().remove();
 
@@ -322,7 +323,7 @@ qx.Class.define("pracweb.Graph",
         .call(this.force.drag);
 
       circleEnter.append("svg:circle")
-        .attr("r", 6)
+        .attr("r", 10)
         .attr("id", function(d) { return d.id; } );
 
       // circleEnter.append("svg:rect")
@@ -403,11 +404,11 @@ qx.Class.define("pracweb.Graph",
       };
 
       this.force
-        .size([this.w, .8*this.h])
+        .size([.8*window.innerWidth, .8*window.innerHeight])
         .linkDistance( this.h/2 )
-        .charge(-300)
+        .charge(-1000)
         .on("tick", tick)
-        .gravity( .03 )
+        .gravity( .025 )
         .distance( 250 )
         .start();
     }

@@ -32,8 +32,6 @@ def _pracinfer_step():
         data = json.loads(request.get_data())
         pracsession.count = 1
         log.info('starting new PRAC inference on "%s"' % data['sentence'])
-#         prac = PRAC()
-#         prac.wordnet = WordNet(concepts=None)
         pracsession.prac = prac
         infer = PRACInference(prac, [data['sentence']])
         parser = prac.getModuleByName('nl_parsing')
@@ -49,33 +47,37 @@ def _pracinfer_step():
             prac.run(pracsession.infer,module)
         else:
             result = []
-            for db in pracsession.infer.inference_steps[-1].output_dbs:
-                db.write(sys.stdout, color=True)
-#                 print 'rolequerydingen'
-                RolequeryHandler.queryRolesBasedOnAchievedBy(db).printEvidence()
-#                 print '/rolequerydingen'
-            #     db.write(sys.stdout, color=True)
-            #     evPreds = list(set([x.split('(')[0] for x in db.evidence.keys()]))
-            #     for q in db.query("action_core(?w, ?ac)"):
-            #         ac = q['?ac']
-            #         kb = pracsession.lastModule.load_pracmt(ac+"Transformation")
-            #         queryPredicates = kb.query_params['queries'].split(",")
-            #         print queryPredicates
+
+            for step in pracsession.infer.inference_steps[-3:]:
+                for db in step.output_dbs:
+                    db.write(sys.stdout, color=True)
+                    print 'rolequerydingen'
+                    RolequeryHandler.queryRolesBasedOnAchievedBy(db).printEvidence()
+                    print '/rolequerydingen'
+                    evPreds = list(set([x.split('(')[0] for x in db.evidence.keys()]))
+                    print'evpreds', evPreds
+                    for q in db.query("action_core(?w, ?ac)"):
+                        ac = q['?ac']
+                        kb = pracsession.lastModule.load_pracmt(ac+"Transformation")
+                        queryPredicates = kb.query_params['queries'].split(",")
+                        print queryPredicates
 
 
-                #     # add querypredicates
-                #     for role in queryPredicates:
-                #         print 'querying {}(?w, {}) ^ has_sense(?w, ?s)'.format(role, ac)
-                #         for q2 in db.query("{}(?w, {}) ^ has_sense(?w, ?s)".format(role, ac)):
-                #             result.append({'source': ac, 'target': q2['?s'] , 'value': role , 'arcStyle': 'strokegreen'})
+                        # add querypredicates
+                        for role in queryPredicates:
+                            print 'querying {}(?w, {}) ^ has_sense(?w, ?s)'.format(role, ac)
+                            for q2 in db.query("{}(?w, {}) ^ has_sense(?w, ?s)".format(role, ac)):
+                                result.append({'source': ac, 'target': q2['?s'] , 'value': role , 'arcStyle': 'strokegreen'})
 
-                #     # add other predicates
-                #     for s in evPreds:
-                #         if s in pracsession.synPreds.keys() + queryPredicates + ['has_sense']: 
-                #             evPreds.remove(s)
-                #         else:
-                #             for q3 in db.query("{}(?w, ?w2) ^ has_sense(?w, ?s)".format(s)):
-                #                 result.append({'source': q3['?w'], 'target': q3['?w2'] , 'value': s , 'arcStyle': 'strokegreen'})
+                        # add other predicates
+                        for s in evPreds:
+                            if s in pracsession.synPreds.keys() + queryPredicates + ['has_sense','achieved_by']: 
+                                evPreds.remove(s)
+                            else:
+                                for q3 in db.query("{}(?w, ?w2) ^ has_sense(?w, ?s)".format(s)):
+                                    result.append({'source': q3['?w'], 'target': q3['?w2'] , 'value': s , 'arcStyle': 'strokegreen'})
+                        for q4 in db.query("achieved_by(?w, ?w2)"):
+                            result.append({'source': q4['?w'], 'target': q4['?w2'] , 'value': 'achieved_by' , 'arcStyle': 'strokegreen'})
             print 'result: ', result
             return jsonify( {'result': result, 'finish': True} )
 
@@ -142,3 +144,13 @@ def _pracinfer_step():
 # 
 #     else: # inference without module (no WN)
 #         print 'Running Inference w/o module'
+
+@pracApp.app.route('/_pracinfer_get_next_module', methods=['GET'])
+def _pracinfer_get_next_module():
+    pracsession = ensure_prac_session(session)
+    if hasattr(pracsession, 'infer'):
+        print 'returning', pracsession.infer.next_module()
+        return pracsession.infer.next_module()
+    else:
+        print 'returning nl_parsing'
+        return 'nl_parsing'

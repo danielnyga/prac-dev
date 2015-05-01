@@ -126,13 +126,26 @@ circle {
   stroke-width: 1.5px;
 }
 
-rect {
+/*rect {
   fill: #bee280;
   stroke: #89a35c;
   stroke-width: 1.5px;
+}*/
+
+/*text {
+  font: 15px helvetica, arial, sans-serif;
+  pointer-events: none;
+  text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;
+}*/
+
+text.textClass {
+  font: 15px helvetica, arial, sans-serif;
+  font-weight: bold;
+  pointer-events: none;
+  text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;
 }
 
-text {
+text.label {
   font: 15px helvetica, arial, sans-serif;
   pointer-events: none;
   text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;
