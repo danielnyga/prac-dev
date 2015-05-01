@@ -57,16 +57,19 @@ known_concepts = ['soup.n.01',
                   'bowl.n.04',
                   'spoon.n.01',
                   'spoon.n.02',
+                  'sauce.n.01',
+                  'salt.n.02',
+                  'pepper.n.03',
 #                   'marjoram.n.01',
 #                   'rosemary.n.01',
 #                   'tomato_sauce.n.01',
 #                   'carbonara.n.01',
-#                   'batter.n.02',
+                'batter.n.02',
 #                   'baking_tray.n.01',
 #                   'cheese.n.01',
 #                   'mozzarella.n.01',
 #                   'water_faucet.n.01',
-#                   'oven.n.01',
+                'oven.n.01',
 #                   'degree_celsius.n.01',
 #                   'refrigerator.n.01',
 #                   'stove.n.01'
@@ -599,8 +602,7 @@ class WordNet(object):
         return g
     
     
-    def to_svg(self):
-        log = logging.getLogger(self.__class__.__name__)
+    def to_dot(self):
         if self.core_taxonomy is None:
             raise Exception('Need a collapsed taxonomy')
         tax = self.core_taxonomy
@@ -608,13 +610,17 @@ class WordNet(object):
         g.attr('graph', nodesep='.5', splines='true', rankdir='BT', ratio='fill', bgcolor='white')
         processed = {}
         for c in tax.traverse(algo='BFS'):
-            g.node(c.data, fillcolor='#dddddd', style='filled', shape='box', fontname='Helvetica, Arial, sans-serif')
+            g.node(c.data, fillcolor='#dddddd', style='filled', shape='box', fontname='Helvetica, Arial, sans-serif', size='2,2')
             processed[c.data] = c.data
         for p in tax.traverse(algo='BFS'):
             p_node = processed[p.data]
             for c in p.children:
                 c_node = processed[c.data]
                 g.edge(c_node, p_node, weight='1')
+        return g
+    
+    def to_svg(self):
+        g  = self.to_dot()
         return render_gv(g, 'wordnet.svg')
         
         

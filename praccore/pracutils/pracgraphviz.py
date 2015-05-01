@@ -57,7 +57,6 @@ def render_gv(graph, filename=None, directory=None):
                 'are on your systems\' path' % cmd)
         else:
             raise
-    print rendered
     if filename is not None:
         with open(filename, 'w+') as rf:
             rf.write(rendered)

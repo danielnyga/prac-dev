@@ -25,5 +25,5 @@ module_name: "senses_and_roles"
 description: "Performs simultaneous word sense disambiguation and action role assignment."
 dependencies: ['ac_recognition']
 class_name: "sensesandroles.SensesAndRoles" 
-declarations: ['predicates.mln']
+declarations: ['predicates.mln', 'Roles.mln']
 

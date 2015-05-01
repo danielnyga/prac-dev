@@ -59,9 +59,8 @@ class RolequeryHandler(object):
             query = RolequeryHandler.roleQueryBuilder(actioncore,p, db.mln.predicates[p])
             for q in db.query(query, truthThreshold=1):
                 for var, val in q.iteritems():
-                    query = query.replace(var,val)
-                db_.addGroundAtom(query)
-                
+                    q_ = query.replace(var,val)
+                    db_.addGroundAtom(q_)
         return db_
 
     @staticmethod

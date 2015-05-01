@@ -32,8 +32,16 @@ import os
 from prac.inference import PRACInferenceStep
 from mln.util import mergeDomains
 from utils import colorize
-from pracutils import printListAndTick
 from pracutils.RolequeryHandler import RolequeryHandler
+from prac.wordnet import WordNet
+from sense_distribution import add_word_evidence_complete,\
+    add_all_wordnet_similarities, get_prob_color
+from mln.mln import readMLNFromString
+from pracutils.pracgraphviz import render_gv
+from pracutils.ActioncoreDescriptionHandler import ActioncoreDescriptionHandler
+
+
+
 class SensesAndRoles(PRACModule):
     '''
     
@@ -152,7 +160,59 @@ class SensesAndRoles(PRACModule):
         return inf_step
         
     
-        
+    def role_distributions(self, pracinference):
+        wn = WordNet()
+        for db_ in pracinference.inference_steps[-1].output_dbs:
+            db_.write(sys.stdout, color=True)
+            for word in db_.domains['word']:
+                for q in db_.query('action_core(?w,?ac)'):
+                    actioncore = q['?ac']
+                    kb = self.load_pracmt(actioncore)
+                    mln = kb.query_mln
+#                     mln.write(sys.stdout)
+                    db = db_.duplicate(mln=mln)
+                    for concept in db_.domains['concept']:
+                        if concept not in mln.domains['concept']:
+                            db.removeDomainValue('concept', concept)
+                    db.write(sys.stdout, color=True)
+                    for res in db_.query('has_sense(%s, ?s)' % (word)):
+                        sense = res['?s']
+                        if sense == 'null': continue
+                        roles = ActioncoreDescriptionHandler.getRolesBasedOnActioncore(actioncore)
+                        role = None
+                        for r in roles:
+                            vars = ['?v%d' % i for i in range(len(db_.mln.predicates[r])-1)]
+                            br = False
+                            for qr in db_.query('%s(%s,%s)' % (r, ','.join(vars), actioncore)): 
+                                for v in vars:
+                                    if qr[v] == word: 
+                                        role = r
+                                        br = True
+                                        break
+                                if br: break
+                            if br: break
+                        print role
+                        if role is None: continue
+                        db.retractGndAtom('has_sense(%s, %s)' % (word, sense))
+                        add_all_wordnet_similarities(db, wn)
+                        result = mln.infer(queries='has_sense', method='EnumerationAsk', evidence_db=db, closedWorld=True, useMultiCPU=True)
+                        g = wn.to_dot()
+                        result.write(sys.stdout, color=True)
+                        maxprob = 0.
+                        for atom, truth in result.evidence.iteritems():
+                            _, predname, args = db.mln.logic.parseLiteral(atom)
+                            concept = args[1]
+                            if predname == 'has_sense' and args[0] == word and args[1] != 'null':
+                                maxprob = max(maxprob, truth) 
+
+                        for atom, truth in result.evidence.iteritems():
+                            _, predname, args = db.mln.logic.parseLiteral(atom)
+                            concept = args[1]
+                            if predname == 'has_sense' and args[0] == word and args[1] != 'null':
+                                print concept, get_prob_color(truth)
+                                if concept in wn.known_concepts:
+                                    g.node(concept, fillcolor=get_prob_color(truth / maxprob))
+                        render_gv(g, 'prac-%s-%s.svg' % (actioncore, role))
     
     
     
