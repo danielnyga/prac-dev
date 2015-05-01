@@ -132,7 +132,20 @@ rect {
   stroke-width: 1.5px;
 }
 
-text {
+/*text {
+  font: 15px helvetica, arial, sans-serif;
+  pointer-events: none;
+  text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;
+}*/
+
+text.textClass {
+  font: 15px helvetica, arial, sans-serif;
+  font-weight: bold;
+  pointer-events: none;
+  text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;
+}
+
+text.label {
   font: 15px helvetica, arial, sans-serif;
   pointer-events: none;
   text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;

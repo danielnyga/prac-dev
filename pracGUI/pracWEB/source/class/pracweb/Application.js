@@ -89,35 +89,45 @@ qx.Class.define("pracweb.Application",
       this.__pane = splitPane;
 
       // Create container with fixed dimensions for the left:
-      var left = new qx.ui.container.Composite(new qx.ui.layout.VBox());
+      var left = new qx.ui.container.Composite(new qx.ui.layout.VBox()).set({
+        minWidth: 370
+      });
+
       // Create container for the right:
+      var innerSplitPane = new qx.ui.splitpane.Pane("horizontal");
+      var main = new qx.ui.container.Composite(new qx.ui.layout.Grow()).set({
+        minWidth: .6*window.innerWidth,
+        minHeight: .9*window.innerHeight
+      });
       var right = new qx.ui.container.Composite(new qx.ui.layout.Grow());
+      // left
+  	  var form = this.buildForm();
 
-
-      // // Left
-	  var form = this.buildForm();
-	  // placeholder
+  	  // placeholder
       var placeholder = new qx.ui.container.Composite();
       placeholder.setHeight(80);
       left.add(placeholder);
       left.add(form);
-      // Right
-      var vizEmbedGrp = new qx.ui.groupbox.GroupBox("Visualization");
 
+      // right
+      var vizEmbedGrp = new qx.ui.groupbox.GroupBox("Visualization");
       var vizLayout = new qx.ui.layout.Grow();
       vizEmbedGrp.setLayout(vizLayout);
-
-      var vizHTML = "<div id='viz'></div>";
+      var vizHTML = "<div id='viz' style='width: 100%; height: 100%;'></div>";
       var vizEmbed = new qx.ui.embed.Html(vizHTML);
-
       vizEmbedGrp.add(vizEmbed);
 
-      right.add(vizEmbedGrp);
+      // main
+      main.add(vizEmbedGrp);
       this._left = left;
+      this._main = main;
       this._right = right;
 
+      innerSplitPane.add(main, 0);
+      innerSplitPane.add(right, 1);
+
       splitPane.add(left, 0);
-      splitPane.add(right, 1);
+      splitPane.add(innerSplitPane, 1);
 
       var mainPane = this.buildMainPane();
       this._mainPane = mainPane;
@@ -129,8 +139,10 @@ qx.Class.define("pracweb.Application",
       contentIsle.add(container);
       
       // initially do not show form and do NOT use stepwise inference by default
-      this._left.exclude();
+      this._showLeft = false;
+      this._showRight = false;
       this.__stepwise = false;
+      this._changeVisiblity();
     },
 
 
@@ -156,9 +168,18 @@ qx.Class.define("pracweb.Application",
       description.setMinWidth(300);
       
       var expSettings = new qx.ui.form.CheckBox("Use expert settings");
-      expSettings.addListener("changeValue", this._changeVisiblity, this);
+      expSettings.addListener("changeValue", function(e) {
+        this._showLeft = e.getData();
+        this._changeVisiblity();
+      }, this);
+
+
       var stepInf = new qx.ui.form.CheckBox("Step-by-step inference");
-      
+      var dieter = new qx.ui.form.CheckBox("Show Dieter");
+      dieter.addListener("changeValue", function(e) {
+        this._showRight = e.getData();
+        this._changeVisiblity();
+      }, this);
       var vizButton = new qx.ui.form.Button("Run Inference", "/prac/static/images/resultset_next.png");
       
       var nextButton = new qx.ui.form.Button("Next Step",  "/prac/static/images/resultset_last.png");
@@ -230,6 +251,7 @@ qx.Class.define("pracweb.Application",
         that.__stepwise = e.getData();
       }, this);
 
+
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
      * 'Next'-Button will trigger new inference step
      */
@@ -243,9 +265,10 @@ qx.Class.define("pracweb.Application",
       mainGroup.add(description);
       mainGroup.add(expSettings);
       mainGroup.add(stepInf);
+      mainGroup.add(dieter);
       mainGroup.add(vizButton);
       mainGroup.add(nextButton);
-	  mainGroup.add(wordnetButton);
+	      mainGroup.add(wordnetButton);
       return mainGroup;
     },
 
@@ -388,16 +411,16 @@ qx.Class.define("pracweb.Application",
 
     _changeVisiblity : function(e)
     {
-      if(e.getData())
-      {
+      console.log('_changeVisiblity');
+      if (this._showLeft)
         this._left.show();
-        this._right.show();
-      }
-      else
-      {
+      else 
         this._left.exclude();
+      this._main.show();
+      if (this._showRight) 
         this._right.show();
-      }
+      else 
+        this._right.exclude();
     }
   }
 });
