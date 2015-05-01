@@ -68,6 +68,10 @@ def destroy():
     session["__invalidate__"] = True
     return ''
 
+@pracApp.app.route('/_get_wordnet_taxonomy', methods=['GET'])
+def get_wn_tax():
+    wn = WordNet()
+    return wn.to_svg()
 
 @pracApp.app.route('/prac/menu', methods=['POST'])
 def menu():

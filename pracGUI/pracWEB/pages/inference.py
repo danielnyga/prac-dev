@@ -15,6 +15,8 @@ from flask.globals import session
 import json
 from pracWEB.pages.views import ensure_prac_session
 from pracutils.RolequeryHandler import RolequeryHandler
+from prac.core import PRAC
+from prac.wordnet import WordNet
 
 INFMETHODS = [(InferenceMethods.byName(method),method) for method in InferenceMethods.name2value]
 
@@ -30,6 +32,9 @@ def _pracinfer_step():
         data = json.loads(request.get_data())
         pracsession.count = 1
         log.info('starting new PRAC inference on "%s"' % data['sentence'])
+#         prac = PRAC()
+#         prac.wordnet = WordNet(concepts=None)
+        pracsession.prac = prac
         infer = PRACInference(prac, [data['sentence']])
         parser = prac.getModuleByName('nl_parsing')
         prac.run(infer, parser)
@@ -40,13 +45,15 @@ def _pracinfer_step():
         if pracsession.infer.next_module() is not None :
             module = prac.getModuleByName(pracsession.infer.next_module())
             pracsession.lastModule = module
+            print 'running', module.name
             prac.run(pracsession.infer,module)
         else:
             result = []
             for db in pracsession.infer.inference_steps[-1].output_dbs:
-                print 'rolequerydingen'
+                db.write(sys.stdout, color=True)
+#                 print 'rolequerydingen'
                 RolequeryHandler.queryRolesBasedOnAchievedBy(db).printEvidence()
-                print '/rolequerydingen'
+#                 print '/rolequerydingen'
             #     db.write(sys.stdout, color=True)
             #     evPreds = list(set([x.split('(')[0] for x in db.evidence.keys()]))
             #     for q in db.query("action_core(?w, ?ac)"):
@@ -73,6 +80,7 @@ def _pracinfer_step():
 
     result = []
     for db in pracsession.infer.inference_steps[-1].output_dbs:
+        db.write(sys.stdout, color=True)
         _grammar = db.mln.logic.grammar
         for atom in db.evidence:
             a_tuple = _grammar.parseLiteral(atom)

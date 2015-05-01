@@ -164,7 +164,50 @@ qx.Class.define("pracweb.Application",
       var nextButton = new qx.ui.form.Button("Next Step",  "/prac/static/images/resultset_last.png");
       nextButton.setEnabled(false);
       
-
+      /**
+       * Taxonomy visualization
+       */
+	  var wordnetButton = new qx.ui.form.Button("Show Taxonomy");
+  	  // var wnWindow = qx.ui.window.Window("WordNet Taxonomy Visualization");
+	  // wnWindow.setWidth(80);
+	  // wnWindow.setHeight(60);
+	  // this.getRoot().add(wnWindow, {left:20, top:20});
+  	  // wnWindow.open();
+  	  var win = new qx.ui.window.Window("First Window");
+	win.setWidth(300);
+	win.setHeight(200);
+	win.setShowMinimize(false);
+	win.setLayout(new qx.ui.layout.Grow());
+	var taxCanvas = new qx.ui.embed.Html();
+		  	win.add(taxCanvas);
+	this.getRoot().add(win, {left:20, top:20});
+	// win.open();
+  	  
+  	  
+//   	  
+	  wordnetButton.addListener("execute", function() {
+  		var req = new qx.io.request.Xhr(); 
+  		req.setUrl("/_get_wordnet_taxonomy");
+  		req.setMethod("GET");
+	  	
+  		req.addListener("success", function(e) {
+  			console.log("1");
+  			var tar = e.getTarget();								
+  			var response = tar.getResponse();
+  			console.log("2");
+		  	console.log("3");
+		  	
+		  	console.log("4");
+  			console.log(response);
+		  	taxCanvas.setHtml(response);
+		  	console.log(taxCanvas.getContentElement());
+  			win.open();
+  		});
+  		console.log("sending request");
+  		req.send();
+	  	
+	  }, this);
+	  
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
      * Trigger the PRAC inference
      */
@@ -202,7 +245,7 @@ qx.Class.define("pracweb.Application",
       mainGroup.add(stepInf);
       mainGroup.add(vizButton);
       mainGroup.add(nextButton);
-
+	  mainGroup.add(wordnetButton);
       return mainGroup;
     },
 
@@ -210,11 +253,13 @@ qx.Class.define("pracweb.Application",
     	var req = new qx.io.request.Xhr(); 
   		req.setUrl("/_pracinfer_step");
   		req.setMethod(method);
+  		req.setRequestHeader("Cache-Control", "no-cache");
   		var that = this;
   		req.addListener("success", function(e) {
   			var tar = e.getTarget();								
   			var response = tar.getResponse();
   			console.log(response.result);
+  			console.log(response.finish);
   			if (response.finish) {
           //TODO: Show that inference is done, highlight result?
           that.updateGraph(response.result);
