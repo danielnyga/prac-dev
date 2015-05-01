@@ -45,29 +45,29 @@ def _pracinfer_step():
             result = []
             for db in pracsession.infer.inference_steps[-1].output_dbs:
                 print 'rolequerydingen'
-                RolequeryHandler.queryRolesBasedOnAchievedBy(db).printEvidence()
+                db.write(sys.stdout, color=True)
+                RolequeryHandler.queryRolesBasedOnActioncore(db).printEvidence()
                 print '/rolequerydingen'
-            #     db.write(sys.stdout, color=True)
-            #     evPreds = list(set([x.split('(')[0] for x in db.evidence.keys()]))
-            #     for q in db.query("action_core(?w, ?ac)"):
-            #         ac = q['?ac']
-            #         kb = pracsession.lastModule.load_pracmt(ac+"Transformation")
-            #         queryPredicates = kb.query_params['queries'].split(",")
-            #         print queryPredicates
+                # evPreds = list(set([x.split('(')[0] for x in db.evidence.keys()]))
+                # for q in db.query("action_core(?w, ?ac)"):
+                #     ac = q['?ac']
+                #     kb = pracsession.lastModule.load_pracmt(ac+"Transformation")
+                #     queryPredicates = kb.query_params['queries'].split(",")
+                #     print queryPredicates
 
-            #         # add querypredicates
-            #         for role in queryPredicates:
-            #             print 'querying {}(?w, {}) ^ has_sense(?w, ?s)'.format(role, ac)
-            #             for q2 in db.query("{}(?w, {}) ^ has_sense(?w, ?s)".format(role, ac)):
-            #                 result.append({'source': ac, 'target': q2['?s'] , 'value': role , 'arcStyle': 'strokegreen'})
+                #     # add querypredicates
+                #     for role in queryPredicates:
+                #         print 'querying {}(?w, {}) ^ has_sense(?w, ?s)'.format(role, ac)
+                #         for q2 in db.query("{}(?w, {}) ^ has_sense(?w, ?s)".format(role, ac)):
+                #             result.append({'source': ac, 'target': q2['?s'] , 'value': role , 'arcStyle': 'strokegreen'})
 
-            #         # add other predicates
-            #         for s in evPreds:
-            #             if s in pracsession.synPreds.keys() + queryPredicates + ['has_sense']: 
-            #                 evPreds.remove(s)
-            #             else:
-            #                 for q3 in db.query("{}(?w, ?w2) ^ has_sense(?w, ?s)".format(s)):
-            #                     result.append({'source': q3['?w'], 'target': q3['?w2'] , 'value': s , 'arcStyle': 'strokegreen'})
+                #     # add other predicates
+                #     for s in evPreds:
+                #         if s in pracsession.synPreds.keys() + queryPredicates + ['has_sense']: 
+                #             evPreds.remove(s)
+                #         else:
+                #             for q3 in db.query("{}(?w, ?w2) ^ has_sense(?w, ?s)".format(s)):
+                #                 result.append({'source': q3['?w'], 'target': q3['?w2'] , 'value': s , 'arcStyle': 'strokegreen'})
             print 'result: ', result
             return jsonify( {'result': result, 'finish': True} )
 
