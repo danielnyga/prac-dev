@@ -45,7 +45,7 @@ qx.Class.define("pracweb.Application",
       // Call super class
       this.base(arguments);
 
-	  var that = this;
+      var that = this;
 	  
       // Enable logging in debug variant
       if (qx.core.Environment.get("qx.debug"))
@@ -100,6 +100,12 @@ qx.Class.define("pracweb.Application",
         minHeight: .9*window.innerHeight
       });
       var right = new qx.ui.container.Composite(new qx.ui.layout.Grow());
+
+      var flowChartEmbed = new qx.ui.embed.Html();
+      this._flowChartEmbed = flowChartEmbed;
+      right.add(flowChartEmbed);
+      this._load_flow_chart();
+
       // left
   	  var form = this.buildForm();
 
@@ -109,7 +115,7 @@ qx.Class.define("pracweb.Application",
       left.add(placeholder);
       left.add(form);
 
-      // right
+      // visualization of svg graph
       var vizEmbedGrp = new qx.ui.groupbox.GroupBox("Visualization");
       var vizLayout = new qx.ui.layout.Grow();
       vizEmbedGrp.setLayout(vizLayout);
@@ -180,6 +186,8 @@ qx.Class.define("pracweb.Application",
         this._showRight = e.getData();
         this._changeVisiblity();
       }, this);
+
+
       var vizButton = new qx.ui.form.Button("Run Inference", "/prac/static/images/resultset_next.png");
       
       var nextButton = new qx.ui.form.Button("Next Step",  "/prac/static/images/resultset_last.png");
@@ -188,46 +196,44 @@ qx.Class.define("pracweb.Application",
       /**
        * Taxonomy visualization
        */
-	  var wordnetButton = new qx.ui.form.Button("Show Taxonomy");
+      var wordnetButton = new qx.ui.form.Button("Show Taxonomy");
   	  // var wnWindow = qx.ui.window.Window("WordNet Taxonomy Visualization");
 	  // wnWindow.setWidth(80);
 	  // wnWindow.setHeight(60);
 	  // this.getRoot().add(wnWindow, {left:20, top:20});
   	  // wnWindow.open();
   	  var win = new qx.ui.window.Window("First Window");
-	win.setWidth(300);
-	win.setHeight(200);
-	win.setShowMinimize(false);
-	win.setLayout(new qx.ui.layout.Grow());
-	var taxCanvas = new qx.ui.embed.Html();
-		  	win.add(taxCanvas);
-	this.getRoot().add(win, {left:20, top:20});
-	// win.open();
+    	win.setWidth(300);
+    	win.setHeight(200);
+    	win.setShowMinimize(false);
+    	win.setLayout(new qx.ui.layout.Grow());
+    	var taxCanvas = new qx.ui.embed.Html();
+	  	win.add(taxCanvas);
+    	this.getRoot().add(win, {left:20, top:20});
+    	// win.open();
   	  
   	  
-//   	  
-	  wordnetButton.addListener("execute", function() {
-  		var req = new qx.io.request.Xhr(); 
-  		req.setUrl("/_get_wordnet_taxonomy");
-  		req.setMethod("GET");
-	  	
-  		req.addListener("success", function(e) {
-  			console.log("1");
-  			var tar = e.getTarget();								
-  			var response = tar.getResponse();
-  			console.log("2");
-		  	console.log("3");
-		  	
-		  	console.log("4");
-  			console.log(response);
-		  	taxCanvas.setHtml(response);
-		  	console.log(taxCanvas.getContentElement());
-  			win.open();
-  		});
-  		console.log("sending request");
-  		req.send();
-	  	
-	  }, this);
+      wordnetButton.addListener("execute", function() {
+    		var req = new qx.io.request.Xhr(); 
+    		req.setUrl("/_get_wordnet_taxonomy");
+    		req.setMethod("GET");
+  	  	
+    		req.addListener("success", function(e) {
+    			console.log("1");
+    			var tar = e.getTarget();								
+    			var response = tar.getResponse();
+    			console.log("2");
+  		  	console.log("3");
+  		  	
+  		  	console.log("4");
+    			console.log(response);
+  		  	taxCanvas.setHtml(response);
+  		  	console.log(taxCanvas.getContentElement());
+    			win.open();
+  		  });
+    		console.log("sending request");
+    		req.send();
+      }, this);
 	  
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
      * Trigger the PRAC inference
@@ -261,6 +267,10 @@ qx.Class.define("pracweb.Application",
             req.send();
       }, this);
 
+
+      var getmodule = new qx.ui.form.Button("Get next module");
+      getmodule.addListener('execute', this._get_next_module, this);
+
       mainGroup.add(new qx.ui.basic.Label("Natural-language instruction:"));
       mainGroup.add(description);
       mainGroup.add(expSettings);
@@ -268,11 +278,17 @@ qx.Class.define("pracweb.Application",
       mainGroup.add(dieter);
       mainGroup.add(vizButton);
       mainGroup.add(nextButton);
-	      mainGroup.add(wordnetButton);
+      mainGroup.add(wordnetButton);
+      mainGroup.add(getmodule);
       return mainGroup;
     },
 
     _run_inference : function(method) {
+      console.log('_run_inference');
+      this._update_flowchart();
+      
+      
+
     	var req = new qx.io.request.Xhr(); 
   		req.setUrl("/_pracinfer_step");
   		req.setMethod(method);
@@ -341,7 +357,8 @@ qx.Class.define("pracweb.Application",
       module.addListener("changeSelection", this._changeModule, this);
 
       // widget settings
-      module.add(new qx.ui.form.ListItem("-choose-"));
+      module.add(new qx.ui.form.ListItem("-one-"));
+      module.add(new qx.ui.form.ListItem("-two-"));
       logic.add(new qx.ui.form.ListItem("-choose-"));
       kb.add(new qx.ui.form.ListItem("-choose-"));
       mln_dd.add(new qx.ui.form.ListItem("-choose-"));
@@ -403,11 +420,53 @@ qx.Class.define("pracweb.Application",
       return group;
     },
 
-    _changeModule : function(e)
+    _load_flow_chart : function(e)
     {
-      // alert("send..." + e);
+      console.log('loading flowchart...');
+      var req = new qx.io.request.Xhr(); 
+      req.setUrl("/_load_flow_chart");
+      req.setMethod('GET');
+      req.setRequestHeader("Cache-Control", "no-cache");
+      req.setRequestHeader("Content-Type", "text/plain");
+      var that = this;
+      console.log('5');
+      req.addListener("success", function(e) {
+        console.log('6');
+        var tar = e.getTarget();
+        var response = tar.getResponse();
+        this._flowChartEmbed.setHtml(response);             
+        return;
+      }, that);
+      req.send();
     },
 
+    _update_flowchart : function(e)
+    {
+      console.log('getting next module...');
+      var req = new qx.io.request.Xhr(); 
+      req.setUrl("/_pracinfer_get_next_module");
+      req.setMethod('GET');
+      req.setRequestHeader("Cache-Control", "no-cache");
+      req.setRequestHeader("Content-Type", "text/plain");
+      var that = this;
+      req.addListener("success", function(e) {
+        console.log('success');
+        var tar = e.getTarget();
+        var response = tar.getResponse();
+        console.log('got response from server', response);
+
+        var svg = document.getElementById(response).nextElementSibling;
+        svg.style.fill = "#bee280";
+        console.log('svg', svg);
+        return response;
+      }, that);
+      req.send();
+    },
+
+    _changeModule : function(e)
+    {
+      // pass
+    },
 
     _changeVisiblity : function(e)
     {

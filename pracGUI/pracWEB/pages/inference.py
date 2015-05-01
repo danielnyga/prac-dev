@@ -144,3 +144,13 @@ def _pracinfer_step():
 # 
 #     else: # inference without module (no WN)
 #         print 'Running Inference w/o module'
+
+@pracApp.app.route('/_pracinfer_get_next_module', methods=['GET'])
+def _pracinfer_get_next_module():
+    pracsession = ensure_prac_session(session)
+    if hasattr(pracsession, 'infer'):
+        print 'returning', pracsession.infer.next_module()
+        return pracsession.infer.next_module()
+    else:
+        print 'returning nl_parsing'
+        return 'nl_parsing'
