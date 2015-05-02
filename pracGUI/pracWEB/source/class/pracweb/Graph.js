@@ -74,7 +74,6 @@ qx.Class.define("pracweb.Graph",
       var tmpLinks = [];
       var nodesCopy = [];
       var linksCopy = [];
-      console.log('data initial', data);
 
       // create temporary lists of nodes and links containing only new entries
       for (var a in data) {
@@ -86,8 +85,6 @@ qx.Class.define("pracweb.Graph",
         }
         tmpLinks.push({"source": data[a].source,"target": data[a].target,"value": data[a].value, "arcStyle":data[a].arcStyle});
       }
-      console.log('tmpnodes initial', tmpNodes);
-      console.log('tmpLinks initial', tmpLinks);
 
       // add all nodes and links
       var addnodesandlinks = function(dataIndex, t) {
@@ -109,7 +106,6 @@ qx.Class.define("pracweb.Graph",
             if (t.links[index].value.indexOf(data[dataIndex].value) == -1) {
               // if not, update still existing links
               var newVal = t.findLinkIndexWithValue(t.links[index].source, t.links[index].target, t.links[index].value, tmpLinks);
-              console.log('newVal', newVal);
               // replace old non existent values and add new one
               t.links.splice(index,1);
               t.update();
@@ -120,7 +116,6 @@ qx.Class.define("pracweb.Graph",
           t.update();
           dataIndex++;
           if (dataIndex >= data.length) {
-            console.log('t.links after adding', t.links);
             nodesCopy = t.nodes.slice();
             removenodes(0, t);
           } else {
@@ -140,13 +135,11 @@ qx.Class.define("pracweb.Graph",
             while (i < t.links.length) {
               if ((t.links[i]['source'].id == n)||(t.links[i]['target'].id == n))
               {
-                console.log('removing link', t.links[i].source, '-', t.links[i].target, ':', t.links[i].value);
                 t.links.splice(i,1);
                 t.update();
               }
               else i++;
             }
-            console.log('removing node ', nodesCopy[dIndex].id);
             t.nodes.splice(t.findNodeIndex(nodesCopy[dIndex].id),1);
             t.update();
           }
@@ -155,11 +148,12 @@ qx.Class.define("pracweb.Graph",
           if (dIndex < nodesCopy.length) {
             removenodes(dIndex, t);
           } else {
-            console.log('t.links after removing', t.links);
             linksCopy = t.links.slice();
+            console.log('Finished updating graph');
           }
         }, t.WAITMSEC);
       };
+
       addnodesandlinks(0, this);
       this.update();
     },
@@ -177,7 +171,6 @@ qx.Class.define("pracweb.Graph",
     // returns a list of indices that need to be removed from values
     findLinkIndexWithValue : function(source, target, value, l) {
       var rem = [];
-      console.log('check if there is still a link between', source.id, target.id, 'with value ', value);
       for (var i=0; i < l.length; i++) {
         if (l[i].source == source.id && l[i].target == target.id) {
           for (var oldVal = 0; oldVal < value.length; oldVal++) {
@@ -199,8 +192,6 @@ qx.Class.define("pracweb.Graph",
 
     linkInList : function(id, l) {
       for (var no = 0; no < l.length; no++) {
-        // console.log('id',id);
-        // console.log('no', l[no]);
         if (l[no].source == id.source && l[no].target == id.target && l[no].value == id.value ) {
           return true;
         }
@@ -309,9 +300,7 @@ qx.Class.define("pracweb.Graph",
       var edgelabelsEnter = edgelabels.enter().append('text')
           .style("pointer-events", "none")
           .attr('class', 'label')
-          .text(function(d){ 
-            console.log('redrawing edgelabel with text',d.value.join('/'));
-            return d.value.join(' / '); });
+          .text(function(d){ return d.value.join(' / '); });
 
       edgelabels.exit().remove();
 
