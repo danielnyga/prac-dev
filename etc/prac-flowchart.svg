@@ -36,7 +36,7 @@
       <text x="739.6729" y="383.1387" clip-path="url(#clipPath2)" fill="black" font-family="sans-serif" stroke="none" xml:space="preserve">Inference</text>
     </g>
     <g fill="white" stroke-miterlimit="1.45" transform="matrix(1,0,0,1,-573,-121)" stroke-linecap="butt" stroke="white">
-      <path id="achieved_by-1" d="M768.32 440.96 L838.08 482.72 L768.32 524.48 L698.56 482.72 Z" clip-path="url(#clipPath2)" stroke="none"/>
+      <path id="executable" d="M768.32 440.96 L838.08 482.72 L768.32 524.48 L698.56 482.72 Z" clip-path="url(#clipPath2)" stroke="none"/>
       <path fill="none" d="M768.32 440.96 L838.08 482.72 L768.32 524.48 L698.56 482.72 Z" clip-path="url(#clipPath2)" stroke="black"/>
       <text x="717.1325" y="486.8743" clip-path="url(#clipPath2)" fill="black" font-family="sans-serif" stroke="none" xml:space="preserve">Executable Plan?</text>
     </g>
@@ -47,7 +47,7 @@
       <text x="883.4083" y="495.1387" clip-path="url(#clipPath2)" fill="black" font-family="sans-serif" stroke="none" xml:space="preserve">Parameterization</text>
     </g>
     <g fill="white" stroke-miterlimit="1.45" transform="matrix(1,0,0,1,-573,-121)" stroke-linecap="butt" stroke="white">
-      <path id="achieved_by-2" d="M588.56 464 L668.56 464 L668.56 504 L588.56 504 Z" clip-path="url(#clipPath2)" stroke="none"/>
+      <path id="achieved_by" d="M588.56 464 L668.56 464 L668.56 504 L588.56 504 Z" clip-path="url(#clipPath2)" stroke="none"/>
       <path fill="none" d="M588.56 464 L668.56 464 L668.56 504 L588.56 504 Z" clip-path="url(#clipPath2)" stroke="black"/>
       <text x="596.5356" y="481.1699" clip-path="url(#clipPath2)" fill="black" font-family="sans-serif" stroke="none" xml:space="preserve">Actioncore</text>
       <text x="600.2328" y="495.1387" clip-path="url(#clipPath2)" fill="black" font-family="sans-serif" stroke="none" xml:space="preserve">Inference</text>

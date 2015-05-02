@@ -87,7 +87,13 @@ class PRACInference(object):
         elif previous_module == 'ac_recognition':
             return 'senses_and_roles'
         elif previous_module == 'senses_and_roles':
-            return 'achieved_by'
+            for outdb in self.inference_steps[-1].output_dbs:
+                for r in outdb.query('action_core(?w, ?a)'):
+                    actioncore = r['?a']
+                    mod = self.prac.getModuleByName('roles_transformation')
+                    plans = mod.getPlanList()
+                    if actioncore in plans: return None
+                    else: return 'achieved_by'
         elif previous_module == 'achieved_by':
             return 'roles_transformation'
         elif previous_module == 'roles_transformation':
