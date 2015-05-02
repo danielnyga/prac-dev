@@ -96,10 +96,13 @@ qx.Class.define("pracweb.Application",
       // Create container for the right:
       var innerSplitPane = new qx.ui.splitpane.Pane("horizontal");
       var main = new qx.ui.container.Composite(new qx.ui.layout.Grow()).set({
-        minWidth: .6*window.innerWidth,
+        minWidth: .55*window.innerWidth,
         minHeight: .9*window.innerHeight
       });
-      var right = new qx.ui.container.Composite(new qx.ui.layout.Grow());
+
+      var right = new qx.ui.container.Composite(new qx.ui.layout.Grow()).set({
+        maxWidth: 444
+      });
 
       var flowChartEmbed = new qx.ui.embed.Html();
       this._flowChartEmbed = flowChartEmbed;
@@ -129,8 +132,8 @@ qx.Class.define("pracweb.Application",
       this._main = main;
       this._right = right;
 
-      innerSplitPane.add(main, 0);
-      innerSplitPane.add(right, 1);
+      innerSplitPane.add(main, 1);
+      innerSplitPane.add(right, 2);
 
       splitPane.add(left, 0);
       splitPane.add(innerSplitPane, 1);

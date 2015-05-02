@@ -149,8 +149,12 @@ def _pracinfer_step():
 def _pracinfer_get_next_module():
     pracsession = ensure_prac_session(session)
     if hasattr(pracsession, 'infer'):
-        print 'returning', pracsession.infer.next_module()
-        return pracsession.infer.next_module()
+        if pracsession.infer.next_module() != None:
+            print 'returning', pracsession.infer.next_module()
+            return pracsession.infer.next_module()
+        else:
+            print 'returning finish'
+            return 'finished'
     else:
         print 'returning nl_parsing'
         return 'nl_parsing'
