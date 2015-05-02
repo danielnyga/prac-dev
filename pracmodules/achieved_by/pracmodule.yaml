@@ -25,5 +25,5 @@ module_name: 'achieved_by'
 description: 'Decides on which specific action core specification to use based on given senses,roles and action core inferenced by the ac_recognition module.'
 dependencies: ['senses_and_roles']
 class_name: 'achievedBy.AchievedBy'
-#declarations: ['predicates.mln']
+declarations: ['predicates.mln']
 

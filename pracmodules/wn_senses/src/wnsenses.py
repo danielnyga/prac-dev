@@ -210,7 +210,6 @@ class WNSenses(PRACModule):
         for q in db.query('has_sense(%s, ?s) ^ has_pos(%s, ?pos)' % (word, word)):
             s = q['?s']
             pos = q['?pos']
-            print pos
             pos = posMap.get(pos, None)
             if pos is None: continue
             # make sure that words like bowl-shaped are left untouched

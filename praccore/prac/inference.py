@@ -34,6 +34,11 @@ import os
 import re
 import math
 import operator
+from graphviz.dot import Digraph
+from mln.database import Database
+from pracutils.ActioncoreDescriptionHandler import ActioncoreDescriptionHandler
+import sys
+from pracutils.pracgraphviz import render_gv
 
 class PRACInferenceStep(object):
     '''
@@ -82,7 +87,13 @@ class PRACInference(object):
         elif previous_module == 'ac_recognition':
             return 'senses_and_roles'
         elif previous_module == 'senses_and_roles':
-            return 'achieved_by'
+            for outdb in self.inference_steps[-1].output_dbs:
+                for r in outdb.query('action_core(?w, ?a)'):
+                    actioncore = r['?a']
+                    mod = self.prac.getModuleByName('roles_transformation')
+                    plans = mod.getPlanList()
+                    if actioncore in plans: return None
+                    else: return 'achieved_by'
         elif previous_module == 'achieved_by':
             return 'roles_transformation'
         elif previous_module == 'roles_transformation':
@@ -91,6 +102,46 @@ class PRACInference(object):
             return 'achieved_by'
         
         return None 
+    
+    def finalgraph(self, filename=None):
+        finaldb = Database(self.prac.mln)
+        for step in self.inference_steps:
+            for db in step.output_dbs:
+                for atom, truth in db.evidence.iteritems():
+                    if truth == 0: continue
+                    _, predname, args = self.prac.mln.logic.parseLiteral(atom)
+                    if predname in ActioncoreDescriptionHandler.roles().union(['has_sense', 'action_core', 'achieved_by']):
+                        finaldb.addGroundAtom(atom)
+#         finaldb.write(sys.stdout, color=True)
+        g = Digraph(format='svg', engine='dot')
+        g.attr('node', shape='box', style='filled')
+        for res in finaldb.query('action_core(?w, ?a) ^ has_sense(?w, ?s)'):
+            actioncore = res['?a']
+            sense = res['?s']
+            predname = 'action_core'
+            g.node(actioncore, fillcolor='#bee280')
+            g.node(sense)
+            g.edge(actioncore, sense, label='is_a')
+            roles = ActioncoreDescriptionHandler.getRolesBasedOnActioncore(actioncore)
+            for role in roles:
+                for res in db.query('%s(?w, %s) ^ has_sense(?w, ?s)' % (role, actioncore)):
+                    sense = res['?s']
+                    g.node(sense)
+                    g.edge(actioncore, sense, label=role)
+        for res in finaldb.query('achieved_by(?a1, ?a2)'):
+            a1 = res['?a1']
+            a2 = res['?a2']
+            g.node(a1, fillcolor='#bee280')
+            g.node(a2, fillcolor='#bee280')
+            g.edge(a1, a2, label='achieved_by')
+            actioncore = a2
+            roles = ActioncoreDescriptionHandler.getRolesBasedOnActioncore(actioncore)
+            for role in roles:
+                for res in db.query('%s(?w, %s) ^ has_sense(?w, ?s)' % (role, actioncore)):
+                    sense = res['?s']
+                    g.node(sense)
+                    g.edge(actioncore, sense, label=role)
+        return render_gv(g, filename)
 # class PRACInit(PRACReasoner):
 #     
 #     def __init__(self, actioncore):

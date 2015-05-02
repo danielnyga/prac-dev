@@ -50,7 +50,7 @@ def get_prob_color(p):
 #     return to_html_hex(p / 3., 1., 1., 'hsv')
 
 
-def add_word_evidence_complete(db, word, pos, wn):
+def add_word_evidence_complete(db, word, pos, wn, mln):
     '''
     Takes a word and its part of speech and adds fuzzy evidence
     over the _whole_ model (ie. all concepts db.mln). Its also sets
@@ -61,7 +61,6 @@ def add_word_evidence_complete(db, word, pos, wn):
     then it is ignored.
     '''
     log = logging.getLogger()
-    log.setLevel(logging.INFO)
     # collect a complete list of concepts
     pos = posMap.get(pos, None)
     if pos is not None:
@@ -81,21 +80,26 @@ def add_word_evidence_complete(db, word, pos, wn):
     # a POS is given. Exclude all inapplicable senses and their hypernyms
     # as far as they are not a hypernym of an applicable sense
     # collect applicable hypernyms
-    poss_senses = wn.synsets(word, pos)
-    appl_hypernyms = set()
-    for synset in poss_senses:
-        appl_hypernyms.update(chain(*wn.hypernym_paths(synset)))
-    # assert evidence
+#     poss_senses = wn.synsets(word, pos)
+#     appl_hypernyms = set()
+#     for synset in poss_senses:
+#         appl_hypernyms.update(chain(*wn.hypernym_paths(synset)))
+#     # assert evidence
+#     for concept in all_concepts:
+#         if concept in appl_hypernyms: continue
+#         db.addGroundAtom('!has_sense(%s,%s)' % (word, concept.name))
+
+
+def add_all_wordnet_similarities(db, wn):
+    all_concepts = map(lambda c: wn.synset(c), wn.known_concepts)
     for concept in all_concepts:
-        if concept in appl_hypernyms: continue
-        db.addGroundAtom('!has_sense(%s,%s)' % (word, concept.name))
-
-
-def add_similarities(db, word, sense, concept, wn):
+        add_similarities(db, concept, wn)
+        
+def add_similarities(db, concept, wn):
     mln_concepts = map(lambda c: wn.synset(c), db.mln.domains['concept'])
     for knwn_concept in mln_concepts:
         sim = wn.wup_similarity(concept, knwn_concept)
-        db.addGroundAtom('is_a(%s,%s)' % (sense, knwn_concept.name), sim)
+        db.addGroundAtom('is_a(%s,%s)' % (concept.name, knwn_concept.name), sim)
     
                 
 if __name__ == '__main__':

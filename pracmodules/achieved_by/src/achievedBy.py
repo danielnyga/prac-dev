@@ -129,14 +129,15 @@ class AchievedBy(PRACModule):
                 for r_db in result_db:
                     r_db_ = Database(useKB.query_mln)
                     for atom, truth in sorted(r_db.evidence.iteritems()):
-                        if 'achieved_by' in atom and truth == 0: continue
+                        _, predname, args = db.mln.logic.parseLiteral(atom)
+                        if predname == 'achieved_by'  and truth == 0: continue
                         r_db_.addGroundAtom(atom,truth)
                     result_db_.append(r_db_)
                 
                 result_db = result_db_
                     
                 for r_db in result_db:
-                    for q in r_db.query('achieved_by('+actioncore+',?nac)'):
+                    for q in r_db.query('achieved_by({0},?nac) ^ action_core(?w,{0})'.format(actioncore)):
                         achievedByAc = q['?nac']
                         
                         r_db_ = Database(r_db.mln)
