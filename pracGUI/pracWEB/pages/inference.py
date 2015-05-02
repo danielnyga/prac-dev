@@ -17,6 +17,8 @@ from pracWEB.pages.views import ensure_prac_session
 from pracutils.RolequeryHandler import RolequeryHandler
 from prac.core import PRAC
 from prac.wordnet import WordNet
+from mln.database import Database
+from pracutils.ActioncoreDescriptionHandler import ActioncoreDescriptionHandler
 
 INFMETHODS = [(InferenceMethods.byName(method),method) for method in InferenceMethods.name2value]
 
@@ -47,39 +49,40 @@ def _pracinfer_step():
             prac.run(pracsession.infer,module)
         else:
             result = []
-
-            for step in pracsession.infer.inference_steps[-3:]:
+            finaldb = Database(pracsession.prac.mln)
+            for step in pracsession.infer.inference_steps:
                 for db in step.output_dbs:
-                    db.write(sys.stdout, color=True)
-                    RolequeryHandler.queryRolesBasedOnAchievedBy(db).printEvidence()
-                    evPreds = list(set([x.split('(')[0] for x in db.evidence.keys()]))
-                    print'evpreds', evPreds
-                    for q in db.query("action_core(?w, ?ac)"):
-                        ac = q['?ac']
-                        kb = pracsession.lastModule.load_pracmt(ac+"Transformation")
-                        queryPredicates = kb.query_params['queries'].split(",")
-                        print queryPredicates
+                    for atom, truth in db.evidence.iteritems():
+                        if truth == 0: continue
+                        _, predname, args = pracsession.prac.mln.logic.parseLiteral(atom)
+                        if predname in ActioncoreDescriptionHandler.roles().union(['has_sense', 'action_core', 'achieved_by']):
+                            finaldb.addGroundAtom(atom)
+            for res in finaldb.query('action_core(?w, ?a) ^ has_sense(?w, ?s)'):
+                actioncore = res['?a']
+                sense = res['?s']
+                result.append({'source': actioncore, 'target': sense , 'value': 'is_a' , 'arcStyle': 'strokegreen'})
+                
+                roles = ActioncoreDescriptionHandler.getRolesBasedOnActioncore(actioncore)
+                for role in roles:
+                    for res in db.query('%s(?w, %s) ^ has_sense(?w, ?s)' % (role, actioncore)):
+                        sense = res['?s']
+                        result.append({'source': actioncore, 'target': sense , 'value': role , 'arcStyle': 'strokegreen'})
+            for res in finaldb.query('achieved_by(?a1, ?a2)'):
+                a1 = res['?a1']
+                actioncore = res['?a2']
+                result.append({'source': a1, 'target': actioncore , 'value': 'achieved_by' , 'arcStyle': 'strokegreen'})
+                roles = ActioncoreDescriptionHandler.getRolesBasedOnActioncore(actioncore)
+                for role in roles:
+                    for res in db.query('%s(?w, %s) ^ has_sense(?w, ?s)' % (role, actioncore)):
+                        sense = res['?s']
+                        result.append({'source': actioncore, 'target': sense , 'value': role , 'arcStyle': 'strokegreen'})
 
-
-                        # add querypredicates
-                        for role in queryPredicates:
-                            print 'querying {}(?w, {}) ^ has_sense(?w, ?s)'.format(role, ac)
-                            for q2 in db.query("{}(?w, {}) ^ has_sense(?w, ?s)".format(role, ac)):
-                                result.append({'source': ac, 'target': q2['?s'] , 'value': role , 'arcStyle': 'strokegreen'})
-
-                        # add other predicates
-                        for s in evPreds:
-                            if s in pracsession.synPreds.keys() + queryPredicates + ['has_sense','achieved_by']: 
-                                evPreds.remove(s)
-                            else:
-                                for q3 in db.query("{}(?w, ?w2) ^ has_sense(?w, ?s)".format(s)):
-                                    result.append({'source': q3['?w'], 'target': q3['?w2'] , 'value': s , 'arcStyle': 'strokegreen'})
-                        for q4 in db.query("achieved_by(?w, ?w2)"):
-                            result.append({'source': q4['?w'], 'target': q4['?w2'] , 'value': 'achieved_by' , 'arcStyle': 'strokegreen'})
-            print 'result: ', result
+            if hasattr(pracsession.infer.inference_steps[-1], 'executable_plans'):
+                pracsession.old_infer = pracsession.infer
+            else:
+                pracsession.old_infer = []
             delattr(pracsession, 'infer')
             return jsonify( {'result': result, 'finish': True} )
-
     result = []
     for db in pracsession.infer.inference_steps[-1].output_dbs:
         db.write(sys.stdout, color=True)
@@ -88,7 +91,6 @@ def _pracinfer_step():
             a_tuple = _grammar.parseLiteral(atom)
             if not db.evidence[atom] == 1: continue
             if a_tuple[1] in pracsession.synPreds.keys() and not pracsession.leaveSynPreds: continue
-            # RolequeryHandler.queryRolesBasedOnAchievedBy(db).printEvidence()
             if 'null' in a_tuple[2] or a_tuple[1] == 'is_a': continue
             if len(a_tuple[2]) == 2:
                 result.append({'source': a_tuple[2][0], 'target': a_tuple[2][1] , 'value': a_tuple[1] , 'arcStyle': 'strokegreen'})
@@ -98,6 +100,33 @@ def _pracinfer_step():
     pracsession.leaveSynPreds = False
     return jsonify( {'result': result, 'finish': False} )
 
+
+@pracApp.app.route('/_pracinfer_get_next_module', methods=['GET'])
+def _pracinfer_get_next_module():
+    pracsession = ensure_prac_session(session)
+    if hasattr(pracsession, 'infer'):
+        if pracsession.infer.next_module() != None:
+            return pracsession.infer.next_module()
+        else:
+            return 'plan_generation'
+    else:
+        return 'nl_parsing'
+
+
+@pracApp.app.route('/_get_cram_plan', methods=['GET'])
+def _get_cram_plan():
+    pracsession = ensure_prac_session(session)
+    print 'returning cramplan', pracsession.old_infer.inference_steps[-1].executable_plans
+    return jsonify( {'plans': pracsession.old_infer.inference_steps[-1].executable_plans })
+
+
+@pracApp.app.route('/_get_role_distributions', methods=['GET'])
+def _get_role_distributions():
+    pracsession = ensure_prac_session(session)
+    print 'returning role distributions'
+    module = pracsession.prac.getModuleByName('senses_and_roles')
+    role_dists = module.role_distributions(pracsession.infer)
+    return jsonify( {'distributions': role_dists })
  
 # def infer(data, files):
 #     if data['module'] in pracApp.prac.moduleManifestByName: # call module's inference method
@@ -141,14 +170,3 @@ def _pracinfer_step():
 # 
 #     else: # inference without module (no WN)
 #         print 'Running Inference w/o module'
-
-@pracApp.app.route('/_pracinfer_get_next_module', methods=['GET'])
-def _pracinfer_get_next_module():
-    pracsession = ensure_prac_session(session)
-    if hasattr(pracsession, 'infer'):
-        if pracsession.infer.next_module() != None:
-            return pracsession.infer.next_module()
-        else:
-            return 'finished'
-    else:
-        return 'nl_parsing'

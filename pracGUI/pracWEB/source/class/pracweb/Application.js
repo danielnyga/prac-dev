@@ -100,14 +100,21 @@ qx.Class.define("pracweb.Application",
         minHeight: .9*window.innerHeight
       });
 
-      var right = new qx.ui.container.Composite(new qx.ui.layout.Grow()).set({
-        maxWidth: 444
+      var right = new qx.ui.container.Composite(new qx.ui.layout.VBox()).set({
+        maxWidth: 444,
+        minHeight: 700
       });
 
+      // flowchart
       var flowChartEmbed = new qx.ui.embed.Html();
       this._flowChartEmbed = flowChartEmbed;
-      right.add(flowChartEmbed);
+      right.add(flowChartEmbed, {flex: 1});
       this._load_flow_chart();
+
+      // cram plans
+      var cramPlanEmbed = new qx.ui.embed.Html();
+      this._cramPlanEmbed = cramPlanEmbed;
+      right.add(cramPlanEmbed);
 
       // left
   	  var form = this.buildForm();
@@ -185,6 +192,7 @@ qx.Class.define("pracweb.Application",
 
       var stepInf = new qx.ui.form.CheckBox("Step-by-step inference");
       var dieter = new qx.ui.form.CheckBox("Show Dieter");
+      dieter.setValue(true);
       dieter.addListener("changeValue", function(e) {
         this._showRight = e.getData();
         this._changeVisiblity();
@@ -277,8 +285,10 @@ qx.Class.define("pracweb.Application",
       }, this);
 
 
-      var getmodule = new qx.ui.form.Button("Get next module");
-      getmodule.addListener('execute', this._get_next_module, this);
+      var getRoleDist = new qx.ui.form.Button("Get Role Distributions");
+      getRoleDist.setEnabled(false);
+      this.__getRoleDist = getRoleDist;
+      getRoleDist.addListener('execute', this._get_role_distributions, this);
 
       mainGroup.add(new qx.ui.basic.Label("Natural-language instruction:"));
       mainGroup.add(description);
@@ -288,7 +298,7 @@ qx.Class.define("pracweb.Application",
       mainGroup.add(vizButton);
       mainGroup.add(nextButton);
       mainGroup.add(wordnetButton);
-      mainGroup.add(getmodule);
+      mainGroup.add(getRoleDist);
       return mainGroup;
     },
 
@@ -308,13 +318,15 @@ qx.Class.define("pracweb.Application",
   			var response = tar.getResponse();
   			console.log(response.result);
   			console.log(response.finish);
-  			if (response.finish) {
-          //TODO: Show that inference is done, highlight result?
-          that.updateGraph(response.result);
+
+        if (response.finish) {
           console.log(" I am DONE! ");
+          that.updateGraph(response.result);
           that.__nextButton.setEnabled(false);
+          that.__vizButton.setEnabled(true);
           setTimeout( function() {
               that._clearFlowChart();
+              that._get_cram_plan();
             }, 3000); // wait 3 seconds, then clear flowchart
   				return;
         }	else {
@@ -328,6 +340,11 @@ qx.Class.define("pracweb.Application",
             }, response.result.length * 1000); // wait for graph to be updated
           }
   			}
+        if (that.__stepwise && that._nextmodule === 'senses_and_roles') { 
+          that.__getRoleDist.setEnabled(true);
+        } else {
+          that.__getRoleDist.setEnabled(false);
+        }
   		});
 		  return req;
     },
@@ -433,6 +450,61 @@ qx.Class.define("pracweb.Application",
       return group;
     },
 
+    _get_role_distributions : function(e)
+    {
+
+      console.log('getting role distributions...');
+      var req = new qx.io.request.Xhr(); 
+      req.setUrl("/_get_role_distributions");
+      req.setMethod('GET');
+      req.setRequestHeader("Cache-Control", "no-cache");
+      req.setRequestHeader("Content-Type", "application/json");
+      var that = this;
+      req.addListener("success", function(e) {
+        var tar = e.getTarget();
+        var response = tar.getResponse();
+        if (response.distributions) {
+          for (var role in response.distributions) {
+            var distWindow = new qx.ui.window.Window(role);
+            distWindow.setWidth(300);
+            distWindow.setHeight(200);
+            distWindow.setShowMinimize(false);
+            distWindow.setLayout(new qx.ui.layout.Grow());
+            var svgCanvas = new qx.ui.embed.Html();
+            distWindow.add(svgCanvas);
+            this.getRoot().add(distWindow, {left:20, top:20});
+            console.log(response.distributions);
+            svgCanvas.setHtml(response.distributions[role]);
+            console.log(svgCanvas.getContentElement());
+            distWindow.open();     
+            }      
+          return;
+        }
+      }, that);
+      req.send();
+    },
+
+    _get_cram_plan : function(e)
+    {
+      console.log('asking for cram plans...');
+      var req = new qx.io.request.Xhr(); 
+      req.setUrl("/_get_cram_plan");
+      req.setMethod('GET');
+      req.setRequestHeader("Cache-Control", "no-cache");
+      req.setRequestHeader("Content-Type", "application/json");
+      var that = this;
+      req.addListener("success", function(e) {
+        var tar = e.getTarget();
+        var response = tar.getResponse();
+        if (response.plans) {
+          console.log(response.plans);
+          this._cramPlanEmbed.setHtml(response.plans.join(''));             
+          return;
+        }
+      }, that);
+      req.send();
+    },
+
     _load_flow_chart : function(e)
     {
       console.log('loading flowchart...');
@@ -442,9 +514,7 @@ qx.Class.define("pracweb.Application",
       req.setRequestHeader("Cache-Control", "no-cache");
       req.setRequestHeader("Content-Type", "text/plain");
       var that = this;
-      console.log('5');
       req.addListener("success", function(e) {
-        console.log('6');
         var tar = e.getTarget();
         var response = tar.getResponse();
         this._flowChartEmbed.setHtml(response);             
@@ -454,7 +524,7 @@ qx.Class.define("pracweb.Application",
     },
 
     _clearFlowChart : function(e) {
-      var nodes = ['init','nl_parsing','ac_recognition','senses_and_roles','executable','finished','achieved_by','roles_transformation'];
+      var nodes = ['init','nl_parsing','ac_recognition','senses_and_roles','executable','plan_generation','achieved_by','roles_transformation'];
       for (var x = 0; x < nodes.length; x++) {
         document.getElementById(nodes[x]).nextElementSibling.style.fill = "white";
       }
@@ -474,6 +544,7 @@ qx.Class.define("pracweb.Application",
         var tar = e.getTarget();
         var response = tar.getResponse();
         console.log('got response from server', response);
+        that._nextmodule = response;
         that._clearFlowChart();
         document.getElementById(response).nextElementSibling.style.fill = "#bee280";
         if (response === 'senses_and_roles' || response === 'roles_transformation') {

@@ -41,7 +41,7 @@
       <text x="717.1325" y="486.8743" clip-path="url(#clipPath2)" fill="black" font-family="sans-serif" stroke="none" xml:space="preserve">Executable Plan?</text>
     </g>
     <g fill="white" stroke-miterlimit="1.45" transform="matrix(1,0,0,1,-573,-121)" stroke-linecap="butt" stroke="white">
-      <rect id="finished" x="868.08" y="464" clip-path="url(#clipPath2)" width="133.6" rx="20" ry="20" height="40" stroke="none"/>
+      <rect id="plan_generation" x="868.08" y="464" clip-path="url(#clipPath2)" width="133.6" rx="20" ry="20" height="40" stroke="none"/>
       <rect x="868.08" y="464" clip-path="url(#clipPath2)" fill="none" width="133.6" rx="20" ry="20" height="40" stroke="black"/>
       <text x="922.1154" y="481.1699" clip-path="url(#clipPath2)" fill="black" font-family="sans-serif" stroke="none" xml:space="preserve">Plan</text>
       <text x="883.4083" y="495.1387" clip-path="url(#clipPath2)" fill="black" font-family="sans-serif" stroke="none" xml:space="preserve">Parameterization</text>

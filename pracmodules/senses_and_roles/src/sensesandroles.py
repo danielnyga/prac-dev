@@ -162,6 +162,7 @@ class SensesAndRoles(PRACModule):
     
     def role_distributions(self, pracinference):
         wn = WordNet()
+        distrs = {}
         for db_ in pracinference.inference_steps[-1].output_dbs:
             db_.write(sys.stdout, color=True)
             for word in db_.domains['word']:
@@ -171,6 +172,7 @@ class SensesAndRoles(PRACModule):
                     mln = kb.query_mln
 #                     mln.write(sys.stdout)
                     db = db_.duplicate(mln=mln)
+                    print db_.domains
                     for concept in db_.domains['concept']:
                         if concept not in mln.domains['concept']:
                             db.removeDomainValue('concept', concept)
@@ -213,6 +215,8 @@ class SensesAndRoles(PRACModule):
                                 if concept in wn.known_concepts:
                                     g.node(concept, fillcolor=get_prob_color(truth / maxprob))
                         render_gv(g, 'prac-%s-%s.svg' % (actioncore, role))
+                        distrs[role] = render_gv(g)
+        return distrs
     
     
     
