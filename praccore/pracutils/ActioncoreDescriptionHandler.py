@@ -43,12 +43,12 @@ class ActioncoreDescriptionHandler(object):
         ADHandler = ActioncoreDescriptionHandler
         if ADHandler.actioncoreDescription == {}:
             ADHandler.loadActioncoreDescription()
-        return ADHandler.actioncoreDescription[actioncore]['roles']
+        return ADHandler.actioncoreDescription[actioncore]['action_roles']
     
     @staticmethod
     def roles():
         ActioncoreDescriptionHandler.loadActioncoreDescription()
-        return set(reduce(list.__add__, [ActioncoreDescriptionHandler.actioncoreDescription[ac]['roles'] for ac in ActioncoreDescriptionHandler.actioncoreDescription]))
+        return set(reduce(list.__add__, [ActioncoreDescriptionHandler.actioncoreDescription[ac]['action_roles'] for ac in ActioncoreDescriptionHandler.actioncoreDescription]))
 
 
 
