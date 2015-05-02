@@ -149,7 +149,7 @@ qx.Class.define("pracweb.Application",
       
       // initially do not show form and do NOT use stepwise inference by default
       this._showLeft = false;
-      this._showRight = false;
+      this._showRight = true;
       this.__stepwise = false;
       this._changeVisiblity();
     },
@@ -192,8 +192,9 @@ qx.Class.define("pracweb.Application",
 
 
       var vizButton = new qx.ui.form.Button("Run Inference", "/prac/static/images/resultset_next.png");
-      
+      this.__vizButton = vizButton;
       var nextButton = new qx.ui.form.Button("Next Step",  "/prac/static/images/resultset_last.png");
+      this.__nextButton = nextButton;
       nextButton.setEnabled(false);
       
       /**
@@ -242,6 +243,9 @@ qx.Class.define("pracweb.Application",
      * Trigger the PRAC inference
      */
       vizButton.addListener('execute', function() {
+        if (this.__stepwise) {
+          this.__vizButton.setEnabled(false);
+        }
          this.loadGraph();
          this._clearFlowChart();
          document.getElementById('init').nextElementSibling.style.fill = "#bee280";
@@ -308,6 +312,7 @@ qx.Class.define("pracweb.Application",
           //TODO: Show that inference is done, highlight result?
           that.updateGraph(response.result);
           console.log(" I am DONE! ");
+          that.__nextButton.setEnabled(false);
           setTimeout( function() {
               that._clearFlowChart();
             }, 3000); // wait 3 seconds, then clear flowchart
