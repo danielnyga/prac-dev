@@ -57,6 +57,7 @@ class PRAC(object):
     
     def __init__(self):
         # read all the manifest files.
+        self.actioncores = ActionCore.readFromFile(os.path.join(PRAC_HOME, 'models', 'actioncores.yaml'))
         self.moduleManifests = []
         self.moduleManifestByName = {}
         for module_path in os.listdir(prac_module_path):
@@ -77,8 +78,6 @@ class PRAC(object):
         self.moduleByName = {}
         self.modules = []
         #TODO: replace this by real action core definitions
-        self.action_cores = ['Flipping', 'Filling', 'BeingLocated']
-        self.microtheories = self.action_cores
         self.wordnet = WordNet()
         self.mln = self.readAllMLNDeclarations()
         
@@ -185,8 +184,11 @@ class ActionCore(object):
     TEMPLATE_MLN = 'template_mln'
     LEARNED_MLN = 'learned_mln'
     PRED_DECL = 'predicates'
+    PLAN = 'cram_plan'
+    
     
     def __init__(self):
+        self.roles = []
         pass
     
     def isLearned(self):
@@ -195,6 +197,11 @@ class ActionCore(object):
         core, or False, otherwise.
         '''
         return self.learned_mln_file is not None and self.learned_mln is not None
+    
+    def parameterize_plan(self, **roles):
+        if self.plan is None: 
+            raise Exception('Actioncore %s does not have a plan' % self.name)
+        return self.plan.format(**roles)
                 
     @staticmethod
     def readFromFile(filepath):
@@ -204,37 +211,19 @@ class ActionCore(object):
         '''
         log = logging.getLogger('PRAC')
         path = os.path.dirname(filepath)
-        content = yaml.load(open(filepath))
-        action_core = ActionCore()
-        action_core.name = strip(content[ActionCore.NAME], whitespace + '"')
-        action_core.definition = content[ActionCore.DEFINITION]
-        # read the template MLN
-        action_core.template_mln_file = content[ActionCore.TEMPLATE_MLN]
-        action_core.template_mln = readMLNFromFile(os.path.join(path, action_core.template_mln_file))
-        log.info('Read template MLN %s for action core %s' % (action_core.template_mln_file, action_core.name))
-        # read the learned MLN, if any
-        action_core.learned_mln_file = content.get(ActionCore.LEARNED_MLN, None)
-        action_core.learned_mln = None
-        if action_core.learned_mln_file is None:
-            log.warning('No learned MLN specified for action core %s' % action_core.name)
-        elif not os.path.exists(os.path.join(path, action_core.learned_mln_file)):
-            log.info('Learned MLN %s doesn\'t exist for action core %s' % (action_core.learned_mln_file, action_core.name))
-        else:
-            action_core.learned_mln = readMLNFromFile(os.path.join(path, action_core.learned_mln_file))
-            log.info('Read learned MLN file %s for action core %s' % (action_core.learned_mln_file, action_core.name))
-        # read the action roles        
-        actionroles = content[ActionCore.ACTION_ROLES]
-        for role in actionroles:
-            for name, params in role.iteritems(): break
-            actionrole = ActionRole()
-            actionrole.name = name
-            for param in params:
-                for prop, value in param.iteritems(): break
-                setattr(actionrole, prop, value)
-                if not prop in ActionRole.__props__:
-                    ActionRole.__props__.append(prop)
-        log.info('Read action core: %s' % action_core.name)
-        
+        alldocs = yaml.load_all(open(filepath))
+        actioncores = {}
+        for content in alldocs:
+            action_core = ActionCore()
+            action_core.name = strip(content[ActionCore.NAME], whitespace + '"')
+            action_core.definition = content.get(ActionCore.DEFINITION)
+            actionroles = content.get(ActionCore.ACTION_ROLES)
+            for role in actionroles:
+                action_core.roles.append(role)
+            log.info('Read action core: %s (roles: %s)' % (action_core.name, ', '.join(action_core.roles)))
+            action_core.plan = content.get(ActionCore.PLAN)
+            actioncores[action_core.name] = action_core
+        return actioncores
         
     def writeToFile(self):
         '''

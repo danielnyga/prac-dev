@@ -92,13 +92,13 @@ class PRACInference(object):
                     actioncore = r['?a']
                     mod = self.prac.getModuleByName('roles_transformation')
                     plans = mod.getPlanList()
-                    if actioncore in plans: return None
+                    if actioncore in plans: return 'plan_generation'
                     else: return 'achieved_by'
         elif previous_module == 'achieved_by':
             return 'roles_transformation'
         elif previous_module == 'roles_transformation':
             if self.inference_steps[-1].module.isLastActionCoreAPlan:
-                return None
+                return 'plan_generation'
             return 'achieved_by'
         
         return None 
