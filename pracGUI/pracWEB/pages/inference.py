@@ -51,9 +51,7 @@ def _pracinfer_step():
             for step in pracsession.infer.inference_steps[-3:]:
                 for db in step.output_dbs:
                     db.write(sys.stdout, color=True)
-                    print 'rolequerydingen'
                     RolequeryHandler.queryRolesBasedOnAchievedBy(db).printEvidence()
-                    print '/rolequerydingen'
                     evPreds = list(set([x.split('(')[0] for x in db.evidence.keys()]))
                     print'evpreds', evPreds
                     for q in db.query("action_core(?w, ?ac)"):
@@ -79,6 +77,7 @@ def _pracinfer_step():
                         for q4 in db.query("achieved_by(?w, ?w2)"):
                             result.append({'source': q4['?w'], 'target': q4['?w2'] , 'value': 'achieved_by' , 'arcStyle': 'strokegreen'})
             print 'result: ', result
+            delattr(pracsession, 'infer')
             return jsonify( {'result': result, 'finish': True} )
 
     result = []
@@ -89,9 +88,7 @@ def _pracinfer_step():
             a_tuple = _grammar.parseLiteral(atom)
             if not db.evidence[atom] == 1: continue
             if a_tuple[1] in pracsession.synPreds.keys() and not pracsession.leaveSynPreds: continue
-            print 'rolequerydingen'
             # RolequeryHandler.queryRolesBasedOnAchievedBy(db).printEvidence()
-            print '/rolequerydingen'        
             if 'null' in a_tuple[2] or a_tuple[1] == 'is_a': continue
             if len(a_tuple[2]) == 2:
                 result.append({'source': a_tuple[2][0], 'target': a_tuple[2][1] , 'value': a_tuple[1] , 'arcStyle': 'strokegreen'})
@@ -149,8 +146,9 @@ def _pracinfer_step():
 def _pracinfer_get_next_module():
     pracsession = ensure_prac_session(session)
     if hasattr(pracsession, 'infer'):
-        print 'returning', pracsession.infer.next_module()
-        return pracsession.infer.next_module()
+        if pracsession.infer.next_module() != None:
+            return pracsession.infer.next_module()
+        else:
+            return 'finished'
     else:
-        print 'returning nl_parsing'
         return 'nl_parsing'

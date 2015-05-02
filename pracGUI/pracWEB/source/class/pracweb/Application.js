@@ -96,10 +96,13 @@ qx.Class.define("pracweb.Application",
       // Create container for the right:
       var innerSplitPane = new qx.ui.splitpane.Pane("horizontal");
       var main = new qx.ui.container.Composite(new qx.ui.layout.Grow()).set({
-        minWidth: .6*window.innerWidth,
+        minWidth: .55*window.innerWidth,
         minHeight: .9*window.innerHeight
       });
-      var right = new qx.ui.container.Composite(new qx.ui.layout.Grow());
+
+      var right = new qx.ui.container.Composite(new qx.ui.layout.Grow()).set({
+        maxWidth: 444
+      });
 
       var flowChartEmbed = new qx.ui.embed.Html();
       this._flowChartEmbed = flowChartEmbed;
@@ -129,8 +132,8 @@ qx.Class.define("pracweb.Application",
       this._main = main;
       this._right = right;
 
-      innerSplitPane.add(main, 0);
-      innerSplitPane.add(right, 1);
+      innerSplitPane.add(main, 1);
+      innerSplitPane.add(right, 2);
 
       splitPane.add(left, 0);
       splitPane.add(innerSplitPane, 1);
@@ -240,6 +243,8 @@ qx.Class.define("pracweb.Application",
      */
       vizButton.addListener('execute', function() {
          this.loadGraph();
+         this._clearFlowChart();
+         document.getElementById('init').nextElementSibling.style.fill = "#bee280";
          var req = this._run_inference("POST");
          console.log(description.getValue());
          req.setRequestHeader("Content-Type", "application/json");
@@ -303,6 +308,9 @@ qx.Class.define("pracweb.Application",
           //TODO: Show that inference is done, highlight result?
           that.updateGraph(response.result);
           console.log(" I am DONE! ");
+          setTimeout( function() {
+              that._clearFlowChart();
+            }, 3000); // wait 3 seconds, then clear flowchart
   				return;
         }	else {
           that.updateGraph(response.result);
@@ -440,6 +448,13 @@ qx.Class.define("pracweb.Application",
       req.send();
     },
 
+    _clearFlowChart : function(e) {
+      var nodes = ['init','nl_parsing','ac_recognition','senses_and_roles','executable','finished','achieved_by','roles_transformation'];
+      for (var x = 0; x < nodes.length; x++) {
+        document.getElementById(nodes[x]).nextElementSibling.style.fill = "white";
+      }
+    },
+
     _update_flowchart : function(e)
     {
       console.log('getting next module...');
@@ -454,10 +469,14 @@ qx.Class.define("pracweb.Application",
         var tar = e.getTarget();
         var response = tar.getResponse();
         console.log('got response from server', response);
-
-        var svg = document.getElementById(response).nextElementSibling;
-        svg.style.fill = "#bee280";
-        console.log('svg', svg);
+        that._clearFlowChart();
+        document.getElementById(response).nextElementSibling.style.fill = "#bee280";
+        if (response === 'senses_and_roles' || response === 'roles_transformation') {
+          setTimeout( function() {
+            that._clearFlowChart();
+            document.getElementById('executable').nextElementSibling.style.fill = "#bee280";
+          }, 2000); 
+        }
         return response;
       }, that);
       req.send();
@@ -470,7 +489,6 @@ qx.Class.define("pracweb.Application",
 
     _changeVisiblity : function(e)
     {
-      console.log('_changeVisiblity');
       if (this._showLeft)
         this._left.show();
       else 
