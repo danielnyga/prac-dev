@@ -100,6 +100,8 @@ class PRACInference(object):
             if self.inference_steps[-1].module.isLastActionCoreAPlan:
                 return 'plan_generation'
             return 'achieved_by'
+        elif previous_module == 'plan_generation':
+            return None
         
         return None 
     
