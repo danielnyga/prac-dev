@@ -188,6 +188,7 @@ qx.Class.define("pracweb.Application",
       description.setMinWidth(300);
       description.addListener("keydown", function(e) {
         this.__vizButton.setEnabled(true);
+        this._clearFlowChart();
         document.getElementById('init').nextElementSibling.style.fill = "#bee280";
       }, this);
       
@@ -313,6 +314,7 @@ qx.Class.define("pracweb.Application",
     _run_inference : function(method) {
       console.log('_run_inference');
       // get next module and update flowchart
+      this.__nextButton.setEnabled(false);
       var moduleReq = new qx.io.request.Xhr(); 
       moduleReq.setUrl("/_pracinfer_get_next_module");
       moduleReq.setMethod('GET');
@@ -325,7 +327,6 @@ qx.Class.define("pracweb.Application",
         var response = tar.getResponse();
         console.log('got response from server', response);
         if (response === 'achieved_by' || response === 'plan_generation') {
-          that.__getRoleDist.setEnabled(true); // set enabled when senses_and_roles has finished
           that._clearFlowChart();
           document.getElementById('executable').nextElementSibling.style.fill = "#bee280";
           setTimeout( function() {
@@ -342,38 +343,47 @@ qx.Class.define("pracweb.Application",
       moduleReq.send();
 
       // request new inference step
-    	var req = new qx.io.request.Xhr(); 
-  		req.setUrl("/_pracinfer_step");
-  		req.setMethod(method);
-  		req.setRequestHeader("Cache-Control", "no-cache");
-  		var that = this;
-  		req.addListener("success", function(e) {
-  			var tar = e.getTarget();								
-  			var response = tar.getResponse();
-  			console.log(response.result);
-  			console.log(response.finish);
+      var req = new qx.io.request.Xhr(); 
+      req.setUrl("/_pracinfer_step");
+      req.setMethod(method);
+      req.setRequestHeader("Cache-Control", "no-cache");
+      req.addListener("success", function(e) {
+        var that = this;
+        var tar = e.getTarget();                
+        var response = tar.getResponse();
+        console.log(response.result);
+        console.log(response.finish);
 
         if (response.finish) {
           console.log(" I am DONE! ");
           that.updateGraph(response.result);
           that.__nextButton.setEnabled(false);
           that.__vizButton.setEnabled(true);
+          that.__getRoleDist.setEnabled(true);
           setTimeout( function() {
               that._get_cram_plan();
             }, response.result.length * 1000); // wait 3 seconds, then clear flowchart
-  				return;
-        }	else {
+          return;
+        } else {
           that.updateGraph(response.result);
+          setTimeout( function() {
+            that.__nextButton.setEnabled(true);
+            console.log(that._next_module);
+            if (that._next_module == 'senses_and_roles') {
+              that.__getRoleDist.setEnabled(true); // set enabled when senses_and_roles has finished
+            }
+          }, response.result.length * 1000);
           if (!that.__stepwise) {
             console.log('bumming around for', response.result.length * 1000, ' mseconds before sending new request...');
             setTimeout( function() {
+              console.log('before sending req');
               var req = that._run_inference("GET");
               console.log("sending new request...");
               req.send();
             }, response.result.length * 1000); // wait for graph to be updated
           }
   			}
-  		});
+  		}, this);
 		  return req;
     },
 

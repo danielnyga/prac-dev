@@ -49,8 +49,8 @@ def _pracinfer_step():
             prac.run(pracsession.infer,module)
             print 'modulename', module.name
             if module.name == 'senses_and_roles':
-                print 'storing current pracsession.infer'
-                pracsession.sar_infer = pracsession.infer
+                print 'storing current pracsession.infer step'
+                pracsession.sar_step = pracsession.infer.inference_steps[-1]
         else:
             result = []
             finaldb = Database(pracsession.prac.mln)
@@ -129,8 +129,8 @@ def _get_role_distributions():
     pracsession = ensure_prac_session(session)
     print 'returning role distributions'
     module = pracsession.prac.getModuleByName('senses_and_roles')
-    print 'pracsession hasattr sar_infer:', hasattr(pracsession, 'sar_infer')
-    role_dists = module.role_distributions(pracsession.sar_infer)
+    print 'pracsession hasattr sar_step:', hasattr(pracsession, 'sar_step')
+    role_dists = module.role_distributions(pracsession.sar_step)
     return jsonify( {'distributions': role_dists })
  
 # def infer(data, files):

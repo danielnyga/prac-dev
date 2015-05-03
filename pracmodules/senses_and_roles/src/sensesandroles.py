@@ -160,10 +160,10 @@ class SensesAndRoles(PRACModule):
         return inf_step
         
     
-    def role_distributions(self, pracinference):
+    def role_distributions(self, step):
         wn = WordNet()
         distrs = {}
-        for db_ in pracinference.inference_steps[-1].output_dbs:
+        for db_ in step.output_dbs:
             db_.write(sys.stdout, color=True)
             for word in db_.domains['word']:
                 for q in db_.query('action_core(?w,?ac)'):
