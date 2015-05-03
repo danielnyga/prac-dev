@@ -41,17 +41,20 @@ qx.Class.define("qxd3.Svg", {
     * Create a D3.js SVG element
     * 
     */
-    construct : function() {
+    construct : function(parentID, id) {
         this.base(arguments);
         ID++;
 
-        var node = d3.select("body")
+        var node = d3.select(parentID)
             .append('svg')
             .attr('width','100%')
-            .attr('height','100%');
+            .attr('height','100%')
+            .attr('id', id)
+            .append('svg:g')
+            
 
         this.setD3SvgNode(node);
-
+//
         this.addListenerOnce('appear',function(e){
             var el = this.getContentElement().getDomElement();
             qx.bom.element.Attribute.set(el,'id','qxd3-'+ID);

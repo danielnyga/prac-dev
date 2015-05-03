@@ -22,19 +22,20 @@ qx.Class.define("pracweb.Graph",
      MEMBERS
   *****************************************************************************
   */
-  construct: function() {
-    this.d3 = new qxd3.Svg().getD3();
+  construct: function(prarent) {
+    this.container = new qxd3.Svg("#viz", 'pracgraph');
+    this.d3 = this.container.getD3();
     this.WAITMSEC = 500;
 
     this.w = window.innerWidth;
     this.h = window.innerHeight;
 
-    this.svnContainer = this.d3.select('#viz')
-      .append("svg:svg")
-      .attr("width", "100%")
-      .attr("height", "100%")
-      .attr("id","svg")
-      .append('svg:g');
+    this.svnContainer = this.d3.select('#viz').select("svg").select("g");
+      // .append("svg:svg")
+      // .attr("width", "100%")
+      // .attr("height", "100%")
+      // .attr("id","svg")
+      // .append('svg:g');
 
 
     this.svnContainer.append("defs").selectAll("marker")
