@@ -150,3 +150,11 @@ text.label {
   pointer-events: none;
   text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;
 }
+
+.cramPlan {
+  font-family: "Courier New", Courier, monospace;
+  font-weight: bold;
+  font-size: 15px;
+  pointer-events: none;
+  text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;
+}

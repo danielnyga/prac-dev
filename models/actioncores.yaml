@@ -28,7 +28,7 @@ action_roles: ['stuff','goal','action_verb']
 
 action_core: Pouring
 action_roles: ['stuff','goal','action_verb']
-cram_plan: "(pour-from-container (from (an object (type container.n.01) (contains (some stuff (type {stuff})))) (to (an object (type {goal})))))"
+cram_plan: "<span>(pour-from-container (from (an object (type container.n.01)</span><br><span style='margin-left: 22.8em;'>(contains (some stuff (type {stuff}))))</span><br><span style='margin-left: 12.5em;'>(to (an object (type {goal})))))</span><br><br>"
 ---
 
 action_core: Adding
@@ -43,17 +43,17 @@ action_roles: ['obj_to_be_heated','temperature','action_verb']
 
 action_core: OperatingATap
 action_roles: ['liquid','goal','action_verb']
-cram_plan: "(operate-tap (liquid (some stuff (type {liquid}))) (destination (an object (type {goal}))))"
+cram_plan: "<span>(operate-tap(liquid (some stuff (type {liquid})))</span><br><span style='margin-left: 7.3em;'>(destination (an object (type {goal}))))</span><br><br>"
 ---
 
 action_core: UsingSpiceJar
 action_roles: ['content','goal','action_verb']
-cram_plan: "(pour-from-spice-jar (from (an object (type container.n.01) (contains (some stuff (type {content})))) (to (an object (type {goal})))))"
+cram_plan: "<span>(pour-from-spice-jar (from (an object (type container.n.01)</span><br><span style='margin-left: 22.8em;'>(contains (some stuff (type {content}))))</span><br><span style='margin-left: 12.5em;'>(to (an object (type {goal})))))</span><br><br>"
 ---
 
 action_core: Spooning
 action_roles: ['substance','goal','action_verb']
-cram_plan: "(use-spoon (from (an object (type container.n.01) (contains (some stuff (type {substance})))) (to (an object (type {goal})))))"
+cram_plan: "<span>(use-spoon (from (an object (type container.n.01)</span><br><span style='margin-left: 17em;'>(contains (some stuff (type {substance}))))</span><br><span style='margin-left: 6.5em;'>(to (an object (type {goal})))))</span><br><br>"
 ---
 
 action_core: Flavouring
@@ -63,5 +63,5 @@ action_roles: ['spice','goal','action_verb']
 
 action_core: TurningOnElectricalDevice
 action_roles: ['device','setting','action_verb']
-cram_plan: "(turn-on-device (an object (type {device})))"
+cram_plan: "<span>(turn-on-device (an object (type {device})))</span><br><br>"
 

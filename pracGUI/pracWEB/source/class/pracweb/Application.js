@@ -100,21 +100,25 @@ qx.Class.define("pracweb.Application",
         minHeight: .9*window.innerHeight
       });
 
+      var rightScroll = new qx.ui.container.Scroll();
+
       var right = new qx.ui.container.Composite(new qx.ui.layout.VBox()).set({
         maxWidth: 444,
-        minHeight: 700
+        minHeight: 503,
+        maxHeight: 550
       });
 
       // flowchart
       var flowChartEmbed = new qx.ui.embed.Html();
       this._flowChartEmbed = flowChartEmbed;
-      right.add(flowChartEmbed, {flex: 1});
+      right.add(flowChartEmbed, {flex: 3});
       this._load_flow_chart();
 
       // cram plans
       var cramPlanEmbed = new qx.ui.embed.Html();
+      cramPlanEmbed.setCssClass('cramPlan');
       this._cramPlanEmbed = cramPlanEmbed;
-      right.add(cramPlanEmbed);
+      right.add(cramPlanEmbed, {flex: 1});
 
       // left
   	  var form = this.buildForm();
@@ -464,19 +468,23 @@ qx.Class.define("pracweb.Application",
         var tar = e.getTarget();
         var response = tar.getResponse();
         if (response.distributions) {
+          var left = 20;
+          var rop = 20;
           for (var role in response.distributions) {
             var distWindow = new qx.ui.window.Window(role);
-            distWindow.setWidth(300);
-            distWindow.setHeight(200);
+            distWindow.setWidth(1000);
+            distWindow.setHeight(700);
             distWindow.setShowMinimize(false);
             distWindow.setLayout(new qx.ui.layout.Grow());
             var svgCanvas = new qx.ui.embed.Html();
             distWindow.add(svgCanvas);
-            this.getRoot().add(distWindow, {left:20, top:20});
+            this.getRoot().add(distWindow, {left:left, top:top});
             console.log(response.distributions);
             svgCanvas.setHtml(response.distributions[role]);
             console.log(svgCanvas.getContentElement());
-            distWindow.open();     
+            distWindow.open();
+            left += 20;
+            top += 20;
             }      
           return;
         }
@@ -498,7 +506,18 @@ qx.Class.define("pracweb.Application",
         var response = tar.getResponse();
         if (response.plans) {
           console.log(response.plans);
-          this._cramPlanEmbed.setHtml(response.plans.join(''));             
+          var cramPlanWindow = new qx.ui.window.Window('Cram Plans');
+          cramPlanWindow.setWidth(900);
+          cramPlanWindow.setHeight(300);
+          cramPlanWindow.setShowMinimize(false);
+          cramPlanWindow.setLayout(new qx.ui.layout.Grow());
+          var planCanvas = new qx.ui.embed.Html();
+          cramPlanWindow.add(planCanvas);
+          this.getRoot().add(cramPlanWindow, {left:20, top:20});
+          planCanvas.setHtml("<p class='cramPlan'>" + response.plans.join('') + "</p>");
+          console.log(planCanvas.getContentElement());
+          cramPlanWindow.open();     
+            // this._cramPlanEmbed.setHtml("<p class='cramPlan'>" + response.plans.join('') + "</p>");             
           return;
         }
       }, that);
