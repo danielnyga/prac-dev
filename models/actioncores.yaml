@@ -43,7 +43,7 @@ action_roles: ['obj_to_be_heated','temperature','action_verb']
 
 action_core: OperatingATap
 action_roles: ['liquid','goal','action_verb']
-cram_plan: "<span>(operate-tap(liquid (some stuff (type {liquid})))</span><br><span style='margin-left: 7.3em;'>(destination (an object (type {goal}))))</span><br><br>"
+cram_plan: "<span>(operate-tap (liquid (some stuff (type {liquid})))</span><br><span style='margin-left: 7.3em;'>(destination (an object (type {goal}))))</span><br><br>"
 ---
 
 action_core: UsingSpiceJar
