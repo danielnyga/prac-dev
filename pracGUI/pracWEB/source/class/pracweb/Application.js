@@ -314,35 +314,11 @@ qx.Class.define("pracweb.Application",
     _run_inference : function(method) {
       console.log('_run_inference');
       // get next module and update flowchart
+      this._update_flowchart();
       this.__nextButton.setEnabled(false);
-      var moduleReq = new qx.io.request.Xhr(); 
-      moduleReq.setUrl("/_pracinfer_get_next_module");
-      moduleReq.setMethod('GET');
-      moduleReq.setRequestHeader("Cache-Control", "no-cache");
-      moduleReq.setRequestHeader("Content-Type", "text/plain");
-      moduleReq.addListener("success", function(e) {
-        console.log('success');
-        var that = this;
-        var tar = e.getTarget();
-        var response = tar.getResponse();
-        console.log('got response from server', response);
-        if (response === 'achieved_by' || response === 'plan_generation') {
-          that._clearFlowChart();
-          document.getElementById('executable').nextElementSibling.style.fill = "#bee280";
-          setTimeout( function() {
-            that._clearFlowChart();
-            document.getElementById(response).nextElementSibling.style.fill = "#bee280";
-          }, 2000);
-        } else {
-          that._clearFlowChart();
-          document.getElementById(response).nextElementSibling.style.fill = "#bee280";
-        } 
-        that._next_module = response;
-        return;
-      }, this);
-      moduleReq.send();
 
       // request new inference step
+
       var req = new qx.io.request.Xhr(); 
       req.setUrl("/_pracinfer_step");
       req.setMethod(method);
@@ -354,7 +330,8 @@ qx.Class.define("pracweb.Application",
         console.log(response.result);
         console.log(response.finish);
 
-        if (response.finish) {
+        console.log('last module before finish',that._lastModule);
+        if (response.finish || this._lastModule === 'plan_generation') {
           console.log(" I am DONE! ");
           that.updateGraph(response.result);
           that.__nextButton.setEnabled(false);
@@ -365,6 +342,8 @@ qx.Class.define("pracweb.Application",
             }, response.result.length * 1000); // wait 3 seconds, then clear flowchart
           return;
         } else {
+          that._lastModule = that._next_module;
+          console.log('setting last module: ',that._lastModule);
           that.updateGraph(response.result);
           setTimeout( function() {
             that.__nextButton.setEnabled(true);
@@ -385,6 +364,35 @@ qx.Class.define("pracweb.Application",
   			}
   		}, this);
 		  return req;
+    },
+
+    _update_flowchart : function() {
+      var moduleReq = new qx.io.request.Xhr(); 
+      moduleReq.setUrl("/_pracinfer_get_next_module");
+      moduleReq.setMethod('GET');
+      moduleReq.setRequestHeader("Cache-Control", "no-cache");
+      moduleReq.setRequestHeader("Content-Type", "text/plain");
+      moduleReq.addListener("success", function(e) {
+        console.log('success');
+        var that = this;
+        var tar = e.getTarget();
+        var response = tar.getResponse();
+        console.log('got response from server', response);
+        that._next_module = response;
+        if (response === 'achieved_by' || (response === 'plan_generation') && that._lastModule !== 'plan_generation') {
+          that._clearFlowChart();
+          document.getElementById('executable').nextElementSibling.style.fill = "#bee280";
+          setTimeout( function() {
+            that._clearFlowChart();
+            document.getElementById(response).nextElementSibling.style.fill = "#bee280";
+          }, 2000);
+        } else {
+          that._clearFlowChart();
+          document.getElementById(response).nextElementSibling.style.fill = "#bee280";
+        } 
+        return;
+      }, this);
+      moduleReq.send();
     },
 
     buildForm : function()
