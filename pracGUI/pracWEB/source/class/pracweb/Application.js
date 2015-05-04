@@ -71,10 +71,10 @@ qx.Class.define("pracweb.Application",
 
       var contentIsle = new qx.ui.root.Inline(document.getElementById("container", true, true));
       contentIsle.setWidth(window.innerWidth);
-      contentIsle.setHeight(.9*window.innerHeight);
+      contentIsle.setHeight(window.innerHeight);
       window.addEventListener("resize", function() {
       	contentIsle.setWidth(window.innerWidth);
-      	contentIsle.setHeight(.9*window.innerHeight);
+      	contentIsle.setHeight(window.innerHeight);
       });
       contentIsle.setLayout(new qx.ui.layout.Grow());
 	
