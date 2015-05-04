@@ -71,10 +71,10 @@ qx.Class.define("pracweb.Application",
 
       var contentIsle = new qx.ui.root.Inline(document.getElementById("container", true, true));
       contentIsle.setWidth(window.innerWidth);
-      contentIsle.setHeight(.9*window.innerHeight);
+      contentIsle.setHeight(window.innerHeight);
       window.addEventListener("resize", function() {
       	contentIsle.setWidth(window.innerWidth);
-      	contentIsle.setHeight(.9*window.innerHeight);
+      	contentIsle.setHeight(window.innerHeight);
       });
       contentIsle.setLayout(new qx.ui.layout.Grow());
 	
@@ -96,31 +96,32 @@ qx.Class.define("pracweb.Application",
       // Create container for the right:
       var innerSplitPane = new qx.ui.splitpane.Pane("horizontal");
       var main = new qx.ui.container.Composite(new qx.ui.layout.Grow()).set({
-        minWidth: .55*window.innerWidth,
         minHeight: .9*window.innerHeight
       });
 
-      var rightScroll = new qx.ui.container.Scroll();
+      var rightScroll = new qx.ui.container.Scroll().set({
+        width: 444,
+        maxWidth: 444,
+        height: 503
+      });
 
       var right = new qx.ui.container.Composite(new qx.ui.layout.VBox()).set({
-        maxWidth: 444,
-        minHeight: 503,
-        maxHeight: 550
+        width: 444,
+        minWidth: 444,
+        height: 503,
+        minHeight: 503
       });
+
+      rightScroll.add(right);
 
       // flowchart
       var flowChartEmbed = new qx.ui.embed.Html();
       this._flowChartEmbed = flowChartEmbed;
-      right.add(flowChartEmbed, {flex: 3});
+      right.add(flowChartEmbed, {flex: 1});
       this._load_flow_chart();
 
-      // cram plans
-      var cramPlanEmbed = new qx.ui.embed.Html();
-      cramPlanEmbed.setCssClass('cramPlan');
-      this._cramPlanEmbed = cramPlanEmbed;
-      right.add(cramPlanEmbed, {flex: 1});
 
-      // left
+      // left (expert settings)
   	  var form = this.buildForm();
 
   	  // placeholder
@@ -141,10 +142,10 @@ qx.Class.define("pracweb.Application",
       main.add(vizEmbedGrp);
       this._left = left;
       this._main = main;
-      this._right = right;
+      this._right = rightScroll;
 
-      innerSplitPane.add(main, 1);
-      innerSplitPane.add(right, 2);
+      innerSplitPane.add(main);
+      innerSplitPane.add(rightScroll);
 
       splitPane.add(left, 0);
       splitPane.add(innerSplitPane, 1);
@@ -327,8 +328,8 @@ qx.Class.define("pracweb.Application",
         var that = this;
         var tar = e.getTarget();                
         var response = tar.getResponse();
-        console.log(response.result);
-        console.log(response.finish);
+        console.log('response result:', response.result);
+        console.log('response finish:', response.finish);
 
         console.log('last module before finish',that._lastModule);
         if (response.finish || this._lastModule === 'plan_generation') {
@@ -340,6 +341,7 @@ qx.Class.define("pracweb.Application",
           setTimeout( function() {
               that._get_cram_plan();
             }, response.result.length * 1000); // wait 3 seconds, then clear flowchart
+          that._lastModule = '';
           return;
         } else {
           that._lastModule = that._next_module;
@@ -555,7 +557,6 @@ qx.Class.define("pracweb.Application",
           this.getRoot().add(cramPlanWindow, {left:20, top:20});
           planCanvas.setHtml("<p class='cramPlan'>" + response.plans.join('') + "</p>");
           cramPlanWindow.open();     
-            // this._cramPlanEmbed.setHtml("<p class='cramPlan'>" + response.plans.join('') + "</p>");             
           return;
         }
       }, that);
