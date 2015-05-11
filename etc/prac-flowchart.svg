@@ -50,13 +50,13 @@
       <path id="achieved_by" d="M588.56 464 L668.56 464 L668.56 504 L588.56 504 Z" clip-path="url(#clipPath2)" stroke="none"/>
       <path fill="none" d="M588.56 464 L668.56 464 L668.56 504 L588.56 504 Z" clip-path="url(#clipPath2)" stroke="black"/>
       <text x="596.5356" y="481.1699" clip-path="url(#clipPath2)" fill="black" font-family="sans-serif" stroke="none" xml:space="preserve">Actioncore</text>
-      <text x="600.2328" y="495.1387" clip-path="url(#clipPath2)" fill="black" font-family="sans-serif" stroke="none" xml:space="preserve">Inference</text>
+      <text x="595.2328" y="495.1387" clip-path="url(#clipPath2)" fill="black" font-family="sans-serif" stroke="none" xml:space="preserve">Refinement</text>
     </g>
     <g fill="white" stroke-miterlimit="1.45" transform="matrix(1,0,0,1,-573,-121)" stroke-linecap="butt" stroke="white">
       <path id="roles_transformation" d="M588.56 569 L668.56 569 L668.56 609 L588.56 609 Z" clip-path="url(#clipPath2)" stroke="none"/>
       <path fill="none" d="M588.56 569 L668.56 569 L668.56 609 L588.56 609 Z" clip-path="url(#clipPath2)" stroke="black"/>
       <text x="594.558" y="586.1699" clip-path="url(#clipPath2)" fill="black" font-family="sans-serif" stroke="none" xml:space="preserve">Action Role</text>
-      <text x="600.2328" y="600.1387" clip-path="url(#clipPath2)" fill="black" font-family="sans-serif" stroke="none" xml:space="preserve">Inference</text>
+      <text x="595.2328" y="600.1387" clip-path="url(#clipPath2)" fill="black" font-family="sans-serif" stroke="none" xml:space="preserve">Refinement</text>
     </g>
     <g stroke-linecap="butt" transform="matrix(1,0,0,1,-573,-121)" stroke-miterlimit="1.45">
       <path fill="none" d="M768 175.9951 L768 198.0273" clip-path="url(#clipPath2)"/>
