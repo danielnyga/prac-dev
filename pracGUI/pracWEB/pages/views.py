@@ -17,7 +17,7 @@ from pracWEB.app import PRACSession
 
 def ensure_prac_session(session):
     log = logging.getLogger(__name__)
-    prac_session = pracApp.app.session_store[session]
+    prac_session = pracApp.session_store[session]
     if prac_session is None:
         session['id'] = os.urandom(24)
         prac_session = PRACSession(session)
@@ -26,7 +26,7 @@ def ensure_prac_session(session):
         # initialize the nl_parsing module so the JVM is started
         prac_session.prac.getModuleByName('nl_parsing')
         log.info('created new PRAC session %s' % str(prac_session.id.encode('base-64')))
-        pracApp.app.session_store.put(prac_session)
+        pracApp.session_store.put(prac_session)
     return prac_session
         
 
@@ -52,23 +52,23 @@ def prac():
 def remove_if_invalid(response):
     log = logging.getLogger(__name__)
     if "__invalidate__" in session:
-        response.delete_cookie(pracApp.app.session_cookie_name)
-        prac_session = pracApp.app.session_store[session]
+        response.delete_cookie(pracApp.session_cookie_name)
+        prac_session = pracApp.session_store[session]
         if prac_session is not None:
             log.info('removed PRAC session %s' % prac_session.id.encode('base-64'))
-            pracApp.app.session_store.remove(session)
+            pracApp.session_store.remove(session)
     return response
 
-@pracApp.app.route('/_destroy_session', methods=['POST', 'OPTIONS'])
+@pracApp.app.route('/prac/_destroy_session', methods=['POST', 'OPTIONS'])
 def destroy():
     log = logging.getLogger(__name__)
-    prac_session = pracApp.app.session_store[session]
+    prac_session = pracApp.session_store[session]
     if prac_session is None: return ''
     log.info('invalidating session %s' % prac_session.id.encode('base-64'))
     session["__invalidate__"] = True
     return ''
 
-@pracApp.app.route('/_get_wordnet_taxonomy', methods=['GET'])
+@pracApp.app.route('/prac/_get_wordnet_taxonomy', methods=['GET'])
 def get_wn_tax():
     wn = WordNet()
     return wn.to_svg()

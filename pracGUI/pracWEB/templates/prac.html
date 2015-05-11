@@ -1,9 +1,9 @@
 {% extends "layout.html" %}
+{% block title %}Overview{% endblock %}
 {% block head %}
     {{ super() }}
 {% endblock %}
 
-  {% block content %}
-    {{ super() }}
-    {% include "prac_content.html" %}
-  {% endblock %}
+{% block content %}
+    {% include 'prac_content.html' %}
+{% endblock %}

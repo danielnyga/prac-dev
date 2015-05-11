@@ -18,4 +18,4 @@ init_app(pracApp.app)
 
 if __name__ == '__main__':
     logging.getLogger().setLevel(logging.INFO)
-    pracApp.app.run(host='0.0.0.0', debug=True, threaded=True)
+    pracApp.app.run(host='0.0.0.0', port=5001, debug=True, threaded=True)

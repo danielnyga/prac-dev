@@ -56,79 +56,71 @@ qx.Class.define("pracweb.Application",
         qx.log.appender.Console;
       }
       
-	  // destroy the session before leaving PRAC
-	  window.onbeforeunload = function () {
-	  	// getSession().invalidate();
-	  var	req = new qx.io.request.Xhr(); 
-		req.setUrl("/_destroy_session");
-		req.setMethod("POST");
-		req.addListener("success", function(e) { 
-			var tar = e.getTarget();								
-			var response = tar.getResponse();
-		});
-		req.send();
-	  }; 
+  	  // destroy the session before leaving PRAC
+  	  window.onbeforeunload = function () {
+  	  	// getSession().invalidate();
+  	  var	req = new qx.io.request.Xhr(); 
+  		req.setUrl("/prac/_destroy_session");
+  		req.setMethod("POST");
+  		req.addListener("success", function(e) { 
+  			var tar = e.getTarget();								
+  			var response = tar.getResponse();
+  		});
+  		req.send();
+  	  }; 
 
-      var contentIsle = new qx.ui.root.Inline(document.getElementById("container", true, true));
-      contentIsle.setWidth(window.innerWidth);
-      contentIsle.setHeight(window.innerHeight);
+      var contentIsle = new qx.ui.root.Inline(document.getElementById("prac_container", true, true));
+      contentIsle.setWidth(document.getElementById("container", true, true).offsetWidth);
+      contentIsle.setHeight(document.getElementById("container", true, true).offsetHeight);
       window.addEventListener("resize", function() {
-      	contentIsle.setWidth(window.innerWidth);
-      	contentIsle.setHeight(window.innerHeight);
+      	contentIsle.setWidth(document.getElementById("container", true, true).offsetWidth);
+      	contentIsle.setHeight(document.getElementById("container", true, true).offsetHeight);
       });
       contentIsle.setLayout(new qx.ui.layout.Grow());
 	
-	
-      // new container
+      // main container (contains outer splitpane and control panel)
       var container = new qx.ui.container.Composite(new qx.ui.layout.VBox()).set({
         padding: 0
       });
 
+      // outer splitpane (contains expert settings and inner splitpane)
       var splitPane = new qx.ui.splitpane.Pane("horizontal");
+      this._pane = splitPane;
 
-      this.__pane = splitPane;
-
-      // Create container with fixed dimensions for the left:
-      var left = new qx.ui.container.Composite(new qx.ui.layout.VBox()).set({
+      // container for expert settings form
+      var expSettingsContainer = new qx.ui.container.Composite(new qx.ui.layout.VBox()).set({
         minWidth: 370
       });
+      this._expSettingsContainer = expSettingsContainer;
 
       // Create container for the right:
       var innerSplitPane = new qx.ui.splitpane.Pane("horizontal");
-      var main = new qx.ui.container.Composite(new qx.ui.layout.Grow()).set({
-        minHeight: .9*window.innerHeight
+      var graphVizContainer = new qx.ui.container.Composite(new qx.ui.layout.Grow()).set({
+        minHeight: .8*document.getElementById("container", true, true).offsetHeight
       });
+      this._graphVizContainer = graphVizContainer;
 
-      var rightScroll = new qx.ui.container.Scroll().set({
+      // scrollable container for the flowchart
+      var flowChartScroll = new qx.ui.container.Scroll().set({
         width: 444,
         maxWidth: 444,
         height: 503
       });
 
-      var right = new qx.ui.container.Composite(new qx.ui.layout.VBox()).set({
-        width: 444,
-        minWidth: 444,
-        height: 503,
-        minHeight: 503
-      });
-
-      rightScroll.add(right);
-
-      // flowchart
+      // embedding for flowchart svg
       var flowChartEmbed = new qx.ui.embed.Html();
       this._flowChartEmbed = flowChartEmbed;
-      right.add(flowChartEmbed, {flex: 1});
+      flowChartScroll.add(flowChartEmbed, {flex: 1});
       this._load_flow_chart();
 
+      // expert settings
+      var form = this.buildForm();
 
-      // left (expert settings)
-  	  var form = this.buildForm();
-
-  	  // placeholder
+      // placeholder
       var placeholder = new qx.ui.container.Composite();
       placeholder.setHeight(80);
-      left.add(placeholder);
-      left.add(form);
+      expSettingsContainer.add(placeholder);
+      expSettingsContainer.add(form);
 
       // visualization of svg graph
       var vizEmbedGrp = new qx.ui.groupbox.GroupBox("Visualization");
@@ -138,131 +130,122 @@ qx.Class.define("pracweb.Application",
       var vizEmbed = new qx.ui.embed.Html(vizHTML);
       vizEmbedGrp.add(vizEmbed);
 
-      // main
-      main.add(vizEmbedGrp);
-      this._left = left;
-      this._main = main;
-      this._right = rightScroll;
+      graphVizContainer.add(vizEmbedGrp);
+      this._flowChartContainer = flowChartScroll;
 
-      innerSplitPane.add(main);
-      innerSplitPane.add(rightScroll);
+      innerSplitPane.add(graphVizContainer);
+      innerSplitPane.add(flowChartScroll);
 
-      splitPane.add(left, 0);
+      splitPane.add(expSettingsContainer, 0);
       splitPane.add(innerSplitPane, 1);
 
-      var mainPane = this.buildMainPane();
-      this._mainPane = mainPane;
+      // control pane (containing text field, buttons and checkboxes used for inference)
+      var controlPane = this.buildControlPane();
+      this._controlPane = controlPane;
 
-      container.add(splitPane, {flex: 1}); //, { height : "auto" }
-      container.add(mainPane);
+      container.add(splitPane, {flex: 1});
+      container.add(controlPane);
 
       // add container to content div
       contentIsle.add(container);
       
       // initially do not show form and do NOT use stepwise inference by default
-      this._showLeft = false;
-      this._showRight = true;
-      this.__stepwise = false;
+      this._showexpSettingsContainer = false;
+      this._stepwise = false;
       this._changeVisiblity();
     },
 
 
     loadGraph : function() {
-      if (typeof this.__graph === 'undefined') {
-        this.__graph = new pracweb.Graph();
+      if (typeof this._graph === 'undefined') {
+        this._graph = new pracweb.Graph();
       } 
-      this.__graph.clear();
+      this._graph.clear();
     },
 
     updateGraph : function(data) {
-      this.__graph.updateData(data);
+      this._graph.updateData(data);
     },
 
-    buildMainPane : function()
+    buildControlPane : function()
     {
       var mainGroup = new qx.ui.groupbox.GroupBox("PRAC Inference");
-
       var mainLayout = new qx.ui.layout.HBox(20);
       mainGroup.setLayout(mainLayout);
       
       var description = new qx.ui.form.TextField("");
       description.setMinWidth(300);
       description.addListener("keydown", function(e) {
-        this.__vizButton.setEnabled(true);
+        this._vizButton.setEnabled(true);
         this._clearFlowChart();
         document.getElementById('init').nextElementSibling.style.fill = "#bee280";
       }, this);
       
       var expSettings = new qx.ui.form.CheckBox("Use expert settings");
       expSettings.addListener("changeValue", function(e) {
-        this._showLeft = e.getData();
+        this._showexpSettingsContainer = e.getData();
         this._changeVisiblity();
       }, this);
 
 
+    /**
+     * toggling Step-by-step check box will enable/disable 'Next'-button and
+     * set the inference type
+     */
       var stepInf = new qx.ui.form.CheckBox("Step-by-step inference");
-      var dieter = new qx.ui.form.CheckBox("Show Dieter");
-      dieter.setValue(true);
-      dieter.addListener("changeValue", function(e) {
-        this._showRight = e.getData();
-        this._changeVisiblity();
+      stepInf.addListener("changeValue", function(e) {
+        var that = this;
+        that._stepwise = e.getData();
+        nextButton.setEnabled(e.getData());
       }, this);
-
 
       var vizButton = new qx.ui.form.Button("Run Inference", "/prac/static/images/resultset_next.png");
-      this.__vizButton = vizButton;
+      this._vizButton = vizButton;
       var nextButton = new qx.ui.form.Button("Next Step",  "/prac/static/images/resultset_last.png");
-      this.__nextButton = nextButton;
+      this._nextButton = nextButton;
       nextButton.setEnabled(false);
       
-      /**
-       * Taxonomy visualization
-       */
+    /**
+     * taxonomy visualization
+     */
+      var win = new qx.ui.window.Window("First Window");
+      win.setWidth(700);
+      win.setHeight(500);
+      win.setShowMinimize(false);
+      win.setLayout(new qx.ui.layout.Grow());
+      var taxCanvas = new qx.ui.embed.Html();
+      win.add(taxCanvas);
+      this.getRoot().add(win, {left:20, top:20});
+      
       var wordnetButton = new qx.ui.form.Button("Show Taxonomy");
-  	  // var wnWindow = qx.ui.window.Window("WordNet Taxonomy Visualization");
-	  // wnWindow.setWidth(80);
-	  // wnWindow.setHeight(60);
-	  // this.getRoot().add(wnWindow, {left:20, top:20});
-  	  // wnWindow.open();
-  	  var win = new qx.ui.window.Window("First Window");
-    	win.setWidth(700);
-    	win.setHeight(500);
-    	win.setShowMinimize(false);
-    	win.setLayout(new qx.ui.layout.Grow());
-    	var taxCanvas = new qx.ui.embed.Html();
-	  	win.add(taxCanvas);
-    	this.getRoot().add(win, {left:20, top:20});
-    	// win.open();
-  	  
-  	  
       wordnetButton.addListener("execute", function() {
-    		var req = new qx.io.request.Xhr(); 
-    		req.setUrl("/_get_wordnet_taxonomy");
-    		req.setMethod("GET");
-  	  	
-    		req.addListener("success", function(e) {
-    			console.log("1");
-    			var tar = e.getTarget();								
-    			var response = tar.getResponse();
-    			console.log("2");
-  		  	console.log("3");
-  		  	
-  		  	console.log("4");
-    			console.log(response);
-  		  	taxCanvas.setHtml(response);
-  		  	console.log(taxCanvas.getContentElement());
-    			win.open();
-  		  });
-    		console.log("sending request");
-    		req.send();
+        var req = new qx.io.request.Xhr(); 
+        req.setUrl("/prac/_get_wordnet_taxonomy");
+        req.setMethod("GET");
+        
+        req.addListener("success", function(e) {
+          console.log("1");
+          var tar = e.getTarget();                
+          var response = tar.getResponse();
+          console.log("2");
+          console.log("3");
+          
+          console.log("4");
+          console.log(response);
+          taxCanvas.setHtml(response);
+          console.log(taxCanvas.getContentElement());
+          win.open();
+        });
+        console.log("sending request");
+        req.send();
       }, this);
-	  
-    /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-     * Trigger the PRAC inference
+    
+    /**
+     * trigger the PRAC inference
      */
       vizButton.addListener('execute', function() {
-        if (this.__stepwise) {
-          this.__vizButton.setEnabled(false);
+        if (this._stepwise) {
+          this._vizButton.setEnabled(false);
         }
          this.loadGraph();
          this._clearFlowChart();
@@ -274,19 +257,10 @@ qx.Class.define("pracweb.Application",
          req.send();
       }, this);
       
-    /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-     * Toggling Step-by-step check box will enable/disable 'Next'-Button and
-     * set the inference type
-     */
-      stepInf.addListener("changeValue", function(e) {
-        var that = this;
-        nextButton.setEnabled(e.getData());
-        that.__stepwise = e.getData();
-      }, this);
 
 
-    /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-     * 'Next'-Button will trigger new inference step
+    /**
+     * 'Next'-button will trigger new inference step
      */
       nextButton.addListener('execute', function(e) {
         var that = this;
@@ -297,14 +271,13 @@ qx.Class.define("pracweb.Application",
 
       var getRoleDist = new qx.ui.form.Button("Get Role Distributions");
       getRoleDist.setEnabled(false);
-      this.__getRoleDist = getRoleDist;
+      this._getRoleDist = getRoleDist;
       getRoleDist.addListener('execute', this._get_role_distributions, this);
 
       mainGroup.add(new qx.ui.basic.Label("Natural-language instruction:"));
       mainGroup.add(description);
       mainGroup.add(expSettings);
       mainGroup.add(stepInf);
-      mainGroup.add(dieter);
       mainGroup.add(vizButton);
       mainGroup.add(nextButton);
       mainGroup.add(wordnetButton);
@@ -312,16 +285,16 @@ qx.Class.define("pracweb.Application",
       return mainGroup;
     },
 
+  /**
+   * update flowchart and request next inference step
+   */
     _run_inference : function(method) {
       console.log('_run_inference');
-      // get next module and update flowchart
       this._update_flowchart();
-      this.__nextButton.setEnabled(false);
-
-      // request new inference step
+      this._nextButton.setEnabled(false);
 
       var req = new qx.io.request.Xhr(); 
-      req.setUrl("/_pracinfer_step");
+      req.setUrl("/prac/_pracinfer_step");
       req.setMethod(method);
       req.setRequestHeader("Cache-Control", "no-cache");
       req.addListener("success", function(e) {
@@ -335,9 +308,9 @@ qx.Class.define("pracweb.Application",
         if (response.finish || this._lastModule === 'plan_generation') {
           console.log(" I am DONE! ");
           that.updateGraph(response.result);
-          that.__nextButton.setEnabled(false);
-          that.__vizButton.setEnabled(true);
-          that.__getRoleDist.setEnabled(true);
+          that._nextButton.setEnabled(false);
+          that._vizButton.setEnabled(true);
+          that._getRoleDist.setEnabled(true);
           setTimeout( function() {
               that._get_cram_plan();
             }, response.result.length * 1000); // wait 3 seconds, then clear flowchart
@@ -348,13 +321,13 @@ qx.Class.define("pracweb.Application",
           console.log('setting last module: ',that._lastModule);
           that.updateGraph(response.result);
           setTimeout( function() {
-            that.__nextButton.setEnabled(true);
+            that._nextButton.setEnabled(true);
             console.log(that._next_module);
             if (that._next_module == 'senses_and_roles') {
-              that.__getRoleDist.setEnabled(true); // set enabled when senses_and_roles has finished
+              that._getRoleDist.setEnabled(true); // set enabled when senses_and_roles has finished
             }
           }, response.result.length * 1000);
-          if (!that.__stepwise) {
+          if (!that._stepwise) {
             console.log('bumming around for', response.result.length * 1000, ' mseconds before sending new request...');
             setTimeout( function() {
               console.log('before sending req');
@@ -370,7 +343,7 @@ qx.Class.define("pracweb.Application",
 
     _update_flowchart : function() {
       var moduleReq = new qx.io.request.Xhr(); 
-      moduleReq.setUrl("/_pracinfer_get_next_module");
+      moduleReq.setUrl("/prac/_pracinfer_get_next_module");
       moduleReq.setMethod('GET');
       moduleReq.setRequestHeader("Cache-Control", "no-cache");
       moduleReq.setRequestHeader("Content-Type", "text/plain");
@@ -399,19 +372,20 @@ qx.Class.define("pracweb.Application",
 
     buildForm : function()
     {
-      // build form
       var group = new qx.ui.groupbox.GroupBox("Expert Settings");
       var grouplayout = new qx.ui.layout.HBox();
       group.setLayout(grouplayout);
       var formLayout = new qx.ui.layout.Grid();
-      formLayout.setRowFlex(0, 1); // make row 0 flexible
-      formLayout.setRowFlex(1, 1); // make row 1 flexible
-      formLayout.setColumnWidth(2, 70); // set with of column 1 to 200 pixel
+      formLayout.setRowFlex(0, 1);
+      formLayout.setRowFlex(1, 1);
+      formLayout.setColumnWidth(2, 70);
 
 
       var formgroup = new qx.ui.container.Composite(formLayout);
 
-      // create form widgets
+    /**
+     * create form widgets
+     */
       var module = new qx.ui.form.SelectBox("Select Module");
       var logic = new qx.ui.form.SelectBox("Select Logic");
       var kb = new qx.ui.form.SelectBox("Select KB");
@@ -431,10 +405,14 @@ qx.Class.define("pracweb.Application",
       var uploadMLNFile = new qx.ui.form.Button("upload");
       var uploadDBFile = new qx.ui.form.Button("upload");
 
-      // listeners
+      /**
+       * form widget listeners
+       */
       module.addListener("changeSelection", this._changeModule, this);
 
-      // widget settings
+      /**
+       * widget settings
+       */
       module.add(new qx.ui.form.ListItem("-one-"));
       module.add(new qx.ui.form.ListItem("-two-"));
       logic.add(new qx.ui.form.ListItem("-choose-"));
@@ -443,7 +421,9 @@ qx.Class.define("pracweb.Application",
       evidence_dd.add(new qx.ui.form.ListItem("-choose-"));
       method.add(new qx.ui.form.ListItem("-choose-"));
 
-      // addding form elements to grid
+      /**
+       * add form elements to grid
+       */
       formgroup.add(new qx.ui.basic.Label("Module"), {row: 0, column: 0});
       formgroup.add(module, {row: 0, column: 1});
 
@@ -503,7 +483,7 @@ qx.Class.define("pracweb.Application",
 
       console.log('getting role distributions...');
       var req = new qx.io.request.Xhr(); 
-      req.setUrl("/_get_role_distributions");
+      req.setUrl("/prac/_get_role_distributions");
       req.setMethod('GET');
       req.setRequestHeader("Cache-Control", "no-cache");
       req.setRequestHeader("Content-Type", "application/json");
@@ -538,7 +518,7 @@ qx.Class.define("pracweb.Application",
     {
       console.log('asking for cram plans...');
       var req = new qx.io.request.Xhr(); 
-      req.setUrl("/_get_cram_plan");
+      req.setUrl("/prac/_get_cram_plan");
       req.setMethod('GET');
       req.setRequestHeader("Cache-Control", "no-cache");
       req.setRequestHeader("Content-Type", "application/json");
@@ -567,7 +547,7 @@ qx.Class.define("pracweb.Application",
     {
       console.log('loading flowchart...');
       var req = new qx.io.request.Xhr(); 
-      req.setUrl("/_load_flow_chart");
+      req.setUrl("/prac/_load_flow_chart");
       req.setMethod('GET');
       req.setRequestHeader("Cache-Control", "no-cache");
       req.setRequestHeader("Content-Type", "text/plain");
@@ -590,20 +570,19 @@ qx.Class.define("pracweb.Application",
 
     _changeModule : function(e)
     {
-      // pass
+      // request options for other form fiels from server
     },
 
+    /**
+     * hide or show expert settings pane
+     */
     _changeVisiblity : function(e)
     {
-      if (this._showLeft)
-        this._left.show();
+      if (this._showexpSettingsContainer)
+        this._expSettingsContainer.show();
       else 
-        this._left.exclude();
-      this._main.show();
-      if (this._showRight) 
-        this._right.show();
-      else 
-        this._right.exclude();
+        this._expSettingsContainer.exclude();
+      this._graphVizContainer.show();
     }
   }
 });

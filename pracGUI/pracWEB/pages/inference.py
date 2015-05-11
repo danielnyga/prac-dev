@@ -23,10 +23,10 @@ from pracutils.ActioncoreDescriptionHandler import ActioncoreDescriptionHandler
 INFMETHODS = [(InferenceMethods.byName(method),method) for method in InferenceMethods.name2value]
 
 
-@pracApp.app.route('/_pracinfer_step', methods=['POST', 'GET'])
+@pracApp.app.route('/prac/_pracinfer_step', methods=['POST', 'GET'])
 def _pracinfer_step():
     log = logging.getLogger(__name__)
-    print pracApp.app.session_store
+    print pracApp.session_store
     pracsession = ensure_prac_session(session)
     prac = pracsession.prac
 
@@ -105,7 +105,7 @@ def _pracinfer_step():
     return jsonify( {'result': result, 'finish': False} )
 
 
-@pracApp.app.route('/_pracinfer_get_next_module', methods=['GET'])
+@pracApp.app.route('/prac/_pracinfer_get_next_module', methods=['GET'])
 def _pracinfer_get_next_module():
     pracsession = ensure_prac_session(session)
     if hasattr(pracsession, 'infer'):
@@ -117,14 +117,14 @@ def _pracinfer_get_next_module():
         return 'nl_parsing'
 
 
-@pracApp.app.route('/_get_cram_plan', methods=['GET'])
+@pracApp.app.route('/prac/_get_cram_plan', methods=['GET'])
 def _get_cram_plan():
     pracsession = ensure_prac_session(session)
     print 'returning cramplan', pracsession.old_infer.inference_steps[-1].executable_plans
     return jsonify( {'plans': pracsession.old_infer.inference_steps[-1].executable_plans })
 
 
-@pracApp.app.route('/_get_role_distributions', methods=['GET'])
+@pracApp.app.route('/prac/_get_role_distributions', methods=['GET'])
 def _get_role_distributions():
     pracsession = ensure_prac_session(session)
     print 'returning role distributions'
