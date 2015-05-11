@@ -3,9 +3,10 @@ is_a(sense, concept)
 action_core(word,actioncore?)
 dobj(word,word)
 has_sense(word, sense!)
-
+num(word, word)
 //has_sense(?w1, null) ^ !action_core(?w1, +?ac).
 0 has_pos(?w1,VB) ^ is_a(?s1,+?c1) ^  has_sense(?w1,?s1) ^ action_core(?w1,+?ac)
 0 has_pos(?w1,VB) ^ has_pos(?w2,?p) ^ !dobj(?w1, ?w2) ^ !action_core(?w2,+?ac) ^ ?p =/= VB
 0 has_pos(?w1,VB) ^ has_pos(?w2,NN) ^  dobj(?w1, ?w2) ^  has_sense(?w1, ?s1) ^ is_a(?s1, +?c1) ^  has_sense(?w2, ?s2) ^ is_a(?s2, +?c2) ^ action_core(?w2,+?ac) ^ ?w1 =/= ?w2
+
 
