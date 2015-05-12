@@ -536,3 +536,71 @@
 1.00  has_sense(drawer,drawer.n.01)
 1.00  is_a(drawer.n.01,drawer.n.01)
 1.00  action_core(open,Opening)
+
+---
+
+1.00  dobj(start, centrifuge)
+1.00  has_pos(start, VB)
+1.00  has_pos(centrifuge, NN)
+1.00  has_sense(start, begin.v.03)
+1.00  is_a(begin.v.03, begin.v.03)
+1.00  has_sense(centrifuge,centrifuge.n.01)
+1.00  is_a(centrifuge.n.01,centrifuge.n.01)
+1.00  action_core(start,Starting)
+
+---
+
+1.00  dobj(start, heat_pump)
+1.00  has_pos(start, VB)
+1.00  has_pos(heat_pump, NN)
+1.00  has_sense(start, begin.v.03)
+1.00  is_a(begin.v.03, begin.v.03)
+1.00  has_sense(heat_pump,heat_pump.n.01)
+1.00  is_a(heat_pump.n.01,heat_pump.n.01)
+1.00  action_core(start,Starting)
+
+---
+
+1.00  dobj(start, centrifuge)
+1.00  has_pos(start, VB)
+1.00  has_pos(centrifuge, NN)
+1.00  has_sense(start, begin.v.03)
+1.00  is_a(begin.v.03, begin.v.03)
+1.00  has_sense(centrifuge,centrifuge.n.01)
+1.00  is_a(centrifuge.n.01,centrifuge.n.01)
+1.00  action_core(start,Starting)
+
+---
+
+1.00  dobj(start, centrifuge)
+1.00  has_pos(start, VB)
+1.00  has_pos(centrifuge, NN)
+1.00  has_sense(start, begin.v.03)
+1.00  is_a(begin.v.03, begin.v.03)
+1.00  has_sense(centrifuge,centrifuge.n.01)
+1.00  is_a(centrifuge.n.01,centrifuge.n.01)
+1.00  action_core(start,Starting)
+
+---
+
+1.00  dobj(start, centrifuge)
+1.00  has_pos(start, VB)
+1.00  has_pos(centrifuge, NN)
+1.00  has_sense(start, begin.v.03)
+1.00  is_a(begin.v.03, begin.v.03)
+1.00  has_sense(centrifuge,centrifuge.n.01)
+1.00  is_a(centrifuge.n.01,centrifuge.n.01)
+1.00  action_core(start,Starting)
+
+---
+
+1.00  dobj(start, centrifuge)
+1.00  has_pos(start, VB)
+1.00  has_pos(centrifuge, NN)
+1.00  has_sense(start, begin.v.03)
+1.00  is_a(begin.v.03, begin.v.03)
+1.00  has_sense(centrifuge,centrifuge.n.01)
+1.00  is_a(centrifuge.n.01,centrifuge.n.01)
+1.00  action_core(start,Starting)
+
+
