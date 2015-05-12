@@ -32,7 +32,7 @@ cram_plan: "<span>(pour-from-container (from (an object (type container.n.01)</s
 ---
 
 action_core: Adding
-action_roles: ['theme','goal','action_verb']
+action_roles: ['theme','goal','action_verb','unit','amount']
 
 ---
 
