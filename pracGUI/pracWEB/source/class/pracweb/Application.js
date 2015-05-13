@@ -107,10 +107,19 @@ qx.Class.define("pracweb.Application",
         height: 503
       });
 
+      var flowChartContainer = new qx.ui.container.Composite(new qx.ui.layout.VBox()).set({
+        width: 444,
+        minWidth: 444,
+        height: 503,
+        minHeight: 503
+       });
+
+      flowChartScroll.add(flowChartContainer);
+
       // embedding for flowchart svg
       var flowChartEmbed = new qx.ui.embed.Html();
       this._flowChartEmbed = flowChartEmbed;
-      flowChartScroll.add(flowChartEmbed, {flex: 1});
+      flowChartContainer.add(flowChartEmbed, {flex: 1});
       this._load_flow_chart();
 
       // expert settings
@@ -131,7 +140,7 @@ qx.Class.define("pracweb.Application",
       vizEmbedGrp.add(vizEmbed);
 
       graphVizContainer.add(vizEmbedGrp);
-      this._flowChartContainer = flowChartScroll;
+      this._flowChartContainer = flowChartContainer;
 
       innerSplitPane.add(graphVizContainer);
       innerSplitPane.add(flowChartScroll);
