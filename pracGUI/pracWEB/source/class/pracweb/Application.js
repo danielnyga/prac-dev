@@ -285,7 +285,7 @@ qx.Class.define("pracweb.Application",
 
       mainGroup.add(new qx.ui.basic.Label("Natural-language instruction:"));
       mainGroup.add(description);
-      mainGroup.add(expSettings);
+      // mainGroup.add(expSettings); // temporarily removed for openEase integration
       mainGroup.add(stepInf);
       mainGroup.add(vizButton);
       mainGroup.add(nextButton);
