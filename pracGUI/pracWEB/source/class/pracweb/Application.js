@@ -196,7 +196,6 @@ qx.Class.define("pracweb.Application",
       stepInf.addListener("changeValue", function(e) {
         var that = this;
         that._stepwise = e.getData();
-        nextButton.setEnabled(e.getData());
       }, this);
 
       var vizButton = new qx.ui.form.Button("Run Inference", "/prac/static/images/resultset_next.png");
@@ -249,6 +248,7 @@ qx.Class.define("pracweb.Application",
         }
          this.loadGraph();
          this._clearFlowChart();
+         this._next_module = 'nl_parsing';
          document.getElementById('init').nextElementSibling.style.fill = "#bee280";
          var req = this._run_inference("POST");
          console.log(description.getValue());
@@ -289,10 +289,24 @@ qx.Class.define("pracweb.Application",
    * update flowchart and request next inference step
    */
     _run_inference : function(method) {
-      console.log('_run_inference');
-      this._update_flowchart();
       this._nextButton.setEnabled(false);
 
+      // update flowchart
+      if (this._next_module === 'achieved_by' || (this._next_module === 'plan_generation') && this._last_module != 'plan_generation') {
+        var that = this;
+        var tmpNM = that._next_module; //because following timeout will cause _next_module to be overwritten too quickly
+        that._clearFlowChart();
+        document.getElementById('executable').nextElementSibling.style.fill = "#bee280";
+        setTimeout( function() {
+          that._clearFlowChart();
+          document.getElementById(tmpNM).nextElementSibling.style.fill = "#bee280";
+        }, 2000);
+      } else {
+        this._clearFlowChart();
+        document.getElementById(this._next_module).nextElementSibling.style.fill = "#bee280";
+      } 
+
+      // request next inference result
       var req = new qx.io.request.Xhr(); 
       req.setUrl("/prac/_pracinfer_step");
       req.setMethod(method);
@@ -304,44 +318,42 @@ qx.Class.define("pracweb.Application",
         console.log('response result:', response.result);
         console.log('response finish:', response.finish);
 
-        console.log('last module before finish',that._lastModule);
-        if (response.finish || this._lastModule === 'plan_generation') {
+        if (response.finish) {
           console.log(" I am DONE! ");
+          setTimeout( function() {
+            that._get_cram_plan();
+          }, response.result.length * 1000); // wait 3 seconds, then clear flowchart
           that.updateGraph(response.result);
           that._nextButton.setEnabled(false);
           that._vizButton.setEnabled(true);
-          that._getRoleDist.setEnabled(true);
-          setTimeout( function() {
-              that._get_cram_plan();
-            }, response.result.length * 1000); // wait 3 seconds, then clear flowchart
-          that._lastModule = '';
-          return;
+          that._last_module = '';
+        } else if (that._next_module === 'plan_generation') {
+          // do not redraw graph because plan_generation does not update output_dbs
+          var req = that._run_inference("GET");
+          req.send();
         } else {
-          that._lastModule = that._next_module;
-          console.log('setting last module: ',that._lastModule);
+          that._last_module = that._next_module;
+          that._next_module = that._get_next_module();
           that.updateGraph(response.result);
           setTimeout( function() {
             that._nextButton.setEnabled(true);
-            console.log(that._next_module);
-            if (that._next_module == 'senses_and_roles') {
+            if (that._last_module == 'senses_and_roles') {
               that._getRoleDist.setEnabled(true); // set enabled when senses_and_roles has finished
             }
           }, response.result.length * 1000);
           if (!that._stepwise) {
             console.log('bumming around for', response.result.length * 1000, ' mseconds before sending new request...');
             setTimeout( function() {
-              console.log('before sending req');
               var req = that._run_inference("GET");
-              console.log("sending new request...");
               req.send();
             }, response.result.length * 1000); // wait for graph to be updated
           }
-  			}
-  		}, this);
+        }
+      }, this);
 		  return req;
     },
 
-    _update_flowchart : function() {
+    _get_next_module : function() {
       var moduleReq = new qx.io.request.Xhr(); 
       moduleReq.setUrl("/prac/_pracinfer_get_next_module");
       moduleReq.setMethod('GET');
@@ -352,19 +364,8 @@ qx.Class.define("pracweb.Application",
         var that = this;
         var tar = e.getTarget();
         var response = tar.getResponse();
-        console.log('got response from server', response);
+        console.log('Next module to be executed is:', response);
         that._next_module = response;
-        if (response === 'achieved_by' || (response === 'plan_generation') && that._lastModule !== 'plan_generation') {
-          that._clearFlowChart();
-          document.getElementById('executable').nextElementSibling.style.fill = "#bee280";
-          setTimeout( function() {
-            that._clearFlowChart();
-            document.getElementById(response).nextElementSibling.style.fill = "#bee280";
-          }, 2000);
-        } else {
-          that._clearFlowChart();
-          document.getElementById(response).nextElementSibling.style.fill = "#bee280";
-        } 
         return;
       }, this);
       moduleReq.send();
