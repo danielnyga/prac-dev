@@ -55,7 +55,7 @@ qx.Class.define("pracweb.Application",
         // support additional cross-browser console. Press F7 to toggle visibility
         qx.log.appender.Console;
       }
-      
+
   	  // destroy the session before leaving PRAC
   	  window.onbeforeunload = function () {
   	  	// getSession().invalidate();
@@ -543,8 +543,7 @@ qx.Class.define("pracweb.Application",
       req.send();
     },
 
-    _load_flow_chart : function(e)
-    {
+    _load_flow_chart : function(e) {
       console.log('loading flowchart...');
       var req = new qx.io.request.Xhr(); 
       req.setUrl("/prac/_load_flow_chart");
@@ -568,16 +567,14 @@ qx.Class.define("pracweb.Application",
       }
     },
 
-    _changeModule : function(e)
-    {
+    _changeModule : function(e) {
       // request options for other form fiels from server
     },
 
     /**
      * hide or show expert settings pane
      */
-    _changeVisiblity : function(e)
-    {
+    _changeVisiblity : function(e) {
       if (this._showexpSettingsContainer)
         this._expSettingsContainer.show();
       else 

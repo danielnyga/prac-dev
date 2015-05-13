@@ -10,6 +10,7 @@ import json
 
 from urlparse import urlparse
 import os
+import time
 import logging
 from prac.core import PRAC
 from prac.wordnet import WordNet
@@ -37,22 +38,26 @@ def test():
 @pracApp.app.route('/prac/static/<path:filename>')
 def download_static(filename):
     return send_from_directory(pracApp.app.config['PRAC_STATIC_PATH'], filename)
-    # return send_from_directory(os.path.join(pracApp.app.root_path, "static"), filename)
 
 @pracApp.app.route('/prac/')
 def prac():
+    return render_template('welcome.html', **locals())
+
+@pracApp.app.route('/prac/home/')
+def _prac():
     log = logging.getLogger(__name__)
-    error=""
+    error = ''
     host_url = urlparse(request.host_url).hostname
     container_name = ''
     ensure_prac_session(session)
+    time.sleep(2)
     return render_template('prac.html', **locals())
 
 @pracApp.app.after_request
 def remove_if_invalid(response):
     log = logging.getLogger(__name__)
     if "__invalidate__" in session:
-        response.delete_cookie(pracApp.session_cookie_name)
+        response.delete_cookie(pracApp.app.session_cookie_name)
         prac_session = pracApp.session_store[session]
         if prac_session is not None:
             log.info('removed PRAC session %s' % prac_session.id.encode('base-64'))
