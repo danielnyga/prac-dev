@@ -1,0 +1,36 @@
+1.00  dobj(open, fridge)
+1.00  has_pos(open, VB)
+1.00  has_pos(fridge, NN)
+1.00  has_sense(open, open.v.01)
+1.00  is_a(open.v.01, open.v.01)
+1.00  has_sense(fridge,electric_refrigerator.n.01)
+1.00  is_a(electric_refrigerator.n.01,electric_refrigerator.n.01)
+1.00  action_core(open,Opening)
+1.00  obj_to_be_opened(fridge,Opening)
+1.00  action_verb(open,Opening) 
+
+---
+
+1.00  dobj(open, tube)
+1.00  has_pos(open, VB)
+1.00  has_pos(tube, NN)
+1.00  has_sense(open, open.v.01)
+1.00  is_a(open.v.01, open.v.01)
+1.00  has_sense(tube,tube.n.01)
+1.00  is_a(tube.n.01,tube.n.01)
+1.00  action_core(open,Opening)
+1.00  obj_to_be_opened(tube,Opening)
+1.00  action_verb(open,Opening) 
+
+---
+
+1.00  dobj(open, drawer)
+1.00  has_pos(open, VB)
+1.00  has_pos(drawer, NN)
+1.00  has_sense(open, open.v.01)
+1.00  is_a(open.v.01, open.v.01)
+1.00  has_sense(drawer,drawer.n.01)
+1.00  is_a(drawer.n.01,drawer.n.01)
+1.00  action_core(open,Opening)
+1.00  obj_to_be_opened(drawer,Opening)
+1.00  action_verb(open,Opening) 
