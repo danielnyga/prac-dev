@@ -74,4 +74,10 @@ cram_plan: "<span>(turn-on-device (an object (type {device})))</span><br><br>"
   
 action_core: UsingMeasuringCup
 action_roles: ['content','goal','action_verb','amount','unit']
-cram_plan: "<span>(pour-from-measuring-cup (from (an object (type container.n.01)</span><br><span style='margin-left: 22.8em;'>(contains (some stuff (type {content}))))</span><br><span style='margin-left: 12.5em;'>(to (an object (type {goal})))))</span><br><br>"
+cram_plan: "<span>(pour-from-measuring-cup (from (an object (type measuring_cup.n.01)</span><br><span style='margin-left: 22.8em;'>(contains (some stuff (type {content}))))</span><br><span style='margin-left: 12.5em;'>(to (an object (type {goal})))))</span><br><br>"
+
+---
+
+action_core: Pipetting
+action_roles: ['content','goal','action_verb','amount','unit']
+cram_plan: "<span>(pour-from-pipet (from (an object (type pipet.n.01)</span><br><span style='margin-left: 22.8em;'>(contains (some stuff (type {content}))))</span><br><span style='margin-left: 12.5em;'>(to (an object (type {goal})))))</span><br><br>"
