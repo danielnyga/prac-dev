@@ -116,7 +116,7 @@ class AchievedBy(PRACModule):
                 
                 for q in db_.query("has_sense(?w,?s)"):
                     for concept in concepts:
-                        sim = wordnet.path_similarity(q["?s"], concept)
+                        sim = wordnet.wup_similarity(q["?s"], concept)
                         db_.addGroundAtom('is_a(%s,%s)' % (q["?s"], concept),sim)
                 
                 #Inference achieved_by predicate        
