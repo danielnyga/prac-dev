@@ -60,9 +60,59 @@
 1.00  achieved_by(pour, OperatingATap)
 1.00  action_core(pour, Pouring)
 1.00  action_verb(pour,Pouring)
- 1.00  action_verb(pour,OperatingATap)
+1.00  action_verb(pour,OperatingATap)
 1.00  goal(pot,Pouring)
 1.00  goal(pot,OperatingATap)
 1.00  stuff(water,Pouring)
 1.00  liquid(water,OperatingATap)
 
+---
+
+1.00  action_core(add,Adding)
+1.00  achieved_by(Adding,OperatingATap)
+1.00  action_verb(add,Adding)
+1.00  action_verb(add,OperatingATap)
+1.00  theme(water,Adding)
+1.00  liquid(water,OperatingATap)
+1.00  goal(base,Adding)
+1.00  unit(milliliters,Adding)
+1.00  amount(100,Adding)
+1.00  unit(milliliters,OperatingATap)
+1.00  amount(100,OperatingATap)
+1.00  goal(base,OperatingATap)
+---
+
+1.00  action_core(add,Adding)
+1.00  achieved_by(Adding,OperatingATap)
+1.00  action_verb(add,OperatingATap)
+1.00  action_verb(add,Adding)
+1.00  theme(water,Adding)
+1.00  liquid(water,OperatingATap)
+1.00  goal(acid,Adding)
+1.00  unit(milliliters,Adding)
+1.00  amount(100,Adding)
+1.00  goal(acid,OperatingATap)
+1.00  unit(milliliters,OperatingATap)
+1.00  amount(100,OperatingATap)
+
+---
+
+1.00  action_core(add,Adding)
+1.00  achieved_by(Adding,OperatingATap)
+1.00  action_verb(add,Adding)
+1.00  action_verb(add,OperatingATap)
+1.00  theme(water,Adding)
+1.00  liquid(water,OperatingATap)
+1.00  goal(base,Adding)
+1.00  goal(base,OperatingATap)
+
+---
+
+1.00  action_core(add,Adding)
+1.00  achieved_by(Adding,OperatingATap)
+1.00  action_verb(add,Adding)
+1.00  action_verb(add,OperatingATap)
+1.00  theme(water,Adding)
+1.00  liquid(water,OperatingATap)
+1.00  goal(acid,Adding)
+1.00  goal(acid,OperatingATap)
