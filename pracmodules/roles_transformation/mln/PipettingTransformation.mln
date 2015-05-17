@@ -1,0 +1,12 @@
+// domain declarations
+
+
+// predicate declarations
+#include  ../../senses_and_roles/mln/Roles.mln
+achieved_by(actioncore,actioncore?)
+action_core(word,actioncore?)
+
+// formulas
+0.985755    action_core(?w1, Adding) ^ theme(?w2, Adding) ^ goal(?w3, Adding) ^ content(?w2, Pipetting) ^ goal(?w3, Pipetting) ^ achieved_by(Adding, Pipetting) ^ action_verb(?w1, Pipetting) ^ ?w1=/=?w2 ^ ?w1=/=?w3 ^ ?w3=/=?w2
+3.582622    action_core(?w1, Adding) ^ theme(?w2, Adding) ^ goal(?w3, Adding) ^ amount(?w4, Adding) ^ unit(?w5, Adding) ^ content(?w2, Pipetting) ^ goal(?w3, Pipetting) ^ achieved_by(Adding, Pipetting) ^ action_verb(?w1, Pipetting) ^ amount(?w4, Pipetting) ^ unit(?w5, Pipetting) ^ ?w1=/=?w2 ^ ?w1=/=?w3 ^ ?w1=/=?w4 ^ ?w1=/=?w5 ^ ?w2=/=?w3 ^ ?w2=/=?w4 ^ ?w2=/=?w5 ^ ?w3=/=?w4 ^ ?w3=/=?w5 ^ ?w5=/=?w4
+
