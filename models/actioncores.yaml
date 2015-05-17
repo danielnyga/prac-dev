@@ -31,6 +31,11 @@ action_roles: ['obj_to_be_opened','action_verb']
 
 ---
 
+action_core: Starting
+action_roles: ['obj_to_be_started','action_verb']
+
+---
+
 action_core: Pouring
 action_roles: ['stuff','goal','action_verb']
 cram_plan: "<span>(pour-from-container (from (an object (type container.n.01)</span><br><span style='margin-left: 22.8em;'>(contains (some stuff (type {stuff}))))</span><br><span style='margin-left: 12.5em;'>(to (an object (type {goal})))))</span><br><br>"
