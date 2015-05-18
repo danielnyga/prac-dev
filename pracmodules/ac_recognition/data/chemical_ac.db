@@ -1,4 +1,4 @@
-1.00  action_core(neutralize, Neutralisation)
+1.00  action_core(neutralize, Neutralizing)
 1.00  dobj(neutralize, base)
 1.00  has_pos(base, NN)
 1.00  has_pos(neutralize, VB)
@@ -9,7 +9,7 @@
 
 ---
 
-1.00  action_core(neutralize, Neutralisation)
+1.00  action_core(neutralize, Neutralizing)
 1.00  dobj(neutralize, acid)
 1.00  has_pos(acid, NN)
 1.00  has_pos(neutralize, VB)
@@ -20,7 +20,7 @@
 
 ---
 
-1.00  action_core(neutralize, Neutralisation)
+1.00  action_core(neutralize, Neutralizing)
 1.00  dobj(neutralize, acid)
 1.00  has_pos(acid, NN)
 1.00  has_pos(base, NN)
@@ -34,7 +34,7 @@
 
 ---
 
-1.00  action_core(neutralize, Neutralisation)
+1.00  action_core(neutralize, Neutralizing)
 1.00  dobj(neutralize, base)
 1.00  has_pos(base, NN)
 1.00  has_pos(acid, NN)
@@ -48,7 +48,7 @@
 
 ---
 
-1.00  action_core(neutralize, Neutralisation)
+1.00  action_core(neutralize, Neutralizing)
 1.00  dobj(neutralize, base)
 1.00  has_pos(base, NN)
 1.00  has_pos(acid, NN)
@@ -69,7 +69,7 @@
 
 ---
 
-1.00  action_core(neutralize, Neutralisation)
+1.00  action_core(neutralize, Neutralizing)
 1.00  dobj(neutralize, acid)
 1.00  has_pos(acid, NN)
 1.00  has_pos(base, NN)
@@ -90,7 +90,7 @@
 
 ---
 
-1.00  action_core(neutralize, Neutralisation)
+1.00  action_core(neutralize, Neutralizing)
 1.00  dobj(neutralize, base)
 1.00  has_pos(base, NN)
 1.00  has_pos(acid, NN)
@@ -111,7 +111,7 @@
 
 ---
 
-1.00  action_core(neutralize, Neutralisation)
+1.00  action_core(neutralize, Neutralizing)
 1.00  dobj(neutralize, acid)
 1.00  has_pos(acid, NN)
 1.00  has_pos(base, NN)
@@ -157,7 +157,7 @@
 
 ---
 //Start with neutralizing ...
-1.00  action_core(neutralizing, Neutralisation)
+1.00  action_core(neutralizing, Neutralizing)
 1.00  dobj(neutralizing, acid)
 1.00  has_pos(100, CD)
 1.00  has_pos(acid, NN)

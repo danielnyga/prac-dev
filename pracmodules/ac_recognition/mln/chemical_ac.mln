@@ -21,17 +21,17 @@ has_sense(?w1, null) ^ !action_core(?w1, ?ac).
 -0.643962   has_pos(?w1, VB) ^ is_a(?s1, neutralize.v.05) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Starting)
 -0.727689   has_pos(?w1, VB) ^ is_a(?s1, add.v.01) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Starting)
 -0.515305   has_pos(?w1, VB) ^ is_a(?s1, open.v.01) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Starting)
--1.365003   has_pos(?w1, VB) ^ is_a(?s1, begin.v.03) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Neutralisation)
-3.157988    has_pos(?w1, VB) ^ is_a(?s1, neutralize.v.05) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Neutralisation)
--0.727689   has_pos(?w1, VB) ^ is_a(?s1, add.v.01) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Neutralisation)
--0.515305   has_pos(?w1, VB) ^ is_a(?s1, open.v.01) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Neutralisation)
+-1.365003   has_pos(?w1, VB) ^ is_a(?s1, begin.v.03) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Neutralizing)
+3.157988    has_pos(?w1, VB) ^ is_a(?s1, neutralize.v.05) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Neutralizing)
+-0.727689   has_pos(?w1, VB) ^ is_a(?s1, add.v.01) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Neutralizing)
+-0.515305   has_pos(?w1, VB) ^ is_a(?s1, open.v.01) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Neutralizing)
 -1.365003   has_pos(?w1, VB) ^ is_a(?s1, begin.v.03) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Opening)
 -0.643962   has_pos(?w1, VB) ^ is_a(?s1, neutralize.v.05) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Opening)
 -0.727689   has_pos(?w1, VB) ^ is_a(?s1, add.v.01) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Opening)
 2.408574    has_pos(?w1, VB) ^ is_a(?s1, open.v.01) ^ has_sense(?w1, ?s1) ^ action_core(?w1, Opening)
 3.443707    has_pos(?w1, VB) ^ has_pos(?w2, ?p) ^ !dobj(?w1, ?w2) ^ !action_core(?w2, Adding) ^ ?p=/=VB
 4.051893    has_pos(?w1, VB) ^ has_pos(?w2, ?p) ^ !dobj(?w1, ?w2) ^ !action_core(?w2, Starting) ^ ?p=/=VB
-3.443707    has_pos(?w1, VB) ^ has_pos(?w2, ?p) ^ !dobj(?w1, ?w2) ^ !action_core(?w2, Neutralisation) ^ ?p=/=VB
+3.443707    has_pos(?w1, VB) ^ has_pos(?w2, ?p) ^ !dobj(?w1, ?w2) ^ !action_core(?w2, Neutralizing) ^ ?p=/=VB
 4.051893    has_pos(?w1, VB) ^ has_pos(?w2, ?p) ^ !dobj(?w1, ?w2) ^ !action_core(?w2, Opening) ^ ?p=/=VB
 -0.671465   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, open.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, tube.n.01) ^ action_core(?w2, Adding) ^ ?w1=/=?w2
 -0.671465   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, open.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, drawer.n.01) ^ action_core(?w2, Adding) ^ ?w1=/=?w2
@@ -53,16 +53,16 @@ has_sense(?w1, null) ^ !action_core(?w1, ?ac).
 -1.694356   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, neutralize.v.05) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pyridine.n.01) ^ action_core(?w2, Starting) ^ ?w1=/=?w2
 -0.671465   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pyridine.n.01) ^ action_core(?w2, Starting) ^ ?w1=/=?w2
 -0.671465   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, begin.v.03) ^ has_sense(?w2, ?s2) ^ is_a(?s2, heat_pump.n.01) ^ action_core(?w2, Starting) ^ ?w1=/=?w2
--0.671465   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, open.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, tube.n.01) ^ action_core(?w2, Neutralisation) ^ ?w1=/=?w2
--0.671465   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, open.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, drawer.n.01) ^ action_core(?w2, Neutralisation) ^ ?w1=/=?w2
--1.886943   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, begin.v.03) ^ has_sense(?w2, ?s2) ^ is_a(?s2, centrifuge.n.01) ^ action_core(?w2, Neutralisation) ^ ?w1=/=?w2
--1.694356   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, neutralize.v.05) ^ has_sense(?w2, ?s2) ^ is_a(?s2, dibasic_acid.n.01) ^ action_core(?w2, Neutralisation) ^ ?w1=/=?w2
--0.671465   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, dibasic_acid.n.01) ^ action_core(?w2, Neutralisation) ^ ?w1=/=?w2
--1.128286   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, water.n.06) ^ action_core(?w2, Neutralisation) ^ ?w1=/=?w2
--0.671465   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, open.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, electric_refrigerator.n.01) ^ action_core(?w2, Neutralisation) ^ ?w1=/=?w2
--1.694356   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, neutralize.v.05) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pyridine.n.01) ^ action_core(?w2, Neutralisation) ^ ?w1=/=?w2
--0.671465   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pyridine.n.01) ^ action_core(?w2, Neutralisation) ^ ?w1=/=?w2
--0.671465   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, begin.v.03) ^ has_sense(?w2, ?s2) ^ is_a(?s2, heat_pump.n.01) ^ action_core(?w2, Neutralisation) ^ ?w1=/=?w2
+-0.671465   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, open.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, tube.n.01) ^ action_core(?w2, Neutralizing) ^ ?w1=/=?w2
+-0.671465   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, open.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, drawer.n.01) ^ action_core(?w2, Neutralizing) ^ ?w1=/=?w2
+-1.886943   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, begin.v.03) ^ has_sense(?w2, ?s2) ^ is_a(?s2, centrifuge.n.01) ^ action_core(?w2, Neutralizing) ^ ?w1=/=?w2
+-1.694356   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, neutralize.v.05) ^ has_sense(?w2, ?s2) ^ is_a(?s2, dibasic_acid.n.01) ^ action_core(?w2, Neutralizing) ^ ?w1=/=?w2
+-0.671465   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, dibasic_acid.n.01) ^ action_core(?w2, Neutralizing) ^ ?w1=/=?w2
+-1.128286   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, water.n.06) ^ action_core(?w2, Neutralizing) ^ ?w1=/=?w2
+-0.671465   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, open.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, electric_refrigerator.n.01) ^ action_core(?w2, Neutralizing) ^ ?w1=/=?w2
+-1.694356   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, neutralize.v.05) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pyridine.n.01) ^ action_core(?w2, Neutralizing) ^ ?w1=/=?w2
+-0.671465   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, pyridine.n.01) ^ action_core(?w2, Neutralizing) ^ ?w1=/=?w2
+-0.671465   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, begin.v.03) ^ has_sense(?w2, ?s2) ^ is_a(?s2, heat_pump.n.01) ^ action_core(?w2, Neutralizing) ^ ?w1=/=?w2
 -0.671465   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, open.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, tube.n.01) ^ action_core(?w2, Opening) ^ ?w1=/=?w2
 -0.671465   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, open.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, drawer.n.01) ^ action_core(?w2, Opening) ^ ?w1=/=?w2
 -1.886943   has_pos(?w1, VB) ^ has_pos(?w2, NN) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, begin.v.03) ^ has_sense(?w2, ?s2) ^ is_a(?s2, centrifuge.n.01) ^ action_core(?w2, Opening) ^ ?w1=/=?w2
@@ -77,7 +77,7 @@ has_sense(?w1, null) ^ !action_core(?w1, ?ac).
 -2.045501   has_pos(?w1, VB) ^ has_pos(?w2, NNS) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, drop.n.02) ^ action_core(?w2, Adding) ^ ?w1=/=?w2
 -2.045501   has_pos(?w1, VB) ^ has_pos(?w2, NNS) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, milliliter.n.01) ^ action_core(?w2, Starting) ^ ?w1=/=?w2
 -2.045501   has_pos(?w1, VB) ^ has_pos(?w2, NNS) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, drop.n.02) ^ action_core(?w2, Starting) ^ ?w1=/=?w2
--2.045501   has_pos(?w1, VB) ^ has_pos(?w2, NNS) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, milliliter.n.01) ^ action_core(?w2, Neutralisation) ^ ?w1=/=?w2
--2.045501   has_pos(?w1, VB) ^ has_pos(?w2, NNS) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, drop.n.02) ^ action_core(?w2, Neutralisation) ^ ?w1=/=?w2
+-2.045501   has_pos(?w1, VB) ^ has_pos(?w2, NNS) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, milliliter.n.01) ^ action_core(?w2, Neutralizing) ^ ?w1=/=?w2
+-2.045501   has_pos(?w1, VB) ^ has_pos(?w2, NNS) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, drop.n.02) ^ action_core(?w2, Neutralizing) ^ ?w1=/=?w2
 -2.045501   has_pos(?w1, VB) ^ has_pos(?w2, NNS) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, milliliter.n.01) ^ action_core(?w2, Opening) ^ ?w1=/=?w2
 -2.045501   has_pos(?w1, VB) ^ has_pos(?w2, NNS) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ is_a(?s1, add.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, drop.n.02) ^ action_core(?w2, Opening) ^ ?w1=/=?w2
