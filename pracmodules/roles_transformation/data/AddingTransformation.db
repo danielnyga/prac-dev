@@ -216,4 +216,96 @@
 1.00  goal(saltcellar,Filling)
  1.00 goal(saltcellar,Adding)
 
+---
+
+1.00  action_core(neutralize, Neutralizing)
+1.00  stuff_to_be_neutralize(base,Neutralizing)
+1.00  goal(base,Adding)
+1.00  action_verb(neutralize, Neutralizing)
+1.00  achieved_by(Neutralizing,Adding)
+1.00  action_verb(neutralize, Adding)
+---
+
+1.00  action_core(neutralize, Neutralizing)
+1.00  stuff_to_be_neutralize(acid,Neutralizing)
+1.00  goal(acid,Adding)
+1.00  action_verb(neutralize, Neutralizing)
+1.00  achieved_by(Neutralizing,Adding)
+1.00  action_verb(neutralize, Adding)
+---
+
+1.00  action_core(neutralize, Neutralizing)
+1.00  stuff_to_be_neutralize(acid,Neutralizing)
+1.00  goal(acid,Adding)
+1.00  neutralizer(base, Neutralizing)
+1.00  theme(base, Adding)
+1.00  action_verb(neutralize, Neutralizing)
+1.00  achieved_by(Neutralizing,Adding)
+1.00  action_verb(neutralize, Adding)
+---
+
+1.00  action_core(neutralize, Neutralizing)
+1.00  stuff_to_be_neutralize(base,Neutralizing)
+1.00  goal(base,Adding)
+1.00  neutralizer(acid, Neutralizing)
+1.00  theme(acid, Adding)
+1.00  action_verb(neutralize, Neutralizing)
+1.00  achieved_by(Neutralizing,Adding)
+1.00  action_verb(neutralize, Adding)
+---
+
+1.00  action_core(neutralize, Neutralizing)
+1.00  stuff_to_be_neutralize(base,Neutralizing)
+1.00  goal(base,Adding)
+1.00  neutralizer(acid, Neutralizing)
+1.00  theme(acid, Adding)
+1.00  action_verb(neutralize, Neutralizing)
+1.00  unit(milliliters, Neutralizing)
+1.00  unit(milliliters, Adding)
+1.00  amount(100, Neutralizing)
+1.00  amount(100, Adding)
+1.00  achieved_by(Neutralizing,Adding)
+1.00  action_verb(neutralize, Adding)
+---
+
+1.00  action_core(neutralize, Neutralizing)
+1.00  stuff_to_be_neutralize(acid,Neutralizing)
+1.00  goal(acid,Adding)
+1.00  neutralizer(base, Neutralizing)
+1.00  theme(base, Adding)
+1.00  action_verb(neutralize, Neutralizing)
+1.00  action_verb(neutralize, Adding)
+1.00  unit(milliliters, Neutralizing)
+1.00  unit(milliliters, Adding)
+1.00  amount(100, Neutralizing)
+1.00  amount(100, Adding)
+1.00  achieved_by(Neutralizing,Adding)
+---
+
+1.00  action_core(neutralize, Neutralizing)
+1.00  stuff_to_be_neutralize(base,Neutralizing)
+1.00  goal(base,Adding)
+1.00  neutralizer(acid, Neutralizing)
+1.00  theme(acid, Adding)
+1.00  action_verb(neutralize, Neutralizing)
+1.00  unit(drops, Neutralizing)
+1.00  unit(drops, Adding)
+1.00  amount(3, Neutralizing)
+1.00  amount(3, Adding)
+1.00  achieved_by(Neutralizing,Adding)
+1.00  action_verb(neutralize, Adding)
+---
+
+1.00  action_core(neutralize, Neutralizing)
+1.00  stuff_to_be_neutralize(acid,Neutralizing)
+1.00  goal(acid,Adding)
+1.00  neutralizer(base, Neutralizing)
+1.00  theme(base, Adding)
+1.00  action_verb(neutralize, Neutralizing)
+1.00  unit(drops, Neutralizing)
+1.00  unit(drops, Adding)
+1.00  amount(3, Neutralizing)
+1.00  amount(3, Adding)
+1.00  achieved_by(Neutralizing,Adding)
+1.00  action_verb(neutralize, Adding)
 
