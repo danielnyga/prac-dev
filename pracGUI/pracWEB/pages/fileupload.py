@@ -14,7 +14,6 @@ def uploaded_file(filedir, filename):
 def resource_file(filename):
     return redirect('/prac/static/resource/{}'.format(filename)) 
 
-
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1] in pracApp.app.config['ALLOWED_EXTENSIONS']

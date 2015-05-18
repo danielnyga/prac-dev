@@ -11,7 +11,7 @@ LOGICS = [('FirstOrderLogic','FOL'),('FuzzyLogic','Fuzzy')]
 GRAMMAR = [('PRACGrammar','PRAC Grammar'), ('StandardGrammar','Standard Grammar')]
 PRAC_HOME = os.environ['PRAC_HOME']
 
-@pracApp.app.route('/_load_flow_chart', methods=['GET'])
+@pracApp.app.route('/prac/_load_flow_chart', methods=['GET'])
 def _load_flow_chart():
     filename = os.path.join(os.path.join(PRAC_HOME, 'etc'), 'prac-flowchart.svg')
     with open(filename, 'r') as svgFile:

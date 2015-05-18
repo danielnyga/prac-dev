@@ -11,7 +11,7 @@ class SessionStore():
     
     def __init__(self):
         self.sessions = {}
-        
+
     def put(self, prac_session):
         self.sessions[prac_session.id] = prac_session
         
@@ -26,4 +26,3 @@ class SessionStore():
         return str(self.sessions)
     
 app = Flask(__name__)
-app.session_store = SessionStore()
