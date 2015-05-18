@@ -21,6 +21,11 @@
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+action_core: Neutralizing
+action_roles: ['stuff_to_be_neutralize','neutralizer','action_verb','amount',unit]
+
+---
+
 action_core: Filling
 action_roles: ['stuff','goal','action_verb']
 
