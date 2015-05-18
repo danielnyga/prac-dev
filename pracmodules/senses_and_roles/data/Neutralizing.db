@@ -7,7 +7,7 @@
 1.00  is_a(neutralize.v.06, neutralize.v.06)
 1.00  is_a(pyridine.n.01, pyridine.n.01)
 
-1.00  stuff_to_be_neutralize(base,Neutralizing)
+1.00  neutralizee(base,Neutralizing)
 1.00  action_verb(neutralize, Neutralizing)
 ---
 
@@ -20,7 +20,7 @@
 1.00  is_a(dibasic_acid.n.01, dibasic_acid.n.01)
 1.00  is_a(neutralize.v.06, neutralize.v.06)
 
-1.00  stuff_to_be_neutralize(acid,Neutralizing)
+1.00  neutralizee(acid,Neutralizing)
 1.00  action_verb(neutralize, Neutralizing)
 
 ---
@@ -37,7 +37,7 @@
 1.00  is_a(neutralize.v.06, neutralize.v.06)
 1.00  is_a(pyridine.n.01, pyridine.n.01)
 
-1.00  stuff_to_be_neutralize(acid,Neutralizing)
+1.00  neutralizee(acid,Neutralizing)
 1.00  neutralizer(base, Neutralizing)
 1.00  action_verb(neutralize, Neutralizing)
 
@@ -55,7 +55,7 @@
 1.00  is_a(pyridine.n.01, pyridine.n.01)
 1.00  is_a(dibasic_acid.n.01, dibasic_acid.n.01)
 
-1.00  stuff_to_be_neutralize(base,Neutralizing)
+1.00  neutralizee(base,Neutralizing)
 1.00  neutralizer(acid, Neutralizing)
 1.00  action_verb(neutralize, Neutralizing)
 ---
@@ -79,7 +79,7 @@
 1.00  is_a(milliliter.n.01, milliliter.n.01)
 1.00  is_a(hundred.n.01, hundred.n.01)
 
-1.00  stuff_to_be_neutralize(base,Neutralizing)
+1.00  neutralizee(base,Neutralizing)
 1.00  neutralizer(acid, Neutralizing)
 1.00  action_verb(neutralize, Neutralizing)
 1.00  unit(milliliters, Neutralizing)
@@ -105,7 +105,7 @@
 1.00  is_a(milliliter.n.01, milliliter.n.01)
 1.00  is_a(hundred.n.01, hundred.n.01)
 
-1.00  stuff_to_be_neutralize(acid,Neutralizing)
+1.00  neutralizee(acid,Neutralizing)
 1.00  neutralizer(base, Neutralizing)
 1.00  action_verb(neutralize, Neutralizing)
 1.00  unit(milliliters, Neutralizing)
@@ -131,7 +131,7 @@
 1.00  is_a(drop.n.02, drop.n.02)
 1.00  is_a(three.n.01, three.n.01)
 
-1.00  stuff_to_be_neutralize(base,Neutralizing)
+1.00  neutralizee(base,Neutralizing)
 1.00  neutralizer(acid, Neutralizing)
 1.00  action_verb(neutralize, Neutralizing)
 1.00  unit(drops, Neutralizing)
@@ -157,7 +157,7 @@
 1.00  is_a(drop.n.02, drop.n.02)
 1.00  is_a(three.n.01, three.n.01)
 
-1.00  stuff_to_be_neutralize(acid,Neutralizing)
+1.00  neutralizee(acid,Neutralizing)
 1.00  neutralizer(base, Neutralizing)
 1.00  action_verb(neutralize, Neutralizing)
 1.00  unit(drops, Neutralizing)
