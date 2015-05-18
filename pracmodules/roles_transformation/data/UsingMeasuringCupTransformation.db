@@ -1,0 +1,103 @@
+1.00  action_core(add,Adding)
+1.00  achieved_by(Adding,UsingMeasuringCup)
+
+1.00  action_verb(add,Adding)
+1.00 action_verb(add,UsingMeasuringCup)
+1.00  theme(acid,Adding)
+1.00 content(acid,UsingMeasuringCup)
+
+1.00  goal(base,Adding)
+1.00 goal(base,UsingMeasuringCup)
+
+1.00  unit(milliliters,Adding)
+1.00 unit(milliliters,UsingMeasuringCup)
+
+1.00  amount(100,Adding)
+1.00 amount(100,UsingMeasuringCup)
+
+
+---
+1.00  achieved_by(Adding,UsingMeasuringCup)
+1.00  action_core(add,Adding)
+
+1.00  action_verb(add,Adding)
+1.00 action_verb(add,UsingMeasuringCup)
+1.00  theme(base,Adding)
+1.00 content(base,UsingMeasuringCup)
+
+1.00  goal(acid,Adding)
+1.00 goal(acid,UsingMeasuringCup)
+
+1.00  unit(milliliters,Adding)
+1.00 unit(milliliters,UsingMeasuringCup)
+
+1.00  amount(100,Adding)
+1.00 amount(100,UsingMeasuringCup)
+
+---
+
+1.00  action_core(add,Adding)
+1.00  achieved_by(Adding,UsingMeasuringCup)
+
+1.00  action_verb(add,Adding)
+1.00 action_verb(add,UsingMeasuringCup)
+1.00  theme(acid,Adding)
+1.00 content(acid,UsingMeasuringCup)
+
+1.00  goal(water,Adding)
+1.00 goal(water,UsingMeasuringCup)
+
+1.00  unit(milliliters,Adding)
+1.00 unit(milliliters,UsingMeasuringCup)
+
+1.00  amount(100,Adding)
+1.00 amount(100,UsingMeasuringCup)
+
+
+---
+
+1.00  action_core(add,Adding)
+1.00  achieved_by(Adding,UsingMeasuringCup)
+
+1.00  action_verb(add,Adding)
+1.00 action_verb(add,UsingMeasuringCup)
+1.00  theme(base,Adding)
+1.00 content(base,UsingMeasuringCup)
+
+1.00  goal(water,Adding)
+1.00 goal(water,UsingMeasuringCup)
+
+1.00  unit(milliliters,Adding)
+1.00 unit(milliliters,UsingMeasuringCup)
+
+1.00  amount(100,Adding)
+1.00 amount(100,UsingMeasuringCup)
+
+
+---
+
+1.00  action_core(add,Adding)
+1.00  achieved_by(Adding,UsingMeasuringCup)
+
+1.00  action_verb(add,Adding)
+1.00 action_verb(add,UsingMeasuringCup)
+1.00  theme(base,Adding)
+1.00 content(base,UsingMeasuringCup)
+
+1.00  goal(water,Adding)
+1.00 goal(water,UsingMeasuringCup)
+
+---
+
+1.00  action_core(add,Adding)
+1.00  achieved_by(Adding,UsingMeasuringCup)
+
+1.00  action_verb(add,Adding)
+1.00 action_verb(add,UsingMeasuringCup)
+1.00  theme(acid,Adding)
+1.00 content(acid,UsingMeasuringCup)
+
+1.00  goal(water,Adding)
+1.00 goal(water,UsingMeasuringCup)
+
+

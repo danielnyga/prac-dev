@@ -15,8 +15,8 @@
 1.00  has_pos(base, NN)
 1.00  has_pos(neutralize, VB)
 1.00  has_sense(base, pyridine.n.01)
-1.00  has_sense(neutralize, neutralize.v.05)
-1.00  is_a(neutralize.v.05, neutralize.v.05)
+1.00  has_sense(neutralize, neutralize.v.06)
+1.00  is_a(neutralize.v.06, neutralize.v.06)
 1.00  is_a(pyridine.n.01, pyridine.n.01)
 ---
 1.00  action_core(Neutralisation, Neutralisation)
@@ -168,9 +168,9 @@
 1.00  has_pos(acid, NN)
 1.00  has_pos(neutralize, VB)
 1.00  has_sense(acid, dibasic_acid.n.01)
-1.00  has_sense(neutralize, neutralize.v.05)
+1.00  has_sense(neutralize, neutralize.v.06)
 1.00  is_a(dibasic_acid.n.01, dibasic_acid.n.01)
-1.00  is_a(neutralize.v.05, neutralize.v.05)
+1.00  is_a(neutralize.v.06, neutralize.v.06)
 ---
 1.00  action_core(cut, Cutting)
 1.00  dobj(cut, meat)
@@ -261,8 +261,8 @@
 1.00  has_pos(base, NN)
 1.00  has_pos(neutralize, VB)
 1.00  has_sense(base, purine.n.01)
-1.00  has_sense(neutralize, neutralize.v.05)
-1.00  is_a(neutralize.v.05, neutralize.v.05)
+1.00  has_sense(neutralize, neutralize.v.06)
+1.00  is_a(neutralize.v.06, neutralize.v.06)
 1.00  is_a(purine.n.01, purine.n.01)
 ---
 1.00  action_core(stir, Stirring)

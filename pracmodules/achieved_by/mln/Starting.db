@@ -1,0 +1,8 @@
+1.00  has_sense(start, begin.v.03)
+1.00  is_a(begin.v.03, begin.v.03)
+1.00  has_sense(centrifuge,centrifuge.n.01)
+1.00  is_a(centrifuge.n.01,centrifuge.n.01)
+1.00  action_core(start,Starting)
+1.00  action_verb(start,Starting)
+1.00  obj_to_be_started(centrifuge,Starting)
+1.00  achieved_by(Starting,TurningOnElectricalDevice)

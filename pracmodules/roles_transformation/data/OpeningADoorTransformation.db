@@ -1,0 +1,6 @@
+1.00  action_core(open,Opening)
+1.00  obj_to_be_opened(fridge,Opening)
+1.00  obj_to_be_opened(fridge,OpeningADoor)
+1.00  action_verb(open,Opening) 
+1.00  action_verb(open,OpeningADoor) 
+1.00  achieved_by(Opening,OpeningADoor)

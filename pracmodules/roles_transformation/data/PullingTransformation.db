@@ -1,0 +1,6 @@
+1.00  action_core(open,Opening)
+1.00  obj_to_be_opened(drawer,Opening)
+1.00  obj_to_be_pulled(drawer,Pulling)
+1.00  action_verb(open,Opening)
+1.00  action_verb(open,Pulling)
+1.00  achieved_by(Opening,Pulling)

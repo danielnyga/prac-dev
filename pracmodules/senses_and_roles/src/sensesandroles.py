@@ -172,7 +172,10 @@ class SensesAndRoles(PRACModule):
                     mln = kb.query_mln
 #                     mln.write(sys.stdout)
                     db = db_.duplicate(mln=mln)
-                    print db_.domains
+                    for qs in db.query('!(EXIST ?w (has_sense(?w,?s)))'):
+                        print 'removing', qs
+                        db.removeDomainValue('sense', qs['?s']) 
+                    print db.domains
                     for concept in db_.domains['concept']:
                         if concept not in mln.domains['concept']:
                             db.removeDomainValue('concept', concept)
@@ -196,8 +199,12 @@ class SensesAndRoles(PRACModule):
                         print role
                         if role is None: continue
                         db.retractGndAtom('has_sense(%s, %s)' % (word, sense))
+#                         wnmod = self.prac.getModuleByName('wn_senses')
+#                         for synset in wnmod.get_possible_meanings_of_word(db, word):
+#                             db.removeDomainValue('sense', synset.name)
                         add_all_wordnet_similarities(db, wn)
-                        result = mln.infer(queries='has_sense', method='EnumerationAsk', evidence_db=db, closedWorld=True, useMultiCPU=True)
+                        db.write(sys.stdout)
+                        result = mln.infer(queries='has_sense', method='EnumerationAsk', evidence_db=db, closedWorld=True, useMultiCPU=False)
                         g = wn.to_dot()
                         result.write(sys.stdout, color=True)
                         maxprob = 0.
