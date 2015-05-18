@@ -20,3 +20,11 @@
 1.00  obj_to_be_heated(pan,Preheating)
 1.00  device(pan,TurningOnElectricalDevice)
 1.00  achieved_by(Preheating,TurningOnElectricalDevice)
+
+---
+1.00  action_core(start,Starting)
+1.00  action_verb(start,Starting)
+1.00  action_verb(start,TurningOnElectricalDevice)
+1.00  obj_to_be_started(centrifuge,Starting)
+1.00  device(centrifuge,TurningOnElectricalDevice)
+1.00  achieved_by(Starting,TurningOnElectricalDevice)

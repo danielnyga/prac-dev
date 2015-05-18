@@ -72,7 +72,7 @@ action_roles: ['spice','goal','action_verb']
 ---
 
 action_core: TurningOnElectricalDevice
-action_roles: ['device','setting','action_verb']
+action_roles: ['device','action_verb']
 cram_plan: "<span>(turn-on-device (an object (type {device})))</span><br><br>"
 
 ---
