@@ -38,17 +38,17 @@ action_roles: ['obj_to_be_opened','action_verb']
 
 action_core: Unscrewing
 action_roles: ['obj_to_be_unscrewed','action_verb']
-cram_plan: "plan"
+cram_plan: "<span>(unscrew (an object (type {obj_to_be_unscrewed})))</span><br><br>"
 ---
 
 action_core: Pulling
 action_roles: ['obj_to_be_pulled','action_verb']
-cram_plan: "plan"
+cram_plan: "<span>(pull (an object (type {obj_to_be_pulled})))</span><br><br>"
 ---
 
 action_core: OpeningADoor
 action_roles: ['obj_to_be_opened','action_verb']
-cram_plan: "plan"
+cram_plan: "<span>(open (an object (type {obj_to_be_opened})))</span><br><br>"
 
 ---
 
