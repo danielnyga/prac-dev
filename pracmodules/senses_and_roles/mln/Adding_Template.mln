@@ -38,6 +38,8 @@ num(word,word)
 // weighted formulas
 //ACTION_VERB
 
+0 !action_core(?w1,?ac) ^ !action_verb(?w1,?ac) ^ !goal(?w1,?ac) ^ !theme(?w1,?ac) ^ !unit(?w1,?ac) ^ !amount(?w1,?ac) ^  has_sense(?w1, ?s1) ^ is_a(?s1, +?c1)
+
 0 action_core(?w1,?ac) ^ action_verb(?w1,?ac) ^ !theme(?w1,?ac) ^ !goal(?w1,?ac) ^ !unit(?w1,?ac) ^ !amount(?w1,?ac) ^ !action_verb(?w2,?ac) ^ theme(?w2,?ac) ^ !goal(?w2,?ac) ^ !unit(?w2,?ac) ^ !amount(?w2,?ac) ^ has_sense(?w1, ?s1) ^ is_a(?s1, +?c1)  ^ has_sense(?w2, ?s2) ^ is_a(?s2, +?c2) ^ ?w1 =/= ?w2 ^ !prep_to(?w1,?w2)
 
 0 action_core(?w1,?ac) ^ action_verb(?w1,?ac) ^ !theme(?w1,?ac) ^ !goal(?w1,?ac) ^ !unit(?w1,?ac) ^ !amount(?w1,?ac) ^ !action_verb(?w2,?ac) ^ !theme(?w2,?ac) ^ !goal(?w2,?ac) ^ unit(?w2,?ac) ^ !amount(?w2,?ac) ^ has_sense(?w1, ?s1) ^ is_a(?s1, +?c1)  ^ has_sense(?w2, ?s2) ^ is_a(?s2, +?c2) ^ ?w1 =/= ?w2 ^ !prep_to(?w1,?w2)

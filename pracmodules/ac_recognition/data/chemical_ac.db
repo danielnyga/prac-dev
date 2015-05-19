@@ -182,6 +182,21 @@
 
 ---
 
+//Start with openening ...
+1.00  action_core(opening,Opening)
+1.00  dobj(opening, tube)
+1.00  has_pos(acid, NN)
+1.00  has_pos(opening, VBG)
+1.00  has_pos(start, VB)
+1.00  has_sense(start, begin.v.03)
+1.00  has_sense(opening, open.v.01)
+1.00  has_sense(tube, tube.n.01)
+1.00  is_a(tube.n.01, tube.n.01)
+1.00  is_a(open.v.01, open.v.01)
+1.00  is_a(begin.v.03, begin.v.03)
+
+---
+
 1.00  action_core(add,Adding)
 1.00  dobj(add, milliliters)
 1.00  has_pos(100, CD)

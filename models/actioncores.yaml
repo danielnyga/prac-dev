@@ -38,17 +38,17 @@ action_roles: ['obj_to_be_opened','action_verb']
 
 action_core: Unscrewing
 action_roles: ['obj_to_be_unscrewed','action_verb']
-cram_plan: "plan"
+cram_plan: "<span>(unscrew (an object (type {obj_to_be_unscrewed})))</span><br><br>"
 ---
 
 action_core: Pulling
 action_roles: ['obj_to_be_pulled','action_verb']
-cram_plan: "plan"
+cram_plan: "<span>(pull (an object (type {obj_to_be_pulled})))</span><br><br>"
 ---
 
 action_core: OpeningADoor
 action_roles: ['obj_to_be_opened','action_verb']
-cram_plan: "plan"
+cram_plan: "<span>(open (an object (type {obj_to_be_opened})))</span><br><br>"
 
 ---
 
@@ -100,10 +100,10 @@ cram_plan: "<span>(turn-on-device (an object (type {device})))</span><br><br>"
   
 action_core: UsingMeasuringCup
 action_roles: ['content','goal','action_verb','amount','unit']
-cram_plan: "<span>(pour-from-measuring-cup (from (an object (type measuring_cup.n.01)</span><br><span style='margin-left: 22.8em;'>(contains (some stuff (type {content}))))</span><br><span style='margin-left: 12.5em;'>(to (an object (type {goal})))))</span><br><br>"
+cram_plan: "<span>(use-measuring-cup (from (an object (type container.n.01)</span><br><span style='margin-left: 22.8em;'>(contains (some stuff (type {content}))))</span><br><span style='margin-left: 12.5em;'>(amount ({amount} {unit}))</span><br><span style='margin-left: 12.5em;'>(to (an object (type container.n.01)</span><br> <span style='margin-left: 22.8em;'>(contains (some stuff (type {goal})))</span>))))<br>"
 
 ---
 
 action_core: Pipetting
 action_roles: ['content','goal','action_verb','amount','unit']
-cram_plan: "<span>(pour-from-pipet (from (an object (type pipet.n.01)</span><br><span style='margin-left: 22.8em;'>(contains (some stuff (type {content}))))</span><br><span style='margin-left: 12.5em;'>(to (an object (type {goal})))))</span><br><br>"
+cram_plan: "<span>(use-pipette (from (an object (type container.n.01)</span><br><span style='margin-left: 22.8em;'>(contains (some stuff (type {content}))))</span><br><span style='margin-left: 12.5em;'>(amount ({amount} {unit}))</span><br><span style='margin-left: 12.5em;'>(to (an object (type container.n.01)</span><br> <span style='margin-left: 22.8em;'>(contains (some stuff (type {goal})))</span>))))<br>"
