@@ -182,8 +182,23 @@ qx.Class.define("pracweb.Application",
       var mainLayout = new qx.ui.layout.HBox(20);
       mainGroup.setLayout(mainLayout);
       
-      var description = new qx.ui.form.TextField("");
-      description.setMinWidth(300);
+      // var description = new qx.ui.form.TextField("");
+      // description.setMinWidth(300);
+      // combobox containing nl descriptions
+      var description = new qx.ui.form.ComboBox();
+      description.setWidth(500);
+      description.add(new qx.ui.form.ListItem("start the centrifuge."));
+      description.add(new qx.ui.form.ListItem("Add some water to the purine."));
+      description.add(new qx.ui.form.ListItem("Add some arsenic_acid to the imidazole."));
+      description.add(new qx.ui.form.ListItem("Add 5 drops of the lysergic_acid to the pyrimidine."));
+      description.add(new qx.ui.form.ListItem("Add 1 liter of water to the chlorous_acid."));
+      description.add(new qx.ui.form.ListItem("Neutralize the methacrylic_acid with 100 milliliters of cyanuramide."));
+      // description.add(new qx.ui.form.ListItem("Start with neutralizing the pyridine with 4 bits of the hydrofluoric_acid. "));
+      description.add(new qx.ui.form.ListItem("Open the drawer."));
+      description.add(new qx.ui.form.ListItem("Open the fridge."));
+      description.add(new qx.ui.form.ListItem("Open the cupboard."));
+      description.setValue(description.getChildrenContainer().getSelectables()[0].getLabel());
+      
       description.addListener("keydown", function(e) {
         this._vizButton.setEnabled(true);
         this._clearFlowChart();
