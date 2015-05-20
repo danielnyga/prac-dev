@@ -43,20 +43,12 @@ cram_plan: "<span>(unscrew (an object (type {obj_to_be_unscrewed})))</span><br><
 
 action_core: Pulling
 action_roles: ['obj_to_be_pulled','action_verb']
-<<<<<<< HEAD
-cram_plan: "<span>(pull (an object (type {obj_to_be_pulled})))</span><br><br>"
-=======
 cram_plan: "<span>(pull-object (an object (type {obj_to_be_pulled})))</span><br><br>"
->>>>>>> fe3e63b029a8a62d0c3e5bd9c533f8c486b7c23d
 ---
 
 action_core: OpeningADoor
 action_roles: ['obj_to_be_opened','action_verb']
-<<<<<<< HEAD
-cram_plan: "<span>(open (an object (type {obj_to_be_opened})))</span><br><br>"
-=======
 cram_plan: "<span>(open-door (of (an object (type {obj_to_be_opened}))))</span><br><br>"
->>>>>>> fe3e63b029a8a62d0c3e5bd9c533f8c486b7c23d
 
 ---
 
