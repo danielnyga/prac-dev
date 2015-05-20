@@ -193,7 +193,7 @@ qx.Class.define("pracweb.Application",
       description.add(new qx.ui.form.ListItem("Add 5 drops of the lysergic_acid to the pyrimidine."));
       description.add(new qx.ui.form.ListItem("Add 1 liter of water to the chlorous_acid."));
       description.add(new qx.ui.form.ListItem("Neutralize the methacrylic_acid with 100 milliliters of cyanuramide."));
-      description.add(new qx.ui.form.ListItem("Start with neutralizing the pyridine with 4 bits of the hydrofluoric_acid. "));
+      // description.add(new qx.ui.form.ListItem("Start with neutralizing the pyridine with 4 bits of the hydrofluoric_acid. "));
       description.add(new qx.ui.form.ListItem("Open the drawer."));
       description.add(new qx.ui.form.ListItem("Open the fridge."));
       description.add(new qx.ui.form.ListItem("Open the cupboard."));
