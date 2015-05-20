@@ -21,8 +21,39 @@
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+action_core: Neutralizing
+action_roles: ['neutralizee','neutralizer','action_verb','amount',unit]
+
+---
+
 action_core: Filling
 action_roles: ['stuff','goal','action_verb']
+
+---
+
+action_core: Opening
+action_roles: ['obj_to_be_opened','action_verb']
+
+---
+
+action_core: Unscrewing
+action_roles: ['obj_to_be_unscrewed','action_verb']
+cram_plan: "plan"
+---
+
+action_core: Pulling
+action_roles: ['obj_to_be_pulled','action_verb']
+cram_plan: "plan"
+---
+
+action_core: OpeningADoor
+action_roles: ['obj_to_be_opened','action_verb']
+cram_plan: "plan"
+
+---
+
+action_core: Starting
+action_roles: ['obj_to_be_started','action_verb']
 
 ---
 
@@ -32,7 +63,7 @@ cram_plan: "<span>(pour-from-container (from (an object (type container.n.01)</s
 ---
 
 action_core: Adding
-action_roles: ['theme','goal','action_verb']
+action_roles: ['theme','goal','action_verb','unit','amount']
 
 ---
 
@@ -42,7 +73,7 @@ action_roles: ['obj_to_be_heated','temperature','action_verb']
 ---
 
 action_core: OperatingATap
-action_roles: ['liquid','goal','action_verb']
+action_roles: ['liquid','goal','action_verb','amount','unit']
 cram_plan: "<span>(operate-tap (liquid (some stuff (type {liquid})))</span><br><span style='margin-left: 7.3em;'>(destination (an object (type {goal}))))</span><br><br>"
 ---
 
@@ -62,6 +93,17 @@ action_roles: ['spice','goal','action_verb']
 ---
 
 action_core: TurningOnElectricalDevice
-action_roles: ['device','setting','action_verb']
+action_roles: ['device','action_verb']
 cram_plan: "<span>(turn-on-device (an object (type {device})))</span><br><br>"
 
+---
+  
+action_core: UsingMeasuringCup
+action_roles: ['content','goal','action_verb','amount','unit']
+cram_plan: "<span>(pour-from-measuring-cup (from (an object (type measuring_cup.n.01)</span><br><span style='margin-left: 22.8em;'>(contains (some stuff (type {content}))))</span><br><span style='margin-left: 12.5em;'>(to (an object (type {goal})))))</span><br><br>"
+
+---
+
+action_core: Pipetting
+action_roles: ['content','goal','action_verb','amount','unit']
+cram_plan: "<span>(pour-from-pipet (from (an object (type pipet.n.01)</span><br><span style='margin-left: 22.8em;'>(contains (some stuff (type {content}))))</span><br><span style='margin-left: 12.5em;'>(to (an object (type {goal})))))</span><br><br>"

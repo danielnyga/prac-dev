@@ -1,0 +1,31 @@
+// domain declarations
+
+
+// predicate declarations
+#include Roles.mln
+
+has_pos(word,pos!)
+has_sense(word,sense!)
+dobj(word,word)
+is_a(sense,concept)
+action_core(word,actioncore?)
+
+// formulas
+
+has_sense(?w1,null) ^ !obj_to_be_opened(?w1,?ac).
+has_sense(?w1,null) ^ !action_verb(?w1,?ac).
+
+-0.239112   action_core(?w1, ?ac) ^ action_verb(?w1, ?ac) ^ obj_to_be_opened(?w2, ?ac) ^ has_sense(?w1, ?s1) ^ is_a(?s1, tube.n.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, tube.n.01) ^ ?w1=/=?w2
+1.138611    action_core(?w1, ?ac) ^ action_verb(?w1, ?ac) ^ obj_to_be_opened(?w2, ?ac) ^ has_sense(?w1, ?s1) ^ is_a(?s1, open.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, tube.n.01) ^ ?w1=/=?w2
+-0.239112   action_core(?w1, ?ac) ^ action_verb(?w1, ?ac) ^ obj_to_be_opened(?w2, ?ac) ^ has_sense(?w1, ?s1) ^ is_a(?s1, drawer.n.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, drawer.n.01) ^ ?w1=/=?w2
+1.138611    action_core(?w1, ?ac) ^ action_verb(?w1, ?ac) ^ obj_to_be_opened(?w2, ?ac) ^ has_sense(?w1, ?s1) ^ is_a(?s1, open.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, drawer.n.01) ^ ?w1=/=?w2
+-0.465899   action_core(?w1, ?ac) ^ action_verb(?w1, ?ac) ^ obj_to_be_opened(?w2, ?ac) ^ has_sense(?w1, ?s1) ^ is_a(?s1, open.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, open.v.01) ^ ?w1=/=?w2
+1.138611    action_core(?w1, ?ac) ^ action_verb(?w1, ?ac) ^ obj_to_be_opened(?w2, ?ac) ^ has_sense(?w1, ?s1) ^ is_a(?s1, open.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, electric_refrigerator.n.01) ^ ?w1=/=?w2
+-0.239112   action_core(?w1, ?ac) ^ action_verb(?w1, ?ac) ^ obj_to_be_opened(?w2, ?ac) ^ has_sense(?w1, ?s1) ^ is_a(?s1, electric_refrigerator.n.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, electric_refrigerator.n.01) ^ ?w1=/=?w2
+-0.239112   action_core(?w2, ?ac) ^ action_verb(?w2, ?ac) ^ obj_to_be_opened(?w1, ?ac) ^ has_sense(?w1, ?s1) ^ is_a(?s1, tube.n.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, tube.n.01) ^ ?w1=/=?w2
+-0.239112   action_core(?w2, ?ac) ^ action_verb(?w2, ?ac) ^ obj_to_be_opened(?w1, ?ac) ^ has_sense(?w1, ?s1) ^ is_a(?s1, drawer.n.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, drawer.n.01) ^ ?w1=/=?w2
+1.138611    action_core(?w2, ?ac) ^ action_verb(?w2, ?ac) ^ obj_to_be_opened(?w1, ?ac) ^ has_sense(?w1, ?s1) ^ is_a(?s1, tube.n.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, open.v.01) ^ ?w1=/=?w2
+1.138611    action_core(?w2, ?ac) ^ action_verb(?w2, ?ac) ^ obj_to_be_opened(?w1, ?ac) ^ has_sense(?w1, ?s1) ^ is_a(?s1, drawer.n.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, open.v.01) ^ ?w1=/=?w2
+-0.465899   action_core(?w2, ?ac) ^ action_verb(?w2, ?ac) ^ obj_to_be_opened(?w1, ?ac) ^ has_sense(?w1, ?s1) ^ is_a(?s1, open.v.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, open.v.01) ^ ?w1=/=?w2
+1.138611    action_core(?w2, ?ac) ^ action_verb(?w2, ?ac) ^ obj_to_be_opened(?w1, ?ac) ^ has_sense(?w1, ?s1) ^ is_a(?s1, electric_refrigerator.n.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, open.v.01) ^ ?w1=/=?w2
+-0.239112   action_core(?w2, ?ac) ^ action_verb(?w2, ?ac) ^ obj_to_be_opened(?w1, ?ac) ^ has_sense(?w1, ?s1) ^ is_a(?s1, electric_refrigerator.n.01) ^ has_sense(?w2, ?s2) ^ is_a(?s2, electric_refrigerator.n.01) ^ ?w1=/=?w2
