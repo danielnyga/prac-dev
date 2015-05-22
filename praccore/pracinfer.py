@@ -71,7 +71,6 @@ if __name__ == '__main__':
             modulename = infer.next_module()
             module = prac.getModuleByName(modulename)
             prac.run(infer,module)
-            raw_input("ENTER")
 #             if modulename == 'senses_and_roles':
 #                 module.role_distributions(infer)
 #                 exit(0)

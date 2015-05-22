@@ -36,6 +36,6 @@ action_core(word,actioncore?)
 
 // weighted formulas
 
-0 action_core(?w1,?ac) ^ action_verb(?w1,?ac) ^ obj_to_be_started(?w2,?ac) ^ has_sense(?w1, ?s1) ^ is_a(?s1, +?c1) ^ has_sense(?w2, ?s2) ^ is_a(?s2, +?c2) ^ ?w1 =/= ?w2
-0 action_core(?w2,?ac) ^ action_verb(?w2,?ac) ^ obj_to_be_started(?w1,?ac) ^ has_sense(?w1, ?s1) ^ is_a(?s1, +?c1) ^ has_sense(?w2, ?s2) ^ is_a(?s2, +?c2) ^ ?w1 =/= ?w2
+0 action_core(?w1,?ac) ^ action_verb(?w1,?ac) ^ !obj_to_be_started(?w1,?ac) ^ has_sense(?w1, ?s1) ^ is_a(?s1, +?c1)
+0 action_core(?w1,?ac) ^ action_verb(?w1,?ac) ^ !obj_to_be_started(?w1,?ac) ^ !action_verb(?w2,?ac) ^  obj_to_be_started(?w2,?ac) ^ has_sense(?w1, ?s1) ^ is_a(?s1, +?c1) ^ has_sense(?w2, ?s2) ^ is_a(?s2, +?c2) ^ ?w1 =/= ?w2
 

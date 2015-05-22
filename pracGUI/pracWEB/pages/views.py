@@ -1,6 +1,6 @@
 from pracWEB.pracinit import pracApp
 
-from flask import render_template, request, send_from_directory, url_for, jsonify, session
+from flask import render_template, request, send_from_directory, url_for, jsonify, session, redirect
 
 from pracWEB.pages.learning import learn 
 from pracWEB.pages.fileupload import upload, saveMLN
@@ -51,7 +51,8 @@ def _prac():
     container_name = ''
     ensure_prac_session(session)
     time.sleep(2)
-    return render_template('prac.html', **locals())
+    # return render_template('prac.html', **locals()) // for openEASE integration
+    return redirect('/prac/pracinfer') 
 
 @pracApp.app.after_request
 def remove_if_invalid(response):
