@@ -27,9 +27,11 @@ from subprocess import PIPE
 from tempfile import NamedTemporaryFile
 from graphviz._compat import text_type
 import time
+import xml.etree.ElementTree as ET
+from xml.etree.ElementTree import ElementTree
 
 
-def render_gv(graph, filename=None, directory=None):
+def render_gv(graph, filename=None, directory='/tmp'):
     """
     A modification of the original graphviz rendering, which 
     Save the source to file and render with the Graphviz engine.
@@ -57,7 +59,16 @@ def render_gv(graph, filename=None, directory=None):
                 'are on your systems\' path' % cmd)
         else:
             raise
+
+    # scale generated svg to 100%
+    ET.register_namespace('', "http://www.w3.org/2000/svg")
+    rootSVG = ET.fromstring(rendered)
+    rootSVG.set('width', '100%')
+    rootSVG.set('height', '100%')
+
+    # create xml tree and write to file
     if filename is not None:
-        with open(filename, 'w+') as rf:
-            rf.write(rendered)
-    return rendered
+        tree = ElementTree(rootSVG)
+        tree.write(os.path.join(directory, filename), encoding='UTF-8', method="xml")
+
+    return ET.tostring(rootSVG, encoding='UTF-8')
