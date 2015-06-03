@@ -31,19 +31,13 @@ qx.Class.define("pracweb.Graph",
     this.h = window.innerHeight;
 
     this.svnContainer = this.d3.select('#viz').select("svg").select("g");
-      // .append("svg:svg")
-      // .attr("width", "100%")
-      // .attr("height", "100%")
-      // .attr("id","svg")
-      // .append('svg:g');
-
 
     this.svnContainer.append("defs").selectAll("marker")
       .data(["dashedred", "strokegreen", "dashed", "strokeblue", "arrowhead", "default"])
       .enter().append("marker")
       .attr("id", function(d) { return d; })
       .attr("viewBox", "0 -5 10 10")
-      .attr("refX", 15)//15
+      .attr("refX", 15)
       .attr("refY", -1.5)
       .attr("markerWidth", 6)
       .attr("markerHeight", 6)
@@ -64,221 +58,203 @@ qx.Class.define("pracweb.Graph",
   members :
   {
 
-    addNode : function (id) {
-      this.nodes.push({"id":id});
-      this.update();
-    },
+    /**
+     * updates nodes and links with timeout to have a bouncy visualization
+     */
+    updateData : function (toBeRemoved, toBeAdded) {
+      var nodesCopy = this.nodes.slice();
 
-
-    updateData : function (data) {
-      var tmpNodes = [];
-      var tmpLinks = [];
-      var nodesCopy = [];
-      var linksCopy = [];
-
-      // create temporary lists of nodes and links containing only new entries
-      for (var a in data) {
-        if (!this.nodeInList(data[a].source, tmpNodes) && typeof this.findNodeInList(data[a].source, tmpNodes) === "undefined") {
-          tmpNodes.push(data[a].source);
-        }
-        if (!this.nodeInList(data[a].target, tmpNodes) && typeof this.findNodeInList(data[a].target, tmpNodes) === "undefined") {
-          tmpNodes.push(data[a].target);
-        }
-        tmpLinks.push({"source": data[a].source,"target": data[a].target,"value": data[a].value, "arcStyle":data[a].arcStyle});
-      }
-
-      // add all nodes and links
-      var addnodesandlinks = function(dataIndex, t) {
-          var aInterval = setTimeout( function() {
-          if (typeof t.findNode(data[dataIndex].source) === "undefined") {
-            t.nodes.push({"id":data[dataIndex].source});
+      var removeLinks = function(dIndex, t) {
+        var rInterval = setTimeout( function() {
+          if (dIndex < toBeRemoved.length) {
+            t.removeLink(toBeRemoved[dIndex])
+            t.removeIfSingle(toBeRemoved[dIndex].source);
+            t.removeIfSingle(toBeRemoved[dIndex].target);
+            t.update();
+            dIndex++;
           }
-          if (typeof t.findNode(data[dataIndex].target) === "undefined") {
-            t.nodes.push({"id":data[dataIndex].target});
-          }
-          t.update();
-          //check if there is already a link between source and target node
-          var index = t.findLinkIndex(t.findNode(data[dataIndex].source), t.findNode(data[dataIndex].target), data[dataIndex].value, t.links);
-          if (index == -1) {
-            // if not, create it
-            t.links.push({"source": t.findNode(data[dataIndex].source),"target": t.findNode(data[dataIndex].target),"value": [data[dataIndex].value], "arcStyle":data[dataIndex].arcStyle});
+          if (dIndex < toBeRemoved.length) {
+            removeLinks(dIndex, t);
           } else {
-            // if so, check if the old value contains the new one
-            if (t.links[index].value.indexOf(data[dataIndex].value) == -1) {
-              // if not, update still existing links
-              var newVal = t.findLinkIndexWithValue(t.links[index].source, t.links[index].target, t.links[index].value, tmpLinks);
-              // replace old non existent values and add new one
-              t.links.splice(index,1);
-              t.update();
-              t.links.push({"source": t.findNode(data[dataIndex].source),"target": t.findNode(data[dataIndex].target),"value": newVal, "arcStyle":data[dataIndex].arcStyle});
-            }
-          }
-
-          t.update();
-          dataIndex++;
-          if (dataIndex >= data.length) {
-            nodesCopy = t.nodes.slice();
-            removenodes(0, t);
-          } else {
-            addnodesandlinks(dataIndex, t);
+            addNodesAndLinks(0, t);
           }
         }, t.WAITMSEC);
       };
 
-
-      // remove all nodes and links, that are not in the new data
-      var removenodes = function(dIndex, t) {
-        var rInterval = setTimeout( function() {
-          var n = nodesCopy[dIndex].id;
-          
-          if (!t.nodeInList(nodesCopy[dIndex].id, tmpNodes)) {
-            var i = 0;
-            while (i < t.links.length) {
-              if ((t.links[i]['source'].id == n)||(t.links[i]['target'].id == n))
-              {
-                t.links.splice(i,1);
-                t.update();
-              }
-              else i++;
+      var addNodesAndLinks = function(dataIndex, t) {
+        var aInterval = setTimeout( function() {
+          if (dataIndex < toBeAdded.length) {
+            if (t.findNodeIndex(toBeAdded[dataIndex].source) === -1) {
+              t.addNode(toBeAdded[dataIndex].source);
             }
-            t.nodes.splice(t.findNodeIndex(nodesCopy[dIndex].id),1);
+            if (t.findNodeIndex(toBeAdded[dataIndex].target) === -1) {
+              t.addNode(toBeAdded[dataIndex].target);
+            }
             t.update();
+            t.addLink(toBeAdded[dataIndex]);
+            t.update();
+            dataIndex++;
           }
-          t.update();
-          dIndex++;
-          if (dIndex < nodesCopy.length) {
-            removenodes(dIndex, t);
+          if (dataIndex < toBeAdded.length) {
+            addNodesAndLinks(dataIndex, t);
           } else {
-            linksCopy = t.links.slice();
             console.log('Finished updating graph');
           }
         }, t.WAITMSEC);
       };
 
-      addnodesandlinks(0, this);
+      removeLinks(0, this);
       this.update();
     },
 
-
-    findLinkIndex : function(source, target) {
-      for (var i=0; i < this.links.length; i++) {
-        if (this.links[i].source.id == source.id && this.links[i].target.id == target.id) {
-          return i;
-        }
+    /**
+     * replaces all nodes and links directly without fancy visualization
+     */
+    replaceData : function (data) {
+      this.clear();
+      for (var dataIndex = 0; dataIndex < data.length; dataIndex++) {
+        if (t.findNodeIndex(data[dataIndex].source) === -1) {
+              t.addNode(data[dataIndex].source);
+            }
+            if (t.findNodeIndex(data[dataIndex].target) === -1) {
+              t.addNode(data[dataIndex].target);
+            }
+        t.links.push({"source": t.findNode(data[dataIndex].source),"target": t.findNode(data[dataIndex].target),"value": newVal, "arcStyle":data[dataIndex].arcStyle});
       }
-      return -1; // if link does not exist in l
+      this.update();
+    },        
+
+    /**
+     * adds a node with the given id to the nodes list
+     */
+    addNode : function (id) {
+      this.nodes.push({"id":id});
+      this.update();
     },
 
-    // returns a list of indices that need to be removed from values
-    findLinkIndexWithValue : function(source, target, value, l) {
-      var rem = [];
-      for (var i=0; i < l.length; i++) {
-        if (l[i].source == source.id && l[i].target == target.id) {
-          for (var oldVal = 0; oldVal < value.length; oldVal++) {
-            rem.push(l[i].value);
-          }
-        }
-      }
-      return rem;
-    },
-
-    nodeInList : function(id, n) {
-      for (var no = 0; no < n.length; no++) {
-        if (n[no] == id) {
-          return true;
-        }
-      }
-      return false;
-    },
-
-    linkInList : function(id, l) {
-      for (var no = 0; no < l.length; no++) {
-        if (l[no].source == id.source && l[no].target == id.target && l[no].value == id.value ) {
-          return true;
-        }
-      }
-      return false;
-    },
-
-    findNodeInList : function(id, n) {
-      for (var i in n) {
-        if (i.id === id) return i;};
-    },
-
-
+    /**
+     * removes a node with the given id and all its attached links
+     */
     removeNode : function (id) {
       var i = 0;
-      var n = this.findNode(id);
       while (i < this.links.length) {
-        if ((this.links[i]['source'] == n)||(this.links[i]['target'] == n))
+        if ((this.links[i]['source'].id == id) || (this.links[i]['target'].id == id))
         {
           this.links.splice(i,1);
+          this.update();
         }
         else i++;
       }
       this.nodes.splice(this.findNodeIndex(id),1);
     },
 
-    removeLink : function (source,target){
-      for(var i=0; i < this.links.length; i++)
-      {
-        if(this.links[i].source.id == source && this.links[i].target.id == target)
-        {
-          this.links.splice(i,1);
-          break;
+    /**
+     * adds a link if it does not exist yet, otherwise updates the edge label
+     */
+    addLink : function (lnk){
+      var index = this.findLinkIndex(this.findNode(lnk.source), this.findNode(lnk.target));
+      if (index == -1) {
+        this.links.push({"source": this.findNode(lnk.source),"target": this.findNode(lnk.target),"value": [lnk.value], "arcStyle": lnk.arcStyle});
+      } else {
+        var valIndex = this.links[index].value.indexOf(lnk.value);
+        if (valIndex != -1) {
+            this.links[index].value.push(lnk.value);
         }
       }
       this.update();
     },
 
-    removeallLinks : function(){
+    /**
+     * removes a link between two nodes or updates edge label
+     */
+    removeLink : function (lnk){
+      var index = this.findLinkIndex(this.findNode(lnk.source), this.findNode(lnk.target));
+      if (index != -1) {
+        var valIndex = this.links[index].value.indexOf(lnk.value);
+        if (valIndex != -1) {
+          this.links[index].value.splice(valIndex, 1);
+          if (this.links[index].value.length == 0) {
+            this.links.splice(index, 1);
+          }
+        }
+      }
+      this.update();
+    }, 
+
+    /**
+     * removes node if there are no links attached to it
+     */
+    removeIfSingle : function (id) {
+      var isSingle = true;
+      for (var j = 0; j < this.links.length; j++) {
+        if (id == this.links[j].source.id || id == this.links[j].target.id) {
+          isSingle = false;
+        }
+      }
+      if (isSingle) {
+        this.nodes.splice(this.findNodeIndex(id), 1);
+      }
+    },   
+
+    /**
+     * clear links list
+     */
+    removeAllLinks : function(){
       this.links.splice(0,this.links.length);
       this.update();
     },
 
+    /**
+     * clear nodes list
+     */
     removeAllNodes : function(){
       this.nodes.splice(0,this.nodes.length);
       this.update();
     },
 
+    /**
+     * clear graph by emptying nodes and links lists
+     */
     clear : function() {
-      this.removeallLinks();
+      this.removeAllLinks();
       this.removeAllNodes();
     },
 
-    addLink : function (source, target, value, arcStyle) {
-      this.links.push({"source": this.findNode(source),"target": this.findNode(target),"value": value,"arcStyle": arcStyle});
-      this.update();
-    },
-
-    showlinks : function() {
-      for (var l = 0; l < this.links.length; l++) {
-        console.log(this.links[l].source.id + " " + this.links[l].target.id + " " + this.links[l].value + " " + this.links[l].arcStyle);
-      }
-    },
-
-    showNodes : function() {
-      var str = '';
-      for (var l = 0; l < this.nodes.length; l++) {
-        str += this.nodes[l].id;
-        str += ", ";
-      }
-      console.log(str);
-    },
-
+    /**
+     * returns the node with the given id
+     */
     findNode : function(id) {
       for (var i in this.nodes) {
         if (this.nodes[i].id === id) return this.nodes[i];};
     },
 
+    /**
+     * returns the index of the link between source and target or -1 if there is no link
+     */
     findNodeIndex : function(id) {
-      for (var i=0; i < this.nodes.length; i++) {
+      for (var i = 0; i < this.nodes.length; i++) {
         if (this.nodes[i].id == id){
           return i;
         }
-      };
+      }
+      return -1;
     },
 
+    /**
+     * returns the index of the link between source and target or -1 if there is no link
+     */
+    findLinkIndex : function(source, target) {
+      for (var i=0; i < this.links.length; i++) {
+        if (this.links[i].source.id == source.id && this.links[i].target.id == target.id) {
+          return i;
+        }
+      }
+      return -1;
+    },
+
+    /**
+     * redraws the graph with the updated nodes and links
+     */
     update : function () {
 
       var path = this.svnContainer.selectAll("path.link")

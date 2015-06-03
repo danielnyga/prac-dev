@@ -172,8 +172,12 @@ qx.Class.define("pracweb.Application",
       this._graph.clear();
     },
 
-    updateGraph : function(data) {
-      this._graph.updateData(data);
+    redrawGraph : function(data) {
+      this._graph.replaceData(data);
+    },
+
+    updateGraph : function(removeLinks, addLinks) {
+      this._graph.updateData(removeLinks, addLinks);
     },
 
     buildControlPane : function()
@@ -248,19 +252,11 @@ qx.Class.define("pracweb.Application",
         req.setMethod("GET");
         
         req.addListener("success", function(e) {
-          console.log("1");
           var tar = e.getTarget();                
           var response = tar.getResponse();
-          console.log("2");
-          console.log("3");
-          
-          console.log("4");
-          console.log(response);
           taxCanvas.setHtml(response);
-          console.log(taxCanvas.getContentElement());
           win.open();
         });
-        console.log("sending request");
         req.send();
       }, this);
     
@@ -275,6 +271,7 @@ qx.Class.define("pracweb.Application",
          this._clearFlowChart();
          this._next_module = 'nl_parsing';
          document.getElementById('init').nextElementSibling.style.fill = "#bee280";
+         this._oldRes = {};
          var req = this._run_inference("POST");
          console.log(description.getValue());
          req.setRequestHeader("Content-Type", "application/json");
@@ -340,15 +337,21 @@ qx.Class.define("pracweb.Application",
         var that = this;
         var tar = e.getTarget();                
         var response = tar.getResponse();
-        console.log('response result:', response.result);
-        console.log('response finish:', response.finish);
+
+        // calculate idle time based on how many nodes and edges have to be redrawn
+        var responseResult = response.result;
+
+        // determine links to be removed/added
+        var updateLinks = that._calculateRedrawing(that._oldRes, responseResult);
+        var idle_time = (updateLinks[0].length + updateLinks[1].length) * 1000;
+        that._oldRes = responseResult;
 
         if (response.finish) {
           console.log(" I am DONE! ");
           setTimeout( function() {
             that._get_cram_plan();
-          }, response.result.length * 1000); // wait 3 seconds, then clear flowchart
-          that.updateGraph(response.result);
+          }, idle_time); // wait 3 seconds, then clear flowchart
+          that.updateGraph(updateLinks[0], updateLinks[1]);
           that._nextButton.setEnabled(false);
           that._vizButton.setEnabled(true);
           that._last_module = '';
@@ -359,19 +362,19 @@ qx.Class.define("pracweb.Application",
         } else {
           that._last_module = that._next_module;
           that._next_module = that._get_next_module();
-          that.updateGraph(response.result);
+          that.updateGraph(updateLinks[0], updateLinks[1]);
           setTimeout( function() {
             that._nextButton.setEnabled(true);
             if (that._last_module == 'senses_and_roles') {
               that._getRoleDist.setEnabled(true); // set enabled when senses_and_roles has finished
             }
-          }, response.result.length * 1000);
+          }, idle_time);
           if (!that._stepwise) {
-            console.log('bumming around for', response.result.length * 1000, ' mseconds before sending new request...');
+            console.log('bumming around for', idle_time, ' mseconds before sending new request...');
             setTimeout( function() {
               var req = that._run_inference("GET");
               req.send();
-            }, response.result.length * 1000); // wait for graph to be updated
+            }, idle_time); // wait for graph to be updated
           }
         }
       }, this);
@@ -389,12 +392,85 @@ qx.Class.define("pracweb.Application",
         var that = this;
         var tar = e.getTarget();
         var response = tar.getResponse();
-        console.log('Next module to be executed is:', response);
         that._next_module = response;
         return;
       }, this);
       moduleReq.send();
     },
+
+    _calculateRedrawing : function(oldRes, newRes) {
+      var toBeRemoved = [];
+      var toBeAdded = [];
+      var remove;
+      var add;
+
+      // old links to be removed
+      for (var i = 0; i < oldRes.length; i++) {
+        remove = true;
+        for (var j = 0; j < newRes.length; j++) {
+          // if there is already a link between the nodes, do not remove it
+          if (oldRes[i].source === newRes[j].source && oldRes[i].target === newRes[j].target && oldRes[i].value === newRes[j].value) {
+            remove = false;
+            break;
+          }
+        }
+        if (remove) {
+          toBeRemoved.push(oldRes[i]);
+        }
+      }
+
+      // new links to be added
+      for (var i = 0; i < newRes.length; i++) {
+        add = true;
+        for (var j = 0; j < oldRes.length; j++) {
+          // if there is already a link, do not add it
+          if (newRes[i].target === oldRes[j].target && newRes[i].source === oldRes[j].source && newRes[i].value === oldRes[j].value) {
+            add = false;
+            break;
+          }
+        }
+        if (add) {
+          toBeAdded.push(newRes[i]);
+        }
+      }
+
+      return [toBeRemoved, toBeAdded];
+    },
+
+    _diffResults : function(oldRes, newRes) {
+      var redrawSteps = 0;
+      var redraw;
+
+      // number of old elements to be removed
+      for (var i = 0; i < oldRes.length; i++) {
+        redraw = true;
+        for (var j = 0; j < newRes.length; j++) {
+          if (oldRes[i].target === newRes[j].target 
+            && oldRes[i].source === newRes[j].source
+            && oldRes[i].value === newRes[j].value) {
+            redraw = false;
+            break;
+          }
+        }
+        redrawSteps += redraw ? 0 : 1;
+      }
+
+      // number of new elements to be drawn
+      for (var i = 0; i < newRes.length; i++) {
+        redraw = true;
+        for (var j = 0; j < oldRes.length; j++) {
+          if (newRes[i].target === oldRes[j].target 
+            && newRes[i].source === oldRes[j].source
+            && newRes[i].value === oldRes[j].value) {
+            redraw = false;
+            break;
+          }
+        }
+        redrawSteps += redraw ? 1 : 0;
+      }
+      return redrawSteps;
+    },
+
 
     buildForm : function()
     {
