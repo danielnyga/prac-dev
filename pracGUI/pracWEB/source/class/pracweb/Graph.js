@@ -72,7 +72,6 @@ qx.Class.define("pracweb.Graph",
             t.removeLink(toBeRemoved[dIndex])
             t.removeIfSingle(toBeRemoved[dIndex].source);
             t.removeIfSingle(toBeRemoved[dIndex].target);
-            t.update();
             dIndex++;
           }
           if (dIndex < toBeRemoved.length) {
@@ -92,9 +91,7 @@ qx.Class.define("pracweb.Graph",
             if (t.findNodeIndex(toBeAdded[dataIndex].target) === -1) {
               t.addNode(toBeAdded[dataIndex].target);
             }
-            t.update();
             t.addLink(toBeAdded[dataIndex]);
-            t.update();
             dataIndex++;
           }
           if (dataIndex < toBeAdded.length) {
@@ -106,7 +103,6 @@ qx.Class.define("pracweb.Graph",
       };
 
       removeLinks(0, this);
-      this.update();
     },
 
     /**
@@ -148,14 +144,18 @@ qx.Class.define("pracweb.Graph",
      * adds a link if it does not exist yet, otherwise updates the edge label
      */
     addLink : function (lnk){
-      console.log('adding link', lnk);
       var index = this.findLinkIndex(this.findNode(lnk.source), this.findNode(lnk.target));
       if (index == -1) {
         this.links.push({"source": this.findNode(lnk.source),"target": this.findNode(lnk.target),"value": [lnk.value], "arcStyle": lnk.arcStyle});
       } else {
         var valIndex = this.links[index].value.indexOf(lnk.value);
-        if (valIndex != -1) {
-            this.links[index].value.push(lnk.value);
+        if (valIndex == -1) {
+          // whole link has to be removed and re-added, used for redrawing
+          var tempLink = this.links[index];
+          this.links.splice(index, 1);
+          this.update();
+          tempLink.value.push(lnk.value);
+          this.links.push(tempLink);
         }
       }
       this.update();
@@ -169,9 +169,12 @@ qx.Class.define("pracweb.Graph",
       if (index != -1) {
         var valIndex = this.links[index].value.indexOf(lnk.value);
         if (valIndex != -1) {
-          this.links[index].value.splice(valIndex, 1);
-          if (this.links[index].value.length == 0) {
-            this.links.splice(index, 1);
+          var tempLink = this.links[index];
+          this.links.splice(index, 1);
+          tempLink.value.splice(valIndex, 1);
+          if (!tempLink.length == 0) {
+            this.update();
+            this.links.push(tempLink);
           }
         }
       }
