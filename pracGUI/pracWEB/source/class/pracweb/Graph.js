@@ -27,6 +27,8 @@ qx.Class.define("pracweb.Graph",
     this.d3 = this.container.getD3();
     this.WAITMSEC = 500;
 
+    this.audio = new Audio("/prac/static/audio/bubble.wav");
+
     this.w = window.innerWidth;
     this.h = window.innerHeight;
 
@@ -129,6 +131,7 @@ qx.Class.define("pracweb.Graph",
      */
     addNode : function (id) {
       this.nodes.push({"id":id});
+      this.playSound();
       this.update();
     },
 
@@ -136,22 +139,16 @@ qx.Class.define("pracweb.Graph",
      * removes a node with the given id and all its attached links
      */
     removeNode : function (id) {
-      var i = 0;
-      while (i < this.links.length) {
-        if ((this.links[i]['source'].id == id) || (this.links[i]['target'].id == id))
-        {
-          this.links.splice(i,1);
-          this.update();
-        }
-        else i++;
-      }
       this.nodes.splice(this.findNodeIndex(id),1);
+      this.playSound();
+      this.update();
     },
 
     /**
      * adds a link if it does not exist yet, otherwise updates the edge label
      */
     addLink : function (lnk){
+      console.log('adding link', lnk);
       var index = this.findLinkIndex(this.findNode(lnk.source), this.findNode(lnk.target));
       if (index == -1) {
         this.links.push({"source": this.findNode(lnk.source),"target": this.findNode(lnk.target),"value": [lnk.value], "arcStyle": lnk.arcStyle});
@@ -192,7 +189,7 @@ qx.Class.define("pracweb.Graph",
         }
       }
       if (isSingle) {
-        this.nodes.splice(this.findNodeIndex(id), 1);
+        this.removeNode(id);
       }
     },   
 
@@ -251,6 +248,12 @@ qx.Class.define("pracweb.Graph",
       }
       return -1;
     },
+
+    playSound : function() {
+      var audioClone = this.audio.cloneNode();
+      audioClone.play();
+    },
+
 
     /**
      * redraws the graph with the updated nodes and links
