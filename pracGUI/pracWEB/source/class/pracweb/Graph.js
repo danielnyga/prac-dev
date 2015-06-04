@@ -37,10 +37,10 @@ qx.Class.define("pracweb.Graph",
       .enter().append("marker")
       .attr("id", function(d) { return d; })
       .attr("viewBox", "0 -5 10 10")
-      .attr("refX", 15)
-      .attr("refY", -1.5)
-      .attr("markerWidth", 6)
-      .attr("markerHeight", 6)
+      .attr("refX", 10)
+      .attr("refY", -.8)
+      .attr("markerWidth", 7.5)
+      .attr("markerHeight", 7.5)
       .attr("orient", "auto")
       .append("path")
       .attr("d", "M0,-5L10,0L0,5 Z");
@@ -289,7 +289,9 @@ qx.Class.define("pracweb.Graph",
         .call(this.force.drag);
 
       circleEnter.append("svg:circle")
-        .attr("r", 10)
+        .attr("r", function(d) { 
+          d.radius = 10;
+          return d.radius; } )
         .attr("id", function(d) { return d.id; } );
 
       // circleEnter.append("svg:rect")
@@ -331,12 +333,16 @@ qx.Class.define("pracweb.Graph",
         var dx = d.target.x - d.source.x,
             dy = d.target.y - d.source.y,
             dr = Math.sqrt(dx * dx + dy * dy);
+
+            // offset to let arc start and end at the edge of the circle
+            offSetX = (dx * d.target.radius) / dr;
+            offSetY = (dy * d.target.radius) / dr;
         return "M" + 
-            d.source.x + "," + 
-            d.source.y + "A" + 
+            (d.source.x + offSetX) + "," + 
+            (d.source.y + offSetY) + "A" + 
             dr + "," + dr + " 0 0,0 " + 
-            d.target.x + "," + 
-            d.target.y;
+            (d.target.x - offSetX) + "," + 
+            (d.target.y - offSetY);
       };
 
       // move arc label to arc

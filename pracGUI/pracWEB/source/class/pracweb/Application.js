@@ -314,7 +314,7 @@ qx.Class.define("pracweb.Application",
       this._nextButton.setEnabled(false);
 
       // update flowchart
-      if (this._next_module === 'achieved_by' || (this._next_module === 'plan_generation') && this._last_module != 'plan_generation') {
+      if (this._next_module === 'achieved_by' || (this._next_module === 'plan_generation') && (this._last_module != 'plan_generation')) {
         var that = this;
         var tmpNM = that._next_module; //because following timeout will cause _next_module to be overwritten too quickly
         that._clearFlowChart();
@@ -322,7 +322,7 @@ qx.Class.define("pracweb.Application",
         setTimeout( function() {
           that._clearFlowChart();
           document.getElementById(tmpNM).nextElementSibling.style.fill = "#bee280";
-        }, 2000);
+        }, 1000);
       } else {
         this._clearFlowChart();
         document.getElementById(this._next_module).nextElementSibling.style.fill = "#bee280";
@@ -343,7 +343,7 @@ qx.Class.define("pracweb.Application",
 
         // determine links to be removed/added
         var updateLinks = that._calculateRedrawing(that._oldRes, responseResult);
-        var idle_time = (updateLinks[0].length + updateLinks[1].length) * 1000;
+        var idle_time = (updateLinks[0].length + updateLinks[1].length) * 1100;
         that._oldRes = responseResult;
 
         if (response.finish) {
