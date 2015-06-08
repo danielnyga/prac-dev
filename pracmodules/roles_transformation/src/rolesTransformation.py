@@ -106,4 +106,12 @@ class RolesTransformation(PRACModule):
                 else:
                     self.isLastActionCoreAPlan = True
                     inf_step.output_dbs.extend(result_db)
+
+                kb = useKB
+
+        print 'generatinig png'
+        if kb is not None:
+            print 'blubbel'
+            png, ratio = kb.get_cond_prob_png(filename=self.name)
+            inf_step.png = (png, ratio)                  
         return inf_step

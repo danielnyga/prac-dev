@@ -144,6 +144,8 @@ class PRACInference(object):
                     g.node(sense)
                     g.edge(actioncore, sense, label=role)
         return render_gv(g, filename)
+
+    
 # class PRACInit(PRACReasoner):
 #     
 #     def __init__(self, actioncore):

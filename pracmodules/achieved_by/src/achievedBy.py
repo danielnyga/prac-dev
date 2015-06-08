@@ -148,6 +148,11 @@ class AchievedBy(PRACModule):
                         
                         inf_step.output_dbs.append(r_db_)
                         print actionword + " achieved by: " + achievedByAc
-                            
+
+                kb = useKB
+                     
+        if kb is not None:
+            png, ratio = kb.get_cond_prob_png(filename=self.name)
+            inf_step.png = (png, ratio)   
         return inf_step
     

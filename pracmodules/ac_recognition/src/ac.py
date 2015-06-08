@@ -91,6 +91,9 @@ class ActionCoreIdentification(PRACModule):
                     result_db_.append(r_db_)
                 print
             inf_step.output_dbs.extend(result_db_)
+
+        png, ratio = kb.get_cond_prob_png(filename=self.name)
+        inf_step.png = (png, ratio)
         return inf_step
     
     

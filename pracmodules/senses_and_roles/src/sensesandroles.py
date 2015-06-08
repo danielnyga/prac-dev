@@ -157,6 +157,11 @@ class SensesAndRoles(PRACModule):
                     print
                 
                 inf_step.output_dbs.extend(result_db)
+                kb = useKB
+
+        if kb is not None:
+            png, ratio = kb.get_cond_prob_png(filename=self.name)
+            inf_step.png = (png, ratio)                
         return inf_step
         
     
