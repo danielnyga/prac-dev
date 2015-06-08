@@ -45,7 +45,7 @@ from mln import readMLNFromFile
 import yaml
 from praclog import logging
 from utils import colorize
-
+from utils.latexmath2png import math2png
 
 
 class PRAC(object):
@@ -346,6 +346,24 @@ class PRACKnowledgeBase(object):
       
     def __setstate__(self, d):
         self.__dict__.update(d)
+
+
+    def get_cond_prob_png(self, filename='cond_prob', filedir='/tmp'):
+        declarations = r'''
+        \DeclareMathOperator*{\argmin}{\arg\!\min}
+        \DeclareMathOperator*{\argmax}{\arg\!\max}
+        \newcommand{\Pcond}[1]{\ensuremath{P\left(\begin{array}{c|c}#1\end{array}\right)}} 
+        '''
+
+        queriesList = [s.strip() for s in self.query_params['queries'].split(',')]
+        evidenceList = []
+        for db in self.dbs:
+            evidenceList.extend([e for e in db.evidence.keys() if db.evidence[e] == 1.0])
+        query    = r'''\\'''.join([r'''\textit{{ {0} }} '''.format(q.replace('_', '\_')) for q in queriesList])
+        evidence = r'''\\'''.join([r'''\textit{{ {0} }} '''.format(e.replace('_', '\_')) for e in evidenceList])
+        eq       = r'''\argmax \Pcond{{ \begin{{array}}{{c}}{0}\end{{array}} & \begin{{array}}{{c}}{1}\end{{array}} }}'''.format(query, evidence)                               
+
+        return math2png(eq, filedir, declarations=[declarations], filename=filename, size=10)             
 
         
 class PRACModule(object):

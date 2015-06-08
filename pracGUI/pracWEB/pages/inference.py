@@ -124,6 +124,18 @@ def _get_cram_plan():
     return jsonify( {'plans': pracsession.old_infer.inference_steps[-1].executable_plans })
 
 
+@pracApp.app.route('/prac/_pracinfer_get_cond_prob', methods=['GET'])
+def _get_cond_prob():
+    pracsession = ensure_prac_session(session)
+    ratio = 1
+    png = ''
+    if hasattr(pracsession, 'infer'):
+        inf_step = pracsession.infer.inference_steps[-1]
+        if hasattr(inf_step, 'png'):
+            png, ratio = inf_step.png
+    return jsonify( {'ratio': ratio, 'img': png })
+
+
 @pracApp.app.route('/prac/_get_role_distributions', methods=['GET'])
 def _get_role_distributions():
     pracsession = ensure_prac_session(session)

@@ -118,9 +118,28 @@ qx.Class.define("pracweb.Application",
 
       // embedding for flowchart svg
       var flowChartEmbed = new qx.ui.embed.Html();
+      flowChartEmbed.setMinHeight(503);
       this._flowChartEmbed = flowChartEmbed;
       flowChartContainer.add(flowChartEmbed, {flex: 1});
       this._load_flow_chart();
+
+      // embedding for conditional probability png
+      var condProb = new qx.ui.basic.Image();
+      this._condProb = condProb;
+      condProb.setScale(true);
+      condProb.setMarginTop(20);
+      flowChartContainer.add(condProb, { top:0 });
+
+      // resize conditional probability png with flowchart container
+      flowChartScroll.addListener("resize", function(e) {
+        var newWidth = e.getData().width;
+        var newHeight = newWidth / this._imgRatio;
+        if (newWidth / this._imgRatio <= newHeight) {
+          newHeight = newWidth / this._imgRatio;
+        }
+        condProb.setWidth(parseInt(newWidth, 10)); 
+        condProb.setHeight(parseInt(newHeight, 10));
+      });
 
       // expert settings
       var form = this.buildForm();
@@ -388,7 +407,6 @@ qx.Class.define("pracweb.Application",
       moduleReq.setRequestHeader("Cache-Control", "no-cache");
       moduleReq.setRequestHeader("Content-Type", "text/plain");
       moduleReq.addListener("success", function(e) {
-        console.log('success');
         var that = this;
         var tar = e.getTarget();
         var response = tar.getResponse();
@@ -397,6 +415,26 @@ qx.Class.define("pracweb.Application",
       }, this);
       moduleReq.send();
     },
+
+    _get_cond_prob : function() {
+      var moduleReq = new qx.io.request.Xhr(); 
+      moduleReq.setUrl("/prac/_pracinfer_get_cond_prob");
+      moduleReq.setMethod('GET');
+      moduleReq.setRequestHeader("Cache-Control", "no-cache");
+      moduleReq.setRequestHeader("Content-Type", "application/json");
+      moduleReq.addListener("success", function(e) {
+        var that = this;
+        var tar = e.getTarget();
+        var response = tar.getResponse();
+        this._condProb.resetSource();
+        if (response.img !== '') {
+          this._condProb.setSource('data:image/png;base64,' + response.img);
+        }
+        this._imgRatio = response.ratio;
+        return;
+      }, this);
+      moduleReq.send();
+    },    
 
     _calculateRedrawing : function(oldRes, newRes) {
       var toBeRemoved = [];
