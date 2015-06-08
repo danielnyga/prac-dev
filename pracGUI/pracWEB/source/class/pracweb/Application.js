@@ -382,6 +382,7 @@ qx.Class.define("pracweb.Application",
           that._last_module = that._next_module;
           that._next_module = that._get_next_module();
           that.updateGraph(updateLinks[0], updateLinks[1]);
+          that._get_cond_prob();
           setTimeout( function() {
             that._nextButton.setEnabled(true);
             if (that._last_module == 'senses_and_roles') {
