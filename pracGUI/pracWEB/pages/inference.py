@@ -2,7 +2,6 @@ from pracWEB.pracinit import pracApp
 from prac.inference import PRACInference, PRACInferenceStep
 from mln import readMLNFromFile, readDBFromFile
 from mln.database import readDBFromString
-from mln.methods import InferenceMethods
 from mln.mln import readMLNFromString
 from flask import render_template, redirect, request, jsonify, url_for
 from pracWEB.pages.fileupload import upload
@@ -13,14 +12,12 @@ import StringIO
 import logging
 from flask.globals import session
 import json
-from pracWEB.pages.views import ensure_prac_session
+from pracWEB.pages.utils import ensure_prac_session
 from pracutils.RolequeryHandler import RolequeryHandler
 from prac.core import PRAC
 from prac.wordnet import WordNet
 from mln.database import Database
 from pracutils.ActioncoreDescriptionHandler import ActioncoreDescriptionHandler
-
-INFMETHODS = [(InferenceMethods.byName(method),method) for method in InferenceMethods.name2value]
 
 
 @pracApp.app.route('/prac/_pracinfer_step', methods=['POST', 'GET'])

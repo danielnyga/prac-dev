@@ -132,13 +132,8 @@ qx.Class.define("pracweb.Application",
 
       // resize conditional probability png with flowchart container
       flowChartScroll.addListener("resize", function(e) {
-        var newWidth = e.getData().width;
-        var newHeight = newWidth / this._imgRatio;
-        if (newWidth / this._imgRatio <= newHeight) {
-          newHeight = newWidth / this._imgRatio;
-        }
-        condProb.setWidth(parseInt(newWidth, 10)); 
-        condProb.setHeight(parseInt(newHeight, 10));
+        condProb.setWidth(e.getData().width); 
+        condProb.setHeight(e.getData().width / this._imgRatio);
       });
 
       // expert settings
@@ -179,10 +174,10 @@ qx.Class.define("pracweb.Application",
       
       // initially do not show form and do NOT use stepwise inference by default
       this._showexpSettingsContainer = false;
+      this._use_exp_settings = false;
       this._stepwise = false;
-      this._changeVisiblity();
+      this._change_visibility();
     },
-
 
     loadGraph : function() {
       if (typeof this._graph === 'undefined') {
@@ -205,8 +200,6 @@ qx.Class.define("pracweb.Application",
       var mainLayout = new qx.ui.layout.HBox(20);
       mainGroup.setLayout(mainLayout);
       
-      // var description = new qx.ui.form.TextField("");
-      // description.setMinWidth(300);
       // combobox containing nl descriptions
       var description = new qx.ui.form.ComboBox();
       description.setWidth(500);
@@ -225,14 +218,14 @@ qx.Class.define("pracweb.Application",
       
       description.addListener("keydown", function(e) {
         this._vizButton.setEnabled(true);
-        this._clearFlowChart();
+        this._clear_flow_chart();
         document.getElementById('init').nextElementSibling.style.fill = "#bee280";
       }, this);
       
-      var expSettings = new qx.ui.form.CheckBox("Use expert settings");
+      var expSettings = new qx.ui.form.CheckBox("Show expert settings");
       expSettings.addListener("changeValue", function(e) {
         this._showexpSettingsContainer = e.getData();
-        this._changeVisiblity();
+        this._change_visibility();
       }, this);
 
 
@@ -287,14 +280,14 @@ qx.Class.define("pracweb.Application",
           this._vizButton.setEnabled(false);
         }
          this.loadGraph();
-         this._clearFlowChart();
+         this._clear_flow_chart();
          this._next_module = 'nl_parsing';
          document.getElementById('init').nextElementSibling.style.fill = "#bee280";
          this._oldRes = {};
          var req = this._run_inference("POST");
          console.log(description.getValue());
          req.setRequestHeader("Content-Type", "application/json");
-         req.setRequestData({"sentence": description.getValue()});
+         req.setRequestData({ 'sentence': description.getValue(), 'settings' : this._use_exp_settings ? this._get_exp_settings() : null });
          req.send();
       }, this);
       
@@ -317,7 +310,7 @@ qx.Class.define("pracweb.Application",
 
       mainGroup.add(new qx.ui.basic.Label("Natural-language instruction:"));
       mainGroup.add(description);
-      // mainGroup.add(expSettings); // temporarily removed for openEase integration
+      mainGroup.add(expSettings); // temporarily removed for openEase integration
       mainGroup.add(stepInf);
       mainGroup.add(vizButton);
       mainGroup.add(nextButton);
@@ -336,14 +329,14 @@ qx.Class.define("pracweb.Application",
       if (this._next_module === 'achieved_by' || (this._next_module === 'plan_generation') && (this._last_module != 'plan_generation')) {
         var that = this;
         var tmpNM = that._next_module; //because following timeout will cause _next_module to be overwritten too quickly
-        that._clearFlowChart();
+        that._clear_flow_chart();
         document.getElementById('executable').nextElementSibling.style.fill = "#bee280";
         setTimeout( function() {
-          that._clearFlowChart();
+          that._clear_flow_chart();
           document.getElementById(tmpNM).nextElementSibling.style.fill = "#bee280";
         }, 1000);
       } else {
-        this._clearFlowChart();
+        this._clear_flow_chart();
         document.getElementById(this._next_module).nextElementSibling.style.fill = "#bee280";
       } 
 
@@ -413,6 +406,28 @@ qx.Class.define("pracweb.Application",
         var response = tar.getResponse();
         that._next_module = response;
         return;
+      }, this);
+      moduleReq.send();
+    },
+
+    _get_modules : function() {
+      var moduleReq = new qx.io.request.Xhr(); 
+      moduleReq.setUrl("/prac/_get_modules");
+      moduleReq.setMethod('GET');
+      moduleReq.setRequestHeader("Cache-Control", "no-cache");
+      moduleReq.setRequestHeader("Content-Type", "application/json");
+      moduleReq.addListener("success", function(e) {
+        var that = this;
+        var tar = e.getTarget();
+        var response = tar.getResponse();
+        console.log('modules', response);
+        for (var i = 0; i < response.modules.length; i++) {
+          this.moduleSelect.add(new qx.ui.form.ListItem(response.modules[i]));
+        }
+        for (var i = 0; i < response.methods.length; i++) {
+          this.methodSelect.add(new qx.ui.form.ListItem(response.methods[i][1], null, response.methods[i][0]));
+        }
+
       }, this);
       moduleReq.send();
     },
@@ -514,8 +529,9 @@ qx.Class.define("pracweb.Application",
     buildForm : function()
     {
       var group = new qx.ui.groupbox.GroupBox("Expert Settings");
-      var grouplayout = new qx.ui.layout.HBox();
+      var grouplayout = new qx.ui.layout.VBox();
       group.setLayout(grouplayout);
+
       var formLayout = new qx.ui.layout.Grid();
       formLayout.setRowFlex(0, 1);
       formLayout.setRowFlex(1, 1);
@@ -527,46 +543,68 @@ qx.Class.define("pracweb.Application",
     /**
      * create form widgets
      */
-      var module = new qx.ui.form.SelectBox("Select Module");
+      // var moduleSelect = new qx.ui.form.SelectBox("Select Module");
+      var moduleSelect = new qx.ui.basic.Label();
+      this.moduleSelect = moduleSelect;
       var logic = new qx.ui.form.SelectBox("Select Logic");
+      this.logicSelect = logic;
       var kb = new qx.ui.form.SelectBox("Select KB");
+      this.kbSelect = kb;
       var mln_dd = new qx.ui.form.SelectBox("Select MLN");
-      var mlnFile = new qx.ui.form.Button("Browse");
+      this.mlnSelect = mln_dd;
+      // var mlnFile = new qx.ui.form.Button("Browse");
+      // var mlnFile = new com.zenesis.qx.upload.UploadButton("Browse");
+      // var mlnFile = new qx.ui.io.UploadField("button", 'Upload File');
+      var mlnFile = new uploadwidget.UploadButton('uploadfile', 'Upload Button');
       var mln = new qx.ui.form.TextArea("");
+      mln.setWidth(500);
+      mln.setHeight(300);
+      this.mlnArea = mln;
       var evidence_dd = new qx.ui.form.SelectBox("Select Evidence");
+      this.evidenceSelect = evidence_dd;
       var evidenceFile = new qx.ui.form.Button("Browse");
       var evidence = new qx.ui.form.TextArea("");
+      evidence.setWidth(500);
+      evidence.setHeight(300);
+      this.evidenceArea = evidence;
       var method = new qx.ui.form.SelectBox("Select Method");
+      this.methodSelect = method;
       var queries = new qx.ui.form.TextField("");
+      this.queriesField = queries;
       var parameters = new qx.ui.form.TextField("");
+      this.parametersField = parameters;
       var cwPreds = new qx.ui.form.TextField("");
+      this.cwPredsField = cwPreds;
       var closedWorld = new qx.ui.form.CheckBox("Apply CW assumption");
+      this.closedWorld = closedWorld;
       var useMultiCPU = new qx.ui.form.CheckBox("use all CPU's");
-      var submitForm = new qx.ui.form.Button("Infer");
+      this.multiCPU = useMultiCPU;
+      var resetSettings = new qx.ui.form.Button("Reset Settings");
       var uploadMLNFile = new qx.ui.form.Button("upload");
       var uploadDBFile = new qx.ui.form.Button("upload");
 
       /**
        * form widget listeners
        */
-      module.addListener("changeSelection", this._changeModule, this);
+      moduleSelect.addListener("changeSelection", this._change_module, this);
+      mln_dd.addListener("changeSelection", this._update_mln_text, this);
+      evidence_dd.addListener("changeSelection", this._update_evidence_text, this);
+      closedWorld.addListener('changeValue', this._get_exp_settings, this);
+      useMultiCPU.addListener('changeValue', this._get_exp_settings, this);
+      resetSettings.addListener('click', this.reset_settings, this);
 
       /**
        * widget settings
        */
-      module.add(new qx.ui.form.ListItem("-one-"));
-      module.add(new qx.ui.form.ListItem("-two-"));
-      logic.add(new qx.ui.form.ListItem("-choose-"));
-      kb.add(new qx.ui.form.ListItem("-choose-"));
-      mln_dd.add(new qx.ui.form.ListItem("-choose-"));
-      evidence_dd.add(new qx.ui.form.ListItem("-choose-"));
-      method.add(new qx.ui.form.ListItem("-choose-"));
+      this.logicSelect.add(new qx.ui.form.ListItem('FirstOrderLogic', null, 'FOL'));
+      this.logicSelect.add(new qx.ui.form.ListItem('FuzzyLogic', null, 'Fuzzy'));
+      this._get_modules();
 
       /**
-       * add form elements to grid
+       * arrange form elements in grid
        */
       formgroup.add(new qx.ui.basic.Label("Module"), {row: 0, column: 0});
-      formgroup.add(module, {row: 0, column: 1});
+      formgroup.add(moduleSelect, {row: 0, column: 1});
 
       formgroup.add(new qx.ui.basic.Label("Logic"), {row: 1, column: 0});
       formgroup.add(logic, {row: 1, column: 1});
@@ -581,17 +619,21 @@ qx.Class.define("pracweb.Application",
       mlnGroup.setLayout(mlnLayout);
       mlnGroup.add(mlnFile);
       mlnGroup.add(uploadMLNFile);
-      formgroup.add(mlnGroup, {row: 4, column: 1});
+
+      // formgroup.add(mlnGroup, {row: 4, column: 1}); // uncomment when proper upload mgr found
+
       formgroup.add(mln, {row: 5, column: 1});
 
       formgroup.add(new qx.ui.basic.Label("Evidence"), {row: 6, column: 0});
       formgroup.add(evidence_dd, {row: 6, column: 1});
+
       var dbGroup = new qx.ui.groupbox.GroupBox();
       var dbLayout = new qx.ui.layout.HBox(20);
       dbGroup.setLayout(dbLayout);
       dbGroup.add(evidenceFile);
       dbGroup.add(uploadDBFile);
-      formgroup.add(dbGroup, {row: 7, column: 1});
+      // formgroup.add(dbGroup, {row: 7, column: 1}); // uncomment when proper upload mgr found
+
       formgroup.add(evidence, {row: 8, column: 1});
 
       formgroup.add(new qx.ui.basic.Label("Method"), {row: 9, column: 0});
@@ -614,6 +656,8 @@ qx.Class.define("pracweb.Application",
       checkboxGroup.add(useMultiCPU);
 
       formgroup.add(checkboxGroup, {row: 13, column: 1});
+      
+      formgroup.add(resetSettings, {row: 14, column: 1});
 
       group.add(formgroup);
       return group;
@@ -701,21 +745,118 @@ qx.Class.define("pracweb.Application",
       req.send();
     },
 
-    _clearFlowChart : function(e) {
+    _clear_flow_chart : function(e) {
       var nodes = ['init','nl_parsing','ac_recognition','senses_and_roles','executable','plan_generation','achieved_by','roles_transformation'];
       for (var x = 0; x < nodes.length; x++) {
         document.getElementById(nodes[x]).nextElementSibling.style.fill = "white";
       }
     },
 
-    _changeModule : function(e) {
-      // request options for other form fiels from server
+    _change_module : function(e) {
+      console.log('changing module, requesting selection options');
+      var req = new qx.io.request.Xhr(); 
+      req.setUrl("/prac/update_module");
+      req.setMethod('POST');
+      req.setRequestHeader("Cache-Control", "no-cache");
+      req.setRequestHeader("Content-Type", 'application/json');
+      console.log('sending module', this.moduleSelect.getSelection()[0].getLabel() );
+      req.setRequestData({ "module": this.moduleSelect.getSelection()[0].getLabel() });
+      var that = this;
+      req.addListener("success", function(e) {
+        var tar = e.getTarget();
+        var response = tar.getResponse();
+        console.log(response);
+        this._update_selections(response);
+        return;
+      }, that);
+      req.send();
+    },
+
+    _get_exp_settings : function() {
+      var settings = {};
+      settings['module'] = this.moduleSelect.getSelection().length ? this.moduleSelect.getSelection()[0].getLabel() : '';
+      settings['logic'] = this.logicSelect.getModelSelection().length ? this.logicSelect.getModelSelection().getItem(0) : '';
+      settings['kb'] = this.kbSelect.getSelection().length ? this.kbSelect.getSelection()[0].getLabel() : '';
+      settings['mln'] = this.mlnArea.getValue();
+      settings['evidence'] = this.evidenceArea.getValue();
+      settings['method'] = this.methodSelect.getModelSelection().length ? this.methodSelect.getModelSelection().getItem(0) : '';
+      settings['queries'] = this.queriesField.getValue();
+      settings['params'] = this.parametersField.getValue();
+      settings['cwpreds'] = this.cwPredsField.getValue();
+      settings['cwAssumption'] = this.closedWorld.getValue();
+      settings['multiCPU'] = this.multiCPU.getValue();
+      console.log('settings', settings);
+      return settings;
+    },
+
+    _update_mln_text : function(e) {
+      if (e.getData().length > 0) {
+        var selection = e.getData()[0].getLabel();
+        this._update_text(selection, this.mlnArea);
+      } else {
+        this.mlnArea.setValue('');
+      }
+    },
+
+    _update_evidence_text : function(e) {
+      if (e.getData().length > 0) {
+        var selection = e.getData()[0].getLabel();
+        this._update_text(selection, this.evidenceArea);
+      } else {
+        this.evidenceArea.setValue('');
+      }
+    },
+
+    _update_text : function(selection, area) {
+      var that = this;
+      console.log('changing text, requesting...');
+      var module = this.moduleSelect.getSelection()[0].getLabel();
+      var req = new qx.io.request.Xhr(); 
+      req.setUrl("/prac/update_text");
+      req.setMethod('POST');
+      req.setRequestHeader("Cache-Control", "no-cache");
+      req.setRequestHeader("Content-Type", 'application/json');
+      req.setRequestData({ "module": module , "fName": selection });
+      req.addListener("success", function(e) {
+        var tar = e.getTarget();
+        var response = tar.getResponse();
+        area.setValue(response.text);
+
+        return;
+      }, that);
+      req.send();
+      // request options for other form fields from server
+    },
+
+    /**
+     * update selection items in expert settings
+     */
+    _update_selections : function(data) {
+      // update kb selections
+      this.kbSelect.removeAll();
+      for (var k = 0; k < data.kblist.length; k++) {
+        this.kbSelect.add(new qx.ui.form.ListItem(data.kblist[k]));
+      }
+
+      // update mln selections
+      this.mlnSelect.removeAll();
+      console.log('mlnlist', data.mlnlist);
+      for (var m = 0; m < data.mlnlist.length; m++) {
+        console.log('adding', data.mlnlist[m]);
+        this.mlnSelect.add(new qx.ui.form.ListItem(data.mlnlist[m]));
+      }
+
+      // update evidence selections
+      this.evidenceSelect.removeAll();
+      for (var e = 0; e < data.evidencelist.length; e++) {
+        this.evidenceSelect.add(new qx.ui.form.ListItem(data.evidencelist[e]));
+      }
     },
 
     /**
      * hide or show expert settings pane
      */
-    _changeVisiblity : function(e) {
+    _change_visibility : function(e) {
       if (this._showexpSettingsContainer)
         this._expSettingsContainer.show();
       else 

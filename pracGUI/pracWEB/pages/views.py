@@ -9,27 +9,10 @@ from pracWEB.pages.utils import initFileStorage
 import json
 
 from urlparse import urlparse
-import os
 import time
 import logging
 from prac.core import PRAC
-from prac.wordnet import WordNet
-from pracWEB.app import PRACSession
-
-def ensure_prac_session(session):
-    log = logging.getLogger(__name__)
-    prac_session = pracApp.session_store[session]
-    if prac_session is None:
-        session['id'] = os.urandom(24)
-        prac_session = PRACSession(session)
-        prac_session.prac = PRAC()
-        prac_session.prac.wordnet = WordNet(concepts=None)
-        # initialize the nl_parsing module so the JVM is started
-        prac_session.prac.getModuleByName('nl_parsing')
-        log.info('created new PRAC session %s' % str(prac_session.id.encode('base-64')))
-        pracApp.session_store.put(prac_session)
-    return prac_session
-        
+from pracWEB.pages.utils import ensure_prac_session
 
 @pracApp.app.route('/prac/test/')
 def test():
