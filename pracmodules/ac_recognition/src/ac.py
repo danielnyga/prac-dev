@@ -94,6 +94,7 @@ class ActionCoreIdentification(PRACModule):
 
         png, ratio = kb.get_cond_prob_png(filename=self.name)
         inf_step.png = (png, ratio)
+        inf_step.applied_kb = kb.filename
         return inf_step
     
     

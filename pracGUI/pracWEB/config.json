@@ -67,9 +67,79 @@
         {
           "manifest" : "../../3rdparty/QxD3/Manifest.json"
         }
+        // { 
+        //   "manifest" : "contrib://UploadMgr/trunk/Manifest.json" 
+        // },
+        // { 
+        //   "manifest" : "contrib://UploadWidget/trunk/Manifest.json" 
+        // } 
       ]
     }
     
+    // try to add external js file
+    ,"common" : 
+    {
+       "add-script" : 
+       [
+         {
+           "uri": "static/script/shCore.js"
+         },
+         {
+           "uri": "static/script/shBrushCSharp.js"
+         },
+         {
+           "uri": "static/script/shBrushCpp.js"
+         },
+         {
+           "uri": "static/script/shBrushXml.js"
+         },
+         {
+           "uri": "static/script/shBrushCss.js"
+         },
+         {
+           "uri": "static/script/shBrushDelphi.js"
+         },
+         {
+           "uri": "static/script/shBrushJava.js"
+         },
+         {
+           "uri": "static/script/shBrushJScript.js"
+         },
+         {
+           "uri": "static/script/shBrushMLN.js"
+         },         
+         {
+           "uri": "static/script/shBrushPhp.js"
+         },
+         {
+           "uri": "static/script/shBrushPython.js"
+         },
+         {
+           "uri": "static/script/shBrushRuby.js"
+         },
+         {
+           "uri": "static/script/shBrushSql.js"
+         },
+         {
+           "uri": "static/script/shBrushVb.js"
+         },
+         {
+           "uri": "static/script/shBrushXml.js"
+         }
+       ],
+      "add-css" :
+      [
+        {
+          "uri" : "static/css/SyntaxHighlighter.css"
+        }
+      ]
+   },
+   "source-script" : {
+       "extend" : ["common"]
+   },
+   "build-script" : {
+       "extend" : ["common"]
+   }
 
     // If you want to tweak a job setting, see the following sample where
     // the "format" feature of the "build-script" job is overridden.

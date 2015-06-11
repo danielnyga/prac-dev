@@ -35,10 +35,14 @@ def _pracinfer_step():
         infer = PRACInference(prac, [data['sentence']])
         parser = prac.getModuleByName('nl_parsing')
         prac.run(infer, parser)
+        evidence = infer.inference_steps[-1].output_dbs
         pracsession.infer = infer
         pracsession.synPreds = parser.mln.predicates
         pracsession.leaveSynPreds = True
     else:
+        step = pracsession.infer.inference_steps[-1]
+        evidence = step.output_dbs
+
         if pracsession.infer.next_module() is not None :
             module = prac.getModuleByName(pracsession.infer.next_module())
             print 'running', module.name
@@ -81,8 +85,15 @@ def _pracinfer_step():
                 pracsession.old_infer = pracsession.infer
             else:
                 pracsession.old_infer = []
+            step = pracsession.infer.inference_steps[-1]
+            if hasattr(step, 'applied_kb'):
+                settings = _get_settings(step.module, step.applied_kb, evidence)
+            else:
+                settings = None
             delattr(pracsession, 'infer')
-            return jsonify( {'result': result, 'finish': True} )
+            return jsonify( {'result': result, 'finish': True, 'settings': settings } )
+
+
     result = []
     for db in pracsession.infer.inference_steps[-1].output_dbs:
         db.write(sys.stdout, color=True)
@@ -98,21 +109,52 @@ def _pracinfer_step():
                 result.append({'source': a_tuple[2][2], 'target': a_tuple[2][0] , 'value': a_tuple[1] , 'arcStyle': 'strokegreen'})
                 result.append({'source': a_tuple[2][2], 'target': a_tuple[2][1] , 'value': a_tuple[1] , 'arcStyle': 'strokegreen'})
     pracsession.leaveSynPreds = False
-    return jsonify( {'result': result, 'finish': False} )
+    step = pracsession.infer.inference_steps[-1]
+    if hasattr(step, 'applied_kb'):
+        settings = _get_settings(step.module, step.applied_kb, evidence)
+    else:
+        settings = _get_settings(step.module, None, evidence)
+
+    return jsonify( { 'result': result, 'finish': False, 'settings': settings } )
 
 
 @pracApp.app.route('/prac/_pracinfer_get_next_module', methods=['GET'])
 def _pracinfer_get_next_module():
     pracsession = ensure_prac_session(session)
     if hasattr(pracsession, 'infer'):
-        print 'pracsession next module', pracsession.infer.next_module()
-        if pracsession.infer.next_module() != None:
+        modulename = pracsession.infer.next_module()
+        print 'pracsession next module', modulename
+        if modulename != None:
+            module = pracsession.prac.getModuleByName(modulename)
+            
             return pracsession.infer.next_module()
         else:
             return 'None'
     else:
         return 'nl_parsing'
 
+def _get_settings(module, kbname, evidence):
+    settings = {}
+    settings['module'] = module.name
+
+    if type(evidence) is unicode:
+        settings['evidence'] = evidence
+    else:
+        dbStr = StringIO.StringIO()
+        for db in evidence:
+            db.write(dbStr, color=False)
+        settings['evidence'] = dbStr.getvalue()
+    
+    if kbname is not None:
+        kb = module.load_pracmt(kbname)
+        mlnStr = StringIO.StringIO()
+        kb.query_mln.write(mlnStr, color=False)
+
+        settings['mln'] = mlnStr.getvalue()
+        settings.update(kb.query_params)
+
+    print 'generated settings:', settings
+    return settings
 
 @pracApp.app.route('/prac/_get_cram_plan', methods=['GET'])
 def _get_cram_plan():

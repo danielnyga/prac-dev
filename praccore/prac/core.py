@@ -435,6 +435,7 @@ class PRACModule(object):
         f = open(os.path.join(filepath, binaryFileName), 'r')
         kb = pickle.load(f)
         kb.prac = self.prac
+        kb.filename = mt_name
         kb.set_querymln(kb.query_mln_str, os.path.join(self.module_path, 'mln'))
         f.close()
         

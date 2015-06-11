@@ -111,13 +111,13 @@ qx.Class.define("pracweb.Graph",
     replaceData : function (data) {
       this.clear();
       for (var dataIndex = 0; dataIndex < data.length; dataIndex++) {
-        if (t.findNodeIndex(data[dataIndex].source) === -1) {
-              t.addNode(data[dataIndex].source);
+        if (this.findNodeIndex(data[dataIndex].source) === -1) {
+              this.addNode(data[dataIndex].source);
             }
-            if (t.findNodeIndex(data[dataIndex].target) === -1) {
-              t.addNode(data[dataIndex].target);
+            if (this.findNodeIndex(data[dataIndex].target) === -1) {
+              this.addNode(data[dataIndex].target);
             }
-        t.links.push({"source": t.findNode(data[dataIndex].source),"target": t.findNode(data[dataIndex].target),"value": newVal, "arcStyle":data[dataIndex].arcStyle});
+        this.links.push({"source": this.findNode(data[dataIndex].source),"target": this.findNode(data[dataIndex].target),"value": data[dataIndex].value, "arcStyle":data[dataIndex].arcStyle});
       }
       this.update();
     },        
@@ -341,8 +341,8 @@ qx.Class.define("pracweb.Graph",
             dr = Math.sqrt(dx * dx + dy * dy);
 
             // offset to let arc start and end at the edge of the circle
-            offSetX = (dx * d.target.radius) / dr;
-            offSetY = (dy * d.target.radius) / dr;
+            var offSetX = (dx * d.target.radius) / dr;
+            var offSetY = (dy * d.target.radius) / dr;
         return "M" + 
             (d.source.x + offSetX) + "," + 
             (d.source.y + offSetY) + "A" + 
