@@ -106,17 +106,18 @@ qx.Class.define("pracweb.Application",
       var flowChartScroll = new qx.ui.container.Scroll().set({
         width: 444,
         maxWidth: 444,
-        height: 503
+        height: 500
       });
 
       var flowChartContainer = new qx.ui.container.Composite(new qx.ui.layout.VBox()).set({
         width: 444,
         minWidth: 444,
-        height: 503,
+        height: 400,
         minHeight: 503
        });
 
       flowChartScroll.add(flowChartContainer);
+      this._flowChartScroll = flowChartScroll;
 
       // embedding for flowchart svg
       var flowChartEmbed = new qx.ui.embed.Html();
@@ -130,6 +131,7 @@ qx.Class.define("pracweb.Application",
       this._condProb = condProb;
       condProb.setScale(true);
       condProb.setMarginTop(20);
+      condProb.setMinHeight(300);
       flowChartContainer.add(condProb, { top:0 });
 
 
@@ -138,6 +140,11 @@ qx.Class.define("pracweb.Application",
         condProb.setWidth(e.getData().width); 
         condProb.setHeight(e.getData().width / this._imgRatio);
       });
+
+      // resize flowchartcontainer to create scrollbars if the cond prob png is too large
+      condProb.addListener("changeSource", function(e) {
+        flowChartContainer.setMinHeight(600 + this._flowChartScroll.getInnerSize().width  / this._imgRatio);
+      }, this);
 
       // expert settings
       var form = this.buildForm();
@@ -847,13 +854,11 @@ qx.Class.define("pracweb.Application",
      */
     _change_visibility : function(e) {
 
-      if (this._showinfSettingsContainer) {
+      if (this._showinfSettingsContainer)
         this._infSettingsContainer.show();
-
-      } else {
+      else
         this._infSettingsContainer.exclude();
         this._graphVizContainer.show();
-      }
     }
   }
 });
