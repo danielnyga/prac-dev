@@ -29,6 +29,8 @@ qx.Class.define("pracweb.Graph",
 
     this.audio = new Audio("/prac/static/audio/bubble.wav");
 
+    // width and height of svg
+    // influences center of gravity ([w/2, h/2])
     this.w = window.innerWidth;
     this.h = window.innerHeight;
 
@@ -46,8 +48,6 @@ qx.Class.define("pracweb.Graph",
       .attr("orient", "auto")
       .append("path")
       .attr("d", "M0,-5L10,0L0,5 Z");
-
-
 
     this.force = this.d3.layout.force();
     this.nodes = this.force.nodes();
@@ -132,7 +132,7 @@ qx.Class.define("pracweb.Graph",
     },
 
     /**
-     * removes a node with the given id and all its attached links
+     * removes a node with the given id
      */
     removeNode : function (id) {
       this.nodes.splice(this.findNodeIndex(id),1);
@@ -252,6 +252,9 @@ qx.Class.define("pracweb.Graph",
       return -1;
     },
 
+    /**
+     * clone audio object to play sound synchronously
+     */
     playSound : function() {
       var audioClone = this.audio.cloneNode();
       audioClone.play();
@@ -382,7 +385,7 @@ qx.Class.define("pracweb.Graph",
       };
 
       this.force
-        .size([.8*window.innerWidth, .8*window.innerHeight])
+        .size([this.w, this.h])
         .linkDistance( this.h/2 )
         .charge(-1000)
         .on("tick", tick)

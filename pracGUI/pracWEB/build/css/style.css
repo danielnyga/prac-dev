@@ -3,18 +3,10 @@ html, body {
   height: 100%;
 }
 
-#visualization {
-  width: 100%;
-  height: 100%;
-  overflow: hidden; /* if you don't want #second to wrap below #first */
-  height:1000px;
-}
-
 #viz {
-  width: 100%;
-  height: 100%;
+  width: 99%;
+  height: 99%;
   border: 1px dashed gray;
-  height: 800px;
   background-color: #ffffff;
 }
 

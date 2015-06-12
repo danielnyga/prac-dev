@@ -94,6 +94,7 @@ qx.Class.define("pracweb.Application",
       });
       this._infSettingsContainer = infSettingsContainer;
 
+
       // Create container for the right:
       var innerSplitPane = new qx.ui.splitpane.Pane("horizontal");
       var graphVizContainer = new qx.ui.container.Composite(new qx.ui.layout.Grow()).set({
@@ -147,14 +148,25 @@ qx.Class.define("pracweb.Application",
       infSettingsContainer.add(placeholder);
       infSettingsContainer.add(form);
 
-
       // visualization of svg graph
       var vizEmbedGrp = new qx.ui.groupbox.GroupBox("Visualization");
       var vizLayout = new qx.ui.layout.Grow();
       vizEmbedGrp.setLayout(vizLayout);
-      var vizHTML = "<div id='viz' style='width: 100%; height: 100%;'></div>";
+      var vizHTML = "<div id='viz'></div>";
       var vizEmbed = new qx.ui.embed.Html(vizHTML);
+      this._vizEmbed = vizEmbed;
       vizEmbedGrp.add(vizEmbed);
+      this._vizEmbedGrp = vizEmbedGrp;
+
+      // reposition graph when inference settings are shown/hidden
+      vizEmbedGrp.addListener('resize', function(e) {
+        if (typeof this._graph != 'undefined') {
+          var vizSize = vizEmbedGrp.getInnerSize();
+          this._graph.w = vizSize.width;
+          this._graph.h = vizSize.height;
+          this._graph.update();
+        }
+      }, this);
 
       graphVizContainer.add(vizEmbedGrp);
       this._flowChartContainer = flowChartContainer;
@@ -185,6 +197,9 @@ qx.Class.define("pracweb.Application",
     loadGraph : function() {
       if (typeof this._graph === 'undefined') {
         this._graph = new pracweb.Graph();
+        var vizSize = this._vizEmbedGrp.getInnerSize();
+        this._graph.w = vizSize.width;
+        this._graph.h = vizSize.height;
       } 
       this._graph.clear();
     },
@@ -194,7 +209,6 @@ qx.Class.define("pracweb.Application",
     },
 
     updateGraph : function(removeLinks, addLinks) {
-      console.log('data', removeLinks, addLinks);
       this._graph.updateData(removeLinks, addLinks);
     },
 
@@ -582,9 +596,6 @@ qx.Class.define("pracweb.Application",
       evidenceField.setWidth(300);
       evidenceField.setHeight(300);
       this.evidenceField = evidenceField;
-      evidenceField.addListener("changeHtml", function(e) {
-        console.log('html content', e.getData());
-      }, this);
       // var evidence = new qx.ui.form.TextArea("");
       // evidence.setWidth(300);
       // evidence.setHeight(300);
@@ -835,11 +846,14 @@ qx.Class.define("pracweb.Application",
      * hide or show expert settings pane
      */
     _change_visibility : function(e) {
-      if (this._showinfSettingsContainer)
+
+      if (this._showinfSettingsContainer) {
         this._infSettingsContainer.show();
-      else 
+
+      } else {
         this._infSettingsContainer.exclude();
-      this._graphVizContainer.show();
+        this._graphVizContainer.show();
+      }
     }
   }
 });
