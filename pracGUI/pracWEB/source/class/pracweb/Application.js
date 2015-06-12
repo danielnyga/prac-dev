@@ -78,11 +78,19 @@ qx.Class.define("pracweb.Application",
       	contentIsle.setHeight(document.getElementById("container", true, true).offsetHeight);
       });
       contentIsle.setLayout(new qx.ui.layout.Grow());
+
+      // scrollable container 
+      var mainScrollContainer = new qx.ui.container.Scroll().set({
+        width: 1024,
+        height: 768
+      });
 	
       // main container (contains outer splitpane and control panel)
       var container = new qx.ui.container.Composite(new qx.ui.layout.VBox()).set({
         padding: 0
       });
+
+      mainScrollContainer.add(container);
 
       // outer splitpane (contains inference settings and inner splitpane)
       var splitPane = new qx.ui.splitpane.Pane("horizontal");
@@ -192,7 +200,7 @@ qx.Class.define("pracweb.Application",
       container.add(controlPane);
 
       // add container to content div
-      contentIsle.add(container);
+      contentIsle.add(mainScrollContainer);
       
       // initially do not show form and do NOT use stepwise inference by default
       this._showinfSettingsContainer = false;
