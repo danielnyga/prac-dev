@@ -1,5 +1,9 @@
+import urllib2
+import os
+import json
+
+WUP_SIM_LINK = "http://strazdas.vdu.lt:8081/AcatWSOntology4/rest/similarity"
 PRAC_HOME = os.environ['PRAC_HOME']
-nltk.data.path = [os.path.join(PRAC_HOME, 'data', 'nltk_data')]
 
 NLTK_POS = ['n', 'v', 'a', 'r']
 
@@ -60,12 +64,21 @@ known_concepts = ['hydrochloric_acid.n.01',
 
 
 class WordNet(object):
-    '''
-    Wrapper class for WordNet, which may be initialized with
-    some WordNet concepts spanning an initial, collapsed
-    concept taxonomy.
-    '''
+  
     def wup_similarity(self, synset1, synset2):
+        request_answer = urllib2.urlopen(WUP_SIM_LINK+"/"+synset1+"/"+synset2).read()
+        sim = 0.0
+        
+        try:
+            json_obj = json.loads(request_answer)
+            sim = float(json_obj['SimilarityValue'])
+        
+        except Exception as e:
+            #TODO add logger
+            print request_answer
+        
+        return sim
+        
         
     
             
