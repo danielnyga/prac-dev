@@ -3,6 +3,7 @@ import os
 import json
 
 WUP_SIM_LINK = "http://strazdas.vdu.lt:8081/AcatWSOntology4/rest/similarity"
+SYNSET_LINK = "http://strazdas.vdu.lt:8081/AcatWSOntology4/rest/synsets"
 PRAC_HOME = os.environ['PRAC_HOME']
 
 NLTK_POS = ['n', 'v', 'a', 'r']
@@ -64,7 +65,26 @@ known_concepts = ['hydrochloric_acid.n.01',
 
 
 class WordNet(object):
-  
+    def synsets(self, word, pos):
+        if not pos in NLTK_POS:
+            #TODO add logger and abort 
+            print 'Unknown POS tag: %s' % pos
+        
+        request_answer = urllib2.urlopen(SYNSET_LINK+"/"+word+"/").read()
+        synsets = []
+        
+        try:
+            json_obj = json.loads(request_answer)
+            data = json_obj['data']
+            
+            for element in data:
+                synsets.append(str(element["synset"]))
+        except Exception as e:
+            #TODO add logger
+            print request_answer
+        
+        return synsets
+        
     def wup_similarity(self, synset1, synset2):
         request_answer = urllib2.urlopen(WUP_SIM_LINK+"/"+synset1+"/"+synset2).read()
         sim = 0.0
