@@ -4,6 +4,7 @@ import json
 
 WUP_SIM_LINK = "http://strazdas.vdu.lt:8081/AcatWSOntology4/rest/similarity"
 SYNSET_LINK = "http://strazdas.vdu.lt:8081/AcatWSOntology4/rest/synsets"
+HYPERNYMS_LINK = "http://strazdas.vdu.lt:8081/AcatWSOntology4/rest/hypernyms"
 PRAC_HOME = os.environ['PRAC_HOME']
 
 NLTK_POS = ['n', 'v', 'a', 'r']
@@ -98,7 +99,29 @@ class WordNet(object):
             print request_answer
         
         return sim
+    
+    def hypernym_paths(self, synset):
+        request_answer = urllib2.urlopen(HYPERNYMS_LINK+"/"+synset).read()
+        result = []
         
+        try:
+            json_obj = json.loads(request_answer)
+            paths = json_obj['paths']
+            
+            for element in paths:
+                path = element['path']
+                temp = []
+                for synset in path:
+                    temp.append(str(synset['synsetName']))
+                #To keep consistent with the nltk wrapper
+                temp = list(reversed(temp))
+                result.append(temp)
+                
+        except Exception as e:
+            #TODO add logger
+            print request_answer
+        
+        return result
         
     
             
