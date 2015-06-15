@@ -776,7 +776,7 @@ qx.Class.define("pracweb.Application",
       typeof settings['closedWorld'] != 'undefined' ? this.closedWorld.setValue(settings['closedWorld'] ? 'true' : 'false') : this.closedWorld.resetValue();
 
       var tmpEvidenceHTML = '<textarea name="code" class="mln">' + this._oldEvidence + '</textarea>';
-      var evidenceHTML = dp.SyntaxHighlighter.HighlightGivenHTML('code', tmpEvidenceHTML);
+      var evidenceHTML = dp.SyntaxHighlighter.HighlightGivenHTML('code', tmpEvidenceHTML, true, false, false, 1, false);
       this.evidenceField.setHtml(evidenceHTML);
 
       var mlnContent;
@@ -786,8 +786,7 @@ qx.Class.define("pracweb.Application",
         mlnContent = settings['mln'];
       }
       var tmpMLNHTML = '<textarea name="code" class="mln">' + mlnContent + '</textarea>';  
-      var mlnHTML = dp.SyntaxHighlighter.HighlightGivenHTML('code', tmpMLNHTML);
-
+      var mlnHTML = dp.SyntaxHighlighter.HighlightGivenHTML('code', tmpMLNHTML, true, false, false, 1, false);
       this.mlnField.setHtml(mlnHTML);
     },
 

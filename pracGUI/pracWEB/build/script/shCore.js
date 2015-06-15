@@ -57,6 +57,8 @@ dp.sh.Toolbar.Commands = {
 		label: 'view plain',
 		func: function(sender, highlighter)
 		{
+			// var origCode = sender.parentNode.parentNode.parentNode.nextElementSibling.value;
+			// var code = dp.sh.Utils.FixForBlogger(origCode).replace(/</g, '&lt;');
 			var code = dp.sh.Utils.FixForBlogger(highlighter.originalCode).replace(/</g, '&lt;');
 			var wnd = window.open('', '_blank', 'width=750, height=400, location=0, resizable=1, menubar=0, scrollbars=0');
 			wnd.document.write('<textarea style="width:99%;height:99%">' + code + '</textarea>');
@@ -557,6 +559,7 @@ dp.sh.Highlighter.prototype.Highlight = function(code)
 	this.div.appendChild(this.ol);
 }
 
+
 dp.sh.Highlighter.prototype.GetKeywords = function(str) 
 {
 	return '\\b' + str.replace(/ /g, '\\b|\\b') + '\\b';
@@ -570,11 +573,9 @@ dp.sh.BloggerMode = function()
 // highlightes all elements identified by name and gets source code from specified property
 dp.sh.HighlightAll = function(name, showGutter /* optional */, showControls /* optional */, collapseAll /* optional */, firstLine /* optional */, showColumns /* optional */)
 {
-	console.log('highlightall');
 	function FindValue()
 	{
 		var a = arguments;
-		console.log('arguments',arguments);
 		
 		for(var i = 0; i < a.length; i++)
 		{
@@ -629,7 +630,6 @@ dp.sh.HighlightAll = function(name, showGutter /* optional */, showControls /* o
 	// for some reason IE doesn't find <pre/> by name, however it does see them just fine by tag name... 
 	FindTagsByName(elements, name, 'pre');
 	FindTagsByName(elements, name, 'textarea');
-	console.log('elements', elements);
 
 	if(elements.length == 0)
 		return;
@@ -664,7 +664,8 @@ dp.sh.HighlightAll = function(name, showGutter /* optional */, showControls /* o
 
 		if(registered[language] == null)
 			continue;
-		
+
+
 		// instantiate a brush
 		highlighter = new dp.sh.Brushes[registered[language]]();
 		
@@ -704,8 +705,6 @@ dp.sh.HighlightAll = function(name, showGutter /* optional */, showControls /* o
 		highlighter.source = element;
 
 		element.parentNode.insertBefore(highlighter.div, element);
-		console.log('element', element);
-		console.log('highlighter div', highlighter.div);
 	}	
 }
 
@@ -807,7 +806,7 @@ dp.sh.HighlightGivenHTML = function(name, html, showGutter /* optional */, showC
 
 		if(registered[language] == null)
 			continue;
-		
+
 		// instantiate a brush
 		highlighter = new dp.sh.Brushes[registered[language]]();
 		
@@ -846,8 +845,8 @@ dp.sh.HighlightGivenHTML = function(name, html, showGutter /* optional */, showC
 		
 		highlighter.source = element;
 
-		var tmpDiv = document.createElement('div');
-		tmpDiv.appendChild(highlighter.div);
-		return tmpDiv.innerHTML;
+		element.parentNode.insertBefore(highlighter.div, element);
+
+		return element.parentNode.innerHTML;
 	}	
 }
