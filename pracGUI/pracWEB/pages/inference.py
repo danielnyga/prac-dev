@@ -23,10 +23,10 @@ from pracutils.ActioncoreDescriptionHandler import ActioncoreDescriptionHandler
 @pracApp.app.route('/prac/_pracinfer_step', methods=['POST', 'GET'])
 def _pracinfer_step():
     log = logging.getLogger(__name__)
-    print pracApp.session_store
     pracsession = ensure_prac_session(session)
     prac = pracsession.prac
 
+    # first inference step (nl parsing)
     if request.method == 'POST':
         data = json.loads(request.get_data())
         pracsession.count = 1
@@ -45,12 +45,10 @@ def _pracinfer_step():
 
         if pracsession.infer.next_module() is not None :
             module = prac.getModuleByName(pracsession.infer.next_module())
-            print 'running', module.name
             prac.run(pracsession.infer,module)
-            print 'modulename', module.name
             if module.name == 'senses_and_roles':
-                print 'storing current pracsession.infer step'
                 pracsession.sar_step = pracsession.infer.inference_steps[-1]
+        # final step used to generate final graph structure
         else:
             result = []
             finaldb = Database(pracsession.prac.mln)
@@ -61,6 +59,7 @@ def _pracinfer_step():
                         _, predname, args = pracsession.prac.mln.logic.parseLiteral(atom)
                         if predname in ActioncoreDescriptionHandler.roles().union(['has_sense', 'action_core', 'achieved_by']):
                             finaldb.addGroundAtom(atom)
+            # add all roles and word sense links
             for res in finaldb.query('action_core(?w, ?a) ^ has_sense(?w, ?s)'):
                 actioncore = res['?a']
                 sense = res['?s']
@@ -81,19 +80,25 @@ def _pracinfer_step():
                         sense = res['?s']
                         result.append({'source': actioncore, 'target': sense , 'value': role , 'arcStyle': 'strokegreen'})
 
+            # store current inference step if an executable plan exists
             if hasattr(pracsession.infer.inference_steps[-1], 'executable_plans'):
                 pracsession.old_infer = pracsession.infer
             else:
                 pracsession.old_infer = []
+
+            # retrieve settings for executed pracmodule
             step = pracsession.infer.inference_steps[-1]
             if hasattr(step, 'applied_kb'):
                 settings = _get_settings(step.module, step.applied_kb, evidence)
             else:
                 settings = None
+
+            # finally delete inference object
             delattr(pracsession, 'infer')
+
             return jsonify( {'result': result, 'finish': True, 'settings': settings } )
 
-
+    # generate graph links
     result = []
     for db in pracsession.infer.inference_steps[-1].output_dbs:
         db.write(sys.stdout, color=True)
@@ -108,7 +113,10 @@ def _pracinfer_step():
             else:
                 result.append({'source': a_tuple[2][2], 'target': a_tuple[2][0] , 'value': a_tuple[1] , 'arcStyle': 'strokegreen'})
                 result.append({'source': a_tuple[2][2], 'target': a_tuple[2][1] , 'value': a_tuple[1] , 'arcStyle': 'strokegreen'})
+
     pracsession.leaveSynPreds = False
+
+    # retrieve settings for executed pracmodule
     step = pracsession.infer.inference_steps[-1]
     if hasattr(step, 'applied_kb'):
         settings = _get_settings(step.module, step.applied_kb, evidence)
@@ -123,20 +131,17 @@ def _pracinfer_get_next_module():
     pracsession = ensure_prac_session(session)
     if hasattr(pracsession, 'infer'):
         modulename = pracsession.infer.next_module()
-        print 'pracsession next module', modulename
-        if modulename != None:
-            module = pracsession.prac.getModuleByName(modulename)
-            
-            return pracsession.infer.next_module()
-        else:
-            return 'None'
+        return 'None' if modulename is None else modulename
     else:
         return 'nl_parsing'
+
 
 def _get_settings(module, kbname, evidence):
     settings = {}
     settings['module'] = module.name
+    settings['mln'] = ''
 
+    # evidence is either text or list of dbs
     if type(evidence) is unicode:
         settings['evidence'] = evidence
     else:
@@ -145,22 +150,22 @@ def _get_settings(module, kbname, evidence):
             db.write(dbStr, color=False)
         settings['evidence'] = dbStr.getvalue()
     
+    # if knowledge base exists, read settings
     if kbname is not None:
         kb = module.load_pracmt(kbname)
         mlnStr = StringIO.StringIO()
         kb.query_mln.write(mlnStr, color=False)
-
         settings['mln'] = mlnStr.getvalue()
         settings.update(kb.query_params)
 
-    print 'generated settings:', settings
     return settings
+
 
 @pracApp.app.route('/prac/_get_cram_plan', methods=['GET'])
 def _get_cram_plan():
     pracsession = ensure_prac_session(session)
-    print 'returning cramplan', pracsession.old_infer.inference_steps[-1].executable_plans
-    return jsonify( {'plans': pracsession.old_infer.inference_steps[-1].executable_plans })
+    cramPlans = pracsession.old_infer.inference_steps[-1].executable_plans
+    return jsonify( {'plans': cramPlans })
 
 
 @pracApp.app.route('/prac/_pracinfer_get_cond_prob', methods=['GET'])
@@ -178,51 +183,7 @@ def _get_cond_prob():
 @pracApp.app.route('/prac/_get_role_distributions', methods=['GET'])
 def _get_role_distributions():
     pracsession = ensure_prac_session(session)
-    print 'returning role distributions'
     module = pracsession.prac.getModuleByName('senses_and_roles')
-    print 'pracsession hasattr sar_step:', hasattr(pracsession, 'sar_step')
     role_dists = module.role_distributions(pracsession.sar_step)
     return jsonify( {'distributions': role_dists })
- 
-# def infer(data, files):
-#     if data['module'] in pracApp.prac.moduleManifestByName: # call module's inference method
-#         print 'Running Inference for module ', data['module']
-#         infer = PRACInference(pracApp.prac, [])
-#         module = pracApp.prac.getModuleByName(str(data['module']))
-#         inferenceStep = PRACInferenceStep(infer, module)
-# 
-#         mln = readMLNFromString(str(data['mln']),str( data['logic']))
-#         
-#         trainingDBs = readDBFromString(mln, str(data['evidence']), ignoreUnknownPredicates=True)
-#         inferenceStep.output_dbs = trainingDBs
-#         infer.inference_steps.append(inferenceStep)
-# 
-#         if 'kb' in data:
-#             kb = module.load_pracmt(str(data['kb']))
-#         else:
-#             kb = module.load_pracmt('default')
-# 
-#         params = {}
-#         params['queries'] = str(data['queries'])
-#         params['method'] = str(data['method'])
-#         params['cwPreds'] = str(data['cwPreds'])
-#         params['closedWorld'] = (1 if 'closedWorld' in data else 0)
-#         params['useMultiCPU'] = (1 if 'useMultiCPU' in data else 0)
-#         params['logic'] = str(data['logic'])
-#         params.update(eval("dict({})".format(str(data['parameters']))))
-# 
-#         kb.query_params = params
-#         kb.set_querymln(str(data['mln']), path=os.path.join(module.module_path, 'mln'))
-#         kb.dbs = list(readDBFromString(kb.query_mln, str(data['evidence'])))
-# 
-#         pracApp.prac.run(infer, module, mln=mln, kb=kb)
-#         step = infer.inference_steps[-1]
-# 
-#         if 'saveKB' in data:
-#             if 'kbName' in data:
-#                 module.save_pracmt(kb, str(data['kbName']))
-#             else:
-#                 module.save_pracmt(kb, str(data['kb']))
-# 
-#     else: # inference without module (no WN)
-#         print 'Running Inference w/o module'
+
