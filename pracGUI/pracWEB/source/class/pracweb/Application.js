@@ -199,6 +199,18 @@ qx.Class.define("pracweb.Application",
       container.add(splitPane, {flex: 1});
       container.add(controlPane);
 
+      // embedding for wait animation
+      var waitImg = new qx.ui.basic.Image();
+      waitImg.setWidth(300);
+      waitImg.setHeight(225);
+      waitImg.setScale(true);
+      this._waitImg = waitImg;
+      var left = window.innerWidth/2 - 150;
+      var top = window.innerHeight/2 - 112;
+      console.log(window.innerWidth, window.outerWidth, this.getRoot().getInnerSize(), top, left);
+      this.getRoot().add(waitImg, {left: left, top: top});
+
+
       // add container to content div
       contentIsle.add(mainScrollContainer);
       
@@ -357,6 +369,7 @@ qx.Class.define("pracweb.Application",
    * update flowchart and request next inference step
    */
     _run_inference : function(method) {
+      this._show_wait_animation(true);
       this._nextButton.setEnabled(false);
 
       // update flowchart
@@ -391,16 +404,18 @@ qx.Class.define("pracweb.Application",
 
         // determine links to be removed/added
         var updateLinks = that._calculateRedrawing(that._oldRes, responseResult);
-        var idle_time = (updateLinks[0].length + updateLinks[1].length) * 1100;
+        var idle_time = (updateLinks[0].length + updateLinks[1].length) * 1000;
         that._oldRes = responseResult;
         that._oldEvidence = responseSettings == null ? '' : responseSettings['evidence'];
 
+        that._show_wait_animation(false);
         if (response.finish) {
           console.log(" I am DONE! ");
+          that.updateGraph(updateLinks[0], updateLinks[1]);
           setTimeout( function() {
+            that._show_wait_animation(true);
             that._get_cram_plan();
           }, idle_time); // wait 3 seconds, then clear flowchart
-          that.updateGraph(updateLinks[0], updateLinks[1]);
           that._nextButton.setEnabled(false);
           that._vizButton.setEnabled(true);
           that._last_module = '';
@@ -411,8 +426,8 @@ qx.Class.define("pracweb.Application",
         } else {
           that._last_module = that._next_module;
           that._next_module = that._get_next_module();
-          that.updateGraph(updateLinks[0], updateLinks[1]);
           that._get_cond_prob();
+          that.updateGraph(updateLinks[0], updateLinks[1]);
           setTimeout( function() {
             that._nextButton.setEnabled(true);
             if (that._last_module == 'senses_and_roles') {
@@ -697,6 +712,7 @@ qx.Class.define("pracweb.Application",
       req.setRequestHeader("Content-Type", "application/json");
       var that = this;
       req.addListener("success", function(e) {
+        this._show_wait_animation(false);
         var tar = e.getTarget();
         var response = tar.getResponse();
         if (response.plans) {
@@ -788,6 +804,18 @@ qx.Class.define("pracweb.Application",
       var tmpMLNHTML = '<textarea name="code" class="mln">' + mlnContent + '</textarea>';  
       var mlnHTML = dp.SyntaxHighlighter.HighlightGivenHTML('code', tmpMLNHTML, true, false, false, 1, false);
       this.mlnField.setHtml(mlnHTML);
+    },
+
+
+    _show_wait_animation : function(wait) {
+      if (wait)
+        this._waitImg.setSource("/prac/static/images/wait.gif");
+        // this._waitEmbed.setHtml('<div id="playground"><img src="/prac/static/images/wait.gif" id="waitImg"/></div>');
+      else
+        this._waitImg.resetSource();
+        // console.log('resetting source');
+        // this._waitEmbed.resetHtml();
+        // this._waitEmbed.setHtml('<div id="playground"><img src="/prac/static/images/wait.gif" id="waitImg"/></div>');
     },
 
 
