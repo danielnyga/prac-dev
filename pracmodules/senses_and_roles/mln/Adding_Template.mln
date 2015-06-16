@@ -40,9 +40,10 @@ num(word,word)
 
 
 //To handle amount and unit role sentences
-0 prep_of(?w1,?w3) ^ num(?w1,?w2) ^ is_a(?s1,+?c1) ^ has_sense(?w1,?s1) ^ is_a(?s2,+?c2) ^ has_sense(?w2,?s2) ^ is_a(?s3,+?c3) ^ has_sense(?w3,?s3) ^ unit(?w1,?ac) ^ amount(?w2,?ac) ^ theme (?w3,?ac) ^ ?w1 =/= ?w2 ^ ?w2 =/= ?w3 ^ ?w1 =/= ?w3
+0 prep_of(?w1,?w3) ^ num(?w1,?w2) ^ is_a(?s1,+?c1) ^ has_sense(?w1,?s1) ^ is_a(?s2,+?c2) ^ has_sense(?w2,?s2)^ is_a(?s3,+?c3) ^ has_sense(?w3,?s3)  ^ unit(?w1,?ac) ^ amount(?w2,?ac)  ^ theme(?w3,?ac) ^ ?w1 =/= ?w2 ^ ?w2 =/= ?w3 ^ ?w1 =/= ?w3
 0 action_core(?w1,?ac) ^ action_verb(?w1,?ac) ^ has_sense(?w1, ?s1) ^ is_a(?s1, +?c1)  ^ has_sense(?w2, ?s2) ^ is_a(?s2, +?c2) ^ goal(?w2,?ac) ^ ?w1 =/= ?w2 ^ prep_to(?w1,?w2)
-0 dobj(?w1,?w2) ^ action_core(?w1,?ac) ^ action_verb(?w1,?ac) ^ has_sense(?w1, ?s1) ^ is_a(?s1, +?c1) ^  theme(?w2,?ac) ^ has_sense(?w2, ?s2) ^ is_a(?s2, +?c2) ^ ?w1 =/= ?w2
+0 dobj(?w1,?w2) ^ action_core(?w1,?ac) ^ action_verb(?w1,?ac) ^ has_sense(?w1, ?s1) ^ is_a(?s1, +?c1) ^  theme(?w2,?ac) ^ !unit(?w2,?ac) ^ has_sense(?w2, ?s2) ^ is_a(?s2, +?c2) ^ ?w1 =/= ?w2
+0 dobj(?w1,?w2) ^ action_core(?w1,?ac) ^ action_verb(?w1,?ac) ^ has_sense(?w1, ?s1) ^ is_a(?s1, +?c1) ^  unit(?w2,?ac) ^ !theme(?w2,?ac) ^ has_sense(?w2, ?s2) ^ is_a(?s2, +?c2) ^ ?w1 =/= ?w2
 //e .g start with adding ... 
 //start has no role or action_core
 0 !action_core(?w1,?ac) ^ !action_verb(?w1,?ac) ^ !goal(?w1,?ac) ^ !theme(?w1,?ac) ^ !unit(?w1,?ac) ^ !amount(?w1,?ac) ^  has_sense(?w1, ?s1) ^ is_a(?s1, +?c1)
