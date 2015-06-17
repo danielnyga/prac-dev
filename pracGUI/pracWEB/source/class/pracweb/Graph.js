@@ -27,7 +27,7 @@ qx.Class.define("pracweb.Graph",
     this.d3 = this.container.getD3();
     this.WAITMSEC = 500;
 
-    this.audio = new Audio("/prac/static/audio/bubble.wav");
+    this.audio = new Audio("/prac/static/audio/bubble.mp3");
 
     // width and height of svg
     // influences center of gravity ([w/2, h/2])
