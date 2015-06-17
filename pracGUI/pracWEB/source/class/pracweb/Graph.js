@@ -171,8 +171,9 @@ qx.Class.define("pracweb.Graph",
         if (valIndex != -1) {
           var tempLink = this.links[index];
           this.links.splice(index, 1);
+          this.update();
           tempLink.value.splice(valIndex, 1);
-          if (!tempLink.length == 0) {
+          if (!tempLink.value.length == 0) {
             this.update();
             this.links.push(tempLink);
           }
