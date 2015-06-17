@@ -74,8 +74,10 @@ qx.Class.define("pracweb.Application",
       contentIsle.setWidth(document.getElementById("container", true, true).offsetWidth);
       contentIsle.setHeight(document.getElementById("container", true, true).offsetHeight);
       window.addEventListener("resize", function() {
-      	contentIsle.setWidth(document.getElementById("container", true, true).offsetWidth);
-      	contentIsle.setHeight(document.getElementById("container", true, true).offsetHeight);
+        var w = document.getElementById("container", true, true).offsetWidth
+        var h = document.getElementById("container", true, true).offsetHeight
+      	contentIsle.setWidth(w);
+      	contentIsle.setHeight(h);
       });
       contentIsle.setLayout(new qx.ui.layout.Grow());
 
@@ -177,8 +179,11 @@ qx.Class.define("pracweb.Application",
       vizEmbedGrp.addListener('resize', function(e) {
         if (typeof this._graph != 'undefined') {
           var vizSize = vizEmbedGrp.getInnerSize();
+          var bounds = vizEmbedGrp.getBounds();
           this._graph.w = vizSize.width;
           this._graph.h = vizSize.height;
+          this._waitLeft = bounds.left + bounds.width/2 - 150;
+          this._waitTop = bounds.top + bounds.height/2 - 112;
           this._graph.update();
         }
       }, this);
@@ -205,9 +210,9 @@ qx.Class.define("pracweb.Application",
       waitImg.setHeight(225);
       waitImg.setScale(true);
       this._waitImg = waitImg;
-      var left = window.innerWidth/2 - 150;
-      var top = window.innerHeight/2 - 112;
-      this.getRoot().add(waitImg, {left: left, top: top});
+      this._waitLeft = window.innerWidth/2 - 150;
+      this._waitTop = window.innerHeight/2 - 112;
+      this.getRoot().add(waitImg);
 
 
       // add container to content div
@@ -330,7 +335,6 @@ qx.Class.define("pracweb.Application",
          this._oldRes = {};
          this._oldEvidence = description.getValue();
          var req = this._run_inference("POST");
-         console.log(description.getValue());
          req.setRequestHeader("Content-Type", "application/json");
          req.setRequestData({ 'sentence': description.getValue() });
          req.send();
@@ -472,7 +476,6 @@ qx.Class.define("pracweb.Application",
         var that = this;
         var tar = e.getTarget();
         var response = tar.getResponse();
-        console.log('modules', response);
         for (var i = 0; i < response.modules.length; i++) {
           this.moduleSelect.add(new qx.ui.form.ListItem(response.modules[i]));
         }
@@ -809,14 +812,16 @@ qx.Class.define("pracweb.Application",
 
 
     _show_wait_animation : function(wait) {
-      if (wait)
+      if (wait){
         this._waitImg.setSource("/prac/static/images/wait.gif");
+        this._waitImg.setUserBounds(this._waitLeft, this._waitTop, 300, 225);
         // this._waitEmbed.setHtml('<div id="playground"><img src="/prac/static/images/wait.gif" id="waitImg"/></div>');
-      else
+      } else {
         this._waitImg.resetSource();
         // console.log('resetting source');
         // this._waitEmbed.resetHtml();
         // this._waitEmbed.setHtml('<div id="playground"><img src="/prac/static/images/wait.gif" id="waitImg"/></div>');
+      }
     },
 
 
