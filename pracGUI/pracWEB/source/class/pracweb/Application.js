@@ -207,7 +207,6 @@ qx.Class.define("pracweb.Application",
       this._waitImg = waitImg;
       var left = window.innerWidth/2 - 150;
       var top = window.innerHeight/2 - 112;
-      console.log(window.innerWidth, window.outerWidth, this.getRoot().getInnerSize(), top, left);
       this.getRoot().add(waitImg, {left: left, top: top});
 
 
@@ -404,21 +403,22 @@ qx.Class.define("pracweb.Application",
 
         // determine links to be removed/added
         var updateLinks = that._calculateRedrawing(that._oldRes, responseResult);
-        var idle_time = (updateLinks[0].length + updateLinks[1].length) * 1000;
+        var idle_time = 1000 + (updateLinks[0].length + updateLinks[1].length) * 500;
         that._oldRes = responseResult;
         that._oldEvidence = responseSettings == null ? '' : responseSettings['evidence'];
 
         that._show_wait_animation(false);
         if (response.finish) {
           console.log(" I am DONE! ");
+          that._show_wait_animation(true);
           that.updateGraph(updateLinks[0], updateLinks[1]);
           setTimeout( function() {
-            that._show_wait_animation(true);
             that._get_cram_plan();
           }, idle_time); // wait 3 seconds, then clear flowchart
           that._nextButton.setEnabled(false);
           that._vizButton.setEnabled(true);
           that._last_module = '';
+          that._show_wait_animation(false);
         } else if (that._next_module === 'plan_generation') {
           // do not redraw graph because plan_generation does not update output_dbs
           var req = that._run_inference("GET");
@@ -712,7 +712,6 @@ qx.Class.define("pracweb.Application",
       req.setRequestHeader("Content-Type", "application/json");
       var that = this;
       req.addListener("success", function(e) {
-        this._show_wait_animation(false);
         var tar = e.getTarget();
         var response = tar.getResponse();
         if (response.plans) {
@@ -721,10 +720,12 @@ qx.Class.define("pracweb.Application",
           cramPlanWindow.setHeight(300);
           cramPlanWindow.setShowMinimize(false);
           cramPlanWindow.setLayout(new qx.ui.layout.Grow());
-          var planCanvas = new qx.ui.embed.Html();
-          cramPlanWindow.add(planCanvas);
+          var planField = new qx.ui.form.TextArea("").set({
+            font: qx.bom.Font.fromString("14px monospace")
+          });
+          cramPlanWindow.add(planField);
           this.getRoot().add(cramPlanWindow, {left:20, top:20});
-          planCanvas.setHtml("<p class='cramPlan'>" + response.plans.join('') + "</p>");
+          planField.setValue(response.plans.join(''));
           cramPlanWindow.open();     
           return;
         }

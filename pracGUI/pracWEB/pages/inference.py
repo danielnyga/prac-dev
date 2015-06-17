@@ -160,12 +160,28 @@ def _get_settings(module, kbname, evidence):
 
     return settings
 
+def format_cram_string(cramString):
+    l = {}
+    newstring = ''
+    lines = cramString.split('\n')
+
+    for line in lines:
+        ts = line.split('\t!')
+        nline = ''.join(ts)
+        tabcnt = nline.count('\t')
+
+        if len(ts) > 1:
+            for t, tn in enumerate(ts):
+                l[t+tabcnt] = len(''.join([x.strip('\t') for x in ts[:t]])) + l.get(tabcnt, 0)
+        newstring += ' '*l.get(tabcnt, 0) + nline.strip() + '\n'
+    return newstring
 
 @pracApp.app.route('/prac/_get_cram_plan', methods=['GET'])
 def _get_cram_plan():
     pracsession = ensure_prac_session(session)
     cramPlans = pracsession.old_infer.inference_steps[-1].executable_plans
-    return jsonify( {'plans': cramPlans })
+
+    return jsonify( {'plans': [format_cram_string(cp) for cp in cramPlans] })
 
 
 @pracApp.app.route('/prac/_pracinfer_get_cond_prob', methods=['GET'])
