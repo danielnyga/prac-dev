@@ -182,7 +182,8 @@ qx.Class.define("pracweb.Application",
           var bounds = vizEmbedGrp.getBounds();
           this._graph.w = vizSize.width;
           this._graph.h = vizSize.height;
-          this._waitLeft = bounds.left + bounds.width/2 - 150;
+          var infSettingsLeft = this._showinfSettingsContainer ? infSettingsContainer.getBounds().width : 0;
+          this._waitLeft = (bounds.left + bounds.width/2 - 150) + infSettingsLeft;
           this._waitTop = bounds.top + bounds.height/2 - 112;
           this._graph.update();
         }
@@ -210,7 +211,7 @@ qx.Class.define("pracweb.Application",
       waitImg.setHeight(225);
       waitImg.setScale(true);
       this._waitImg = waitImg;
-      this._waitLeft = window.innerWidth/2 - 150;
+      this._waitLeft = window.innerWidth/3 - 150;
       this._waitTop = window.innerHeight/2 - 112;
       this.getRoot().add(waitImg);
 
@@ -270,8 +271,14 @@ qx.Class.define("pracweb.Application",
         this._clear_flow_chart();
         document.getElementById('init').nextElementSibling.style.fill = "#bee280";
       }, this);
+
+      description.addListener("changeValue", function(e) {
+        this._vizButton.setEnabled(true);
+        this._clear_flow_chart();
+        document.getElementById('init').nextElementSibling.style.fill = "#bee280";
+      }, this);
       
-      var expSettings = new qx.ui.form.CheckBox("Show expert settings");
+      var expSettings = new qx.ui.form.CheckBox("Show Inference settings");
       expSettings.addListener("changeValue", function(e) {
         this._showinfSettingsContainer = e.getData();
         this._change_visibility();
@@ -673,6 +680,7 @@ qx.Class.define("pracweb.Application",
     {
 
       console.log('getting role distributions...');
+      this._show_wait_animation(true);
       var req = new qx.io.request.Xhr(); 
       req.setUrl("/prac/_get_role_distributions");
       req.setMethod('GET');
@@ -680,6 +688,7 @@ qx.Class.define("pracweb.Application",
       req.setRequestHeader("Content-Type", "application/json");
       var that = this;
       req.addListener("success", function(e) {
+        this._show_wait_animation(false);
         var tar = e.getTarget();
         var response = tar.getResponse();
         if (response.distributions) {
