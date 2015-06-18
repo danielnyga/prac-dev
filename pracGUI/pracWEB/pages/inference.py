@@ -15,7 +15,6 @@ import json
 from pracWEB.pages.utils import ensure_prac_session
 from pracutils.RolequeryHandler import RolequeryHandler
 from prac.core import PRAC
-from prac.wordnet import WordNet
 from mln.database import Database
 from pracutils.ActioncoreDescriptionHandler import ActioncoreDescriptionHandler
 

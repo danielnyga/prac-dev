@@ -12,6 +12,7 @@ from urlparse import urlparse
 import time
 import logging
 from prac.core import PRAC
+from prac.wordnet import WordNet
 from pracWEB.pages.utils import ensure_prac_session
 
 @pracApp.app.route('/prac/test/')
