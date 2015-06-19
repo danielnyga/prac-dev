@@ -69,7 +69,7 @@ qx.Class.define("pracweb.Graph",
       var removeLinks = function(dIndex, t) {
         var rInterval = setTimeout( function() {
           if (dIndex < toBeRemoved.length) {
-            t.removeLink(toBeRemoved[dIndex])
+            t.removeLink(toBeRemoved[dIndex]);
             t.removeIfSingle(toBeRemoved[dIndex].source);
             t.removeIfSingle(toBeRemoved[dIndex].target);
             dIndex++;
@@ -361,7 +361,7 @@ qx.Class.define("pracweb.Graph",
         var origPos = { x: (d.source.x + d.target.x ) /2 - bbox.width/2, y: (d.source.y + d.target.y) /2 }; // exact middle between source and target
         var dir = { x: d.target.x - d.source.x, y: d.target.y - d.source.y }; // direction source -> target
         var rot = { x: dir.y, y: -dir.x }; // rotate direction -90 degrees
-        var ltemp = Math.sqrt(rot.x * rot.x + rot.y * rot.y) / 100 // normalize length
+        var ltemp = Math.sqrt(rot.x * rot.x + rot.y * rot.y) / 100; // normalize length
         var length = ltemp !== 0 ? ltemp : 0.1; // if length is 0, set to small value to prevent NaN
         var rotNorm = { x: rot.x / length, y: rot.y / length }; // normalize rotation direction
         return { x: origPos.x - scale * rotNorm.x, y: origPos.y - scale * rotNorm.y};// return moved position

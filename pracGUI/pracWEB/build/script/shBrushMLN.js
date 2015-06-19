@@ -39,7 +39,7 @@ dp.sh.Brushes.MLN = function()
                     '.dp-mln .weight { color: #9344b8; }' +
                     '.dp-mln .variables { color: #000000; font-style: italic; }' +
                     '.dp-mln .preprocessor { color: #0f48bd; font-weight: bold; }';
-}
+};
 
 dp.sh.Brushes.MLN.prototype = new dp.sh.Highlighter();
 dp.sh.Brushes.MLN.Aliases   = ['mln'];

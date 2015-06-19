@@ -35,7 +35,7 @@ qx.Class.define("qxd3.demo.Application",
             });
             win.setLayout(new qx.ui.layout.Grow());
             win.addListener('appear', function() {
-                win.center()
+                win.center();
             });
             win.add(d3Obj);
             win.open();

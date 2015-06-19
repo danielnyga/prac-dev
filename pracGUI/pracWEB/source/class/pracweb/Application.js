@@ -74,8 +74,8 @@ qx.Class.define("pracweb.Application",
       contentIsle.setWidth(document.getElementById("container", true, true).offsetWidth);
       contentIsle.setHeight(document.getElementById("container", true, true).offsetHeight);
       window.addEventListener("resize", function() {
-        var w = document.getElementById("container", true, true).offsetWidth
-        var h = document.getElementById("container", true, true).offsetHeight
+        var w = document.getElementById("container", true, true).offsetWidth;
+        var h = document.getElementById("container", true, true).offsetHeight;
       	contentIsle.setWidth(w);
       	contentIsle.setHeight(h);
       });
@@ -211,7 +211,8 @@ qx.Class.define("pracweb.Application",
       waitImg.setHeight(225);
       waitImg.setScale(true);
       this._waitImg = waitImg;
-      this._waitLeft = window.innerWidth/3 - 150;
+      // initial position: (windowwidth - flowchartwidth)/2 - waitimgwidth/2
+      this._waitLeft = (window.innerWidth - 444)/2 - 150;
       this._waitTop = window.innerHeight/2 - 112;
       this.getRoot().add(waitImg);
 
