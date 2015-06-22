@@ -5,7 +5,7 @@
     <link rel="shortcut icon" href="{{ url_for('download_static', filename='images/favicon.ico') }}" />
     <link rel="stylesheet" href="{{ url_for('download_static', filename='css/style.css') }}">
     <script type="text/javascript">
-      var $SCRIPT_ROOT = "{{ request.script_root|tojson|safe }}";
+      var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
     </script>  
     <style>
       /* DO NOT MOVE TO CSS FILE! */

@@ -60,15 +60,17 @@ qx.Class.define("pracweb.Application",
   	  // destroy the session before leaving PRAC
   	  window.onbeforeunload = function () {
   	  	// getSession().invalidate();
-  	  var	req = new qx.io.request.Xhr(); 
-  		req.setUrl("/prac/_destroy_session");
-  		req.setMethod("POST");
-  		req.addListener("success", function(e) { 
-  			var tar = e.getTarget();								
-  			var response = tar.getResponse();
-  		});
-  		req.send();
+		var	req = new qx.io.request.Xhr(); 
+		req.setUrl("/prac/_destroy_session");
+		req.setMethod("POST");
+		req.addListener("success", function(e) { 
+			var tar = e.getTarget();								
+			var response = tar.getResponse();
+			sessionname = response;
+		});
+		req.send();
   	  }; 
+
 
       var contentIsle = new qx.ui.root.Inline(document.getElementById("prac_container", true, true));
       contentIsle.setWidth(document.getElementById("container", true, true).offsetWidth);

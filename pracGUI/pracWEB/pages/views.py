@@ -47,6 +47,7 @@ def remove_if_invalid(response):
         if prac_session is not None:
             log.info('removed PRAC session %s' % prac_session.id.encode('base-64'))
             pracApp.session_store.remove(session)
+        session.clear()
     return response
 
 @pracApp.app.route('/prac/_destroy_session', methods=['POST', 'OPTIONS'])
@@ -56,7 +57,7 @@ def destroy():
     if prac_session is None: return ''
     log.info('invalidating session %s' % prac_session.id.encode('base-64'))
     session["__invalidate__"] = True
-    return ''
+    return prac_session.id.encode('base-64')
 
 @pracApp.app.route('/prac/_get_wordnet_taxonomy', methods=['GET'])
 def get_wn_tax():
