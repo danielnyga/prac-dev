@@ -84,48 +84,48 @@
          {
            "uri": "static/script/shCore.js"
          },
-         {
-           "uri": "static/script/shBrushCSharp.js"
-         },
-         {
-           "uri": "static/script/shBrushCpp.js"
-         },
-         {
-           "uri": "static/script/shBrushXml.js"
-         },
-         {
-           "uri": "static/script/shBrushCss.js"
-         },
-         {
-           "uri": "static/script/shBrushDelphi.js"
-         },
-         {
-           "uri": "static/script/shBrushJava.js"
-         },
-         {
-           "uri": "static/script/shBrushJScript.js"
-         },
+         // {
+           // "uri": "static/script/shBrushCSharp.js"
+         // },
+         // {
+           // "uri": "static/script/shBrushCpp.js"
+         // },
+         // {
+           // "uri": "static/script/shBrushXml.js"
+         // },
+         // {
+           // "uri": "static/script/shBrushCss.js"
+         // },
+         // {
+           // "uri": "static/script/shBrushDelphi.js"
+         // },
+         // {
+           // "uri": "static/script/shBrushJava.js"
+         // },
+         // {
+           // "uri": "static/script/shBrushJScript.js"
+         // },
          {
            "uri": "static/script/shBrushMLN.js"
-         },         
-         {
-           "uri": "static/script/shBrushPhp.js"
-         },
-         {
-           "uri": "static/script/shBrushPython.js"
-         },
-         {
-           "uri": "static/script/shBrushRuby.js"
-         },
-         {
-           "uri": "static/script/shBrushSql.js"
-         },
-         {
-           "uri": "static/script/shBrushVb.js"
-         },
-         {
-           "uri": "static/script/shBrushXml.js"
-         }
+         }    
+         // {
+           // "uri": "static/script/shBrushPhp.js"
+         // },
+         // {
+           // "uri": "static/script/shBrushPython.js"
+         // },
+         // {
+           // "uri": "static/script/shBrushRuby.js"
+         // },
+         // {
+           // "uri": "static/script/shBrushSql.js"
+         // },
+         // {
+           // "uri": "static/script/shBrushVb.js"
+         // },
+         // {
+           // "uri": "static/script/shBrushXml.js"
+         // }
        ],
       "add-css" :
       [
