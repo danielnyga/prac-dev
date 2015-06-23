@@ -69,7 +69,7 @@ class Synset():
         if name is None :
             self.name = None
         else :
-            name = str(name)
+            self.name = str(name)
             
     def hypernyms(self):
         request_answer = urllib2.urlopen(HYPERNYMS_LINK+"/"+self.name).read()
@@ -86,7 +86,8 @@ class Synset():
                 
         except Exception as e:
             #TODO add logger
-            print request_answer
+            print "No hypernyms for " + self.name
+            return result
         
         return result
     
@@ -136,6 +137,20 @@ class Synset():
                     for hypernym in (synset.hypernyms() + \
                         synset.instance_hypernyms())
                     if hypernym not in seen]
+            
+    def min_depth(self):
+        """
+        @return: The length of the shortest hypernym path from this
+        synset to the root.
+        """
+
+        if "_min_depth" not in self.__dict__:
+            hypernyms = self.hypernyms() + self.instance_hypernyms()
+            if not hypernyms:
+                self._min_depth = 0
+            else:
+                self._min_depth = 1 + min(h.min_depth() for h in hypernyms)
+        return self._min_depth
         
     
 class WordNet(object):
