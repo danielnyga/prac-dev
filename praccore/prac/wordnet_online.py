@@ -64,13 +64,56 @@ known_concepts = ['hydrochloric_acid.n.01',
 #                 'nine.n.01',
                   ]
 
+class Synset():
+    def __init__(self, name):
+        self.name = name
+        print " "
+    def hypernyms(self):
+        request_answer = urllib2.urlopen(HYPERNYMS_LINK+"/"+self.name).read()
+        result = []
+        
+        try:
+            json_obj = json.loads(request_answer)
+            paths = json_obj['paths']
+            
+            for element in paths:
+                path = element['path']
+                temp = []
+                for synset in path:
+                    temp.append(str(synset['synsetName']))
+                #To keep consistent with the nltk wrapper
+                temp = list(reversed(temp))
+                result.append(temp)
+                
+        except Exception as e:
+            #TODO add logger
+            print request_answer
+        
+        return result
+    
+    def hypernym_paths():
+        paths = []
 
+        hypernyms = self.hypernyms()
+        if len(hypernyms) == 0:
+            paths = [[self]]
+
+        for hypernym in hypernyms:
+            for ancestor_list in hypernym.hypernym_paths():
+                ancestor_list.append(self)
+                paths.append(ancestor_list)
+        return paths
+    
+    def __repr__(self):
+        return 'Synset(%r)' % (self.name)
+        
+    
 class WordNet(object):
     
     def __init__(self, concepts=known_concepts):
         self.core_taxonomy = None
         if concepts is not None:
-            self.initialize_taxonomy(concepts)
+            #self.initialize_taxonomy(concepts)
             self.initialize_csimilarities(colorsims, properties.chrcolorspecs, properties.achrcolorspecs)
             self.initialize_similarities(shapesims, properties.shapespecs)
             self.initialize_similarities(sizesims, properties.sizespecs)
@@ -200,7 +243,7 @@ class WordNet(object):
             data = json_obj['data']
             
             for element in data:
-                synsets.append(str(element["synset"]))
+                synsets.append(Synset(str(element["synset"])))
         except Exception as e:
             #TODO add logger
             print request_answer
@@ -360,8 +403,9 @@ class WordNet(object):
         ADJ_POS = ['s','a']
         posDiff = 0.
 
-    if type(synset1) is str:
-            synset1 = self.synset(synset1)
+        if type(synset1) is str:
+                synset1 = self.synset(synset1)
+            
         if type(synset2) is str:
             synset2 = self.synset(synset2)
         if synset1 is None or synset2 is None:
@@ -445,7 +489,7 @@ class WordNet(object):
 
 
     def synsTaxonomyBranchRelation(self, synset1, synset2):
-    if not synset1.lowest_common_hypernyms(synset2): return 0
+        if not synset1.lowest_common_hypernyms(synset2): return 0
         return min([x.min_depth() for x in synset1.lowest_common_hypernyms(synset2)]) / max(synset1.min_depth(), synset2.min_depth())
 
     def synsHypRelation(self, syn1, syn2):
