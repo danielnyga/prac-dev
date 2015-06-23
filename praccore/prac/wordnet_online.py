@@ -234,6 +234,22 @@ class Synset():
             distances |= hypernym.hypernym_distances(distance+1)
         return distances
     
+    def lowest_common_hypernyms(self, other):
+        """Get the lowest synset that both synsets have as a hypernym."""
+
+        self_hypernyms = self._iter_hypernym_lists()
+        other_hypernyms = other._iter_hypernym_lists()
+
+        synsets = set(s for synsets in self_hypernyms for s in synsets)
+        others = set(s for synsets in other_hypernyms for s in synsets)
+        synsets.intersection_update(others)
+
+        try:
+            max_depth = max(s.min_depth() for s in synsets)
+            return [s for s in synsets if s.min_depth() == max_depth]
+        except ValueError:
+            return []
+    
 class WordNet(object):
     
     def __init__(self, concepts=known_concepts):
