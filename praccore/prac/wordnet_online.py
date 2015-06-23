@@ -181,7 +181,7 @@ class WordNet(object):
             for direction in ('down', 'up'):
                 for concept in concepts:
                     if concept == 'null': continue
-                    synset = wordnet.synset(concept)
+                    synset = Synset(concept)
                     paths = synset.hypernym_paths()
                     for path in paths:
                         if not path[0].name in self.known_concepts:
@@ -263,7 +263,7 @@ class WordNet(object):
         if synset_id == 'null':
             return None
         try: 
-            synset = wordnet.synset(synset_id)
+            synset = Synset(synset_id)
             return synset
         except Exception, e:
             logging.getLogger('WordNet').error('Could not obtain synset with ID "%s"' % synset_id)
@@ -352,8 +352,8 @@ class WordNet(object):
         synsets = set(s for synsets in self_hypernyms for s in synsets)
         others = set(s for synsets in other_hypernyms for s in synsets)
         if self.core_taxonomy is not None:
-            synsets.intersection_update(map(lambda syn: wordnet.synset(syn), self.known_concepts))
-            others.intersection_update(map(lambda syn: wordnet.synset(syn), self.known_concepts))
+            synsets.intersection_update(map(lambda syn: Synset(syn), self.known_concepts))
+            others.intersection_update(map(lambda syn: Synset(syn), self.known_concepts))
         synsets.intersection_update(others)
 
         try:
