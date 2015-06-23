@@ -66,7 +66,7 @@ known_concepts = ['hydrochloric_acid.n.01',
 
 class Synset():
     def __init__(self, name):
-        self.name = name
+        self.name = str(name)
         print " "
     def hypernyms(self):
         request_answer = urllib2.urlopen(HYPERNYMS_LINK+"/"+self.name).read()
@@ -79,11 +79,7 @@ class Synset():
             for element in paths:
                 path = element['path']
                 temp = []
-                for synset in path:
-                    temp.append(str(synset['synsetName']))
-                #To keep consistent with the nltk wrapper
-                temp = list(reversed(temp))
-                result.append(temp)
+                result.append(Synset(path[1]['synsetName']))
                 
         except Exception as e:
             #TODO add logger
@@ -243,7 +239,7 @@ class WordNet(object):
             data = json_obj['data']
             
             for element in data:
-                synsets.append(Synset(str(element["synset"])))
+                synsets.append(Synset(element["synset"]))
         except Exception as e:
             #TODO add logger
             print request_answer
