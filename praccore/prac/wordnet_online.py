@@ -165,7 +165,74 @@ class Synset():
             else:
                 self._min_depth = 1 + min(h.min_depth() for h in hypernyms)
         return self._min_depth
+    
+    def shortest_path_distance(self, other):
+        """
+        Returns the distance of the shortest path linking the two synsets (if
+        one exists). For each synset, all the ancestor nodes and their
+        distances are recorded and compared. The ancestor node common to both
+        synsets that can be reached with the minimum number of traversals is
+        used. If no ancestor nodes are common, None is returned. If a node is
+        compared with itself 0 is returned.
+
+        @type  other: L{Synset}
+        @param other: The Synset to which the shortest path will be found.
+        @return: The number of edges in the shortest path connecting the two
+            nodes, or None if no path exists.
+        """
+
+        if self == other:
+            return 0
+
+        path_distance = None
+
+        dist_list1 = self.hypernym_distances()
+        dist_dict1 = {}
+
+        dist_list2 = other.hypernym_distances()
+        dist_dict2 = {}
+
+        # Transform each distance list into a dictionary. In cases where
+        # there are duplicate nodes in the list (due to there being multiple
+        # paths to the root) the duplicate with the shortest distance from
+        # the original node is entered.
+
+        for (l, d) in [(dist_list1, dist_dict1), (dist_list2, dist_dict2)]:
+            for (key, value) in l:
+                if key in d:
+                    if value < d[key]:
+                        d[key] = value
+                else:
+                    d[key] = value
+
+        # For each ancestor synset common to both subject synsets, find the
+        # connecting path length. Return the shortest of these.
+
+        for synset1 in dist_dict1.keys():
+            for synset2 in dist_dict2.keys():
+                if synset1 == synset2:
+                    new_distance = dist_dict1[synset1] + dist_dict2[synset2]
+                    if path_distance < 0 or new_distance < path_distance:
+                        path_distance = new_distance
+
+        return path_distance
         
+    def hypernym_distances(self, distance=0):
+        """
+        Get the path(s) from this synset to the root, counting the distance
+        of each node from the initial node on the way. A set of
+        (synset, distance) tuples is returned.
+
+        @type  distance: C{int}
+        @param distance: the distance (number of edges) from this hypernym to
+            the original hypernym L{Synset} on which this method was called.
+        @return: A set of (L{Synset}, int) tuples where each L{Synset} is
+           a hypernym of the first L{Synset}.
+        """
+        distances = set([(self, distance)])
+        for hypernym in self.hypernyms() + self.instance_hypernyms():
+            distances |= hypernym.hypernym_distances(distance+1)
+        return distances
     
 class WordNet(object):
     
