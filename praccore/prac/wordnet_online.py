@@ -90,6 +90,10 @@ class Synset():
         
         return result
     
+    def instance_hypernyms(self):
+        #TODO implement 
+        return []
+    
     def hypernym_paths(self):
         request_answer = urllib2.urlopen(HYPERNYMS_LINK+"/"+self.name).read()
         result = []
@@ -115,6 +119,23 @@ class Synset():
     
     def __repr__(self):
         return 'Synset(%r)' % (self.name)
+    
+    def _iter_hypernym_lists(self):
+        """
+        @return: An iterator over L{Synset}s that are either proper
+        hypernyms or instance of hypernyms of the synset.
+        """
+        todo = [self]
+        seen = set()
+        while todo:
+            for synset in todo:
+                seen.add(synset)
+            yield todo
+            todo = [hypernym
+                    for synset in todo
+                    for hypernym in (synset.hypernyms() + \
+                        synset.instance_hypernyms())
+                    if hypernym not in seen]
         
     
 class WordNet(object):
