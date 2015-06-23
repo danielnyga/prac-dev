@@ -138,6 +138,20 @@ class Synset():
                         synset.instance_hypernyms())
                     if hypernym not in seen]
             
+    def max_depth(self):
+        """
+        @return: The length of the longest hypernym path from this
+        synset to the root.
+        """
+
+        if "_max_depth" not in self.__dict__:
+            hypernyms = self.hypernyms() + self.instance_hypernyms()
+            if not hypernyms:
+                self._max_depth = 0
+            else:
+                self._max_depth = 1 + max(h.max_depth() for h in hypernyms)
+        return self._max_depth
+            
     def min_depth(self):
         """
         @return: The length of the shortest hypernym path from this
