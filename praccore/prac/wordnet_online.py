@@ -87,18 +87,28 @@ class Synset():
         
         return result
     
-    def hypernym_paths():
-        paths = []
-
-        hypernyms = self.hypernyms()
-        if len(hypernyms) == 0:
-            paths = [[self]]
-
-        for hypernym in hypernyms:
-            for ancestor_list in hypernym.hypernym_paths():
-                ancestor_list.append(self)
-                paths.append(ancestor_list)
-        return paths
+    def hypernym_paths(self):
+        request_answer = urllib2.urlopen(HYPERNYMS_LINK+"/"+self.name).read()
+        result = []
+        
+        try:
+            json_obj = json.loads(request_answer)
+            paths = json_obj['paths']
+            
+            for element in paths:
+                path = element['path']
+                temp = []
+                for synset in path:
+                    temp.append(Synset(synset['synsetName']))
+                #To keep consistent with the nltk wrapper
+                temp = list(reversed(temp))
+                result.append(temp)
+                
+        except Exception as e:
+            #TODO add logger
+            print request_answer
+        
+        return result
     
     def __repr__(self):
         return 'Synset(%r)' % (self.name)
@@ -568,27 +578,22 @@ class WordNet(object):
         
      
     def hypernym_paths(self, synset):
-        request_answer = urllib2.urlopen(HYPERNYMS_LINK+"/"+synset).read()
-        result = []
+        if type(synset) is str:
+            synset = Synset(synset)
+            if synset is None: return None
         
-        try:
-            json_obj = json.loads(request_answer)
-            paths = json_obj['paths']
-            
-            for element in paths:
-                path = element['path']
-                temp = []
-                for synset in path:
-                    temp.append(str(synset['synsetName']))
-                #To keep consistent with the nltk wrapper
-                temp = list(reversed(temp))
-                result.append(temp)
-                
-        except Exception as e:
-            #TODO add logger
-            print request_answer
+        if self.core_taxonomy is None:
+            return synset.hypernym_paths()
+        paths = []
         
-        return result
+        for path in synset.hypernym_paths():
+            new_path = []
+            for concept in path:
+                if concept.name in self.known_concepts:
+                    new_path.append(concept)
+            if not new_path in paths:
+                paths.append(new_path)
+        return paths
         
     def get_mln_similarity_and_sense_assertions(self, known_concepts, unknown_concepts):
         for i, unkwn in enumerate(unknown_concepts):
