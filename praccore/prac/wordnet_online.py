@@ -66,8 +66,11 @@ known_concepts = ['hydrochloric_acid.n.01',
 
 class Synset():
     def __init__(self, name):
-        self.name = str(name)
-        print " "
+        if name is None :
+            self.name = None
+        else :
+            name = str(name)
+            
     def hypernyms(self):
         request_answer = urllib2.urlopen(HYPERNYMS_LINK+"/"+self.name).read()
         result = []
