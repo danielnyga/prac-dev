@@ -68,8 +68,10 @@ class Synset():
     def __init__(self, name):
         if name is None :
             self.name = None
+            self.pos = None
         else :
             self.name = str(name)
+            self.pos = str(name).split(".")[1]
             
     def hypernyms(self):
         request_answer = urllib2.urlopen(HYPERNYMS_LINK+"/"+self.name).read()
