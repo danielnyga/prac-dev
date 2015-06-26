@@ -1,20 +1,12 @@
 from pracWEB.pracinit import pracApp
-from prac.inference import PRACInference, PRACInferenceStep
-from mln import readMLNFromFile, readDBFromFile
-from mln.database import readDBFromString
-from mln.mln import readMLNFromString
-from flask import render_template, redirect, request, jsonify, url_for
-from pracWEB.pages.fileupload import upload
-from pracWEB.pages.utils import updateKBList, updateMLNList, updateEvidenceList, LOGICS, FILEDIRS, getFileContent, save_kb, add_wn_similarities
-import os, sys
-import pickle
+from prac.inference import PRACInference
+from flask import request, jsonify
+import sys
 import StringIO
 import logging
 from flask.globals import session
 import json
 from pracWEB.pages.utils import ensure_prac_session
-from pracutils.RolequeryHandler import RolequeryHandler
-from prac.core import PRAC
 from mln.database import Database
 from pracutils.ActioncoreDescriptionHandler import ActioncoreDescriptionHandler
 
@@ -152,9 +144,9 @@ def _get_settings(module, kbname, evidence):
     # if knowledge base exists, read settings
     if kbname is not None:
         kb = module.load_pracmt(kbname)
-        mlnStr = StringIO.StringIO()
-        kb.query_mln.write(mlnStr, color=False)
-        settings['mln'] = mlnStr.getvalue()
+        mlnstr = StringIO.StringIO()
+        kb.query_mln.write(mlnstr, color=False)
+        settings['mln'] = mlnstr.getvalue()
         settings.update(kb.query_params)
 
     return settings

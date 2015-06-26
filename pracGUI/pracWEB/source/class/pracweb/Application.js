@@ -71,17 +71,22 @@ qx.Class.define("pracweb.Application",
 		req.send();
   	  }; 
 
-
+      // main frame
       var contentIsle = new qx.ui.root.Inline(document.getElementById("prac_container", true, true));
       contentIsle.setWidth(document.getElementById("container", true, true).offsetWidth);
       contentIsle.setHeight(document.getElementById("container", true, true).offsetHeight);
+      contentIsle.setLayout(new qx.ui.layout.Grow());
       window.addEventListener("resize", function() {
         var w = document.getElementById("container", true, true).offsetWidth;
         var h = document.getElementById("container", true, true).offsetHeight;
       	contentIsle.setWidth(w);
       	contentIsle.setHeight(h);
-      });
-      contentIsle.setLayout(new qx.ui.layout.Grow());
+
+      	// reposition waitimg
+      	var bounds = vizEmbedGrp.getBounds();
+      	this._waitTop = bounds.top + window.innerHeight/2 - 112;
+      	waitImg.setUserBounds(this._waitLeft, this._waitTop, 300, 225);
+      }, this);
 
       // scrollable container 
       var mainScrollContainer = new qx.ui.container.Scroll().set({
@@ -186,7 +191,8 @@ qx.Class.define("pracweb.Application",
           this._graph.h = vizSize.height;
           var infSettingsLeft = this._showinfSettingsContainer ? infSettingsContainer.getBounds().width : 0;
           this._waitLeft = (bounds.left + bounds.width/2 - 150) + infSettingsLeft;
-          this._waitTop = bounds.top + bounds.height/2 - 112;
+//          this._waitTop = bounds.top + bounds.height/2 - 112;
+          this._waitImg.setUserBounds(this._waitLeft, this._waitTop, 300, 225);
           this._graph.update();
         }
       }, this);
@@ -212,6 +218,8 @@ qx.Class.define("pracweb.Application",
       waitImg.setWidth(300);
       waitImg.setHeight(225);
       waitImg.setScale(true);
+      waitImg.hide();
+      waitImg.setSource("/prac/static/images/wait.gif");
       this._waitImg = waitImg;
       // initial position: (windowwidth - flowchartwidth)/2 - waitimgwidth/2
       this._waitLeft = (window.innerWidth - 444)/2 - 150;
@@ -825,12 +833,13 @@ qx.Class.define("pracweb.Application",
 
     _show_wait_animation : function(wait) {
       if (wait){
-        this._waitImg.setSource("/prac/static/images/wait.gif");
-        this._waitImg.setUserBounds(this._waitLeft, this._waitTop, 300, 225);
+//        this._waitImg.setSource("/prac/static/images/wait.gif");
+        this._waitImg.show();
         // this._waitEmbed.setHtml('<div id="playground"><img src="/prac/static/images/wait.gif" id="waitImg"/></div>');
       } else {
-        this._waitImg.resetSource();
+//        this._waitImg.resetSource();
         // console.log('resetting source');
+        this._waitImg.hide();
         // this._waitEmbed.resetHtml();
         // this._waitEmbed.setHtml('<div id="playground"><img src="/prac/static/images/wait.gif" id="waitImg"/></div>');
       }

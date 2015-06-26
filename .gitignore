@@ -8,3 +8,5 @@
 apps
 env.sh
 documentation/_build
+
+*.idea/
