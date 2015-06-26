@@ -985,7 +985,7 @@ qx.Class.define("pracweb.Application",
      */
     _template : function(val, type) {
         if (type === 'label')
-            return '<span style="font-size:15px; font-weight:bold">' + val + '</span>'
+            return '<span style="font-size:13px; font-weight:bold">' + val + '</span>'
         else
             return '<b>' + val + '</b>';
     },
