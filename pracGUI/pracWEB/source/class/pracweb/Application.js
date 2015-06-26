@@ -163,7 +163,7 @@ qx.Class.define("pracweb.Application",
 
       // placeholder
       var placeholder = new qx.ui.container.Composite();
-      placeholder.setHeight(80);
+      placeholder.setHeight(100);
       infSettingsContainer.add(placeholder);
       infSettingsContainer.add(form);
 
@@ -218,6 +218,9 @@ qx.Class.define("pracweb.Application",
       this._change_visibility();
     },
 
+    /**
+     * load initial graph
+     */
     loadGraph : function() {
       if (typeof this._graph === 'undefined') {
         this._graph = new pracweb.Graph();
@@ -228,14 +231,24 @@ qx.Class.define("pracweb.Application",
       this._graph.clear();
     },
 
+    /**
+     * trigger redrawing of graph without animation;
+     * graph will replaced immediately
+     */
     redrawGraph : function(data) {
       this._graph.replaceData(data);
     },
 
+    /**
+     * trigger redrawing of graph with bouncy visualization
+     */
     updateGraph : function(removeLinks, addLinks) {
       this._graph.updateData(removeLinks, addLinks);
     },
 
+    /**
+     * set up layout of control pane including instruction field and buttons
+     */
     buildControlPane : function()
     {
       var mainGroup = new qx.ui.groupbox.GroupBox("PRAC Inference");
@@ -449,6 +462,9 @@ qx.Class.define("pracweb.Application",
 		  return req;
     },
 
+    /**
+     * get name of the next module to be executed
+     */
     _get_next_module : function() {
       var moduleReq = new qx.io.request.Xhr(); 
       moduleReq.setUrl("/prac/_pracinfer_get_next_module");
@@ -465,6 +481,10 @@ qx.Class.define("pracweb.Application",
       moduleReq.send();
     },
 
+    /**
+     * get the names of all pracmodules
+     * --currently not in use--
+     */
     _get_modules : function() {
       var moduleReq = new qx.io.request.Xhr(); 
       moduleReq.setUrl("/prac/_get_modules");
@@ -486,6 +506,10 @@ qx.Class.define("pracweb.Application",
       moduleReq.send();
     },
 
+    /**
+     * request conditional probability png for current inference step
+     * and display it under the flowchart
+     */
     _get_cond_prob : function() {
       var moduleReq = new qx.io.request.Xhr(); 
       moduleReq.setUrl("/prac/_pracinfer_get_cond_prob");
@@ -506,6 +530,10 @@ qx.Class.define("pracweb.Application",
       moduleReq.send();
     },    
 
+    /**
+     * calculate the links to be added and the links
+     * to be removed from the visualization graph
+     */
     _calculateRedrawing : function(oldRes, newRes) {
       var toBeRemoved = [];
       var toBeAdded = [];
@@ -545,6 +573,10 @@ qx.Class.define("pracweb.Application",
       return [toBeRemoved, toBeAdded];
     },
 
+    /**
+     * calculate number of steps it will take to redraw the graph
+     * will be used to calculate the wait time before sending new request to server
+     */
     _diffResults : function(oldRes, newRes) {
       var redrawSteps = 0;
       var redraw;
@@ -579,95 +611,141 @@ qx.Class.define("pracweb.Application",
       return redrawSteps;
     },
 
-
+    /**
+     * build inference settings pane
+     */
     buildForm : function()
     {
-      var group = new qx.ui.groupbox.GroupBox("Inference Settings");
       var grouplayout = new qx.ui.layout.VBox();
-      group.setLayout(grouplayout);
+      var group = new qx.ui.container.Composite(grouplayout);
 
       var formLayout = new qx.ui.layout.Grid();
-      formLayout.setColumnWidth(0, 100); // row 0 has width 200px
+      formLayout.setColumnWidth(0, 130); // col 0 has width 150
+      formLayout.setColumnWidth(2, 270); // col 0 has width 150
+      formLayout.setColumnAlign(0, "left", "middle");
+      formLayout.setColumnAlign(1, "left", "middle");
       var formgroup = new qx.ui.container.Composite(formLayout);
 
     /**
      * create form widgets
      */
-      var moduleSelect = new qx.ui.basic.Label();
+      var moduleLabel = new qx.ui.basic.Label().set({
+        value: this._template('Module:', 'label'),
+        rich : true
+      });
+      var moduleSelect = new qx.ui.basic.Label().set({
+        rich : true
+      });
       this.moduleSelect = moduleSelect;
 
-      var logic = new qx.ui.basic.Label();
+      var logicLabel = new qx.ui.basic.Label().set({
+        value: this._template('Logic:', 'label'),
+        rich : true
+      });
+      var logic = new qx.ui.basic.Label().set({
+        rich : true
+      });
       this.logicSelect = logic;
 
-      var method = new qx.ui.basic.Label();
+      var methodLabel = new qx.ui.basic.Label().set({
+        value: this._template('Method:', 'label'),
+        rich : true
+      });
+      var method = new qx.ui.basic.Label().set({
+        rich : true
+      });
       this.methodSelect = method;
 
-      var queries = new qx.ui.basic.Label();
+      var queriesLabel = new qx.ui.basic.Label().set({
+        value: this._template('Queries:', 'label'),
+        rich : true
+      });
+      var queries = new qx.ui.basic.Label().set({
+        rich : true
+      });
       this.queriesField = queries;
 
-      var parameters = new qx.ui.basic.Label();
+      var paramsLabel = new qx.ui.basic.Label().set({
+        value: this._template('Parameters:', 'label'),
+        rich : true
+      });
+      var parameters = new qx.ui.basic.Label().set({
+        rich : true
+      });
       this.parametersField = parameters;
 
-      var cwPreds = new qx.ui.basic.Label();
+      var cwPredsLabel = new qx.ui.basic.Label().set({
+        value: this._template('CW Preds:', 'label'),
+        rich : true
+      });
+      var cwPreds = new qx.ui.basic.Label().set({
+        rich : true
+      });
       this.cwPredsField = cwPreds;
 
-      var closedWorld = new qx.ui.basic.Label();
+      var cwAssLabel = new qx.ui.basic.Label().set({
+        value: this._template('CW Assumption:', 'label'),
+        rich : true
+      });
+      var closedWorld = new qx.ui.basic.Label().set({
+        rich : true
+      });
       this.closedWorld = closedWorld;
 
+      var mlnLabel = new qx.ui.basic.Label().set({
+        value: this._template('MLN:', 'label'),
+        rich : true
+      });
       var mlnField = new qx.ui.embed.Html();
-      mlnField.setWidth(300);
-      mlnField.setHeight(300);
+      mlnField.setMinWidth(300);
+      mlnField.setMinHeight(320);
       this.mlnField = mlnField;
 
-      // var mln = new qx.ui.form.TextArea("");
-      // mln.setWidth(300);
-      // mln.setHeight(300);
-      // this.mlnArea = mln;
-
+      var evidenceLabel = new qx.ui.basic.Label().set({
+        value: this._template('Evidence:', 'label'),
+        rich: true
+      });
       var evidenceField = new qx.ui.embed.Html();
-      evidenceField.setWidth(300);
-      evidenceField.setHeight(300);
+      evidenceField.setMinWidth(300);
+      evidenceField.setMinHeight(320);
       this.evidenceField = evidenceField;
-      // var evidence = new qx.ui.form.TextArea("");
-      // evidence.setWidth(300);
-      // evidence.setHeight(300);
-      // this.evidenceArea = evidence;
 
       /**
        * arrange form elements in grid
        */
-      formgroup.add(new qx.ui.basic.Label("Module:"), {row: 0, column: 0});
+      formgroup.add(moduleLabel, {row: 0, column: 0});
       formgroup.add(moduleSelect, {row: 0, column: 1});
 
-      formgroup.add(new qx.ui.basic.Label("Logic:"), {row: 1, column: 0});
+      formgroup.add(logicLabel, {row: 1, column: 0});
       formgroup.add(logic, {row: 1, column: 1});
 
-      formgroup.add(new qx.ui.basic.Label("Method:"), {row: 3, column: 0});
-      formgroup.add(method, {row: 3, column: 1});
+      formgroup.add(methodLabel, {row: 2, column: 0});
+      formgroup.add(method, {row: 2, column: 1});
 
-      formgroup.add(new qx.ui.basic.Label("Queries:"), {row: 4, column: 0});
-      formgroup.add(queries, {row: 4, column: 1});
+      formgroup.add(queriesLabel, {row: 3, column: 0});
+      formgroup.add(queries, {row: 3, column: 1});
 
-      formgroup.add(new qx.ui.basic.Label("CW Preds:"), {row: 6, column: 0});
-      formgroup.add(cwPreds, {row: 6, column: 1});
+      formgroup.add(cwPredsLabel, {row: 4, column: 0});
+      formgroup.add(cwPreds, {row: 4, column: 1});
 
-      formgroup.add(new qx.ui.basic.Label("CW Assumption:  "), {row: 7, column: 0});
-      formgroup.add(closedWorld, {row: 7, column: 1});
+      formgroup.add(cwAssLabel, {row: 5, column: 0});
+      formgroup.add(closedWorld, {row: 5, column: 1});
 
       group.add(formgroup);
 
-      group.add(new qx.ui.basic.Label("MLN:"));
+      group.add(mlnLabel);
       group.add(mlnField);
 
-      // group.add(new qx.ui.basic.Label("MLN:"));
-      // group.add(mln);
-
-      group.add(new qx.ui.basic.Label("Evidence:"));
+      group.add(evidenceLabel);
       group.add(evidenceField);
 
       return group;
     },
 
+    /**
+     * load the role distribution svgs for each role and
+     * open them in separate windows
+     */
     _get_role_distributions : function(e)
     {
 
@@ -706,6 +784,9 @@ qx.Class.define("pracweb.Application",
       req.send();
     },
 
+    /**
+     * request cram plan for instruction and open it in new window
+     */
     _get_cram_plan : function(e)
     {
       console.log('asking for cram plans...');
@@ -737,6 +818,10 @@ qx.Class.define("pracweb.Application",
       req.send();
     },
 
+
+    /**
+     * load flowchart svg into embedding
+     */
     _load_flow_chart : function(e) {
       console.log('loading flowchart...');
       var req = new qx.io.request.Xhr(); 
@@ -754,6 +839,9 @@ qx.Class.define("pracweb.Application",
       req.send();
     },
 
+    /**
+     * clear flow chart
+     */
     _clear_flow_chart : function(e) {
       var nodes = ['init','nl_parsing','ac_recognition','senses_and_roles','executable','plan_generation','achieved_by','roles_transformation'];
       for (var x = 0; x < nodes.length; x++) {
@@ -788,13 +876,16 @@ qx.Class.define("pracweb.Application",
     //   req.send();
     // },
 
+    /**
+     * update values for inference settings of current step
+     */
     _set_exp_settings : function(settings) {
-      typeof settings['module'] != 'undefined' ? this.moduleSelect.setValue(settings['module']) : this.moduleSelect.resetValue();
-      typeof settings['logic'] != 'undefined' ? this.logicSelect.setValue(settings['logic']) : this.logicSelect.resetValue();
-      typeof settings['method'] != 'undefined' ? this.methodSelect.setValue(settings['method']) : this.methodSelect.resetValue();
-      typeof settings['queries'] != 'undefined' ? this.queriesField.setValue(settings['queries']) : this.queriesField.resetValue();
-      typeof settings['cwPreds'] != 'undefined' ? this.cwPredsField.setValue(settings['cwPreds']) : this.cwPredsField.resetValue();
-      typeof settings['closedWorld'] != 'undefined' ? this.closedWorld.setValue(settings['closedWorld'] ? 'true' : 'false') : this.closedWorld.resetValue();
+      typeof settings['module'] != 'undefined' ? this.moduleSelect.setValue(this._template(settings['module'])) : this.moduleSelect.resetValue();
+      typeof settings['logic'] != 'undefined' ? this.logicSelect.setValue(this._template(settings['logic'])) : this.logicSelect.resetValue();
+      typeof settings['method'] != 'undefined' ? this.methodSelect.setValue(this._template(settings['method'])) : this.methodSelect.resetValue();
+      typeof settings['queries'] != 'undefined' ? this.queriesField.setValue(this._template(settings['queries'])) : this.queriesField.resetValue();
+      typeof settings['cwPreds'] != 'undefined' ? this.cwPredsField.setValue(this._template(settings['cwPreds'])) : this.cwPredsField.resetValue();
+      typeof settings['closedWorld'] != 'undefined' ? this.closedWorld.setValue(this._template(settings['closedWorld'] ? 'true' : 'false')) : this.closedWorld.resetValue();
 
       var tmpEvidenceHTML = '<textarea name="code" class="mln">' + this._oldEvidence + '</textarea>';
       var evidenceHTML = dp.SyntaxHighlighter.HighlightGivenHTML('code', tmpEvidenceHTML, true, false, false, 1, false);
@@ -811,7 +902,9 @@ qx.Class.define("pracweb.Application",
       this.mlnField.setHtml(mlnHTML);
     },
 
-
+    /**
+     * show or hide animated wait logo
+     */
     _show_wait_animation : function(wait) {
       if (wait){
         this._waitEmbed.show();
@@ -886,6 +979,16 @@ qx.Class.define("pracweb.Application",
     //     this.evidenceSelect.add(new qx.ui.form.ListItem(data.evidencelist[e]));
     //   }
     // },
+
+    /**
+     * formatting template for inf settings labels and text
+     */
+    _template : function(val, type) {
+        if (type === 'label')
+            return '<span style="font-size:15px; font-weight:bold">' + val + '</span>'
+        else
+            return '<b>' + val + '</b>';
+    },
 
     /**
      * hide or show expert settings pane
