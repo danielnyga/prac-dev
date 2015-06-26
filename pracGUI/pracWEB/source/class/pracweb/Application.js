@@ -81,11 +81,6 @@ qx.Class.define("pracweb.Application",
         var h = document.getElementById("container", true, true).offsetHeight;
       	contentIsle.setWidth(w);
       	contentIsle.setHeight(h);
-
-      	// reposition waitimg
-      	var bounds = vizEmbedGrp.getBounds();
-      	this._waitTop = bounds.top + window.innerHeight/2 - 112;
-      	waitImg.setUserBounds(this._waitLeft, this._waitTop, 300, 225);
       }, this);
 
       // scrollable container 
@@ -173,13 +168,17 @@ qx.Class.define("pracweb.Application",
       infSettingsContainer.add(form);
 
       // visualization of svg graph
-      var vizEmbedGrp = new qx.ui.groupbox.GroupBox("Visualization");
+      var vizEmbedGrp = new qx.ui.container.Composite();;
       var vizLayout = new qx.ui.layout.Grow();
       vizEmbedGrp.setLayout(vizLayout);
       var vizHTML = "<div id='viz'></div>";
+      var waitHTML = "<img id='waitImg' src='/prac/static/images/wait.gif'>";
+      var waitEmbed = new qx.ui.embed.Html(waitHTML);
+      waitEmbed.hide();
+      this._waitEmbed = waitEmbed;
       var vizEmbed = new qx.ui.embed.Html(vizHTML);
-      this._vizEmbed = vizEmbed;
       vizEmbedGrp.add(vizEmbed);
+      vizEmbedGrp.add(waitEmbed);
       this._vizEmbedGrp = vizEmbedGrp;
 
       // reposition graph when inference settings are shown/hidden
@@ -189,10 +188,6 @@ qx.Class.define("pracweb.Application",
           var bounds = vizEmbedGrp.getBounds();
           this._graph.w = vizSize.width;
           this._graph.h = vizSize.height;
-          var infSettingsLeft = this._showinfSettingsContainer ? infSettingsContainer.getBounds().width : 0;
-          this._waitLeft = (bounds.left + bounds.width/2 - 150) + infSettingsLeft;
-//          this._waitTop = bounds.top + bounds.height/2 - 112;
-          this._waitImg.setUserBounds(this._waitLeft, this._waitTop, 300, 225);
           this._graph.update();
         }
       }, this);
@@ -212,20 +207,6 @@ qx.Class.define("pracweb.Application",
 
       container.add(splitPane, {flex: 1});
       container.add(controlPane);
-
-      // embedding for wait animation
-      var waitImg = new qx.ui.basic.Image();
-      waitImg.setWidth(300);
-      waitImg.setHeight(225);
-      waitImg.setScale(true);
-      waitImg.hide();
-      waitImg.setSource("/prac/static/images/wait.gif");
-      this._waitImg = waitImg;
-      // initial position: (windowwidth - flowchartwidth)/2 - waitimgwidth/2
-      this._waitLeft = (window.innerWidth - 444)/2 - 150;
-      this._waitTop = window.innerHeight/2 - 112;
-      this.getRoot().add(waitImg);
-
 
       // add container to content div
       contentIsle.add(mainScrollContainer);
@@ -833,15 +814,10 @@ qx.Class.define("pracweb.Application",
 
     _show_wait_animation : function(wait) {
       if (wait){
-//        this._waitImg.setSource("/prac/static/images/wait.gif");
-        this._waitImg.show();
-        // this._waitEmbed.setHtml('<div id="playground"><img src="/prac/static/images/wait.gif" id="waitImg"/></div>');
+        this._waitEmbed.show();
       } else {
-//        this._waitImg.resetSource();
-        // console.log('resetting source');
-        this._waitImg.hide();
-        // this._waitEmbed.resetHtml();
-        // this._waitEmbed.setHtml('<div id="playground"><img src="/prac/static/images/wait.gif" id="waitImg"/></div>');
+         console.log('resetting source');
+        this._waitEmbed.hide();
       }
     },
 
