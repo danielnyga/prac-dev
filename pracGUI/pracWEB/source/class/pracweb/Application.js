@@ -137,6 +137,15 @@ qx.Class.define("pracweb.Application",
       this._flowChartEmbed = flowChartEmbed;
       flowChartContainer.add(flowChartEmbed, {flex: 1});
       this._load_flow_chart();
+      var move = {duration: 500, keep: 100, keyFrames : {
+          0: {left: "0px", top: "0px"},
+          100 : {left: "-200px", top: "0px"}
+        }};
+
+        flowChartEmbed.addListener("mouseover", function(e) {
+          var el = flowChartEmbed.getContentElement().getDomElement();
+          qx.bom.element.Animation.animate(el, move);
+        }, this);
 
       // embedding for conditional probability png
       var condProb = new qx.ui.basic.Image();
@@ -216,6 +225,7 @@ qx.Class.define("pracweb.Application",
       this._use_exp_settings = false;
       this._stepwise = false;
       this._change_visibility();
+      this._send_user_stats();
     },
 
     /**
@@ -849,13 +859,6 @@ qx.Class.define("pracweb.Application",
       }
     },
 
-
-    // _highlight_code : function(scriptname) {
-    //   console.log('highlight code');
-    //   dp.SyntaxHighlighter.ClipboardSwf = "/prac/static/script/clipboard.swf') }}";
-    //   dp.SyntaxHighlighter.HighlightAll('code',true);
-    // },
-
     // _change_module : function(e) {
     //   console.log('changing module, requesting selection options');
     //   var req = new qx.io.request.Xhr(); 
@@ -913,8 +916,6 @@ qx.Class.define("pracweb.Application",
         this._waitEmbed.hide();
       }
     },
-
-
 
     // _update_mln_text : function(e) {
     //   if (e.getData().length > 0) {
@@ -991,13 +992,39 @@ qx.Class.define("pracweb.Application",
     },
 
     /**
+     * send user statistics to server
+     */
+    _send_user_stats : function() {
+        var currentdate = new Date();
+        var date = currentdate.getDate() + "/"
+                + (currentdate.getMonth()+1)  + "/"
+                + currentdate.getFullYear();
+        var time = currentdate.getHours() + ":"
+                + currentdate.getMinutes() + ":"
+                + currentdate.getSeconds();
+        var url = "http://jsonip.appspot.com";
+        var req = new qx.bom.request.Jsonp();
+        req.onload = function() {
+          var reqServer = new qx.io.request.Xhr();
+          reqServer.setUrl("/prac/_user_stats");
+          reqServer.setMethod("POST");
+          reqServer.setRequestHeader("Cache-Control", "no-cache");
+          reqServer.setRequestHeader("Content-Type", "application/json");
+          reqServer.setRequestData({ 'ip': req.responseJson.ip, 'date': date, "time": time });
+          reqServer.send();
+        }
+        req.open("GET", url);
+        req.send();
+    },
+
+    /**
      * hide or show expert settings pane
      */
     _change_visibility : function(e) {
 
-      if (this._showinfSettingsContainer)
+      if (this._showinfSettingsContainer) {
         this._infSettingsContainer.show();
-      else
+      } else
         this._infSettingsContainer.exclude();
         this._graphVizContainer.show();
     }

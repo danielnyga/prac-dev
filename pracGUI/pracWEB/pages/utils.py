@@ -32,6 +32,14 @@ def ensure_prac_session(session):
         initFileStorage()
     return prac_session
 
+
+@pracApp.app.route('/prac/_user_stats', methods=['POST'])
+def user_stats():
+    data = json.loads(request.get_data())
+    print 'user_stats', data
+    return ''
+
+
 @pracApp.app.route('/prac/_get_modules', methods=['GET'])
 def get_modules():
     pracsession = ensure_prac_session(session)
