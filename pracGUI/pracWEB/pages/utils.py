@@ -1,10 +1,12 @@
 from pracWEB.pracinit import pracApp
-from flask import request, jsonify, session
+from flask import request, jsonify, session, send_from_directory
 from prac.inference import PRACInference
 import os, re
 import logging
 import json
+import collections
 import StringIO
+from geoip import geolite2
 from os.path import expanduser
 from pracWEB.app import PRACSession
 from prac.core import PRAC
@@ -33,12 +35,51 @@ def ensure_prac_session(session):
     return prac_session
 
 
+@pracApp.app.route('/prac/log/<filename>')
+def praclog(filename):
+    if os.path.isfile(os.path.join(pracApp.app.config['LOG_FOLDER'], filename)):
+        return send_from_directory(pracApp.app.config['LOG_FOLDER'], filename)
+    else:
+        return send_from_directory(pracApp.app.config['LOG_FOLDER'], '{}.json'.format(filename))
+
 @pracApp.app.route('/prac/_user_stats', methods=['POST'])
 def user_stats():
-    data = json.loads(request.get_data())
+    ulog = logging.getLogger('userstats')
+
+    data = convert(json.loads(request.get_data()))
     print 'user_stats', data
+    print 'ip from request', request.remote_addr
+    geolite = geolite2.lookup(data['ip'])
+    # geolite = geolite2.lookup(request.remote_addr)
+    stats = geolite.to_dict()
+    stats.update({'date':data['date'], 'time':data['time']})
+    stats['subdivisions'] = ', '.join(stats['subdivisions']) # prettify for log
+    logstr = '''IP:\t\t{ip}
+Country:\t{country}
+Continent:\t{continent}
+Subdivisions:\t{subdivisions}
+Timezone:\t{timezone}
+Location:\t{location}
+Access Date:\t{date}
+Access Time:\t{time}
+\n'''
+    ulog.info(json.dumps(stats))
     return ''
 
+def convert(data):
+    '''
+    Converts a dictionary's keys/values from unicode to string
+    - data:    dictionary containing unicode keys and values
+    - returns:  the converted dictionary
+    '''
+    if isinstance(data, basestring):
+        return str(data)
+    elif isinstance(data, collections.Mapping):
+        return dict(map(convert, data.iteritems()))
+    elif isinstance(data, collections.Iterable):
+        return type(data)(map(convert, data))
+    else:
+        return data
 
 @pracApp.app.route('/prac/_get_modules', methods=['GET'])
 def get_modules():

@@ -5,6 +5,6 @@ from flask import redirect
 def start():
     return redirect('/prac/')
 
-@pracApp.app.route('/log')
-def log():
-    return 'PRAC Log'
+@pracApp.app.route('/log/<filename>')
+def log(filename):
+    return redirect('/prac/log/{}'.format(filename))
