@@ -49,16 +49,43 @@ def user_stats():
     print 'user_stats', data
     print 'ip from request', request.remote_addr
     ip = data['ip'] if data['ip'] is not None else request.remote_addr
+    stats = {}
+
+    logstr = ("Wrote log entry:\n"
+                    "IP:\t\t\t\t{ip}\n"
+                    "Country:\t\t{country}\n"
+                    "Continent:\t\t{continent}\n"
+                    "Subdivisions:\t{subdivisions}\n"
+                    "Timezone:\t\t{timezone}\n"
+                    "Location:\t\t{location}\n"
+                    "Access Date:\t{date}\n"
+                    "Access Time:\t{time}")
+
     try:
         geolite = geolite2.lookup(ip)
-        stats = geolite.to_dict()
-        stats.update({'date':data['date'], 'time':data['time']})
+        stats.update(geolite.to_dict())
         stats['subdivisions'] = ', '.join(stats['subdivisions']) # prettify for log
-        ulog.info(json.dumps(stats))
-        print 'wrote entry', stats, 'to logfile'
+    except AttributeError:
+        print 'using reduced logging string'
+        logstr = ("Wrote log entry:\n"
+                    "IP:\t\t\t\t{ip}\n"
+                    "Access Date:\t{date}\n"
+                    "Access Time:\t{time}")
     except ValueError:
-        print 'no valid ip address'
+        print 'Not a valid ip address:', ip
+    except KeyError:
+        logstr = ("Wrote log entry:\n"
+                    "IP:\t\t\t\t{ip}\n"
+                    "Country:\t\t{country}\n"
+                    "Continent:\t\t{continent}\n"
+                    "Timezone:\t\t{timezone}\n"
+                    "Location:\t\t{location}\n"
+                    "Access Date:\t{date}\n"
+                    "Access Time:\t{time}")
     finally:
+        stats.update({'ip': ip, 'date':data['date'], 'time':data['time']})
+        ulog.info(json.dumps(stats))
+        print logstr.format(**stats)
         return ''
 
 def convert(data):

@@ -1060,8 +1060,10 @@ qx.Class.define("pracweb.Application",
         var time = currentdate.getHours() + ":"
                 + currentdate.getMinutes() + ":"
                 + currentdate.getSeconds();
-        var url = "https://jsonip.appspot.com";
+//        var url = 'http://jsonip.appspot.com?callback=?';
+        var url = 'https://api.ipify.org?format=jsonp';
         var req = new qx.bom.request.Jsonp();
+
         var reqServer = new qx.io.request.Xhr();
         reqServer.setUrl("/prac/_user_stats");
         reqServer.setMethod("POST");
