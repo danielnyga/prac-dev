@@ -1,14 +1,23 @@
 from pracWEB.pracinit import pracApp
 import os
+from os.path import expanduser
 import logging
 from logging import FileHandler
 
 def register_routes(pracapp=None):
-    print 'register routes'
+    print 'Registering PRAC routes...'
     from pracWEB.app import app
     pracApp.app = app
     pracApp.app.config['PRAC_STATIC_PATH'] = os.path.join(pracApp.app.root_path, 'build')
+
+    # settings for fileupload and logging
+    home = expanduser("~")
+    pracApp.app.config['ALLOWED_EXTENSIONS'] = set(['mln','db','pracmln'])
+    pracApp.app.config['UPLOAD_FOLDER'] = os.path.join(home, 'pracfiles')
+
     pracApp.app.config['LOG_FOLDER'] = os.path.join(pracApp.app.root_path, 'log')
+    if not os.path.exists(os.path.join(pracApp.app.config['LOG_FOLDER'])):
+       os.mkdir(os.path.join(pracApp.app.config['LOG_FOLDER']))
     pracApp.app.secret_key = 'so secret!'
 
     # separate logger for user statistics

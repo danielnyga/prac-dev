@@ -10,7 +10,7 @@
         <path d="M573 121 L1017 121 L1017 624 L573 624 L573 121 Z"/>
       </clipPath>
     </defs>
-    <g fill="white" transform="translate(-573,-121)" stroke="white">
+    <g fill="white" fill-opacity=".5" transform="translate(-573,-121)" stroke="white">
       <rect x="573" width="444" height="503" y="121" clip-path="url(#clipPath2)" stroke="none"/>
     </g>
     <g fill="white" stroke-miterlimit="1.45" transform="matrix(1,0,0,1,-573,-121)" stroke-linecap="butt" stroke="white">

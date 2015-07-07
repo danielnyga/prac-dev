@@ -7,7 +7,6 @@ import json
 import collections
 import StringIO
 from geoip import geolite2
-from os.path import expanduser
 from pracWEB.app import PRACSession
 from prac.core import PRAC
 from prac.wordnet import WordNet
@@ -49,22 +48,18 @@ def user_stats():
     data = convert(json.loads(request.get_data()))
     print 'user_stats', data
     print 'ip from request', request.remote_addr
-    geolite = geolite2.lookup(data['ip'])
-    # geolite = geolite2.lookup(request.remote_addr)
-    stats = geolite.to_dict()
-    stats.update({'date':data['date'], 'time':data['time']})
-    stats['subdivisions'] = ', '.join(stats['subdivisions']) # prettify for log
-    logstr = '''IP:\t\t{ip}
-Country:\t{country}
-Continent:\t{continent}
-Subdivisions:\t{subdivisions}
-Timezone:\t{timezone}
-Location:\t{location}
-Access Date:\t{date}
-Access Time:\t{time}
-\n'''
-    ulog.info(json.dumps(stats))
-    return ''
+    ip = data['ip'] if data['ip'] is not None else request.remote_addr
+    try:
+        geolite = geolite2.lookup(ip)
+        stats = geolite.to_dict()
+        stats.update({'date':data['date'], 'time':data['time']})
+        stats['subdivisions'] = ', '.join(stats['subdivisions']) # prettify for log
+        ulog.info(json.dumps(stats))
+        print 'wrote entry', stats, 'to logfile'
+    except ValueError:
+        print 'no valid ip address'
+    finally:
+        return ''
 
 def convert(data):
     '''
@@ -274,9 +269,8 @@ def add_wn_similarities(db, concepts, wn):
 
 
 def initFileStorage():
-    home = expanduser("~")
-    pracApp.app.config['ALLOWED_EXTENSIONS'] = set(['mln','db','pracmln'])
-    pracApp.app.config['UPLOAD_FOLDER'] = home + '/pracfiles/'
     if not os.path.exists(os.path.join(pracApp.app.config['UPLOAD_FOLDER'])):
        os.mkdir(os.path.join(pracApp.app.config['UPLOAD_FOLDER']))
 
+    if not os.path.exists(os.path.join(pracApp.app.config['LOG_FOLDER'])):
+       os.mkdir(os.path.join(pracApp.app.config['LOG_FOLDER']))
