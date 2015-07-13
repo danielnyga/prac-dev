@@ -301,3 +301,4 @@ def initFileStorage():
 
     if not os.path.exists(os.path.join(pracApp.app.config['LOG_FOLDER'])):
        os.mkdir(os.path.join(pracApp.app.config['LOG_FOLDER']))
+

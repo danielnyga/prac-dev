@@ -689,8 +689,8 @@ qx.Class.define("pracweb.Application",
       var group = new qx.ui.container.Composite(grouplayout);
 
       var formLayout = new qx.ui.layout.Grid();
-      formLayout.setColumnWidth(0, 130); // col 0 has width 150
-      formLayout.setColumnWidth(2, 270); // col 0 has width 150
+      formLayout.setColumnWidth(0, 130); // col 0 has width 130
+      formLayout.setColumnWidth(2, 270); // col 2 has width 270
       formLayout.setColumnAlign(0, "left", "middle");
       formLayout.setColumnAlign(1, "left", "middle");
       var formgroup = new qx.ui.container.Composite(formLayout);
