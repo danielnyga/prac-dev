@@ -147,8 +147,8 @@ qx.Class.define("pracweb.Application",
       this._condProb = condProb;
 
       var condProbWin = new qx.ui.window.Window("Conditional Probability");
-      condProbWin.setWidth(500);
-      condProbWin.setHeight(300);
+      condProbWin.setWidth(.2*document.getElementById("container", true, true).offsetWidth);
+      condProbWin.setHeight(.1*document.getElementById("container", true, true).offsetWidth);
       condProbWin.setShowMinimize(false);
       condProbWin.setLayout(new qx.ui.layout.Canvas());
       condProbWin.setContentPadding(4);
@@ -207,8 +207,6 @@ qx.Class.define("pracweb.Application",
 
       // embedding for flowchart svg
       var flowChartEmbed = new qx.ui.embed.Html();
-      flowChartEmbed.setMinWidth(444);
-
       this._flowChartEmbed = flowChartEmbed;
 
       vizEmbedGrp.add(flowChartEmbed);
