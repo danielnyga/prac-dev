@@ -89,6 +89,11 @@ qx.Class.define("pracweb.Application",
       console.log('isle', contentIsle.getWidth(), contentIsle.getHeight());
       }, this);
 
+      document.addEventListener("roll", function(e) {
+        this[0].scrollTop = this[0].scrollTop + e.delta.y;
+        this[0].scrollLeft = this[0].scrollLeft + e.delta.x;
+      }, this);
+
       window.addEventListener("resize", function() {
       console.log('resize');
       console.log('container', document.getElementById("container", true, true).offsetWidth, document.getElementById("container", true, true).offsetHeight);
