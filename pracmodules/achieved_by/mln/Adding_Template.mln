@@ -28,11 +28,16 @@ is_a(sense, concept)
 has_sense(word, sense!)
 action_core(word,actioncore?)
 achieved_by(actioncore,actioncore?)
+has_pos(word,pos)
+prep_to(word,word)
 
 //0 theme(?w1, ?ac1) ^ unit(?w2, ?ac1) ^ has_sense(?w1, ?s1) ^ is_a(?s1, +?c1) ^  has_sense(?w2, ?s2) ^ is_a(?s2, +?c2) ^ achieved_by(?ac1,+?ac2) ^ action_core(?w3,?ac1) ^ ?w1 =/= ?w2 ^ ?w3 =/= ?w2 ^ ?w1 =/= ?w3 
 //0 theme(?w1, ?ac1) ^ unit(?w2, ?ac1) ^ has_sense(?w1, ?s1) ^ !is_a(?s1, +?c1) ^  has_sense(?w2, ?s2) ^ !is_a(?s2, +?c2) ^ achieved_by(?ac1,+?ac2) ^ action_core(?w3,?ac1) ^ ?w1 =/= ?w2 ^ ?w3 =/= ?w2 ^ ?w1 =/= ?w3
-0 unit(?w1, ?ac1) ^ has_sense(?w1, ?s1) ^ is_a(?s1, +?c1) ^ achieved_by(?ac1,+?ac2) ^ action_core(?w2,?ac1) ^ ?w1 =/= ?w2
-0 theme(?w1, ?ac1) ^ has_sense(?w1, ?s1) ^ is_a(?s1, +?c1) ^ achieved_by(?ac1,+?ac2) ^ action_core(?w2,?ac1) ^ ?w1 =/= ?w2
+//0 unit(?w1, ?ac1) ^ has_sense(?w1, ?s1) ^ is_a(?s1, +?c1) ^ achieved_by(?ac1,+?ac2)  ^ action_core(?w2,?ac1) ^ ?w1 =/= ?w2
+0 theme(?w1, ?ac1) ^ has_sense(?w1, ?s1) ^ is_a(?s1, +?c1) ^ achieved_by(?ac1,+?ac2)  ^ action_core(?w2,?ac1) ^ ?w1 =/= ?w2
+0 theme(?w1, ?ac1) ^ has_sense(?w1, ?s1) ^ !is_a(?s1, +?c1) ^ achieved_by(?ac1,+?ac2)  ^ action_core(?w2,?ac1) ^ ?w1 =/= ?w2
+
+
 
 
 
