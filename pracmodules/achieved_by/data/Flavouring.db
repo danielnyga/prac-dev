@@ -12,7 +12,6 @@
 1.00  is_a(salt.n.02, salt.n.02)
 1.00  achieved_by(Flavouring,Adding)
 1.00  action_core(flavour,Flavouring)
-1.00  dobj(flavour, soup)
 
 ---
 
@@ -30,7 +29,6 @@
 1.00  is_a(pepper.n.03, pepper.n.03)
 1.00  achieved_by(Flavouring,Adding)
 1.00  action_core(flavour,Flavouring)
-1.00  dobj(flavour, steak)
 
 ---
 
@@ -48,7 +46,6 @@
 1.00  is_a(sassafras.n.02, sassafras.n.02)
 1.00  achieved_by(Flavouring,Adding)
 1.00  action_core(flavour,Flavouring)
-1.00  dobj(flavour, chicken)
 
 ---
 
@@ -66,7 +63,6 @@
 1.00  is_a(coriander.n.02, coriander.n.02)
 1.00  achieved_by(Flavouring,Adding)
 1.00  action_core(flavour,Flavouring)
-1.00  dobj(flavour, sauce)
 
 ---
 
@@ -84,7 +80,6 @@
 1.00  is_a(fenugreek.n.02, fenugreek.n.02)
 1.00  achieved_by(Flavouring,Adding)
 1.00  action_core(flavour,Flavouring)
-1.00  dobj(flavour, meat)
 
 ---
 
@@ -101,7 +96,6 @@
 1.00  is_a(omelet.n.01, omelet.n.01)
 1.00  is_a(salt.n.02, salt.n.02)
 1.00  action_core(flavour,Flavouring)
-1.00  dobj(flavour, omelette)
 1.00  achieved_by(Flavouring,Adding)
 ---
 
@@ -118,7 +112,6 @@
 1.00  is_a(rib.n.03, rib.n.03)
 1.00  is_a(pepper.n.03, pepper.n.03)
 1.00  action_core(flavour,Flavouring)
-1.00  dobj(flavour, rib)
 1.00  achieved_by(Flavouring,Adding)
 ---
 
@@ -135,7 +128,6 @@
 1.00  is_a(egg.n.02, egg.n.02)
 1.00  is_a(salt.n.02, salt.n.02)
 1.00  action_core(flavour,Flavouring)
-1.00  dobj(flavour, egg)
 1.00  achieved_by(Flavouring,Adding)
 ---
 
@@ -152,5 +144,4 @@
 1.00  is_a(jambalaya.n.01, jambalaya.n.01)
 1.00  is_a(chili_powder.n.01, chili_powder.n.01)
 1.00  action_core(flavour,Flavouring)
-1.00  dobj(flavour, jambalaya)
 1.00  achieved_by(Flavouring,Adding)
