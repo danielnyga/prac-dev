@@ -228,7 +228,8 @@
 1.00   stuff(cola,Filling)
 1.00  goal(cup,Filling)
 1.00 action_verb(fill,Filling)
-1.00  amount(milliliter,Filling)
+1.00  unit(milliliter,Filling)
+1.00  amount(100,Filling)
 1.00  has_pos(cola, NN)
 1.00  has_pos(cup, NN)
 1.00  has_pos(fill, VB)
@@ -241,11 +242,15 @@
 1.00  is_a(cup.n.01, cup.n.01)
 1.00  is_a(fill.v.01, fill.v.01)
 1.00  is_a(milliliter.n.01, milliliter.n.01)
+
+1.00  has_sense(100,hundred.n.01)
+1.00  is_a(hundred.n.01, hundred.n.01)
 ---
 1.00  achieved_by(Filling, Adding)
 1.00  action_core(fill, Filling)
 1.00 action_verb(fill,Filling)
-1.00  amount(gram,Filling)
+1.00  unit(gram,Filling)
+1.00  amount(100,Filling)
 1.00   stuff(rice,Filling)
 1.00  goal(wok,Filling)
 1.00  has_pos(fill, VB)
@@ -260,12 +265,16 @@
 1.00  is_a(gram.n.01, gram.n.01)
 1.00  is_a(rice.n.01, rice.n.01)
 1.00  is_a(wok.n.01, wok.n.01)
+
+1.00  has_sense(100,hundred.n.01)
+1.00  is_a(hundred.n.01, hundred.n.01)
 ---
 1.00  achieved_by(Filling, Adding)
 1.00  action_core(fill, Filling)
 1.00   stuff(corn,Filling)
 1.00 action_verb(fill,Filling)
-1.00  amount(gram,Filling)
+1.00  unit(gram,Filling)
+1.00  amount(100,Filling)
 1.00  goal(pot,Filling)
 1.00  has_pos(corn, NN)
 1.00  has_pos(fill, VB)
@@ -279,12 +288,16 @@
 1.00  is_a(fill.v.01, fill.v.01)
 1.00  is_a(gram.n.01, gram.n.01)
 1.00  is_a(pot.n.01, pot.n.01)
+
+1.00  has_sense(100,hundred.n.01)
+1.00  is_a(hundred.n.01, hundred.n.01)
 ---
 1.00  achieved_by(Filling, Pouring)
 1.00  action_core(fill, Filling)
 1.00   stuff(coffee,Filling)
 1.00 action_verb(fill,Filling)
-1.00  amount(liter,Filling)
+1.00  unit(liter,Filling)
+1.00  amount(one,Filling)
 1.00  goal(thermos_flask,Filling)
 1.00  has_pos(coffee, NN)
 1.00  has_pos(fill, VB)
@@ -298,13 +311,18 @@
 1.00  is_a(fill.v.01, fill.v.01)
 1.00  is_a(liter.n.01, liter.n.01)
 1.00  is_a(thermos.n.01, thermos.n.01)
+
+1.00  is_a(one.n.01, one.n.01)
+1.00  has_sense(one,one.n.01)
+
 ---
 1.00  achieved_by(Filling, Adding)
 1.00  action_core(fill, Filling)
 1.00   stuff(apples,Filling)
 1.00  goal(blender,Filling)
 1.00 action_verb(fill,Filling)
-1.00  amount(kilogram,Filling)
+1.00  unit(kilogram,Filling)
+1.00  amount(one,Filling)
 1.00  has_pos(apples, NN)
 1.00  has_pos(blender, NN)
 1.00  has_pos(fill, VB)
@@ -317,12 +335,17 @@
 1.00  is_a(blender.n.01, blender.n.01)
 1.00  is_a(fill.v.01, fill.v.01)
 1.00  is_a(gram.n.01, gram.n.01)
+
+1.00  is_a(one.n.01, one.n.01)
+1.00  has_sense(one,one.n.01)
+
 ---
 1.00  achieved_by(Filling, Adding)
 1.00  action_core(fill, Filling)
 1.00  goal(blender,Filling)
 1.00 action_verb(fill,Filling)
-1.00  amount(kilogram,Filling)
+1.00  unit(kilogram,Filling)
+1.00  amount(one,Filling)
 1.00   stuff(oranges,Filling)
 1.00  has_pos(blender, NN)
 1.00  has_pos(fill, VB)
@@ -336,12 +359,16 @@
 1.00  is_a(fill.v.01, fill.v.01)
 1.00  is_a(gram.n.01, gram.n.01)
 1.00  is_a(orange.n.01, orange.n.01)
+1.00  is_a(one.n.01, one.n.01)
+1.00  has_sense(one,one.n.01)
+
 ---
 1.00  achieved_by(Filling, Pouring)
 1.00  action_core(fill, Filling)
 1.00  goal(carafe,Filling)
 1.00 action_verb(fill,Filling)
-1.00  amount(liter,Filling)
+1.00  unit(liter,Filling)
+1.00  amount(one,Filling)
 1.00   stuff(whisky,Filling)
 1.00  has_pos(carafe, NN)
 1.00  has_pos(fill, VB)
@@ -355,11 +382,15 @@
 1.00  is_a(fill.v.01, fill.v.01)
 1.00  is_a(liter.n.01, liter.n.01)
 1.00  is_a(whiskey.n.01, whiskey.n.01)
+1.00  is_a(one.n.01, one.n.01)
+1.00  has_sense(one,one.n.01)
+
 ---
 1.00  achieved_by(Filling, Adding)
 1.00  action_core(fill, Filling)
 1.00 action_verb(fill,Filling)
-1.00  amount(gram,Filling)
+1.00  unit(gram,Filling)
+1.00  amount(100,Filling)
 1.00   stuff(salt,Filling)
 1.00  goal(saltcellar,Filling)
 1.00  has_pos(fill, VB)
@@ -374,13 +405,17 @@
 1.00  is_a(gram.n.01, gram.n.01)
 1.00  is_a(salt.n.02, salt.n.02)
 1.00  is_a(saltcellar.n.01, saltcellar.n.01)
+
+1.00  has_sense(100,hundred.n.01)
+1.00  is_a(hundred.n.01, hundred.n.01)
 ---
 1.00  achieved_by(Filling, Pouring)
 1.00  action_core(fill, Filling)
 1.00  goal(bottle,Filling)
 1.00 action_verb(fill,Filling)
 1.00   stuff(juice,Filling)
-1.00  amount(milliliter,Filling)
+1.00  unit(milliliter,Filling)
+1.00  amount(100,Filling)
 1.00  has_pos(bottle, NN)
 1.00  has_pos(fill, VB)
 1.00  has_pos(juice, NN)
@@ -393,13 +428,17 @@
 1.00  is_a(fill.v.01, fill.v.01)
 1.00  is_a(fruit_juice.n.01, fruit_juice.n.01)
 1.00  is_a(milliliter.n.01, milliliter.n.01)
+
+1.00  has_sense(100,hundred.n.01)
+1.00  is_a(hundred.n.01, hundred.n.01)
 ---
 1.00  achieved_by(Filling, Adding)
 1.00  action_core(fill, Filling)
 1.00   stuff(batter,Filling)
 1.00 action_verb(fill,Filling)
 1.00  goal(gap,Filling)
-1.00  amount(kilogram,Filling)
+1.00  unit(kilogram,Filling)
+1.00  amount(one,Filling)
 1.00  has_pos(batter, NN)
 1.00  has_pos(fill, VB)
 1.00  has_pos(gap, NN)
@@ -412,11 +451,15 @@
 1.00  is_a(fill.v.01, fill.v.01)
 1.00  is_a(kilogram.n.01, kilogram.n.01)
 1.00  is_a(opening.n.01, opening.n.01)
+1.00  is_a(one.n.01, one.n.01)
+1.00  has_sense(one,one.n.01)
+
 ---
 1.00  achieved_by(Filling, Adding)
 1.00  action_core(fill, Filling)
 1.00 action_verb(fill,Filling)
-1.00  amount(gram,Filling)
+1.00  unit(gram,Filling)
+1.00  amount(100,Filling)
 1.00   stuff(pepper,Filling)
 1.00  goal(saltcellar,Filling)
 1.00  has_pos(fill, VB)
@@ -432,6 +475,9 @@
 1.00  is_a(pepper.n.03, pepper.n.03)
 1.00  is_a(saltcellar.n.01, saltcellar.n.01)
 
+1.00  has_sense(100,hundred.n.01)
+1.00  is_a(hundred.n.01, hundred.n.01)
+
 ---
 
 1.00  action_core(add,Filling)
@@ -653,7 +699,6 @@
 1.00  amount(3,Filling)
 
 ---
-
 1.00  action_core(add,Filling)
 1.00  achieved_by(Filling,Pipetting)
 1.00  has_sense(3,three.n.01)
