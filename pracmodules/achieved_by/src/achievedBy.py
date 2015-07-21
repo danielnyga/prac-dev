@@ -54,9 +54,10 @@ class AchievedBy(PRACModule):
         #It will be assumed that there is only one true action_core predicate per database
         for q in db.query("action_core(?w,?ac)"):
             actioncore = q["?ac"]
-        acDomain = db.mln.domains.get("actioncore")
+        acDomain = db.domains.get("actioncore")
         acDomain.extend(queryMln.domains.get("actioncore"))
         acDomain = set(acDomain)
+        
         db_ = Database(queryMln)
         
         for ac1 in acDomain:

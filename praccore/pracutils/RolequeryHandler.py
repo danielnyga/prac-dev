@@ -33,36 +33,36 @@ class RolequeryHandler(object):
     actioncoreDescription = {}
     
     @staticmethod
-    def queryRolesBasedOnAchievedBy(db):
+    def queryRolesBasedOnAchievedBy(db,truth=1):
         actioncore = ""
         #It will be assumed that there is only one true achieved_by predicate per database 
         for q in db.query("achieved_by(?w,?ac)"):
             actioncore = q["?ac"]
         
-        return RolequeryHandler.queryRoles(actioncore,db)
+        return RolequeryHandler.queryRoles(actioncore,db,truth)
     
     @staticmethod
-    def queryRolesBasedOnActioncore(db):
+    def queryRolesBasedOnActioncore(db,truth=1):
         actioncore = ""
         #It will be assumed that there is only one true action_core predicate per database 
         for q in db.query("action_core(?w,?ac)"):
             actioncore = q["?ac"]
         
-        return RolequeryHandler.queryRoles(actioncore,db)
+        return RolequeryHandler.queryRoles(actioncore,db,truth)
     
     @staticmethod
-    def queryRoles(actioncore,db):
+    def queryRoles(actioncore,db,truth=1):
         db_ = Database(db.mln)
         rolePredicates = ActioncoreDescriptionHandler.getRolesBasedOnActioncore(actioncore)
         
         for p in rolePredicates:
             query = RolequeryHandler.roleQueryBuilder(actioncore,p, db.mln.predicates[p])
-            for q in db.query(query, truthThreshold=1):
+            for q in db.query(query, truthThreshold=truth):
                 for var, val in q.iteritems():
                     q_ = query.replace(var,val)
-                    db_.addGroundAtom(q_)
+                    db_.addGroundAtom(q_,db.evidence[q_])
         return db_
-
+    
     @staticmethod
     def roleQueryBuilder(actioncore,predicate, domainList):
         query = predicate+'('

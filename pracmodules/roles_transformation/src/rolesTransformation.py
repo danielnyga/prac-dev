@@ -35,6 +35,8 @@ from utils import colorize
 from pracutils import printListAndTick
 from prac.wordnet import WordNet
 import yaml
+from pracutils.RolequeryHandler import RolequeryHandler
+
 
 PRAC_HOME = os.environ['PRAC_HOME']
 achievedByModulePath = os.path.join(PRAC_HOME, 'pracmodules', 'roles_transformation')
@@ -88,7 +90,21 @@ class RolesTransformation(PRACModule):
                 else:
                     useKB = kb
                 
+                #Inference roles and just keep the roles for the current action_core
                 result_db = list(useKB.infer(db_))
+                result_db = map(lambda x: RolequeryHandler.queryRolesBasedOnAchievedBy(x,0), result_db) 
+                temp_result_db = []
+                
+                #Merge the result dbs with the given evidence db
+                for res in result_db:
+                    db__ = db_.duplicate()
+                    for atom, truth in sorted(res.evidence.iteritems()):
+                        db__.addGroundAtom(atom,truth)
+                    
+                    temp_result_db.append(db__)
+                    
+                result_db = temp_result_db
+                
                 if actioncore not in planList:
                     for r_db in result_db:
                         r_db_ = Database(r_db.mln)
