@@ -8,5 +8,5 @@ achieved_by(actioncore,actioncore?)
 
 // formulas
 3.394532    action_core(?w1, Pouring) ^ stuff(?w2, Pouring) ^ goal(?w3, Pouring) ^ stuff(?w2, Pouring) ^ goal(?w3, Pouring) ^ achieved_by(Pouring, Pouring) ^ action_verb(?w1, Pouring) ^ ?w1=/=?w2 ^ ?w1=/=?w3 ^ ?w3=/=?w2
-3.813239    action_core(?w1, Filling) ^ stuff(?w2, Filling) ^ goal(?w3, Filling) ^ stuff(?w2, Pouring) ^ goal(?w3, Pouring) ^ achieved_by(Filling, Pouring) ^ action_verb(?w1, Pouring) ^ ?w1=/=?w2 ^ ?w1=/=?w3 ^ ?w3=/=?w2
+3.813239    action_core(?w1, Adding) ^ theme(?w2, Adding) ^ goal(?w3, Adding) ^ stuff(?w2, Pouring) ^ goal(?w3, Pouring) ^ achieved_by(Adding, Pouring) ^ action_verb(?w1, Pouring) ^ ?w1=/=?w2 ^ ?w1=/=?w3 ^ ?w3=/=?w2
 

@@ -1,4 +1,4 @@
-1.00  achieved_by(Adding, Filling)
+1.00  achieved_by(Filling, Adding)
 1.00  action_core(add, Adding)
 1.00  action_verb(add,Filling)
  1.00 action_verb(add,Adding)
@@ -8,7 +8,7 @@
  1.00 goal(salad,Filling)
 
 ---
-1.00  achieved_by(Adding, Filling)
+1.00  achieved_by(Filling, Adding)
 1.00  action_core(add, Adding)
 1.00  action_verb(add,Filling)
  1.00 action_verb(add,Adding)
@@ -20,7 +20,7 @@
  1.00 goal(coffee,Filling)
 ---
 
-1.00  achieved_by(Adding, Filling)
+1.00  achieved_by(Filling, Adding)
 1.00  action_core(add, Adding)
 1.00  action_verb(add,Filling)
  1.00 action_verb(add,Adding)
@@ -30,7 +30,7 @@
 1.00  goal(glas,Adding)
  1.00 goal(glas,Filling)
 ---
-1.00  achieved_by(Adding, Filling)
+1.00  achieved_by(Filling, Adding)
 1.00  action_core(add, Adding)
 1.00  action_verb(add,Filling)
  1.00 action_verb(add,Adding)
@@ -39,7 +39,7 @@
 1.00  goal(glas,Adding)
  1.00 goal(glas,Filling)
 ---
-1.00  achieved_by(Adding, Filling)
+1.00  achieved_by(Filling, Adding)
 1.00  action_core(add, Adding)
 1.00  action_verb(add,Filling)
  1.00 action_verb(add,Adding)
@@ -49,7 +49,7 @@
  1.00 goal(bowl,Filling)
 ---
 
-1.00  achieved_by(Adding, Filling)
+1.00  achieved_by(Filling, Adding)
 1.00  action_core(add, Adding)
 1.00  action_verb(add,Filling)
  1.00 action_verb(add,Adding)
@@ -58,7 +58,7 @@
 1.00  goal(glass,Adding)
  1.00 goal(glass,Filling)
 ---
-1.00  achieved_by(Adding, Filling)
+1.00  achieved_by(Filling, Adding)
 1.00  action_core(add, Adding)
 1.00  action_verb(add,Filling)
  1.00 action_verb(add,Adding)
@@ -67,7 +67,7 @@
 1.00  goal(cup,Adding)
  1.00 goal(cup,Filling)
 ---
-1.00  achieved_by(Adding, Filling)
+1.00  achieved_by(Filling, Adding)
 1.00  action_core(add, Adding)
 1.00  action_verb(add,Filling)
  1.00 action_verb(add,Adding)
@@ -76,7 +76,7 @@
 1.00  goal(glas,Adding)
  1.00 goal(glas,Filling)
 ---
-1.00  achieved_by(Adding, Filling)
+1.00  achieved_by(Filling, Adding)
 1.00  action_core(add, Adding)
 1.00  action_verb(add,Filling)
  1.00 action_verb(add,Adding)
@@ -84,247 +84,3 @@
  1.00 theme(coffee,Adding)
 1.00  goal(cup,Adding)
  1.00 goal(cup,Filling)
-
----
-
-1.00  action_core(add,Adding)
-1.00  achieved_by(Adding,Filling)
-
-1.00  action_verb(add,Filling)
-1.00  stuff(acid,Filling)
-1.00  goal(base,Filling)
-1.00  unit(milliliters,Filling)
-1.00  amount(100,Filling)
-
-1.00  action_verb(add,Adding)
-1.00  theme(acid,Adding)
-1.00  goal(base,Adding)
-1.00  unit(milliliters,Adding)
-1.00  amount(100,Adding)
-
----
-1.00  achieved_by(Adding,Filling)
-1.00  action_core(add,Adding)
-
-1.00  action_verb(add,Filling)
-1.00  stuff(base,Filling)
-1.00  goal(acid,Filling)
-1.00  unit(milliliters,Filling)
-1.00  amount(100,Filling)
-
-1.00  action_verb(add,Adding)
-1.00  theme(base,Adding)
-1.00  goal(acid,Adding)
-1.00  unit(milliliters,Adding)
-1.00  amount(100,Adding)
-
----
-1.00  achieved_by(Adding,Filling)
-1.00  action_core(add,Adding)
-
-1.00  action_verb(add,Filling)
-1.00  stuff(base,Filling)
-1.00  goal(acid,Filling)
-1.00  unit(drops,Filling)
-1.00  amount(3,Filling)
-
-1.00  action_verb(add,Adding)
-1.00  theme(base,Adding)
-1.00  goal(acid,Adding)
-1.00  unit(drops,Adding)
-1.00  amount(3,Adding)
-
----
-
-1.00  action_core(add,Adding)
-1.00  achieved_by(Adding,Filling)
-
-1.00  action_verb(add,Filling)
-1.00  stuff(acid,Filling)
-1.00  goal(base,Filling)
-1.00  unit(drops,Filling)
-1.00  amount(3,Filling)
-
-1.00  action_verb(add,Adding)
-1.00  theme(acid,Adding)
-1.00  goal(base,Adding)
-1.00  unit(drops,Adding)
-1.00  amount(3,Adding)
-
----
-
-1.00  action_core(add,Adding)
-1.00  achieved_by(Adding,Filling)
-
-1.00  action_verb(add,Filling)
-1.00  stuff(water,Filling)
-1.00  goal(base,Filling)
-1.00  unit(drops,Filling)
-1.00  amount(3,Filling)
-
-1.00  action_verb(add,Adding)
-1.00  theme(water,Adding)
-1.00  goal(base,Adding)
-1.00  unit(drops,Adding)
-1.00  amount(3,Adding)
-
----
-
-1.00  action_core(add,Adding)
-1.00  achieved_by(Adding,Filling)
-
-1.00  action_verb(add,Filling)
-1.00  stuff(water,Filling)
-1.00  goal(acid,Filling)
-1.00  unit(drops,Filling)
-1.00  amount(3,Filling)
-
-1.00  action_verb(add,Adding)
-1.00  theme(water,Adding)
-1.00  goal(acid,Adding)
-1.00  unit(drops,Adding)
-1.00  amount(3,Adding)
-
----
-
-1.00  action_core(add,Adding)
-1.00  achieved_by(Adding,Filling)
-
-1.00  action_verb(add,Filling)
-1.00  stuff(water,Filling)
-1.00  goal(base,Filling)
-1.00  unit(milliliters,Filling)
-1.00  amount(100,Filling)
-
-1.00  action_verb(add,Adding)
-1.00  theme(water,Adding)
-1.00  goal(base,Adding)
-1.00  unit(milliliters,Adding)
-1.00  amount(100,Adding)
-
----
-
-1.00  action_core(add,Adding)
-1.00  achieved_by(Adding,Filling)
-
-1.00  action_verb(add,Filling)
-1.00  stuff(water,Filling)
-1.00  goal(acid,Filling)
-1.00  unit(milliliters,Filling)
-1.00  amount(100,Filling)
-
-1.00  action_verb(add,Adding)
-1.00  theme(water,Adding)
-1.00  goal(acid,Adding)
-1.00  unit(milliliters,Adding)
-1.00  amount(100,Adding)
-
----
-
-1.00  action_core(add,Adding)
-1.00  achieved_by(Adding,Filling)
-
-1.00  action_verb(add,Filling)
-1.00  stuff(acid,Filling)
-1.00  goal(water,Filling)
-1.00  unit(milliliters,Filling)
-1.00  amount(100,Filling)
-
-1.00  action_verb(add,Adding)
-1.00  theme(acid,Adding)
-1.00  goal(water,Adding)
-1.00  unit(milliliters,Adding)
-1.00  amount(100,Adding)
-
----
-
-1.00  action_core(add,Adding)
-1.00  achieved_by(Adding,Filling)
-
-1.00  action_verb(add,Filling)
-1.00  stuff(base,Filling)
-1.00  goal(water,Filling)
-1.00  unit(milliliters,Filling)
-1.00  amount(100,Filling)
-
-1.00  action_verb(add,Adding)
-1.00  theme(base,Adding)
-1.00  goal(water,Adding)
-1.00  unit(milliliters,Adding)
-1.00  amount(100,Adding)
-
----
-
-1.00  action_core(add,Adding)
-1.00  achieved_by(Adding,Filling)
-
-1.00  action_verb(add,Filling)
-1.00  stuff(base,Filling)
-1.00  goal(water,Filling)
-1.00  unit(drops,Filling)
-1.00  amount(3,Filling)
-
-
-1.00  action_verb(add,Adding)
-1.00  theme(base,Adding)
-1.00  goal(water,Adding)
-1.00  unit(drops,Adding)
-1.00  amount(3,Adding)
----
-
-1.00  action_core(add,Adding)
-1.00  achieved_by(Adding,Filling)
-1.00  action_verb(add,Filling)
-1.00  action_verb(add,Adding)
-1.00  stuff(acid,Filling)
-1.00  theme(acid,Adding)
-1.00  goal(water,Filling)
-1.00  goal(water,Adding)
-1.00  unit(drops,Filling)
-1.00  unit(drops,Adding)
-1.00  amount(3,Filling)
-1.00  amount(3,Adding)
-
----
-
-1.00  action_core(add,Adding)
-1.00  achieved_by(Adding,Filling)
-1.00  action_verb(add,Filling)
-1.00  action_verb(add,Adding)
-1.00  stuff(base,Filling)
-1.00  theme(base,Adding)
-1.00  goal(water,Filling)
-1.00  goal(water,Adding)
-
----
-
-1.00  action_core(add,Adding)
-1.00  achieved_by(Adding,Filling)
-1.00  action_verb(add,Filling)
-1.00  action_verb(add,Adding)
-1.00  stuff(acid,Filling)
-1.00  theme(acid,Adding)
-1.00  goal(water,Filling)
-1.00  goal(water,Adding)
-
----
-
-1.00  action_core(add,Adding)
-1.00  achieved_by(Adding,Filling)
-1.00  action_verb(add,Filling)
-1.00  action_verb(add,Adding)
-1.00  stuff(water,Filling)
-1.00  theme(water,Adding)
-1.00  goal(base,Filling)
-1.00  goal(base,Adding)
-
----
-
-1.00  action_core(add,Adding)
-1.00  achieved_by(Adding,Filling)
-1.00  action_verb(add,Filling)
-1.00  action_verb(add,Adding)
-1.00  stuff(water,Filling)
-1.00  theme(water,Adding)
-1.00  goal(acid,Filling)
-1.00  goal(acid,Adding)

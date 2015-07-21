@@ -45,6 +45,6 @@ ssS'filename'
 p22
 NsS'query_mln_str'
 p23
-V// domain declarations\u000a\u000a\u000a// predicate declarations\u000aaction_core(word,actioncore?)\u000aachieved_by(actioncore,actioncore?)\u000a#include  ../../senses_and_roles/mln/Roles.mln\u000a\u000a// formulas\u000a3.394532    action_core(?w1, Pouring) ^ stuff(?w2, Pouring) ^ goal(?w3, Pouring) ^ stuff(?w2, Pouring) ^ goal(?w3, Pouring) ^ achieved_by(Pouring, Pouring) ^ action_verb(?w1, Pouring) ^ ?w1=/=?w2 ^ ?w1=/=?w3 ^ ?w3=/=?w2\u000a3.813239    action_core(?w1, Filling) ^ stuff(?w2, Filling) ^ goal(?w3, Filling) ^ stuff(?w2, Pouring) ^ goal(?w3, Pouring) ^ achieved_by(Filling, Pouring) ^ action_verb(?w1, Pouring) ^ ?w1=/=?w2 ^ ?w1=/=?w3 ^ ?w3=/=?w2\u000a\u000a\u000a
+V// domain declarations\u000a\u000a\u000a// predicate declarations\u000aaction_core(word,actioncore?)\u000aachieved_by(actioncore,actioncore?)\u000a#include  ../../senses_and_roles/mln/Roles.mln\u000a\u000a// formulas\u000a3.394532    action_core(?w1, Pouring) ^ stuff(?w2, Pouring) ^ goal(?w3, Pouring) ^ stuff(?w2, Pouring) ^ goal(?w3, Pouring) ^ achieved_by(Pouring, Pouring) ^ action_verb(?w1, Pouring) ^ ?w1=/=?w2 ^ ?w1=/=?w3 ^ ?w3=/=?w2\u000a3.813239    action_core(?w1, Adding) ^ theme(?w2, Adding) ^ goal(?w3, Adding) ^ stuff(?w2, Pouring) ^ goal(?w3, Pouring) ^ achieved_by(Adding, Pouring) ^ action_verb(?w1, Pouring) ^ ?w1=/=?w2 ^ ?w1=/=?w3 ^ ?w3=/=?w2\u000a\u000a\u000a
 p24
 sb.
