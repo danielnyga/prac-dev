@@ -75,7 +75,7 @@
 1.00  is_a(steak.n.01, steak.n.01)
 
 ---
-1.00  achieved_by(Adding, Filling)
+1.00  achieved_by(Adding, Pouring)
 1.00  action_core(add, Adding)
 1.00  action_verb(add,Adding)
 1.00  theme(dressing,Adding)
@@ -87,18 +87,6 @@
 1.00  is_a(dressing.n.01, dressing.n.01)
 1.00  is_a(salad.n.01, salad.n.01)
 
----
-1.00  achieved_by(Adding, Filling)
-1.00  action_core(add, Adding)
-1.00  action_verb(add,Adding)
-1.00  theme(milk,Adding)
-1.00  theme(water,Adding)
-1.00  has_sense(add, add.v.01)
-1.00  has_sense(milk, milk.n.01)
-1.00  has_sense(water, water.n.06)
-1.00  is_a(add.v.01, add.v.01)
-1.00  is_a(milk.n.01, milk.n.01)
-1.00  is_a(water.n.06, water.n.06)
 ---
 1.00  achieved_by(Adding, Spooning)
 1.00  action_core(add, Adding)
@@ -138,17 +126,8 @@
 1.00  is_a(ingredient.n.03, ingredient.n.03)
 
 ---
-1.00  achieved_by(Adding, Filling)
-1.00  action_core(add, Adding)
-1.00  action_verb(add,Adding)
-1.00  theme(water,Adding)
 
-1.00  has_sense(add, add.v.01)
-1.00  has_sense(water, water.n.06)
-1.00  is_a(add.v.01, add.v.01)
-1.00  is_a(water.n.06, water.n.06)
----
-1.00  achieved_by(Adding, Filling)
+1.00  achieved_by(Adding, Pouring)
 1.00  action_core(add, Adding)
 1.00  action_verb(add,Adding)
 1.00  theme(juice,Adding)
@@ -157,7 +136,7 @@
 1.00  is_a(add.v.01, add.v.01)
 1.00  is_a(fruit_juice.n.01, fruit_juice.n.01)
 ---
-1.00  achieved_by(Adding, Filling)
+1.00  achieved_by(Adding, Pouring)
 1.00  action_core(add, Adding)
 1.00  action_verb(add,Adding)
 1.00  theme(pesto,Adding)
@@ -179,7 +158,7 @@
 1.00  is_a(rice.n.01, rice.n.01)
 
 ---
-1.00  achieved_by(Adding, Filling)
+1.00  achieved_by(Adding, Pouring)
 1.00  action_core(add, Adding)
 1.00  action_verb(add,Adding)
 1.00  theme(cola,Adding)
@@ -188,7 +167,7 @@
 1.00  is_a(add.v.01, add.v.01)
 1.00  is_a(cola.n.02, cola.n.02)
 ---
-1.00  achieved_by(Adding, Filling)
+1.00  achieved_by(Adding, Pouring)
 1.00  action_core(add, Adding)
 1.00  action_verb(add,Adding)
 1.00  theme(cola,Adding)
@@ -197,7 +176,7 @@
 1.00  is_a(add.v.01, add.v.01)
 1.00  is_a(cola.n.02, cola.n.02)
 ---
-1.00  achieved_by(Adding, Filling)
+1.00  achieved_by(Adding, Pouring)
 1.00  action_core(add, Adding)
 1.00  action_verb(add,Adding)
 1.00  theme(whisky,Adding)
@@ -206,7 +185,7 @@
 1.00  is_a(add.v.01, add.v.01)
 1.00  is_a(whisky.n.01, whisky.n.01)
 ---
-1.00  achieved_by(Adding, Filling)
+1.00  achieved_by(Adding, Pouring)
 1.00  action_core(add, Adding)
 1.00  action_verb(add,Adding)
 1.00  theme(coffee,Adding)
@@ -334,7 +313,7 @@
 ---
 
 1.00  action_core(add,Adding)
-1.00  achieved_by(Adding,Filling)
+1.00  achieved_by(Adding,UsingMeasuringCup)
 1.00  has_sense(100,hundred.n.01)
 1.00  has_sense(milliliters, milliliter.n.01)
 1.00  has_sense(acid, dibasic_acid.n.01)
@@ -352,7 +331,7 @@
 1.00  amount(100,Adding)
 
 ---
-1.00  achieved_by(Adding,Filling)
+1.00  achieved_by(Adding,UsingMeasuringCup)
 1.00  action_core(add,Adding)
 1.00  has_sense(100,hundred.n.01)
 1.00  has_sense(milliliters, milliliter.n.01)
@@ -370,7 +349,7 @@
 1.00  unit(milliliters,Adding)
 1.00  amount(100,Adding)
 ---
-1.00  achieved_by(Adding,Filling)
+1.00  achieved_by(Adding,Pipetting)
 1.00  action_core(add,Adding)
 1.00  has_sense(3,three.n.01)
 1.00  has_sense(drops, drop.n.02)
@@ -390,7 +369,7 @@
 ---
 
 1.00  action_core(add,Adding)
-1.00  achieved_by(Adding,Filling)
+1.00  achieved_by(Adding,Pipetting)
 1.00  has_sense(3,three.n.01)
 1.00  has_sense(drops, drop.n.02)
 1.00  has_sense(acid, dibasic_acid.n.01)
@@ -410,7 +389,7 @@
 ---
 
 1.00  action_core(add,Adding)
-1.00  achieved_by(Adding,Filling)
+1.00  achieved_by(Adding,Pipetting)
 1.00  has_sense(3,three.n.01)
 1.00  has_sense(drops, drop.n.02)
 1.00  has_sense(water, water.n.06)
@@ -429,7 +408,7 @@
 ---
 
 1.00  action_core(add,Adding)
-1.00  achieved_by(Adding,Filling)
+1.00  achieved_by(Adding,Pipetting)
 1.00  has_sense(3,three.n.01)
 1.00  has_sense(drops, drop.n.02)
 1.00  has_sense(acid, dibasic_acid.n.01)
@@ -450,7 +429,7 @@
 ---
 
 1.00  action_core(add,Adding)
-1.00  achieved_by(Adding,Filling)
+1.00  achieved_by(Adding,OperatingATap)
 1.00  has_sense(100,hundred.n.01)
 1.00  has_sense(milliliters, milliliter.n.01)
 1.00  has_sense(water, water.n.06)
@@ -471,7 +450,7 @@
 ---
 
 1.00  action_core(add,Adding)
-1.00  achieved_by(Adding,Filling)
+1.00  achieved_by(Adding,OperatingATap)
 1.00  has_sense(100,hundred.n.01)
 1.00  has_sense(milliliters, milliliter.n.01)
 1.00  has_sense(acid, dibasic_acid.n.01)
@@ -492,7 +471,7 @@
 ---
 
 1.00  action_core(add,Adding)
-1.00  achieved_by(Adding,Filling)
+1.00  achieved_by(Adding,UsingMeasuringCup)
 1.00  has_sense(100,hundred.n.01)
 1.00  has_sense(milliliters, milliliter.n.01)
 1.00  has_sense(acid, dibasic_acid.n.01)
@@ -513,7 +492,7 @@
 ---
 
 1.00  action_core(add,Adding)
-1.00  achieved_by(Adding,Filling)
+1.00  achieved_by(Adding,UsingMeasuringCup)
 1.00  has_sense(100,hundred.n.01)
 1.00  has_sense(milliliters, milliliter.n.01)
 1.00  has_sense(water, water.n.06)
@@ -534,7 +513,7 @@
 ---
 
 1.00  action_core(add,Adding)
-1.00  achieved_by(Adding,Filling)
+1.00  achieved_by(Adding,Pipetting)
 1.00  has_sense(3,three.n.01)
 1.00  has_sense(drops, drop.n.02)
 1.00  has_sense(water, water.n.06)
@@ -554,7 +533,7 @@
 ---
 
 1.00  action_core(add,Adding)
-1.00  achieved_by(Adding,Filling)
+1.00  achieved_by(Adding,Pipetting)
 1.00  has_sense(3,three.n.01)
 1.00  has_sense(drops, drop.n.02)
 1.00  has_sense(acid, dibasic_acid.n.01)
@@ -573,7 +552,7 @@
 ---
 
 1.00  action_core(add,Adding)
-1.00  achieved_by(Adding,Filling)
+1.00  achieved_by(Adding,UsingMeasuringCup)
 1.00  has_sense(water, water.n.06)
 1.00  has_sense(base, pyridine.n.01)
 1.00  has_sense(add, add.v.01)
@@ -586,7 +565,7 @@
 ---
 
 1.00  action_core(add,Adding)
-1.00  achieved_by(Adding,Filling)
+1.00  achieved_by(Adding,UsingMeasuringCup)
 1.00  has_sense(acid, dibasic_acid.n.01)
 1.00  has_sense(water, water.n.06)
 1.00  has_sense(add, add.v.01)
@@ -599,7 +578,7 @@
 ---
 
 1.00  action_core(add,Adding)
-1.00  achieved_by(Adding,Filling)
+1.00  achieved_by(Adding,OperatingATap)
 1.00  has_sense(water, water.n.06)
 1.00  has_sense(base, pyridine.n.01)
 1.00  has_sense(add, add.v.01)
@@ -612,7 +591,7 @@
 ---
 
 1.00  action_core(add,Adding)
-1.00  achieved_by(Adding,Filling)
+1.00  achieved_by(Adding,OperatingATap)
 1.00  has_sense(acid, dibasic_acid.n.01)
 1.00  has_sense(water, water.n.06)
 1.00  has_sense(add, add.v.01)
