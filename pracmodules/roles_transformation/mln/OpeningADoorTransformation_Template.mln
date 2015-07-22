@@ -2,5 +2,5 @@
 action_core(word,actioncore?)
 achieved_by(actioncore,actioncore?)
 
-0 action_core(?w1,+?ac1) ^ obj_to_be_opened(?w2,+?ac1)  ^ obj_to_be_opened(?w2,+?ac2)  ^ achieved_by(?ac1,+?ac2) ^ action_verb(?w1,+?ac2) ^ ?w1 =/= ?w2
+0 action_core(?w1,+?ac1) ^ obj_to_be_opened(?w2,+?ac1)  ^ obj_to_be_opened(?w2,+?ac2)  ^ achieved_by(+?ac1,+?ac2) ^ action_verb(?w1,+?ac2) ^ ?w1 =/= ?w2
 
