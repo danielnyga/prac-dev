@@ -28,7 +28,7 @@
 1.00  liquid(water,OperatingATap)
 ---
 
-1.00  achieved_by(pour, OperatingATap)
+1.00  achieved_by(Pouring, OperatingATap)
 1.00  action_core(pour, Pouring)
 1.00  action_verb(pour,Pouring)
  1.00  action_verb(pour,OperatingATap)
@@ -38,7 +38,7 @@
 
 ---
 
-1.00  achieved_by(pour, OperatingATap)
+1.00  achieved_by(Pouring, OperatingATap)
 1.00  action_core(pour, Pouring)
 1.00  action_verb(pour,Pouring)
  1.00  action_verb(pour,OperatingATap)
@@ -48,7 +48,7 @@
 1.00  liquid(water,OperatingATap)
 ---
 
-1.00  achieved_by(pour, OperatingATap)
+1.00  achieved_by(Pouring, OperatingATap)
 1.00  action_core(pour, Pouring)
 1.00  action_verb(pour,Pouring)
  1.00  action_verb(pour,OperatingATap)
@@ -57,7 +57,7 @@
 1.00  stuff(water,Pouring)
 1.00  liquid(water,OperatingATap)
 ---
-1.00  achieved_by(pour, OperatingATap)
+1.00  achieved_by(Pouring, OperatingATap)
 1.00  action_core(pour, Pouring)
 1.00  action_verb(pour,Pouring)
 1.00  action_verb(pour,OperatingATap)

@@ -4,10 +4,10 @@
 1.00  substance(butter,Spooning)
 1.00  goal(pan,Adding)
 1.00  goal(pan,Spooning)
-1.00  achieved_by(add, Spooning)
+1.00  achieved_by(Adding, Spooning)
 1.00  action_core(add, Adding)
 ---
-1.00  achieved_by(add, Spooning)
+1.00  achieved_by(Adding, Spooning)
 1.00  action_core(add, Adding)
 1.00  action_verb(add,Adding)
  1.00  action_verb(add,Spooning)
@@ -16,14 +16,14 @@
 1.00  goal(pan,Adding)
 1.00  goal(pan,Spooning)
 ---
-1.00  achieved_by(add, Spooning)
+1.00  achieved_by(Adding, Spooning)
 1.00  action_core(add, Adding)
 1.00  action_verb(add,Adding)
  1.00  action_verb(add,Spooning)
 1.00  theme(vegetables,Adding)
 1.00  substance(vegetables,Spooning)
 ---
-1.00  achieved_by(add, Spooning)
+1.00  achieved_by(Adding, Spooning)
 1.00  action_core(add, Adding)
 1.00  action_verb(add,Adding)
  1.00  action_verb(add,Spooning)
@@ -34,7 +34,7 @@
 1.00  goal(mixing_bowl,Adding)
 1.00  goal(mixing_bowl,Spooning)
 ---
-1.00  achieved_by(add, Spooning)
+1.00  achieved_by(Adding, Spooning)
 1.00  action_core(add, Adding)
 1.00  action_verb(add,Adding)
  1.00  action_verb(add,Spooning)
@@ -43,7 +43,7 @@
 1.00  goal(steak,Adding)
 1.00  goal(steak,Spooning)
 ---
-1.00  achieved_by(add, Spooning)
+1.00  achieved_by(Adding, Spooning)
 1.00  action_core(add, Adding)
 1.00  action_verb(add,Adding)
  1.00  action_verb(add,Spooning)
@@ -52,14 +52,14 @@
 1.00  goal(dish,Adding)
 1.00  goal(dish,Spooning)
 ---
-1.00  achieved_by(add, Spooning)
+1.00  achieved_by(Adding, Spooning)
 1.00  action_core(add, Adding)
 1.00  action_verb(add,Adding)
  1.00  action_verb(add,Spooning)
 1.00  theme(apple,Adding)
 1.00  substance(apple,Spooning)
 ---
-1.00  achieved_by(add, Spooning)
+1.00  achieved_by(Adding, Spooning)
 1.00  action_core(add, Adding)
 1.00  action_verb(add,Adding)
  1.00  action_verb(add,Spooning)
@@ -71,7 +71,7 @@
 1.00  goal(mixture,Spooning)
 ---
 
-1.00  achieved_by(add, Spooning)
+1.00  achieved_by(Adding, Spooning)
 1.00  action_core(add, Adding)
 1.00  action_verb(add,Adding)
  1.00  action_verb(add,Spooning)
