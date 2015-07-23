@@ -1,21 +1,18 @@
-<!doctype html>
-<html>
-  <head>
-    <title>PRAC - LOG</title>
-    <link rel="shortcut icon" href="{{ url_for('download_static', filename='images/favicon.ico') }}" />
+{% extends "layout.html" %}
+{% block title %}Log{% endblock %}
+{% block head %}
+    {{ super() }}
     <link rel="stylesheet"
           href="{{ url_for('download_static', filename='css/log.css') }}">
     <script type="text/javascript">
       var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=visualization"></script>
-    <script src="http://d3js.org/d3.v3.min.js"></script>
-  </head>
-  <body style="width: 100%; height: 100%; background-color: white; padding: 0px; margin: 0px">
-    <div id="container">
-      <div style="left: 0; right: 0; position: absolute; width: 300px; height: 100px; z-index: 1000;"><a href="{{ url_for('prac')}}"><img src="{{ url_for('download_static', filename='images/prac_logo.png') }}"></a></div>
-    {% block content %}
-      <div id="statistics">
+    <script src="{{ url_for('download_static', filename='script/d3.v3.min.js') }"></script>
+{% endblock %}
+
+{% block content %}
+ <div id="statistics">
           <div id="subdivs"><h3>Subdivisions</h3></div>
           <div id="country"><h3>Country</h3></div>
           <div id="ip"><h3>IP</h3></div>
@@ -25,8 +22,6 @@
         <div id="panel">
       <button onclick="toggleHeatmap()">Toggle Heatmap</button><br>
       <button onclick="toggleMarkers()">Toggle Markers</button><br>
-    </div>
-    {% endblock  %}
     </div>
 <script>
 var json; //result of callback, contains log data
@@ -299,7 +294,5 @@ svg_ip.append("g")
     .attr("class", "lines");
 
 svg_ip.attr("transform", "translate(" + width/6 + "," + height/3 + ")");
-
 </script>
-</body>
-</html>
+{% endblock %}
