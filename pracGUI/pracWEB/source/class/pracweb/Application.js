@@ -153,6 +153,8 @@ qx.Class.define("pracweb.Application",
       condProbWin.setLayout(new qx.ui.layout.Canvas());
       condProbWin.setContentPadding(4);
       condProbWin.add(condProb);
+      condProbWin.open();
+      condProbWin.hide();
       this._condProbWin = condProbWin;
       this.getRoot().add(condProbWin, {left:20, top:20});
 
@@ -207,6 +209,7 @@ qx.Class.define("pracweb.Application",
 
       // embedding for flowchart svg
       var flowChartEmbed = new qx.ui.embed.Html();
+      flowChartEmbed.setWidth(.2*document.getElementById("container", true, true).offsetWidth);
       this._flowChartEmbed = flowChartEmbed;
 
       vizEmbedGrp.add(flowChartEmbed);
@@ -376,6 +379,7 @@ qx.Class.define("pracweb.Application",
         if (this._stepwise) {
           this._vizButton.setEnabled(false);
         }
+         getRoleDist.setEnabled(false);
          this.loadGraph();
          this._clear_flow_chart();
          this._next_module = 'nl_parsing';
@@ -419,9 +423,9 @@ qx.Class.define("pracweb.Application",
       showCondProb.addListener('changeValue', function(e) {
           var el = this._condProb.getContentElement().getDomElement();
           if (e.getData())
-            this._condProbWin.open();
+            this._condProbWin.show();
           else
-            this._condProbWin.close();
+            this._condProbWin.hide();
         }, this);
 
 

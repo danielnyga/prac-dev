@@ -23,8 +23,9 @@ def register_routes(pracapp=None):
     # separate logger for user statistics
     ulog = logging.getLogger('userstats')
     ulog.setLevel(logging.INFO)
-    formatter = logging.Formatter("%(message)s")
-    filelogger = FileHandler(os.path.join(pracApp.app.config['LOG_FOLDER'], "userstats.json"))
+    formatter = logging.Formatter("%(message)s,")
+    filelogger = FileHandler(os.path.join(pracApp.app.config['LOG_FOLDER'],
+                                          "userstats.json"))
     filelogger.setFormatter(formatter)
     ulog.addHandler(filelogger)
     

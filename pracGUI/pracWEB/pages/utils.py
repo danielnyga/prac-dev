@@ -1,5 +1,6 @@
 from pracWEB.pracinit import pracApp
-from flask import request, jsonify, session, send_from_directory
+from flask import request, jsonify, session, send_from_directory, redirect, \
+    render_template
 from prac.inference import PRACInference
 import os, re
 import logging
@@ -33,13 +34,19 @@ def ensure_prac_session(session):
         initFileStorage()
     return prac_session
 
+@pracApp.app.route('/prac/log')
+def praclog():
+    return redirect('/prac/log/null')
 
 @pracApp.app.route('/prac/log/<filename>')
-def praclog(filename):
+def praclog_(filename):
     if os.path.isfile(os.path.join(pracApp.app.config['LOG_FOLDER'], filename)):
         return send_from_directory(pracApp.app.config['LOG_FOLDER'], filename)
-    else:
+    elif os.path.isfile(os.path.join(pracApp.app.config['LOG_FOLDER'],
+                                     '{}.json'.format(filename))):
         return send_from_directory(pracApp.app.config['LOG_FOLDER'], '{}.json'.format(filename))
+    else:
+        return render_template('userstats.html', **locals())
 
 @pracApp.app.route('/prac/_user_stats', methods=['POST'])
 def user_stats():

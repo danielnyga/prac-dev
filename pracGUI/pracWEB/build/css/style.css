@@ -29,9 +29,7 @@ html, body {
 
 #flowchart {
     position:absolute;
-    left:-webkit-calc(80%);
-    left:-moz-calc(80%);
-    left:calc(80%);
+    right:0px;
     top:0px;
 }
 
