@@ -36,7 +36,7 @@ def ensure_prac_session(session):
 
 @pracApp.app.route('/prac/log')
 def praclog():
-    return redirect('/prac/log/null')
+    return praclog_('null')
 
 @pracApp.app.route('/prac/log/<filename>')
 def praclog_(filename):
