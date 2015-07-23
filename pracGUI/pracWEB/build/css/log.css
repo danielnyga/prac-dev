@@ -37,7 +37,7 @@
 #panel {
     position:absolute;
     right:0;
-    top:0px;
+    top:100px;
     text-align:right;
     margin: 2px;
 }
@@ -66,6 +66,10 @@ svg {
     width: 33%;
     height: 100%;
     float: left;
+}
+
+button {
+    width: 150px;
 }
 
 path.slice{
