@@ -36,9 +36,9 @@ loadJSON(function(resp) {
         var data_subdiv = mapData('subdivisions');
         var data_country = mapData('country');
         var data_ip = mapData('ip');
-        change(svg_subdivs, data_subdiv);
-        change(svg_country, data_country);
-        change(svg_ip, data_ip);
+        change("Subdivisions", svg_subdivs, data_subdiv);
+        change("Country", svg_country, data_country);
+        change("IP", svg_ip, data_ip);
         initialize();
 });
 
@@ -110,6 +110,7 @@ function showStatistics() {
 var width = document.getElementById("statistics", true, true).offsetWidth,
     height = document.getElementById("statistics", true, true).offsetHeight,
     radius = height / 6;
+    margin = {top: 5, right: 5, bottom: 5, left: 5};
 
 var pie = d3.layout.pie()
     .padAngle(.01)
@@ -119,13 +120,13 @@ var pie = d3.layout.pie()
     });
 
 var arc = d3.svg.arc()
-    .outerRadius(radius *.8)
-    .innerRadius(radius)
-    .cornerRadius(10);
+    .outerRadius(radius *.6)
+    .innerRadius(radius * .8)
+    .cornerRadius(5);
 
 var outerArc = d3.svg.arc()
     .innerRadius(radius * 1.1)
-    .outerRadius(radius * 1.0);
+    .outerRadius(radius * .9);
 
 var key = function(d){ return d.data.label; };
 
@@ -150,7 +151,7 @@ function mapData (keyword){
     });
 }
 
-function change(svg, data) {
+function change(svgTitle, svg, data) {
 
     /* ------- PIE SLICES -------*/
     var slice = svg.select(".slices").selectAll("path.slice")
@@ -195,6 +196,7 @@ function change(svg, data) {
         .append("text")
         .attr("dy", ".35em")
         .text(function(d) {
+            console.log(d, d.data);
             return d.data.label;
         });
 
@@ -250,6 +252,66 @@ function change(svg, data) {
 
     polyline.exit()
         .remove();
+
+
+    /* ------- MORE TEXT LABELS -------*/
+
+    var text2 = svg.select(".ringlabels").selectAll("text")
+        .data(pie(data), key);
+
+    text2.enter()
+        .append("text")
+        .style("font-size","10px")
+        .style("font-weight","bold")
+        .attr("dy", ".25em")
+        .text(function(d) {
+            console.log(d, d.data);
+            return d.data.objs.length;
+        });
+
+    function midAngle(d){
+        return d.startAngle + (d.endAngle - d.startAngle)/2;
+    }
+
+    text2.transition().duration(1000)
+        .attrTween("transform", function(d) {
+			this._current = this._current || d;
+			var interpolate = d3.interpolate(this._current, d);
+			this._current = interpolate(0);
+			return function(t) {
+				var d2 = interpolate(t);
+				console.log(arc, arc.centroid(d2));
+				console.log(d2);
+				return "translate("+ arc.centroid(d2) +")";
+			};
+		})
+        .styleTween("text-anchor", function(d){
+            this._current = this._current || d;
+            var interpolate = d3.interpolate(this._current, d);
+            this._current = interpolate(0);
+            return function(t) {
+                var d2 = interpolate(t);
+                return midAngle(d2) < Math.PI ? "start":"end";
+            };
+        });
+
+    text2.exit()
+        .remove();
+
+
+    var title = svg.select(".title").selectAll("text")
+        .data(pie(data), key);
+
+    title.enter()
+        .append("text")
+      .attr("class", "title")
+      .style("font-size","50px")
+      .style("font-weight","bold")
+      .attr("x", width/2)
+      .attr("y", 0 - (margin.top / 2))
+      .attr("text-anchor", "middle")
+      .text(svgTitle);
+
 };
 
 //----SVG SUBDIVS----//
@@ -262,7 +324,11 @@ svg_subdivs.append("g")
 svg_subdivs.append("g")
     .attr("class", "labels");
 svg_subdivs.append("g")
+    .attr("class", "ringlabels");
+svg_subdivs.append("g")
     .attr("class", "lines");
+svg_subdivs.append("g")
+    .attr("class", "title");
 
 svg_subdivs.attr("transform", "translate(" + width/6 + "," + height/3 + ")");
 
@@ -276,6 +342,8 @@ svg_country.append("g")
     .attr("class", "slices");
 svg_country.append("g")
     .attr("class", "labels");
+svg_country.append("g")
+    .attr("class", "ringlabels");
 svg_country.append("g")
     .attr("class", "lines");
 
@@ -291,6 +359,8 @@ svg_ip.append("g")
     .attr("class", "slices");
 svg_ip.append("g")
     .attr("class", "labels");
+svg_ip.append("g")
+    .attr("class", "ringlabels");
 svg_ip.append("g")
     .attr("class", "lines");
 
