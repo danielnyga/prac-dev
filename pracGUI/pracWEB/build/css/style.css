@@ -28,6 +28,7 @@ html, body {
 }
 
 #flowchart {
+    width: 20%;
     position:absolute;
     right:0px;
     top:0px;

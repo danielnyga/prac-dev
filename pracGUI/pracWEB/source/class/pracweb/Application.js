@@ -910,6 +910,7 @@ qx.Class.define("pracweb.Application",
         var tar = e.getTarget();
         var response = tar.getResponse();
         this._flowChartEmbed.setHtml("<div id='flowchart'>" + response + "</div>");
+//        this._flowChartEmbed.setHtml('<img id="flowchart" src="data:image/svg+xml;utf8,' +  response + '"></img>');
         return;
       }, that);
       req.send();
