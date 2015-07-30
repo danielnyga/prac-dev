@@ -38,20 +38,21 @@ def readSemcor3File(filename):
             java.startJvm()
     log = logging.getLogger(__name__)
     tree = parser.parse(filename)
-    parser = StanfordParser(grammarPath)
+    parserSt = StanfordParser(grammarPath)
+    target = open(filename+".db", 'w')
     for e in tree.iter():
         if e.tag == 's':
             s, atoms = reconstruct(e)
-            print '//', s
+            target.write('//'+ s+"\n")
             for a in atoms:
-                print a
-            deps = parser.getDependencies(s)
+                target.write(a+"\n")
+            deps = parserSt.getDependencies(s)
             depstr = map(str, deps)
             # do some sanity check
-            
             for d in depstr:
-                print d 
-            print '---'
+                target.write("1.00 " + d+"\n") 
+            target.write('---\n')
+    target.close()
 
 def reconstruct(s_element):
     sentence = []
@@ -64,7 +65,7 @@ def reconstruct(s_element):
             wf_count += 1
             word_const = '%s-%d' % (e.text, wf_count)
             if e.get('pos', None) is not None:
-                gnd_atoms.append('has_pos(%s,%s)' % (word_const, e.get('pos')))
+                gnd_atoms.append('1.00 has_pos(%s,%s)' % (word_const, e.get('pos')))
             if e.get('lemma', None) is not None:
                 lem = e.get('lemma')
                 lexsn = e.get('lexsn')
@@ -73,13 +74,12 @@ def reconstruct(s_element):
                     if l.key == '%s%%%s' % (lem, lexsn):
                         synset = l.synset
                 if synset is not None:
-                    sid = 's-%s' % word_const
-                    gnd_atoms.append('has_sense(%s,%s)' % (word_const, sid))
-                    gnd_atoms.append('is_a(%s,%s)' % (sid, synset.name))
+                    gnd_atoms.append('1.00 has_sense(%s,%s)' % (word_const, synset.name))
+                    gnd_atoms.append('1.00 is_a(%s,%s)' % (synset.name, synset.name))
     sentence = ' '.join(sentence).strip()
     return sentence, gnd_atoms
     
 if __name__ == '__main__':
     logging.getLogger().setLevel(logging.INFO)
-    path = os.path.join('/', 'home', 'nyga', 'work', 'nl_corpora', 'semcor3.0', 'brown1', 'tagfiles')
-    readSemcor3File(os.path.join(path, 'br-a01'))
+    path = os.path.join('/', 'home', 'seba', 'Desktop', 'semcor3.0', 'brown1', 'tagfiles')
+    readSemcor3File(os.path.join(path, 'br-a02'))
