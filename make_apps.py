@@ -31,6 +31,12 @@ f.close()
 print '\t Wrote app %s' % colorize('pracGUI', BOLD, True)
 os.system("chmod a+x %s" % fp)
 
+# build qooxdoo
+generate = os.path.join(home, "pracGUI", "pracWEB", "generate.py")
+os.system(generate + ' source-all')
+os.system(generate + ' build')
+
+
 
 
 
