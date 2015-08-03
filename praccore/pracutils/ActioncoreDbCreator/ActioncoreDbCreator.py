@@ -76,7 +76,8 @@ class ActionCoreDbCreator(object):
             if not syn1[i] == syn2[i]:
                 return False
             
-        return True 
+        return True
+     
 if __name__ == '__main__':
     args = sys.argv[1:]
     
