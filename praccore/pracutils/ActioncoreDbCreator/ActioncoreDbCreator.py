@@ -30,7 +30,7 @@ class ActionCoreDbCreator(object):
         #Ignore modal verbs
         verb_tags = ['VB', 'VBG', 'VBZ', 'VBD', 'VBN', 'VBP']
         synset_key_list = ac.init_synset_key_list()
-        regex_has_pos = re.compile('has_pos\s*\(\s*(\w+)-{0,1}\d*\s*,\s*(\w+)\s*\)')
+        regex_has_pos = re.compile('has_pos\s*\(\s*(\w+)(-{0,1}\d*)\s*,\s*(\w+)\s*\)')
         regex_new_db = re.compile("\n\s*-+\s*\n")
          
         for filename in os.listdir(input_dir):
@@ -40,13 +40,12 @@ class ActionCoreDbCreator(object):
             dbs = regex_new_db.split(file.read())
             
             for db in dbs:
-                for (word,tag) in regex_has_pos.findall(db):
+                for (word,id,tag) in regex_has_pos.findall(db):
                     if tag in verb_tags:
                         synset = self.wordnet.synsets(word,"v")
-
-                        if synset:
+                        
+                        if synset and not self.is_aux_verb(word+id,db):
                             is_synset_added = False
-                            
                             for i in range(0,len(synset_key_list)):
                                 synset_key = synset_key_list[i]
                                 
@@ -77,6 +76,20 @@ class ActionCoreDbCreator(object):
                 return False
             
         return True
+    
+    def is_aux_verb(self,word,db):
+        regex_aux = re.compile('aux\s*\(\s*(\w+)-{0,1}\d*\s*,\s*'+word+'\s*\)')
+        regex_auxpass = re.compile('auxpass\s*\(\s*\w+-{0,1}\d*\s*,\s*'+word+'\s*\)')
+        
+        if regex_aux.search(db):
+            print regex_aux.search(db).group()
+            return True;
+        
+        if regex_auxpass.search(db):
+            print regex_auxpass.search(db).group()
+            return True;
+        
+        return False;
      
 if __name__ == '__main__':
     args = sys.argv[1:]
