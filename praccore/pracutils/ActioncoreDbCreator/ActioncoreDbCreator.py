@@ -3,6 +3,9 @@ import re
 import sys
 from prac.wordnet import WordNet
 
+from mln import readMLNFromFile
+from mln.database import Database,readDBFromFile
+
 class ActionCoreDbCreator(object):
     PRAC_HOME = os.environ['PRAC_HOME']
     ACTIONCORE_DB_PATH = os.path.join(PRAC_HOME, 'praccore', 'pracutils','ActioncoreDbCreator',"actioncore_dbs")
@@ -25,7 +28,7 @@ class ActionCoreDbCreator(object):
         return synset_key_list
     
     
-    def create_actioncore_dbs(self,input_dir):
+    def create_actioncore_dbs(self,input_dir,mln):
         #verb_tags = ['VB', 'VBG', 'VBZ', 'VBD', 'VBN', 'VBP', 'MD']
         #Ignore modal verbs
         verb_tags = ['VB', 'VBG', 'VBZ', 'VBD', 'VBN', 'VBP']
@@ -37,40 +40,43 @@ class ActionCoreDbCreator(object):
             if filename.endswith("~"): continue
             
             file = open(os.path.join(input_dir,filename),'r')
-            dbs = regex_new_db.split(file.read())
-            
+            dbs_as_textfiles = regex_new_db.split(file.read())
+            dbs = readDBFromFile(mln,os.path.join(input_dir,filename))
+                                 
             for db in dbs:
-                sentence = db.strip().split("\n")[0]
-                for (word,id,tag) in regex_has_pos.findall(db):
-                    if tag in verb_tags:
+                sentence = " "
+                #TODO use index of dbs to get correct sentence
+                #sentence = db.strip().split("\n")[0]
+                for q in db.query('has_pos(?w, ?p)'):
+                    if q['?p'] in verb_tags:
+                        word = '-'.join(q['?w'].split('-')[:-1])# extract everything except the number (e.g. compound words like heart-shaped from heart-shaped-4)
                         synset = self.wordnet.synsets(word,"v")
                         
-                        if synset and not self.is_aux_verb(word+id,db):
+                        if synset and not self.is_aux_verb(q['?w'],db):
                             is_synset_added = False
                             for i in range(0,len(synset_key_list)):
                                 synset_key = synset_key_list[i]
                                 
                                 if self.are_synsets_equal(synset,synset_key):
-                                    pas_db = self.create_pas_db(db, word+id)
+                                    pas_db = self.create_pas_db(db, q['?w'])
                                     
-                                    if pas_db:
-                                        file = open(os.path.join(self.ACTIONCORE_DB_PATH,str(i+1)+".db"),'a')
-                                        file.write('\n---\n')
-                                        file.write(self.SYNSET_KEY+":"+word+"\n")
-                                        file.write(sentence+'\n\n')
-                                        file.write(pas_db)
-                                        file.close()
+                                    if not pas_db.isEmpty():
+                                        pas_db.addGroundAtom("predicate({})".format(q['?w']))
+                                        path_to_dbs = os.path.join(self.ACTIONCORE_DB_PATH,str(i+1)+".db")
+                                        
+                                        dbs_file = open(path_to_dbs,'w')
+                                        synset_dbs = readDBFromFile(mln,path_to_dbs)
+                                        synset_dbs.append(pas_db)
+                                        Database.writeDBs(synset_dbs,dbs_file)
+                                        
                                     is_synset_added = True
                                     break
                             
                             if not is_synset_added:
                                 pas_db = self.create_pas_db(db, word+id)
-                                if pas_db:
-                                    file = open(os.path.join(self.ACTIONCORE_DB_PATH,str(len(synset_key_list)+1)+".db"),'a')
-                                    file.write(self.SYNSET_KEY+":"+word+"\n")
-                                    file.write(sentence+'\n\n')
-                                    file.write(pas_db)
-                                    file.close()
+                                if not pas_db.isEmpty():
+                                    pas_db.addGroundAtom("predicate({})".format(q['?w']))
+                                    pas_db.writeToFile(os.path.join(self.ACTIONCORE_DB_PATH,str(len(synset_key_list)+1)+".db"))
                                     synset_key_list.append(synset)
                                 
                                 
@@ -86,13 +92,13 @@ class ActionCoreDbCreator(object):
         return True
     
     def is_aux_verb(self,word,db):
-        regex_aux = re.compile('aux\s*\(\s*(\w+)-{0,1}\d*\s*,\s*'+word+'\s*\)')
-        regex_auxpass = re.compile('auxpass\s*\(\s*\w+-{0,1}\d*\s*,\s*'+word+'\s*\)')
+        #regex_aux = re.compile('aux\s*\(\s*(\w+)-{0,1}\d*\s*,\s*'+word+'\s*\)')
+        #regex_auxpass = re.compile('auxpass\s*\(\s*\w+-{0,1}\d*\s*,\s*'+word+'\s*\)')
         
-        if regex_aux.search(db):
+        for q in db.query('aux(?w, {})'.format(word)):
             return True;
         
-        if regex_auxpass.search(db):
+        for q in db.query('auxpass(?w, {})'.format(word)):
             return True;
         
         return False;
@@ -101,31 +107,30 @@ class ActionCoreDbCreator(object):
         regex_dobj = re.compile('dobj\s*\(\s*'+predicate+'\s*,\s*\w+-{0,1}\d*\s*\)')
         regex_nsubj = re.compile('nsubj\s*\(\s*'+predicate+'\s*,\s*\w+-{0,1}\d*\s*\)')
         regex_iobj = re.compile('iobj\s*\(\s*'+predicate+'\s*,\s*\w+-{0,1}\d*\s*\)')
-        regex_pobj = re.compile('prep\w+\s*\(\s*'+predicate+'\s*,\s*\w+-{0,1}\d*\s*\)')
-        result = ""
+        #regex_pobj = re.compile('prep\w+\s*\(\s*'+predicate+'\s*,\s*\w+-{0,1}\d*\s*\)')
+        result = Database(db.mln)
         #TODO add has_sense
         
-        for e in regex_dobj.findall(db):
-            result += '{} {}\n'.format(str(1.00),str(e))
+        for q in db.query('dobj({}, ?w)'.format(predicate)):
+            result.addGroundAtom(q)
         
-        for e in regex_nsubj.findall(db):
-            result += '{} {}\n'.format(str(1.00),str(e))
+        for q in db.query('nsubj({}, ?w)'.format(predicate)):
+            result.addGroundAtom(q)
             
-        for e in regex_iobj.findall(db):
-            result += '{} {}\n'.format(str(1.00),str(e))
+        for q in db.query('iobj({}, ?w)'.format(predicate)):
+            result.addGroundAtom(q)
             
-        for e in regex_pobj.findall(db):
-            result += '{} {}\n'.format(str(1.00),str(e))
-     
+        
         return result
     
 if __name__ == '__main__':
     args = sys.argv[1:]
     
-    if args:
-        input_dir = args[0] 
+    if len(args) == 2:
+        input_dir = args[0]
+        mln = readMLNFromFile(args[1], grammar='PRACGrammar', logic='FuzzyLogic') 
         ac = ActionCoreDbCreator()
-        ac.create_actioncore_dbs(input_dir)
+        ac.create_actioncore_dbs(input_dir,mln)
             
             
     
