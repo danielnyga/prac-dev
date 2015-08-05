@@ -126,6 +126,7 @@ if __name__ == '__main__':
     path3 = os.path.join('/', 'home', 'seba', 'Desktop', 'semcor3.0', 'brownv', 'tagfiles')
     for filename in os.listdir(path):
         readSemcor3File(os.path.join(path, filename))
+    parserSt.mln.writeToFile(os.path.join(path,'predicates.mln'))
     #for filename in os.listdir(path2):
     #    readSemcor3File(os.path.join(path2, filename))
     #for filename in os.listdir(path3):
