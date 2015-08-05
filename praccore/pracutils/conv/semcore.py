@@ -35,8 +35,12 @@ from mln.errors import NoSuchPredicateError
 
 java.classpath.append(os.path.join('3rdparty', 'stanford-parser-2012-02-03', 'stanford-parser.jar'))
 grammarPath = os.path.join('3rdparty', 'stanford-parser-2012-02-03', 'grammar', 'englishPCFG.ser.gz')
+
 prac = PRAC()
 prac.wordnet = WordNet(concepts=None)
+
+parserSt = prac.getModuleByName('nl_parsing')
+parserSt.initialize()
 
 def readSemcor3File(filename):
     '''
@@ -48,9 +52,6 @@ def readSemcor3File(filename):
     log = logging.getLogger(__name__)
     tree = parser.parse(filename)
     
-    parserSt = prac.getModuleByName('nl_parsing')
-    parserSt.initialize()
-
     
     target = open(filename+".db", 'w')
     is_file_causing_parsing_errors = False
@@ -66,6 +67,9 @@ def readSemcor3File(filename):
             while not is_sentence_parsed:
                 try:
                     for x in parserSt.parse_without_prac(s):
+                        for atom, _ in sorted(x.evidence.iteritems()):
+                            if 'has_pos' in atom: 
+                                x.retractGndAtom(atom)
                         x.write(target)
                         target.write('---\n')
                     is_sentence_parsed = True
@@ -75,7 +79,6 @@ def readSemcor3File(filename):
                     print exc_value
                     predicate_name = str(exc_value).split(':')[1].strip()
                     parserSt.mln.declarePredicate(Predicate(predicate_name,['word','word']))
-                    
                     print "Try it again."
                 except:
                     is_sentence_parsed = True
@@ -83,8 +86,8 @@ def readSemcor3File(filename):
                     print sys.exc_info()[0]
                 
     target.close()
-    if not is_file_causing_parsing_errors:
-        os.remove(filename)
+    #if not is_file_causing_parsing_errors:
+    #    os.remove(filename)
 
 def reconstruct(s_element):
     sentence = []
