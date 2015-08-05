@@ -101,7 +101,7 @@ class ActionCoreDbCreator(object):
         regex_dobj = re.compile('dobj\s*\(\s*'+predicate+'\s*,\s*\w+-{0,1}\d*\s*\)')
         regex_nsubj = re.compile('nsubj\s*\(\s*'+predicate+'\s*,\s*\w+-{0,1}\d*\s*\)')
         regex_iobj = re.compile('iobj\s*\(\s*'+predicate+'\s*,\s*\w+-{0,1}\d*\s*\)')
-        
+        regex_pobj = re.compile('prep\w+\s*\(\s*'+predicate+'\s*,\s*\w+-{0,1}\d*\s*\)')
         result = ""
         #TODO add has_sense
         
@@ -112,6 +112,9 @@ class ActionCoreDbCreator(object):
             result += '{} {}\n'.format(str(1.00),str(e))
             
         for e in regex_iobj.findall(db):
+            result += '{} {}\n'.format(str(1.00),str(e))
+            
+        for e in regex_pobj.findall(db):
             result += '{} {}\n'.format(str(1.00),str(e))
      
         return result
