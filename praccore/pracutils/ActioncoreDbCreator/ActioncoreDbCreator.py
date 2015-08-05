@@ -82,11 +82,9 @@ class ActionCoreDbCreator(object):
         regex_auxpass = re.compile('auxpass\s*\(\s*\w+-{0,1}\d*\s*,\s*'+word+'\s*\)')
         
         if regex_aux.search(db):
-            print regex_aux.search(db).group()
             return True;
         
         if regex_auxpass.search(db):
-            print regex_auxpass.search(db).group()
             return True;
         
         return False;
