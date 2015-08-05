@@ -40,6 +40,7 @@ class ActionCoreDbCreator(object):
             dbs = regex_new_db.split(file.read())
             
             for db in dbs:
+                sentence = db.strip().split("\n")[0]
                 for (word,id,tag) in regex_has_pos.findall(db):
                     if tag in verb_tags:
                         synset = self.wordnet.synsets(word,"v")
@@ -50,20 +51,27 @@ class ActionCoreDbCreator(object):
                                 synset_key = synset_key_list[i]
                                 
                                 if self.are_synsets_equal(synset,synset_key):
-                                    file = open(os.path.join(self.ACTIONCORE_DB_PATH,str(i+1)+".db"),'a')
-                                    file.write('\n---\n')
-                                    file.write(self.SYNSET_KEY+":"+word+"\n")
-                                    file.write(db)
-                                    file.close()
+                                    pas_db = self.create_pas_db(db, word+id)
+                                    
+                                    if pas_db:
+                                        file = open(os.path.join(self.ACTIONCORE_DB_PATH,str(i+1)+".db"),'a')
+                                        file.write('\n---\n')
+                                        file.write(self.SYNSET_KEY+":"+word+"\n")
+                                        file.write(sentence+'\n\n')
+                                        file.write(pas_db)
+                                        file.close()
                                     is_synset_added = True
                                     break
                             
                             if not is_synset_added:
-                                file = open(os.path.join(self.ACTIONCORE_DB_PATH,str(len(synset_key_list)+1)+".db"),'a')
-                                file.write(self.SYNSET_KEY+":"+word+"\n")
-                                file.write(db)
-                                file.close()
-                                synset_key_list.append(synset)
+                                pas_db = self.create_pas_db(db, word+id)
+                                if pas_db:
+                                    file = open(os.path.join(self.ACTIONCORE_DB_PATH,str(len(synset_key_list)+1)+".db"),'a')
+                                    file.write(self.SYNSET_KEY+":"+word+"\n")
+                                    file.write(sentence+'\n\n')
+                                    file.write(pas_db)
+                                    file.close()
+                                    synset_key_list.append(synset)
                                 
                                 
     def are_synsets_equal(self,syn1,syn2):
@@ -88,7 +96,26 @@ class ActionCoreDbCreator(object):
             return True;
         
         return False;
+    
+    def create_pas_db(self,db,predicate):
+        regex_dobj = re.compile('dobj\s*\(\s*'+predicate+'\s*,\s*\w+-{0,1}\d*\s*\)')
+        regex_nsubj = re.compile('nsubj\s*\(\s*'+predicate+'\s*,\s*\w+-{0,1}\d*\s*\)')
+        regex_iobj = re.compile('iobj\s*\(\s*'+predicate+'\s*,\s*\w+-{0,1}\d*\s*\)')
+        
+        result = ""
+        #TODO add has_sense
+        
+        for e in regex_dobj.findall(db):
+            result += '{} {}\n'.format(str(1.00),str(e))
+        
+        for e in regex_nsubj.findall(db):
+            result += '{} {}\n'.format(str(1.00),str(e))
+            
+        for e in regex_iobj.findall(db):
+            result += '{} {}\n'.format(str(1.00),str(e))
      
+        return result
+    
 if __name__ == '__main__':
     args = sys.argv[1:]
     
