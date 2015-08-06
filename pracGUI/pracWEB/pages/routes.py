@@ -24,11 +24,10 @@ def register_routes(pracapp=None):
     ulog = logging.getLogger('userstats')
     ulog.setLevel(logging.INFO)
     formatter = logging.Formatter("%(message)s,")
-    filelogger = FileHandler(os.path.join(pracApp.app.config['LOG_FOLDER'],
-                                          "userstats.json"))
+    filelogger = FileHandler(os.path.join(pracApp.app.config['LOG_FOLDER'], "userstats.json"))
     filelogger.setFormatter(formatter)
     ulog.addHandler(filelogger)
-    
+
     from pracWEB.pages import pracSpec
     from pracWEB.pages import inference
     from pracWEB.pages import views

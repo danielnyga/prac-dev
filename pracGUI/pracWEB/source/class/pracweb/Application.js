@@ -198,23 +198,32 @@ qx.Class.define("pracweb.Application",
 
       // visualization of svg graph and waitimg
       var vizEmbedGrp = new qx.ui.container.Composite();;
-      var vizLayout = new qx.ui.layout.Grow();
+      var vizLayout = new qx.ui.layout.Canvas();
       vizEmbedGrp.setLayout(vizLayout);
-      var vizHTML = "<div id='viz'></div>";
-      var waitHTML = "<img id='waitImg' src='/prac/static/images/wait.gif'>";
-      var waitEmbed = new qx.ui.embed.Html(waitHTML);
-      waitEmbed.hide();
-      this._waitEmbed = waitEmbed;
-      var vizEmbed = new qx.ui.embed.Html(vizHTML);
 
-      // embedding for flowchart svg
-      var flowChartEmbed = new qx.ui.embed.Html();
-      flowChartEmbed.setWidth(.2*document.getElementById("container", true, true).offsetWidth);
-      this._flowChartEmbed = flowChartEmbed;
+      var waitImage = new qx.ui.basic.Image();
+      waitImage.setSource('/prac/static/images/wait.gif');
+      waitImage.getContentElement().setAttribute('id', 'waitImg');
+      waitImage.setWidth(300);
+      waitImage.setHeight(225);
+      waitImage.setMarginLeft(-150);
+      waitImage.setMarginTop(-125);
+      waitImage.setScale(1);
+      waitImage.hide();
+      this._waitImage = waitImage;
 
-      vizEmbedGrp.add(flowChartEmbed);
-      vizEmbedGrp.add(vizEmbed);
-      vizEmbedGrp.add(waitEmbed);
+      var vizComposite = new qx.ui.container.Composite()
+      vizComposite.setLayout(new qx.ui.layout.Grow());
+      vizComposite.getContentElement().setAttribute('id', 'viz');
+
+      var flowChartComposite = new qx.ui.container.Composite()
+      flowChartComposite.setLayout(new qx.ui.layout.Grow());
+      flowChartComposite.getContentElement().setAttribute('id', 'flowchart');
+      this._flowChartComposite = flowChartComposite;
+
+      vizEmbedGrp.add(flowChartComposite, { left: "80%", top: 0, width: "20%", height:"auto"});
+      vizEmbedGrp.add(vizComposite, { left: 0, top: 0, width: "100%", height:"100%"});
+      vizEmbedGrp.add(waitImage, { left: "50%", top: "50%"});
       this._vizEmbedGrp = vizEmbedGrp;
       this._load_flow_chart();
 
@@ -412,11 +421,11 @@ qx.Class.define("pracweb.Application",
       var showFlowchart = new qx.ui.form.CheckBox("Show/hide Flowchart");
       showFlowchart.setValue(true);
       showFlowchart.addListener('changeValue', function(e) {
-          var el = this._flowChartEmbed.getContentElement().getDomElement();
+          var el = this._flowChartComposite.getContentElement().getDomElement();
           if (e.getData())
-            this._flowChartEmbed.show();
+            this._flowChartComposite.show();
           else
-            this._flowChartEmbed.hide();
+            this._flowChartComposite.hide();
         }, this);
 
       var showCondProb = new qx.ui.form.CheckBox("Show/hide Cond. Probability");
@@ -909,8 +918,7 @@ qx.Class.define("pracweb.Application",
       req.addListener("success", function(e) {
         var tar = e.getTarget();
         var response = tar.getResponse();
-        this._flowChartEmbed.setHtml("<div id='flowchart'>" + response + "</div>");
-//        this._flowChartEmbed.setHtml('<img id="flowchart" src="data:image/svg+xml;utf8,' +  response + '"></img>');
+        this._flowChartComposite.getContentElement().getDomElement().innerHTML = response;
         return;
       }, that);
       req.send();
@@ -977,75 +985,11 @@ qx.Class.define("pracweb.Application",
      */
     _show_wait_animation : function(wait) {
       if (wait){
-        this._waitEmbed.show();
+        this._waitImage.show();
       } else {
-        this._waitEmbed.hide();
+        this._waitImage.hide();
       }
     },
-
-    // _update_mln_text : function(e) {
-    //   if (e.getData().length > 0) {
-    //     var selection = e.getData()[0].getLabel();
-    //     this._update_text(selection, this.mlnArea);
-    //   } else {
-    //     this.mlnArea.setValue('');
-    //   }
-    // },
-
-    // _update_evidence_text : function(e) {
-    //   if (e.getData().length > 0) {
-    //     var selection = e.getData()[0].getLabel();
-    //     this._update_text(selection, this.evidenceArea);
-    //   } else {
-    //     this.evidenceArea.setValue('');
-    //   }
-    // },
-
-    // _update_text : function(selection, area) {
-    //   var that = this;
-    //   console.log('changing text, requesting...');
-    //   var module = this.moduleSelect.getSelection()[0].getLabel();
-    //   var req = new qx.io.request.Xhr(); 
-    //   req.setUrl("/prac/update_text");
-    //   req.setMethod('POST');
-    //   req.setRequestHeader("Cache-Control", "no-cache");
-    //   req.setRequestHeader("Content-Type", 'application/json');
-    //   req.setRequestData({ "module": module , "fName": selection });
-    //   req.addListener("success", function(e) {
-    //     var tar = e.getTarget();
-    //     var response = tar.getResponse();
-    //     area.setValue(response.text);
-
-    //     return;
-    //   }, that);
-    //   req.send();
-    //   // request options for other form fields from server
-    // },
-
-    /**
-     * update selection items in expert settings
-     */
-    // _update_selections : function(data) {
-    //   // update kb selections
-    //   this.kbSelect.removeAll();
-    //   for (var k = 0; k < data.kblist.length; k++) {
-    //     this.kbSelect.add(new qx.ui.form.ListItem(data.kblist[k]));
-    //   }
-
-    //   // update mln selections
-    //   this.mlnSelect.removeAll();
-    //   console.log('mlnlist', data.mlnlist);
-    //   for (var m = 0; m < data.mlnlist.length; m++) {
-    //     console.log('adding', data.mlnlist[m]);
-    //     this.mlnSelect.add(new qx.ui.form.ListItem(data.mlnlist[m]));
-    //   }
-
-    //   // update evidence selections
-    //   this.evidenceSelect.removeAll();
-    //   for (var e = 0; e < data.evidencelist.length; e++) {
-    //     this.evidenceSelect.add(new qx.ui.form.ListItem(data.evidencelist[e]));
-    //   }
-    // },
 
     /**
      * formatting template for inf settings labels and text
