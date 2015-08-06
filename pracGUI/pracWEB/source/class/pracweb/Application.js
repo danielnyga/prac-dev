@@ -73,19 +73,15 @@ qx.Class.define("pracweb.Application",
       // main frame
       var prac_container = document.getElementById("prac_container", true, true);
       var contentIsle = new qx.ui.root.Inline(prac_container,true,true);
-      console.log('size container',document.getElementById("container", true, true).offsetWidth, document.getElementById("container", true, true).offsetHeight );
       contentIsle.setWidth(document.getElementById("container", true, true).offsetWidth);
       contentIsle.setHeight(document.getElementById("container", true, true).offsetHeight);
       contentIsle.setLayout(new qx.ui.layout.Grow());
 
       prac_container.addEventListener("resize", function() {
-      console.log('resize');
-      console.log('container', document.getElementById("container", true, true).offsetWidth, document.getElementById("container", true, true).offsetHeight);
         var w = document.getElementById("container", true, true).offsetWidth;
         var h = document.getElementById("container", true, true).offsetHeight;
       	contentIsle.setWidth(w);
       	contentIsle.setHeight(h);
-      console.log('isle', contentIsle.getWidth(), contentIsle.getHeight());
       }, this);
 
       document.addEventListener("roll", function(e) {
@@ -94,13 +90,10 @@ qx.Class.define("pracweb.Application",
       }, this);
 
       window.addEventListener("resize", function() {
-      console.log('resize');
-      console.log('container', document.getElementById("container", true, true).offsetWidth, document.getElementById("container", true, true).offsetHeight);
         var w = document.getElementById("container", true, true).offsetWidth;
         var h = document.getElementById("container", true, true).offsetHeight;
       	contentIsle.setWidth(w);
       	contentIsle.setHeight(h);
-      console.log('isle', contentIsle.getWidth(), contentIsle.getHeight());
       }, this);
 
       // scrollable container
@@ -947,26 +940,6 @@ qx.Class.define("pracweb.Application",
         document.getElementById(nodes[x]).nextElementSibling.style.fill = "white";
       }
     },
-
-    // _change_module : function(e) {
-    //   console.log('changing module, requesting selection options');
-    //   var req = new qx.io.request.Xhr(); 
-    //   req.setUrl("/prac/update_module");
-    //   req.setMethod('POST');
-    //   req.setRequestHeader("Cache-Control", "no-cache");
-    //   req.setRequestHeader("Content-Type", 'application/json');
-    //   console.log('sending module', this.moduleSelect.getSelection()[0].getLabel() );
-    //   req.setRequestData({ "module": this.moduleSelect.getSelection()[0].getLabel() });
-    //   var that = this;
-    //   req.addListener("success", function(e) {
-    //     var tar = e.getTarget();
-    //     var response = tar.getResponse();
-    //     console.log(response);
-    //     this._update_selections(response);
-    //     return;
-    //   }, that);
-    //   req.send();
-    // },
 
     /**
      * update values for inference settings of current step
