@@ -42,59 +42,38 @@ qx.Class.define("pracweb.Application",
 
     main : function()
     {
-      // Call super class
-      this.base(arguments);
+        // Call super class
+        this.base(arguments);
+        var that = this;
 
-      var that = this;
+        // Enable logging in debug variant
+        if (qx.core.Environment.get("qx.debug"))
+        {
+            // support native logging capabilities, e.g. Firebug for Firefox
+            qx.log.appender.Native;
+            // support additional cross-browser console. Press F7 to toggle visibility
+            qx.log.appender.Console;
+        }
 
-      // Enable logging in debug variant
-      if (qx.core.Environment.get("qx.debug"))
-      {
-        // support native logging capabilities, e.g. Firebug for Firefox
-        qx.log.appender.Native;
-        // support additional cross-browser console. Press F7 to toggle visibility
-        qx.log.appender.Console;
-      }
+        // destroy the session before leaving PRAC
+        window.onbeforeunload = function () {
+        var    req = new qx.io.request.Xhr();
+        req.setUrl("/prac/_destroy_session");
+        req.setMethod("POST");
+        req.addListener("success", function(e) { 
+            var tar = e.getTarget();                                
+            var response = tar.getResponse();
+            sessionname = response;
+        });
+        req.send();
+        }; 
 
-  	  // destroy the session before leaving PRAC
-  	  window.onbeforeunload = function () {
-  	  	// getSession().invalidate();
-		var	req = new qx.io.request.Xhr(); 
-		req.setUrl("/prac/_destroy_session");
-		req.setMethod("POST");
-		req.addListener("success", function(e) { 
-			var tar = e.getTarget();								
-			var response = tar.getResponse();
-			sessionname = response;
-		});
-		req.send();
-  	  }; 
-
-      // main frame
+      /* ********************** CREATE ELEMENTS ******************************/
       var prac_container = document.getElementById("prac_container", true, true);
       var contentIsle = new qx.ui.root.Inline(prac_container,true,true);
-      contentIsle.setWidth(document.getElementById("container", true, true).offsetWidth);
-      contentIsle.setHeight(document.getElementById("container", true, true).offsetHeight);
-      contentIsle.setLayout(new qx.ui.layout.Grow());
-
-      prac_container.addEventListener("resize", function() {
-        var w = document.getElementById("container", true, true).offsetWidth;
-        var h = document.getElementById("container", true, true).offsetHeight;
-      	contentIsle.setWidth(w);
-      	contentIsle.setHeight(h);
-      }, this);
-
-      document.addEventListener("roll", function(e) {
-        this[0].scrollTop = this[0].scrollTop + e.delta.y;
-        this[0].scrollLeft = this[0].scrollLeft + e.delta.x;
-      }, this);
-
-      window.addEventListener("resize", function() {
-        var w = document.getElementById("container", true, true).offsetWidth;
-        var h = document.getElementById("container", true, true).offsetHeight;
-      	contentIsle.setWidth(w);
-      	contentIsle.setHeight(h);
-      }, this);
+          contentIsle.setWidth(document.getElementById("container", true, true).offsetWidth);
+          contentIsle.setHeight(document.getElementById("container", true, true).offsetHeight);
+          contentIsle.setLayout(new qx.ui.layout.Grow());
 
       // scrollable container
       var mainScrollContainer = new qx.ui.container.Scroll().set({
@@ -105,8 +84,6 @@ qx.Class.define("pracweb.Application",
       // main container (contains outer splitpane and control panel)
       var container = new qx.ui.container.Composite(new qx.ui.layout.VBox());
 
-      mainScrollContainer.add(container);
-
       // outer splitpane (contains inference settings and inner splitpane)
       var splitPane = new qx.ui.splitpane.Pane("horizontal");
       this._pane = splitPane;
@@ -116,18 +93,15 @@ qx.Class.define("pracweb.Application",
         minWidth: .2*document.getElementById("container", true, true).offsetWidth
       });
       this._infSettingsContainer = infSettingsContainer;
+      var form = this.buildForm();
+      var placeholder = new qx.ui.container.Composite();
+      placeholder.setHeight(100);
 
-
-      // Create container for the right:
-      var innerSplitPane = new qx.ui.container.Composite(new qx.ui.layout.Grow()).set({
-//      minHeight: .8*document.getElementById("container", true, true).offsetHeight
-      width: .79*document.getElementById("container", true, true).offsetWidth
+      // container for visualization elements
+      var graphVizContainer = new qx.ui.container.Composite(new qx.ui.layout.Canvas()).set({
+        width: .79*document.getElementById("container", true, true).offsetWidth
       });
-
-      var graphVizContainer = new qx.ui.container.Composite(new qx.ui.layout.Grow());
       this._graphVizContainer = graphVizContainer;
-
-
 
       // embedding for conditional probability png
       var condProb = new qx.ui.basic.Image();
@@ -148,8 +122,50 @@ qx.Class.define("pracweb.Application",
       condProbWin.open();
       condProbWin.hide();
       this._condProbWin = condProbWin;
-      this.getRoot().add(condProbWin, {left:20, top:20});
 
+      var waitImage = new qx.ui.basic.Image();
+      waitImage.setSource('/prac/static/images/wait.gif');
+      waitImage.getContentElement().setAttribute('id', 'waitImg');
+      waitImage.setWidth(300);
+      waitImage.setHeight(225);
+      waitImage.setMarginLeft(-150);
+      waitImage.setMarginTop(-125);
+      waitImage.setScale(1);
+      waitImage.hide();
+      this._waitImage = waitImage;
+
+      var vizComposite = new qx.ui.container.Composite()
+      vizComposite.setLayout(new qx.ui.layout.Grow());
+      vizComposite.getContentElement().setAttribute('id', 'viz');
+
+      var flowChartComposite = new qx.ui.container.Composite()
+      flowChartComposite.setLayout(new qx.ui.layout.Grow());
+      flowChartComposite.getContentElement().setAttribute('id', 'flowchart');
+      this._flowChartComposite = flowChartComposite;
+
+      // control pane (containing text field, buttons and checkboxes used for inference)
+      var controlPane = this.buildControlPane();
+      this._controlPane = controlPane;
+
+      /* ************************ LISTENERS **********************************/
+        prac_container.addEventListener("resize", function() {
+            var w = document.getElementById("container", true, true).offsetWidth;
+            var h = document.getElementById("container", true, true).offsetHeight;
+            contentIsle.setWidth(w);
+            contentIsle.setHeight(h);
+        }, this);
+
+      document.addEventListener("roll", function(e) {
+        this[0].scrollTop = this[0].scrollTop + e.delta.y;
+        this[0].scrollLeft = this[0].scrollLeft + e.delta.x;
+      }, this);
+
+      window.addEventListener("resize", function() {
+        var w = document.getElementById("container", true, true).offsetWidth;
+        var h = document.getElementById("container", true, true).offsetHeight;
+          contentIsle.setWidth(w);
+          contentIsle.setHeight(h);
+      }, this);
       // resize image to fit in window
       condProbWin.addListener("resize", function(e) {
         var ratio =  typeof this._imgRatio != 'undefined'? this._imgRatio : 1;
@@ -179,78 +195,34 @@ qx.Class.define("pracweb.Application",
       }, this);
 
 
-      // expert settings
-      var form = this.buildForm();
-
-      // placeholder
-      var placeholder = new qx.ui.container.Composite();
-      placeholder.setHeight(100);
-      infSettingsContainer.add(placeholder);
-      infSettingsContainer.add(form);
-
-      // visualization of svg graph and waitimg
-      var vizEmbedGrp = new qx.ui.container.Composite();;
-      var vizLayout = new qx.ui.layout.Canvas();
-      vizEmbedGrp.setLayout(vizLayout);
-
-      var waitImage = new qx.ui.basic.Image();
-      waitImage.setSource('/prac/static/images/wait.gif');
-      waitImage.getContentElement().setAttribute('id', 'waitImg');
-      waitImage.setWidth(300);
-      waitImage.setHeight(225);
-      waitImage.setMarginLeft(-150);
-      waitImage.setMarginTop(-125);
-      waitImage.setScale(1);
-      waitImage.hide();
-      this._waitImage = waitImage;
-
-      var vizComposite = new qx.ui.container.Composite()
-      vizComposite.setLayout(new qx.ui.layout.Grow());
-      vizComposite.getContentElement().setAttribute('id', 'viz');
-
-      var flowChartComposite = new qx.ui.container.Composite()
-      flowChartComposite.setLayout(new qx.ui.layout.Grow());
-      flowChartComposite.getContentElement().setAttribute('id', 'flowchart');
-      this._flowChartComposite = flowChartComposite;
-
-      vizEmbedGrp.add(flowChartComposite, { left: "80%", top: 0, width: "20%", height:"auto"});
-      vizEmbedGrp.add(vizComposite, { left: 0, top: 0, width: "100%", height:"100%"});
-      vizEmbedGrp.add(waitImage, { left: "50%", top: "50%"});
-      this._vizEmbedGrp = vizEmbedGrp;
-      this._load_flow_chart();
-
-
-
-
       // reposition graph when inference settings are shown/hidden
-      vizEmbedGrp.addListener('resize', function(e) {
+      graphVizContainer.addListener('resize', function(e) {
         if (typeof this._graph != 'undefined') {
-          var vizSize = vizEmbedGrp.getInnerSize();
-          var bounds = vizEmbedGrp.getBounds();
+          var vizSize = graphVizContainer.getInnerSize();
+          var bounds = graphVizContainer.getBounds();
           this._graph.w = vizSize.width;
           this._graph.h = vizSize.height;
           this._graph.update();
         }
       }, this);
 
-      graphVizContainer.add(vizEmbedGrp, {width: "100%"});
 
-      innerSplitPane.add(graphVizContainer);
-
-      splitPane.add(infSettingsContainer, {height: "90%"});
-      splitPane.add(innerSplitPane, {height: "10%"});
-
-      // control pane (containing text field, buttons and checkboxes used for inference)
-      var controlPane = this.buildControlPane();
-      this._controlPane = controlPane;
-
+      /* ********************** SET UP LAYOUT ********************************/
+      infSettingsContainer.add(placeholder);
+      infSettingsContainer.add(form);
+      graphVizContainer.add(flowChartComposite, { left: "80%", top: 0, width: "20%", height:"auto"});
+      graphVizContainer.add(vizComposite, { left: 0, top: 0, width: "100%", height:"100%"});
+      graphVizContainer.add(waitImage, { left: "50%", top: "50%"});
+      splitPane.add(infSettingsContainer, {width: "20%"});
+      splitPane.add(graphVizContainer);
       container.add(splitPane, {flex: 1, width: "100%"});
       container.add(controlPane, {width: "100%"});
-
-      // add container to content div
+      mainScrollContainer.add(container);
       contentIsle.add(mainScrollContainer, {width: "100%", height: "100%"});
-      
-      // initially do not show form and do NOT use stepwise inference by default
+
+      /* *************************** INIT ************************************/
+      this._load_flow_chart();
+      this.getRoot().add(condProbWin, {left:20, top:20});
       this._showinfSettingsContainer = false;
       this._use_exp_settings = false;
       this._stepwise = false;
@@ -264,7 +236,7 @@ qx.Class.define("pracweb.Application",
     loadGraph : function() {
       if (typeof this._graph === 'undefined') {
         this._graph = new pracweb.Graph();
-        var vizSize = this._vizEmbedGrp.getInnerSize();
+        var vizSize = this._graphVizContainer.getInnerSize();
         this._graph.w = vizSize.width;
         this._graph.h = vizSize.height;
       } 
@@ -478,7 +450,7 @@ qx.Class.define("pracweb.Application",
         this._clear_flow_chart();
         document.getElementById(this._next_module).nextElementSibling.style.fill = "#bee280";
       } 
-
+    
       // request next inference result
       var req = new qx.io.request.Xhr(); 
       req.setUrl("/prac/_pracinfer_step");
@@ -536,7 +508,7 @@ qx.Class.define("pracweb.Application",
           }
         }
       }, this);
-		  return req;
+          return req;
     },
 
     /**
@@ -777,12 +749,12 @@ qx.Class.define("pracweb.Application",
       var mlnAreaContainerLayout = new qx.ui.layout.Grow();
       var mlnAreaContainer = new qx.ui.container.Composite(mlnAreaContainerLayout);
       var textAreaMLN = new qx.ui.form.TextArea("");
+      this.__textAreaMLN = textAreaMLN;
       textAreaMLN.setMinWidth(300);
       textAreaMLN.getContentElement().setAttribute("id", 'mlnArea');
       textAreaMLN.addListener("appear", function() {
                 this._highlight(textAreaMLN.getContentElement().getAttribute('id'));
             }, this);
-      this.__textAreaMLN = textAreaMLN;
       mlnAreaContainer.add(this.__textAreaMLN);
 
       var evidenceLabel = new qx.ui.basic.Label().set({
@@ -793,12 +765,12 @@ qx.Class.define("pracweb.Application",
       var evidenceContainerLayout = new qx.ui.layout.Grow();
       var evidenceContainer = new qx.ui.container.Composite(evidenceContainerLayout);
       var textAreaEvidence = new qx.ui.form.TextArea("");
+      this.__textAreaEvidence = textAreaEvidence;
       textAreaEvidence.setMinWidth(300);
       textAreaEvidence.getContentElement().setAttribute("id", 'evidenceArea');
       textAreaEvidence.addListener("appear", function() {
                 this._highlight(textAreaEvidence.getContentElement().getAttribute('id'));
             }, this);
-      this.__textAreaEvidence = textAreaEvidence;
       evidenceContainer.add(textAreaEvidence);
 
 
@@ -910,7 +882,6 @@ qx.Class.define("pracweb.Application",
       req.send();
     },
 
-
     /**
      * load flowchart svg into embedding
      */
@@ -997,10 +968,11 @@ qx.Class.define("pracweb.Application",
         var req = new qx.bom.request.Jsonp();
 
         var reqServer = new qx.io.request.Xhr();
-        reqServer.setUrl("/prac/_user_stats");
-        reqServer.setMethod("POST");
-        reqServer.setRequestHeader("Cache-Control", "no-cache");
-        reqServer.setRequestHeader("Content-Type", "application/json");
+            reqServer.setUrl("/prac/_user_stats");
+            reqServer.setMethod("POST");
+            reqServer.setRequestHeader("Cache-Control", "no-cache");
+            reqServer.setRequestHeader("Content-Type", "application/json");
+
         req.onload = function() {
           reqServer.setRequestData({ 'ip': req.responseJson.ip, 'date': date, "time": time });
           reqServer.send();
@@ -1017,14 +989,15 @@ qx.Class.define("pracweb.Application",
     * Syntax highlighting
     */
     _highlight : function(id) {
-        var code = CodeMirror.fromTextArea(document.getElementById(id), {
-            lineNumbers: true
-        });
+        if (document.getElementById(id)) {
+            var code = CodeMirror.fromTextArea(document.getElementById(id), {
+                lineNumbers: true
+            });
 
-        // save codemirror to be able to get the content later
-        this['codeMirror' + id] = code;
+            // save codemirror to be able to get the content later
+            this['codeMirror' + id] = code;
+        }
     },
-
 
     /**
      * hide or show expert settings pane
