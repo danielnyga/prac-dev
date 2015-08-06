@@ -2,14 +2,12 @@
 {% block title %}Log{% endblock %}
 {% block head %}
     {{ super() }}
-    <link rel="stylesheet"
-          href="{{ url_for('download_static', filename='css/log.css') }}">
+    <link rel="stylesheet" href="{{ url_for('download_static', filename='css/log.css') }}">
     <script type="text/javascript">
       var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=visualization"></script>
-    <script
-            src="{{ url_for('download_static', filename='script/d3.js') }}"></script>
+    <script src="{{ url_for('download_static', filename='script/d3.js') }}"></script>
 {% endblock %}
 
 {% block content %}
