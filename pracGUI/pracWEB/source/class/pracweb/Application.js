@@ -46,8 +46,7 @@ qx.Class.define("pracweb.Application",
       this.base(arguments);
 
       var that = this;
-      dp.SyntaxHighlighter.ClipboardSwf = "/prac/static/script/clipboard.swf') }}";
-	  
+
       // Enable logging in debug variant
       if (qx.core.Environment.get("qx.debug"))
       {
@@ -781,19 +780,34 @@ qx.Class.define("pracweb.Application",
         value: this._template('MLN:', 'label'),
         rich : true
       });
-      var mlnField = new qx.ui.embed.Html();
-      mlnField.setMinWidth(300);
-//      mlnField.setHeight(320);
-      this.mlnField = mlnField;
+
+      var mlnAreaContainerLayout = new qx.ui.layout.Grow();
+      var mlnAreaContainer = new qx.ui.container.Composite(mlnAreaContainerLayout);
+      var textAreaMLN = new qx.ui.form.TextArea("");
+      textAreaMLN.setMinWidth(300);
+      textAreaMLN.getContentElement().setAttribute("id", 'mlnArea');
+      textAreaMLN.addListener("appear", function() {
+                this._highlight(textAreaMLN.getContentElement().getAttribute('id'));
+            }, this);
+      this.__textAreaMLN = textAreaMLN;
+      mlnAreaContainer.add(this.__textAreaMLN);
 
       var evidenceLabel = new qx.ui.basic.Label().set({
         value: this._template('Evidence:', 'label'),
         rich: true
       });
-      var evidenceField = new qx.ui.embed.Html();
-      evidenceField.setMinWidth(300);
-//      evidenceField.setHeight(320);
-      this.evidenceField = evidenceField;
+
+      var evidenceContainerLayout = new qx.ui.layout.Grow();
+      var evidenceContainer = new qx.ui.container.Composite(evidenceContainerLayout);
+      var textAreaEvidence = new qx.ui.form.TextArea("");
+      textAreaEvidence.setMinWidth(300);
+      textAreaEvidence.getContentElement().setAttribute("id", 'evidenceArea');
+      textAreaEvidence.addListener("appear", function() {
+                this._highlight(textAreaEvidence.getContentElement().getAttribute('id'));
+            }, this);
+      this.__textAreaEvidence = textAreaEvidence;
+      evidenceContainer.add(textAreaEvidence);
+
 
       /**
        * arrange form elements in grid
@@ -819,10 +833,10 @@ qx.Class.define("pracweb.Application",
       group.add(formgroup, {height: "20%"});
 
       group.add(mlnLabel, {height: "5%"});
-      group.add(mlnField, {height: "35%"});
+      group.add(mlnAreaContainer, {height: "35%"});
 
       group.add(evidenceLabel, {height: "5%"});
-      group.add(evidenceField, {height: "35%"});
+      group.add(evidenceContainer, {height: "35%"});
 
       return group;
     },
@@ -965,19 +979,12 @@ qx.Class.define("pracweb.Application",
       typeof settings['cwPreds'] != 'undefined' ? this.cwPredsField.setValue(this._template(settings['cwPreds'])) : this.cwPredsField.resetValue();
       typeof settings['closedWorld'] != 'undefined' ? this.closedWorld.setValue(this._template(settings['closedWorld'] ? 'true' : 'false')) : this.closedWorld.resetValue();
 
-      var tmpEvidenceHTML = '<textarea name="code" class="mln">' + this._oldEvidence + '</textarea>';
-      var evidenceHTML = dp.SyntaxHighlighter.HighlightGivenHTML('code', tmpEvidenceHTML, true, false, false, 1, false);
-      this.evidenceField.setHtml(evidenceHTML);
+      var mlnContent = typeof settings['mln'] === 'undefined' ? '' : settings['mln'];
+      this.__textAreaMLN.setValue(mlnContent);
+      this._highlight(this.__textAreaMLN.getContentElement().getAttribute('id'));
 
-      var mlnContent;
-      if (typeof settings['mln'] === 'undefined') {
-        mlnContent = '';
-      } else {
-        mlnContent = settings['mln'];
-      }
-      var tmpMLNHTML = '<textarea name="code" class="mln">' + mlnContent + '</textarea>';  
-      var mlnHTML = dp.SyntaxHighlighter.HighlightGivenHTML('code', tmpMLNHTML, true, false, false, 1, false);
-      this.mlnField.setHtml(mlnHTML);
+      this.__textAreaEvidence.setValue(this._oldEvidence);
+      this._highlight(this.__textAreaEvidence.getContentElement().getAttribute('id'));
     },
 
     /**
@@ -1032,6 +1039,19 @@ qx.Class.define("pracweb.Application",
         req.open("GET", url);
         req.send();
     },
+
+    /**
+    * Syntax highlighting
+    */
+    _highlight : function(id) {
+        var code = CodeMirror.fromTextArea(document.getElementById(id), {
+            lineNumbers: true
+        });
+
+        // save codemirror to be able to get the content later
+        this['codeMirror' + id] = code;
+    },
+
 
     /**
      * hide or show expert settings pane
