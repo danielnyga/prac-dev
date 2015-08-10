@@ -87,8 +87,8 @@ def readSemcor3File(filename):
                     print sys.exc_info()[0]
                 
     target.close()
-    #if not is_file_causing_parsing_errors:
-    #    os.remove(filename)
+    if not is_file_causing_parsing_errors:
+        os.remove(filename)
 
 def reconstruct(s_element):
     sentence = []
