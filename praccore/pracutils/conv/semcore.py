@@ -58,15 +58,16 @@ def readSemcor3File(filename):
     for e in tree.iter():
         if e.tag == 's':
             s, atoms = reconstruct(e)
-            target.write('//'+ s+"\n")
-            for a in atoms:
-                target.write(a+"\n")
             
             is_sentence_parsed = False
             
             while not is_sentence_parsed:
                 try:
                     for x in parserSt.parse_without_prac(s):
+                        target.write('//'+ s+"\n")
+                        for a in atoms:
+                            target.write(a+"\n")
+                            
                         for atom, _ in sorted(x.evidence.iteritems()):
                             if 'has_pos' in atom: 
                                 x.retractGndAtom(atom)
@@ -91,6 +92,7 @@ def readSemcor3File(filename):
 
 def reconstruct(s_element):
     sentence = []
+    is_a_list = []
     wf_count = 0
     gnd_atoms = []
     for e in s_element.iter():
@@ -100,6 +102,11 @@ def reconstruct(s_element):
         if e.tag == 'wf':
             wf_count += 1
             word_const = '%s-%d' % (e.text, wf_count)
+            #to avoid formula argument parsing errors.
+            word_const =  word_const.replace(',', '')
+            word_const =  word_const.replace('/', '')
+            word_const =  word_const.replace('(', '')
+            word_const =  word_const.replace(')', '')
             if e.get('pos', None) is not None:
                 gnd_atoms.append('1.00 has_pos(%s,%s)' % (word_const, e.get('pos')))
             if e.get('lemma', None) is not None:
@@ -111,7 +118,10 @@ def reconstruct(s_element):
                         synset = l.synset
                 if synset is not None:
                     gnd_atoms.append('1.00 has_sense(%s,%s)' % (word_const, synset.name))
-                    gnd_atoms.append('1.00 is_a(%s,%s)' % (synset.name, synset.name))
+                    #to avoid duplicate evidence
+                    if not synset.name in is_a_list:
+                        gnd_atoms.append('1.00 is_a(%s,%s)' % (synset.name, synset.name))
+                        is_a_list.append(synset.name)
         
         elif e.tag == 'punc':
             wf_count += 1
