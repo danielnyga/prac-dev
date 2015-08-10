@@ -47,6 +47,7 @@ class ActionCoreDbCreator(object):
                                  
             for db in dbs:
                 sentence = " "
+                sense_list = []
                 #TODO use index of dbs to get correct sentence
                 #sentence = db.strip().split("\n")[0]
                 for q in db.query('has_pos(?w, ?p)'):
@@ -60,10 +61,17 @@ class ActionCoreDbCreator(object):
                                 synset_key = synset_key_list[i]
                                 
                                 if self.are_synsets_equal(synset,synset_key):
-                                    pas_db = self.create_pas_db(db, q['?w'])
+                                    pas_db = self.create_pas_db(db, q['?w'],sense_list)
                                     
                                     if not pas_db.isEmpty():
                                         pas_db.addGroundAtom("predicate({})".format(q['?w']))
+                                        for sense in db.query('has_sense({}, ?s)'.format(q['?w'])):
+                                            pas_db.addGroundAtom('has_sense({}, {})'.format(q['?w'],sense['?s']))
+                                            if not sense['?s'] in sense_list:
+                                                pas_db.addGroundAtom('is_a({}, {})'.format(sense['?s'],sense['?s']))
+                                                sense_list.append(sense['?s'])
+                                        
+                                        
                                         path_to_dbs = os.path.join(self.ACTIONCORE_DB_PATH,str(i+1)+".db")
                                         
                                         dbs_file = open(path_to_dbs,'w')
@@ -75,9 +83,17 @@ class ActionCoreDbCreator(object):
                                     break
                             
                             if not is_synset_added:
-                                pas_db = self.create_pas_db(db, q['?w'])
+                                pas_db = self.create_pas_db(db, q['?w'],sense_list)
                                 if not pas_db.isEmpty():
                                     pas_db.addGroundAtom("predicate({})".format(q['?w']))
+                                    
+                                    for sense in db.query('has_sense({}, ?s)'.format(q['?w'])):
+                                            pas_db.addGroundAtom('has_sense({}, {})'.format(q['?w'],sense['?s']))
+                                            
+                                            if not sense['?s'] in sense_list:
+                                                pas_db.addGroundAtom('is_a({}, {})'.format(sense['?s'],sense['?s']))
+                                                sense_list.append(sense['?s'])
+                                            
                                     pas_db.writeToFile(os.path.join(self.ACTIONCORE_DB_PATH,str(len(synset_key_list)+1)+".db"))
                                     synset_key_list.append(synset)
                                 
@@ -105,7 +121,7 @@ class ActionCoreDbCreator(object):
         
         return False;
     
-    def create_pas_db(self,db,predicate):
+    def create_pas_db(self,db,predicate,sense_list):
         regex_dobj = re.compile('dobj\s*\(\s*'+predicate+'\s*,\s*\w+-{0,1}\d*\s*\)')
         regex_nsubj = re.compile('nsubj\s*\(\s*'+predicate+'\s*,\s*\w+-{0,1}\d*\s*\)')
         regex_iobj = re.compile('iobj\s*\(\s*'+predicate+'\s*,\s*\w+-{0,1}\d*\s*\)')
@@ -113,14 +129,16 @@ class ActionCoreDbCreator(object):
         result = Database(db.mln)
         #TODO add has_sense
         
-        for q in db.query('dobj({}, ?w)'.format(predicate)):
-            result.addGroundAtom('dobj({}, {})'.format(predicate,q['?w']))
-        
-        for q in db.query('nsubj({}, ?w)'.format(predicate)):
-            result.addGroundAtom('nsubj({}, {})'.format(predicate,q['?w']))
+        for obj_type in ['dobj','nsubj','iobj']:
+            for q in db.query('{}({}, ?w)'.format(obj_type,predicate)):
+                result.addGroundAtom('{}({}, {})'.format(obj_type,predicate,q['?w']))
             
-        for q in db.query('iobj({}, ?w)'.format(predicate)):
-            result.addGroundAtom('iobj({}, {})'.format(predicate,q['?w']))
+                for sense in db.query('has_sense({}, ?s)'.format(q['?w'])):
+                    result.addGroundAtom('has_sense({}, {})'.format(q['?w'],sense['?s']))
+                    
+                    if not sense['?s'] in sense_list:
+                        result.addGroundAtom('is_a({}, {})'.format(sense['?s'],sense['?s']))
+                        sense_list.append(sense['?s'])
             
         return result
     
