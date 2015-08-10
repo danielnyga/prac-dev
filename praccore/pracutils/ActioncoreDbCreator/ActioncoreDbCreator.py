@@ -11,6 +11,8 @@ class ActionCoreDbCreator(object):
     ACTIONCORE_DB_PATH = os.path.join(PRAC_HOME, 'praccore', 'pracutils','ActioncoreDbCreator',"actioncore_dbs")
     wordnet = WordNet(concepts=None)
     SYNSET_KEY = "SYNSET_KEY"
+    
+    #TODO Update to prac db handling
     def init_synset_key_list(self):
         
         synset_key_list = []
@@ -73,7 +75,7 @@ class ActionCoreDbCreator(object):
                                     break
                             
                             if not is_synset_added:
-                                pas_db = self.create_pas_db(db, word+id)
+                                pas_db = self.create_pas_db(db, q['?w'])
                                 if not pas_db.isEmpty():
                                     pas_db.addGroundAtom("predicate({})".format(q['?w']))
                                     pas_db.writeToFile(os.path.join(self.ACTIONCORE_DB_PATH,str(len(synset_key_list)+1)+".db"))
@@ -112,15 +114,14 @@ class ActionCoreDbCreator(object):
         #TODO add has_sense
         
         for q in db.query('dobj({}, ?w)'.format(predicate)):
-            result.addGroundAtom(q)
+            result.addGroundAtom('dobj({}, {})'.format(predicate,q['?w']))
         
         for q in db.query('nsubj({}, ?w)'.format(predicate)):
-            result.addGroundAtom(q)
+            result.addGroundAtom('nsubj({}, {})'.format(predicate,q['?w']))
             
         for q in db.query('iobj({}, ?w)'.format(predicate)):
-            result.addGroundAtom(q)
+            result.addGroundAtom('iobj({}, {})'.format(predicate,q['?w']))
             
-        
         return result
     
 if __name__ == '__main__':
