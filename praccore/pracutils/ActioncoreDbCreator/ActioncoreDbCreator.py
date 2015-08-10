@@ -71,14 +71,18 @@ class ActionCoreDbCreator(object):
                                     
                                     if self.are_synsets_equal(synset,synset_key):
                                         path_to_dbs = os.path.join(self.ACTIONCORE_DB_PATH,str(i+1)+".db")
-                                        dbs_file = open(path_to_dbs,'w')
                                         synset_dbs = readDBFromFile(mln,path_to_dbs)
+                                        dbs_file = open(path_to_dbs,'w')
                                         synset_dbs.append(pas_db)
                                         Database.writeDBs(synset_dbs,dbs_file)
                                         is_synset_added = True
+                                        dbs_file.close()
+                                        print "SAVE 1"
                                         break
                                     
                                 if not is_synset_added:
+                                    print "SAVE 2"
+                                    print os.path.join(self.ACTIONCORE_DB_PATH,str(len(synset_key_list)+1)+".db")
                                     pas_db.writeToFile(os.path.join(self.ACTIONCORE_DB_PATH,str(len(synset_key_list)+1)+".db"))
                                     synset_key_list.append(synset)
                                     
@@ -133,6 +137,20 @@ class ActionCoreDbCreator(object):
                     result = self.add_senses_and_concept(q['?w'], db, result, sense_list)
                     is_obj_added = True
         
+        
+        for q in db.query('agent({}, ?w)'.format(predicate)):
+                if not self.is_pronoun(q['?w'], db):
+                    result.addGroundAtom('nsubj({}, {})'.format(predicate,q['?w']))
+                    result = self.add_senses_and_concept(q['?w'], db, result, sense_list)
+                    is_obj_added = True
+        
+        for q in db.query('nsubjpass({}, ?w)'.format(predicate)):
+                print "PASSIVE " + q['?w']
+                if not self.is_pronoun(q['?w'], db):
+                    result.addGroundAtom('dobj({}, {})'.format(predicate,q['?w']))
+                    result = self.add_senses_and_concept(q['?w'], db, result, sense_list)
+                    is_obj_added = True
+        
         for pobj_type in self.pobj_type_list:
             for q in db.query('{}({}, ?w)'.format(pobj_type,predicate)):
                 if not self.is_pronoun(q['?w'], db):
@@ -140,10 +158,9 @@ class ActionCoreDbCreator(object):
                     result = self.add_senses_and_concept(q['?w'], db, result, sense_list)
                     is_obj_added = True
                 
-                
         if not is_obj_added:
             return result
-                
+        
         result.addGroundAtom("predicate({})".format(predicate))
         result = self.add_senses_and_concept(predicate, db, result, sense_list)
             
