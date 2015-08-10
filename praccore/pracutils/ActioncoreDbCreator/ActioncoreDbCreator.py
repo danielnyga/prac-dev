@@ -50,49 +50,32 @@ class ActionCoreDbCreator(object):
                 sense_list = []
                 #TODO use index of dbs to get correct sentence
                 #sentence = db.strip().split("\n")[0]
+                
                 for q in db.query('has_pos(?w, ?p)'):
                     if q['?p'] in verb_tags:
                         word = '-'.join(q['?w'].split('-')[:-1])# extract everything except the number (e.g. compound words like heart-shaped from heart-shaped-4)
                         synset = self.wordnet.synsets(word,"v")
                         
                         if synset and not self.is_aux_verb(q['?w'],db):
+                            pas_db = self.create_pas_db(db, q['?w'],sense_list)
                             is_synset_added = False
-                            for i in range(0,len(synset_key_list)):
-                                synset_key = synset_key_list[i]
-                                
-                                if self.are_synsets_equal(synset,synset_key):
-                                    pas_db = self.create_pas_db(db, q['?w'],sense_list)
+                            if not pas_db.isEmpty():
+                                for i in range(0,len(synset_key_list)):
+                                    synset_key = synset_key_list[i]
                                     
-                                    if not pas_db.isEmpty():
-                                        pas_db.addGroundAtom("predicate({})".format(q['?w']))
-                                        
-                                        senses_db = self.add_senses_and_concept(q['?w'], db, sense_list)
-                                        for atom, truth in sorted(senses_db.evidence.iteritems()):
-                                            pas_db.addGroundAtom(atom,truth)
-                                        
+                                    if self.are_synsets_equal(synset,synset_key):
                                         path_to_dbs = os.path.join(self.ACTIONCORE_DB_PATH,str(i+1)+".db")
-                                        
                                         dbs_file = open(path_to_dbs,'w')
                                         synset_dbs = readDBFromFile(mln,path_to_dbs)
                                         synset_dbs.append(pas_db)
                                         Database.writeDBs(synset_dbs,dbs_file)
-                                        
-                                    is_synset_added = True
-                                    break
-                            
-                            if not is_synset_added:
-                                pas_db = self.create_pas_db(db, q['?w'],sense_list)
-                                
-                                if not pas_db.isEmpty():
-                                    pas_db.addGroundAtom("predicate({})".format(q['?w']))
-                                    senses_db = self.add_senses_and_concept(q['?w'], db, sense_list)
-                
-                                    for atom, truth in sorted(senses_db.evidence.iteritems()):
-                                        pas_db.addGroundAtom(atom,truth)
-                                        
+                                        is_synset_added = True
+                                        break
+                                    
+                                if not is_synset_added:
                                     pas_db.writeToFile(os.path.join(self.ACTIONCORE_DB_PATH,str(len(synset_key_list)+1)+".db"))
                                     synset_key_list.append(synset)
-                                
+                                    
                                 
     def are_synsets_equal(self,syn1,syn2):
         
@@ -131,6 +114,12 @@ class ActionCoreDbCreator(object):
                 
                 for atom, truth in sorted(senses_db.evidence.iteritems()):
                     result.addGroundAtom(atom,truth)
+        
+        result.addGroundAtom("predicate({})".format(predicate))
+        senses_db = self.add_senses_and_concept(predicate, db, sense_list)
+        
+        for atom, truth in sorted(senses_db.evidence.iteritems()):
+            result.addGroundAtom(atom,truth)
                 
         return result
     
