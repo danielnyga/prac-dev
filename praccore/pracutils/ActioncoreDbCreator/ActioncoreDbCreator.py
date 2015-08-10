@@ -65,12 +65,10 @@ class ActionCoreDbCreator(object):
                                     
                                     if not pas_db.isEmpty():
                                         pas_db.addGroundAtom("predicate({})".format(q['?w']))
-                                        for sense in db.query('has_sense({}, ?s)'.format(q['?w'])):
-                                            pas_db.addGroundAtom('has_sense({}, {})'.format(q['?w'],sense['?s']))
-                                            if not sense['?s'] in sense_list:
-                                                pas_db.addGroundAtom('is_a({}, {})'.format(sense['?s'],sense['?s']))
-                                                sense_list.append(sense['?s'])
                                         
+                                        senses_db = self.add_senses_and_concept(q['?w'], db, sense_list)
+                                        for atom, truth in sorted(senses_db.evidence.iteritems()):
+                                            pas_db.addGroundAtom(atom,truth)
                                         
                                         path_to_dbs = os.path.join(self.ACTIONCORE_DB_PATH,str(i+1)+".db")
                                         
@@ -84,16 +82,14 @@ class ActionCoreDbCreator(object):
                             
                             if not is_synset_added:
                                 pas_db = self.create_pas_db(db, q['?w'],sense_list)
+                                
                                 if not pas_db.isEmpty():
                                     pas_db.addGroundAtom("predicate({})".format(q['?w']))
-                                    
-                                    for sense in db.query('has_sense({}, ?s)'.format(q['?w'])):
-                                            pas_db.addGroundAtom('has_sense({}, {})'.format(q['?w'],sense['?s']))
-                                            
-                                            if not sense['?s'] in sense_list:
-                                                pas_db.addGroundAtom('is_a({}, {})'.format(sense['?s'],sense['?s']))
-                                                sense_list.append(sense['?s'])
-                                            
+                                    senses_db = self.add_senses_and_concept(q['?w'], db, sense_list)
+                
+                                    for atom, truth in sorted(senses_db.evidence.iteritems()):
+                                        pas_db.addGroundAtom(atom,truth)
+                                        
                                     pas_db.writeToFile(os.path.join(self.ACTIONCORE_DB_PATH,str(len(synset_key_list)+1)+".db"))
                                     synset_key_list.append(synset)
                                 
@@ -127,20 +123,30 @@ class ActionCoreDbCreator(object):
         regex_iobj = re.compile('iobj\s*\(\s*'+predicate+'\s*,\s*\w+-{0,1}\d*\s*\)')
         #regex_pobj = re.compile('prep\w+\s*\(\s*'+predicate+'\s*,\s*\w+-{0,1}\d*\s*\)')
         result = Database(db.mln)
-        #TODO add has_sense
         
         for obj_type in ['dobj','nsubj','iobj']:
             for q in db.query('{}({}, ?w)'.format(obj_type,predicate)):
                 result.addGroundAtom('{}({}, {})'.format(obj_type,predicate,q['?w']))
-            
-                for sense in db.query('has_sense({}, ?s)'.format(q['?w'])):
-                    result.addGroundAtom('has_sense({}, {})'.format(q['?w'],sense['?s']))
-                    
-                    if not sense['?s'] in sense_list:
-                        result.addGroundAtom('is_a({}, {})'.format(sense['?s'],sense['?s']))
-                        sense_list.append(sense['?s'])
-            
+                senses_db = self.add_senses_and_concept(q['?w'], db, sense_list)
+                
+                for atom, truth in sorted(senses_db.evidence.iteritems()):
+                    result.addGroundAtom(atom,truth)
+                
         return result
+    
+    def add_senses_and_concept(self,word,db,sense_list):
+        result = Database(db.mln)
+        
+        for sense in db.query('has_sense({}, ?s)'.format(word)):
+            result.addGroundAtom('has_sense({}, {})'.format(word,sense['?s']))
+                    
+            if not sense['?s'] in sense_list:
+                result.addGroundAtom('is_a({}, {})'.format(sense['?s'],sense['?s']))
+                sense_list.append(sense['?s'])
+        
+        return result        
+                
+
     
 if __name__ == '__main__':
     args = sys.argv[1:]
