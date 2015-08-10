@@ -11,6 +11,7 @@ class ActionCoreDbCreator(object):
     ACTIONCORE_DB_PATH = os.path.join(PRAC_HOME, 'praccore', 'pracutils','ActioncoreDbCreator',"actioncore_dbs")
     wordnet = WordNet(concepts=None)
     SYNSET_KEY = "SYNSET_KEY"
+    pobj_type_list = []
     
     #TODO Update to prac db handling
     def init_synset_key_list(self):
@@ -37,6 +38,11 @@ class ActionCoreDbCreator(object):
         synset_key_list = ac.init_synset_key_list()
         regex_has_pos = re.compile('has_pos\s*\(\s*(\w+)(-{0,1}\d*)\s*,\s*(\w+)\s*\)')
         regex_new_db = re.compile("\n\s*-+\s*\n")
+        regex_pobj = re.compile('\s*prep\w+\s*')
+        
+        for key in mln.predicates:
+            if regex_pobj.match(key):
+                self.pobj_type_list.append(key)
          
         for filename in os.listdir(input_dir):
             if filename.endswith("~"): continue
@@ -104,29 +110,35 @@ class ActionCoreDbCreator(object):
         regex_dobj = re.compile('dobj\s*\(\s*'+predicate+'\s*,\s*\w+-{0,1}\d*\s*\)')
         regex_nsubj = re.compile('nsubj\s*\(\s*'+predicate+'\s*,\s*\w+-{0,1}\d*\s*\)')
         regex_iobj = re.compile('iobj\s*\(\s*'+predicate+'\s*,\s*\w+-{0,1}\d*\s*\)')
-        #regex_pobj = re.compile('prep\w+\s*\(\s*'+predicate+'\s*,\s*\w+-{0,1}\d*\s*\)')
+        
         result = Database(db.mln)
         
+        is_obj_added = False
         for obj_type in ['dobj','nsubj','iobj']:
             for q in db.query('{}({}, ?w)'.format(obj_type,predicate)):
                 result.addGroundAtom('{}({}, {})'.format(obj_type,predicate,q['?w']))
-                senses_db = self.add_senses_and_concept(q['?w'], db, sense_list)
-                
-                for atom, truth in sorted(senses_db.evidence.iteritems()):
-                    result.addGroundAtom(atom,truth)
+                result = self.add_senses_and_concept(q['?w'], db, result, sense_list)
+                is_obj_added = True
         
+        for pobj_type in self.pobj_type_list:
+            for q in db.query('{}({}, ?w)'.format(pobj_type,predicate)):
+                result.addGroundAtom('pobj({}, {})'.format(predicate,q['?w']))
+                result = self.add_senses_and_concept(q['?w'], db, result, sense_list)
+                is_obj_added = True
+                
+                
+        if not is_obj_added:
+            return result
+                
         result.addGroundAtom("predicate({})".format(predicate))
-        senses_db = self.add_senses_and_concept(predicate, db, sense_list)
-        
-        for atom, truth in sorted(senses_db.evidence.iteritems()):
-            result.addGroundAtom(atom,truth)
-                
+        result = self.add_senses_and_concept(predicate, db, result, sense_list)
+            
         return result
     
-    def add_senses_and_concept(self,word,db,sense_list):
-        result = Database(db.mln)
+    def add_senses_and_concept(self,word,kb,db,sense_list):
+        result = db.duplicate()
         
-        for sense in db.query('has_sense({}, ?s)'.format(word)):
+        for sense in kb.query('has_sense({}, ?s)'.format(word)):
             result.addGroundAtom('has_sense({}, {})'.format(word,sense['?s']))
                     
             if not sense['?s'] in sense_list:
