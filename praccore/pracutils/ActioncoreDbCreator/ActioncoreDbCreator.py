@@ -77,12 +77,9 @@ class ActionCoreDbCreator(object):
                                         Database.writeDBs(synset_dbs,dbs_file)
                                         is_synset_added = True
                                         dbs_file.close()
-                                        print "SAVE 1"
                                         break
                                     
                                 if not is_synset_added:
-                                    print "SAVE 2"
-                                    print os.path.join(self.ACTIONCORE_DB_PATH,str(len(synset_key_list)+1)+".db")
                                     pas_db.writeToFile(os.path.join(self.ACTIONCORE_DB_PATH,str(len(synset_key_list)+1)+".db"))
                                     synset_key_list.append(synset)
                                     
@@ -145,7 +142,6 @@ class ActionCoreDbCreator(object):
                     is_obj_added = True
         
         for q in db.query('nsubjpass({}, ?w)'.format(predicate)):
-                print "PASSIVE " + q['?w']
                 if not self.is_pronoun(q['?w'], db):
                     result.addGroundAtom('dobj({}, {})'.format(predicate,q['?w']))
                     result = self.add_senses_and_concept(q['?w'], db, result, sense_list)
