@@ -106,6 +106,18 @@ class ActionCoreDbCreator(object):
         
         return False;
     
+    def is_pronoun(self,word,db):
+        #regex_aux = re.compile('aux\s*\(\s*(\w+)-{0,1}\d*\s*,\s*'+word+'\s*\)')
+        #regex_auxpass = re.compile('auxpass\s*\(\s*\w+-{0,1}\d*\s*,\s*'+word+'\s*\)')
+        
+        for q in db.query('has_pos({}, PRP)'.format(word)):
+            return True;
+        
+        for q in db.query('has_pos({}, PRP$)'.format(word)):
+            return True;
+        
+        return False;
+    
     def create_pas_db(self,db,predicate,sense_list):
         regex_dobj = re.compile('dobj\s*\(\s*'+predicate+'\s*,\s*\w+-{0,1}\d*\s*\)')
         regex_nsubj = re.compile('nsubj\s*\(\s*'+predicate+'\s*,\s*\w+-{0,1}\d*\s*\)')
@@ -116,15 +128,17 @@ class ActionCoreDbCreator(object):
         is_obj_added = False
         for obj_type in ['dobj','nsubj','iobj']:
             for q in db.query('{}({}, ?w)'.format(obj_type,predicate)):
-                result.addGroundAtom('{}({}, {})'.format(obj_type,predicate,q['?w']))
-                result = self.add_senses_and_concept(q['?w'], db, result, sense_list)
-                is_obj_added = True
+                if not self.is_pronoun(q['?w'], db):
+                    result.addGroundAtom('{}({}, {})'.format(obj_type,predicate,q['?w']))
+                    result = self.add_senses_and_concept(q['?w'], db, result, sense_list)
+                    is_obj_added = True
         
         for pobj_type in self.pobj_type_list:
             for q in db.query('{}({}, ?w)'.format(pobj_type,predicate)):
-                result.addGroundAtom('pobj({}, {})'.format(predicate,q['?w']))
-                result = self.add_senses_and_concept(q['?w'], db, result, sense_list)
-                is_obj_added = True
+                if not self.is_pronoun(q['?w'], db):
+                    result.addGroundAtom('pobj({}, {})'.format(predicate,q['?w']))
+                    result = self.add_senses_and_concept(q['?w'], db, result, sense_list)
+                    is_obj_added = True
                 
                 
         if not is_obj_added:
