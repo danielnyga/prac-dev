@@ -18,6 +18,7 @@ class TrainingSetCreator(object):
             
             try:
                 print filename
+                regex_new_db = re.compile("\n\s*-+\s*\n")
                 file = open(os.path.join(input_dir,filename),'r')
                 dbs_as_textfiles = regex_new_db.split(file.read())
                 dbs = readDBFromFile(mln,os.path.join(input_dir,filename))
@@ -29,125 +30,73 @@ class TrainingSetCreator(object):
                     
                     for q in db.query('predicate(?w)'):
                         predicate = q['?w']
+                        
                         #Assuming there is only one sense for each word
-                        for sense_query in db,query("has_sense({},?s)".format(predicate)):
+                        for sense_query in db.query("has_sense({},?s)".format(predicate)):
                             sense = sense_query['?s']
-                            if sense in sorted_dbs_by_predicate_sense:
-                                sorted_dbs_by_predicate_sense[sense].append(db)
-                            else:
-                                sorted_dbs_by_predicate_sense[sense] = [db]
-                    
+                            db_trimmed_sense = self.remove_slots_without_sense(db)
                             
+                            db_frame_projection =  self.determine_frame_projection(db_trimmed_sense)
+                            
+                            if db_frame_projection:
+                                if sense in sorted_dbs_by_predicate_sense:
+                                    frame_projection_dict = sorted_dbs_by_predicate_sense[sense]
+                                    if db_frame_projection in frame_projection_dict:
+                                        sorted_dbs_by_predicate_sense[sense][db_frame_projection].append(db_trimmed_sense)
+                                    else:
+                                        sorted_dbs_by_predicate_sense[sense][db_frame_projection] = [db_trimmed_sense]
+                                else:
+                                    sorted_dbs_by_predicate_sense[sense] = { db_frame_projection : [db_trimmed_sense]}
+                    
+                
+                self.save_dbs_to_file(sorted_dbs_by_predicate_sense, os.path.join(self.TRAINING_SET_PATH,filename))            
                 file.close()
                 #os.remove(os.path.join(input_dir,filename))
             except:
-                print "Parsing Error"
-                                        
-                                
-    def are_synsets_equal(self,syn1,syn2):
-        
-        if len(syn1) != len(syn2):
-            return False
-        
-        for i in range(0,len(syn1)):
-            if not syn1[i] == syn2[i]:
-                return False
-            
-        return True
+                print sys.exc_info()
     
-    def is_aux_verb(self,word,db):
-        #regex_aux = re.compile('aux\s*\(\s*(\w+)-{0,1}\d*\s*,\s*'+word+'\s*\)')
-        #regex_auxpass = re.compile('auxpass\s*\(\s*\w+-{0,1}\d*\s*,\s*'+word+'\s*\)')
+    def remove_slots_without_sense(self,db):
+        db_ = Database(db.mln)
         
-        for q in db.query('aux(?w, {})'.format(word)):
-            return True;
+        for element in ['dobj','iobj','nsubj','prepobj']:
+            for q1 in db.query('{}(?w1,?w2)'.format(element)):
+                for q2 in db.query('has_sense({},?s)'.format(q1['?w2'])):
+                    db_.addGroundAtom('{}({},{})'.format(element,q1['?w1'],q1['?w2']))
+                    db_.addGroundAtom('has_sense({},{})'.format(q1['?w2'],q2['?s']))
+                    db_.addGroundAtom('is_a({},{})'.format(q2['?s'],q2['?s']))
         
-        for q in db.query('auxpass(?w, {})'.format(word)):
-            return True;
+        for q in db.query('predicate(?w)'):
+            predicate = q['?w']
+            db_.addGroundAtom('predicate({})'.format(q['?w']))
+            for sense_query in db.query("has_sense({},?s)".format(q['?w'])):
+                db_.addGroundAtom('has_sense({},{})'.format(q['?w'],sense_query['?s']))
+                db_.addGroundAtom('is_a({},{})'.format(sense_query['?s'],sense_query['?s']))
         
-        return False;
+        return db_
     
-    def is_pronoun(self,word,db):
-        #regex_aux = re.compile('aux\s*\(\s*(\w+)-{0,1}\d*\s*,\s*'+word+'\s*\)')
-        #regex_auxpass = re.compile('auxpass\s*\(\s*\w+-{0,1}\d*\s*,\s*'+word+'\s*\)')
+    def determine_frame_projection(self,db):
+        frame_projection=""
         
-        for q in db.query('has_pos({}, PRP)'.format(word)):
-            return True;
-        
-        for q in db.query('has_pos({}, PRP$)'.format(word)):
-            return True;
-        
-        return False;
-    
-    def is_wh(self,word,db):
-        #regex_aux = re.compile('aux\s*\(\s*(\w+)-{0,1}\d*\s*,\s*'+word+'\s*\)')
-        #regex_auxpass = re.compile('auxpass\s*\(\s*\w+-{0,1}\d*\s*,\s*'+word+'\s*\)')
-        
-        for q in db.query('has_pos({}, WDT)'.format(word)):
-            return True;
-        
-        for q in db.query('has_pos({}, WP)'.format(word)):
-            return True;
-        
-        return False;
-    
-    def create_pas_db(self,db,predicate,sense_list):
-        regex_dobj = re.compile('dobj\s*\(\s*'+predicate+'\s*,\s*\w+-{0,1}\d*\s*\)')
-        regex_nsubj = re.compile('nsubj\s*\(\s*'+predicate+'\s*,\s*\w+-{0,1}\d*\s*\)')
-        regex_iobj = re.compile('iobj\s*\(\s*'+predicate+'\s*,\s*\w+-{0,1}\d*\s*\)')
-        
-        result = Database(db.mln)
-        
-        is_obj_added = False
-        for obj_type in ['dobj','nsubj','iobj']:
-            for q in db.query('{}({}, ?w)'.format(obj_type,predicate)):
-                if not self.is_pronoun(q['?w'], db) and not self.is_wh(q['?w'], db):
-                    result.addGroundAtom('{}({}, {})'.format(obj_type,predicate,q['?w']))
-                    result = self.add_senses_and_concept(q['?w'], db, result, sense_list)
-                    is_obj_added = True
-        
-        
-        for q in db.query('agent({}, ?w)'.format(predicate)):
-                if not self.is_pronoun(q['?w'], db) and not self.is_wh(q['?w'], db):
-                    result.addGroundAtom('nsubj({}, {})'.format(predicate,q['?w']))
-                    result = self.add_senses_and_concept(q['?w'], db, result, sense_list)
-                    is_obj_added = True
-        
-        for q in db.query('nsubjpass({}, ?w)'.format(predicate)):
-                if not self.is_pronoun(q['?w'], db) and not self.is_wh(q['?w'], db):
-                    result.addGroundAtom('dobj({}, {})'.format(predicate,q['?w']))
-                    result = self.add_senses_and_concept(q['?w'], db, result, sense_list)
-                    is_obj_added = True
-        
-        for pobj_type in self.pobj_type_list:
-            for q in db.query('{}({}, ?w)'.format(pobj_type,predicate)):
-                if not self.is_pronoun(q['?w'], db) and not self.is_wh(q['?w'], db):
-                    result.addGroundAtom('prepobj({}, {})'.format(predicate,q['?w']))
-                    result = self.add_senses_and_concept(q['?w'], db, result, sense_list)
-                    is_obj_added = True
-                
-        if not is_obj_added:
-            return result
-        
-        result.addGroundAtom("predicate({})".format(predicate))
-        result = self.add_senses_and_concept(predicate, db, result, sense_list)
-            
-        return result
-    
-    def add_senses_and_concept(self,word,kb,db,sense_list):
-        result = db.duplicate()
-        
-        for sense in kb.query('has_sense({}, ?s)'.format(word)):
-            result.addGroundAtom('has_sense({}, {})'.format(word,sense['?s']))
-                    
-            if not sense['?s'] in sense_list:
-                result.addGroundAtom('is_a({}, {})'.format(sense['?s'],sense['?s']))
-                sense_list.append(sense['?s'])
-        
-        return result        
-                
+        for element in ['dobj','iobj','nsubj','prepobj']:
+            for q in db.query('{}(?w1,?w2)'.format(element)):
+                frame_projection += element
+                break
+        return frame_projection
 
+    def save_dbs_to_file(self,dbs_dict,filename):
+        dbs = []
+        
+        if dbs_dict:
+            for _, frame_projections in dbs_dict.iteritems():
+                for _, db in frame_projections.iteritems():
+                    dbs.extend(db)
     
+            if len(dbs) > 0:
+                dbs_file = open(filename,'w')
+                Database.writeDBs(dbs,dbs_file)
+                dbs_file.close()
+            
+        
 if __name__ == '__main__':
     args = sys.argv[1:]
     
