@@ -38,51 +38,65 @@ class ActionCoreDbCreator(object):
         synset_key_list = ac.init_synset_key_list()
         regex_has_pos = re.compile('has_pos\s*\(\s*(\w+)(-{0,1}\d*)\s*,\s*(\w+)\s*\)')
         regex_new_db = re.compile("\n\s*-+\s*\n")
-        regex_pobj = re.compile('\s*prep\w+\s*')
+        regex_pobj = re.compile('1.00\s*(prep\w+)\s*')
         
-        for key in mln.predicates:
-            if regex_pobj.match(key):
-                self.pobj_type_list.append(key)
          
         for filename in os.listdir(input_dir):
             if filename.endswith("~"): continue
             
-            file = open(os.path.join(input_dir,filename),'r')
-            dbs_as_textfiles = regex_new_db.split(file.read())
-            dbs = readDBFromFile(mln,os.path.join(input_dir,filename))
-                                 
-            for db in dbs:
-                sentence = " "
-                sense_list = []
-                #TODO use index of dbs to get correct sentence
-                #sentence = db.strip().split("\n")[0]
+            try:
+                print filename
                 
-                for q in db.query('has_pos(?w, ?p)'):
-                    if q['?p'] in verb_tags:
-                        word = '-'.join(q['?w'].split('-')[:-1])# extract everything except the number (e.g. compound words like heart-shaped from heart-shaped-4)
-                        synset = self.wordnet.synsets(word,"v")
-                        
-                        if synset and not self.is_aux_verb(q['?w'],db):
-                            pas_db = self.create_pas_db(db, q['?w'],sense_list)
-                            is_synset_added = False
-                            if not pas_db.isEmpty():
-                                for i in range(0,len(synset_key_list)):
-                                    synset_key = synset_key_list[i]
-                                    
-                                    if self.are_synsets_equal(synset,synset_key):
-                                        path_to_dbs = os.path.join(self.ACTIONCORE_DB_PATH,str(i+1)+".db")
-                                        synset_dbs = readDBFromFile(mln,path_to_dbs)
-                                        dbs_file = open(path_to_dbs,'w')
-                                        synset_dbs.append(pas_db)
-                                        Database.writeDBs(synset_dbs,dbs_file)
-                                        is_synset_added = True
-                                        dbs_file.close()
-                                        break
-                                    
-                                if not is_synset_added:
-                                    pas_db.writeToFile(os.path.join(self.ACTIONCORE_DB_PATH,str(len(synset_key_list)+1)+".db"))
-                                    synset_key_list.append(synset)
-                                    
+                file = open(os.path.join(input_dir,filename),'r')
+                dbs_as_textfiles = regex_new_db.split(file.read())
+                dbs = readDBFromFile(mln,os.path.join(input_dir,filename))
+                                     
+                for i in range(0,len(dbs)):
+                    self.pobj_type_list = []
+                    db = dbs[i]
+                    db_as_textfile = dbs_as_textfiles[i]
+                    
+                    for line in db_as_textfile.splitlines():
+                        regex_pobj_result = regex_pobj.search(line)
+                        if regex_pobj_result:
+                            self.pobj_type_list.append(str(regex_pobj_result.group(1)).strip())
+                    
+                    sentence = " "
+                    sense_list = []
+                    #TODO use index of dbs to get correct sentence
+                    #sentence = db.strip().split("\n")[0]
+                    
+                    for q in db.query('has_pos(?w, ?p)'):
+                        if q['?p'] in verb_tags:
+                            word = '-'.join(q['?w'].split('-')[:-1])# extract everything except the number (e.g. compound words like heart-shaped from heart-shaped-4)
+                            synset = self.wordnet.synsets(word,"v")
+                            
+                            if synset and not self.is_aux_verb(q['?w'],db):
+                                pas_db = self.create_pas_db(db, q['?w'],sense_list)
+                                is_synset_added = False
+                                
+                                if not pas_db.isEmpty():
+                                    for j in range(0,len(synset_key_list)):
+                                        synset_key = synset_key_list[j]
+                                        
+                                        if self.are_synsets_equal(synset,synset_key):
+                                            path_to_dbs = os.path.join(self.ACTIONCORE_DB_PATH,str(j+1)+".db")
+                                            synset_dbs = readDBFromFile(mln,path_to_dbs)
+                                            dbs_file = open(path_to_dbs,'w')
+                                            synset_dbs.append(pas_db)
+                                            Database.writeDBs(synset_dbs,dbs_file)
+                                            is_synset_added = True
+                                            dbs_file.close()
+                                            break
+                                        
+                                    if not is_synset_added:
+                                        pas_db.writeToFile(os.path.join(self.ACTIONCORE_DB_PATH,str(len(synset_key_list)+1)+".db"))
+                                        synset_key_list.append(synset)
+                file.close()
+                os.remove(os.path.join(input_dir,filename))
+            except:
+                print "Parsing Error"
+                                        
                                 
     def are_synsets_equal(self,syn1,syn2):
         
@@ -162,7 +176,7 @@ class ActionCoreDbCreator(object):
         for pobj_type in self.pobj_type_list:
             for q in db.query('{}({}, ?w)'.format(pobj_type,predicate)):
                 if not self.is_pronoun(q['?w'], db) and not self.is_wh(q['?w'], db):
-                    result.addGroundAtom('pobj({}, {})'.format(predicate,q['?w']))
+                    result.addGroundAtom('prepobj({}, {})'.format(predicate,q['?w']))
                     result = self.add_senses_and_concept(q['?w'], db, result, sense_list)
                     is_obj_added = True
                 
