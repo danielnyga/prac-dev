@@ -1,0 +1,17 @@
+1.00  has_sense(elaborate-9, elaborate.v.01)
+1.00  is_a(elaborate.v.01, elaborate.v.01)
+1.00  predicate(elaborate-9)
+1.00  prepobj(elaborate-9, detail-13)
+1.00  prepobj(elaborate-9, districts-16)
+---
+1.00  has_sense(elaborate-5, elaborate.v.01)
+1.00  has_sense(jury-2, jury.n.01)
+1.00  is_a(elaborate.v.01, elaborate.v.01)
+1.00  is_a(jury.n.01, jury.n.01)
+1.00  nsubj(elaborate-5, jury-2)
+1.00  predicate(elaborate-5)
+---
+1.00  has_sense(elaborate-21, elaborate.v.01)
+1.00  is_a(elaborate.v.01, elaborate.v.01)
+1.00  predicate(elaborate-21)
+1.00  prepobj(elaborate-21, hour-25)

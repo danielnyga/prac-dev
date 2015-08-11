@@ -1,0 +1,18 @@
+1.00  dobj(augmenting-17, revenues-22)
+1.00  has_sense(augmenting-17, augment.v.01)
+1.00  is_a(augment.v.01, augment.v.01)
+1.00  predicate(augmenting-17)
+---
+1.00  dobj(augmenting-9, talent-10)
+1.00  has_sense(augmenting-9, augment.v.01)
+1.00  is_a(augment.v.01, augment.v.01)
+1.00  nsubj(augmenting-9, Kings-7)
+1.00  predicate(augmenting-9)
+1.00  prepobj(augmenting-9, division-4)
+1.00  prepobj(augmenting-9, props-15)
+---
+1.00  has_sense(augmented-10, augment.v.01)
+1.00  has_sense(describing-13, describe.v.01)
+1.00  is_a(augment.v.01, augment.v.01)
+1.00  predicate(augmented-10)
+1.00  prepobj(augmented-10, describing-13)
