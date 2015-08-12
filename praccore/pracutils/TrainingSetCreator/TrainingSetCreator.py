@@ -1,15 +1,36 @@
 import os
 import re
 import sys
-from prac.wordnet import WordNet
+from nltk.corpus import wordnet as wn
 
 from mln import readMLNFromFile
 from mln.database import Database,readDBFromFile
 
+
+class Frame(object):
+    def __init__(self,db):
+        self._frame_projection_type = ' '
+        self._dobj_list = []
+        self._prepobj_list = []
+        self._iobj_list = []
+        self._nsubj_list = []
+        self._db = None
+        
+        for element in ['dobj','iobj','nsubj','prepobj']:
+            for q in db.query('{}(?w1,?w2)'.format(element)):
+                self._frame_projection_type += element
+                break
+        
+        for element in ['dobj','iobj','nsubj','prepobj']:
+            for q1 in db.query('{}(?w1,?w2)'.format(element)):
+                for q2 in db.query('has_sense({},?s)'.format(q1['?w2'])):
+                    eval("self._{}_list.append(q2['?s'])".format(element))
+        
+        self._db = db
+    
 class TrainingSetCreator(object):
     PRAC_HOME = os.environ['PRAC_HOME']
     TRAINING_SET_PATH = os.path.join(PRAC_HOME, 'praccore', 'pracutils','TrainingSetCreator',"result")
-    wordnet = WordNet(concepts=None)
     
     def create_test_sets(self,input_dir,mln):
          
@@ -40,21 +61,19 @@ class TrainingSetCreator(object):
                             
                             if db_frame_projection:
                                 if sense in sorted_dbs_by_predicate_sense:
-                                    frame_projection_dict = sorted_dbs_by_predicate_sense[sense]
-                                    if db_frame_projection in frame_projection_dict:
-                                        sorted_dbs_by_predicate_sense[sense][db_frame_projection].append(db_trimmed_sense)
-                                    else:
-                                        sorted_dbs_by_predicate_sense[sense][db_frame_projection] = [db_trimmed_sense]
+                                    sorted_dbs_by_predicate_sense[sense].append(Frame(db_trimmed_sense))
                                 else:
-                                    sorted_dbs_by_predicate_sense[sense] = { db_frame_projection : [db_trimmed_sense]}
+                                    sorted_dbs_by_predicate_sense[sense] = [Frame(db_trimmed_sense)]
                     
                 
+                #self.remove_dbs_containing_sister_terms(sorted_dbs_by_predicate_sense)
                 self.save_dbs_to_file(sorted_dbs_by_predicate_sense, os.path.join(self.TRAINING_SET_PATH,filename))            
                 file.close()
                 #os.remove(os.path.join(input_dir,filename))
             except:
                 print sys.exc_info()
     
+        
     def remove_slots_without_sense(self,db):
         db_ = Database(db.mln)
         
@@ -87,16 +106,17 @@ class TrainingSetCreator(object):
         dbs = []
         
         if dbs_dict:
-            for _, frame_projections in dbs_dict.iteritems():
-                for _, db in frame_projections.iteritems():
-                    dbs.extend(db)
+            for _, frames in dbs_dict.iteritems():
+                for frame in frames:
+                    if (not frame._dobj_list) and (not frame._iobj_list) and (not frame._prepobj_list): 
+                        dbs.append(frame._db)
+                    
     
             if len(dbs) > 0:
                 dbs_file = open(filename,'w')
                 Database.writeDBs(dbs,dbs_file)
                 dbs_file.close()
             
-        
 if __name__ == '__main__':
     args = sys.argv[1:]
     

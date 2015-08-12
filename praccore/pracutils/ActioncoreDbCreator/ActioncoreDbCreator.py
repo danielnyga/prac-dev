@@ -38,7 +38,7 @@ class ActionCoreDbCreator(object):
         synset_key_list = ac.init_synset_key_list()
         regex_has_pos = re.compile('has_pos\s*\(\s*(\w+)(-{0,1}\d*)\s*,\s*(\w+)\s*\)')
         regex_new_db = re.compile("\n\s*-+\s*\n")
-        regex_pobj = re.compile('1.00\s*(prep\w+)\s*')
+        regex_pobj = re.compile('1.00\s*(prep_\w+)\s*')
         
          
         for filename in os.listdir(input_dir):
