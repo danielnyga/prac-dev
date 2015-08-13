@@ -121,9 +121,14 @@ class TrainingSetCreator(object):
         
         if dbs_dict:
             for _, frames in dbs_dict.iteritems():
+                temp_dbs = []
+                
                 for frame in frames:
                     if frame._dobj_list and (not frame._iobj_list) and (not frame._prepobj_list): 
-                        dbs.append(frame._db)
+                        temp_dbs.append(frame._db)
+                
+                if len(temp_dbs) >= 5:
+                    dbs.extend(temp_dbs)
                     
     
             if len(dbs) > 0:
