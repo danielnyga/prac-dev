@@ -9,6 +9,12 @@ from mln.methods import LearningMethods, InferenceMethods
 
 from multiprocessing import Pool, cpu_count
 
+from prac.core import PRAC, PRACKnowledgeBase
+
+from prac.wordnet import WordNet
+from prac.inference import PRACInferenceStep, PRACInference
+
+
 MLN = None
 
     
@@ -39,7 +45,6 @@ class PredicateValidator(object):
         
     def valid_sets(self,file_list):
         for filepath in file_list:
-            
             try:
                 self.process_db_file(filepath)
             except:
@@ -65,15 +70,43 @@ class PredicateValidator(object):
             dbs.append(db)
         
         #train mln
-        learnedMLN = self.train_mln(dbs)
+        learned_mln = self.train_mln(dbs)
         test_dbs = self.generate_test_dbs(dbs)
-        
-        for test_db in test_dbs:
-            test_db.printEvidence()
-            print "####################"
+        self.start_validation(test_dbs, learned_mln)
         
         file.close()                    
     
+    def start_validation(self,dbs,learned_mln):
+        for db in dbs:
+            truth_db = Database(db.mln)
+            test_db = Database(db.mln)
+            
+            for atom, truth in sorted(db.evidence.iteritems()):
+                if 'has_sense' in atom:
+                    truth_db.addGroundAtom(atom,truth)
+                    continue
+                
+                test_db.addGroundAtom(atom,truth)
+                
+            prac = PRAC()
+            prac.mln = learned_mln;
+            prac.wordnet = WordNet(concepts=None)
+            senses = prac.getModuleByName('wn_senses')
+            senses.initialize()
+            infer = PRACInference(prac, 'None');
+            wsd = prac.getModuleByName('wsd')
+            kb = PRACKnowledgeBase(prac)
+            kb.query_params = {'verbose': False, 
+                               'logic': 'FuzzyLogic', 'queries': 'has_sense',
+                                'debug': 'ERROR', 'useMultiCPU': 0, 'method': 'WCSP'}
+
+            kb.dbs.append(test_db)
+            prac.run(infer,wsd,kb=kb)
+            #inferStep = infer.inference_steps[0]
+            #resultDB = inferStep.output_dbs[0]
+                
+            
+            
     def train_mln(self,dbs):
         return self.mln.learnWeights(dbs, method=self.learningMethod, 
                                       optimizer=self.optimizer, 
@@ -97,9 +130,9 @@ class PredicateValidator(object):
             
             #Assuming that there is only one  predicate
             for q1 in db.query('predicate(?w)'):
-                    predicate_name = q1["?w"]
+                    predicate_name = q1['?w']
                     for q2 in db.query('has_sense({},?s)'.format(q1['?w'])):
-                        predicate_sense = q1['?w']
+                        predicate_sense = q2['?s']
                         
             for element in ['dobj']:
                 for q1 in db.query('{}(?w1,?w2)'.format(element)):
@@ -110,17 +143,18 @@ class PredicateValidator(object):
                         for e in hypernyms:
                             for sister_term_syn in e.hyponyms():
                                 sister_term_sense = sister_term_syn.name
-                                sister_term = sister_term_sense.split(".")[0]
-                                
+                                sister_term = sister_term_sense.split(".")[0] + "-1"
                                 test_db = Database(db.mln)                    
                                 #Add predicate
                                 test_db.addGroundAtom("predicate({})".format(predicate_name))
                                 test_db.addGroundAtom('has_sense({},{})'.format(predicate_name,predicate_sense))
+                                test_db.addGroundAtom('has_pos({},{})'.format(predicate_name,'VB'))
                                 #test_db.addGroundAtom('is_a({},{})'.format(predicate_sense,predicate_sense))
                                 
                                 #Add object
                                 test_db.addGroundAtom('{}({},{})'.format(element,predicate_name,sister_term))
                                 test_db.addGroundAtom('has_sense({},{})'.format(sister_term,sister_term_sense))
+                                test_db.addGroundAtom('has_pos({},{})'.format(sister_term,'NN'))
                                 #test_db.addGroundAtom('is_a({},{})'.format(sister_term_sense,sister_term_sense))
             
                                 test_dbs.append(test_db)
@@ -157,6 +191,7 @@ if __name__ == '__main__':
         splitted_file_list = [] 
         for chunk in list(chunks(file_list,cpu_count())):
             splitted_file_list.append(chunk)
+            
         workerPool = Pool(processes=cpu_count())
         workerPool.map_async(run_process, splitted_file_list)
         workerPool.close()
