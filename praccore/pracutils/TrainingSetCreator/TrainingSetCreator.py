@@ -61,9 +61,14 @@ class TrainingSetCreator(object):
         regex_new_db = re.compile("\n\s*-+\s*\n")
         file = open(filepath,'r')
         dbs_as_textfiles = regex_new_db.split(file.read())
-        dbs = readDBFromFile(self.mln,filepath)
+        dbs = []
+        db = readDBFromFile(self.mln,filepath)
         
-        
+        if isinstance(db, list):
+            dbs = db
+        else:
+            dbs.append(db)
+            
         for i in range(0,len(dbs)):
             db = dbs[i]
             db_as_textfile = dbs_as_textfiles[i]
