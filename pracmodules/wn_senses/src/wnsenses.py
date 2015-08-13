@@ -94,6 +94,7 @@ class WNSenses(PRACModule):
                 db_.addGroundAtom('has_sense(%s,null)' % word_const)
                 continue
             word = '-'.join(word_const.split('-')[:-1])# extract everything except the number (e.g. compound words like heart-shaped from heart-shaped-4)
+            
             for i, synset in enumerate(wordnet.synsets(word, pos)):
                 sense_id = synset.name#'%s-%.2d' % (word_const, i+1)
                 word2senses[word_const].append(sense_id)
@@ -101,7 +102,7 @@ class WNSenses(PRACModule):
                     #sim = wordnet.similarity(synset,concept)
 #                     db_.addGroundAtom('is_a(%s,%s)' % (sense_id, concept), sim) 
 #                     sim = wordnet.semilarity(synset, concept)
-                    sim = round(wordnet.path_similarity(synset, concept),2)
+                    sim = round(wordnet.wup_similarity(synset, concept),2)
                     db_.addGroundAtom('is_a(%s,%s)' % (sense_id, concept),sim)
         for word in word2senses:
             for word2, senses in word2senses.iteritems():
@@ -112,6 +113,7 @@ class WNSenses(PRACModule):
             db_.addGroundAtom('!has_sense(%s,null)' % (word))
 #         for c in concepts:
 #             db_.addGroundAtom('!is_a(null,%s)' % c)
+        
         return db_
     
 #     @DB_TRANSFORM
