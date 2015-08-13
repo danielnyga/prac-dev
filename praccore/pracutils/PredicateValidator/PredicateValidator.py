@@ -14,13 +14,14 @@ from prac.core import PRAC, PRACKnowledgeBase
 from prac.wordnet import WordNet
 from prac.inference import PRACInferenceStep, PRACInference
 
+from utils.eval import ConfusionMatrix
 
 MLN = None
 
     
 class PredicateValidator(object):
     PRAC_HOME = os.environ['PRAC_HOME']
-    TRAINING_SET_PATH = os.path.join(PRAC_HOME, 'praccore', 'pracutils','TrainingSetCreator',"result")
+    CM_SET_PATH = os.path.join(PRAC_HOME, 'praccore', 'pracutils','PredicateValidator',"result")
     
     def __init__(self,mln):
         self.mln = mln
@@ -72,11 +73,14 @@ class PredicateValidator(object):
         #train mln
         learned_mln = self.train_mln(dbs)
         test_dbs = self.generate_test_dbs(dbs)
-        self.start_validation(test_dbs, learned_mln)
+        cm = self.start_validation(test_dbs, learned_mln)
         
+        cm.toFile(os.path.join(self.CM_SET_PATH,os.path.basename(filepath)))
         file.close()                    
     
     def start_validation(self,dbs,learned_mln):
+        cm = ConfusionMatrix()
+        
         for db in dbs:
             truth_db = Database(db.mln)
             test_db = Database(db.mln)
@@ -102,11 +106,20 @@ class PredicateValidator(object):
 
             kb.dbs.append(test_db)
             prac.run(infer,wsd,kb=kb)
-            #inferStep = infer.inference_steps[0]
-            #resultDB = inferStep.output_dbs[0]
+            inferStep = infer.inference_steps[0]
+            resultDB = inferStep.output_dbs[0]
+            
+            for predicate in truth_db.iterGroundLiteralStrings('has_sense'):
+                group = re.split(',',re.split('has_sense\w*\(|\)',predicate[1])[1])
+                word = group[0];
+                truth = group[1];
+                query = 'has_sense('+word+',?s)'
+                for result in resultDB.query(query):
+                    pred = result['?s']
+                    cm.addClassificationResult(truth, pred)
                 
             
-            
+        return cm
     def train_mln(self,dbs):
         return self.mln.learnWeights(dbs, method=self.learningMethod, 
                                       optimizer=self.optimizer, 
