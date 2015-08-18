@@ -43,7 +43,7 @@ class PRACWSD(PRACModule):
             
             
             for db in kb.dbs:
-                db = wordnet_module.get_senses_and_similarities(db, known_concepts)
+                db = wordnet_module.get_senses_and_similarities(db, known_concepts,fol)
                 result_db = list(kb.infer(db))
                 inf_step.output_dbs.extend(result_db)
                 print
