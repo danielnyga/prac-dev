@@ -18,10 +18,13 @@ from utils.eval import ConfusionMatrix
 
 MLN = None
 
+PRAC_HOME = os.environ['PRAC_HOME']
+CM_SET_PATH = os.path.join(PRAC_HOME, 'praccore', 'pracutils','PredicateValidator',"result")
+    
     
 class PredicateValidator(object):
     PRAC_HOME = os.environ['PRAC_HOME']
-    CM_SET_PATH = os.path.join(PRAC_HOME, 'praccore', 'pracutils','PredicateValidator',"result")
+    
     
     def __init__(self,mln):
         self.mln = mln
@@ -74,10 +77,14 @@ class PredicateValidator(object):
         learned_mln = self.train_mln(dbs)
         test_dbs = self.generate_test_dbs(dbs)
         cm = self.start_validation(test_dbs, learned_mln)
-        
-        cm.toFile(os.path.join(self.CM_SET_PATH,os.path.basename(filepath)))
+        os.makedirs(os.path.join(CM_SET_PATH,os.path.basename(filepath)))
+        dbs_file = open(os.path.join(CM_SET_PATH,os.path.basename(filepath),"test.db"),'w')
+        Database.writeDBs(test_dbs,dbs_file)
+        cm.toFile(os.path.join(CM_SET_PATH,os.path.basename(filepath),os.path.basename(filepath)))
         file.close()                    
-    
+        dbs_file.close()
+        os.remove(filepath)
+        
     def start_validation(self,dbs,learned_mln):
         cm = ConfusionMatrix()
         
@@ -101,7 +108,7 @@ class PredicateValidator(object):
             wsd = prac.getModuleByName('wsd')
             kb = PRACKnowledgeBase(prac)
             kb.query_params = {'verbose': False, 
-                               'logic': 'FuzzyLogic', 'queries': 'has_sense',
+                               'logic': 'FirstOrderLogic', 'queries': 'has_sense',
                                 'debug': 'ERROR', 'useMultiCPU': 0, 'method': 'WCSP'}
 
             kb.dbs.append(test_db)
@@ -173,7 +180,20 @@ class PredicateValidator(object):
                                 test_dbs.append(test_db)
         
         return test_dbs
-                                
+
+def write_cm_results():
+    cm_filename_regex = re.compile("\d+\.db")
+    cm_paths = []
+    for path in os.listdir(CM_SET_PATH):
+        path_ = os.path.join(CM_SET_PATH,path)
+        if os.path.isdir(path_) : 
+            for filename in os.listdir(path_):
+                if cm_filename_regex.search(filename):
+                    cm_paths.append(os.path.join(path_,filename))
+                    
+    ConfusionMatrix.write_comparison_results_between_confusion_matrices(os.path.join(CM_SET_PATH,'OVERALL_RESULT.txt'),*cm_paths)
+    
+                                 
 def chunks(l, n):
     dividor = len(l)/n
     result = []
@@ -195,7 +215,7 @@ if __name__ == '__main__':
     if len(args) == 2:
         
         input_dir = args[0]
-        MLN = readMLNFromFile(args[1], grammar='PRACGrammar', logic='FuzzyLogic') 
+        MLN = readMLNFromFile(args[1], grammar='PRACGrammar', logic='FirstOrderLogic') 
         file_list = []
         
         for filename in os.listdir(input_dir):
@@ -209,5 +229,6 @@ if __name__ == '__main__':
         workerPool.map_async(run_process, splitted_file_list)
         workerPool.close()
         workerPool.join()
+        write_cm_results()
     
     
