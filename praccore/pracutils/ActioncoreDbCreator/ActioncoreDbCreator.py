@@ -198,6 +198,9 @@ class ActionCoreDbCreator(object):
                 result.addGroundAtom('is_a({}, {})'.format(sense['?s'],sense['?s']))
                 sense_list.append(sense['?s'])
         
+        for pos in kb.query('has_pos({}, ?p)'.format(word)):
+            result.addGroundAtom('has_pos({}, {})'.format(word,pos['?p']))
+            
         return result        
                 
 

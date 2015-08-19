@@ -12,10 +12,10 @@ MLN = None
 class Frame(object):
     def __init__(self,db):
         self._frame_projection_type = ' '
-        self._dobj_list = []
-        self._prepobj_list = []
-        self._iobj_list = []
-        self._nsubj_list = []
+        self._dobj_dict = {}
+        self._prepobj_dict = {}
+        self._iobj_dict = {}
+        self._nsubj_dict = {}
         self._db = None
         
         for element in ['dobj','iobj','nsubj','prepobj']:
@@ -26,7 +26,7 @@ class Frame(object):
         for element in ['dobj','iobj','nsubj','prepobj']:
             for q1 in db.query('{}(?w1,?w2)'.format(element)):
                 for q2 in db.query('has_sense({},?s)'.format(q1['?w2'])):
-                    eval("self._{}_list.append(q2['?s'])".format(element))
+                    eval("self._%s_dict.update({q1['?w2'] : q2['?s']})" % (element))
         
         self._db = db
     
@@ -102,6 +102,9 @@ class TrainingSetCreator(object):
                     db_.addGroundAtom('{}({},{})'.format(element,q1['?w1'],q1['?w2']))
                     db_.addGroundAtom('has_sense({},{})'.format(q1['?w2'],q2['?s']))
                     db_.addGroundAtom('is_a({},{})'.format(q2['?s'],q2['?s']))
+                
+                    for q3 in db.query('has_pos({},?p)'.format(q1['?w2'])):
+                        db_.addGroundAtom('has_pos({},{})'.format(q1['?w2'],q3['?p']))
         
         for q in db.query('predicate(?w)'):
             predicate = q['?w']
@@ -109,6 +112,9 @@ class TrainingSetCreator(object):
             for sense_query in db.query("has_sense({},?s)".format(q['?w'])):
                 db_.addGroundAtom('has_sense({},{})'.format(q['?w'],sense_query['?s']))
                 db_.addGroundAtom('is_a({},{})'.format(sense_query['?s'],sense_query['?s']))
+            
+                for q3 in db.query('has_pos({},?p)'.format(q['?w'])):
+                    db_.addGroundAtom('has_pos({},{})'.format(q['?w'],q3['?p']))
         
         return db_
     
@@ -129,10 +135,14 @@ class TrainingSetCreator(object):
                 temp_dbs = []
                 
                 for frame in frames:
-                    if frame._dobj_list and (not frame._iobj_list) and (not frame._prepobj_list): 
-                        temp_dbs.append(frame._db)
+                    if frame._dobj_dict:
+                        words_to_delete = []
+                        words_to_delete.extend(frame._iobj_dict.keys())
+                        words_to_delete.extend(frame._prepobj_dict.keys())
+                        words_to_delete.extend(frame._nsubj_dict.keys())
+                        temp_dbs.append(self.remove_evidence_based_on_words(frame._db, words_to_delete))
                 
-                if len(temp_dbs) >= 5:
+                if len(temp_dbs) >= 20:
                     dbs.extend(temp_dbs)
                     
     
@@ -141,6 +151,23 @@ class TrainingSetCreator(object):
                 Database.writeDBs(dbs,dbs_file)
                 dbs_file.close()
                 
+    def remove_evidence_based_on_words(self,db,word_list):
+        if not word_list:
+            return db
+        db_ = Database(db.mln)
+        
+        for atom, truth in db.evidence.iteritems():
+            is_word_in_atom = False
+            
+            for word in word_list:
+                if word in atom:
+                    is_word_in_atom = True
+                    break
+            
+            if not is_word_in_atom:
+                db_.addGroundAtom(atom,truth)
+            
+        return db_
 
 def chunks(l, n):
     dividor = len(l)/n
