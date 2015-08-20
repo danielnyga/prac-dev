@@ -163,7 +163,7 @@ class TrainingSetCreator(object):
                 if word in atom:
                     is_word_in_atom = True
                     break
-            
+            #TODO remove is_a predicate
             if not is_word_in_atom:
                 db_.addGroundAtom(atom,truth)
             
