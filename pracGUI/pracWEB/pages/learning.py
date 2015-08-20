@@ -1,12 +1,10 @@
-from mln.database import readDBFromString
-from mln.mln import readMLNFromString
-from mln.methods import LearningMethods
-from pracWEB.pages.fileupload import upload
-from pracWEB.pages.utils import updateMLNList, updateEvidenceList, GRAMMAR, LOGICS
+from pracmln.mln.base import parse_mln
+from pracmln.mln.database import parse_db
+from pracmln.mln.methods import LearningMethods
 import os, sys
 import StringIO
 
-LEARNMETHODS = [(LearningMethods.byName(method),method) for method in LearningMethods.name2value]
+LEARNMETHODS = LearningMethods.names()
 POSSIBLEPROPS = ['color', 'size', 'shape', 'hypernym', 'hasa']
 new_usage = {
     "openWorld": "-ow",
@@ -24,8 +22,9 @@ ENGINES = [ ('PRACMLNs', "PRACMLNs"),
 
 def learn(data, files):
     if all(x in data for x in ['mln','logic','evidence','module']):
-        mln = readMLNFromString(str(data['mln']),str( data['logic']))
-        trainingDBs = readDBFromString(mln, str(data['evidence']), ignoreUnknownPredicates=True)
+        mln = parse_mln(str(data['mln']), logic=str( data['logic']))
+        trainingDBs = parse_db(mln, str(data['evidence']), ignore_unknown_preds=True)
+
         method = str(getattr(data, 'method', LearningMethods.DCLL))
         evidencePreds = list(getattr(data, 'evidencePreds', [])) or POSSIBLEPROPS
         params = eval("dict({})".format(str(data['parameters'])))

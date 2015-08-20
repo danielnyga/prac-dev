@@ -35,10 +35,11 @@ import re
 import math
 import operator
 from graphviz.dot import Digraph
-from mln.database import Database
 from pracutils.ActioncoreDescriptionHandler import ActioncoreDescriptionHandler
 import sys
 from pracutils.pracgraphviz import render_gv
+from pracmln import Database
+
 
 class PRACInferenceStep(object):
     '''

@@ -1,7 +1,7 @@
 import os
 import sys
 sys.path.append(os.path.join('praccore'))
-from utils import colorize
+from pracmln.mln.util import colorize
 from subprocess import Popen
 home = os.path.abspath(".")
 appfolder = "apps"

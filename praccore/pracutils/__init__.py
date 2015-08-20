@@ -1,7 +1,7 @@
 import os
 import math 
 import time
-from utils import colorize
+from pracmln.mln.util import colorize
 
 class StopWatch(object):
     

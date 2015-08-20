@@ -20,15 +20,18 @@
 # CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+import logging
 
 import os
 import sys
 from prac.wordnet import WordNet
-from mln.database import Database, readDBFromString, readDBFromFile
-from mln.mln import readMLNFromString, MLN
-from mln.util import mergeDomains
+from pracmln import Database, MLN
 
 # adapt PYTHONPATH where necessary
+from pracmln.mln.base import parse_mln
+from pracmln.mln.database import parse_db
+from pracmln.mln.util import mergedom
+
 PRAC_HOME = os.environ['PRAC_HOME']
 prac_module_path = os.path.join(PRAC_HOME, 'pracmodules')
 
@@ -41,11 +44,8 @@ from string import whitespace, strip
 import pickle
 from inference import PRACInference, PRACInferenceStep
 import fnmatch
-from mln import readMLNFromFile
 import yaml
-from praclog import logging
-from utils import colorize
-from utils.latexmath2png import math2png
+from pracmln.utils.latexmath2png import math2png
 
 
 class PRAC(object):
@@ -92,7 +92,7 @@ class PRAC(object):
             module_path = manifest.module_path
             decl_mlns = manifest.pred_decls
             for mlnfile in decl_mlns:
-                tmpmln = readMLNFromFile(os.path.join(prac_module_path, module_path, 'mln', mlnfile), logic='FuzzyLogic', grammar='PRACGrammar')
+                tmpmln = MLN(mlnfile=os.path.join(prac_module_path, module_path, 'mln', mlnfile), logic='FuzzyLogic', grammar='PRACGrammar')
                 mln.update_predicates(tmpmln)
         return mln
     
@@ -320,7 +320,7 @@ class PRACKnowledgeBase(object):
     def set_querymln(self, mln_text, path='.'):
         self.query_mln_str = mln_text
         mln = self.prac.mln.duplicate()
-        self.query_mln = readMLNFromString(mln_text, searchPath=path, logic=self.query_params.get('logic', 'FirstOrderLogic'), mln=mln)
+        self.query_mln = parse_mln(mln_text, searchPath=path, logic=self.query_params.get('logic', 'FirstOrderLogic'), mln=mln)
 #         self.query_mln.write(sys.stdout, color=True)
         
         
@@ -415,7 +415,7 @@ class PRACModule(object):
         for step in pracinference.inference_steps:
             all_dbs.extend(step.input_dbs)
             all_dbs.extend(step.output_dbs)
-        fullDomain =  mergeDomains(*[db.domains for db in all_dbs])
+        fullDomain = mergedom(*[db.domains for db in all_dbs])
         return fullDomain
         
             
@@ -482,7 +482,7 @@ class PRACModule(object):
         inf_step = PRACInferenceStep(pracinference, self)
         if len(pracinference.inference_steps) > 0:
             inf_step.input_dbs = list(pracinference.inference_steps[-1].output_dbs)
-        dbs = readDBFromString(self.prac.mln, dbstring, ignoreUnknownPredicates=True)
+        dbs = parse_db(self.prac.mln, dbstring, ignore_unknown_preds=True)
         inf_step.output_dbs = dbs
         return inf_step
     

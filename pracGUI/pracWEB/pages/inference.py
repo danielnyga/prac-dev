@@ -7,7 +7,7 @@ import logging
 from flask.globals import session
 import json
 from pracWEB.pages.utils import ensure_prac_session
-from mln.database import Database
+from pracmln import Database
 from pracutils.ActioncoreDescriptionHandler import ActioncoreDescriptionHandler
 
 

@@ -11,13 +11,13 @@ from geoip import geolite2
 from pracWEB.app import PRACSession
 from prac.core import PRAC
 from prac.wordnet import WordNet
-from mln.methods import InferenceMethods
+from pracmln.mln.methods import InferenceMethods
 
 FILEDIRS = {'mln':'mln', 'pracmln':'bin', 'db':'db'}
 LOGICS = [('FirstOrderLogic','FOL'),('FuzzyLogic','Fuzzy')]
 GRAMMAR = [('PRACGrammar','PRAC Grammar'), ('StandardGrammar','Standard Grammar')]
 PRAC_HOME = os.environ['PRAC_HOME']
-INFMETHODS = [(InferenceMethods.byName(method),method) for method in InferenceMethods.name2value]
+INFMETHODS = InferenceMethods.names()
 
 def ensure_prac_session(session):
     log = logging.getLogger(__name__)

@@ -27,7 +27,7 @@ import nltk
 import logging 
 from itertools import chain
 from nltk.corpus.reader.wordnet import Synset
-from utils.graphml import Graph, Node as GMLNode, Edge
+from pracmln.utils.graphml import Graph, Node as GMLNode, Edge
 import itertools
 import os
 from scipy import spatial
