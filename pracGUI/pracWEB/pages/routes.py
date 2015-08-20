@@ -12,7 +12,7 @@ def register_routes(pracapp=None):
 
     # settings for fileupload and logging
     home = expanduser("~")
-    pracApp.app.config['ALLOWED_EXTENSIONS'] = set(['mln','db','pracmln'])
+    pracApp.app.config['ALLOWED_EXTENSIONS'] = set(['mln','db','pracmln','emln'])
     pracApp.app.config['UPLOAD_FOLDER'] = os.path.join(home, 'pracfiles')
 
     pracApp.app.config['LOG_FOLDER'] = os.path.join(pracApp.app.root_path, 'log')
