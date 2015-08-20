@@ -8,11 +8,11 @@ S'20'
 p3
 sS'evidencePreds'
 p4
-S'is_a, ac_word'
+S'is_a, dobj, predicate'
 p5
 sS'output_filename'
 p6
-S'wts.pydcll.fol_training-wsdAC.mln'
+S'wts.pydcll.run_0-training.mln'
 p7
 sS'discrPredicates'
 p8
@@ -26,7 +26,7 @@ S''
 p11
 sS'params1'
 p12
-S"partSize=2,debug='DEBUG',optimizer='bfgs'"
+S'ignoreZeroWeightFormulas=True'
 p13
 sS'pattern'
 p14
@@ -50,7 +50,7 @@ S'[discriminative] composite-log-likelihood'
 p21
 sS'db'
 p22
-S'fol_training.db'
+S'run_0.db'
 p23
 sS'priorMean'
 p24
@@ -68,11 +68,11 @@ S'PRACGrammar'
 p29
 sS'geometry'
 p30
-S'1301x744+65+24'
+S'807x998+872+52'
 p31
 sS'mln'
 p32
-S'wsdAC.mln'
+S'training.mln'
 p33
 sS'logic'
 p34

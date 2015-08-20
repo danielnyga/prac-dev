@@ -28,3 +28,5 @@
  has_sense(word, sense!)
  
  is_a(sense, concept)
+
+ predicate(word)

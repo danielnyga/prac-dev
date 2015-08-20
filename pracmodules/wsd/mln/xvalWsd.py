@@ -27,7 +27,7 @@ import sys
 import traceback
 
 from optparse import OptionParser
-from mln.mln import readMLNFromFile
+from mln.mln import readMLNFromFile,Predicate
 from mln.database import readDBFromFile, Database
 from random import shuffle, sample
 import math
@@ -109,6 +109,7 @@ class XValFold(object):
         Returns a confusion matrix for the given (learned) MLN evaluated on
         the databases given in dbs.
         '''
+        mln.predicates.update({'has_pos' : ['word','pos']})
         queryPred = self.params.queryPred
         sig = ['?arg%d' % i for i, _ in enumerate(mln.predicates[queryPred])]
         querytempl = '%s(%s)' % (queryPred, ','.join(sig))
@@ -128,7 +129,7 @@ class XValFold(object):
             
             #WSD specific stuff
             #Remove all is_a predicates of the training db
-            for pred in ['has_pos','is_a']:
+            for pred in ['has_pos','is_a','predicate','dobj']:
                 for atom in list(db.iterGroundLiteralStrings(pred)):
                     db_.addGroundAtom(atom[1])
             prac = PRAC()
@@ -180,13 +181,16 @@ class XValFold(object):
             log.debug('Starting learning...')
             learnedMLN = mln.learnWeights(learnDBs_, method=self.params.learningMethod,
                                           verbose=verbose,
-                                          evidencePreds=["is_a","has_pos"],
-                                          partSize=2,
-                                          optimizer='cg',
-                                          maxrepeat=10)
+                                          evidencePreds=["is_a","dobj","predicate"],
+                                          ignoreZeroWeightFormulas=True)
             
             # store the learned MLN in a file
             learnedMLN.writeToFile(os.path.join(directory, 'run_%d.mln' % self.params.foldIdx))
+            
+            dbs_file = open(os.path.join(directory, 'run_%d.db' % self.params.foldIdx),'w')
+            Database.writeDBs(learnDBs_,dbs_file)
+            dbs_file.close()
+            
             log.debug('Finished learning.')
             
             # evaluate the MLN
@@ -297,7 +301,7 @@ def prepareResults(directory, logic):
 def doXVal(folds, percent, verbose, multicore, noisy, predName, domain, mlnfile, dbfiles,logicLearn, logicInfer,inverse=False,testSetCount=1):  
     startTime = time.time()
     
-    directory = time.strftime("%a_%d_%b_%Y_%H:%M:%S_K="+str(folds)+"_TSC="+str(testSetCount), time.localtime())
+    directory = time.strftime("%a_%d_%b_%Y_%H:%M:%S_K="+str(folds)+"_TSC="+str(testSetCount)+"_"+str(os.path.basename(dbfiles[0]))+"_", time.localtime())
     os.mkdir(directory)
     os.mkdir(os.path.join(directory, 'FOL'))
     os.mkdir(os.path.join(directory, 'FUZZY'))
@@ -373,7 +377,7 @@ def doXVal(folds, percent, verbose, multicore, noisy, predName, domain, mlnfile,
     if multicore:
         # set up a pool of worker processes
         try:
-            workerPool = Pool()
+            workerPool = Pool(maxtasksperchild=1)
             log.info('Starting %d-fold Cross-Validation in %d processes.' % (folds, workerPool._processes))
             result = workerPool.map_async(runFold, foldRunnables).get()
             workerPool.close()
@@ -424,11 +428,21 @@ if __name__ == '__main__':
     predName = args[0]
     domain = args[1]
     mlnfile = args[2]
-    dbfiles = args[3:]
+    dbfiles = args[3]
     auto = options.auto
     logicLearn = options.learn
     logicInfer = options.infer
     inverse = options.inverse
     
-    for x in range(folds-1,0,-1):
-        doXVal(folds, percent, verbose, multicore, noisy, predName, domain, mlnfile, dbfiles, logicLearn, logicInfer,inverse,x)
+    #for x in range(folds-1,0,-1):
+    
+    if os.path.isdir(dbfiles):
+        for filename in os.listdir(dbfiles):
+            try:
+                db = os.path.join(dbfiles,filename)
+                doXVal(folds, percent, verbose, multicore, noisy, predName, domain, mlnfile, [db], logicLearn, logicInfer,inverse,1)
+                os.remove(db)
+            except:
+                print "ERROR during xval"
+    else:
+        doXVal(folds, percent, verbose, multicore, noisy, predName, domain, mlnfile, [dbfiles], logicLearn, logicInfer,inverse,1)
