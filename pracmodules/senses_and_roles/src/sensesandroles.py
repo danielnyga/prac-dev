@@ -21,25 +21,19 @@
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-from prac.core import PRACModule, PRACPIPE, PRACKnowledgeBase
 import logging
-from mln import readMLNFromFile, readDBFromFile#, MLNParsingError
-from mln.methods import LearningMethods
 import sys
-from wcsp.converter import WCSPConverter
-from mln.database import Database
 import os
-from prac.inference import PRACInferenceStep
-from mln.util import mergeDomains
-from utils import colorize
-from pracutils.RolequeryHandler import RolequeryHandler
-from prac.wordnet import WordNet
-from sense_distribution import add_word_evidence_complete,\
-    add_all_wordnet_similarities, get_prob_color
-from mln.mln import readMLNFromString
-from pracutils.pracgraphviz import render_gv
-from pracutils.ActioncoreDescriptionHandler import ActioncoreDescriptionHandler
-
+from prac.core.base import PRACModule, PRACPIPE
+from prac.core.inference import PRACInferenceStep
+from prac.core.wordnet import WordNet
+from prac.pracutils import RolequeryHandler
+from prac.pracutils.ActioncoreDescriptionHandler import \
+    ActioncoreDescriptionHandler
+from prac.pracutils.pracgraphviz import render_gv
+from prac.sense_distribution import add_all_wordnet_similarities, \
+    get_prob_color
+from pracmln.mln.util import colorize
 
 
 class SensesAndRoles(PRACModule):

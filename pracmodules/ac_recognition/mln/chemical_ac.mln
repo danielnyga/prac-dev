@@ -6,6 +6,7 @@ prep_to(word,word)
 has_pos(word,pos!)
 has_sense(word,sense!)
 dobj(word,word)
+#fuzzy
 is_a(sense,concept)
 num(word,word)
 action_core(word,actioncore?)

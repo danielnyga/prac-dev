@@ -20,15 +20,14 @@
 # CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+import os
+from prac.core.base import PRACModule, PRACPIPE
+from prac.core.inference import PRACInferenceStep
+from pracmln import MLN, Database
+from pracmln.mln.methods import LearningMethods
+from pracmln.mln.util import colorize
+from pracmln.praclog import logger
 
-from prac.core import PRACModule, PRACKnowledgeBase, PRACPIPE
-from mln import readMLNFromFile, readDBFromFile, Database
-import logging
-from mln.methods import LearningMethods
-from prac.wordnet import WordNet
-from prac.inference import PRACInferenceStep
-import sys, os
-from utils import colorize
 
 class PropExtraction(PRACModule):    
 
@@ -37,7 +36,7 @@ class PropExtraction(PRACModule):
     
     @PRACPIPE
     def __call__(self, pracinference, **params):
-        log = logging.getLogger(self.name)
+        log = logger(self.name)
         log.info('Running {}'.format(self.name))
         
         print colorize('+=============================================+', (None, 'green', True), True)
@@ -54,7 +53,7 @@ class PropExtraction(PRACModule):
         if not hasattr(kb, 'dbs'):
             kb.dbs = pracinference.inference_steps[-1].output_dbs
 
-        kb.query_mln = readMLNFromFile(os.path.join(self.module_path, 'mln/parsing_trained.mln'), logic='FuzzyLogic')
+        kb.query_mln = MLN(mlnfile=os.path.join(self.module_path, 'mln/parsing_trained.mln'), logic='FuzzyLogic')
 
         known_concepts = kb.query_mln.domains.get('concept', [])
         inf_step = PRACInferenceStep(pracinference, self)
@@ -84,24 +83,24 @@ class PropExtraction(PRACModule):
         print colorize('| PRAC LEARNING PROPERTIES FROM NL DESCRIPTIONS |', (None, 'green', True), True)
         print colorize('+===============================================+', (None, 'green', True), True)
 
-        log = logging.getLogger(self.name)
+        log = logger(self.name)
 
         mlnName =  praclearning.otherParams.get('mln', None)
         mlnLogic =  praclearning.otherParams.get('logic', None)
 
-        mln = readMLNFromFile(mlnName, logic=mlnLogic)
+        mln = MLN(mlnfile=mlnName, logic=mlnLogic)
         pracTrainingDBS = praclearning.training_dbs
 
         if len(pracTrainingDBS) > 1 and type(pracTrainingDBS[0]) is str: # db from file:
             log.info('Learning from db files...')
-            inputdbs = readDBFromFile(mln, pracTrainingDBS, ignoreUnknownPredicates=True)
+            inputdbs = Database(mln, dbfile=pracTrainingDBS, ignoreUnknownPredicates=True)
         elif len(pracTrainingDBS) > 1:
             log.info('Learning from db files (xfold)...')
             inputdbs = pracTrainingDBS
         else:
             log.info('Learning from default db file...')
             dbFile = os.path.join(self.module_path, 'db/ts_stanford_wn_man.db')
-            inputdbs = readDBFromFile(mln, dbFile, ignoreUnknownPredicates=True)
+            inputdbs = Database(mln, dbfile=dbFile, ignoreUnknownPredicates=True)
 
         evidencePreds=['cop', 'prep_without','pobj', 'nsubj','is_a','amod','prep_with','root','has_pos','conj_and','conj_or','dobj']
         # trainedMLN = mln.learnWeights(inputdbs, LearningMethods.DCLL, evidencePreds=evidencePreds, gaussianPriorSigma=10, partSize=1, useMultiCPU=1, optimizer='bfgs')
@@ -123,7 +122,7 @@ class PropExtraction(PRACModule):
         # rewrite result representation from property(...) to color(..), size(..) etc. and print results
         output_dbs = []
         for r_db in result_dbs:
-            output_db = Database(readMLNFromFile(os.path.join(self.module_path, '../obj_recognition/mln/objInf.mln'), logic='FuzzyLogic'))
+            output_db = Database(MLN(mlnfile=os.path.join(self.module_path, '../obj_recognition/mln/objInf.mln'), logic='FuzzyLogic'))
             # print annotations found in result db
             for instr in instructions:
                 print colorize('Inferred properties for instruction:', (None, 'white', True), True), instr

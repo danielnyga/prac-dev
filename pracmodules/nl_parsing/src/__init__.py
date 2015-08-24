@@ -1,0 +1,1 @@
+from nlparsing import StanfordParser

@@ -21,17 +21,17 @@
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-from prac.core import PRACModule, PRACPIPE, PRAC_HOME
-from prac.inference import PRACInferenceStep
+from prac.core.base import PRACModule, PRACPIPE, PRAC_HOME
+from prac.core.inference import PRACInferenceStep
 import jpype
-import java
 import re
+from prac import java
 import os
-from mln import readMLNFromFile
 import logging
-from mln.database import Database
-from utils import colorize
 import sys
+from pracmln import Database, MLN
+from pracmln.mln.base import parse_mln
+from pracmln.mln.util import colorize
 
 java.classpath.append(os.path.join(PRAC_HOME, '3rdparty', 'stanford-parser-2012-02-03', 'stanford-parser.jar'))
 grammarPath = os.path.join(PRAC_HOME, '3rdparty', 'stanford-parser-2012-02-03', 'grammar', 'englishPCFG.ser.gz')
@@ -156,7 +156,7 @@ class NLParsing(PRACModule):
             jpype.attachThreadToJVM()
         if self.stanford_parser is None:
             self.stanford_parser = StanfordParser(grammarPath)
-        self.mln = readMLNFromFile(os.path.join(self.module_path, 'mln', 'predicates.mln'), grammar='PRACGrammar', logic='FuzzyLogic')
+        self.mln = MLN(mlnfile=os.path.join(self.module_path, 'mln', 'predicates.mln'), grammar='PRACGrammar', logic='FuzzyLogic')
 
     
     def parse_without_prac(self, *sentences):
@@ -213,9 +213,9 @@ class NLParsing(PRACModule):
             deps = map(str, deps)
             words = set()
             for d in deps:
-                db.addGroundAtom(d)
-                f = self.mln.logic.parseFormula(str(d))
-                words.update(f.params)
+                db << d
+                f = self.mln.logic.parse_formula(str(d))
+                words.update(f.args)
                 log.debug(f)
             self.posTags = self.stanford_parser.getPOS()
             self.pos = []
@@ -224,7 +224,7 @@ class NLParsing(PRACModule):
                     continue
                 posTagAtom = 'has_pos(%s,%s)' % (pos[0], pos[1])
                 self.pos.append(posTagAtom)
-                db.addGroundAtom(posTagAtom)
+                db << posTagAtom
                 self.posTags[pos[0]] = pos[1]
             inferenceStep.output_dbs.append(db)
             

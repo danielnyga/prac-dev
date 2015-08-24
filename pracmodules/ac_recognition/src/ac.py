@@ -21,18 +21,19 @@
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-from prac.core import PRACModule, PRACKnowledgeBase, PRACPIPE
+from prac.core.base import PRACModule, PRACKnowledgeBase, PRACPIPE
 import os
-from mln import readMLNFromFile, readDBFromFile, Database
 import logging
-from mln.methods import LearningMethods
-from prac.wordnet import WordNet
-from prac.inference import PRACInferenceStep
+from pracmln.mln.methods import LearningMethods
+from prac.core.wordnet import WordNet
+from prac.core.inference import PRACInferenceStep
 import StringIO
 import sys
-from utils import colorize
 
 # mapping from PennTreebank POS tags to NLTK POS Tags
+from pracmln import Database
+from pracmln.mln.util import colorize
+
 nounTags = ['NN', 'NNS', 'NNP']
 verbTags = ['VB', 'VBG', 'VBZ', 'VBD', 'VBN', 'VBP', 'MD']
 posMap = {}
@@ -80,6 +81,7 @@ class ActionCoreIdentification(PRACModule):
             
             print
             for r_db in result_db:
+                r_db = r_db.resultdb
                 for q in r_db.query('action_core(?w,?ac)'):
                     if q['?ac'] == 'null': continue
                     print 'Identified Action Core(s):', colorize(q['?ac'], (None, 'white', True), True)
@@ -106,7 +108,7 @@ class ActionCoreIdentification(PRACModule):
         nl_module = prac.getModuleByName('nl_parsing')
         syntactic_preds = nl_module.mln.predicates
         log.debug(db_files)
-        dbs = filter(lambda x: type(x) is Database, map(lambda name: readDBFromFile(self.mln, name, True), db_files))
+        dbs = filter(lambda x: type(x) is Database, map(lambda name: Database(self.mln, dbfile=name, ignore_unknown_preds=True), db_files))
         log.debug(dbs)
         new_dbs = []
         training_dbs = []

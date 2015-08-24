@@ -24,9 +24,7 @@
  ******************************************************************************/
  
 #include ../../nl_parsing/mln/predicates.mln
-
-has_sense(word, sense!)
-is_a(sense, concept)
+#include ../../wn_senses/mln/predicates.mln
 
 property(word, prop) 
 

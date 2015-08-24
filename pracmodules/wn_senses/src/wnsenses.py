@@ -21,20 +21,19 @@
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-from prac.core import PRACModule, PRACPIPE, PRACKnowledgeBase, DB_TRANSFORM
+from prac.core.base import PRACModule, PRACPIPE, PRACKnowledgeBase, DB_TRANSFORM
 from nltk.corpus import wordnet as wn
 import logging
-from prac.inference import PRACInferenceStep
-from mln import readMLNFromFile
+from prac.core.inference import PRACInferenceStep
 import os
-from mln.database import Database, readDBFromFile
-from prac.wordnet import WordNet
-from mln.util import mergeDomains
+from prac.core.wordnet import WordNet
 from collections import defaultdict
 from nltk.corpus.reader.wordnet import Synset
-from utils import colorize
 
 # mapping from PennTreebank POS tags to NLTK POS Tags
+from pracmln import MLN, Database
+from pracmln.mln.util import colorize, mergedom
+
 nounTags = ['NN', 'NNS', 'NNP', 'CD']
 verbTags = ['VB', 'VBG', 'VBZ', 'VBD', 'VBN', 'VBP', 'MD']
 adjTags = ['JJ', 'JJR', 'JJS']
@@ -54,7 +53,7 @@ class WNSenses(PRACModule):
     '''
     
     def initialize(self):
-        self.mln = readMLNFromFile(os.path.join(self.module_path, 'mln', 'predicates.mln'), logic='FuzzyLogic', grammar='PRACGrammar')
+        self.mln = MLN(mlnfile=os.path.join(self.module_path, 'mln', 'predicates.mln'), logic='FuzzyLogic', grammar='PRACGrammar')
         self.wordnetKBs = {}
         self.wordnet = self.prac.wordnet
     
@@ -86,12 +85,12 @@ class WNSenses(PRACModule):
         log = logging.getLogger(self.__class__.__name__)
         wordnet = self.wordnet
         word2senses = defaultdict(list)
-        db_ = db.duplicate()
+        db_ = db.copy()
         for res in db.query('has_pos(?word,?pos)'):
             word_const = res['?word']
             pos = posMap.get(res['?pos'], None)
             if pos is None: # if no possible sense can be determined by WordNet, assert null
-                db_.addGroundAtom('has_sense(%s,null)' % word_const)
+                db_ << ('has_sense(%s,null)' % word_const)
                 continue
             word = '-'.join(word_const.split('-')[:-1])# extract everything except the number (e.g. compound words like heart-shaped from heart-shaped-4)
             for i, synset in enumerate(wordnet.synsets(word, pos)):
@@ -102,14 +101,14 @@ class WNSenses(PRACModule):
 #                     db_.addGroundAtom('is_a(%s,%s)' % (sense_id, concept), sim) 
 #                     sim = wordnet.semilarity(synset, concept)
                     sim = wordnet.path_similarity(synset, concept)
-                    db_.addGroundAtom('is_a(%s,%s)' % (sense_id, concept),sim)
+                    db_ << ('is_a(%s,%s)' % (sense_id, concept),sim)
         for word in word2senses:
             for word2, senses in word2senses.iteritems():
                 if word2 == word: continue
                 else: 
                     for s in senses: 
-                        db_.addGroundAtom('!has_sense(%s,%s)' % (word, s))
-            db_.addGroundAtom('!has_sense(%s,null)' % (word))
+                        db_ << ('!has_sense(%s,%s)' % (word, s))
+            db_ << ('!has_sense(%s,null)' % (word))
 #         for c in concepts:
 #             db_.addGroundAtom('!is_a(null,%s)' % c)
         return db_
@@ -131,7 +130,7 @@ class WNSenses(PRACModule):
           0.300  is_a(spatula-s-1, pancake.n.01)
           1.000  is_a(spatula-s-1, spatula.n.01)``
         '''
-        db = db.duplicate()
+        db = db.copy()
         concepts = list(concepts)
         if 'null' in concepts:
             concepts.remove('null')
@@ -140,7 +139,7 @@ class WNSenses(PRACModule):
             sense_id = synset.name.lower().rsplit('.', 2)[0]
             for c2 in concepts:
                 synset2 = self.wordnet.synset(c2)
-                db.addGroundAtom('is_a(%s, %s)' % (synset.name, synset2.name), self.wordnet.similarity(synset, synset2))
+                db << ('is_a(%s, %s)' % (synset.name, synset2.name), self.wordnet.similarity(synset, synset2))
         return db
 
     def add_similarities(self, db, domains, propsFound):
@@ -163,7 +162,7 @@ class WNSenses(PRACModule):
         are added if yellow.s.01 and red.s.01 are in the color domain.
 
         '''
-        db = db.duplicate()
+        db = db.copy()
         cluster = propsFound.pop('cluster', 'cluster')
         for prop in propsFound:
             for propFoundVal in propsFound[prop]:
@@ -176,10 +175,10 @@ class WNSenses(PRACModule):
                                 sim = self.wordnet.similarity(synset1, synset2)
                                 if prop == 'hasa' or prop == 'hypernym':
                                     if sim < .85: continue
-                                    db.addGroundAtom('{}({}, {})'.format(prop, cluster, domVal), sim)
+                                    db << ('{}({}, {})'.format(prop, cluster, domVal), sim)
                                 else:
                                     if sim < .6: continue
-                                    db.addGroundAtom('{}({}, {})'.format(prop, cluster, domVal), sim)
+                                    db << ('{}({}, {})'.format(prop, cluster, domVal), sim)
         return db
 
            
@@ -222,7 +221,7 @@ class WNSenses(PRACModule):
     def get_similarities(self, *dbs):
         log = logging.getLogger(self.__class__.__name__)
         wordnet = self.wordnet
-        full_domain = mergeDomains(*[db.domains for db in dbs])
+        full_domain = mergedom(*[db.domains for db in dbs])
         for db in dbs:
             db_ = Database(self.mln)
             for q in db.query('has_sense(?w, ?s) ^ is_a(?s, ?c)'):
@@ -231,7 +230,7 @@ class WNSenses(PRACModule):
                 for c in full_domain['concept']:
                     #sim = wordnet.wup_similarity(c, concept)
                     sim = wordnet.similarity(c, concept)
-                    db_.addGroundAtom('is_a(%s,%s)' % (sense, c), sim)
+                    db_ << ('is_a(%s,%s)' % (sense, c), sim)
             yield db_
             
     
@@ -242,7 +241,7 @@ class WNSenses(PRACModule):
         (has side effects on the original one)
         '''
         mln_domains = dbs[0].domains
-        domains_full = mergeDomains(mln_domains, *[db.domains for db in dbs])
+        domains_full = mergedom(mln_domains, *[db.domains for db in dbs])
         concepts = domains_full['concept']
         wordnet = WordNet()
         log = logging.getLogger()
@@ -253,7 +252,7 @@ class WNSenses(PRACModule):
                 for c in concepts:
                     similarity = wordnet.semilarity(concept, c)
                     log.info('%s ~ %s = %.2f' % (concept, c, similarity))
-                    db.addGroundAtom('is_a(%s,%s)' % (sense, c), similarity)
+                    db << ('is_a(%s,%s)' % (sense, c), similarity)
         return dbs
     
     def addPossibleWordSensesToDBs(self, *dbs):
@@ -282,12 +281,12 @@ class WNSenses(PRACModule):
                     for concept in db.mln.domains['concept']:
 #                         logging.getLogger('wn').info('%s -- %s' % (concept, synset.name))
                         sim = wordnet.semilarity(synset, concept)
-                        db.addGroundAtom('is_a(%s,%s)' % (sense_id, concept), sim) 
+                        db << ('is_a(%s,%s)' % (sense_id, concept), sim)
             for word in word2senses:
                 for word2, senses in word2senses.iteritems():
                     if word2 == word: continue
                     else: 
-                        for s in senses: db.addGroundAtom('!has_sense(%s,%s)' % (word, s))
+                        for s in senses: db << ('!has_sense(%s,%s)' % (word, s))
 #                 db.addGroundAtom('!has_sense(%s,Nullsense)' % (word))
         
     
@@ -300,7 +299,7 @@ class WNSenses(PRACModule):
             
             database = Database(mt.mln)
             for truth, gndLit in db.iterGroundLiteralStrings():
-                database.addGroundAtom(gndLit, truth)
+                database << (gndLit, truth)
                 log.info(gndLit)
             # default sense is the NULL-sense
 #             database.addGroundAtom('is_a(Nullsense, NULL)')
@@ -315,10 +314,10 @@ class WNSenses(PRACModule):
         training_dbs = []
         if hasattr(prac_learning, 'training_dbs') and prac_learning.training_dbs is not None:
             for dbfile in prac_learning.training_dbs:
-                training_dbs.extend(readDBFromFile(self.mln, dbfile, ignoreUnknownPredicates=True))
+                training_dbs.extend(Database(self.mln, dbfile=dbfile, ignoreUnknownPredicates=True))
         else:
             for dbfile in self.prac.getActionCoreTrainingDBs():
-                db = readDBFromFile(self.mln, dbfile, ignoreUnknownPredicates=True)
+                db = Database(self.mln, dbfile=dbfile, ignoreUnknownPredicates=True)
                 training_dbs.append(db)
         mt = WordSensesMT(self, 'word_senses')
         mt.train(training_dbs)
@@ -332,7 +331,7 @@ class WordSensesMT(PRACKnowledgeBase):
     
     def train(self, training_dbs):
         self.mln = self.module.mln.duplicate()
-        full_domains = mergeDomains(*[db.domains for db in training_dbs])
+        full_domains = mergedom(*[db.domains for db in training_dbs])
         logging.getLogger('wnsenses').debug('known concepts: %s' % full_domains['concept'])
         self.mln.domains['concept'] = full_domains['concept']
     
