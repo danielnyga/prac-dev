@@ -1,0 +1,202 @@
+//When the crowd was asked whether it wanted to wait one more term to make the race , it voted no - and there were no dissents .
+1.00  dobj(asked-5, crowd-3)
+1.00  has_pos(asked-5, VB)
+1.00  has_pos(crowd-3, NN)
+1.00  has_sense(asked-5, ask.v.01)
+1.00  has_sense(crowd-3, crowd.n.01)
+1.00  is_a(ask.v.01, ask.v.01)
+1.00  is_a(crowd.n.01, crowd.n.01)
+1.00  predicate(asked-5)
+---
+//Harold indicated the photograph on the wall and asked what church the stone sculpture was in .
+1.00  dobj(asked-9, church-11)
+1.00  has_pos(asked-9, VB)
+1.00  has_pos(church-11, NN)
+1.00  has_sense(asked-9, ask.v.01)
+1.00  has_sense(church-11, church.n.02)
+1.00  is_a(ask.v.01, ask.v.01)
+1.00  is_a(church.n.02, church.n.02)
+1.00  predicate(asked-9)
+---
+//`` We ask the people what they want , and they supply the labor .
+1.00  dobj(ask-3, people-5)
+1.00  has_pos(ask-3, VB)
+1.00  has_pos(people-5, NN)
+1.00  has_sense(ask-3, ask.v.01)
+1.00  has_sense(people-5, people.n.01)
+1.00  is_a(ask.v.01, ask.v.01)
+1.00  is_a(people.n.01, people.n.01)
+1.00  predicate(ask-3)
+---
+//When he was asked a question or addressed in such a way that some response was inescapable , he would answer ; if , as often happened , he had to repeat because he had spoken too softly , he would repeat his words in the same way , without emphasis or impatience , only a_little louder .
+1.00  dobj(asked-4, question-6)
+1.00  has_pos(asked-4, VB)
+1.00  has_pos(question-6, NN)
+1.00  has_sense(asked-4, ask.v.01)
+1.00  has_sense(question-6, question.n.01)
+1.00  is_a(ask.v.01, ask.v.01)
+1.00  is_a(question.n.01, question.n.01)
+1.00  predicate(asked-4)
+---
+//I asked Quasimodo recently how he accomplished this , and he replied that he had painted his model `` a beautiful shade of red and_then had her breathe on the canvas '' , which was his typical tongue-in-cheek way of chiding me for my lack of sensitivity .
+1.00  dobj(asked-2, Quasimodo-3)
+1.00  has_pos(Quasimodo-3, NNP)
+1.00  has_pos(asked-2, VB)
+1.00  has_sense(Quasimodo-3, person.n.01)
+1.00  has_sense(asked-2, ask.v.01)
+1.00  is_a(ask.v.01, ask.v.01)
+1.00  is_a(person.n.01, person.n.01)
+1.00  predicate(asked-2)
+---
+//`` Is this the type of citizen you desire '' ? the Trial should have asked the nations .
+1.00  dobj(asked-16, nations-18)
+1.00  has_pos(asked-16, VB)
+1.00  has_pos(nations-18, NN)
+1.00  has_sense(asked-16, ask.v.01)
+1.00  has_sense(nations-18, state.n.04)
+1.00  is_a(ask.v.01, ask.v.01)
+1.00  is_a(state.n.04, state.n.04)
+1.00  predicate(asked-16)
+---
+//I asked Rawlins .
+1.00  dobj(asked-2, Rawlins-3)
+1.00  has_pos(Rawlins-3, NNP)
+1.00  has_pos(asked-2, VB)
+1.00  has_sense(Rawlins-3, person.n.01)
+1.00  has_sense(asked-2, ask.v.01)
+1.00  is_a(ask.v.01, ask.v.01)
+1.00  is_a(person.n.01, person.n.01)
+1.00  predicate(asked-2)
+---
+//What hope lay_in the nephews , she asked the intensifying light out there , with one married to a barren woman and the other divorced , having sired two girl children , with none to bear_on the Packard name ?
+1.00  dobj(asked-8, light-11)
+1.00  has_pos(asked-8, VB)
+1.00  has_pos(light-11, NN)
+1.00  has_sense(asked-8, ask.v.01)
+1.00  has_sense(light-11, light.n.01)
+1.00  is_a(ask.v.01, ask.v.01)
+1.00  is_a(light.n.01, light.n.01)
+1.00  predicate(asked-8)
+---
+//In answering these questions , we need to ask not merely whether Communist troops have crossed over into territories they did not occupy before , and not merely whether disciplined agents of the Cominform are in control of governments from which they were formerly excluded :
+1.00  dobj(ask-9, merely-11)
+1.00  has_pos(ask-9, VB)
+1.00  has_pos(merely-11, RB)
+1.00  has_sense(ask-9, ask.v.01)
+1.00  has_sense(merely-11, merely.r.01)
+1.00  is_a(ask.v.01, ask.v.01)
+1.00  is_a(merely.r.01, merely.r.01)
+1.00  predicate(ask-9)
+---
+//`` Since we 're having coffee with them this afternoon '' , he said , `` I think I 'll ask the daughter if we can pay her to come in every_day to clean for us '' .
+1.00  dobj(ask-21, daughter-23)
+1.00  has_pos(ask-21, VB)
+1.00  has_pos(daughter-23, NN)
+1.00  has_sense(ask-21, ask.v.01)
+1.00  has_sense(daughter-23, daughter.n.01)
+1.00  is_a(ask.v.01, ask.v.01)
+1.00  is_a(daughter.n.01, daughter.n.01)
+1.00  predicate(ask-21)
+---
+//Signora_Ferraro , bobbing her head encouragingly , asked Sam about Canada , having a special interest .
+1.00  dobj(asked-8, Sam-9)
+1.00  has_pos(Sam-9, NNP)
+1.00  has_pos(asked-8, VB)
+1.00  has_sense(Sam-9, person.n.01)
+1.00  has_sense(asked-8, ask.v.01)
+1.00  is_a(ask.v.01, ask.v.01)
+1.00  is_a(person.n.01, person.n.01)
+1.00  predicate(asked-8)
+---
+//`` How many is that , Jim '' ? asked Willie at one stage of his excavation project .
+1.00  dobj(asked-10, Willie-11)
+1.00  has_pos(Willie-11, NNP)
+1.00  has_pos(asked-10, VB)
+1.00  has_sense(Willie-11, person.n.01)
+1.00  has_sense(asked-10, ask.v.01)
+1.00  is_a(ask.v.01, ask.v.01)
+1.00  is_a(person.n.01, person.n.01)
+1.00  is_a(phase.n.01, phase.n.01)
+1.00  is_a(undertaking.n.01, undertaking.n.01)
+1.00  predicate(asked-10)
+---
+//he asked Leona .
+1.00  dobj(asked-2, Leona-3)
+1.00  has_pos(Leona-3, NNP)
+1.00  has_pos(asked-2, VB)
+1.00  has_sense(Leona-3, person.n.01)
+1.00  has_sense(asked-2, ask.v.01)
+1.00  is_a(ask.v.01, ask.v.01)
+1.00  is_a(person.n.01, person.n.01)
+1.00  predicate(asked-2)
+---
+//For_example , suppose a man wearing a $ 200 watch , driving a 1959 Rolls_Royce , stops to ask a man on the sidewalk , `` What time is it '' ?
+1.00  dobj(ask-19, man-21)
+1.00  has_pos(ask-19, VB)
+1.00  has_pos(man-21, NN)
+1.00  has_sense(ask-19, ask.v.01)
+1.00  has_sense(man-21, man.n.01)
+1.00  is_a(ask.v.01, ask.v.01)
+1.00  is_a(man.n.01, man.n.01)
+1.00  is_a(sidewalk.n.01, sidewalk.n.01)
+1.00  predicate(ask-19)
+---
+//`` Who is Howard , anyway '' ? she asked Bobby_Joe that night .
+1.00  dobj(asked-10, Bobby_Joe-11)
+1.00  has_pos(Bobby_Joe-11, NNP)
+1.00  has_pos(asked-10, VB)
+1.00  has_sense(Bobby_Joe-11, person.n.01)
+1.00  has_sense(asked-10, ask.v.01)
+1.00  is_a(ask.v.01, ask.v.01)
+1.00  is_a(person.n.01, person.n.01)
+1.00  predicate(asked-10)
+---
+//He did n't even ask the cost of this collection .
+1.00  dobj(ask-5, cost-7)
+1.00  has_pos(ask-5, VB)
+1.00  has_pos(cost-7, NN)
+1.00  has_sense(ask-5, ask.v.01)
+1.00  has_sense(cost-7, cost.n.01)
+1.00  is_a(ask.v.01, ask.v.01)
+1.00  is_a(cost.n.01, cost.n.01)
+1.00  predicate(ask-5)
+---
+//I do n't ask you who ' tis you 're being unfaithful to , husband or lover .
+1.00  dobj(ask-4, husband-15)
+1.00  has_pos(ask-4, VB)
+1.00  has_pos(husband-15, NN)
+1.00  has_sense(ask-4, ask.v.01)
+1.00  has_sense(husband-15, husband.n.01)
+1.00  is_a(ask.v.01, ask.v.01)
+1.00  is_a(husband.n.01, husband.n.01)
+1.00  predicate(ask-4)
+---
+//Certainly , she would n't dare ask her father afterward .
+1.00  dobj(ask-7, father-9)
+1.00  has_pos(ask-7, VB)
+1.00  has_pos(father-9, NN)
+1.00  has_sense(ask-7, ask.v.01)
+1.00  has_sense(father-9, father.n.01)
+1.00  is_a(ask.v.01, ask.v.01)
+1.00  is_a(father.n.01, father.n.01)
+1.00  predicate(ask-7)
+---
+//But ask coach Darrell_Royal what position he plays and you 'll get the quick response , `` place_kicker '' .
+1.00  dobj(ask-2, Darrell_Royal-4)
+1.00  has_pos(Darrell_Royal-4, NNP)
+1.00  has_pos(ask-2, VB)
+1.00  has_sense(Darrell_Royal-4, person.n.01)
+1.00  has_sense(ask-2, ask.v.01)
+1.00  is_a(ask.v.01, ask.v.01)
+1.00  is_a(person.n.01, person.n.01)
+1.00  predicate(ask-2)
+---
+//When a witness at court was asked if he had been kicked in the ensuing rumpus , he replied , `` No , it was in the stomach '' .
+1.00  dobj(asked-7, witness-3)
+1.00  has_pos(asked-7, VB)
+1.00  has_pos(witness-3, NN)
+1.00  has_sense(asked-7, ask.v.01)
+1.00  has_sense(witness-3, witness.n.01)
+1.00  is_a(ask.v.01, ask.v.01)
+1.00  is_a(witness.n.01, witness.n.01)
+1.00  predicate(asked-7)

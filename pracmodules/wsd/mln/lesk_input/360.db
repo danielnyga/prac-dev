@@ -1,0 +1,201 @@
+//Let this boil gently for twenty minutes , then strain .
+1.00  dobj(Let-1, boil-3)
+1.00  has_pos(Let-1, VB)
+1.00  has_pos(boil-3, VB)
+1.00  has_sense(Let-1, let.v.01)
+1.00  has_sense(boil-3, boil.v.01)
+1.00  is_a(boil.v.01, boil.v.01)
+1.00  is_a(let.v.01, let.v.01)
+1.00  predicate(Let-1)
+---
+//And many advertisers have been happy with the results of letting a Negro disc_jockey phrase the commercial in his own words , working only from a fact sheet .
+1.00  dobj(letting-11, phrase-15)
+1.00  has_pos(letting-11, VB)
+1.00  has_pos(phrase-15, VB)
+1.00  has_sense(letting-11, let.v.01)
+1.00  has_sense(phrase-15, give_voice.v.01)
+1.00  is_a(give_voice.v.01, give_voice.v.01)
+1.00  is_a(let.v.01, let.v.01)
+1.00  predicate(letting-11)
+---
+//The conductor 's preoccupation with the business of starting and stopping caused occasional raggedness , as with the first orchestra entrance in the Fourth_Piano_Concerto , but when he put his deliberations and obsequies aside and let the music move as designed , it did so with plenty of spring .
+1.00  dobj(let-36, move-39)
+1.00  has_pos(let-36, VB)
+1.00  has_pos(move-39, VB)
+1.00  has_sense(let-36, let.v.01)
+1.00  has_sense(move-39, move.v.03)
+1.00  is_a(let.v.01, let.v.01)
+1.00  is_a(move.v.03, move.v.03)
+1.00  predicate(let-36)
+---
+//To be on the safe side I never let Eileen get_out of my sight day or night .
+1.00  dobj(let-9, get_out-11)
+1.00  has_pos(get_out-11, VB)
+1.00  has_pos(let-9, VB)
+1.00  has_sense(get_out-11, exit.v.01)
+1.00  has_sense(let-9, let.v.01)
+1.00  is_a(exit.v.01, exit.v.01)
+1.00  is_a(let.v.01, let.v.01)
+1.00  predicate(let-9)
+---
+//He may respect too_much the Italian tradition of letting singers hold_on to their notes , but to restrain them in a singers ' opera may be quite difficult .
+1.00  dobj(letting-9, hold_on-11)
+1.00  has_pos(hold_on-11, VB)
+1.00  has_pos(letting-9, VB)
+1.00  has_sense(hold_on-11, grasp.v.01)
+1.00  has_sense(letting-9, let.v.01)
+1.00  is_a(grasp.v.01, grasp.v.01)
+1.00  is_a(let.v.01, let.v.01)
+1.00  is_a(note.n.03, note.n.03)
+1.00  predicate(letting-9)
+---
+//The audience would n't let her leave until it had heard `` Over The Rainbow '' - although the fellow that kept crying for `` Get_Happy '' had_to go_home unhappy , about that item anyway .
+1.00  dobj(let-5, leave-7)
+1.00  has_pos(leave-7, VB)
+1.00  has_pos(let-5, VB)
+1.00  has_sense(leave-7, leave.v.01)
+1.00  has_sense(let-5, let.v.01)
+1.00  is_a(leave.v.01, leave.v.01)
+1.00  is_a(let.v.01, let.v.01)
+1.00  predicate(let-5)
+---
+//He stopped pacing , leaned_against the dank , timbered wall and let his mind drift .
+1.00  dobj(let-12, drift-15)
+1.00  has_pos(drift-15, VB)
+1.00  has_pos(let-12, VB)
+1.00  has_sense(drift-15, stray.v.02)
+1.00  has_sense(let-12, let.v.01)
+1.00  is_a(let.v.01, let.v.01)
+1.00  is_a(stray.v.02, stray.v.02)
+1.00  predicate(let-12)
+---
+//He removed his hat to let the trapped sweat cut rivulets through the dust film upon his gaunt face .
+1.00  dobj(let-6, sweat-9)
+1.00  has_pos(let-6, VB)
+1.00  has_pos(sweat-9, NN)
+1.00  has_sense(let-6, let.v.01)
+1.00  has_sense(sweat-9, perspiration.n.01)
+1.00  is_a(let.v.01, let.v.01)
+1.00  is_a(perspiration.n.01, perspiration.n.01)
+1.00  predicate(let-6)
+---
+//Actually , the officers on_the_ground had no intention of letting the hijackers get_away with any kind_of an airplane ; they had orders to_that_effect straight from President_Kennedy , who thought at_first , as did most others , that it was four followers of Cuba 's Fidel_Castro who had taken_over the 707 .
+1.00  dobj(letting-10, get_away-13)
+1.00  has_pos(get_away-13, VB)
+1.00  has_pos(letting-10, VB)
+1.00  has_sense(get_away-13, escape.v.01)
+1.00  has_sense(letting-10, let.v.01)
+1.00  is_a(escape.v.01, escape.v.01)
+1.00  is_a(let.v.01, let.v.01)
+1.00  predicate(letting-10)
+---
+//It is possible , although highly doubtful , that he killed none at_all but merely let his reputation work for him by privately claiming every unsolved murder in the state .
+1.00  dobj(let-16, work-19)
+1.00  has_pos(let-16, VB)
+1.00  has_pos(work-19, VB)
+1.00  has_sense(let-16, let.v.01)
+1.00  has_sense(work-19, work.v.03)
+1.00  is_a(let.v.01, let.v.01)
+1.00  is_a(work.v.03, work.v.03)
+1.00  predicate(let-16)
+---
+//Jess stared at him without answering and let his hands fall to his sides .
+1.00  dobj(let-8, hands-10)
+1.00  has_pos(hands-10, NN)
+1.00  has_pos(let-8, VB)
+1.00  has_sense(hands-10, hand.n.01)
+1.00  has_sense(let-8, let.v.01)
+1.00  is_a(hand.n.01, hand.n.01)
+1.00  is_a(let.v.01, let.v.01)
+1.00  is_a(side.n.03, side.n.03)
+1.00  predicate(let-8)
+---
+//Perhaps a packing trip into the Sierras , let his beard grow - but that was too stark .
+1.00  dobj(let-9, grow-12)
+1.00  has_pos(grow-12, VB)
+1.00  has_pos(let-9, VB)
+1.00  has_sense(grow-12, grow.v.08)
+1.00  has_sense(let-9, let.v.01)
+1.00  is_a(grow.v.08, grow.v.08)
+1.00  is_a(let.v.01, let.v.01)
+1.00  predicate(let-9)
+---
+//Buzz was a tireless instigator who never let his victims rest .
+1.00  dobj(let-8, rest-11)
+1.00  has_pos(let-8, VB)
+1.00  has_pos(rest-11, VB)
+1.00  has_sense(let-8, let.v.01)
+1.00  has_sense(rest-11, rest.v.02)
+1.00  is_a(let.v.01, let.v.01)
+1.00  is_a(rest.v.02, rest.v.02)
+1.00  predicate(let-8)
+---
+//But because of the peculiar nature of the military situation in Laos , the Soviet leader must be tempted to let things ride - a course that would appear to cost him little on_the_spot , but would bog Washington in a tactical mess .
+1.00  dobj(let-21, ride-23)
+1.00  has_pos(let-21, VB)
+1.00  has_pos(ride-23, VB)
+1.00  has_sense(let-21, let.v.01)
+1.00  has_sense(ride-23, ride.v.03)
+1.00  is_a(let.v.01, let.v.01)
+1.00  is_a(ride.v.03, ride.v.03)
+1.00  predicate(let-21)
+---
+//Instead of admonishing him to let the weights alone they personally took him to that master Montreal bodybuilding authority , Professor_Roland_Claude .
+1.00  dobj(let-6, weights-8)
+1.00  has_pos(let-6, VB)
+1.00  has_pos(weights-8, NN)
+1.00  has_sense(let-6, let.v.01)
+1.00  has_sense(weights-8, weight.n.02)
+1.00  is_a(let.v.01, let.v.01)
+1.00  is_a(weight.n.02, weight.n.02)
+1.00  predicate(let-6)
+---
+//Suppose her father had changed his mind and had refused to let her leave ?
+1.00  dobj(let-12, leave-14)
+1.00  has_pos(leave-14, VB)
+1.00  has_pos(let-12, VB)
+1.00  has_sense(leave-14, leave.v.01)
+1.00  has_sense(let-12, let.v.01)
+1.00  is_a(leave.v.01, leave.v.01)
+1.00  is_a(let.v.01, let.v.01)
+1.00  predicate(let-12)
+---
+//Let Mullins keep the firm seat ; let Stein .
+1.00  dobj(let-8, Stein-9)
+1.00  has_pos(Stein-9, NNP)
+1.00  has_pos(let-8, VB)
+1.00  has_sense(Stein-9, person.n.01)
+1.00  has_sense(let-8, let.v.01)
+1.00  is_a(let.v.01, let.v.01)
+1.00  is_a(person.n.01, person.n.01)
+1.00  predicate(let-8)
+---
+//He did not let her talk to people ; he did not let her choose her own food .
+1.00  dobj(let-4, talk-6)
+1.00  has_pos(let-4, VB)
+1.00  has_pos(talk-6, VB)
+1.00  has_sense(let-4, let.v.01)
+1.00  has_sense(talk-6, talk.v.01)
+1.00  is_a(let.v.01, let.v.01)
+1.00  is_a(talk.v.01, talk.v.01)
+1.00  predicate(let-4)
+---
+//Let evildoers contemplate their ways , and let every man beware '' !
+1.00  dobj(let-8, beware-11)
+1.00  has_pos(beware-11, VB)
+1.00  has_pos(let-8, VB)
+1.00  has_sense(beware-11, beware.v.01)
+1.00  has_sense(let-8, let.v.01)
+1.00  is_a(beware.v.01, beware.v.01)
+1.00  is_a(let.v.01, let.v.01)
+1.00  predicate(let-8)
+---
+//Like the Gershwins , Richard_Rodgers and Lorenz_Hart were loath to let a good song get_away from them .
+1.00  dobj(let-11, get_away-15)
+1.00  has_pos(get_away-15, VB)
+1.00  has_pos(let-11, VB)
+1.00  has_sense(get_away-15, escape.v.01)
+1.00  has_sense(let-11, let.v.01)
+1.00  is_a(escape.v.01, escape.v.01)
+1.00  is_a(let.v.01, let.v.01)
+1.00  predicate(let-11)
