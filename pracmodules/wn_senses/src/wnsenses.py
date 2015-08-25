@@ -91,6 +91,8 @@ class WNSenses(PRACModule):
             pos = posMap.get(res['?pos'], None)
             if pos is None: # if no possible sense can be determined by WordNet, assert null
                 db_ << ('has_sense(%s,null)' % word_const)
+                for c in concepts:
+                    db_ << ('is_a(null,%s)' % c, 0)
                 continue
             word = '-'.join(word_const.split('-')[:-1])# extract everything except the number (e.g. compound words like heart-shaped from heart-shaped-4)
             for i, synset in enumerate(wordnet.synsets(word, pos)):
