@@ -21,21 +21,12 @@
 # CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-from prac.core import PRACModule, PRACPIPE, PRACKnowledgeBase, PRAC
-import logging
-from mln import readMLNFromFile, readDBFromFile#, MLNParsingError
-from mln.methods import LearningMethods
-import sys
-from wcsp.converter import WCSPConverter
-from mln.database import Database
-import os
-from prac.inference import PRACInferenceStep, PRACInference
-from mln.util import mergeDomains
-from utils import colorize
-from pracutils import printListAndTick
-from prac.wordnet import WordNet
-import yaml
+from prac.core.base import PRACModule, PRACPIPE
+from prac.core.inference import PRACInferenceStep
+from prac.core.wordnet import WordNet
+from pracmln import Database
+from pracmln.mln.util import colorize
+from pracmln.praclog import logger
 
 
 class AchievedBy(PRACModule):
@@ -62,16 +53,16 @@ class AchievedBy(PRACModule):
         for ac1 in acDomain:
             for ac2 in acDomain:
                 if ac1 == actioncore: continue
-                db_.addGroundAtom("achieved_by({},{})".format(ac1,ac2),0)
+                db_ << ("achieved_by({},{})".format(ac1,ac2),0)
         
         for atom, truth in sorted(db.evidence.iteritems()):
-            db_.addGroundAtom(atom,truth)
+            db_ << (atom,truth)
         
         return db_
     
     @PRACPIPE
     def __call__(self, pracinference, **params):
-        log = logging.getLogger(self.name)
+        log = logger(self.name)
         print colorize('+==========================================+', (None, 'green', True), True)
         print colorize('| PRAC INFERENCE: RECOGNIZING ACHIEVED BY  ' , (None, 'green', True), True)
         print colorize('+==========================================+', (None, 'green', True), True)
@@ -99,7 +90,7 @@ class AchievedBy(PRACModule):
                 #Need to remove possible achieved_by predicates from previous achieved_by inferences
                 for atom, truth in sorted(db.evidence.iteritems()):
                     if 'achieved_by' in atom: continue
-                    db_.addGroundAtom(atom,truth)
+                    db_ << (atom,truth)
                     
                 wordnet = WordNet(concepts=None)
                 actionword = q['?w']
@@ -117,7 +108,7 @@ class AchievedBy(PRACModule):
                 for q in db_.query("has_sense(?w,?s)"):
                     for concept in concepts:
                         sim = wordnet.wup_similarity(q["?s"], concept)
-                        db_.addGroundAtom('is_a(%s,%s)' % (q["?s"], concept),sim)
+                        db_ << ('is_a(%s,%s)' % (q["?s"], concept),sim)
                 
                 #Inference achieved_by predicate        
                 #self.kbs.append(useKB)  
@@ -131,7 +122,7 @@ class AchievedBy(PRACModule):
                     for atom, truth in sorted(r_db.evidence.iteritems()):
                         _, predname, args = db.mln.logic.parseLiteral(atom)
                         if predname == 'achieved_by'  and truth == 0: continue
-                        r_db_.addGroundAtom(atom,truth)
+                        r_db_ << (atom,truth)
                     result_db_.append(r_db_)
                 
                 result_db = result_db_
@@ -144,7 +135,7 @@ class AchievedBy(PRACModule):
                         
                         for atom, truth in sorted(r_db.evidence.iteritems()):
                             if 'is_a' in atom: continue
-                            r_db_.addGroundAtom(atom,truth)
+                            r_db_ << (atom,truth)
                         
                         inf_step.output_dbs.append(r_db_)
                         print actionword + " achieved by: " + achievedByAc
