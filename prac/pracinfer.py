@@ -99,11 +99,9 @@ if __name__ == '__main__':
                         print colorize('  SENSE:', (None, 'white', True), True), sense
                         wordnet_module.printWordSenses(wordnet_module.get_possible_meanings_of_word(db, word), sense)
                         print
-    #                     else:
-    #                         print '%.3f    %s' % (v, a)
                 else:
                     print '%.3f    %s' % (v, a)
-        RolequeryHandler.queryRolesBasedOnActioncore(db).printEvidence()
+        RolequeryHandler.queryRolesBasedOnActioncore(db).write(color=True)
  
     if hasattr(step, 'executable_plans'):
         print 
@@ -113,8 +111,7 @@ if __name__ == '__main__':
         print
         for plan in step.executable_plans:
             print plan
-#         print '---'
-    
+
         
     
     
