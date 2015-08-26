@@ -21,19 +21,19 @@
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-import logging
 import sys
 import os
 from prac.core.base import PRACModule, PRACPIPE
 from prac.core.inference import PRACInferenceStep
 from prac.core.wordnet import WordNet
-from prac.pracutils import RolequeryHandler
 from prac.pracutils.ActioncoreDescriptionHandler import \
     ActioncoreDescriptionHandler
+from prac.pracutils.RolequeryHandler import RolequeryHandler
 from prac.pracutils.pracgraphviz import render_gv
 from prac.sense_distribution import add_all_wordnet_similarities, \
     get_prob_color
 from pracmln.mln.util import colorize
+from pracmln.praclog import logger
 
 
 class SensesAndRoles(PRACModule):
@@ -48,29 +48,13 @@ class SensesAndRoles(PRACModule):
         pass
     
     def roleQueryBuilder(self, actioncore,predicate, domainList):
-        query = predicate+'('
-        
-        if domainList[0].lower() == 'actioncore':
-            query += actioncore
-        else:
-            query += "?"+domainList[0]
-            
-        if len(domainList) == 1:
-            query += ")"
-        else:
-            i = 1
-            for d in domainList[1:]:
-                query += ","
-                if d.lower() == 'actioncore':
-                    query += actioncore
-                else:
-                    query += "?"+str(i)+d
-            query += ")"
-        return query
-            
+        # assuming that the role predicates are always of the form
+        # predname(?x, actioncore)
+        return '{}(?{},{})'.format(predicate,domainList[0],actioncore)
+
     @PRACPIPE
     def __call__(self, pracinference, **params):
-        log = logging.getLogger(self.name)
+        log = logger(self.name)
         
         print colorize('+==========================================+', (None, 'green', True), True)
         print colorize('| PRAC INFERENCE: RECOGNIZING %s ROLES  ' % ({True: 'MISSING', False: 'GIVEN'}[params.get('missing', False)]), (None, 'green', True), True)
@@ -85,14 +69,13 @@ class SensesAndRoles(PRACModule):
             dbs = kb.dbs
         self.kbs = []
         inf_step = PRACInferenceStep(pracinference, self)
-        for db in dbs:
-            db_ = db.duplicate()
-#             db_.write(sys.stdout, color=True)
-            for q in db.query('action_core(?w,?ac)'):
+        for db_ in dbs:
+            db_copy = db_.copy()
+            for q in db_copy.query('action_core(?w,?ac)'):
                 actioncore = q['?ac']
                 if actioncore == 'null': continue
                 if kb is None:
-                    print 'Loading Markov Logic Network: %s' % colorize(actioncore, (None, 'white', True), True)
+                    log.info('Loading Markov Logic Network: %s' % colorize(actioncore, (None, 'white', True), True))
                     useKB = self.load_pracmt(actioncore)
                 else:
                     useKB = kb
@@ -103,54 +86,53 @@ class SensesAndRoles(PRACModule):
                     roles = useKB.query_mln.domains.get('role', [])
                     log.info('roles: %s' % roles)
                     specified_roles = []
-                    for q in db.query('action_role(?w, ?r)'):
+                    for q in db_copy.query('action_role(?w, ?r)'):
                         specified_roles.append(q['?r'])
                     unknown_roles = set(roles).difference(set(specified_roles))
                     log.info('unknown roles: %s' % unknown_roles)
                     if len(unknown_roles) > 0:
-                        print colorize('DETECTED MISSING ACTION ROLES:', (None, 'red', True), True)
+                        log.info(colorize('DETECTED MISSING ACTION ROLES:', (None, 'red', True), True))
                     for i, role in enumerate(unknown_roles):
                         if role == 'null': continue
-                        print colorize('  %s' % role, (None, 'red', True), True)
+                        log.info(colorize('  %s' % role, (None, 'red', True), True))
                         log.info('adding %s' % ('action_role(Skolem-%s, %s)' % (role, role)))
-                        db_.addGroundAtom('action_role(Skolem-%s, %s)' % (role, role))
+                        db_copy << ('action_role(Skolem-%s, %s)' % (role, role))
                 else:
-                    print 
-                    print 'Inferring given roles...'
-                print 
+                    log.info('Inferring given roles...')
                 concepts = useKB.query_mln.domains['concept']#mergeDomains(, self.merge_all_domains(pracinference))['concept']
+
+                # adding senses and similarities. might be obsolete as it has
+                # already been performed in ac recognition
                 log.info('adding senses. concepts=%s' % concepts)
                 wordnet_module = self.prac.getModuleByName('wn_senses')
-                db_senses = wordnet_module.get_senses_and_similarities(db_, concepts)
-                for atom, truth in sorted(db_senses.evidence.iteritems()):
-                    if 'is_a' in atom or 'has_sense' in atom:
-                        db_.addGroundAtom(atom,truth)  
-                #db_.printEvidence()
-                result_db_temp = list(useKB.infer(db_))
-                result_db = []
-                for r_db in result_db_temp:
-                    if 'missing' not in params:
-                        for q in r_db.query('has_sense(?w, ?s)', truthThreshold=1):
-                            #TODO Add additional formulas to avoid the using of null values
-                            if q['?s'] == 'null': continue
-                            print colorize('  WORD:', (None, 'white', True), True), q['?w'], 
-                            print colorize('  SENSE:', (None, 'white', True), True), q['?s']
-                            wordnet_module.printWordSenses(wordnet_module.get_possible_meanings_of_word(r_db, q['?w']), q['?s'])
-                            print
-                        
-                        RolequeryHandler.queryRoles(actioncore,r_db).printEvidence()
-                        
-                        for atom, truth in sorted(db.evidence.iteritems()):
-                            if 'is_a' in atom : continue
-                            r_db.addGroundAtom(atom,truth)
-                        result_db.append(r_db)
+                db = wordnet_module.get_senses_and_similarities(db_copy, concepts)
+
+                # we need senes and similarities as well as original evidence
+                tmp_union_db = db.union(useKB.query_mln, db_copy)
+                result_db = list(useKB.infer(tmp_union_db))[0]
+
+                # result_db only contains inference result of this module,
+                # therefore we unify it with result of previous inference step
+                unified_db = db_copy.union(useKB.query_mln, result_db)
+
+                if 'missing' not in params:
+                    for q in unified_db.query('has_sense(?w, ?s)', thr=1):
+                        #TODO Add additional formulas to avoid the using of null values
+                        if q['?s'] == 'null': continue
+                        print colorize('  WORD:', (None, 'white', True), True), q['?w']
+                        print colorize('  SENSE:', (None, 'white', True), True), q['?s']
+                        wordnet_module.printWordSenses(wordnet_module.get_possible_meanings_of_word(unified_db, q['?w']), q['?s'])
+                        print
+
+                    RolequeryHandler.queryRoles(actioncore,unified_db).write()
+
                 for ur in unknown_roles:
                     print '%s:' % colorize(ur, (None, 'red', True), True)
-                    for q in r_db.query('action_role(?w, %s) ^ has_sense(?w, ?s)' % ur, truthThreshold=1):
+                    for q in unified_db.query('action_role(?w, %s) ^ has_sense(?w, ?s)' % ur, thr=1):
                         self.prac.getModuleByName('wn_senses').printWordSenses(concepts, q['?s'])
                     print
-                
-                inf_step.output_dbs.extend(result_db)
+
+                inf_step.output_dbs.append(unified_db)
                 kb = useKB
 
         if kb is not None:
@@ -171,7 +153,7 @@ class SensesAndRoles(PRACModule):
                     kb = self.load_pracmt(actioncore)
                     mln = kb.query_mln
 #                     mln.write(sys.stdout)
-                    db = db_.duplicate(mln=mln)
+                    db = db_.copy(mln=mln)
                     for qs in db.query('!(EXIST ?w (has_sense(?w,?s)))'):
                         print 'removing', qs
                         db.removeDomainValue('sense', qs['?s']) 
