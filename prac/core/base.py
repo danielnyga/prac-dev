@@ -332,7 +332,7 @@ class PRACKnowledgeBase(object):
         '''
         self.dbs = dbs
         for db  in dbs:
-            yield MLNQuery(db=db, mln=self.query_mln, **self.query_params).run()
+            yield MLNQuery(db=db, mln=self.query_mln, **self.query_params).run().resultdb
 
     
     def __getstate__(self): # do not store
@@ -517,7 +517,7 @@ if __name__ == '__main__':
         for lit in db.iterGroundLiteralStrings():
             log.debug(lit)
 #     mod = PRACModule.fromDefinition(open('/home/nyga/code/prac/pracmodules/nl_parsing/pracmodule.yaml', 'r'))
-#     print mod.name
+    #     print mod.name
 #     print mod.description
 #     mod.default_mln.write(sys.stdout)
     
