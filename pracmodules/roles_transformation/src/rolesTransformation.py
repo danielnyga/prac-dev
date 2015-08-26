@@ -20,21 +20,14 @@
 # CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-from prac.core import PRACModule, PRACPIPE, PRACKnowledgeBase, PRAC
-import logging
-from mln import readMLNFromFile, readDBFromFile#, MLNParsingError
-from mln.methods import LearningMethods
-import sys
-from wcsp.converter import WCSPConverter
-from mln.database import Database
 import os
-from prac.inference import PRACInferenceStep, PRACInference
-from mln.util import mergeDomains
-from utils import colorize
-from pracutils import printListAndTick
-from prac.wordnet import WordNet
 import yaml
+
+from prac.core.base import PRACModule, PRACPIPE
+from prac.core.inference import PRACInferenceStep
+from pracmln import Database
+from pracmln.mln.util import colorize
+from pracmln.praclog import logger
 
 PRAC_HOME = os.environ['PRAC_HOME']
 achievedByModulePath = os.path.join(PRAC_HOME, 'pracmodules', 'roles_transformation')
@@ -61,7 +54,7 @@ class RolesTransformation(PRACModule):
     
     @PRACPIPE
     def __call__(self, pracinference, **params):
-        log = logging.getLogger(self.name)
+        log = logger(self.name)
         print colorize('+==========================================+', (None, 'green', True), True)
         print colorize('| PRAC INFERENCE: Update roles based on achieved_by' , (None, 'green', True), True)
         print colorize('+==========================================+', (None, 'green', True), True)
@@ -100,8 +93,8 @@ class RolesTransformation(PRACModule):
                             
                         for atom, truth in sorted(r_db.evidence.iteritems()):
                             if 'action_core' in atom: continue
-                            r_db_.addGroundAtom(atom,truth)
-                        r_db_.addGroundAtom("action_core("+actionverb+","+actioncore+")")
+                            r_db_ << (atom,truth)
+                        r_db_ << ("action_core("+actionverb+","+actioncore+")")
                         inf_step.output_dbs.append(r_db_)
                 else:
                     self.isLastActionCoreAPlan = True

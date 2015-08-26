@@ -21,11 +21,11 @@
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-import re
-import yaml
 import os
-from prac.pracutils import ActioncoreDescriptionHandler
+from prac.pracutils.ActioncoreDescriptionHandler import \
+    ActioncoreDescriptionHandler
 from pracmln import Database
+from pracmln.praclog import logger
 
 
 class RolequeryHandler(object):
@@ -48,40 +48,23 @@ class RolequeryHandler(object):
         #It will be assumed that there is only one true action_core predicate per database 
         for q in db.query("action_core(?w,?ac)"):
             actioncore = q["?ac"]
-        
+
         return RolequeryHandler.queryRoles(actioncore,db)
     
     @staticmethod
     def queryRoles(actioncore,db):
         db_ = Database(db.mln)
         rolePredicates = ActioncoreDescriptionHandler.getRolesBasedOnActioncore(actioncore)
-        
         for p in rolePredicates:
-            query = RolequeryHandler.roleQueryBuilder(actioncore,p, db.mln.predicates[p])
-            for q in db.query(query, truthThreshold=1):
+            query = RolequeryHandler.roleQueryBuilder(actioncore, p, db.mln.predicate(p).argdoms)
+            for q in db.query(query, thr=1):
                 for var, val in q.iteritems():
                     q_ = query.replace(var,val)
-                    db_.addGroundAtom(q_)
+                    db_ << q_
         return db_
 
     @staticmethod
     def roleQueryBuilder(actioncore,predicate, domainList):
-        query = predicate+'('
-        
-        if domainList[0].lower() == 'actioncore':
-            query += actioncore
-        else:
-            query += "?"+domainList[0]
-            
-        if len(domainList) == 1:
-            query += ")"
-        else:
-            i = 1
-            for d in domainList[1:]:
-                query += ","
-                if d.lower() == 'actioncore':
-                    query += actioncore
-                else:
-                    query += "?"+str(i)+d
-            query += ")"
-        return query
+        # assuming that the role predicates are always of the form
+        # predname(?x, actioncore)
+        return '{}(?{},{})'.format(predicate,domainList[0],actioncore)
