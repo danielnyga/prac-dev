@@ -20,38 +20,28 @@
 # CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+import sys
 
 from prac.core.base import PRACModule, PRACKnowledgeBase, PRACPIPE
-import os
-import logging
 from pracmln.mln.methods import LearningMethods
 from prac.core.wordnet import WordNet
 from prac.core.inference import PRACInferenceStep
-import StringIO
-import sys
 
 # mapping from PennTreebank POS tags to NLTK POS Tags
 from pracmln import Database
 from pracmln.mln.util import colorize
+from pracmln.praclog import logger
 
-nounTags = ['NN', 'NNS', 'NNP']
-verbTags = ['VB', 'VBG', 'VBZ', 'VBD', 'VBN', 'VBP', 'MD']
-posMap = {}
-for n in nounTags:
-    posMap[n] = 'n'
-for v in verbTags:
-    posMap[v] = 'v'
-    
+
 class ActionCoreIdentification(PRACModule):
     
 
     def initialize(self):
         pass
-#         self.mln = readMLNFromFile(os.path.join(self.module_path, 'mln', 'action_cores.mln'), logic='FuzzyLogic', grammar='PRACGrammar')
-    
+
     @PRACPIPE
     def __call__(self, pracinference, **params):
-        log = logging.getLogger(self.name)
+        log = logger(self.name)
         log.debug('inference on %s' % self.name)
         
         print colorize('+==========================================+', (None, 'green', True), True)
@@ -72,27 +62,31 @@ class ActionCoreIdentification(PRACModule):
         known_concepts = mln.domains.get('concept', [])
         inf_step = PRACInferenceStep(pracinference, self)
         wordnet_module = self.prac.getModuleByName('wn_senses')
-        for db in kb.dbs:
-            db = wordnet_module.get_senses_and_similarities(db, known_concepts)
-#             db.write(sys.stdout, color=True)
+        for db_ in kb.dbs:
+            db = wordnet_module.get_senses_and_similarities(db_, known_concepts)
+            # db.write(sys.stdout, color=True)
 #             print '---'
-            result_db = list(kb.infer(db))
-            result_db_ = []
-            
-            print
-            for r_db in result_db:
-                r_db = r_db.resultdb
-                for q in r_db.query('action_core(?w,?ac)'):
-                    if q['?ac'] == 'null': continue
-                    print 'Identified Action Core(s):', colorize(q['?ac'], (None, 'white', True), True)
-                    #Remove AC which have the probability zero
-                    r_db_ = Database(mln)
-                    for atom, truth in sorted(r_db.evidence.iteritems()):
-                        if 'action_core' in atom and truth == 0: continue
-                        r_db_.addGroundAtom(atom,truth)
-                    result_db_.append(r_db_)
-                print
-            inf_step.output_dbs.extend(result_db_)
+            result_db = list(kb.infer(db))[0]
+
+            # Remove AC which have the probability zero
+            r_db_ = Database(mln)
+            for atom, truth in sorted(result_db.evidence.iteritems()):
+                if 'action_core' in atom and truth == 0: continue
+                r_db_ << (atom,truth)
+
+            unified_db = db.union(mln, result_db)
+            # unified_db = db.union(mln, r_db) # if necessary to have 0-probability cores removed
+
+            log.info('Unified DB:')
+            unified_db.write(color=True)
+
+
+            for q in unified_db.query('action_core(?w, ?ac)'):
+                ac = q['?ac']
+                if ac == 'null': continue
+                log.info('Identified Action Core(s): {}'.format(colorize(ac, (None, 'white', True), True)))
+
+            inf_step.output_dbs.append(unified_db)
 
         png, ratio = kb.get_cond_prob_png(filename=self.name)
         inf_step.png = (png, ratio)
@@ -101,7 +95,7 @@ class ActionCoreIdentification(PRACModule):
     
     
     def train(self, praclearning):
-        log = logging.getLogger('prac')
+        log = logger('prac')
         prac = praclearning.prac
         # get all the relevant training databases
         db_files = prac.getActionCoreTrainingDBs()
@@ -132,9 +126,10 @@ class ActionCoreIdentification(PRACModule):
                     known_synset = wordnet.synset(known_concept)
                     if known_synset is None or synset is None: sim = 0
                     else: sim = wordnet.wup_similarity(synset, known_synset)
-                    new_db.addGroundAtom('is_a(%s,%s)' % (sense, known_concept), sim)
+                    new_db << ('is_a(%s,%s)' % (sense, known_concept), sim)
             training_dbs.append(new_db)
-        log.info('Starting training with %d databases' % len(training_dbs))
+
+        log.info('Starting training with %d databases'.format(len(training_dbs)))
         actioncore_KB = ActionCoreKB(self, 'action_cores')
         actioncore_KB.wordnet = wordnet
         actioncore_KB.train(training_dbs)
