@@ -2,6 +2,7 @@ import os
 import re
 import sys
 from nltk.corpus import wordnet as wn
+from prac.wordnet import WordNet
 
 from mln import readMLNFromFile
 from mln.database import Database,readDBFromFile
@@ -15,6 +16,7 @@ import xml.etree.cElementTree as ET
 wnl = WordNetLemmatizer()
 MLN = None
 
+wordnet = WordNet(None)
 
 nounTags = ['NN', 'NNS', 'CD']
 verbTags = ['VB', 'VBG', 'VBZ', 'VBD', 'VBN', 'VBP', 'MD']
@@ -27,8 +29,34 @@ for v in verbTags:
 for a in adjTags:
     posMap[a] = 'a'
     
+def get_offset(sense):
+    syn = wordnet.synset(sense)
+    offset = str(syn.offset())
+    
+    if len(offset) < 8:
+        for x in range(0,8-len(offset)):
+            offset = "0"+offset
+    
+    return offset
 
+def get_wordnet_index_sense():
+    index_file = open("index.sense",'r')
+    sense_list = index_file.read().split('\n')
+    pos_regex = re.compile('(.+)\s+(\d+)')
+    
+    wordnet_index_sense = {}
+    for line in sense_list:
+        res = pos_regex.search(line)
+        if res:
+            splited_res = re.split("\s+",res.group())
+            sense_id = splited_res[0]
+            offset = splited_res[1]
+            wordnet_index_sense[offset] = sense_id
+    
+    return wordnet_index_sense
+            
 def create_ukb_data_set(file_list):
+    wordnet_index_sense = get_wordnet_index_sense()
     
     for file_path in file_list:
         key_file = open(os.path.join("ims_result",os.path.basename(file_path)+'.key'),"w")
@@ -53,12 +81,12 @@ def create_ukb_data_set(file_list):
                 predicate = wnl.lemmatize('-'.join(q1['?w'].split('-')[:-1]), 'v')
                 
                 for q2 in db.query('has_sense({},?s)'.format(q1['?w'])):
-                    predicate_sense = q2['?s']
+                    predicate_sense = wordnet_index_sense[get_offset(q2['?s'])]
             
             for q1 in db.query('dobj(?w1,?w2)'):
                 
                 for q2 in db.query('has_sense({},?s)'.format(q1['?w2'])):
-                        dobj_sense = q2['?s']
+                        dobj_sense = wordnet_index_sense[get_offset(q2['?s'])]
                         
                 for q2 in db.query('has_pos({},?p)'.format(q1['?w2'])):
                     pos = posMap.get(q2['?p'], None)
@@ -90,6 +118,7 @@ def create_ukb_data_set(file_list):
                 dobj_lemma_list[dobj_lemma] = [[sentence,dobj_sense]]
             else:
                 dobj_lemma_list[dobj_lemma].append([sentence,dobj_sense])
+        
                 
         #Create xml and key file
         for x in range(0,len(predicate_lemma_list.keys())):
