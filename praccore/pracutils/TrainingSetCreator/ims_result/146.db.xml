@@ -1,0 +1,85 @@
+<corpus lang="english"><lexelt item="expect.v" pos="unk"><instance docscr="SEMCORE" id="expect.v.0"><context><head>expect</head> the addition.
+</context></instance><instance docscr="SEMCORE" id="expect.v.1"><context><head>expect</head> the resignation.
+</context></instance><instance docscr="SEMCORE" id="expect.v.2"><context><head>expect</head>Caldwell.
+</context></instance><instance docscr="SEMCORE" id="expect.v.3"><context><head>expect</head> the Senate.
+</context></instance><instance docscr="SEMCORE" id="expect.v.4"><context><head>expect</head> the submarine.
+</context></instance><instance docscr="SEMCORE" id="expect.v.5"><context><head>expect</head> the sort.
+</context></instance><instance docscr="SEMCORE" id="expect.v.6"><context><head>expect</head> the worker.
+</context></instance><instance docscr="SEMCORE" id="expect.v.7"><context><head>expect</head> the family.
+</context></instance><instance docscr="SEMCORE" id="expect.v.8"><context><head>expect</head> the farm.
+</context></instance><instance docscr="SEMCORE" id="expect.v.9"><context><head>expect</head> the worst.
+</context></instance><instance docscr="SEMCORE" id="expect.v.10"><context><head>expect</head> the trooper.
+</context></instance><instance docscr="SEMCORE" id="expect.v.11"><context><head>expect</head> the Grandma.
+</context></instance><instance docscr="SEMCORE" id="expect.v.12"><context><head>expect</head> the sorrow.
+</context></instance><instance docscr="SEMCORE" id="expect.v.13"><context><head>expect</head> the information.
+</context></instance><instance docscr="SEMCORE" id="expect.v.14"><context><head>expect</head> the pendulum.
+</context></instance><instance docscr="SEMCORE" id="expect.v.15"><context><head>expect</head> the price.
+</context></instance><instance docscr="SEMCORE" id="expect.v.16"><context><head>expect</head> the industry.
+</context></instance><instance docscr="SEMCORE" id="expect.v.17"><context><head>expect</head> the catastrophe.
+</context></instance><instance docscr="SEMCORE" id="expect.v.18"><context><head>expect</head> the spread.
+</context></instance><instance docscr="SEMCORE" id="expect.v.19"><context><head>expect</head> the event.
+</context></instance><instance docscr="SEMCORE" id="expect.v.20"><context><head>expect</head> the selection.
+</context></instance><instance docscr="SEMCORE" id="expect.v.21"><context><head>expect</head>Eagles.
+</context></instance><instance docscr="SEMCORE" id="expect.v.22"><context><head>expect</head> the crowd.
+</context></instance><instance docscr="SEMCORE" id="expect.v.23"><context><head>expect</head> the radiation.
+</context></instance><instance docscr="SEMCORE" id="expect.v.24"><context><head>expect</head> the solar_radiation.
+</context></instance><instance docscr="SEMCORE" id="expect.v.25"><context><head>expect</head>jockey.
+</context></instance><instance docscr="SEMCORE" id="expect.v.26"><context><head>expect</head> the cocktail_party.
+</context></instance><instance docscr="SEMCORE" id="expect.v.27"><context><head>expect</head> the sewage_system.
+</context></instance><instance docscr="SEMCORE" id="expect.v.28"><context><head>expect</head> the velocity.
+</context></instance><instance docscr="SEMCORE" id="expect.v.29"><context><head>expect</head> the nothing.
+</context></instance><instance docscr="SEMCORE" id="expect.v.30"><context><head>expect</head> the continuation.
+</context></instance><instance docscr="SEMCORE" id="expect.v.31"><context><head>expect</head> the nicety.
+</context></instance><instance docscr="SEMCORE" id="expect.v.32"><context><head>expect</head> the body.
+</context></instance><instance docscr="SEMCORE" id="expect.v.33"><context><head>expect</head> the hand.
+</context></instance><instance docscr="SEMCORE" id="expect.v.34"><context><head>expect</head> the independence.
+</context></instance><instance docscr="SEMCORE" id="expect.v.35"><context><head>expect</head>latter.
+</context></instance><instance docscr="SEMCORE" id="expect.v.36"><context><head>expect</head> the committee.
+</context></instance><instance docscr="SEMCORE" id="expect.v.37"><context><head>expect</head> the association.
+</context></instance><instance docscr="SEMCORE" id="expect.v.38"><context><head>expect</head> the squad.
+</context></instance><instance docscr="SEMCORE" id="expect.v.39"><context><head>expect</head> the john.
+</context></instance><instance docscr="SEMCORE" id="expect.v.40"><context><head>expect</head> the distribution.
+</context></instance><instance docscr="SEMCORE" id="expect.v.41"><context><head>expect</head> the instrument.
+</context></instance></lexelt><lexelt item="continuation.n" pos="unk"><instance docscr="SEMCORE" id="continuation.n.0"><context>expect the <head>continuation</head>.
+</context></instance></lexelt><lexelt item="distribution.n" pos="unk"><instance docscr="SEMCORE" id="distribution.n.0"><context>expect the <head>distribution</head>.
+</context></instance></lexelt><lexelt item="nothing.n" pos="unk"><instance docscr="SEMCORE" id="nothing.n.0"><context>expect the <head>nothing</head>.
+</context></instance></lexelt><lexelt item="nicety.n" pos="unk"><instance docscr="SEMCORE" id="nicety.n.0"><context>expect the <head>nicety</head>.
+</context></instance></lexelt><lexelt item="addition.n" pos="unk"><instance docscr="SEMCORE" id="addition.n.0"><context>expect the <head>addition</head>.
+</context></instance></lexelt><lexelt item="catastrophe.n" pos="unk"><instance docscr="SEMCORE" id="catastrophe.n.0"><context>expect the <head>catastrophe</head>.
+</context></instance></lexelt><lexelt item="association.n" pos="unk"><instance docscr="SEMCORE" id="association.n.0"><context>expect the <head>association</head>.
+</context></instance></lexelt><lexelt item="latter.n" pos="unk"><instance docscr="SEMCORE" id="latter.n.0"><context>expect<head>latter</head>.
+</context></instance></lexelt><lexelt item="solar_radiation.n" pos="unk"><instance docscr="SEMCORE" id="solar_radiation.n.0"><context>expect the <head>solar_radiation</head>.
+</context></instance></lexelt><lexelt item="information.n" pos="unk"><instance docscr="SEMCORE" id="information.n.0"><context>expect the <head>information</head>.
+</context></instance></lexelt><lexelt item="hand.n" pos="unk"><instance docscr="SEMCORE" id="hand.n.0"><context>expect the <head>hand</head>.
+</context></instance></lexelt><lexelt item="trooper.n" pos="unk"><instance docscr="SEMCORE" id="trooper.n.0"><context>expect the <head>trooper</head>.
+</context></instance></lexelt><lexelt item="spread.n" pos="unk"><instance docscr="SEMCORE" id="spread.n.0"><context>expect the <head>spread</head>.
+</context></instance></lexelt><lexelt item="price.n" pos="unk"><instance docscr="SEMCORE" id="price.n.0"><context>expect the <head>price</head>.
+</context></instance></lexelt><lexelt item="cocktail_party.n" pos="unk"><instance docscr="SEMCORE" id="cocktail_party.n.0"><context>expect the <head>cocktail_party</head>.
+</context></instance></lexelt><lexelt item="jockey.n" pos="unk"><instance docscr="SEMCORE" id="jockey.n.0"><context>expect<head>jockey</head>.
+</context></instance></lexelt><lexelt item="radiation.n" pos="unk"><instance docscr="SEMCORE" id="radiation.n.0"><context>expect the <head>radiation</head>.
+</context></instance></lexelt><lexelt item="crowd.n" pos="unk"><instance docscr="SEMCORE" id="crowd.n.0"><context>expect the <head>crowd</head>.
+</context></instance></lexelt><lexelt item="farm.n" pos="unk"><instance docscr="SEMCORE" id="farm.n.0"><context>expect the <head>farm</head>.
+</context></instance></lexelt><lexelt item="sorrow.n" pos="unk"><instance docscr="SEMCORE" id="sorrow.n.0"><context>expect the <head>sorrow</head>.
+</context></instance></lexelt><lexelt item="committee.n" pos="unk"><instance docscr="SEMCORE" id="committee.n.0"><context>expect the <head>committee</head>.
+</context></instance></lexelt><lexelt item="Eagles.n" pos="unk"><instance docscr="SEMCORE" id="Eagles.n.0"><context>expect<head>Eagles</head>.
+</context></instance></lexelt><lexelt item="resignation.n" pos="unk"><instance docscr="SEMCORE" id="resignation.n.0"><context>expect the <head>resignation</head>.
+</context></instance></lexelt><lexelt item="worker.n" pos="unk"><instance docscr="SEMCORE" id="worker.n.0"><context>expect the <head>worker</head>.
+</context></instance></lexelt><lexelt item="independence.n" pos="unk"><instance docscr="SEMCORE" id="independence.n.0"><context>expect the <head>independence</head>.
+</context></instance></lexelt><lexelt item="Senate.n" pos="unk"><instance docscr="SEMCORE" id="Senate.n.0"><context>expect the <head>Senate</head>.
+</context></instance></lexelt><lexelt item="sewage_system.n" pos="unk"><instance docscr="SEMCORE" id="sewage_system.n.0"><context>expect the <head>sewage_system</head>.
+</context></instance></lexelt><lexelt item="squad.n" pos="unk"><instance docscr="SEMCORE" id="squad.n.0"><context>expect the <head>squad</head>.
+</context></instance></lexelt><lexelt item="sort.n" pos="unk"><instance docscr="SEMCORE" id="sort.n.0"><context>expect the <head>sort</head>.
+</context></instance></lexelt><lexelt item="john.n" pos="unk"><instance docscr="SEMCORE" id="john.n.0"><context>expect the <head>john</head>.
+</context></instance></lexelt><lexelt item="body.n" pos="unk"><instance docscr="SEMCORE" id="body.n.0"><context>expect the <head>body</head>.
+</context></instance></lexelt><lexelt item="event.n" pos="unk"><instance docscr="SEMCORE" id="event.n.0"><context>expect the <head>event</head>.
+</context></instance></lexelt><lexelt item="Grandma.n" pos="unk"><instance docscr="SEMCORE" id="Grandma.n.0"><context>expect the <head>Grandma</head>.
+</context></instance></lexelt><lexelt item="pendulum.n" pos="unk"><instance docscr="SEMCORE" id="pendulum.n.0"><context>expect the <head>pendulum</head>.
+</context></instance></lexelt><lexelt item="family.n" pos="unk"><instance docscr="SEMCORE" id="family.n.0"><context>expect the <head>family</head>.
+</context></instance></lexelt><lexelt item="Caldwell.n" pos="unk"><instance docscr="SEMCORE" id="Caldwell.n.0"><context>expect<head>Caldwell</head>.
+</context></instance></lexelt><lexelt item="velocity.n" pos="unk"><instance docscr="SEMCORE" id="velocity.n.0"><context>expect the <head>velocity</head>.
+</context></instance></lexelt><lexelt item="selection.n" pos="unk"><instance docscr="SEMCORE" id="selection.n.0"><context>expect the <head>selection</head>.
+</context></instance></lexelt><lexelt item="submarine.n" pos="unk"><instance docscr="SEMCORE" id="submarine.n.0"><context>expect the <head>submarine</head>.
+</context></instance></lexelt><lexelt item="instrument.n" pos="unk"><instance docscr="SEMCORE" id="instrument.n.0"><context>expect the <head>instrument</head>.
+</context></instance></lexelt><lexelt item="industry.n" pos="unk"><instance docscr="SEMCORE" id="industry.n.0"><context>expect the <head>industry</head>.
+</context></instance></lexelt><lexelt item="worst.n" pos="unk"><instance docscr="SEMCORE" id="worst.n.0"><context>expect the <head>worst</head>.
+</context></instance></lexelt></corpus>

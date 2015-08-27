@@ -1,0 +1,89 @@
+<corpus lang="english"><lexelt item="increase.v" pos="unk"><instance docscr="SEMCORE" id="increase.v.0"><context><head>increase</head> the tendency.
+</context></instance><instance docscr="SEMCORE" id="increase.v.1"><context><head>increase</head> the responsiveness.
+</context></instance><instance docscr="SEMCORE" id="increase.v.2"><context><head>increase</head> the discharge.
+</context></instance><instance docscr="SEMCORE" id="increase.v.3"><context><head>increase</head> the intensity.
+</context></instance><instance docscr="SEMCORE" id="increase.v.4"><context><head>increase</head> the pressure.
+</context></instance><instance docscr="SEMCORE" id="increase.v.5"><context><head>increase</head> the suffering.
+</context></instance><instance docscr="SEMCORE" id="increase.v.6"><context><head>increase</head> the comfort.
+</context></instance><instance docscr="SEMCORE" id="increase.v.7"><context><head>increase</head> the production.
+</context></instance><instance docscr="SEMCORE" id="increase.v.8"><context><head>increase</head> the rate.
+</context></instance><instance docscr="SEMCORE" id="increase.v.9"><context><head>increase</head> the rate.
+</context></instance><instance docscr="SEMCORE" id="increase.v.10"><context><head>increase</head> the level.
+</context></instance><instance docscr="SEMCORE" id="increase.v.11"><context><head>increase</head> the rate.
+</context></instance><instance docscr="SEMCORE" id="increase.v.12"><context><head>increase</head> the production.
+</context></instance><instance docscr="SEMCORE" id="increase.v.13"><context><head>increase</head> the production.
+</context></instance><instance docscr="SEMCORE" id="increase.v.14"><context><head>increase</head> the output.
+</context></instance><instance docscr="SEMCORE" id="increase.v.15"><context><head>increase</head> the speed.
+</context></instance><instance docscr="SEMCORE" id="increase.v.16"><context><head>increase</head> the flexibility.
+</context></instance><instance docscr="SEMCORE" id="increase.v.17"><context><head>increase</head> the power.
+</context></instance><instance docscr="SEMCORE" id="increase.v.18"><context><head>increase</head> the size.
+</context></instance><instance docscr="SEMCORE" id="increase.v.19"><context><head>increase</head> the concentration.
+</context></instance><instance docscr="SEMCORE" id="increase.v.20"><context><head>increase</head> the effectiveness.
+</context></instance><instance docscr="SEMCORE" id="increase.v.21"><context><head>increase</head> the allotment.
+</context></instance><instance docscr="SEMCORE" id="increase.v.22"><context><head>increase</head> the possibility.
+</context></instance><instance docscr="SEMCORE" id="increase.v.23"><context><head>increase</head> the fear.
+</context></instance><instance docscr="SEMCORE" id="increase.v.24"><context><head>increase</head> the cost.
+</context></instance><instance docscr="SEMCORE" id="increase.v.25"><context><head>increase</head> the volume.
+</context></instance><instance docscr="SEMCORE" id="increase.v.26"><context><head>increase</head> the inch.
+</context></instance><instance docscr="SEMCORE" id="increase.v.27"><context><head>increase</head> the flexibility.
+</context></instance><instance docscr="SEMCORE" id="increase.v.28"><context><head>increase</head> the acceleration.
+</context></instance><instance docscr="SEMCORE" id="increase.v.29"><context><head>increase</head> the dosage.
+</context></instance><instance docscr="SEMCORE" id="increase.v.30"><context><head>increase</head> the strength.
+</context></instance><instance docscr="SEMCORE" id="increase.v.31"><context><head>increase</head> the period.
+</context></instance><instance docscr="SEMCORE" id="increase.v.32"><context><head>increase</head> the schedule.
+</context></instance><instance docscr="SEMCORE" id="increase.v.33"><context><head>increase</head> the attraction.
+</context></instance><instance docscr="SEMCORE" id="increase.v.34"><context><head>increase</head> the absorption.
+</context></instance><instance docscr="SEMCORE" id="increase.v.35"><context><head>increase</head> the temperature.
+</context></instance><instance docscr="SEMCORE" id="increase.v.36"><context><head>increase</head> the rate.
+</context></instance><instance docscr="SEMCORE" id="increase.v.37"><context><head>increase</head> the efficiency.
+</context></instance><instance docscr="SEMCORE" id="increase.v.38"><context><head>increase</head> the capacity.
+</context></instance><instance docscr="SEMCORE" id="increase.v.39"><context><head>increase</head> the darkness.
+</context></instance><instance docscr="SEMCORE" id="increase.v.40"><context><head>increase</head> the popularity.
+</context></instance><instance docscr="SEMCORE" id="increase.v.41"><context><head>increase</head> the loan.
+</context></instance><instance docscr="SEMCORE" id="increase.v.42"><context><head>increase</head> the intensity.
+</context></instance><instance docscr="SEMCORE" id="increase.v.43"><context><head>increase</head> the diameter.
+</context></instance></lexelt><lexelt item="pressure.n" pos="unk"><instance docscr="SEMCORE" id="pressure.n.0"><context>increase the <head>pressure</head>.
+</context></instance></lexelt><lexelt item="temperature.n" pos="unk"><instance docscr="SEMCORE" id="temperature.n.0"><context>increase the <head>temperature</head>.
+</context></instance></lexelt><lexelt item="popularity.n" pos="unk"><instance docscr="SEMCORE" id="popularity.n.0"><context>increase the <head>popularity</head>.
+</context></instance></lexelt><lexelt item="size.n" pos="unk"><instance docscr="SEMCORE" id="size.n.0"><context>increase the <head>size</head>.
+</context></instance></lexelt><lexelt item="responsiveness.n" pos="unk"><instance docscr="SEMCORE" id="responsiveness.n.0"><context>increase the <head>responsiveness</head>.
+</context></instance></lexelt><lexelt item="intensity.n" pos="unk"><instance docscr="SEMCORE" id="intensity.n.0"><context>increase the <head>intensity</head>.
+</context></instance><instance docscr="SEMCORE" id="intensity.n.1"><context>increase the <head>intensity</head>.
+</context></instance></lexelt><lexelt item="comfort.n" pos="unk"><instance docscr="SEMCORE" id="comfort.n.0"><context>increase the <head>comfort</head>.
+</context></instance></lexelt><lexelt item="capacity.n" pos="unk"><instance docscr="SEMCORE" id="capacity.n.0"><context>increase the <head>capacity</head>.
+</context></instance></lexelt><lexelt item="acceleration.n" pos="unk"><instance docscr="SEMCORE" id="acceleration.n.0"><context>increase the <head>acceleration</head>.
+</context></instance></lexelt><lexelt item="output.n" pos="unk"><instance docscr="SEMCORE" id="output.n.0"><context>increase the <head>output</head>.
+</context></instance></lexelt><lexelt item="tendency.n" pos="unk"><instance docscr="SEMCORE" id="tendency.n.0"><context>increase the <head>tendency</head>.
+</context></instance></lexelt><lexelt item="inch.n" pos="unk"><instance docscr="SEMCORE" id="inch.n.0"><context>increase the <head>inch</head>.
+</context></instance></lexelt><lexelt item="cost.n" pos="unk"><instance docscr="SEMCORE" id="cost.n.0"><context>increase the <head>cost</head>.
+</context></instance></lexelt><lexelt item="rate.n" pos="unk"><instance docscr="SEMCORE" id="rate.n.0"><context>increase the <head>rate</head>.
+</context></instance><instance docscr="SEMCORE" id="rate.n.1"><context>increase the <head>rate</head>.
+</context></instance><instance docscr="SEMCORE" id="rate.n.2"><context>increase the <head>rate</head>.
+</context></instance><instance docscr="SEMCORE" id="rate.n.3"><context>increase the <head>rate</head>.
+</context></instance></lexelt><lexelt item="schedule.n" pos="unk"><instance docscr="SEMCORE" id="schedule.n.0"><context>increase the <head>schedule</head>.
+</context></instance></lexelt><lexelt item="fear.n" pos="unk"><instance docscr="SEMCORE" id="fear.n.0"><context>increase the <head>fear</head>.
+</context></instance></lexelt><lexelt item="absorption.n" pos="unk"><instance docscr="SEMCORE" id="absorption.n.0"><context>increase the <head>absorption</head>.
+</context></instance></lexelt><lexelt item="darkness.n" pos="unk"><instance docscr="SEMCORE" id="darkness.n.0"><context>increase the <head>darkness</head>.
+</context></instance></lexelt><lexelt item="attraction.n" pos="unk"><instance docscr="SEMCORE" id="attraction.n.0"><context>increase the <head>attraction</head>.
+</context></instance></lexelt><lexelt item="possibility.n" pos="unk"><instance docscr="SEMCORE" id="possibility.n.0"><context>increase the <head>possibility</head>.
+</context></instance></lexelt><lexelt item="concentration.n" pos="unk"><instance docscr="SEMCORE" id="concentration.n.0"><context>increase the <head>concentration</head>.
+</context></instance></lexelt><lexelt item="effectiveness.n" pos="unk"><instance docscr="SEMCORE" id="effectiveness.n.0"><context>increase the <head>effectiveness</head>.
+</context></instance></lexelt><lexelt item="speed.n" pos="unk"><instance docscr="SEMCORE" id="speed.n.0"><context>increase the <head>speed</head>.
+</context></instance></lexelt><lexelt item="period.n" pos="unk"><instance docscr="SEMCORE" id="period.n.0"><context>increase the <head>period</head>.
+</context></instance></lexelt><lexelt item="flexibility.n" pos="unk"><instance docscr="SEMCORE" id="flexibility.n.0"><context>increase the <head>flexibility</head>.
+</context></instance><instance docscr="SEMCORE" id="flexibility.n.1"><context>increase the <head>flexibility</head>.
+</context></instance></lexelt><lexelt item="suffering.n" pos="unk"><instance docscr="SEMCORE" id="suffering.n.0"><context>increase the <head>suffering</head>.
+</context></instance></lexelt><lexelt item="power.n" pos="unk"><instance docscr="SEMCORE" id="power.n.0"><context>increase the <head>power</head>.
+</context></instance></lexelt><lexelt item="efficiency.n" pos="unk"><instance docscr="SEMCORE" id="efficiency.n.0"><context>increase the <head>efficiency</head>.
+</context></instance></lexelt><lexelt item="volume.n" pos="unk"><instance docscr="SEMCORE" id="volume.n.0"><context>increase the <head>volume</head>.
+</context></instance></lexelt><lexelt item="diameter.n" pos="unk"><instance docscr="SEMCORE" id="diameter.n.0"><context>increase the <head>diameter</head>.
+</context></instance></lexelt><lexelt item="loan.n" pos="unk"><instance docscr="SEMCORE" id="loan.n.0"><context>increase the <head>loan</head>.
+</context></instance></lexelt><lexelt item="strength.n" pos="unk"><instance docscr="SEMCORE" id="strength.n.0"><context>increase the <head>strength</head>.
+</context></instance></lexelt><lexelt item="allotment.n" pos="unk"><instance docscr="SEMCORE" id="allotment.n.0"><context>increase the <head>allotment</head>.
+</context></instance></lexelt><lexelt item="production.n" pos="unk"><instance docscr="SEMCORE" id="production.n.0"><context>increase the <head>production</head>.
+</context></instance><instance docscr="SEMCORE" id="production.n.1"><context>increase the <head>production</head>.
+</context></instance><instance docscr="SEMCORE" id="production.n.2"><context>increase the <head>production</head>.
+</context></instance></lexelt><lexelt item="level.n" pos="unk"><instance docscr="SEMCORE" id="level.n.0"><context>increase the <head>level</head>.
+</context></instance></lexelt><lexelt item="dosage.n" pos="unk"><instance docscr="SEMCORE" id="dosage.n.0"><context>increase the <head>dosage</head>.
+</context></instance></lexelt><lexelt item="discharge.n" pos="unk"><instance docscr="SEMCORE" id="discharge.n.0"><context>increase the <head>discharge</head>.
+</context></instance></lexelt></corpus>

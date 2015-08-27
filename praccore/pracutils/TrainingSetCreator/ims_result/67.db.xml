@@ -1,0 +1,83 @@
+<corpus lang="english"><lexelt item="show.v" pos="unk"><instance docscr="SEMCORE" id="show.v.0"><context><head>show</head> the activity.
+</context></instance><instance docscr="SEMCORE" id="show.v.1"><context><head>show</head> the activity.
+</context></instance><instance docscr="SEMCORE" id="show.v.2"><context><head>show</head> the activity.
+</context></instance><instance docscr="SEMCORE" id="show.v.3"><context><head>show</head> the snip.
+</context></instance><instance docscr="SEMCORE" id="show.v.4"><context><head>show</head> the kiss.
+</context></instance><instance docscr="SEMCORE" id="show.v.5"><context><head>show</head> the inclination.
+</context></instance><instance docscr="SEMCORE" id="show.v.6"><context><head>show</head> the difference.
+</context></instance><instance docscr="SEMCORE" id="show.v.7"><context><head>show</head> the hand.
+</context></instance><instance docscr="SEMCORE" id="show.v.8"><context><head>show</head> the independence.
+</context></instance><instance docscr="SEMCORE" id="show.v.9"><context><head>show</head> the characteristic.
+</context></instance><instance docscr="SEMCORE" id="show.v.10"><context><head>show</head> the retentiveness.
+</context></instance><instance docscr="SEMCORE" id="show.v.11"><context><head>show</head> the quality.
+</context></instance><instance docscr="SEMCORE" id="show.v.12"><context><head>show</head> the sign.
+</context></instance><instance docscr="SEMCORE" id="show.v.13"><context><head>show</head> the method.
+</context></instance><instance docscr="SEMCORE" id="show.v.14"><context><head>show</head> the Plans.
+</context></instance><instance docscr="SEMCORE" id="show.v.15"><context><head>show</head> the fluorescence.
+</context></instance><instance docscr="SEMCORE" id="show.v.16"><context><head>show</head> the arm.
+</context></instance><instance docscr="SEMCORE" id="show.v.17"><context><head>show</head> the operation.
+</context></instance><instance docscr="SEMCORE" id="show.v.18"><context><head>show</head> the departure.
+</context></instance><instance docscr="SEMCORE" id="show.v.19"><context><head>show</head> the curiosity.
+</context></instance><instance docscr="SEMCORE" id="show.v.20"><context><head>show</head> the town.
+</context></instance><instance docscr="SEMCORE" id="show.v.21"><context><head>show</head> the neglect.
+</context></instance><instance docscr="SEMCORE" id="show.v.22"><context><head>show</head> the drawing.
+</context></instance><instance docscr="SEMCORE" id="show.v.23"><context><head>show</head> the roll.
+</context></instance><instance docscr="SEMCORE" id="show.v.24"><context><head>show</head> the change.
+</context></instance><instance docscr="SEMCORE" id="show.v.25"><context><head>show</head> the focus.
+</context></instance><instance docscr="SEMCORE" id="show.v.26"><context><head>show</head> the increase.
+</context></instance><instance docscr="SEMCORE" id="show.v.27"><context><head>show</head> the progression.
+</context></instance><instance docscr="SEMCORE" id="show.v.28"><context><head>show</head> the area.
+</context></instance><instance docscr="SEMCORE" id="show.v.29"><context><head>show</head> the change.
+</context></instance><instance docscr="SEMCORE" id="show.v.30"><context><head>show</head> the scar.
+</context></instance><instance docscr="SEMCORE" id="show.v.31"><context><head>show</head> the area.
+</context></instance><instance docscr="SEMCORE" id="show.v.32"><context><head>show</head> the degree.
+</context></instance><instance docscr="SEMCORE" id="show.v.33"><context><head>show</head> the loss.
+</context></instance><instance docscr="SEMCORE" id="show.v.34"><context><head>show</head> the striation.
+</context></instance><instance docscr="SEMCORE" id="show.v.35"><context><head>show</head> the proliferation.
+</context></instance><instance docscr="SEMCORE" id="show.v.36"><context><head>show</head> the liking.
+</context></instance><instance docscr="SEMCORE" id="show.v.37"><context><head>show</head> the possibility.
+</context></instance><instance docscr="SEMCORE" id="show.v.38"><context><head>show</head> the viscometer.
+</context></instance><instance docscr="SEMCORE" id="show.v.39"><context><head>show</head> the data.
+</context></instance><instance docscr="SEMCORE" id="show.v.40"><context><head>show</head> the populace.
+</context></instance></lexelt><lexelt item="Plans.n" pos="unk"><instance docscr="SEMCORE" id="Plans.n.0"><context>show the <head>Plans</head>.
+</context></instance></lexelt><lexelt item="hand.n" pos="unk"><instance docscr="SEMCORE" id="hand.n.0"><context>show the <head>hand</head>.
+</context></instance></lexelt><lexelt item="liking.n" pos="unk"><instance docscr="SEMCORE" id="liking.n.0"><context>show the <head>liking</head>.
+</context></instance></lexelt><lexelt item="populace.n" pos="unk"><instance docscr="SEMCORE" id="populace.n.0"><context>show the <head>populace</head>.
+</context></instance></lexelt><lexelt item="data.n" pos="unk"><instance docscr="SEMCORE" id="data.n.0"><context>show the <head>data</head>.
+</context></instance></lexelt><lexelt item="change.n" pos="unk"><instance docscr="SEMCORE" id="change.n.0"><context>show the <head>change</head>.
+</context></instance><instance docscr="SEMCORE" id="change.n.1"><context>show the <head>change</head>.
+</context></instance></lexelt><lexelt item="quality.n" pos="unk"><instance docscr="SEMCORE" id="quality.n.0"><context>show the <head>quality</head>.
+</context></instance></lexelt><lexelt item="activity.n" pos="unk"><instance docscr="SEMCORE" id="activity.n.0"><context>show the <head>activity</head>.
+</context></instance><instance docscr="SEMCORE" id="activity.n.1"><context>show the <head>activity</head>.
+</context></instance><instance docscr="SEMCORE" id="activity.n.2"><context>show the <head>activity</head>.
+</context></instance></lexelt><lexelt item="operation.n" pos="unk"><instance docscr="SEMCORE" id="operation.n.0"><context>show the <head>operation</head>.
+</context></instance></lexelt><lexelt item="neglect.n" pos="unk"><instance docscr="SEMCORE" id="neglect.n.0"><context>show the <head>neglect</head>.
+</context></instance></lexelt><lexelt item="degree.n" pos="unk"><instance docscr="SEMCORE" id="degree.n.0"><context>show the <head>degree</head>.
+</context></instance></lexelt><lexelt item="proliferation.n" pos="unk"><instance docscr="SEMCORE" id="proliferation.n.0"><context>show the <head>proliferation</head>.
+</context></instance></lexelt><lexelt item="characteristic.n" pos="unk"><instance docscr="SEMCORE" id="characteristic.n.0"><context>show the <head>characteristic</head>.
+</context></instance></lexelt><lexelt item="scar.n" pos="unk"><instance docscr="SEMCORE" id="scar.n.0"><context>show the <head>scar</head>.
+</context></instance></lexelt><lexelt item="arm.n" pos="unk"><instance docscr="SEMCORE" id="arm.n.0"><context>show the <head>arm</head>.
+</context></instance></lexelt><lexelt item="method.n" pos="unk"><instance docscr="SEMCORE" id="method.n.0"><context>show the <head>method</head>.
+</context></instance></lexelt><lexelt item="area.n" pos="unk"><instance docscr="SEMCORE" id="area.n.0"><context>show the <head>area</head>.
+</context></instance><instance docscr="SEMCORE" id="area.n.1"><context>show the <head>area</head>.
+</context></instance></lexelt><lexelt item="inclination.n" pos="unk"><instance docscr="SEMCORE" id="inclination.n.0"><context>show the <head>inclination</head>.
+</context></instance></lexelt><lexelt item="possibility.n" pos="unk"><instance docscr="SEMCORE" id="possibility.n.0"><context>show the <head>possibility</head>.
+</context></instance></lexelt><lexelt item="sign.n" pos="unk"><instance docscr="SEMCORE" id="sign.n.0"><context>show the <head>sign</head>.
+</context></instance></lexelt><lexelt item="independence.n" pos="unk"><instance docscr="SEMCORE" id="independence.n.0"><context>show the <head>independence</head>.
+</context></instance></lexelt><lexelt item="focus.n" pos="unk"><instance docscr="SEMCORE" id="focus.n.0"><context>show the <head>focus</head>.
+</context></instance></lexelt><lexelt item="fluorescence.n" pos="unk"><instance docscr="SEMCORE" id="fluorescence.n.0"><context>show the <head>fluorescence</head>.
+</context></instance></lexelt><lexelt item="striation.n" pos="unk"><instance docscr="SEMCORE" id="striation.n.0"><context>show the <head>striation</head>.
+</context></instance></lexelt><lexelt item="progression.n" pos="unk"><instance docscr="SEMCORE" id="progression.n.0"><context>show the <head>progression</head>.
+</context></instance></lexelt><lexelt item="snip.n" pos="unk"><instance docscr="SEMCORE" id="snip.n.0"><context>show the <head>snip</head>.
+</context></instance></lexelt><lexelt item="kiss.n" pos="unk"><instance docscr="SEMCORE" id="kiss.n.0"><context>show the <head>kiss</head>.
+</context></instance></lexelt><lexelt item="viscometer.n" pos="unk"><instance docscr="SEMCORE" id="viscometer.n.0"><context>show the <head>viscometer</head>.
+</context></instance></lexelt><lexelt item="departure.n" pos="unk"><instance docscr="SEMCORE" id="departure.n.0"><context>show the <head>departure</head>.
+</context></instance></lexelt><lexelt item="roll.n" pos="unk"><instance docscr="SEMCORE" id="roll.n.0"><context>show the <head>roll</head>.
+</context></instance></lexelt><lexelt item="drawing.n" pos="unk"><instance docscr="SEMCORE" id="drawing.n.0"><context>show the <head>drawing</head>.
+</context></instance></lexelt><lexelt item="town.n" pos="unk"><instance docscr="SEMCORE" id="town.n.0"><context>show the <head>town</head>.
+</context></instance></lexelt><lexelt item="retentiveness.n" pos="unk"><instance docscr="SEMCORE" id="retentiveness.n.0"><context>show the <head>retentiveness</head>.
+</context></instance></lexelt><lexelt item="difference.n" pos="unk"><instance docscr="SEMCORE" id="difference.n.0"><context>show the <head>difference</head>.
+</context></instance></lexelt><lexelt item="increase.n" pos="unk"><instance docscr="SEMCORE" id="increase.n.0"><context>show the <head>increase</head>.
+</context></instance></lexelt><lexelt item="loss.n" pos="unk"><instance docscr="SEMCORE" id="loss.n.0"><context>show the <head>loss</head>.
+</context></instance></lexelt><lexelt item="curiosity.n" pos="unk"><instance docscr="SEMCORE" id="curiosity.n.0"><context>show the <head>curiosity</head>.
+</context></instance></lexelt></corpus>

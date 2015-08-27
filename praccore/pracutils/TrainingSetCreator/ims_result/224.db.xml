@@ -1,0 +1,47 @@
+<corpus lang="english"><lexelt item="Prevents.v" pos="unk"><instance docscr="SEMCORE" id="Prevents.v.0"><context><head>Prevents</head> the ketosis.
+</context></instance></lexelt><lexelt item="prevent.v" pos="unk"><instance docscr="SEMCORE" id="prevent.v.0"><context><head>prevent</head> the distortion.
+</context></instance><instance docscr="SEMCORE" id="prevent.v.1"><context><head>prevent</head> the sample.
+</context></instance><instance docscr="SEMCORE" id="prevent.v.2"><context><head>prevent</head> the relationship.
+</context></instance><instance docscr="SEMCORE" id="prevent.v.3"><context><head>prevent</head> the fall.
+</context></instance><instance docscr="SEMCORE" id="prevent.v.4"><context><head>prevent</head> the identification.
+</context></instance><instance docscr="SEMCORE" id="prevent.v.5"><context><head>prevent</head> the realization.
+</context></instance><instance docscr="SEMCORE" id="prevent.v.6"><context><head>prevent</head> the misbehavior.
+</context></instance><instance docscr="SEMCORE" id="prevent.v.7"><context><head>prevent</head> the misbehavior.
+</context></instance><instance docscr="SEMCORE" id="prevent.v.8"><context><head>prevent</head> the diarrhea.
+</context></instance><instance docscr="SEMCORE" id="prevent.v.9"><context><head>prevent</head> the diarrhea.
+</context></instance><instance docscr="SEMCORE" id="prevent.v.10"><context><head>prevent</head> the foot_rot.
+</context></instance><instance docscr="SEMCORE" id="prevent.v.11"><context><head>prevent</head> the diarrhea.
+</context></instance><instance docscr="SEMCORE" id="prevent.v.12"><context><head>prevent</head> the bloat.
+</context></instance><instance docscr="SEMCORE" id="prevent.v.13"><context><head>prevent</head> the erosion.
+</context></instance><instance docscr="SEMCORE" id="prevent.v.14"><context><head>prevent</head> the change.
+</context></instance><instance docscr="SEMCORE" id="prevent.v.15"><context><head>prevent</head> the loss.
+</context></instance><instance docscr="SEMCORE" id="prevent.v.16"><context><head>prevent</head> the ablation.
+</context></instance><instance docscr="SEMCORE" id="prevent.v.17"><context><head>prevent</head> the gas.
+</context></instance><instance docscr="SEMCORE" id="prevent.v.18"><context><head>prevent</head> the view.
+</context></instance><instance docscr="SEMCORE" id="prevent.v.19"><context><head>prevent</head>heave.
+</context></instance><instance docscr="SEMCORE" id="prevent.v.20"><context><head>prevent</head> the trouble.
+</context></instance><instance docscr="SEMCORE" id="prevent.v.21"><context><head>prevent</head> the reveller.
+</context></instance></lexelt><lexelt item="foot_rot.n" pos="unk"><instance docscr="SEMCORE" id="foot_rot.n.0"><context>prevent the <head>foot_rot</head>.
+</context></instance></lexelt><lexelt item="distortion.n" pos="unk"><instance docscr="SEMCORE" id="distortion.n.0"><context>prevent the <head>distortion</head>.
+</context></instance></lexelt><lexelt item="sample.n" pos="unk"><instance docscr="SEMCORE" id="sample.n.0"><context>prevent the <head>sample</head>.
+</context></instance></lexelt><lexelt item="heave.n" pos="unk"><instance docscr="SEMCORE" id="heave.n.0"><context>prevent<head>heave</head>.
+</context></instance></lexelt><lexelt item="misbehavior.n" pos="unk"><instance docscr="SEMCORE" id="misbehavior.n.0"><context>prevent the <head>misbehavior</head>.
+</context></instance><instance docscr="SEMCORE" id="misbehavior.n.1"><context>prevent the <head>misbehavior</head>.
+</context></instance></lexelt><lexelt item="loss.n" pos="unk"><instance docscr="SEMCORE" id="loss.n.0"><context>prevent the <head>loss</head>.
+</context></instance></lexelt><lexelt item="trouble.n" pos="unk"><instance docscr="SEMCORE" id="trouble.n.0"><context>prevent the <head>trouble</head>.
+</context></instance></lexelt><lexelt item="fall.n" pos="unk"><instance docscr="SEMCORE" id="fall.n.0"><context>prevent the <head>fall</head>.
+</context></instance></lexelt><lexelt item="realization.n" pos="unk"><instance docscr="SEMCORE" id="realization.n.0"><context>prevent the <head>realization</head>.
+</context></instance></lexelt><lexelt item="relationship.n" pos="unk"><instance docscr="SEMCORE" id="relationship.n.0"><context>prevent the <head>relationship</head>.
+</context></instance></lexelt><lexelt item="bloat.n" pos="unk"><instance docscr="SEMCORE" id="bloat.n.0"><context>prevent the <head>bloat</head>.
+</context></instance></lexelt><lexelt item="reveller.n" pos="unk"><instance docscr="SEMCORE" id="reveller.n.0"><context>prevent the <head>reveller</head>.
+</context></instance></lexelt><lexelt item="change.n" pos="unk"><instance docscr="SEMCORE" id="change.n.0"><context>prevent the <head>change</head>.
+</context></instance></lexelt><lexelt item="view.n" pos="unk"><instance docscr="SEMCORE" id="view.n.0"><context>prevent the <head>view</head>.
+</context></instance></lexelt><lexelt item="gas.n" pos="unk"><instance docscr="SEMCORE" id="gas.n.0"><context>prevent the <head>gas</head>.
+</context></instance></lexelt><lexelt item="erosion.n" pos="unk"><instance docscr="SEMCORE" id="erosion.n.0"><context>prevent the <head>erosion</head>.
+</context></instance></lexelt><lexelt item="ketosis.n" pos="unk"><instance docscr="SEMCORE" id="ketosis.n.0"><context>Prevents the <head>ketosis</head>.
+</context></instance></lexelt><lexelt item="ablation.n" pos="unk"><instance docscr="SEMCORE" id="ablation.n.0"><context>prevent the <head>ablation</head>.
+</context></instance></lexelt><lexelt item="identification.n" pos="unk"><instance docscr="SEMCORE" id="identification.n.0"><context>prevent the <head>identification</head>.
+</context></instance></lexelt><lexelt item="diarrhea.n" pos="unk"><instance docscr="SEMCORE" id="diarrhea.n.0"><context>prevent the <head>diarrhea</head>.
+</context></instance><instance docscr="SEMCORE" id="diarrhea.n.1"><context>prevent the <head>diarrhea</head>.
+</context></instance><instance docscr="SEMCORE" id="diarrhea.n.2"><context>prevent the <head>diarrhea</head>.
+</context></instance></lexelt></corpus>

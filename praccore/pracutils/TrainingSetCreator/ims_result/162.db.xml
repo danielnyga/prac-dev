@@ -1,0 +1,73 @@
+<corpus lang="english"><lexelt item="leave.v" pos="unk"><instance docscr="SEMCORE" id="leave.v.0"><context><head>leave</head> the arroyo.
+</context></instance><instance docscr="SEMCORE" id="leave.v.1"><context><head>leave</head>Maxwell_City.
+</context></instance><instance docscr="SEMCORE" id="leave.v.2"><context><head>leave</head> the train.
+</context></instance><instance docscr="SEMCORE" id="leave.v.3"><context><head>leave</head>Parkersburg.
+</context></instance><instance docscr="SEMCORE" id="leave.v.4"><context><head>leave</head> the town.
+</context></instance><instance docscr="SEMCORE" id="leave.v.5"><context><head>leave</head> the area.
+</context></instance><instance docscr="SEMCORE" id="leave.v.6"><context><head>leave</head> the phase.
+</context></instance><instance docscr="SEMCORE" id="leave.v.7"><context><head>leave</head> the room.
+</context></instance><instance docscr="SEMCORE" id="leave.v.8"><context><head>leave</head> the apartment.
+</context></instance><instance docscr="SEMCORE" id="leave.v.9"><context><head>leave</head> the room.
+</context></instance><instance docscr="SEMCORE" id="leave.v.10"><context><head>leave</head> the battlefield.
+</context></instance><instance docscr="SEMCORE" id="leave.v.11"><context><head>leave</head> the party.
+</context></instance><instance docscr="SEMCORE" id="leave.v.12"><context><head>leave</head> the play.
+</context></instance><instance docscr="SEMCORE" id="leave.v.13"><context><head>leave</head>Paterson.
+</context></instance><instance docscr="SEMCORE" id="leave.v.14"><context><head>leave</head>Fort_Daer.
+</context></instance><instance docscr="SEMCORE" id="leave.v.15"><context><head>leave</head>Fort_Snelling.
+</context></instance><instance docscr="SEMCORE" id="leave.v.16"><context><head>leave</head> the town.
+</context></instance><instance docscr="SEMCORE" id="leave.v.17"><context><head>leave</head> the tent.
+</context></instance><instance docscr="SEMCORE" id="leave.v.18"><context><head>leave</head> the bank.
+</context></instance><instance docscr="SEMCORE" id="leave.v.19"><context><head>leave</head> the shelter.
+</context></instance><instance docscr="SEMCORE" id="leave.v.20"><context><head>leave</head>Umschlagplatz.
+</context></instance><instance docscr="SEMCORE" id="leave.v.21"><context><head>leave</head>West_Berlin.
+</context></instance><instance docscr="SEMCORE" id="leave.v.22"><context><head>leave</head> the place.
+</context></instance><instance docscr="SEMCORE" id="leave.v.23"><context><head>leave</head> the ridge.
+</context></instance><instance docscr="SEMCORE" id="leave.v.24"><context><head>leave</head> the country.
+</context></instance><instance docscr="SEMCORE" id="leave.v.25"><context><head>leave</head> the home.
+</context></instance><instance docscr="SEMCORE" id="leave.v.26"><context><head>leave</head>Conrad.
+</context></instance><instance docscr="SEMCORE" id="leave.v.27"><context><head>leave</head> the stall.
+</context></instance><instance docscr="SEMCORE" id="leave.v.28"><context><head>leave</head>East.
+</context></instance><instance docscr="SEMCORE" id="leave.v.29"><context><head>leave</head> the side.
+</context></instance><instance docscr="SEMCORE" id="leave.v.30"><context><head>leave</head> the party.
+</context></instance><instance docscr="SEMCORE" id="leave.v.31"><context><head>leave</head> the place.
+</context></instance><instance docscr="SEMCORE" id="leave.v.32"><context><head>leave</head> the nest.
+</context></instance><instance docscr="SEMCORE" id="leave.v.33"><context><head>leave</head> the nest.
+</context></instance><instance docscr="SEMCORE" id="leave.v.34"><context><head>leave</head> the hall.
+</context></instance></lexelt><lexelt item="Leaving.v" pos="unk"><instance docscr="SEMCORE" id="Leaving.v.0"><context><head>Leaving</head> the office.
+</context></instance></lexelt><lexelt item="home.n" pos="unk"><instance docscr="SEMCORE" id="home.n.0"><context>leave the <head>home</head>.
+</context></instance></lexelt><lexelt item="hall.n" pos="unk"><instance docscr="SEMCORE" id="hall.n.0"><context>leave the <head>hall</head>.
+</context></instance></lexelt><lexelt item="bank.n" pos="unk"><instance docscr="SEMCORE" id="bank.n.0"><context>leave the <head>bank</head>.
+</context></instance></lexelt><lexelt item="stall.n" pos="unk"><instance docscr="SEMCORE" id="stall.n.0"><context>leave the <head>stall</head>.
+</context></instance></lexelt><lexelt item="ridge.n" pos="unk"><instance docscr="SEMCORE" id="ridge.n.0"><context>leave the <head>ridge</head>.
+</context></instance></lexelt><lexelt item="arroyo.n" pos="unk"><instance docscr="SEMCORE" id="arroyo.n.0"><context>leave the <head>arroyo</head>.
+</context></instance></lexelt><lexelt item="apartment.n" pos="unk"><instance docscr="SEMCORE" id="apartment.n.0"><context>leave the <head>apartment</head>.
+</context></instance></lexelt><lexelt item="Fort_Daer.n" pos="unk"><instance docscr="SEMCORE" id="Fort_Daer.n.0"><context>leave<head>Fort_Daer</head>.
+</context></instance></lexelt><lexelt item="Parkersburg.n" pos="unk"><instance docscr="SEMCORE" id="Parkersburg.n.0"><context>leave<head>Parkersburg</head>.
+</context></instance></lexelt><lexelt item="play.n" pos="unk"><instance docscr="SEMCORE" id="play.n.0"><context>leave the <head>play</head>.
+</context></instance></lexelt><lexelt item="place.n" pos="unk"><instance docscr="SEMCORE" id="place.n.0"><context>leave the <head>place</head>.
+</context></instance><instance docscr="SEMCORE" id="place.n.1"><context>leave the <head>place</head>.
+</context></instance></lexelt><lexelt item="nest.n" pos="unk"><instance docscr="SEMCORE" id="nest.n.0"><context>leave the <head>nest</head>.
+</context></instance><instance docscr="SEMCORE" id="nest.n.1"><context>leave the <head>nest</head>.
+</context></instance></lexelt><lexelt item="Fort_Snelling.n" pos="unk"><instance docscr="SEMCORE" id="Fort_Snelling.n.0"><context>leave<head>Fort_Snelling</head>.
+</context></instance></lexelt><lexelt item="party.n" pos="unk"><instance docscr="SEMCORE" id="party.n.0"><context>leave the <head>party</head>.
+</context></instance><instance docscr="SEMCORE" id="party.n.1"><context>leave the <head>party</head>.
+</context></instance></lexelt><lexelt item="Umschlagplatz.n" pos="unk"><instance docscr="SEMCORE" id="Umschlagplatz.n.0"><context>leave<head>Umschlagplatz</head>.
+</context></instance></lexelt><lexelt item="shelter.n" pos="unk"><instance docscr="SEMCORE" id="shelter.n.0"><context>leave the <head>shelter</head>.
+</context></instance></lexelt><lexelt item="East.n" pos="unk"><instance docscr="SEMCORE" id="East.n.0"><context>leave<head>East</head>.
+</context></instance></lexelt><lexelt item="tent.n" pos="unk"><instance docscr="SEMCORE" id="tent.n.0"><context>leave the <head>tent</head>.
+</context></instance></lexelt><lexelt item="Paterson.n" pos="unk"><instance docscr="SEMCORE" id="Paterson.n.0"><context>leave<head>Paterson</head>.
+</context></instance></lexelt><lexelt item="area.n" pos="unk"><instance docscr="SEMCORE" id="area.n.0"><context>leave the <head>area</head>.
+</context></instance></lexelt><lexelt item="phase.n" pos="unk"><instance docscr="SEMCORE" id="phase.n.0"><context>leave the <head>phase</head>.
+</context></instance></lexelt><lexelt item="Conrad.n" pos="unk"><instance docscr="SEMCORE" id="Conrad.n.0"><context>leave<head>Conrad</head>.
+</context></instance></lexelt><lexelt item="country.n" pos="unk"><instance docscr="SEMCORE" id="country.n.0"><context>leave the <head>country</head>.
+</context></instance></lexelt><lexelt item="West_Berlin.n" pos="unk"><instance docscr="SEMCORE" id="West_Berlin.n.0"><context>leave<head>West_Berlin</head>.
+</context></instance></lexelt><lexelt item="room.n" pos="unk"><instance docscr="SEMCORE" id="room.n.0"><context>leave the <head>room</head>.
+</context></instance><instance docscr="SEMCORE" id="room.n.1"><context>leave the <head>room</head>.
+</context></instance></lexelt><lexelt item="side.n" pos="unk"><instance docscr="SEMCORE" id="side.n.0"><context>leave the <head>side</head>.
+</context></instance></lexelt><lexelt item="office.n" pos="unk"><instance docscr="SEMCORE" id="office.n.0"><context>Leaving the <head>office</head>.
+</context></instance></lexelt><lexelt item="train.n" pos="unk"><instance docscr="SEMCORE" id="train.n.0"><context>leave the <head>train</head>.
+</context></instance></lexelt><lexelt item="town.n" pos="unk"><instance docscr="SEMCORE" id="town.n.0"><context>leave the <head>town</head>.
+</context></instance><instance docscr="SEMCORE" id="town.n.1"><context>leave the <head>town</head>.
+</context></instance></lexelt><lexelt item="battlefield.n" pos="unk"><instance docscr="SEMCORE" id="battlefield.n.0"><context>leave the <head>battlefield</head>.
+</context></instance></lexelt><lexelt item="Maxwell_City.n" pos="unk"><instance docscr="SEMCORE" id="Maxwell_City.n.0"><context>leave<head>Maxwell_City</head>.
+</context></instance></lexelt></corpus>

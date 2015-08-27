@@ -1,0 +1,53 @@
+<corpus lang="english"><lexelt item="wear.v" pos="unk"><instance docscr="SEMCORE" id="wear.v.0"><context><head>wear</head> the look.
+</context></instance><instance docscr="SEMCORE" id="wear.v.1"><context><head>wear</head> the slipper.
+</context></instance><instance docscr="SEMCORE" id="wear.v.2"><context><head>wear</head> the sneaker.
+</context></instance><instance docscr="SEMCORE" id="wear.v.3"><context><head>wear</head> the hat.
+</context></instance><instance docscr="SEMCORE" id="wear.v.4"><context><head>wear</head> the suit.
+</context></instance><instance docscr="SEMCORE" id="wear.v.5"><context><head>wear</head> the scarf.
+</context></instance><instance docscr="SEMCORE" id="wear.v.6"><context><head>wear</head> the nothing.
+</context></instance><instance docscr="SEMCORE" id="wear.v.7"><context><head>wear</head> the hat.
+</context></instance><instance docscr="SEMCORE" id="wear.v.8"><context><head>wear</head> the outfit.
+</context></instance><instance docscr="SEMCORE" id="wear.v.9"><context><head>wear</head> the weed.
+</context></instance><instance docscr="SEMCORE" id="wear.v.10"><context><head>wear</head> the clothes.
+</context></instance><instance docscr="SEMCORE" id="wear.v.11"><context><head>wear</head> the tag.
+</context></instance><instance docscr="SEMCORE" id="wear.v.12"><context><head>wear</head> the vest.
+</context></instance><instance docscr="SEMCORE" id="wear.v.13"><context><head>wear</head> the costume.
+</context></instance><instance docscr="SEMCORE" id="wear.v.14"><context><head>wear</head> the boot.
+</context></instance><instance docscr="SEMCORE" id="wear.v.15"><context><head>wear</head> the scourge.
+</context></instance><instance docscr="SEMCORE" id="wear.v.16"><context><head>wear</head> the suit.
+</context></instance><instance docscr="SEMCORE" id="wear.v.17"><context><head>wear</head> the hair.
+</context></instance><instance docscr="SEMCORE" id="wear.v.18"><context><head>wear</head> the suit.
+</context></instance><instance docscr="SEMCORE" id="wear.v.19"><context><head>wear</head> the wig.
+</context></instance><instance docscr="SEMCORE" id="wear.v.20"><context><head>wear</head> the hair.
+</context></instance><instance docscr="SEMCORE" id="wear.v.21"><context><head>wear</head> the greatcoat.
+</context></instance><instance docscr="SEMCORE" id="wear.v.22"><context><head>wear</head> the bag.
+</context></instance><instance docscr="SEMCORE" id="wear.v.23"><context><head>wear</head> the kind.
+</context></instance><instance docscr="SEMCORE" id="wear.v.24"><context><head>wear</head> the dress.
+</context></instance><instance docscr="SEMCORE" id="wear.v.25"><context><head>wear</head> the monocle.
+</context></instance></lexelt><lexelt item="bag.n" pos="unk"><instance docscr="SEMCORE" id="bag.n.0"><context>wear the <head>bag</head>.
+</context></instance></lexelt><lexelt item="sneaker.n" pos="unk"><instance docscr="SEMCORE" id="sneaker.n.0"><context>wear the <head>sneaker</head>.
+</context></instance></lexelt><lexelt item="weed.n" pos="unk"><instance docscr="SEMCORE" id="weed.n.0"><context>wear the <head>weed</head>.
+</context></instance></lexelt><lexelt item="wig.n" pos="unk"><instance docscr="SEMCORE" id="wig.n.0"><context>wear the <head>wig</head>.
+</context></instance></lexelt><lexelt item="monocle.n" pos="unk"><instance docscr="SEMCORE" id="monocle.n.0"><context>wear the <head>monocle</head>.
+</context></instance></lexelt><lexelt item="slipper.n" pos="unk"><instance docscr="SEMCORE" id="slipper.n.0"><context>wear the <head>slipper</head>.
+</context></instance></lexelt><lexelt item="costume.n" pos="unk"><instance docscr="SEMCORE" id="costume.n.0"><context>wear the <head>costume</head>.
+</context></instance></lexelt><lexelt item="tag.n" pos="unk"><instance docscr="SEMCORE" id="tag.n.0"><context>wear the <head>tag</head>.
+</context></instance></lexelt><lexelt item="clothes.n" pos="unk"><instance docscr="SEMCORE" id="clothes.n.0"><context>wear the <head>clothes</head>.
+</context></instance></lexelt><lexelt item="outfit.n" pos="unk"><instance docscr="SEMCORE" id="outfit.n.0"><context>wear the <head>outfit</head>.
+</context></instance></lexelt><lexelt item="kind.n" pos="unk"><instance docscr="SEMCORE" id="kind.n.0"><context>wear the <head>kind</head>.
+</context></instance></lexelt><lexelt item="dress.n" pos="unk"><instance docscr="SEMCORE" id="dress.n.0"><context>wear the <head>dress</head>.
+</context></instance></lexelt><lexelt item="suit.n" pos="unk"><instance docscr="SEMCORE" id="suit.n.0"><context>wear the <head>suit</head>.
+</context></instance><instance docscr="SEMCORE" id="suit.n.1"><context>wear the <head>suit</head>.
+</context></instance><instance docscr="SEMCORE" id="suit.n.2"><context>wear the <head>suit</head>.
+</context></instance></lexelt><lexelt item="scourge.n" pos="unk"><instance docscr="SEMCORE" id="scourge.n.0"><context>wear the <head>scourge</head>.
+</context></instance></lexelt><lexelt item="greatcoat.n" pos="unk"><instance docscr="SEMCORE" id="greatcoat.n.0"><context>wear the <head>greatcoat</head>.
+</context></instance></lexelt><lexelt item="hat.n" pos="unk"><instance docscr="SEMCORE" id="hat.n.0"><context>wear the <head>hat</head>.
+</context></instance><instance docscr="SEMCORE" id="hat.n.1"><context>wear the <head>hat</head>.
+</context></instance></lexelt><lexelt item="look.n" pos="unk"><instance docscr="SEMCORE" id="look.n.0"><context>wear the <head>look</head>.
+</context></instance></lexelt><lexelt item="vest.n" pos="unk"><instance docscr="SEMCORE" id="vest.n.0"><context>wear the <head>vest</head>.
+</context></instance></lexelt><lexelt item="hair.n" pos="unk"><instance docscr="SEMCORE" id="hair.n.0"><context>wear the <head>hair</head>.
+</context></instance><instance docscr="SEMCORE" id="hair.n.1"><context>wear the <head>hair</head>.
+</context></instance></lexelt><lexelt item="boot.n" pos="unk"><instance docscr="SEMCORE" id="boot.n.0"><context>wear the <head>boot</head>.
+</context></instance></lexelt><lexelt item="scarf.n" pos="unk"><instance docscr="SEMCORE" id="scarf.n.0"><context>wear the <head>scarf</head>.
+</context></instance></lexelt><lexelt item="nothing.n" pos="unk"><instance docscr="SEMCORE" id="nothing.n.0"><context>wear the <head>nothing</head>.
+</context></instance></lexelt></corpus>

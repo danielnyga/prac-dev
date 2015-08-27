@@ -1,0 +1,47 @@
+<corpus lang="english"><lexelt item="select.v" pos="unk"><instance docscr="SEMCORE" id="select.v.0"><context><head>select</head> the antiserum.
+</context></instance><instance docscr="SEMCORE" id="select.v.1"><context><head>select</head> the information.
+</context></instance><instance docscr="SEMCORE" id="select.v.2"><context><head>select</head> the information.
+</context></instance><instance docscr="SEMCORE" id="select.v.3"><context><head>select</head> the system.
+</context></instance><instance docscr="SEMCORE" id="select.v.4"><context><head>select</head> the training.
+</context></instance><instance docscr="SEMCORE" id="select.v.5"><context><head>select</head> the farm.
+</context></instance><instance docscr="SEMCORE" id="select.v.6"><context><head>select</head> the sheet.
+</context></instance><instance docscr="SEMCORE" id="select.v.7"><context><head>select</head> the subject.
+</context></instance><instance docscr="SEMCORE" id="select.v.8"><context><head>select</head> the example.
+</context></instance><instance docscr="SEMCORE" id="select.v.9"><context><head>select</head> the wavelength.
+</context></instance><instance docscr="SEMCORE" id="select.v.10"><context><head>select</head> the microscope.
+</context></instance><instance docscr="SEMCORE" id="select.v.11"><context><head>select</head> the child.
+</context></instance><instance docscr="SEMCORE" id="select.v.12"><context><head>select</head> the item.
+</context></instance><instance docscr="SEMCORE" id="select.v.13"><context><head>select</head> the word.
+</context></instance><instance docscr="SEMCORE" id="select.v.14"><context><head>select</head> the scrutin_uninominal_voting_system.
+</context></instance><instance docscr="SEMCORE" id="select.v.15"><context><head>select</head> the agent.
+</context></instance><instance docscr="SEMCORE" id="select.v.16"><context><head>select</head> the site.
+</context></instance><instance docscr="SEMCORE" id="select.v.17"><context><head>select</head> the arrow.
+</context></instance><instance docscr="SEMCORE" id="select.v.18"><context><head>select</head> the sentence.
+</context></instance><instance docscr="SEMCORE" id="select.v.19"><context><head>select</head> the sale.
+</context></instance><instance docscr="SEMCORE" id="select.v.20"><context><head>select</head> the appointee.
+</context></instance><instance docscr="SEMCORE" id="select.v.21"><context><head>select</head> the subject.
+</context></instance></lexelt><lexelt item="Selecting.v" pos="unk"><instance docscr="SEMCORE" id="Selecting.v.0"><context><head>Selecting</head> the bunk.
+</context></instance></lexelt><lexelt item="child.n" pos="unk"><instance docscr="SEMCORE" id="child.n.0"><context>select the <head>child</head>.
+</context></instance></lexelt><lexelt item="word.n" pos="unk"><instance docscr="SEMCORE" id="word.n.0"><context>select the <head>word</head>.
+</context></instance></lexelt><lexelt item="agent.n" pos="unk"><instance docscr="SEMCORE" id="agent.n.0"><context>select the <head>agent</head>.
+</context></instance></lexelt><lexelt item="appointee.n" pos="unk"><instance docscr="SEMCORE" id="appointee.n.0"><context>select the <head>appointee</head>.
+</context></instance></lexelt><lexelt item="sale.n" pos="unk"><instance docscr="SEMCORE" id="sale.n.0"><context>select the <head>sale</head>.
+</context></instance></lexelt><lexelt item="antiserum.n" pos="unk"><instance docscr="SEMCORE" id="antiserum.n.0"><context>select the <head>antiserum</head>.
+</context></instance></lexelt><lexelt item="system.n" pos="unk"><instance docscr="SEMCORE" id="system.n.0"><context>select the <head>system</head>.
+</context></instance></lexelt><lexelt item="arrow.n" pos="unk"><instance docscr="SEMCORE" id="arrow.n.0"><context>select the <head>arrow</head>.
+</context></instance></lexelt><lexelt item="wavelength.n" pos="unk"><instance docscr="SEMCORE" id="wavelength.n.0"><context>select the <head>wavelength</head>.
+</context></instance></lexelt><lexelt item="sheet.n" pos="unk"><instance docscr="SEMCORE" id="sheet.n.0"><context>select the <head>sheet</head>.
+</context></instance></lexelt><lexelt item="sentence.n" pos="unk"><instance docscr="SEMCORE" id="sentence.n.0"><context>select the <head>sentence</head>.
+</context></instance></lexelt><lexelt item="microscope.n" pos="unk"><instance docscr="SEMCORE" id="microscope.n.0"><context>select the <head>microscope</head>.
+</context></instance></lexelt><lexelt item="site.n" pos="unk"><instance docscr="SEMCORE" id="site.n.0"><context>select the <head>site</head>.
+</context></instance></lexelt><lexelt item="bunk.n" pos="unk"><instance docscr="SEMCORE" id="bunk.n.0"><context>Selecting the <head>bunk</head>.
+</context></instance></lexelt><lexelt item="information.n" pos="unk"><instance docscr="SEMCORE" id="information.n.0"><context>select the <head>information</head>.
+</context></instance><instance docscr="SEMCORE" id="information.n.1"><context>select the <head>information</head>.
+</context></instance></lexelt><lexelt item="training.n" pos="unk"><instance docscr="SEMCORE" id="training.n.0"><context>select the <head>training</head>.
+</context></instance></lexelt><lexelt item="subject.n" pos="unk"><instance docscr="SEMCORE" id="subject.n.0"><context>select the <head>subject</head>.
+</context></instance><instance docscr="SEMCORE" id="subject.n.1"><context>select the <head>subject</head>.
+</context></instance></lexelt><lexelt item="farm.n" pos="unk"><instance docscr="SEMCORE" id="farm.n.0"><context>select the <head>farm</head>.
+</context></instance></lexelt><lexelt item="scrutin_uninominal_voting_system.n" pos="unk"><instance docscr="SEMCORE" id="scrutin_uninominal_voting_system.n.0"><context>select the <head>scrutin_uninominal_voting_system</head>.
+</context></instance></lexelt><lexelt item="example.n" pos="unk"><instance docscr="SEMCORE" id="example.n.0"><context>select the <head>example</head>.
+</context></instance></lexelt><lexelt item="item.n" pos="unk"><instance docscr="SEMCORE" id="item.n.0"><context>select the <head>item</head>.
+</context></instance></lexelt></corpus>

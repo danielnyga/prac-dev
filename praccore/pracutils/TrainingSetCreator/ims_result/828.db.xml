@@ -1,0 +1,45 @@
+<corpus lang="english"><lexelt item="affect.v" pos="unk"><instance docscr="SEMCORE" id="affect.v.0"><context><head>affect</head>Maude.
+</context></instance><instance docscr="SEMCORE" id="affect.v.1"><context><head>affect</head> the destiny.
+</context></instance><instance docscr="SEMCORE" id="affect.v.2"><context><head>affect</head> the picture.
+</context></instance><instance docscr="SEMCORE" id="affect.v.3"><context><head>affect</head> the productivity.
+</context></instance><instance docscr="SEMCORE" id="affect.v.4"><context><head>affect</head> the pace.
+</context></instance><instance docscr="SEMCORE" id="affect.v.5"><context><head>affect</head> the badness.
+</context></instance><instance docscr="SEMCORE" id="affect.v.6"><context><head>affect</head> the conscience.
+</context></instance><instance docscr="SEMCORE" id="affect.v.7"><context><head>affect</head> the method.
+</context></instance><instance docscr="SEMCORE" id="affect.v.8"><context><head>affect</head> the question.
+</context></instance><instance docscr="SEMCORE" id="affect.v.9"><context><head>affect</head> the area.
+</context></instance><instance docscr="SEMCORE" id="affect.v.10"><context><head>affect</head> the wage.
+</context></instance><instance docscr="SEMCORE" id="affect.v.11"><context><head>affect</head> the pressure.
+</context></instance><instance docscr="SEMCORE" id="affect.v.12"><context><head>affect</head> the situation.
+</context></instance><instance docscr="SEMCORE" id="affect.v.13"><context><head>affect</head> the commerce.
+</context></instance><instance docscr="SEMCORE" id="affect.v.14"><context><head>affect</head> the recreation.
+</context></instance><instance docscr="SEMCORE" id="affect.v.15"><context><head>affect</head> the value.
+</context></instance><instance docscr="SEMCORE" id="affect.v.16"><context><head>affect</head> the value.
+</context></instance><instance docscr="SEMCORE" id="affect.v.17"><context><head>affect</head> the use.
+</context></instance><instance docscr="SEMCORE" id="affect.v.18"><context><head>affect</head> the use.
+</context></instance><instance docscr="SEMCORE" id="affect.v.19"><context><head>affect</head> the people.
+</context></instance><instance docscr="SEMCORE" id="affect.v.20"><context><head>affect</head> the relation.
+</context></instance><instance docscr="SEMCORE" id="affect.v.21"><context><head>affect</head> the distribution.
+</context></instance></lexelt><lexelt item="recreation.n" pos="unk"><instance docscr="SEMCORE" id="recreation.n.0"><context>affect the <head>recreation</head>.
+</context></instance></lexelt><lexelt item="people.n" pos="unk"><instance docscr="SEMCORE" id="people.n.0"><context>affect the <head>people</head>.
+</context></instance></lexelt><lexelt item="productivity.n" pos="unk"><instance docscr="SEMCORE" id="productivity.n.0"><context>affect the <head>productivity</head>.
+</context></instance></lexelt><lexelt item="method.n" pos="unk"><instance docscr="SEMCORE" id="method.n.0"><context>affect the <head>method</head>.
+</context></instance></lexelt><lexelt item="value.n" pos="unk"><instance docscr="SEMCORE" id="value.n.0"><context>affect the <head>value</head>.
+</context></instance><instance docscr="SEMCORE" id="value.n.1"><context>affect the <head>value</head>.
+</context></instance></lexelt><lexelt item="question.n" pos="unk"><instance docscr="SEMCORE" id="question.n.0"><context>affect the <head>question</head>.
+</context></instance></lexelt><lexelt item="badness.n" pos="unk"><instance docscr="SEMCORE" id="badness.n.0"><context>affect the <head>badness</head>.
+</context></instance></lexelt><lexelt item="relation.n" pos="unk"><instance docscr="SEMCORE" id="relation.n.0"><context>affect the <head>relation</head>.
+</context></instance></lexelt><lexelt item="pressure.n" pos="unk"><instance docscr="SEMCORE" id="pressure.n.0"><context>affect the <head>pressure</head>.
+</context></instance></lexelt><lexelt item="situation.n" pos="unk"><instance docscr="SEMCORE" id="situation.n.0"><context>affect the <head>situation</head>.
+</context></instance></lexelt><lexelt item="Maude.n" pos="unk"><instance docscr="SEMCORE" id="Maude.n.0"><context>affect<head>Maude</head>.
+</context></instance></lexelt><lexelt item="wage.n" pos="unk"><instance docscr="SEMCORE" id="wage.n.0"><context>affect the <head>wage</head>.
+</context></instance></lexelt><lexelt item="conscience.n" pos="unk"><instance docscr="SEMCORE" id="conscience.n.0"><context>affect the <head>conscience</head>.
+</context></instance></lexelt><lexelt item="picture.n" pos="unk"><instance docscr="SEMCORE" id="picture.n.0"><context>affect the <head>picture</head>.
+</context></instance></lexelt><lexelt item="commerce.n" pos="unk"><instance docscr="SEMCORE" id="commerce.n.0"><context>affect the <head>commerce</head>.
+</context></instance></lexelt><lexelt item="distribution.n" pos="unk"><instance docscr="SEMCORE" id="distribution.n.0"><context>affect the <head>distribution</head>.
+</context></instance></lexelt><lexelt item="use.n" pos="unk"><instance docscr="SEMCORE" id="use.n.0"><context>affect the <head>use</head>.
+</context></instance><instance docscr="SEMCORE" id="use.n.1"><context>affect the <head>use</head>.
+</context></instance></lexelt><lexelt item="pace.n" pos="unk"><instance docscr="SEMCORE" id="pace.n.0"><context>affect the <head>pace</head>.
+</context></instance></lexelt><lexelt item="area.n" pos="unk"><instance docscr="SEMCORE" id="area.n.0"><context>affect the <head>area</head>.
+</context></instance></lexelt><lexelt item="destiny.n" pos="unk"><instance docscr="SEMCORE" id="destiny.n.0"><context>affect the <head>destiny</head>.
+</context></instance></lexelt></corpus>

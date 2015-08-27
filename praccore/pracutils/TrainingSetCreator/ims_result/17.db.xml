@@ -1,0 +1,89 @@
+<corpus lang="english"><lexelt item="require.v" pos="unk"><instance docscr="SEMCORE" id="require.v.0"><context><head>require</head> the employee.
+</context></instance><instance docscr="SEMCORE" id="require.v.1"><context><head>require</head> the storage.
+</context></instance><instance docscr="SEMCORE" id="require.v.2"><context><head>require</head> the list.
+</context></instance><instance docscr="SEMCORE" id="require.v.3"><context><head>require</head> the understanding.
+</context></instance><instance docscr="SEMCORE" id="require.v.4"><context><head>require</head> the hydrogen_bond.
+</context></instance><instance docscr="SEMCORE" id="require.v.5"><context><head>require</head> the support.
+</context></instance><instance docscr="SEMCORE" id="require.v.6"><context><head>require</head> the exposition.
+</context></instance><instance docscr="SEMCORE" id="require.v.7"><context><head>require</head> the revision.
+</context></instance><instance docscr="SEMCORE" id="require.v.8"><context><head>require</head> the player.
+</context></instance><instance docscr="SEMCORE" id="require.v.9"><context><head>require</head> the operation.
+</context></instance><instance docscr="SEMCORE" id="require.v.10"><context><head>require</head> the force.
+</context></instance><instance docscr="SEMCORE" id="require.v.11"><context><head>require</head> the commentary.
+</context></instance><instance docscr="SEMCORE" id="require.v.12"><context><head>require</head> the energy.
+</context></instance><instance docscr="SEMCORE" id="require.v.13"><context><head>require</head> the great_deal.
+</context></instance><instance docscr="SEMCORE" id="require.v.14"><context><head>require</head> the exploration.
+</context></instance><instance docscr="SEMCORE" id="require.v.15"><context><head>require</head> the recognition.
+</context></instance><instance docscr="SEMCORE" id="require.v.16"><context><head>require</head> the great_deal.
+</context></instance><instance docscr="SEMCORE" id="require.v.17"><context><head>require</head>fall.
+</context></instance><instance docscr="SEMCORE" id="require.v.18"><context><head>require</head> the production.
+</context></instance><instance docscr="SEMCORE" id="require.v.19"><context><head>require</head> the report.
+</context></instance><instance docscr="SEMCORE" id="require.v.20"><context><head>require</head> the nothing.
+</context></instance><instance docscr="SEMCORE" id="require.v.21"><context><head>require</head> the comment.
+</context></instance><instance docscr="SEMCORE" id="require.v.22"><context><head>require</head> the oversimplification.
+</context></instance><instance docscr="SEMCORE" id="require.v.23"><context><head>require</head> the experimentation.
+</context></instance><instance docscr="SEMCORE" id="require.v.24"><context><head>require</head> the lengthening.
+</context></instance><instance docscr="SEMCORE" id="require.v.25"><context><head>require</head> the series.
+</context></instance><instance docscr="SEMCORE" id="require.v.26"><context><head>require</head> the contractor.
+</context></instance><instance docscr="SEMCORE" id="require.v.27"><context><head>require</head> the thought.
+</context></instance><instance docscr="SEMCORE" id="require.v.28"><context><head>require</head> the cooperation.
+</context></instance><instance docscr="SEMCORE" id="require.v.29"><context><head>require</head> the theory.
+</context></instance><instance docscr="SEMCORE" id="require.v.30"><context><head>require</head>depends_on.
+</context></instance><instance docscr="SEMCORE" id="require.v.31"><context><head>require</head> the unit.
+</context></instance><instance docscr="SEMCORE" id="require.v.32"><context><head>require</head> the study.
+</context></instance><instance docscr="SEMCORE" id="require.v.33"><context><head>require</head> the area.
+</context></instance><instance docscr="SEMCORE" id="require.v.34"><context><head>require</head> the removal.
+</context></instance><instance docscr="SEMCORE" id="require.v.35"><context><head>require</head> the construction.
+</context></instance><instance docscr="SEMCORE" id="require.v.36"><context><head>require</head> the addition.
+</context></instance><instance docscr="SEMCORE" id="require.v.37"><context><head>require</head> the ballast_resistor.
+</context></instance><instance docscr="SEMCORE" id="require.v.38"><context><head>require</head> the eye.
+</context></instance><instance docscr="SEMCORE" id="require.v.39"><context><head>require</head> the callousness.
+</context></instance><instance docscr="SEMCORE" id="require.v.40"><context><head>require</head> the product.
+</context></instance><instance docscr="SEMCORE" id="require.v.41"><context><head>require</head>process.
+</context></instance><instance docscr="SEMCORE" id="require.v.42"><context><head>require</head> the eye.
+</context></instance><instance docscr="SEMCORE" id="require.v.43"><context><head>require</head> the mystique.
+</context></instance></lexelt><lexelt item="thought.n" pos="unk"><instance docscr="SEMCORE" id="thought.n.0"><context>require the <head>thought</head>.
+</context></instance></lexelt><lexelt item="addition.n" pos="unk"><instance docscr="SEMCORE" id="addition.n.0"><context>require the <head>addition</head>.
+</context></instance></lexelt><lexelt item="production.n" pos="unk"><instance docscr="SEMCORE" id="production.n.0"><context>require the <head>production</head>.
+</context></instance></lexelt><lexelt item="process.n" pos="unk"><instance docscr="SEMCORE" id="process.n.0"><context>require<head>process</head>.
+</context></instance></lexelt><lexelt item="depends_on.n" pos="unk"><instance docscr="SEMCORE" id="depends_on.n.0"><context>require<head>depends_on</head>.
+</context></instance></lexelt><lexelt item="exploration.n" pos="unk"><instance docscr="SEMCORE" id="exploration.n.0"><context>require the <head>exploration</head>.
+</context></instance></lexelt><lexelt item="support.n" pos="unk"><instance docscr="SEMCORE" id="support.n.0"><context>require the <head>support</head>.
+</context></instance></lexelt><lexelt item="operation.n" pos="unk"><instance docscr="SEMCORE" id="operation.n.0"><context>require the <head>operation</head>.
+</context></instance></lexelt><lexelt item="contractor.n" pos="unk"><instance docscr="SEMCORE" id="contractor.n.0"><context>require the <head>contractor</head>.
+</context></instance></lexelt><lexelt item="experimentation.n" pos="unk"><instance docscr="SEMCORE" id="experimentation.n.0"><context>require the <head>experimentation</head>.
+</context></instance></lexelt><lexelt item="player.n" pos="unk"><instance docscr="SEMCORE" id="player.n.0"><context>require the <head>player</head>.
+</context></instance></lexelt><lexelt item="cooperation.n" pos="unk"><instance docscr="SEMCORE" id="cooperation.n.0"><context>require the <head>cooperation</head>.
+</context></instance></lexelt><lexelt item="list.n" pos="unk"><instance docscr="SEMCORE" id="list.n.0"><context>require the <head>list</head>.
+</context></instance></lexelt><lexelt item="callousness.n" pos="unk"><instance docscr="SEMCORE" id="callousness.n.0"><context>require the <head>callousness</head>.
+</context></instance></lexelt><lexelt item="employee.n" pos="unk"><instance docscr="SEMCORE" id="employee.n.0"><context>require the <head>employee</head>.
+</context></instance></lexelt><lexelt item="area.n" pos="unk"><instance docscr="SEMCORE" id="area.n.0"><context>require the <head>area</head>.
+</context></instance></lexelt><lexelt item="study.n" pos="unk"><instance docscr="SEMCORE" id="study.n.0"><context>require the <head>study</head>.
+</context></instance></lexelt><lexelt item="product.n" pos="unk"><instance docscr="SEMCORE" id="product.n.0"><context>require the <head>product</head>.
+</context></instance></lexelt><lexelt item="revision.n" pos="unk"><instance docscr="SEMCORE" id="revision.n.0"><context>require the <head>revision</head>.
+</context></instance></lexelt><lexelt item="lengthening.n" pos="unk"><instance docscr="SEMCORE" id="lengthening.n.0"><context>require the <head>lengthening</head>.
+</context></instance></lexelt><lexelt item="commentary.n" pos="unk"><instance docscr="SEMCORE" id="commentary.n.0"><context>require the <head>commentary</head>.
+</context></instance></lexelt><lexelt item="unit.n" pos="unk"><instance docscr="SEMCORE" id="unit.n.0"><context>require the <head>unit</head>.
+</context></instance></lexelt><lexelt item="oversimplification.n" pos="unk"><instance docscr="SEMCORE" id="oversimplification.n.0"><context>require the <head>oversimplification</head>.
+</context></instance></lexelt><lexelt item="recognition.n" pos="unk"><instance docscr="SEMCORE" id="recognition.n.0"><context>require the <head>recognition</head>.
+</context></instance></lexelt><lexelt item="mystique.n" pos="unk"><instance docscr="SEMCORE" id="mystique.n.0"><context>require the <head>mystique</head>.
+</context></instance></lexelt><lexelt item="theory.n" pos="unk"><instance docscr="SEMCORE" id="theory.n.0"><context>require the <head>theory</head>.
+</context></instance></lexelt><lexelt item="comment.n" pos="unk"><instance docscr="SEMCORE" id="comment.n.0"><context>require the <head>comment</head>.
+</context></instance></lexelt><lexelt item="understanding.n" pos="unk"><instance docscr="SEMCORE" id="understanding.n.0"><context>require the <head>understanding</head>.
+</context></instance></lexelt><lexelt item="eye.n" pos="unk"><instance docscr="SEMCORE" id="eye.n.0"><context>require the <head>eye</head>.
+</context></instance><instance docscr="SEMCORE" id="eye.n.1"><context>require the <head>eye</head>.
+</context></instance></lexelt><lexelt item="exposition.n" pos="unk"><instance docscr="SEMCORE" id="exposition.n.0"><context>require the <head>exposition</head>.
+</context></instance></lexelt><lexelt item="hydrogen_bond.n" pos="unk"><instance docscr="SEMCORE" id="hydrogen_bond.n.0"><context>require the <head>hydrogen_bond</head>.
+</context></instance></lexelt><lexelt item="removal.n" pos="unk"><instance docscr="SEMCORE" id="removal.n.0"><context>require the <head>removal</head>.
+</context></instance></lexelt><lexelt item="storage.n" pos="unk"><instance docscr="SEMCORE" id="storage.n.0"><context>require the <head>storage</head>.
+</context></instance></lexelt><lexelt item="fall.n" pos="unk"><instance docscr="SEMCORE" id="fall.n.0"><context>require<head>fall</head>.
+</context></instance></lexelt><lexelt item="force.n" pos="unk"><instance docscr="SEMCORE" id="force.n.0"><context>require the <head>force</head>.
+</context></instance></lexelt><lexelt item="series.n" pos="unk"><instance docscr="SEMCORE" id="series.n.0"><context>require the <head>series</head>.
+</context></instance></lexelt><lexelt item="energy.n" pos="unk"><instance docscr="SEMCORE" id="energy.n.0"><context>require the <head>energy</head>.
+</context></instance></lexelt><lexelt item="construction.n" pos="unk"><instance docscr="SEMCORE" id="construction.n.0"><context>require the <head>construction</head>.
+</context></instance></lexelt><lexelt item="report.n" pos="unk"><instance docscr="SEMCORE" id="report.n.0"><context>require the <head>report</head>.
+</context></instance></lexelt><lexelt item="ballast_resistor.n" pos="unk"><instance docscr="SEMCORE" id="ballast_resistor.n.0"><context>require the <head>ballast_resistor</head>.
+</context></instance></lexelt><lexelt item="great_deal.n" pos="unk"><instance docscr="SEMCORE" id="great_deal.n.0"><context>require the <head>great_deal</head>.
+</context></instance><instance docscr="SEMCORE" id="great_deal.n.1"><context>require the <head>great_deal</head>.
+</context></instance></lexelt><lexelt item="nothing.n" pos="unk"><instance docscr="SEMCORE" id="nothing.n.0"><context>require the <head>nothing</head>.
+</context></instance></lexelt></corpus>

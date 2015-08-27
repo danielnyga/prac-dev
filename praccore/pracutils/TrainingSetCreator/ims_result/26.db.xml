@@ -1,0 +1,65 @@
+<corpus lang="english"><lexelt item="bring.v" pos="unk"><instance docscr="SEMCORE" id="bring.v.0"><context><head>bring</head> the squad.
+</context></instance><instance docscr="SEMCORE" id="bring.v.1"><context><head>bring</head> the clothes.
+</context></instance><instance docscr="SEMCORE" id="bring.v.2"><context><head>bring</head> the monster.
+</context></instance><instance docscr="SEMCORE" id="bring.v.3"><context><head>bring</head>Harold.
+</context></instance><instance docscr="SEMCORE" id="bring.v.4"><context><head>bring</head> the badness.
+</context></instance><instance docscr="SEMCORE" id="bring.v.5"><context><head>bring</head> the goodness.
+</context></instance><instance docscr="SEMCORE" id="bring.v.6"><context><head>bring</head> the idea.
+</context></instance><instance docscr="SEMCORE" id="bring.v.7"><context><head>bring</head> the antagonist.
+</context></instance><instance docscr="SEMCORE" id="bring.v.8"><context><head>bring</head> the foot.
+</context></instance><instance docscr="SEMCORE" id="bring.v.9"><context><head>bring</head> the leg.
+</context></instance><instance docscr="SEMCORE" id="bring.v.10"><context><head>bring</head> the foot.
+</context></instance><instance docscr="SEMCORE" id="bring.v.11"><context><head>bring</head> the dinner.
+</context></instance><instance docscr="SEMCORE" id="bring.v.12"><context><head>bring</head> the eye.
+</context></instance><instance docscr="SEMCORE" id="bring.v.13"><context><head>bring</head> the easy_chair.
+</context></instance><instance docscr="SEMCORE" id="bring.v.14"><context><head>bring</head> the associate.
+</context></instance><instance docscr="SEMCORE" id="bring.v.15"><context><head>bring</head> the group.
+</context></instance><instance docscr="SEMCORE" id="bring.v.16"><context><head>bring</head> the men.
+</context></instance><instance docscr="SEMCORE" id="bring.v.17"><context><head>bring</head>cold.
+</context></instance><instance docscr="SEMCORE" id="bring.v.18"><context><head>bring</head>Andruses.
+</context></instance><instance docscr="SEMCORE" id="bring.v.19"><context><head>bring</head> the group.
+</context></instance><instance docscr="SEMCORE" id="bring.v.20"><context><head>bring</head>Claire.
+</context></instance><instance docscr="SEMCORE" id="bring.v.21"><context><head>bring</head> the odor.
+</context></instance><instance docscr="SEMCORE" id="bring.v.22"><context><head>bring</head> the police.
+</context></instance><instance docscr="SEMCORE" id="bring.v.23"><context><head>bring</head> the pan.
+</context></instance><instance docscr="SEMCORE" id="bring.v.24"><context><head>bring</head> the courage.
+</context></instance><instance docscr="SEMCORE" id="bring.v.25"><context><head>bring</head> the corsage.
+</context></instance><instance docscr="SEMCORE" id="bring.v.26"><context><head>bring</head> the family.
+</context></instance><instance docscr="SEMCORE" id="bring.v.27"><context><head>bring</head> the fishing_rod.
+</context></instance><instance docscr="SEMCORE" id="bring.v.28"><context><head>bring</head> the ball.
+</context></instance><instance docscr="SEMCORE" id="bring.v.29"><context><head>bring</head> the fish.
+</context></instance><instance docscr="SEMCORE" id="bring.v.30"><context><head>bring</head> the order.
+</context></instance><instance docscr="SEMCORE" id="bring.v.31"><context><head>bring</head> the news.
+</context></instance></lexelt><lexelt item="men.n" pos="unk"><instance docscr="SEMCORE" id="men.n.0"><context>bring the <head>men</head>.
+</context></instance></lexelt><lexelt item="group.n" pos="unk"><instance docscr="SEMCORE" id="group.n.0"><context>bring the <head>group</head>.
+</context></instance><instance docscr="SEMCORE" id="group.n.1"><context>bring the <head>group</head>.
+</context></instance></lexelt><lexelt item="Claire.n" pos="unk"><instance docscr="SEMCORE" id="Claire.n.0"><context>bring<head>Claire</head>.
+</context></instance></lexelt><lexelt item="courage.n" pos="unk"><instance docscr="SEMCORE" id="courage.n.0"><context>bring the <head>courage</head>.
+</context></instance></lexelt><lexelt item="antagonist.n" pos="unk"><instance docscr="SEMCORE" id="antagonist.n.0"><context>bring the <head>antagonist</head>.
+</context></instance></lexelt><lexelt item="ball.n" pos="unk"><instance docscr="SEMCORE" id="ball.n.0"><context>bring the <head>ball</head>.
+</context></instance></lexelt><lexelt item="Harold.n" pos="unk"><instance docscr="SEMCORE" id="Harold.n.0"><context>bring<head>Harold</head>.
+</context></instance></lexelt><lexelt item="odor.n" pos="unk"><instance docscr="SEMCORE" id="odor.n.0"><context>bring the <head>odor</head>.
+</context></instance></lexelt><lexelt item="corsage.n" pos="unk"><instance docscr="SEMCORE" id="corsage.n.0"><context>bring the <head>corsage</head>.
+</context></instance></lexelt><lexelt item="associate.n" pos="unk"><instance docscr="SEMCORE" id="associate.n.0"><context>bring the <head>associate</head>.
+</context></instance></lexelt><lexelt item="dinner.n" pos="unk"><instance docscr="SEMCORE" id="dinner.n.0"><context>bring the <head>dinner</head>.
+</context></instance></lexelt><lexelt item="fishing_rod.n" pos="unk"><instance docscr="SEMCORE" id="fishing_rod.n.0"><context>bring the <head>fishing_rod</head>.
+</context></instance></lexelt><lexelt item="cold.n" pos="unk"><instance docscr="SEMCORE" id="cold.n.0"><context>bring<head>cold</head>.
+</context></instance></lexelt><lexelt item="clothes.n" pos="unk"><instance docscr="SEMCORE" id="clothes.n.0"><context>bring the <head>clothes</head>.
+</context></instance></lexelt><lexelt item="goodness.n" pos="unk"><instance docscr="SEMCORE" id="goodness.n.0"><context>bring the <head>goodness</head>.
+</context></instance></lexelt><lexelt item="order.n" pos="unk"><instance docscr="SEMCORE" id="order.n.0"><context>bring the <head>order</head>.
+</context></instance></lexelt><lexelt item="police.n" pos="unk"><instance docscr="SEMCORE" id="police.n.0"><context>bring the <head>police</head>.
+</context></instance></lexelt><lexelt item="pan.n" pos="unk"><instance docscr="SEMCORE" id="pan.n.0"><context>bring the <head>pan</head>.
+</context></instance></lexelt><lexelt item="news.n" pos="unk"><instance docscr="SEMCORE" id="news.n.0"><context>bring the <head>news</head>.
+</context></instance></lexelt><lexelt item="foot.n" pos="unk"><instance docscr="SEMCORE" id="foot.n.0"><context>bring the <head>foot</head>.
+</context></instance><instance docscr="SEMCORE" id="foot.n.1"><context>bring the <head>foot</head>.
+</context></instance></lexelt><lexelt item="idea.n" pos="unk"><instance docscr="SEMCORE" id="idea.n.0"><context>bring the <head>idea</head>.
+</context></instance></lexelt><lexelt item="squad.n" pos="unk"><instance docscr="SEMCORE" id="squad.n.0"><context>bring the <head>squad</head>.
+</context></instance></lexelt><lexelt item="leg.n" pos="unk"><instance docscr="SEMCORE" id="leg.n.0"><context>bring the <head>leg</head>.
+</context></instance></lexelt><lexelt item="Andruses.n" pos="unk"><instance docscr="SEMCORE" id="Andruses.n.0"><context>bring<head>Andruses</head>.
+</context></instance></lexelt><lexelt item="easy_chair.n" pos="unk"><instance docscr="SEMCORE" id="easy_chair.n.0"><context>bring the <head>easy_chair</head>.
+</context></instance></lexelt><lexelt item="monster.n" pos="unk"><instance docscr="SEMCORE" id="monster.n.0"><context>bring the <head>monster</head>.
+</context></instance></lexelt><lexelt item="fish.n" pos="unk"><instance docscr="SEMCORE" id="fish.n.0"><context>bring the <head>fish</head>.
+</context></instance></lexelt><lexelt item="family.n" pos="unk"><instance docscr="SEMCORE" id="family.n.0"><context>bring the <head>family</head>.
+</context></instance></lexelt><lexelt item="badness.n" pos="unk"><instance docscr="SEMCORE" id="badness.n.0"><context>bring the <head>badness</head>.
+</context></instance></lexelt><lexelt item="eye.n" pos="unk"><instance docscr="SEMCORE" id="eye.n.0"><context>bring the <head>eye</head>.
+</context></instance></lexelt></corpus>

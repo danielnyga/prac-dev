@@ -1,0 +1,57 @@
+<corpus lang="english"><lexelt item="cause.v" pos="unk"><instance docscr="SEMCORE" id="cause.v.0"><context><head>cause</head> the particle.
+</context></instance><instance docscr="SEMCORE" id="cause.v.1"><context><head>cause</head> the work.
+</context></instance><instance docscr="SEMCORE" id="cause.v.2"><context><head>cause</head> the discharge.
+</context></instance><instance docscr="SEMCORE" id="cause.v.3"><context><head>cause</head> the lessening.
+</context></instance><instance docscr="SEMCORE" id="cause.v.4"><context><head>cause</head> the effect.
+</context></instance><instance docscr="SEMCORE" id="cause.v.5"><context><head>cause</head> the increase.
+</context></instance><instance docscr="SEMCORE" id="cause.v.6"><context><head>cause</head> the synchrony.
+</context></instance><instance docscr="SEMCORE" id="cause.v.7"><context><head>cause</head> the difficulty.
+</context></instance><instance docscr="SEMCORE" id="cause.v.8"><context><head>cause</head>much.
+</context></instance><instance docscr="SEMCORE" id="cause.v.9"><context><head>cause</head> the anxiety.
+</context></instance><instance docscr="SEMCORE" id="cause.v.10"><context><head>cause</head> the infection.
+</context></instance><instance docscr="SEMCORE" id="cause.v.11"><context><head>cause</head> the rate.
+</context></instance><instance docscr="SEMCORE" id="cause.v.12"><context><head>cause</head> the tension.
+</context></instance><instance docscr="SEMCORE" id="cause.v.13"><context><head>cause</head> the blemish.
+</context></instance><instance docscr="SEMCORE" id="cause.v.14"><context><head>cause</head> the confusion.
+</context></instance><instance docscr="SEMCORE" id="cause.v.15"><context><head>cause</head> the sufferer.
+</context></instance><instance docscr="SEMCORE" id="cause.v.16"><context><head>cause</head> the error.
+</context></instance><instance docscr="SEMCORE" id="cause.v.17"><context><head>cause</head> the mixing.
+</context></instance><instance docscr="SEMCORE" id="cause.v.18"><context><head>cause</head> the platform.
+</context></instance><instance docscr="SEMCORE" id="cause.v.19"><context><head>cause</head> the ice.
+</context></instance><instance docscr="SEMCORE" id="cause.v.20"><context><head>cause</head> the behavior.
+</context></instance><instance docscr="SEMCORE" id="cause.v.21"><context><head>cause</head> the warfare.
+</context></instance><instance docscr="SEMCORE" id="cause.v.22"><context><head>cause</head> the love.
+</context></instance><instance docscr="SEMCORE" id="cause.v.23"><context><head>cause</head> the fumble.
+</context></instance><instance docscr="SEMCORE" id="cause.v.24"><context><head>cause</head> the dust.
+</context></instance><instance docscr="SEMCORE" id="cause.v.25"><context><head>cause</head> the diminution.
+</context></instance><instance docscr="SEMCORE" id="cause.v.26"><context><head>cause</head> the deviation.
+</context></instance><instance docscr="SEMCORE" id="cause.v.27"><context><head>cause</head> the fraction.
+</context></instance></lexelt><lexelt item="error.n" pos="unk"><instance docscr="SEMCORE" id="error.n.0"><context>cause the <head>error</head>.
+</context></instance></lexelt><lexelt item="effect.n" pos="unk"><instance docscr="SEMCORE" id="effect.n.0"><context>cause the <head>effect</head>.
+</context></instance></lexelt><lexelt item="ice.n" pos="unk"><instance docscr="SEMCORE" id="ice.n.0"><context>cause the <head>ice</head>.
+</context></instance></lexelt><lexelt item="tension.n" pos="unk"><instance docscr="SEMCORE" id="tension.n.0"><context>cause the <head>tension</head>.
+</context></instance></lexelt><lexelt item="infection.n" pos="unk"><instance docscr="SEMCORE" id="infection.n.0"><context>cause the <head>infection</head>.
+</context></instance></lexelt><lexelt item="synchrony.n" pos="unk"><instance docscr="SEMCORE" id="synchrony.n.0"><context>cause the <head>synchrony</head>.
+</context></instance></lexelt><lexelt item="behavior.n" pos="unk"><instance docscr="SEMCORE" id="behavior.n.0"><context>cause the <head>behavior</head>.
+</context></instance></lexelt><lexelt item="sufferer.n" pos="unk"><instance docscr="SEMCORE" id="sufferer.n.0"><context>cause the <head>sufferer</head>.
+</context></instance></lexelt><lexelt item="rate.n" pos="unk"><instance docscr="SEMCORE" id="rate.n.0"><context>cause the <head>rate</head>.
+</context></instance></lexelt><lexelt item="confusion.n" pos="unk"><instance docscr="SEMCORE" id="confusion.n.0"><context>cause the <head>confusion</head>.
+</context></instance></lexelt><lexelt item="deviation.n" pos="unk"><instance docscr="SEMCORE" id="deviation.n.0"><context>cause the <head>deviation</head>.
+</context></instance></lexelt><lexelt item="work.n" pos="unk"><instance docscr="SEMCORE" id="work.n.0"><context>cause the <head>work</head>.
+</context></instance></lexelt><lexelt item="fumble.n" pos="unk"><instance docscr="SEMCORE" id="fumble.n.0"><context>cause the <head>fumble</head>.
+</context></instance></lexelt><lexelt item="dust.n" pos="unk"><instance docscr="SEMCORE" id="dust.n.0"><context>cause the <head>dust</head>.
+</context></instance></lexelt><lexelt item="anxiety.n" pos="unk"><instance docscr="SEMCORE" id="anxiety.n.0"><context>cause the <head>anxiety</head>.
+</context></instance></lexelt><lexelt item="particle.n" pos="unk"><instance docscr="SEMCORE" id="particle.n.0"><context>cause the <head>particle</head>.
+</context></instance></lexelt><lexelt item="much.n" pos="unk"><instance docscr="SEMCORE" id="much.n.0"><context>cause<head>much</head>.
+</context></instance></lexelt><lexelt item="fraction.n" pos="unk"><instance docscr="SEMCORE" id="fraction.n.0"><context>cause the <head>fraction</head>.
+</context></instance></lexelt><lexelt item="difficulty.n" pos="unk"><instance docscr="SEMCORE" id="difficulty.n.0"><context>cause the <head>difficulty</head>.
+</context></instance></lexelt><lexelt item="blemish.n" pos="unk"><instance docscr="SEMCORE" id="blemish.n.0"><context>cause the <head>blemish</head>.
+</context></instance></lexelt><lexelt item="love.n" pos="unk"><instance docscr="SEMCORE" id="love.n.0"><context>cause the <head>love</head>.
+</context></instance></lexelt><lexelt item="diminution.n" pos="unk"><instance docscr="SEMCORE" id="diminution.n.0"><context>cause the <head>diminution</head>.
+</context></instance></lexelt><lexelt item="platform.n" pos="unk"><instance docscr="SEMCORE" id="platform.n.0"><context>cause the <head>platform</head>.
+</context></instance></lexelt><lexelt item="lessening.n" pos="unk"><instance docscr="SEMCORE" id="lessening.n.0"><context>cause the <head>lessening</head>.
+</context></instance></lexelt><lexelt item="increase.n" pos="unk"><instance docscr="SEMCORE" id="increase.n.0"><context>cause the <head>increase</head>.
+</context></instance></lexelt><lexelt item="mixing.n" pos="unk"><instance docscr="SEMCORE" id="mixing.n.0"><context>cause the <head>mixing</head>.
+</context></instance></lexelt><lexelt item="discharge.n" pos="unk"><instance docscr="SEMCORE" id="discharge.n.0"><context>cause the <head>discharge</head>.
+</context></instance></lexelt><lexelt item="warfare.n" pos="unk"><instance docscr="SEMCORE" id="warfare.n.0"><context>cause the <head>warfare</head>.
+</context></instance></lexelt></corpus>

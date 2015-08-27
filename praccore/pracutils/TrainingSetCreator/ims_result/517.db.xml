@@ -1,0 +1,53 @@
+<corpus lang="english"><lexelt item="attend.v" pos="unk"><instance docscr="SEMCORE" id="attend.v.0"><context><head>attend</head> the university.
+</context></instance><instance docscr="SEMCORE" id="attend.v.1"><context><head>attend</head>Reich_Minister_of_Justice.
+</context></instance><instance docscr="SEMCORE" id="attend.v.2"><context><head>attend</head>New_York_University.
+</context></instance><instance docscr="SEMCORE" id="attend.v.3"><context><head>attend</head> the debut.
+</context></instance><instance docscr="SEMCORE" id="attend.v.4"><context><head>attend</head> the public_lecture.
+</context></instance><instance docscr="SEMCORE" id="attend.v.5"><context><head>attend</head>University_of_Pennsylvania.
+</context></instance><instance docscr="SEMCORE" id="attend.v.6"><context><head>attend</head> the institution.
+</context></instance><instance docscr="SEMCORE" id="attend.v.7"><context><head>attend</head> the college.
+</context></instance><instance docscr="SEMCORE" id="attend.v.8"><context><head>attend</head> the college.
+</context></instance><instance docscr="SEMCORE" id="attend.v.9"><context><head>attend</head> the college.
+</context></instance><instance docscr="SEMCORE" id="attend.v.10"><context><head>attend</head> the college.
+</context></instance><instance docscr="SEMCORE" id="attend.v.11"><context><head>attend</head>Midwood_High_School.
+</context></instance><instance docscr="SEMCORE" id="attend.v.12"><context><head>attend</head> the college.
+</context></instance><instance docscr="SEMCORE" id="attend.v.13"><context><head>attend</head> the institution.
+</context></instance><instance docscr="SEMCORE" id="attend.v.14"><context><head>attend</head> the church.
+</context></instance><instance docscr="SEMCORE" id="attend.v.15"><context><head>attend</head> the tutorial.
+</context></instance><instance docscr="SEMCORE" id="attend.v.16"><context><head>attend</head> the ceremony.
+</context></instance><instance docscr="SEMCORE" id="attend.v.17"><context><head>attend</head> the convention.
+</context></instance><instance docscr="SEMCORE" id="attend.v.18"><context><head>attend</head> the film.
+</context></instance><instance docscr="SEMCORE" id="attend.v.19"><context><head>attend</head> the day_school.
+</context></instance><instance docscr="SEMCORE" id="attend.v.20"><context><head>attend</head>Texas_School_for_the_Deaf.
+</context></instance><instance docscr="SEMCORE" id="attend.v.21"><context><head>attend</head> the day_school.
+</context></instance><instance docscr="SEMCORE" id="attend.v.22"><context><head>attend</head> the half.
+</context></instance><instance docscr="SEMCORE" id="attend.v.23"><context><head>attend</head> the high_school.
+</context></instance><instance docscr="SEMCORE" id="attend.v.24"><context><head>attend</head> the premiere.
+</context></instance></lexelt><lexelt item="Attending.v" pos="unk"><instance docscr="SEMCORE" id="Attending.v.0"><context><head>Attending</head> the life_class.
+</context></instance></lexelt><lexelt item="tutorial.n" pos="unk"><instance docscr="SEMCORE" id="tutorial.n.0"><context>attend the <head>tutorial</head>.
+</context></instance></lexelt><lexelt item="college.n" pos="unk"><instance docscr="SEMCORE" id="college.n.0"><context>attend the <head>college</head>.
+</context></instance><instance docscr="SEMCORE" id="college.n.1"><context>attend the <head>college</head>.
+</context></instance><instance docscr="SEMCORE" id="college.n.2"><context>attend the <head>college</head>.
+</context></instance><instance docscr="SEMCORE" id="college.n.3"><context>attend the <head>college</head>.
+</context></instance><instance docscr="SEMCORE" id="college.n.4"><context>attend the <head>college</head>.
+</context></instance></lexelt><lexelt item="premiere.n" pos="unk"><instance docscr="SEMCORE" id="premiere.n.0"><context>attend the <head>premiere</head>.
+</context></instance></lexelt><lexelt item="public_lecture.n" pos="unk"><instance docscr="SEMCORE" id="public_lecture.n.0"><context>attend the <head>public_lecture</head>.
+</context></instance></lexelt><lexelt item="debut.n" pos="unk"><instance docscr="SEMCORE" id="debut.n.0"><context>attend the <head>debut</head>.
+</context></instance></lexelt><lexelt item="ceremony.n" pos="unk"><instance docscr="SEMCORE" id="ceremony.n.0"><context>attend the <head>ceremony</head>.
+</context></instance></lexelt><lexelt item="institution.n" pos="unk"><instance docscr="SEMCORE" id="institution.n.0"><context>attend the <head>institution</head>.
+</context></instance><instance docscr="SEMCORE" id="institution.n.1"><context>attend the <head>institution</head>.
+</context></instance></lexelt><lexelt item="university.n" pos="unk"><instance docscr="SEMCORE" id="university.n.0"><context>attend the <head>university</head>.
+</context></instance></lexelt><lexelt item="convention.n" pos="unk"><instance docscr="SEMCORE" id="convention.n.0"><context>attend the <head>convention</head>.
+</context></instance></lexelt><lexelt item="half.n" pos="unk"><instance docscr="SEMCORE" id="half.n.0"><context>attend the <head>half</head>.
+</context></instance></lexelt><lexelt item="University_of_Pennsylvania.n" pos="unk"><instance docscr="SEMCORE" id="University_of_Pennsylvania.n.0"><context>attend<head>University_of_Pennsylvania</head>.
+</context></instance></lexelt><lexelt item="church.n" pos="unk"><instance docscr="SEMCORE" id="church.n.0"><context>attend the <head>church</head>.
+</context></instance></lexelt><lexelt item="Reich_Minister_of_Justice.n" pos="unk"><instance docscr="SEMCORE" id="Reich_Minister_of_Justice.n.0"><context>attend<head>Reich_Minister_of_Justice</head>.
+</context></instance></lexelt><lexelt item="Midwood_High_School.n" pos="unk"><instance docscr="SEMCORE" id="Midwood_High_School.n.0"><context>attend<head>Midwood_High_School</head>.
+</context></instance></lexelt><lexelt item="Texas_School_for_the_Deaf.n" pos="unk"><instance docscr="SEMCORE" id="Texas_School_for_the_Deaf.n.0"><context>attend<head>Texas_School_for_the_Deaf</head>.
+</context></instance></lexelt><lexelt item="life_class.n" pos="unk"><instance docscr="SEMCORE" id="life_class.n.0"><context>Attending the <head>life_class</head>.
+</context></instance></lexelt><lexelt item="film.n" pos="unk"><instance docscr="SEMCORE" id="film.n.0"><context>attend the <head>film</head>.
+</context></instance></lexelt><lexelt item="high_school.n" pos="unk"><instance docscr="SEMCORE" id="high_school.n.0"><context>attend the <head>high_school</head>.
+</context></instance></lexelt><lexelt item="day_school.n" pos="unk"><instance docscr="SEMCORE" id="day_school.n.0"><context>attend the <head>day_school</head>.
+</context></instance><instance docscr="SEMCORE" id="day_school.n.1"><context>attend the <head>day_school</head>.
+</context></instance></lexelt><lexelt item="New_York_University.n" pos="unk"><instance docscr="SEMCORE" id="New_York_University.n.0"><context>attend<head>New_York_University</head>.
+</context></instance></lexelt></corpus>

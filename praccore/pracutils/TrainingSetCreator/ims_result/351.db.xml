@@ -1,0 +1,49 @@
+<corpus lang="english"><lexelt item="watch.v" pos="unk"><instance docscr="SEMCORE" id="watch.v.0"><context><head>watch</head> the event.
+</context></instance><instance docscr="SEMCORE" id="watch.v.1"><context><head>watch</head> the bee.
+</context></instance><instance docscr="SEMCORE" id="watch.v.2"><context><head>watch</head> the pattern.
+</context></instance><instance docscr="SEMCORE" id="watch.v.3"><context><head>watch</head> the girl.
+</context></instance><instance docscr="SEMCORE" id="watch.v.4"><context><head>watch</head> the half-breed.
+</context></instance><instance docscr="SEMCORE" id="watch.v.5"><context><head>watch</head> the girl.
+</context></instance><instance docscr="SEMCORE" id="watch.v.6"><context><head>watch</head> the ball.
+</context></instance><instance docscr="SEMCORE" id="watch.v.7"><context><head>watch</head>board.
+</context></instance><instance docscr="SEMCORE" id="watch.v.8"><context><head>watch</head> the volley.
+</context></instance><instance docscr="SEMCORE" id="watch.v.9"><context><head>watch</head> the boarding.
+</context></instance><instance docscr="SEMCORE" id="watch.v.10"><context><head>watch</head> the figure.
+</context></instance><instance docscr="SEMCORE" id="watch.v.11"><context><head>watch</head> the bat.
+</context></instance><instance docscr="SEMCORE" id="watch.v.12"><context><head>watch</head>ride.
+</context></instance><instance docscr="SEMCORE" id="watch.v.13"><context><head>watch</head> the tree.
+</context></instance><instance docscr="SEMCORE" id="watch.v.14"><context><head>watch</head>fumble.
+</context></instance><instance docscr="SEMCORE" id="watch.v.15"><context><head>watch</head> the bend.
+</context></instance><instance docscr="SEMCORE" id="watch.v.16"><context><head>watch</head> the opportunity.
+</context></instance><instance docscr="SEMCORE" id="watch.v.17"><context><head>watch</head> the way.
+</context></instance><instance docscr="SEMCORE" id="watch.v.18"><context><head>watch</head> the response.
+</context></instance><instance docscr="SEMCORE" id="watch.v.19"><context><head>watch</head> the hand.
+</context></instance><instance docscr="SEMCORE" id="watch.v.20"><context><head>watch</head> the face.
+</context></instance><instance docscr="SEMCORE" id="watch.v.21"><context><head>watch</head> the cloud.
+</context></instance><instance docscr="SEMCORE" id="watch.v.22"><context><head>watch</head> the ship.
+</context></instance><instance docscr="SEMCORE" id="watch.v.23"><context><head>watch</head> the progress.
+</context></instance></lexelt><lexelt item="hand.n" pos="unk"><instance docscr="SEMCORE" id="hand.n.0"><context>watch the <head>hand</head>.
+</context></instance></lexelt><lexelt item="half-breed.n" pos="unk"><instance docscr="SEMCORE" id="half-breed.n.0"><context>watch the <head>half-breed</head>.
+</context></instance></lexelt><lexelt item="pattern.n" pos="unk"><instance docscr="SEMCORE" id="pattern.n.0"><context>watch the <head>pattern</head>.
+</context></instance></lexelt><lexelt item="cloud.n" pos="unk"><instance docscr="SEMCORE" id="cloud.n.0"><context>watch the <head>cloud</head>.
+</context></instance></lexelt><lexelt item="response.n" pos="unk"><instance docscr="SEMCORE" id="response.n.0"><context>watch the <head>response</head>.
+</context></instance></lexelt><lexelt item="ball.n" pos="unk"><instance docscr="SEMCORE" id="ball.n.0"><context>watch the <head>ball</head>.
+</context></instance></lexelt><lexelt item="volley.n" pos="unk"><instance docscr="SEMCORE" id="volley.n.0"><context>watch the <head>volley</head>.
+</context></instance></lexelt><lexelt item="face.n" pos="unk"><instance docscr="SEMCORE" id="face.n.0"><context>watch the <head>face</head>.
+</context></instance></lexelt><lexelt item="boarding.n" pos="unk"><instance docscr="SEMCORE" id="boarding.n.0"><context>watch the <head>boarding</head>.
+</context></instance></lexelt><lexelt item="tree.n" pos="unk"><instance docscr="SEMCORE" id="tree.n.0"><context>watch the <head>tree</head>.
+</context></instance></lexelt><lexelt item="ship.n" pos="unk"><instance docscr="SEMCORE" id="ship.n.0"><context>watch the <head>ship</head>.
+</context></instance></lexelt><lexelt item="girl.n" pos="unk"><instance docscr="SEMCORE" id="girl.n.0"><context>watch the <head>girl</head>.
+</context></instance><instance docscr="SEMCORE" id="girl.n.1"><context>watch the <head>girl</head>.
+</context></instance></lexelt><lexelt item="bend.n" pos="unk"><instance docscr="SEMCORE" id="bend.n.0"><context>watch the <head>bend</head>.
+</context></instance></lexelt><lexelt item="fumble.n" pos="unk"><instance docscr="SEMCORE" id="fumble.n.0"><context>watch<head>fumble</head>.
+</context></instance></lexelt><lexelt item="ride.n" pos="unk"><instance docscr="SEMCORE" id="ride.n.0"><context>watch<head>ride</head>.
+</context></instance></lexelt><lexelt item="bat.n" pos="unk"><instance docscr="SEMCORE" id="bat.n.0"><context>watch the <head>bat</head>.
+</context></instance></lexelt><lexelt item="board.n" pos="unk"><instance docscr="SEMCORE" id="board.n.0"><context>watch<head>board</head>.
+</context></instance></lexelt><lexelt item="bee.n" pos="unk"><instance docscr="SEMCORE" id="bee.n.0"><context>watch the <head>bee</head>.
+</context></instance></lexelt><lexelt item="event.n" pos="unk"><instance docscr="SEMCORE" id="event.n.0"><context>watch the <head>event</head>.
+</context></instance></lexelt><lexelt item="opportunity.n" pos="unk"><instance docscr="SEMCORE" id="opportunity.n.0"><context>watch the <head>opportunity</head>.
+</context></instance></lexelt><lexelt item="figure.n" pos="unk"><instance docscr="SEMCORE" id="figure.n.0"><context>watch the <head>figure</head>.
+</context></instance></lexelt><lexelt item="progress.n" pos="unk"><instance docscr="SEMCORE" id="progress.n.0"><context>watch the <head>progress</head>.
+</context></instance></lexelt><lexelt item="way.n" pos="unk"><instance docscr="SEMCORE" id="way.n.0"><context>watch the <head>way</head>.
+</context></instance></lexelt></corpus>

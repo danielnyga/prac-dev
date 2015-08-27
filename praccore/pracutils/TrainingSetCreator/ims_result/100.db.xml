@@ -1,0 +1,63 @@
+<corpus lang="english"><lexelt item="Remove.v" pos="unk"><instance docscr="SEMCORE" id="Remove.v.0"><context><head>Remove</head> the temptation.
+</context></instance><instance docscr="SEMCORE" id="Remove.v.1"><context><head>Remove</head> the child.
+</context></instance><instance docscr="SEMCORE" id="Remove.v.2"><context><head>Remove</head> the branch.
+</context></instance></lexelt><lexelt item="remove.v" pos="unk"><instance docscr="SEMCORE" id="remove.v.0"><context><head>remove</head> the serum.
+</context></instance><instance docscr="SEMCORE" id="remove.v.1"><context><head>remove</head> the part.
+</context></instance><instance docscr="SEMCORE" id="remove.v.2"><context><head>remove</head> the soil.
+</context></instance><instance docscr="SEMCORE" id="remove.v.3"><context><head>remove</head> the soil.
+</context></instance><instance docscr="SEMCORE" id="remove.v.4"><context><head>remove</head> the soil.
+</context></instance><instance docscr="SEMCORE" id="remove.v.5"><context><head>remove</head> the soil.
+</context></instance><instance docscr="SEMCORE" id="remove.v.6"><context><head>remove</head> the restriction.
+</context></instance><instance docscr="SEMCORE" id="remove.v.7"><context><head>remove</head> the expression.
+</context></instance><instance docscr="SEMCORE" id="remove.v.8"><context><head>remove</head> the event.
+</context></instance><instance docscr="SEMCORE" id="remove.v.9"><context><head>remove</head>prick.
+</context></instance><instance docscr="SEMCORE" id="remove.v.10"><context><head>remove</head> the body.
+</context></instance><instance docscr="SEMCORE" id="remove.v.11"><context><head>remove</head> the source.
+</context></instance><instance docscr="SEMCORE" id="remove.v.12"><context><head>remove</head> the spectacle.
+</context></instance><instance docscr="SEMCORE" id="remove.v.13"><context><head>remove</head> the issue.
+</context></instance><instance docscr="SEMCORE" id="remove.v.14"><context><head>remove</head>most.
+</context></instance><instance docscr="SEMCORE" id="remove.v.15"><context><head>remove</head> the thyroid.
+</context></instance><instance docscr="SEMCORE" id="remove.v.16"><context><head>remove</head> the ball.
+</context></instance><instance docscr="SEMCORE" id="remove.v.17"><context><head>remove</head> the staining.
+</context></instance><instance docscr="SEMCORE" id="remove.v.18"><context><head>remove</head> the substance.
+</context></instance><instance docscr="SEMCORE" id="remove.v.19"><context><head>remove</head> the substance.
+</context></instance><instance docscr="SEMCORE" id="remove.v.20"><context><head>remove</head> the shoe.
+</context></instance><instance docscr="SEMCORE" id="remove.v.21"><context><head>remove</head> the church.
+</context></instance><instance docscr="SEMCORE" id="remove.v.22"><context><head>remove</head> the handspike.
+</context></instance><instance docscr="SEMCORE" id="remove.v.23"><context><head>remove</head> the insinuation.
+</context></instance><instance docscr="SEMCORE" id="remove.v.24"><context><head>remove</head> the dross.
+</context></instance><instance docscr="SEMCORE" id="remove.v.25"><context><head>remove</head> the board.
+</context></instance><instance docscr="SEMCORE" id="remove.v.26"><context><head>remove</head> the restriction.
+</context></instance><instance docscr="SEMCORE" id="remove.v.27"><context><head>remove</head> the tape.
+</context></instance></lexelt><lexelt item="expression.n" pos="unk"><instance docscr="SEMCORE" id="expression.n.0"><context>remove the <head>expression</head>.
+</context></instance></lexelt><lexelt item="restriction.n" pos="unk"><instance docscr="SEMCORE" id="restriction.n.0"><context>remove the <head>restriction</head>.
+</context></instance><instance docscr="SEMCORE" id="restriction.n.1"><context>remove the <head>restriction</head>.
+</context></instance></lexelt><lexelt item="temptation.n" pos="unk"><instance docscr="SEMCORE" id="temptation.n.0"><context>Remove the <head>temptation</head>.
+</context></instance></lexelt><lexelt item="ball.n" pos="unk"><instance docscr="SEMCORE" id="ball.n.0"><context>remove the <head>ball</head>.
+</context></instance></lexelt><lexelt item="most.n" pos="unk"><instance docscr="SEMCORE" id="most.n.0"><context>remove<head>most</head>.
+</context></instance></lexelt><lexelt item="event.n" pos="unk"><instance docscr="SEMCORE" id="event.n.0"><context>remove the <head>event</head>.
+</context></instance></lexelt><lexelt item="handspike.n" pos="unk"><instance docscr="SEMCORE" id="handspike.n.0"><context>remove the <head>handspike</head>.
+</context></instance></lexelt><lexelt item="prick.n" pos="unk"><instance docscr="SEMCORE" id="prick.n.0"><context>remove<head>prick</head>.
+</context></instance></lexelt><lexelt item="church.n" pos="unk"><instance docscr="SEMCORE" id="church.n.0"><context>remove the <head>church</head>.
+</context></instance></lexelt><lexelt item="staining.n" pos="unk"><instance docscr="SEMCORE" id="staining.n.0"><context>remove the <head>staining</head>.
+</context></instance></lexelt><lexelt item="spectacle.n" pos="unk"><instance docscr="SEMCORE" id="spectacle.n.0"><context>remove the <head>spectacle</head>.
+</context></instance></lexelt><lexelt item="insinuation.n" pos="unk"><instance docscr="SEMCORE" id="insinuation.n.0"><context>remove the <head>insinuation</head>.
+</context></instance></lexelt><lexelt item="shoe.n" pos="unk"><instance docscr="SEMCORE" id="shoe.n.0"><context>remove the <head>shoe</head>.
+</context></instance></lexelt><lexelt item="source.n" pos="unk"><instance docscr="SEMCORE" id="source.n.0"><context>remove the <head>source</head>.
+</context></instance></lexelt><lexelt item="dross.n" pos="unk"><instance docscr="SEMCORE" id="dross.n.0"><context>remove the <head>dross</head>.
+</context></instance></lexelt><lexelt item="body.n" pos="unk"><instance docscr="SEMCORE" id="body.n.0"><context>remove the <head>body</head>.
+</context></instance></lexelt><lexelt item="tape.n" pos="unk"><instance docscr="SEMCORE" id="tape.n.0"><context>remove the <head>tape</head>.
+</context></instance></lexelt><lexelt item="board.n" pos="unk"><instance docscr="SEMCORE" id="board.n.0"><context>remove the <head>board</head>.
+</context></instance></lexelt><lexelt item="substance.n" pos="unk"><instance docscr="SEMCORE" id="substance.n.0"><context>remove the <head>substance</head>.
+</context></instance><instance docscr="SEMCORE" id="substance.n.1"><context>remove the <head>substance</head>.
+</context></instance></lexelt><lexelt item="serum.n" pos="unk"><instance docscr="SEMCORE" id="serum.n.0"><context>remove the <head>serum</head>.
+</context></instance></lexelt><lexelt item="branch.n" pos="unk"><instance docscr="SEMCORE" id="branch.n.0"><context>Remove the <head>branch</head>.
+</context></instance></lexelt><lexelt item="child.n" pos="unk"><instance docscr="SEMCORE" id="child.n.0"><context>Remove the <head>child</head>.
+</context></instance></lexelt><lexelt item="issue.n" pos="unk"><instance docscr="SEMCORE" id="issue.n.0"><context>remove the <head>issue</head>.
+</context></instance></lexelt><lexelt item="part.n" pos="unk"><instance docscr="SEMCORE" id="part.n.0"><context>remove the <head>part</head>.
+</context></instance></lexelt><lexelt item="soil.n" pos="unk"><instance docscr="SEMCORE" id="soil.n.0"><context>remove the <head>soil</head>.
+</context></instance><instance docscr="SEMCORE" id="soil.n.1"><context>remove the <head>soil</head>.
+</context></instance><instance docscr="SEMCORE" id="soil.n.2"><context>remove the <head>soil</head>.
+</context></instance><instance docscr="SEMCORE" id="soil.n.3"><context>remove the <head>soil</head>.
+</context></instance></lexelt><lexelt item="thyroid.n" pos="unk"><instance docscr="SEMCORE" id="thyroid.n.0"><context>remove the <head>thyroid</head>.
+</context></instance></lexelt></corpus>

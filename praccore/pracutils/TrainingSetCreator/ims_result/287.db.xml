@@ -1,0 +1,41 @@
+<corpus lang="english"><lexelt item="sell.v" pos="unk"><instance docscr="SEMCORE" id="sell.v.0"><context><head>sell</head> the coffee.
+</context></instance><instance docscr="SEMCORE" id="sell.v.1"><context><head>sell</head> the farm.
+</context></instance><instance docscr="SEMCORE" id="sell.v.2"><context><head>sell</head> the vegetable.
+</context></instance><instance docscr="SEMCORE" id="sell.v.3"><context><head>sell</head> the painting.
+</context></instance><instance docscr="SEMCORE" id="sell.v.4"><context><head>sell</head> the three.
+</context></instance><instance docscr="SEMCORE" id="sell.v.5"><context><head>sell</head> the title.
+</context></instance><instance docscr="SEMCORE" id="sell.v.6"><context><head>sell</head> the dry_goods.
+</context></instance><instance docscr="SEMCORE" id="sell.v.7"><context><head>sell</head> the encyclopedia.
+</context></instance><instance docscr="SEMCORE" id="sell.v.8"><context><head>sell</head> the block.
+</context></instance><instance docscr="SEMCORE" id="sell.v.9"><context><head>sell</head> the organ.
+</context></instance><instance docscr="SEMCORE" id="sell.v.10"><context><head>sell</head> the mineral.
+</context></instance><instance docscr="SEMCORE" id="sell.v.11"><context><head>sell</head> the capsule.
+</context></instance><instance docscr="SEMCORE" id="sell.v.12"><context><head>sell</head> the drug.
+</context></instance><instance docscr="SEMCORE" id="sell.v.13"><context><head>sell</head> the outfit.
+</context></instance><instance docscr="SEMCORE" id="sell.v.14"><context><head>sell</head> the stock.
+</context></instance><instance docscr="SEMCORE" id="sell.v.15"><context><head>sell</head> the space.
+</context></instance><instance docscr="SEMCORE" id="sell.v.16"><context><head>sell</head> the copy.
+</context></instance><instance docscr="SEMCORE" id="sell.v.17"><context><head>sell</head> the way.
+</context></instance><instance docscr="SEMCORE" id="sell.v.18"><context><head>sell</head> the church.
+</context></instance><instance docscr="SEMCORE" id="sell.v.19"><context><head>sell</head>Jerebohms.
+</context></instance></lexelt><lexelt item="coffee.n" pos="unk"><instance docscr="SEMCORE" id="coffee.n.0"><context>sell the <head>coffee</head>.
+</context></instance></lexelt><lexelt item="way.n" pos="unk"><instance docscr="SEMCORE" id="way.n.0"><context>sell the <head>way</head>.
+</context></instance></lexelt><lexelt item="church.n" pos="unk"><instance docscr="SEMCORE" id="church.n.0"><context>sell the <head>church</head>.
+</context></instance></lexelt><lexelt item="space.n" pos="unk"><instance docscr="SEMCORE" id="space.n.0"><context>sell the <head>space</head>.
+</context></instance></lexelt><lexelt item="dry_goods.n" pos="unk"><instance docscr="SEMCORE" id="dry_goods.n.0"><context>sell the <head>dry_goods</head>.
+</context></instance></lexelt><lexelt item="stock.n" pos="unk"><instance docscr="SEMCORE" id="stock.n.0"><context>sell the <head>stock</head>.
+</context></instance></lexelt><lexelt item="three.n" pos="unk"><instance docscr="SEMCORE" id="three.n.0"><context>sell the <head>three</head>.
+</context></instance></lexelt><lexelt item="painting.n" pos="unk"><instance docscr="SEMCORE" id="painting.n.0"><context>sell the <head>painting</head>.
+</context></instance></lexelt><lexelt item="drug.n" pos="unk"><instance docscr="SEMCORE" id="drug.n.0"><context>sell the <head>drug</head>.
+</context></instance></lexelt><lexelt item="title.n" pos="unk"><instance docscr="SEMCORE" id="title.n.0"><context>sell the <head>title</head>.
+</context></instance></lexelt><lexelt item="vegetable.n" pos="unk"><instance docscr="SEMCORE" id="vegetable.n.0"><context>sell the <head>vegetable</head>.
+</context></instance></lexelt><lexelt item="block.n" pos="unk"><instance docscr="SEMCORE" id="block.n.0"><context>sell the <head>block</head>.
+</context></instance></lexelt><lexelt item="farm.n" pos="unk"><instance docscr="SEMCORE" id="farm.n.0"><context>sell the <head>farm</head>.
+</context></instance></lexelt><lexelt item="outfit.n" pos="unk"><instance docscr="SEMCORE" id="outfit.n.0"><context>sell the <head>outfit</head>.
+</context></instance></lexelt><lexelt item="encyclopedia.n" pos="unk"><instance docscr="SEMCORE" id="encyclopedia.n.0"><context>sell the <head>encyclopedia</head>.
+</context></instance></lexelt><lexelt item="capsule.n" pos="unk"><instance docscr="SEMCORE" id="capsule.n.0"><context>sell the <head>capsule</head>.
+</context></instance></lexelt><lexelt item="copy.n" pos="unk"><instance docscr="SEMCORE" id="copy.n.0"><context>sell the <head>copy</head>.
+</context></instance></lexelt><lexelt item="organ.n" pos="unk"><instance docscr="SEMCORE" id="organ.n.0"><context>sell the <head>organ</head>.
+</context></instance></lexelt><lexelt item="Jerebohms.n" pos="unk"><instance docscr="SEMCORE" id="Jerebohms.n.0"><context>sell<head>Jerebohms</head>.
+</context></instance></lexelt><lexelt item="mineral.n" pos="unk"><instance docscr="SEMCORE" id="mineral.n.0"><context>sell the <head>mineral</head>.
+</context></instance></lexelt></corpus>

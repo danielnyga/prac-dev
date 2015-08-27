@@ -1,0 +1,47 @@
+<corpus lang="english"><lexelt item="Add.v" pos="unk"><instance docscr="SEMCORE" id="Add.v.0"><context><head>Add</head> the thing.
+</context></instance></lexelt><lexelt item="add.v" pos="unk"><instance docscr="SEMCORE" id="add.v.0"><context><head>add</head> the serum.
+</context></instance><instance docscr="SEMCORE" id="add.v.1"><context><head>add</head> the form.
+</context></instance><instance docscr="SEMCORE" id="add.v.2"><context><head>add</head> the voice.
+</context></instance><instance docscr="SEMCORE" id="add.v.3"><context><head>add</head> the authorization.
+</context></instance><instance docscr="SEMCORE" id="add.v.4"><context><head>add</head> the course.
+</context></instance><instance docscr="SEMCORE" id="add.v.5"><context><head>add</head> the contact.
+</context></instance><instance docscr="SEMCORE" id="add.v.6"><context><head>add</head> the figure.
+</context></instance><instance docscr="SEMCORE" id="add.v.7"><context><head>add</head> the material.
+</context></instance><instance docscr="SEMCORE" id="add.v.8"><context><head>add</head> the dimension.
+</context></instance><instance docscr="SEMCORE" id="add.v.9"><context><head>add</head> the caution.
+</context></instance><instance docscr="SEMCORE" id="add.v.10"><context><head>add</head> the nothing.
+</context></instance><instance docscr="SEMCORE" id="add.v.11"><context><head>add</head> the postscript.
+</context></instance><instance docscr="SEMCORE" id="add.v.12"><context><head>add</head> the charge.
+</context></instance><instance docscr="SEMCORE" id="add.v.13"><context><head>add</head> the Drug.
+</context></instance><instance docscr="SEMCORE" id="add.v.14"><context><head>add</head> the fever.
+</context></instance><instance docscr="SEMCORE" id="add.v.15"><context><head>add</head> the run.
+</context></instance><instance docscr="SEMCORE" id="add.v.16"><context><head>add</head> the aerator.
+</context></instance><instance docscr="SEMCORE" id="add.v.17"><context><head>add</head> the arithmetic.
+</context></instance><instance docscr="SEMCORE" id="add.v.18"><context><head>add</head> the interior_design.
+</context></instance><instance docscr="SEMCORE" id="add.v.19"><context><head>add</head> the sand.
+</context></instance><instance docscr="SEMCORE" id="add.v.20"><context><head>add</head> the avocado.
+</context></instance><instance docscr="SEMCORE" id="add.v.21"><context><head>add</head> the idiom.
+</context></instance></lexelt><lexelt item="sand.n" pos="unk"><instance docscr="SEMCORE" id="sand.n.0"><context>add the <head>sand</head>.
+</context></instance></lexelt><lexelt item="voice.n" pos="unk"><instance docscr="SEMCORE" id="voice.n.0"><context>add the <head>voice</head>.
+</context></instance></lexelt><lexelt item="aerator.n" pos="unk"><instance docscr="SEMCORE" id="aerator.n.0"><context>add the <head>aerator</head>.
+</context></instance></lexelt><lexelt item="run.n" pos="unk"><instance docscr="SEMCORE" id="run.n.0"><context>add the <head>run</head>.
+</context></instance></lexelt><lexelt item="fever.n" pos="unk"><instance docscr="SEMCORE" id="fever.n.0"><context>add the <head>fever</head>.
+</context></instance></lexelt><lexelt item="postscript.n" pos="unk"><instance docscr="SEMCORE" id="postscript.n.0"><context>add the <head>postscript</head>.
+</context></instance></lexelt><lexelt item="caution.n" pos="unk"><instance docscr="SEMCORE" id="caution.n.0"><context>add the <head>caution</head>.
+</context></instance></lexelt><lexelt item="course.n" pos="unk"><instance docscr="SEMCORE" id="course.n.0"><context>add the <head>course</head>.
+</context></instance></lexelt><lexelt item="contact.n" pos="unk"><instance docscr="SEMCORE" id="contact.n.0"><context>add the <head>contact</head>.
+</context></instance></lexelt><lexelt item="dimension.n" pos="unk"><instance docscr="SEMCORE" id="dimension.n.0"><context>add the <head>dimension</head>.
+</context></instance></lexelt><lexelt item="Drug.n" pos="unk"><instance docscr="SEMCORE" id="Drug.n.0"><context>add the <head>Drug</head>.
+</context></instance></lexelt><lexelt item="interior_design.n" pos="unk"><instance docscr="SEMCORE" id="interior_design.n.0"><context>add the <head>interior_design</head>.
+</context></instance></lexelt><lexelt item="thing.n" pos="unk"><instance docscr="SEMCORE" id="thing.n.0"><context>Add the <head>thing</head>.
+</context></instance></lexelt><lexelt item="authorization.n" pos="unk"><instance docscr="SEMCORE" id="authorization.n.0"><context>add the <head>authorization</head>.
+</context></instance></lexelt><lexelt item="form.n" pos="unk"><instance docscr="SEMCORE" id="form.n.0"><context>add the <head>form</head>.
+</context></instance></lexelt><lexelt item="material.n" pos="unk"><instance docscr="SEMCORE" id="material.n.0"><context>add the <head>material</head>.
+</context></instance></lexelt><lexelt item="serum.n" pos="unk"><instance docscr="SEMCORE" id="serum.n.0"><context>add the <head>serum</head>.
+</context></instance></lexelt><lexelt item="avocado.n" pos="unk"><instance docscr="SEMCORE" id="avocado.n.0"><context>add the <head>avocado</head>.
+</context></instance></lexelt><lexelt item="figure.n" pos="unk"><instance docscr="SEMCORE" id="figure.n.0"><context>add the <head>figure</head>.
+</context></instance></lexelt><lexelt item="charge.n" pos="unk"><instance docscr="SEMCORE" id="charge.n.0"><context>add the <head>charge</head>.
+</context></instance></lexelt><lexelt item="arithmetic.n" pos="unk"><instance docscr="SEMCORE" id="arithmetic.n.0"><context>add the <head>arithmetic</head>.
+</context></instance></lexelt><lexelt item="nothing.n" pos="unk"><instance docscr="SEMCORE" id="nothing.n.0"><context>add the <head>nothing</head>.
+</context></instance></lexelt><lexelt item="idiom.n" pos="unk"><instance docscr="SEMCORE" id="idiom.n.0"><context>add the <head>idiom</head>.
+</context></instance></lexelt></corpus>

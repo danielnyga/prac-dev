@@ -1,0 +1,41 @@
+<corpus lang="english"><lexelt item="push.v" pos="unk"><instance docscr="SEMCORE" id="push.v.0"><context><head>push</head> the button.
+</context></instance><instance docscr="SEMCORE" id="push.v.1"><context><head>push</head> the button.
+</context></instance><instance docscr="SEMCORE" id="push.v.2"><context><head>push</head> the button.
+</context></instance><instance docscr="SEMCORE" id="push.v.3"><context><head>push</head> the stick.
+</context></instance><instance docscr="SEMCORE" id="push.v.4"><context><head>push</head> the button.
+</context></instance><instance docscr="SEMCORE" id="push.v.5"><context><head>push</head> the soil.
+</context></instance><instance docscr="SEMCORE" id="push.v.6"><context><head>push</head> the volume.
+</context></instance><instance docscr="SEMCORE" id="push.v.7"><context><head>push</head> the patience.
+</context></instance><instance docscr="SEMCORE" id="push.v.8"><context><head>push</head> the seat.
+</context></instance><instance docscr="SEMCORE" id="push.v.9"><context><head>push</head> the head.
+</context></instance><instance docscr="SEMCORE" id="push.v.10"><context><head>push</head> the cluster.
+</context></instance><instance docscr="SEMCORE" id="push.v.11"><context><head>push</head> the law.
+</context></instance><instance docscr="SEMCORE" id="push.v.12"><context><head>push</head> the dollar_bill.
+</context></instance><instance docscr="SEMCORE" id="push.v.13"><context><head>push</head> the bonnet.
+</context></instance><instance docscr="SEMCORE" id="push.v.14"><context><head>push</head> the way.
+</context></instance><instance docscr="SEMCORE" id="push.v.15"><context><head>push</head> the door.
+</context></instance><instance docscr="SEMCORE" id="push.v.16"><context><head>push</head> the youth.
+</context></instance><instance docscr="SEMCORE" id="push.v.17"><context><head>push</head> the door.
+</context></instance><instance docscr="SEMCORE" id="push.v.18"><context><head>push</head> the jaw.
+</context></instance><instance docscr="SEMCORE" id="push.v.19"><context><head>push</head> the cap.
+</context></instance></lexelt><lexelt item="volume.n" pos="unk"><instance docscr="SEMCORE" id="volume.n.0"><context>push the <head>volume</head>.
+</context></instance></lexelt><lexelt item="cluster.n" pos="unk"><instance docscr="SEMCORE" id="cluster.n.0"><context>push the <head>cluster</head>.
+</context></instance></lexelt><lexelt item="seat.n" pos="unk"><instance docscr="SEMCORE" id="seat.n.0"><context>push the <head>seat</head>.
+</context></instance></lexelt><lexelt item="dollar_bill.n" pos="unk"><instance docscr="SEMCORE" id="dollar_bill.n.0"><context>push the <head>dollar_bill</head>.
+</context></instance></lexelt><lexelt item="cap.n" pos="unk"><instance docscr="SEMCORE" id="cap.n.0"><context>push the <head>cap</head>.
+</context></instance></lexelt><lexelt item="patience.n" pos="unk"><instance docscr="SEMCORE" id="patience.n.0"><context>push the <head>patience</head>.
+</context></instance></lexelt><lexelt item="bonnet.n" pos="unk"><instance docscr="SEMCORE" id="bonnet.n.0"><context>push the <head>bonnet</head>.
+</context></instance></lexelt><lexelt item="soil.n" pos="unk"><instance docscr="SEMCORE" id="soil.n.0"><context>push the <head>soil</head>.
+</context></instance></lexelt><lexelt item="jaw.n" pos="unk"><instance docscr="SEMCORE" id="jaw.n.0"><context>push the <head>jaw</head>.
+</context></instance></lexelt><lexelt item="way.n" pos="unk"><instance docscr="SEMCORE" id="way.n.0"><context>push the <head>way</head>.
+</context></instance></lexelt><lexelt item="stick.n" pos="unk"><instance docscr="SEMCORE" id="stick.n.0"><context>push the <head>stick</head>.
+</context></instance></lexelt><lexelt item="button.n" pos="unk"><instance docscr="SEMCORE" id="button.n.0"><context>push the <head>button</head>.
+</context></instance><instance docscr="SEMCORE" id="button.n.1"><context>push the <head>button</head>.
+</context></instance><instance docscr="SEMCORE" id="button.n.2"><context>push the <head>button</head>.
+</context></instance><instance docscr="SEMCORE" id="button.n.3"><context>push the <head>button</head>.
+</context></instance></lexelt><lexelt item="law.n" pos="unk"><instance docscr="SEMCORE" id="law.n.0"><context>push the <head>law</head>.
+</context></instance></lexelt><lexelt item="youth.n" pos="unk"><instance docscr="SEMCORE" id="youth.n.0"><context>push the <head>youth</head>.
+</context></instance></lexelt><lexelt item="door.n" pos="unk"><instance docscr="SEMCORE" id="door.n.0"><context>push the <head>door</head>.
+</context></instance><instance docscr="SEMCORE" id="door.n.1"><context>push the <head>door</head>.
+</context></instance></lexelt><lexelt item="head.n" pos="unk"><instance docscr="SEMCORE" id="head.n.0"><context>push the <head>head</head>.
+</context></instance></lexelt></corpus>

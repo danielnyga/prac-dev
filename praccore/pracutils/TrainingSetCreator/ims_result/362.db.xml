@@ -1,0 +1,45 @@
+<corpus lang="english"><lexelt item="call.v" pos="unk"><instance docscr="SEMCORE" id="call.v.0"><context><head>call</head>Hudson_Strait.
+</context></instance><instance docscr="SEMCORE" id="call.v.1"><context><head>call</head>Lousie_Bay.
+</context></instance><instance docscr="SEMCORE" id="call.v.2"><context><head>call</head> the corner.
+</context></instance><instance docscr="SEMCORE" id="call.v.3"><context><head>call</head> the corner.
+</context></instance><instance docscr="SEMCORE" id="call.v.4"><context><head>call</head> the number.
+</context></instance><instance docscr="SEMCORE" id="call.v.5"><context><head>call</head> the component.
+</context></instance><instance docscr="SEMCORE" id="call.v.6"><context><head>call</head>click.
+</context></instance><instance docscr="SEMCORE" id="call.v.7"><context><head>call</head>strengthen.
+</context></instance><instance docscr="SEMCORE" id="call.v.8"><context><head>call</head> the town.
+</context></instance><instance docscr="SEMCORE" id="call.v.9"><context><head>call</head> the production.
+</context></instance><instance docscr="SEMCORE" id="call.v.10"><context><head>call</head>Jan.
+</context></instance><instance docscr="SEMCORE" id="call.v.11"><context><head>call</head> the naprapath.
+</context></instance><instance docscr="SEMCORE" id="call.v.12"><context><head>call</head> the Faith.
+</context></instance><instance docscr="SEMCORE" id="call.v.13"><context><head>call</head> the Progressivism.
+</context></instance><instance docscr="SEMCORE" id="call.v.14"><context><head>call</head> the supernaturalism.
+</context></instance><instance docscr="SEMCORE" id="call.v.15"><context><head>call</head> the secularism.
+</context></instance><instance docscr="SEMCORE" id="call.v.16"><context><head>call</head> the family.
+</context></instance><instance docscr="SEMCORE" id="call.v.17"><context><head>call</head> the widow.
+</context></instance><instance docscr="SEMCORE" id="call.v.18"><context><head>call</head> the queen.
+</context></instance><instance docscr="SEMCORE" id="call.v.19"><context><head>call</head> the conflict.
+</context></instance><instance docscr="SEMCORE" id="call.v.20"><context><head>call</head> the part.
+</context></instance><instance docscr="SEMCORE" id="call.v.21"><context><head>call</head> the allotment.
+</context></instance></lexelt><lexelt item="conflict.n" pos="unk"><instance docscr="SEMCORE" id="conflict.n.0"><context>call the <head>conflict</head>.
+</context></instance></lexelt><lexelt item="allotment.n" pos="unk"><instance docscr="SEMCORE" id="allotment.n.0"><context>call the <head>allotment</head>.
+</context></instance></lexelt><lexelt item="queen.n" pos="unk"><instance docscr="SEMCORE" id="queen.n.0"><context>call the <head>queen</head>.
+</context></instance></lexelt><lexelt item="component.n" pos="unk"><instance docscr="SEMCORE" id="component.n.0"><context>call the <head>component</head>.
+</context></instance></lexelt><lexelt item="widow.n" pos="unk"><instance docscr="SEMCORE" id="widow.n.0"><context>call the <head>widow</head>.
+</context></instance></lexelt><lexelt item="Progressivism.n" pos="unk"><instance docscr="SEMCORE" id="Progressivism.n.0"><context>call the <head>Progressivism</head>.
+</context></instance></lexelt><lexelt item="number.n" pos="unk"><instance docscr="SEMCORE" id="number.n.0"><context>call the <head>number</head>.
+</context></instance></lexelt><lexelt item="family.n" pos="unk"><instance docscr="SEMCORE" id="family.n.0"><context>call the <head>family</head>.
+</context></instance></lexelt><lexelt item="production.n" pos="unk"><instance docscr="SEMCORE" id="production.n.0"><context>call the <head>production</head>.
+</context></instance></lexelt><lexelt item="town.n" pos="unk"><instance docscr="SEMCORE" id="town.n.0"><context>call the <head>town</head>.
+</context></instance></lexelt><lexelt item="Faith.n" pos="unk"><instance docscr="SEMCORE" id="Faith.n.0"><context>call the <head>Faith</head>.
+</context></instance></lexelt><lexelt item="Lousie_Bay.n" pos="unk"><instance docscr="SEMCORE" id="Lousie_Bay.n.0"><context>call<head>Lousie_Bay</head>.
+</context></instance></lexelt><lexelt item="Hudson_Strait.n" pos="unk"><instance docscr="SEMCORE" id="Hudson_Strait.n.0"><context>call<head>Hudson_Strait</head>.
+</context></instance></lexelt><lexelt item="supernaturalism.n" pos="unk"><instance docscr="SEMCORE" id="supernaturalism.n.0"><context>call the <head>supernaturalism</head>.
+</context></instance></lexelt><lexelt item="Jan.n" pos="unk"><instance docscr="SEMCORE" id="Jan.n.0"><context>call<head>Jan</head>.
+</context></instance></lexelt><lexelt item="secularism.n" pos="unk"><instance docscr="SEMCORE" id="secularism.n.0"><context>call the <head>secularism</head>.
+</context></instance></lexelt><lexelt item="part.n" pos="unk"><instance docscr="SEMCORE" id="part.n.0"><context>call the <head>part</head>.
+</context></instance></lexelt><lexelt item="strengthen.n" pos="unk"><instance docscr="SEMCORE" id="strengthen.n.0"><context>call<head>strengthen</head>.
+</context></instance></lexelt><lexelt item="click.n" pos="unk"><instance docscr="SEMCORE" id="click.n.0"><context>call<head>click</head>.
+</context></instance></lexelt><lexelt item="naprapath.n" pos="unk"><instance docscr="SEMCORE" id="naprapath.n.0"><context>call the <head>naprapath</head>.
+</context></instance></lexelt><lexelt item="corner.n" pos="unk"><instance docscr="SEMCORE" id="corner.n.0"><context>call the <head>corner</head>.
+</context></instance><instance docscr="SEMCORE" id="corner.n.1"><context>call the <head>corner</head>.
+</context></instance></lexelt></corpus>

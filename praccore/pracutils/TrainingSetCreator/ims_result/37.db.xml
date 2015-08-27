@@ -1,0 +1,71 @@
+<corpus lang="english"><lexelt item="Place.v" pos="unk"><instance docscr="SEMCORE" id="Place.v.0"><context><head>Place</head> the finger.
+</context></instance><instance docscr="SEMCORE" id="Place.v.1"><context><head>Place</head> the barbell.
+</context></instance></lexelt><lexelt item="place.v" pos="unk"><instance docscr="SEMCORE" id="place.v.0"><context><head>place</head> the milk.
+</context></instance><instance docscr="SEMCORE" id="place.v.1"><context><head>place</head> the burden.
+</context></instance><instance docscr="SEMCORE" id="place.v.2"><context><head>place</head> the name.
+</context></instance><instance docscr="SEMCORE" id="place.v.3"><context><head>place</head> the system.
+</context></instance><instance docscr="SEMCORE" id="place.v.4"><context><head>place</head> the realism.
+</context></instance><instance docscr="SEMCORE" id="place.v.5"><context><head>place</head> the emphasis.
+</context></instance><instance docscr="SEMCORE" id="place.v.6"><context><head>place</head> the emphasis.
+</context></instance><instance docscr="SEMCORE" id="place.v.7"><context><head>place</head> the emphasis.
+</context></instance><instance docscr="SEMCORE" id="place.v.8"><context><head>place</head> the object.
+</context></instance><instance docscr="SEMCORE" id="place.v.9"><context><head>place</head> the stress.
+</context></instance><instance docscr="SEMCORE" id="place.v.10"><context><head>place</head> the chair.
+</context></instance><instance docscr="SEMCORE" id="place.v.11"><context><head>place</head> the hand.
+</context></instance><instance docscr="SEMCORE" id="place.v.12"><context><head>place</head> the hand.
+</context></instance><instance docscr="SEMCORE" id="place.v.13"><context><head>place</head> the transducer.
+</context></instance><instance docscr="SEMCORE" id="place.v.14"><context><head>place</head> the report.
+</context></instance><instance docscr="SEMCORE" id="place.v.15"><context><head>place</head> the tray.
+</context></instance><instance docscr="SEMCORE" id="place.v.16"><context><head>place</head> the facet-planes.
+</context></instance><instance docscr="SEMCORE" id="place.v.17"><context><head>place</head> the emphasis.
+</context></instance><instance docscr="SEMCORE" id="place.v.18"><context><head>place</head> the index_finger.
+</context></instance><instance docscr="SEMCORE" id="place.v.19"><context><head>place</head> the bracing.
+</context></instance><instance docscr="SEMCORE" id="place.v.20"><context><head>place</head> the finger.
+</context></instance><instance docscr="SEMCORE" id="place.v.21"><context><head>place</head> the emphasis.
+</context></instance><instance docscr="SEMCORE" id="place.v.22"><context><head>place</head>Warren.
+</context></instance><instance docscr="SEMCORE" id="place.v.23"><context><head>place</head> the stress.
+</context></instance><instance docscr="SEMCORE" id="place.v.24"><context><head>place</head> the philosophy.
+</context></instance><instance docscr="SEMCORE" id="place.v.25"><context><head>place</head> the thermocouple.
+</context></instance><instance docscr="SEMCORE" id="place.v.26"><context><head>place</head> the trust.
+</context></instance><instance docscr="SEMCORE" id="place.v.27"><context><head>place</head> the gun.
+</context></instance><instance docscr="SEMCORE" id="place.v.28"><context><head>place</head> the conducting_wire.
+</context></instance><instance docscr="SEMCORE" id="place.v.29"><context><head>place</head> the tension.
+</context></instance><instance docscr="SEMCORE" id="place.v.30"><context><head>place</head> the creation.
+</context></instance><instance docscr="SEMCORE" id="place.v.31"><context><head>place</head> the hand.
+</context></instance><instance docscr="SEMCORE" id="place.v.32"><context><head>place</head> the fluid.
+</context></instance></lexelt><lexelt item="hand.n" pos="unk"><instance docscr="SEMCORE" id="hand.n.0"><context>place the <head>hand</head>.
+</context></instance><instance docscr="SEMCORE" id="hand.n.1"><context>place the <head>hand</head>.
+</context></instance><instance docscr="SEMCORE" id="hand.n.2"><context>place the <head>hand</head>.
+</context></instance></lexelt><lexelt item="fluid.n" pos="unk"><instance docscr="SEMCORE" id="fluid.n.0"><context>place the <head>fluid</head>.
+</context></instance></lexelt><lexelt item="conducting_wire.n" pos="unk"><instance docscr="SEMCORE" id="conducting_wire.n.0"><context>place the <head>conducting_wire</head>.
+</context></instance></lexelt><lexelt item="creation.n" pos="unk"><instance docscr="SEMCORE" id="creation.n.0"><context>place the <head>creation</head>.
+</context></instance></lexelt><lexelt item="tension.n" pos="unk"><instance docscr="SEMCORE" id="tension.n.0"><context>place the <head>tension</head>.
+</context></instance></lexelt><lexelt item="transducer.n" pos="unk"><instance docscr="SEMCORE" id="transducer.n.0"><context>place the <head>transducer</head>.
+</context></instance></lexelt><lexelt item="philosophy.n" pos="unk"><instance docscr="SEMCORE" id="philosophy.n.0"><context>place the <head>philosophy</head>.
+</context></instance></lexelt><lexelt item="realism.n" pos="unk"><instance docscr="SEMCORE" id="realism.n.0"><context>place the <head>realism</head>.
+</context></instance></lexelt><lexelt item="Warren.n" pos="unk"><instance docscr="SEMCORE" id="Warren.n.0"><context>place<head>Warren</head>.
+</context></instance></lexelt><lexelt item="gun.n" pos="unk"><instance docscr="SEMCORE" id="gun.n.0"><context>place the <head>gun</head>.
+</context></instance></lexelt><lexelt item="chair.n" pos="unk"><instance docscr="SEMCORE" id="chair.n.0"><context>place the <head>chair</head>.
+</context></instance></lexelt><lexelt item="thermocouple.n" pos="unk"><instance docscr="SEMCORE" id="thermocouple.n.0"><context>place the <head>thermocouple</head>.
+</context></instance></lexelt><lexelt item="trust.n" pos="unk"><instance docscr="SEMCORE" id="trust.n.0"><context>place the <head>trust</head>.
+</context></instance></lexelt><lexelt item="tray.n" pos="unk"><instance docscr="SEMCORE" id="tray.n.0"><context>place the <head>tray</head>.
+</context></instance></lexelt><lexelt item="object.n" pos="unk"><instance docscr="SEMCORE" id="object.n.0"><context>place the <head>object</head>.
+</context></instance></lexelt><lexelt item="finger.n" pos="unk"><instance docscr="SEMCORE" id="finger.n.0"><context>Place the <head>finger</head>.
+</context></instance><instance docscr="SEMCORE" id="finger.n.1"><context>place the <head>finger</head>.
+</context></instance></lexelt><lexelt item="barbell.n" pos="unk"><instance docscr="SEMCORE" id="barbell.n.0"><context>Place the <head>barbell</head>.
+</context></instance></lexelt><lexelt item="milk.n" pos="unk"><instance docscr="SEMCORE" id="milk.n.0"><context>place the <head>milk</head>.
+</context></instance></lexelt><lexelt item="name.n" pos="unk"><instance docscr="SEMCORE" id="name.n.0"><context>place the <head>name</head>.
+</context></instance></lexelt><lexelt item="index_finger.n" pos="unk"><instance docscr="SEMCORE" id="index_finger.n.0"><context>place the <head>index_finger</head>.
+</context></instance></lexelt><lexelt item="facet-planes.n" pos="unk"><instance docscr="SEMCORE" id="facet-planes.n.0"><context>place the <head>facet-planes</head>.
+</context></instance></lexelt><lexelt item="stress.n" pos="unk"><instance docscr="SEMCORE" id="stress.n.0"><context>place the <head>stress</head>.
+</context></instance><instance docscr="SEMCORE" id="stress.n.1"><context>place the <head>stress</head>.
+</context></instance></lexelt><lexelt item="emphasis.n" pos="unk"><instance docscr="SEMCORE" id="emphasis.n.0"><context>place the <head>emphasis</head>.
+</context></instance><instance docscr="SEMCORE" id="emphasis.n.1"><context>place the <head>emphasis</head>.
+</context></instance><instance docscr="SEMCORE" id="emphasis.n.2"><context>place the <head>emphasis</head>.
+</context></instance><instance docscr="SEMCORE" id="emphasis.n.3"><context>place the <head>emphasis</head>.
+</context></instance><instance docscr="SEMCORE" id="emphasis.n.4"><context>place the <head>emphasis</head>.
+</context></instance></lexelt><lexelt item="system.n" pos="unk"><instance docscr="SEMCORE" id="system.n.0"><context>place the <head>system</head>.
+</context></instance></lexelt><lexelt item="bracing.n" pos="unk"><instance docscr="SEMCORE" id="bracing.n.0"><context>place the <head>bracing</head>.
+</context></instance></lexelt><lexelt item="report.n" pos="unk"><instance docscr="SEMCORE" id="report.n.0"><context>place the <head>report</head>.
+</context></instance></lexelt><lexelt item="burden.n" pos="unk"><instance docscr="SEMCORE" id="burden.n.0"><context>place the <head>burden</head>.
+</context></instance></lexelt></corpus>

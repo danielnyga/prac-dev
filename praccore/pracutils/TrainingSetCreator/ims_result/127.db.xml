@@ -1,0 +1,49 @@
+<corpus lang="english"><lexelt item="find.v" pos="unk"><instance docscr="SEMCORE" id="find.v.0"><context><head>find</head> the activity.
+</context></instance><instance docscr="SEMCORE" id="find.v.1"><context><head>find</head> the type.
+</context></instance><instance docscr="SEMCORE" id="find.v.2"><context><head>find</head> the evidence.
+</context></instance><instance docscr="SEMCORE" id="find.v.3"><context><head>find</head> the player.
+</context></instance><instance docscr="SEMCORE" id="find.v.4"><context><head>find</head> the shunt.
+</context></instance><instance docscr="SEMCORE" id="find.v.5"><context><head>find</head> the Softness.
+</context></instance><instance docscr="SEMCORE" id="find.v.6"><context><head>find</head> the suggestion.
+</context></instance><instance docscr="SEMCORE" id="find.v.7"><context><head>find</head> the ratio.
+</context></instance><instance docscr="SEMCORE" id="find.v.8"><context><head>find</head> the time.
+</context></instance><instance docscr="SEMCORE" id="find.v.9"><context><head>find</head> the nothing.
+</context></instance><instance docscr="SEMCORE" id="find.v.10"><context><head>find</head> the case.
+</context></instance><instance docscr="SEMCORE" id="find.v.11"><context><head>find</head> the trooper.
+</context></instance><instance docscr="SEMCORE" id="find.v.12"><context><head>find</head> the way.
+</context></instance><instance docscr="SEMCORE" id="find.v.13"><context><head>find</head> the bogey.
+</context></instance><instance docscr="SEMCORE" id="find.v.14"><context><head>find</head> the cache.
+</context></instance><instance docscr="SEMCORE" id="find.v.15"><context><head>find</head> the mineral.
+</context></instance><instance docscr="SEMCORE" id="find.v.16"><context><head>find</head> the fasciculation.
+</context></instance><instance docscr="SEMCORE" id="find.v.17"><context><head>find</head> the osteoporosis.
+</context></instance><instance docscr="SEMCORE" id="find.v.18"><context><head>find</head> the cell.
+</context></instance><instance docscr="SEMCORE" id="find.v.19"><context><head>find</head> the discrepancy.
+</context></instance><instance docscr="SEMCORE" id="find.v.20"><context><head>find</head> the difference.
+</context></instance><instance docscr="SEMCORE" id="find.v.21"><context><head>find</head> the doctor.
+</context></instance><instance docscr="SEMCORE" id="find.v.22"><context><head>find</head> the sort.
+</context></instance><instance docscr="SEMCORE" id="find.v.23"><context><head>find</head> the clothes.
+</context></instance></lexelt><lexelt item="discrepancy.n" pos="unk"><instance docscr="SEMCORE" id="discrepancy.n.0"><context>find the <head>discrepancy</head>.
+</context></instance></lexelt><lexelt item="doctor.n" pos="unk"><instance docscr="SEMCORE" id="doctor.n.0"><context>find the <head>doctor</head>.
+</context></instance></lexelt><lexelt item="cache.n" pos="unk"><instance docscr="SEMCORE" id="cache.n.0"><context>find the <head>cache</head>.
+</context></instance></lexelt><lexelt item="time.n" pos="unk"><instance docscr="SEMCORE" id="time.n.0"><context>find the <head>time</head>.
+</context></instance></lexelt><lexelt item="ratio.n" pos="unk"><instance docscr="SEMCORE" id="ratio.n.0"><context>find the <head>ratio</head>.
+</context></instance></lexelt><lexelt item="fasciculation.n" pos="unk"><instance docscr="SEMCORE" id="fasciculation.n.0"><context>find the <head>fasciculation</head>.
+</context></instance></lexelt><lexelt item="trooper.n" pos="unk"><instance docscr="SEMCORE" id="trooper.n.0"><context>find the <head>trooper</head>.
+</context></instance></lexelt><lexelt item="activity.n" pos="unk"><instance docscr="SEMCORE" id="activity.n.0"><context>find the <head>activity</head>.
+</context></instance></lexelt><lexelt item="osteoporosis.n" pos="unk"><instance docscr="SEMCORE" id="osteoporosis.n.0"><context>find the <head>osteoporosis</head>.
+</context></instance></lexelt><lexelt item="player.n" pos="unk"><instance docscr="SEMCORE" id="player.n.0"><context>find the <head>player</head>.
+</context></instance></lexelt><lexelt item="clothes.n" pos="unk"><instance docscr="SEMCORE" id="clothes.n.0"><context>find the <head>clothes</head>.
+</context></instance></lexelt><lexelt item="nothing.n" pos="unk"><instance docscr="SEMCORE" id="nothing.n.0"><context>find the <head>nothing</head>.
+</context></instance></lexelt><lexelt item="shunt.n" pos="unk"><instance docscr="SEMCORE" id="shunt.n.0"><context>find the <head>shunt</head>.
+</context></instance></lexelt><lexelt item="sort.n" pos="unk"><instance docscr="SEMCORE" id="sort.n.0"><context>find the <head>sort</head>.
+</context></instance></lexelt><lexelt item="evidence.n" pos="unk"><instance docscr="SEMCORE" id="evidence.n.0"><context>find the <head>evidence</head>.
+</context></instance></lexelt><lexelt item="suggestion.n" pos="unk"><instance docscr="SEMCORE" id="suggestion.n.0"><context>find the <head>suggestion</head>.
+</context></instance></lexelt><lexelt item="case.n" pos="unk"><instance docscr="SEMCORE" id="case.n.0"><context>find the <head>case</head>.
+</context></instance></lexelt><lexelt item="Softness.n" pos="unk"><instance docscr="SEMCORE" id="Softness.n.0"><context>find the <head>Softness</head>.
+</context></instance></lexelt><lexelt item="difference.n" pos="unk"><instance docscr="SEMCORE" id="difference.n.0"><context>find the <head>difference</head>.
+</context></instance></lexelt><lexelt item="way.n" pos="unk"><instance docscr="SEMCORE" id="way.n.0"><context>find the <head>way</head>.
+</context></instance></lexelt><lexelt item="bogey.n" pos="unk"><instance docscr="SEMCORE" id="bogey.n.0"><context>find the <head>bogey</head>.
+</context></instance></lexelt><lexelt item="type.n" pos="unk"><instance docscr="SEMCORE" id="type.n.0"><context>find the <head>type</head>.
+</context></instance></lexelt><lexelt item="cell.n" pos="unk"><instance docscr="SEMCORE" id="cell.n.0"><context>find the <head>cell</head>.
+</context></instance></lexelt><lexelt item="mineral.n" pos="unk"><instance docscr="SEMCORE" id="mineral.n.0"><context>find the <head>mineral</head>.
+</context></instance></lexelt></corpus>

@@ -1,0 +1,75 @@
+<corpus lang="english"><lexelt item="Reaching.v" pos="unk"><instance docscr="SEMCORE" id="Reaching.v.0"><context><head>Reaching</head> the rail.
+</context></instance></lexelt><lexelt item="reach.v" pos="unk"><instance docscr="SEMCORE" id="reach.v.0"><context><head>reach</head> the value.
+</context></instance><instance docscr="SEMCORE" id="reach.v.1"><context><head>reach</head> the port.
+</context></instance><instance docscr="SEMCORE" id="reach.v.2"><context><head>reach</head> the house.
+</context></instance><instance docscr="SEMCORE" id="reach.v.3"><context><head>reach</head> the house.
+</context></instance><instance docscr="SEMCORE" id="reach.v.4"><context><head>reach</head> the door.
+</context></instance><instance docscr="SEMCORE" id="reach.v.5"><context><head>reach</head> the apex.
+</context></instance><instance docscr="SEMCORE" id="reach.v.6"><context><head>reach</head> the corner.
+</context></instance><instance docscr="SEMCORE" id="reach.v.7"><context><head>reach</head> the shore.
+</context></instance><instance docscr="SEMCORE" id="reach.v.8"><context><head>reach</head>dry.
+</context></instance><instance docscr="SEMCORE" id="reach.v.9"><context><head>reach</head> the identification.
+</context></instance><instance docscr="SEMCORE" id="reach.v.10"><context><head>reach</head> the agreement.
+</context></instance><instance docscr="SEMCORE" id="reach.v.11"><context><head>reach</head> the speed.
+</context></instance><instance docscr="SEMCORE" id="reach.v.12"><context><head>reach</head> the destination.
+</context></instance><instance docscr="SEMCORE" id="reach.v.13"><context><head>reach</head>Fort_Douglas.
+</context></instance><instance docscr="SEMCORE" id="reach.v.14"><context><head>reach</head> the guard.
+</context></instance><instance docscr="SEMCORE" id="reach.v.15"><context><head>reach</head> the riverbank.
+</context></instance><instance docscr="SEMCORE" id="reach.v.16"><context><head>reach</head> the level.
+</context></instance><instance docscr="SEMCORE" id="reach.v.17"><context><head>reach</head> the house.
+</context></instance><instance docscr="SEMCORE" id="reach.v.18"><context><head>reach</head> the director.
+</context></instance><instance docscr="SEMCORE" id="reach.v.19"><context><head>reach</head> the hostelry.
+</context></instance><instance docscr="SEMCORE" id="reach.v.20"><context><head>reach</head> the Stoicism.
+</context></instance><instance docscr="SEMCORE" id="reach.v.21"><context><head>reach</head>Hondo_Creek.
+</context></instance><instance docscr="SEMCORE" id="reach.v.22"><context><head>reach</head> the height.
+</context></instance><instance docscr="SEMCORE" id="reach.v.23"><context><head>reach</head> the top.
+</context></instance><instance docscr="SEMCORE" id="reach.v.24"><context><head>reach</head> the horse.
+</context></instance><instance docscr="SEMCORE" id="reach.v.25"><context><head>reach</head> the cover.
+</context></instance><instance docscr="SEMCORE" id="reach.v.26"><context><head>reach</head> the home.
+</context></instance><instance docscr="SEMCORE" id="reach.v.27"><context><head>reach</head> the protection.
+</context></instance><instance docscr="SEMCORE" id="reach.v.28"><context><head>reach</head> the roof.
+</context></instance><instance docscr="SEMCORE" id="reach.v.29"><context><head>reach</head> the country.
+</context></instance><instance docscr="SEMCORE" id="reach.v.30"><context><head>reach</head> the floor.
+</context></instance><instance docscr="SEMCORE" id="reach.v.31"><context><head>reach</head> the sidewalk.
+</context></instance><instance docscr="SEMCORE" id="reach.v.32"><context><head>reach</head> the statement.
+</context></instance><instance docscr="SEMCORE" id="reach.v.33"><context><head>reach</head> the atmosphere.
+</context></instance><instance docscr="SEMCORE" id="reach.v.34"><context><head>reach</head> the share.
+</context></instance><instance docscr="SEMCORE" id="reach.v.35"><context><head>reach</head> the state.
+</context></instance></lexelt><lexelt item="home.n" pos="unk"><instance docscr="SEMCORE" id="home.n.0"><context>reach the <head>home</head>.
+</context></instance></lexelt><lexelt item="apex.n" pos="unk"><instance docscr="SEMCORE" id="apex.n.0"><context>reach the <head>apex</head>.
+</context></instance></lexelt><lexelt item="shore.n" pos="unk"><instance docscr="SEMCORE" id="shore.n.0"><context>reach the <head>shore</head>.
+</context></instance></lexelt><lexelt item="destination.n" pos="unk"><instance docscr="SEMCORE" id="destination.n.0"><context>reach the <head>destination</head>.
+</context></instance></lexelt><lexelt item="rail.n" pos="unk"><instance docscr="SEMCORE" id="rail.n.0"><context>Reaching the <head>rail</head>.
+</context></instance></lexelt><lexelt item="sidewalk.n" pos="unk"><instance docscr="SEMCORE" id="sidewalk.n.0"><context>reach the <head>sidewalk</head>.
+</context></instance></lexelt><lexelt item="protection.n" pos="unk"><instance docscr="SEMCORE" id="protection.n.0"><context>reach the <head>protection</head>.
+</context></instance></lexelt><lexelt item="riverbank.n" pos="unk"><instance docscr="SEMCORE" id="riverbank.n.0"><context>reach the <head>riverbank</head>.
+</context></instance></lexelt><lexelt item="top.n" pos="unk"><instance docscr="SEMCORE" id="top.n.0"><context>reach the <head>top</head>.
+</context></instance></lexelt><lexelt item="director.n" pos="unk"><instance docscr="SEMCORE" id="director.n.0"><context>reach the <head>director</head>.
+</context></instance></lexelt><lexelt item="door.n" pos="unk"><instance docscr="SEMCORE" id="door.n.0"><context>reach the <head>door</head>.
+</context></instance></lexelt><lexelt item="value.n" pos="unk"><instance docscr="SEMCORE" id="value.n.0"><context>reach the <head>value</head>.
+</context></instance></lexelt><lexelt item="guard.n" pos="unk"><instance docscr="SEMCORE" id="guard.n.0"><context>reach the <head>guard</head>.
+</context></instance></lexelt><lexelt item="floor.n" pos="unk"><instance docscr="SEMCORE" id="floor.n.0"><context>reach the <head>floor</head>.
+</context></instance></lexelt><lexelt item="corner.n" pos="unk"><instance docscr="SEMCORE" id="corner.n.0"><context>reach the <head>corner</head>.
+</context></instance></lexelt><lexelt item="atmosphere.n" pos="unk"><instance docscr="SEMCORE" id="atmosphere.n.0"><context>reach the <head>atmosphere</head>.
+</context></instance></lexelt><lexelt item="agreement.n" pos="unk"><instance docscr="SEMCORE" id="agreement.n.0"><context>reach the <head>agreement</head>.
+</context></instance></lexelt><lexelt item="speed.n" pos="unk"><instance docscr="SEMCORE" id="speed.n.0"><context>reach the <head>speed</head>.
+</context></instance></lexelt><lexelt item="port.n" pos="unk"><instance docscr="SEMCORE" id="port.n.0"><context>reach the <head>port</head>.
+</context></instance></lexelt><lexelt item="Hondo_Creek.n" pos="unk"><instance docscr="SEMCORE" id="Hondo_Creek.n.0"><context>reach<head>Hondo_Creek</head>.
+</context></instance></lexelt><lexelt item="country.n" pos="unk"><instance docscr="SEMCORE" id="country.n.0"><context>reach the <head>country</head>.
+</context></instance></lexelt><lexelt item="cover.n" pos="unk"><instance docscr="SEMCORE" id="cover.n.0"><context>reach the <head>cover</head>.
+</context></instance></lexelt><lexelt item="roof.n" pos="unk"><instance docscr="SEMCORE" id="roof.n.0"><context>reach the <head>roof</head>.
+</context></instance></lexelt><lexelt item="Fort_Douglas.n" pos="unk"><instance docscr="SEMCORE" id="Fort_Douglas.n.0"><context>reach<head>Fort_Douglas</head>.
+</context></instance></lexelt><lexelt item="statement.n" pos="unk"><instance docscr="SEMCORE" id="statement.n.0"><context>reach the <head>statement</head>.
+</context></instance></lexelt><lexelt item="Stoicism.n" pos="unk"><instance docscr="SEMCORE" id="Stoicism.n.0"><context>reach the <head>Stoicism</head>.
+</context></instance></lexelt><lexelt item="state.n" pos="unk"><instance docscr="SEMCORE" id="state.n.0"><context>reach the <head>state</head>.
+</context></instance></lexelt><lexelt item="hostelry.n" pos="unk"><instance docscr="SEMCORE" id="hostelry.n.0"><context>reach the <head>hostelry</head>.
+</context></instance></lexelt><lexelt item="level.n" pos="unk"><instance docscr="SEMCORE" id="level.n.0"><context>reach the <head>level</head>.
+</context></instance></lexelt><lexelt item="dry.n" pos="unk"><instance docscr="SEMCORE" id="dry.n.0"><context>reach<head>dry</head>.
+</context></instance></lexelt><lexelt item="share.n" pos="unk"><instance docscr="SEMCORE" id="share.n.0"><context>reach the <head>share</head>.
+</context></instance></lexelt><lexelt item="house.n" pos="unk"><instance docscr="SEMCORE" id="house.n.0"><context>reach the <head>house</head>.
+</context></instance><instance docscr="SEMCORE" id="house.n.1"><context>reach the <head>house</head>.
+</context></instance><instance docscr="SEMCORE" id="house.n.2"><context>reach the <head>house</head>.
+</context></instance></lexelt><lexelt item="horse.n" pos="unk"><instance docscr="SEMCORE" id="horse.n.0"><context>reach the <head>horse</head>.
+</context></instance></lexelt><lexelt item="height.n" pos="unk"><instance docscr="SEMCORE" id="height.n.0"><context>reach the <head>height</head>.
+</context></instance></lexelt><lexelt item="identification.n" pos="unk"><instance docscr="SEMCORE" id="identification.n.0"><context>reach the <head>identification</head>.
+</context></instance></lexelt></corpus>

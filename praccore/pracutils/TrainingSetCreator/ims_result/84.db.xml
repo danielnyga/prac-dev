@@ -1,0 +1,75 @@
+<corpus lang="english"><lexelt item="obtain.v" pos="unk"><instance docscr="SEMCORE" id="obtain.v.0"><context><head>obtain</head> the sample.
+</context></instance><instance docscr="SEMCORE" id="obtain.v.1"><context><head>obtain</head> the serum.
+</context></instance><instance docscr="SEMCORE" id="obtain.v.2"><context><head>obtain</head> the fraction.
+</context></instance><instance docscr="SEMCORE" id="obtain.v.3"><context><head>obtain</head> the action.
+</context></instance><instance docscr="SEMCORE" id="obtain.v.4"><context><head>obtain</head> the action.
+</context></instance><instance docscr="SEMCORE" id="obtain.v.5"><context><head>obtain</head> the group.
+</context></instance><instance docscr="SEMCORE" id="obtain.v.6"><context><head>obtain</head> the result.
+</context></instance><instance docscr="SEMCORE" id="obtain.v.7"><context><head>obtain</head> the spectrum.
+</context></instance><instance docscr="SEMCORE" id="obtain.v.8"><context><head>obtain</head> the Spectra.
+</context></instance><instance docscr="SEMCORE" id="obtain.v.9"><context><head>obtain</head> the Spectra.
+</context></instance><instance docscr="SEMCORE" id="obtain.v.10"><context><head>obtain</head> the Spectra.
+</context></instance><instance docscr="SEMCORE" id="obtain.v.11"><context><head>obtain</head> the signature.
+</context></instance><instance docscr="SEMCORE" id="obtain.v.12"><context><head>obtain</head> the allocation.
+</context></instance><instance docscr="SEMCORE" id="obtain.v.13"><context><head>obtain</head> the value.
+</context></instance><instance docscr="SEMCORE" id="obtain.v.14"><context><head>obtain</head> the mortality.
+</context></instance><instance docscr="SEMCORE" id="obtain.v.15"><context><head>obtain</head> the fund.
+</context></instance><instance docscr="SEMCORE" id="obtain.v.16"><context><head>obtain</head> the Information.
+</context></instance><instance docscr="SEMCORE" id="obtain.v.17"><context><head>obtain</head> the indication.
+</context></instance><instance docscr="SEMCORE" id="obtain.v.18"><context><head>obtain</head> the list.
+</context></instance><instance docscr="SEMCORE" id="obtain.v.19"><context><head>obtain</head> the position.
+</context></instance><instance docscr="SEMCORE" id="obtain.v.20"><context><head>obtain</head> the team.
+</context></instance><instance docscr="SEMCORE" id="obtain.v.21"><context><head>obtain</head> the instruction.
+</context></instance><instance docscr="SEMCORE" id="obtain.v.22"><context><head>obtain</head> the conjugate.
+</context></instance><instance docscr="SEMCORE" id="obtain.v.23"><context><head>obtain</head> the form.
+</context></instance><instance docscr="SEMCORE" id="obtain.v.24"><context><head>obtain</head> the refund.
+</context></instance><instance docscr="SEMCORE" id="obtain.v.25"><context><head>obtain</head> the score.
+</context></instance><instance docscr="SEMCORE" id="obtain.v.26"><context><head>obtain</head> the information.
+</context></instance><instance docscr="SEMCORE" id="obtain.v.27"><context><head>obtain</head> the information.
+</context></instance><instance docscr="SEMCORE" id="obtain.v.28"><context><head>obtain</head> the direct_evidence.
+</context></instance><instance docscr="SEMCORE" id="obtain.v.29"><context><head>obtain</head> the curve.
+</context></instance><instance docscr="SEMCORE" id="obtain.v.30"><context><head>obtain</head> the job.
+</context></instance><instance docscr="SEMCORE" id="obtain.v.31"><context><head>obtain</head> the degree.
+</context></instance><instance docscr="SEMCORE" id="obtain.v.32"><context><head>obtain</head> the admission.
+</context></instance><instance docscr="SEMCORE" id="obtain.v.33"><context><head>obtain</head> the engagement.
+</context></instance><instance docscr="SEMCORE" id="obtain.v.34"><context><head>obtain</head> the office.
+</context></instance><instance docscr="SEMCORE" id="obtain.v.35"><context><head>obtain</head> the data.
+</context></instance><instance docscr="SEMCORE" id="obtain.v.36"><context><head>obtain</head> the reading.
+</context></instance></lexelt><lexelt item="allocation.n" pos="unk"><instance docscr="SEMCORE" id="allocation.n.0"><context>obtain the <head>allocation</head>.
+</context></instance></lexelt><lexelt item="engagement.n" pos="unk"><instance docscr="SEMCORE" id="engagement.n.0"><context>obtain the <head>engagement</head>.
+</context></instance></lexelt><lexelt item="spectrum.n" pos="unk"><instance docscr="SEMCORE" id="spectrum.n.0"><context>obtain the <head>spectrum</head>.
+</context></instance></lexelt><lexelt item="degree.n" pos="unk"><instance docscr="SEMCORE" id="degree.n.0"><context>obtain the <head>degree</head>.
+</context></instance></lexelt><lexelt item="team.n" pos="unk"><instance docscr="SEMCORE" id="team.n.0"><context>obtain the <head>team</head>.
+</context></instance></lexelt><lexelt item="group.n" pos="unk"><instance docscr="SEMCORE" id="group.n.0"><context>obtain the <head>group</head>.
+</context></instance></lexelt><lexelt item="direct_evidence.n" pos="unk"><instance docscr="SEMCORE" id="direct_evidence.n.0"><context>obtain the <head>direct_evidence</head>.
+</context></instance></lexelt><lexelt item="position.n" pos="unk"><instance docscr="SEMCORE" id="position.n.0"><context>obtain the <head>position</head>.
+</context></instance></lexelt><lexelt item="signature.n" pos="unk"><instance docscr="SEMCORE" id="signature.n.0"><context>obtain the <head>signature</head>.
+</context></instance></lexelt><lexelt item="action.n" pos="unk"><instance docscr="SEMCORE" id="action.n.0"><context>obtain the <head>action</head>.
+</context></instance><instance docscr="SEMCORE" id="action.n.1"><context>obtain the <head>action</head>.
+</context></instance></lexelt><lexelt item="fund.n" pos="unk"><instance docscr="SEMCORE" id="fund.n.0"><context>obtain the <head>fund</head>.
+</context></instance></lexelt><lexelt item="data.n" pos="unk"><instance docscr="SEMCORE" id="data.n.0"><context>obtain the <head>data</head>.
+</context></instance></lexelt><lexelt item="indication.n" pos="unk"><instance docscr="SEMCORE" id="indication.n.0"><context>obtain the <head>indication</head>.
+</context></instance></lexelt><lexelt item="sample.n" pos="unk"><instance docscr="SEMCORE" id="sample.n.0"><context>obtain the <head>sample</head>.
+</context></instance></lexelt><lexelt item="result.n" pos="unk"><instance docscr="SEMCORE" id="result.n.0"><context>obtain the <head>result</head>.
+</context></instance></lexelt><lexelt item="value.n" pos="unk"><instance docscr="SEMCORE" id="value.n.0"><context>obtain the <head>value</head>.
+</context></instance></lexelt><lexelt item="reading.n" pos="unk"><instance docscr="SEMCORE" id="reading.n.0"><context>obtain the <head>reading</head>.
+</context></instance></lexelt><lexelt item="list.n" pos="unk"><instance docscr="SEMCORE" id="list.n.0"><context>obtain the <head>list</head>.
+</context></instance></lexelt><lexelt item="information.n" pos="unk"><instance docscr="SEMCORE" id="information.n.0"><context>obtain the <head>information</head>.
+</context></instance><instance docscr="SEMCORE" id="information.n.1"><context>obtain the <head>information</head>.
+</context></instance></lexelt><lexelt item="admission.n" pos="unk"><instance docscr="SEMCORE" id="admission.n.0"><context>obtain the <head>admission</head>.
+</context></instance></lexelt><lexelt item="conjugate.n" pos="unk"><instance docscr="SEMCORE" id="conjugate.n.0"><context>obtain the <head>conjugate</head>.
+</context></instance></lexelt><lexelt item="mortality.n" pos="unk"><instance docscr="SEMCORE" id="mortality.n.0"><context>obtain the <head>mortality</head>.
+</context></instance></lexelt><lexelt item="instruction.n" pos="unk"><instance docscr="SEMCORE" id="instruction.n.0"><context>obtain the <head>instruction</head>.
+</context></instance></lexelt><lexelt item="score.n" pos="unk"><instance docscr="SEMCORE" id="score.n.0"><context>obtain the <head>score</head>.
+</context></instance></lexelt><lexelt item="form.n" pos="unk"><instance docscr="SEMCORE" id="form.n.0"><context>obtain the <head>form</head>.
+</context></instance></lexelt><lexelt item="refund.n" pos="unk"><instance docscr="SEMCORE" id="refund.n.0"><context>obtain the <head>refund</head>.
+</context></instance></lexelt><lexelt item="curve.n" pos="unk"><instance docscr="SEMCORE" id="curve.n.0"><context>obtain the <head>curve</head>.
+</context></instance></lexelt><lexelt item="Spectra.n" pos="unk"><instance docscr="SEMCORE" id="Spectra.n.0"><context>obtain the <head>Spectra</head>.
+</context></instance><instance docscr="SEMCORE" id="Spectra.n.1"><context>obtain the <head>Spectra</head>.
+</context></instance><instance docscr="SEMCORE" id="Spectra.n.2"><context>obtain the <head>Spectra</head>.
+</context></instance></lexelt><lexelt item="fraction.n" pos="unk"><instance docscr="SEMCORE" id="fraction.n.0"><context>obtain the <head>fraction</head>.
+</context></instance></lexelt><lexelt item="serum.n" pos="unk"><instance docscr="SEMCORE" id="serum.n.0"><context>obtain the <head>serum</head>.
+</context></instance></lexelt><lexelt item="office.n" pos="unk"><instance docscr="SEMCORE" id="office.n.0"><context>obtain the <head>office</head>.
+</context></instance></lexelt><lexelt item="Information.n" pos="unk"><instance docscr="SEMCORE" id="Information.n.0"><context>obtain the <head>Information</head>.
+</context></instance></lexelt><lexelt item="job.n" pos="unk"><instance docscr="SEMCORE" id="job.n.0"><context>obtain the <head>job</head>.
+</context></instance></lexelt></corpus>

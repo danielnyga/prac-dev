@@ -1,0 +1,39 @@
+<corpus lang="english"><lexelt item="ask.v" pos="unk"><instance docscr="SEMCORE" id="ask.v.0"><context><head>ask</head> the crowd.
+</context></instance><instance docscr="SEMCORE" id="ask.v.1"><context><head>ask</head> the church.
+</context></instance><instance docscr="SEMCORE" id="ask.v.2"><context><head>ask</head> the people.
+</context></instance><instance docscr="SEMCORE" id="ask.v.3"><context><head>ask</head> the question.
+</context></instance><instance docscr="SEMCORE" id="ask.v.4"><context><head>ask</head>Quasimodo.
+</context></instance><instance docscr="SEMCORE" id="ask.v.5"><context><head>ask</head> the nation.
+</context></instance><instance docscr="SEMCORE" id="ask.v.6"><context><head>ask</head>Rawlins.
+</context></instance><instance docscr="SEMCORE" id="ask.v.7"><context><head>ask</head> the light.
+</context></instance><instance docscr="SEMCORE" id="ask.v.8"><context><head>ask</head> the daughter.
+</context></instance><instance docscr="SEMCORE" id="ask.v.9"><context><head>ask</head>Sam.
+</context></instance><instance docscr="SEMCORE" id="ask.v.10"><context><head>ask</head>Willie.
+</context></instance><instance docscr="SEMCORE" id="ask.v.11"><context><head>ask</head>Leona.
+</context></instance><instance docscr="SEMCORE" id="ask.v.12"><context><head>ask</head> the man.
+</context></instance><instance docscr="SEMCORE" id="ask.v.13"><context><head>ask</head>Bobby_Joe.
+</context></instance><instance docscr="SEMCORE" id="ask.v.14"><context><head>ask</head> the cost.
+</context></instance><instance docscr="SEMCORE" id="ask.v.15"><context><head>ask</head> the husband.
+</context></instance><instance docscr="SEMCORE" id="ask.v.16"><context><head>ask</head> the father.
+</context></instance><instance docscr="SEMCORE" id="ask.v.17"><context><head>ask</head>Darrell_Royal.
+</context></instance><instance docscr="SEMCORE" id="ask.v.18"><context><head>ask</head> the witness.
+</context></instance></lexelt><lexelt item="people.n" pos="unk"><instance docscr="SEMCORE" id="people.n.0"><context>ask the <head>people</head>.
+</context></instance></lexelt><lexelt item="question.n" pos="unk"><instance docscr="SEMCORE" id="question.n.0"><context>ask the <head>question</head>.
+</context></instance></lexelt><lexelt item="man.n" pos="unk"><instance docscr="SEMCORE" id="man.n.0"><context>ask the <head>man</head>.
+</context></instance></lexelt><lexelt item="Willie.n" pos="unk"><instance docscr="SEMCORE" id="Willie.n.0"><context>ask<head>Willie</head>.
+</context></instance></lexelt><lexelt item="Sam.n" pos="unk"><instance docscr="SEMCORE" id="Sam.n.0"><context>ask<head>Sam</head>.
+</context></instance></lexelt><lexelt item="cost.n" pos="unk"><instance docscr="SEMCORE" id="cost.n.0"><context>ask the <head>cost</head>.
+</context></instance></lexelt><lexelt item="Bobby_Joe.n" pos="unk"><instance docscr="SEMCORE" id="Bobby_Joe.n.0"><context>ask<head>Bobby_Joe</head>.
+</context></instance></lexelt><lexelt item="Leona.n" pos="unk"><instance docscr="SEMCORE" id="Leona.n.0"><context>ask<head>Leona</head>.
+</context></instance></lexelt><lexelt item="church.n" pos="unk"><instance docscr="SEMCORE" id="church.n.0"><context>ask the <head>church</head>.
+</context></instance></lexelt><lexelt item="husband.n" pos="unk"><instance docscr="SEMCORE" id="husband.n.0"><context>ask the <head>husband</head>.
+</context></instance></lexelt><lexelt item="witness.n" pos="unk"><instance docscr="SEMCORE" id="witness.n.0"><context>ask the <head>witness</head>.
+</context></instance></lexelt><lexelt item="Darrell_Royal.n" pos="unk"><instance docscr="SEMCORE" id="Darrell_Royal.n.0"><context>ask<head>Darrell_Royal</head>.
+</context></instance></lexelt><lexelt item="father.n" pos="unk"><instance docscr="SEMCORE" id="father.n.0"><context>ask the <head>father</head>.
+</context></instance></lexelt><lexelt item="light.n" pos="unk"><instance docscr="SEMCORE" id="light.n.0"><context>ask the <head>light</head>.
+</context></instance></lexelt><lexelt item="nation.n" pos="unk"><instance docscr="SEMCORE" id="nation.n.0"><context>ask the <head>nation</head>.
+</context></instance></lexelt><lexelt item="daughter.n" pos="unk"><instance docscr="SEMCORE" id="daughter.n.0"><context>ask the <head>daughter</head>.
+</context></instance></lexelt><lexelt item="Quasimodo.n" pos="unk"><instance docscr="SEMCORE" id="Quasimodo.n.0"><context>ask<head>Quasimodo</head>.
+</context></instance></lexelt><lexelt item="crowd.n" pos="unk"><instance docscr="SEMCORE" id="crowd.n.0"><context>ask the <head>crowd</head>.
+</context></instance></lexelt><lexelt item="Rawlins.n" pos="unk"><instance docscr="SEMCORE" id="Rawlins.n.0"><context>ask<head>Rawlins</head>.
+</context></instance></lexelt></corpus>

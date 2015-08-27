@@ -1,0 +1,47 @@
+<corpus lang="english"><lexelt item="enter.v" pos="unk"><instance docscr="SEMCORE" id="enter.v.0"><context><head>enter</head> the wire.
+</context></instance><instance docscr="SEMCORE" id="enter.v.1"><context><head>enter</head> the overcast.
+</context></instance><instance docscr="SEMCORE" id="enter.v.2"><context><head>enter</head>Furious_Overfall.
+</context></instance><instance docscr="SEMCORE" id="enter.v.3"><context><head>enter</head> the area.
+</context></instance><instance docscr="SEMCORE" id="enter.v.4"><context><head>enter</head> the room.
+</context></instance><instance docscr="SEMCORE" id="enter.v.5"><context><head>enter</head> the living_room.
+</context></instance><instance docscr="SEMCORE" id="enter.v.6"><context><head>enter</head> the testing_room.
+</context></instance><instance docscr="SEMCORE" id="enter.v.7"><context><head>enter</head> the area.
+</context></instance><instance docscr="SEMCORE" id="enter.v.8"><context><head>enter</head> the master_bedroom.
+</context></instance><instance docscr="SEMCORE" id="enter.v.9"><context><head>enter</head> the suds.
+</context></instance><instance docscr="SEMCORE" id="enter.v.10"><context><head>enter</head> the alveolar_bed.
+</context></instance><instance docscr="SEMCORE" id="enter.v.11"><context><head>enter</head> the stream.
+</context></instance><instance docscr="SEMCORE" id="enter.v.12"><context><head>enter</head> the room.
+</context></instance><instance docscr="SEMCORE" id="enter.v.13"><context><head>enter</head> the barn.
+</context></instance><instance docscr="SEMCORE" id="enter.v.14"><context><head>enter</head> the mind.
+</context></instance><instance docscr="SEMCORE" id="enter.v.15"><context><head>enter</head> the hall.
+</context></instance><instance docscr="SEMCORE" id="enter.v.16"><context><head>enter</head> the suite.
+</context></instance><instance docscr="SEMCORE" id="enter.v.17"><context><head>enter</head> the room.
+</context></instance><instance docscr="SEMCORE" id="enter.v.18"><context><head>enter</head> the room.
+</context></instance><instance docscr="SEMCORE" id="enter.v.19"><context><head>enter</head> the hair.
+</context></instance><instance docscr="SEMCORE" id="enter.v.20"><context><head>enter</head> the room.
+</context></instance><instance docscr="SEMCORE" id="enter.v.21"><context><head>enter</head> the church.
+</context></instance><instance docscr="SEMCORE" id="enter.v.22"><context><head>enter</head>Place_Molard.
+</context></instance></lexelt><lexelt item="testing_room.n" pos="unk"><instance docscr="SEMCORE" id="testing_room.n.0"><context>enter the <head>testing_room</head>.
+</context></instance></lexelt><lexelt item="suite.n" pos="unk"><instance docscr="SEMCORE" id="suite.n.0"><context>enter the <head>suite</head>.
+</context></instance></lexelt><lexelt item="church.n" pos="unk"><instance docscr="SEMCORE" id="church.n.0"><context>enter the <head>church</head>.
+</context></instance></lexelt><lexelt item="alveolar_bed.n" pos="unk"><instance docscr="SEMCORE" id="alveolar_bed.n.0"><context>enter the <head>alveolar_bed</head>.
+</context></instance></lexelt><lexelt item="hall.n" pos="unk"><instance docscr="SEMCORE" id="hall.n.0"><context>enter the <head>hall</head>.
+</context></instance></lexelt><lexelt item="Place_Molard.n" pos="unk"><instance docscr="SEMCORE" id="Place_Molard.n.0"><context>enter<head>Place_Molard</head>.
+</context></instance></lexelt><lexelt item="mind.n" pos="unk"><instance docscr="SEMCORE" id="mind.n.0"><context>enter the <head>mind</head>.
+</context></instance></lexelt><lexelt item="master_bedroom.n" pos="unk"><instance docscr="SEMCORE" id="master_bedroom.n.0"><context>enter the <head>master_bedroom</head>.
+</context></instance></lexelt><lexelt item="stream.n" pos="unk"><instance docscr="SEMCORE" id="stream.n.0"><context>enter the <head>stream</head>.
+</context></instance></lexelt><lexelt item="suds.n" pos="unk"><instance docscr="SEMCORE" id="suds.n.0"><context>enter the <head>suds</head>.
+</context></instance></lexelt><lexelt item="room.n" pos="unk"><instance docscr="SEMCORE" id="room.n.0"><context>enter the <head>room</head>.
+</context></instance><instance docscr="SEMCORE" id="room.n.1"><context>enter the <head>room</head>.
+</context></instance><instance docscr="SEMCORE" id="room.n.2"><context>enter the <head>room</head>.
+</context></instance><instance docscr="SEMCORE" id="room.n.3"><context>enter the <head>room</head>.
+</context></instance><instance docscr="SEMCORE" id="room.n.4"><context>enter the <head>room</head>.
+</context></instance></lexelt><lexelt item="overcast.n" pos="unk"><instance docscr="SEMCORE" id="overcast.n.0"><context>enter the <head>overcast</head>.
+</context></instance></lexelt><lexelt item="living_room.n" pos="unk"><instance docscr="SEMCORE" id="living_room.n.0"><context>enter the <head>living_room</head>.
+</context></instance></lexelt><lexelt item="Furious_Overfall.n" pos="unk"><instance docscr="SEMCORE" id="Furious_Overfall.n.0"><context>enter<head>Furious_Overfall</head>.
+</context></instance></lexelt><lexelt item="wire.n" pos="unk"><instance docscr="SEMCORE" id="wire.n.0"><context>enter the <head>wire</head>.
+</context></instance></lexelt><lexelt item="area.n" pos="unk"><instance docscr="SEMCORE" id="area.n.0"><context>enter the <head>area</head>.
+</context></instance><instance docscr="SEMCORE" id="area.n.1"><context>enter the <head>area</head>.
+</context></instance></lexelt><lexelt item="hair.n" pos="unk"><instance docscr="SEMCORE" id="hair.n.0"><context>enter the <head>hair</head>.
+</context></instance></lexelt><lexelt item="barn.n" pos="unk"><instance docscr="SEMCORE" id="barn.n.0"><context>enter the <head>barn</head>.
+</context></instance></lexelt></corpus>
