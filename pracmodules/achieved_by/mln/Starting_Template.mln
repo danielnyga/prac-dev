@@ -23,14 +23,15 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ******************************************************************************/
 
+#include ../../wn_senses/mln/predicates.mln
+#include ../../wn_senses/mln/predicates.mln
+#include  ../../senses_and_roles/mln/Roles.mln
+
 has_pos(word,pos!)
-is_a(sense, concept)
 dobj(word,word)
-has_sense(word, sense!)
 action_core(word,actioncore?)
 achieved_by(actioncore,actioncore?)
 num(word,word)
-#include  ../../senses_and_roles/mln/Roles.mln
 0 obj_to_be_started(?w1,?ac1) ^ has_sense(?w1, ?s1) ^ is_a(?s1, +?c1) ^ achieved_by(?ac1,+?ac2) ^ action_core(?w2,?ac1) ^ ?w1 =/= ?w2
 //Consider dissimilarity too
 0 obj_to_be_started(?w1,?ac1) ^ has_sense(?w1, ?s1) ^ !is_a(?s1, +?c1) ^ achieved_by(?ac1,+?ac2)^ action_core(?w2,?ac1) ^ ?w1 =/= ?w2

@@ -8,6 +8,7 @@
 has_pos(word,pos!)
 has_sense(word,sense!)
 dobj(word,word)
+#fuzzy
 is_a(sense,concept)
 achieved_by(actioncore,actioncore?)
 action_core(word,actioncore?)

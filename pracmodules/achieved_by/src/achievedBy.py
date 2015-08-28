@@ -80,68 +80,39 @@ class AchievedBy(PRACModule):
         for db in dbs:
             
             for q in db.query('action_core(?w,?ac)'):
-                #running = True
+                actioncore = q['?ac']
                 #This list is used to avoid an infinite loop during the achieved by inference.
                 #To avoid this infinite loop, the list contains the pracmlns which were inferenced during the process.
                 #Every pracmln should be used only once during the process because the evidence for the inference will always remain the same.
                 #So if the pracmln hadnt inferenced a plan in the first time, it will never do it.
-                
+
                 db_ = Database(db.mln)
                 #Need to remove possible achieved_by predicates from previous achieved_by inferences
                 for atom, truth in sorted(db.evidence.iteritems()):
                     if 'achieved_by' in atom: continue
                     db_ << (atom,truth)
-                    
-                wordnet = WordNet(concepts=None)
-                actionword = q['?w']
-                actioncore = q['?ac']
 
                 if kb is None:
                     print 'Loading Markov Logic Network: %s' % colorize(actioncore, (None, 'white', True), True)
-                    useKB = self.load_pracmt(actioncore)
+                    kb = self.load_prac_kb(actioncore)
                     
-                else:
-                    useKB = kb
-                
-                concepts = useKB.query_mln.domains.get('concept', [])
-                
-                for q in db_.query("has_sense(?w,?s)"):
-                    for concept in concepts:
-                        sim = wordnet.wup_similarity(q["?s"], concept)
-                        db_ << ('is_a(%s,%s)' % (q["?s"], concept),sim)
-                
-                #Inference achieved_by predicate        
-                #self.kbs.append(useKB)  
-                #params.update(useKB.query_params)
-                db_ = self.extendDBWithAchievedByEvidence(db_,useKB.query_mln)
-                result_db = list(useKB.infer(db_))
-                result_db_ = []
-                #Removing achieved_by predicates with prob zero
-                for r_db in result_db:
-                    r_db_ = Database(useKB.query_mln)
-                    for atom, truth in sorted(r_db.evidence.iteritems()):
-                        _, predname, args = db.mln.logic.parseLiteral(atom)
-                        if predname == 'achieved_by'  and truth == 0: continue
-                        r_db_ << (atom,truth)
-                    result_db_.append(r_db_)
-                
-                result_db = result_db_
-                    
-                for r_db in result_db:
-                    for q in r_db.query('achieved_by({0},?nac) ^ action_core(?w,{0})'.format(actioncore)):
-                        achievedByAc = q['?nac']
-                        
-                        r_db_ = Database(r_db.mln)
-                        
-                        for atom, truth in sorted(r_db.evidence.iteritems()):
-                            if 'is_a' in atom: continue
-                            r_db_ << (atom,truth)
-                        
-                        inf_step.output_dbs.append(r_db_)
-                        print actionword + " achieved by: " + achievedByAc
+                concepts = kb.query_mln.domains.get('concept', [])
+                wordnet_module = self.prac.getModuleByName('wn_senses')
+                db = wordnet_module.get_senses_and_similarities(db_, concepts)
 
-                kb = useKB
-                     
+                unified_db = db.union(kb.query_mln, db_)
+
+                #Inference achieved_by predicate        
+                db_ = self.extendDBWithAchievedByEvidence(unified_db,kb.query_mln)
+                result_db = list(kb.infer(db_))[0]
+
+                # unified_db = result_db.union(kb.query_mln, db_)
+                # only add inferred achieved_by atoms, leave out 0-evidence atoms
+                for q in result_db.query('achieved_by(?ac1,?ac2)'):
+                    unified_db << 'achieved_by({},{})'.format(q['?ac1'],q['?ac2'])
+
+                inf_step.output_dbs.append(unified_db)
+
         if kb is not None:
             png, ratio = kb.get_cond_prob_png(filename=self.name)
             inf_step.png = (png, ratio)

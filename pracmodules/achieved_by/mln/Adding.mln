@@ -10,6 +10,7 @@ liquid(word,actioncore)
 has_sense(word,sense!)
 amount(word,actioncore)
 achieved_by(actioncore,actioncore?)
+#fuzzy
 is_a(sense,concept)
 theme(word,actioncore)
 stuff(word,actioncore)

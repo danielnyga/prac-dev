@@ -1,1 +1,2 @@
+#include ../../wn_senses/mln/predicates.mln
 achieved_by(actioncore,actioncore?)
