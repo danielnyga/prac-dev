@@ -30,11 +30,8 @@ from core.inference import PRACInference
 from gui.querytool import PRACQueryGUI
 from core.wordnet import WordNet
 import re
+from pracmln.utils.config import PRACMLNConfig
 from pracutils.RolequeryHandler import RolequeryHandler
-from pracutils.ActioncoreDescriptionHandler import ActioncoreDescriptionHandler
-from graphviz.dot import Digraph
-import itertools
-from pracutils.pracgraphviz import render_gv
 
 parser = OptionParser()
 parser.add_option("-i", "--interactive", dest="interactive", default=False, action='store_true',
@@ -63,7 +60,8 @@ if __name__ == '__main__':
         if len(infer.instructions) > 0:
             parser = prac.getModuleByName('nl_parsing')
             prac.run(infer, parser)
-        gui = PRACQueryGUI(infer)
+        conf = PRACMLNConfig()
+        gui = PRACQueryGUI(infer, conf)
         gui.open()
     else: # regular PRAC pipeline
         while infer.next_module() != None :
