@@ -25,14 +25,11 @@ from Tkinter import _setit, Tk, Frame, Label, StringVar, OptionMenu, Entry,\
     IntVar, Checkbutton, Button
 import sys
 import os
-import struct
 import time
 import re
-from fnmatch import fnmatch
+from tkMessageBox import askyesno
 import traceback
-import tkMessageBox
 import subprocess
-import shlex
 import logging
 import StringIO
 from Tkconstants import BOTH, W, LEFT, NE, E
@@ -42,13 +39,14 @@ from prac.core import PRACKnowledgeBase
 from prac.core.base import PRAC
 from pracmln import MLN, Database
 from pracmln.mln.methods import InferenceMethods
-from pracmln.mln.util import balancedParentheses
+from pracmln.mln.util import balancedParentheses, ifNone
+from pracmln.praclog import logger
+from pracmln.utils.config import query_config_pattern, PRACMLNConfig
 from pracmln.utils.widgets import FilePickEdit
 from pracmln.utils import config
 
 
 def nop(*args, **kwargs): pass
-
 
 class MLNInfer(object):
     def __init__(self):
@@ -74,8 +72,8 @@ class MLNInfer(object):
             returns a mapping (dictionary) from ground atoms to probability values.
                 For J-MLNs, results are only returned if settings are saved to a file (settings["saveResults"]=True and output_filename given)
         '''
-        self.settings = dict(self.default_settings)        
-        self.settings.update(settings)
+        self.gconf = dict(self.default_settings)        
+        self.gconf.update(settings)
         input_files = mlnFiles
         db = evidenceDB
         query = queries
@@ -89,8 +87,8 @@ class MLNInfer(object):
         
         # determine closed-world preds
         cwPreds = []
-        if "cwPreds" in self.settings:            
-            cwPreds = filter(lambda x: x != "", map(str.strip, self.settings["cwPreds"].split(",")))
+        if "cwPreds" in self.gconf:            
+            cwPreds = filter(lambda x: x != "", map(str.strip, self.gconf["cwPreds"].split(",")))
         
         # collect inference arguments
         args = {"details":True, "shortOutput":True, "debugLevel":1}
@@ -98,16 +96,16 @@ class MLNInfer(object):
         # set the debug level
         logging.getLogger().setLevel(eval('logging.%s' % args.get('debug', 'WARNING').upper()))
 
-        if self.settings["numChains"] != "":
-            args["numChains"] = int(self.settings["numChains"])
-        if self.settings["maxSteps"] != "":
-            args["maxSteps"] = int(self.settings["maxSteps"])
+        if self.gconf["numChains"] != "":
+            args["numChains"] = int(self.gconf["numChains"])
+        if self.gconf["maxSteps"] != "":
+            args["maxSteps"] = int(self.gconf["maxSteps"])
         outFile = None
-        if self.settings["saveResults"]:
+        if self.gconf["saveResults"]:
             haveOutFile = True
             outFile = file(output_filename, "w")
             args["outFile"] = outFile
-        args['useMultiCPU'] = self.settings.get('useMultiCPU', False)
+        args['useMultiCPU'] = self.gconf.get('useMultiCPU', False)
         args["probabilityFittingResultFileName"] = output_base_filename + "_fitted.mln"
 
         print args
@@ -129,7 +127,7 @@ class MLNInfer(object):
                 
                 # create MLN
                 # mln = MLN.MLN(input_files, verbose=verbose, defaultInferenceMethod=MLN.InferenceMethods.byName(method))
-                mln = MLN(mlnfile=input_files, logic=self.settings['logic'], grammar=self.settings['grammar'])#, verbose=verbose, defaultInferenceMethod=MLN.InferenceMethods.byName(method))
+                mln = MLN(mlnfile=input_files, logic=self.gconf['logic'], grammar=self.gconf['grammar'])#, verbose=verbose, defaultInferenceMethod=MLN.InferenceMethods.byName(method))
                 mln.defaultInferenceMethod = InferenceMethods.byName(method)
                 # set closed-world predicates
                 for pred in cwPreds:
@@ -180,24 +178,26 @@ class MLNInfer(object):
 
 class PRACQueryGUI(object):
 
-    def __init__(self, pracinference, directory='.'):
+    def __init__(self, pracinference, conf, directory='.'):
+        log = logger(__name__)
         self.prac = pracinference.prac
         prac = self.prac
         self.prac_inference = pracinference
         self.infStep = None
 
         self.initialized = False
-        self.directory = directory
+        self.directory = directory # TODO remove
+        self.module_dir = os.path.join(os.environ['PRAC_HOME'], 'pracmodules', 'wnsenses')
         self.master = Tk()
+        self.master.bind('<Return>', self.start)
+        self.master.bind('<Escape>', lambda a: self.master.quit())
         self.master.title("PRAC Query Tool")
         master = self.master
-        
-        
-        self.settings = {}
-#         if not "queryByDB" in self.settings: self.settings["queryByDB"] = {}
-#         if not "emlnByDB" in self.settings: self.settings["emlnByDB"] = {}
-#         if not "use_multiCPU" in self.settings: self.settings['use_multiCPU'] = False 
-        
+
+
+        self.config = None
+        self.gconf = conf # TODO remove
+
         self.frame = Frame(master)
         self.frame.pack(fill=BOTH, expand=1)
         self.frame.columnconfigure(1, weight=1)
@@ -228,7 +228,7 @@ class PRACQueryGUI(object):
         
         # KB name
         self.kb_name = StringVar(master)
-        self.kb_name.set('%s' % self.settings.get("selected_kb", ""))
+        self.kb_name.set('%s' % self.gconf.get("selected_kb", ""))
         self.entry_kb_filename = Entry(saveKBFrame, textvariable = self.kb_name)
         self.entry_kb_filename.grid(row=0, column=0, sticky="NEWS")
         # save button
@@ -240,7 +240,7 @@ class PRACQueryGUI(object):
         Label(self.frame, text='Logic: ').grid(row=row, column=0, sticky='E')
         logics = ['FirstOrderLogic', 'FuzzyLogic']
         self.selected_logic = StringVar(master)
-        logic = self.settings.get('logic')
+        logic = self.gconf.get('logic')
         if not logic in logics: logic = logics[0]
         self.selected_logic.set(logic)
         self.selected_logic.trace('w', self.onChangeLogic)
@@ -251,10 +251,11 @@ class PRACQueryGUI(object):
         row += 1
         Label(self.frame, text="MLN: ").grid(row=row, column=0, sticky=NE)
         self.selected_mln = FilePickEdit(self.frame, config.query_mln_filemask, 
-                                         self.settings.get("mln", ""), 22, self.changedMLN, 
-                                         rename_on_edit=self.settings.get("mln_rename", 0), 
+                                         self.gconf.get("mln", ""), 22, self.changedMLN, 
+                                         rename_on_edit=self.gconf.get("mln_rename", 0), 
                                          font=config.fixed_width_font, coloring=True,
-                                         directory='.')
+                                         directory=os.path.join(self.module_dir,'mln'))
+
         self.selected_mln.grid(row=row, column=1, sticky="NWES")
         self.frame.rowconfigure(row, weight=1)
 
@@ -263,20 +264,20 @@ class PRACQueryGUI(object):
         self.cb_use_emln = Checkbutton(self.selected_mln.options_frame, text="use model extension", 
                                        variable=self.use_emln)
         self.cb_use_emln.pack(side=LEFT)
-        self.use_emln.set(self.settings.get("useEMLN", 0))
+        self.use_emln.set(self.gconf.get("useEMLN", 0))
         self.use_emln.trace("w", self.onChangeUseEMLN)
         # mln extension selection
         self.selected_emln = FilePickEdit(self.selected_mln, "*.emln", None, 12, None, 
-                                          rename_on_edit=self.settings.get("mln_rename", 0), 
+                                          rename_on_edit=self.gconf.get("emln_rename", 0),
                                           font=config.fixed_width_font, coloring=True)
         self.onChangeUseEMLN()
 
         # evidence database selection
         row += 1
         Label(self.frame, text="Evidence: ").grid(row=row, column=0, sticky=NE)
-        self.selected_db = FilePickEdit(self.frame, config.query_db_filemask, self.settings.get("db", ""), 
-                                        12, self.changedDB, rename_on_edit=self.settings.get("emln_rename", 0), 
-                                        font=config.fixed_width_font, coloring=True, directory=self.directory)
+        self.selected_db = FilePickEdit(self.frame, config.query_db_filemask, self.gconf.get("db", ""), 
+                                        12, self.changedDB, rename_on_edit=self.gconf.get("db_rename", 0),
+                                        font=config.fixed_width_font, coloring=True, directory=os.path.join(self.module_dir,'db'))
         self.selected_db.grid(row=row,column=1, sticky="NWES")
         self.frame.rowconfigure(row, weight=1)
 
@@ -293,13 +294,13 @@ class PRACQueryGUI(object):
         row += 1
         Label(self.frame, text="Queries: ").grid(row=row, column=0, sticky=E)
         self.query = StringVar(master)
-        self.query.set(self.settings.get("query", "foo"))
+        self.query.set(self.gconf.get("query", "foo"))
         Entry(self.frame, textvariable = self.query).grid(row=row, column=1, sticky="NEW")
 
         # query formula selection
         #row += 1
         #Label(self.frame, text="Query formulas: ").grid(row=row, column=0, sticky=NE)
-        self.selected_qf = FilePickEdit(self.frame, "*.qf", self.settings.get("qf", ""), 6)
+        self.selected_qf = FilePickEdit(self.frame, "*.qf", self.gconf.get("qf", ""), 6)
         #self.selected_qf.grid(row=row,column=1)
 
         #  parameters
@@ -313,7 +314,7 @@ class PRACQueryGUI(object):
         row += 1
         Label(self.frame, text="CW preds: ").grid(row=row, column=0, sticky="NE")
         self.cwPreds = StringVar(master)
-        self.cwPreds.set(self.settings.get("cwPreds", ""))
+        self.cwPreds.set(self.gconf.get("cwPreds", ""))
         self.entry_cw = Entry(self.frame, textvariable = self.cwPreds)
         self.entry_cw.grid(row=row, column=1, sticky="NEW")
 
@@ -324,13 +325,13 @@ class PRACQueryGUI(object):
         self.closed_world = IntVar()
         self.cb_closed_world = Checkbutton(option_container, text="Apply CW assumption to all except queries", variable=self.closed_world)
         self.cb_closed_world.grid(row=0, column=1, sticky=W)
-        self.closed_world.set(self.settings.get("closedWorld", True))
+        self.closed_world.set(self.gconf.get("closedWorld", True))
         
         # Multiprocessing 
-        self.use_multiCPU = IntVar()
-        self.cb_use_multiCPU = Checkbutton(option_container, text="Use all CPUs", variable=self.use_multiCPU)
+        self.multicore = IntVar()
+        self.cb_use_multiCPU = Checkbutton(option_container, text="Use all CPUs", variable=self.multicore)
         self.cb_use_multiCPU.grid(row=0, column=2, sticky=W)
-        self.use_multiCPU.set(self.settings.get("useMultiCPU", False))
+        self.multicore.set(self.gconf.get("useMultiCPU", False))
 
         # start and continue buttons
         self.btn_container = Frame(self.frame)
@@ -343,7 +344,7 @@ class PRACQueryGUI(object):
         continue_button.grid(row=0, column=2, sticky='W')
 
         self.initialized = True
-        kb = self.settings.get("module", modules[0])
+        kb = self.gconf.get("module", modules[0])
         self.selected_module.set(kb)
         self.setDatabases(*pracinference.inference_steps[-1].output_dbs)
 #         self.onChangeModule()
@@ -351,7 +352,7 @@ class PRACQueryGUI(object):
         self.setGeometry()
 
     def setGeometry(self):
-        g = self.settings.get("geometry")
+        g = self.gconf.get("geometry")
         if g is None: return
         # this is a hack: since geometry apparently does not work as expected
         # (at least under Ubuntu: the main window is not put at the same position
@@ -366,34 +367,42 @@ class PRACQueryGUI(object):
         self.master.geometry('%dx%d+%d+%d' % (w_new, h_new, x_new, y_new))
          
     def onSaveKB(self):
-        kb = self.getTempKBFromGUI()
-        kb_name = self.entry_kb_filename.get()
-        module = self.prac.getModuleByName(self.selected_module.get())
-        logging.getLogger(self.__class__.__name__).info('Saving KB of type %s in %s' % (kb.__class__.__name__, kb_name))
-        module.save_pracmt(kb, kb_name)
-        self.updateKBList()
-        self.selected_kb.set(kb_name)
-        
+        print 'kbname', self.kb_name.get()
+        self.config = PRACMLNConfig(os.path.join(self.module_dir, 'bin', query_config_pattern % self.kb_name.get()))
+        self.config["mln_rename"] = self.selected_mln.rename_on_edit.get()
+        self.config["db"] = self.selected_db.get()
+        self.config['mln'] = self.selected_mln.get()
+        self.config["db_rename"] = self.selected_db.rename_on_edit.get()
+        self.config["method"] = InferenceMethods.id(str(self.selected_method.get()))
+        self.config["params"] = str(self.params.get())
+        self.config["queries"] = self.query.get()
+        self.config['emln'] = self.selected_emln.get().encode('utf8')
+        self.config["cw"] = self.closed_world.get()
+        self.config["cw_preds"] = self.cwPreds.get()
+        self.config["use_emln"] = self.use_emln.get()
+        self.config['logic'] = self.selected_logic.get()
+        self.config['multicore'] = self.multicore.get()
+        self.config.dump()
+
 
     def onChangeKB(self, name = None, index = None, mode = None):
         self.kb_name.set(self.selected_kb.get())
         if self.selected_kb.get() == 'new':
             return
-        # unpickle the kb
-        module = self.prac.getModuleByName(self.selected_module.get())
-        kb = module.load_pracmt(self.selected_kb.get())
-        self.setGUIFromKB(kb)
-        
-        
-    def changedMLN(self, name): pass
-#         self.mln_filename = name
-#         self.setOutputFilename()
+
+        confname = os.path.join(self.module_dir, 'bin', query_config_pattern % self.selected_kb.get())
+        if self.config is None or not self.initialized or os.path.exists(confname):
+            self.set_config(PRACMLNConfig(confname))
+
+
+    def changedMLN(self, mlnname): pass
+
 
     def changedDB(self, name):
         self.db_filename = name
 #         self.setOutputFilename()
         # restore stored query (if any)
-#         query = self.settings["queryByDB"].get(name)
+#         query = self.gconf["queryByDB"].get(name)
 #         if query is None: # try file
 #             query_file = "%s.query" % name
 #             if os.path.exists(query_file) and "query" in dir(self):
@@ -403,32 +412,43 @@ class PRACQueryGUI(object):
 #         if not query is None and hasattr(self, "query"):
 #             self.query.set(query)
 #         # select EMLN
-#         emln = self.settings["emlnByDB"].get(name)
+#         emln = self.gconf["emlnByDB"].get(name)
 #         if not emln is None:
 #             self.selected_emln.set(emln)
             
 
     def onChangeModule(self, *args):
+        module_path = self.prac.moduleManifestByName[self.selected_module.get()].module_path
+        self.set_module_dir(module_path)
         self.updateKBList()
-        
+
+    def set_module_dir(self, dirpath):
+        dirpath = os.path.abspath(dirpath)
+        self.selected_mln.setDirectory(os.path.join(dirpath, 'mln'))
+        self.selected_emln.setDirectory(os.path.join(dirpath, 'emln'))
+        self.selected_db.setDirectory(os.path.join(dirpath, 'db'))
+        self.module_dir = dirpath
+
     def updateKBList(self):
         modulename = self.selected_module.get()
         kbs = ['new']
         module_path = self.prac.moduleManifestByName[modulename].module_path
-        for path in os.listdir(os.path.join(module_path, 'bin')):
-            if os.path.isdir(path): continue
-            if path.endswith('.pracmln'):
-                kbs.append(path[0:path.rfind('.pracmln')])
-        kb = kbs[0]
+
+        if os.path.exists(os.path.join(module_path, 'bin')):
+            for path in os.listdir(os.path.join(module_path, 'bin')):
+                if os.path.isdir(path): continue
+                if path.endswith('.query.conf'):
+                    kbs.append(path[0:path.rfind('.query.conf')])
+
         # remove all items
         menu = self.drop_down_kb_selection["menu"] 
         menu.delete(0, 'end')
+
         # add the new ones
         for item in kbs:
             menu.add_command(label=item, command=_setit(self.selected_kb, item, None))
-        self.selected_kb.set(kb)
-        self.selected_mln.setDirectory(os.path.join(module_path, 'mln'))
-            
+        self.selected_kb.set(kbs[0])
+
     def onChangeUseMultiCPU(self, *args):
         pass
 
@@ -441,6 +461,25 @@ class PRACQueryGUI(object):
     def onChangeLogic(self, name = None, index = None, mode = None):
         pass
     
+    def set_config(self, conf):
+        self.config = conf
+        self.selected_logic.set(ifNone(conf['logic'], 'FirstOrderLogic'))
+        self.selected_mln.select(ifNone(conf['mln'], ''))
+        self.selected_mln.rename_on_edit.set(ifNone(conf['mln_rename'], 0))
+        self.selected_db.select(ifNone(conf['db'], ''))
+        self.selected_db.rename_on_edit.set(ifNone(conf['db_rename'], False))
+        self.selected_method.set(ifNone(self.config["method"], InferenceMethods.name('MCSAT'), transform=InferenceMethods.name))
+        self.selected_emln.set(ifNone(conf['emln'], ''))
+        self.multicore.set(ifNone(conf['multicore'], False))
+        self.params.set(ifNone(conf['params'], ''))
+        self.use_emln.set(ifNone(conf['use_emln'], False))
+        if self.use_emln.get():
+            self.selected_emln.select(self.use_emln.get())
+        self.cwPreds.set(ifNone(conf['cw_preds'], ''))
+        self.closed_world.set(ifNone(conf['cw'], False))
+        self.query.set(ifNone(conf['queries'], 'foo, bar'))
+        self.selected_emln.set(ifNone(conf['use_emln'], False))
+
 
     def getTempKBFromGUI(self):
         log = logging.getLogger(self.__class__.__name__)
@@ -454,29 +493,10 @@ class PRACQueryGUI(object):
         params['cwPreds'] = filter(lambda x: x != "", map(str.strip, self.cwPreds.get().split(",")))
         params['closedWorld'] = self.closed_world.get()
         params['logic'] = self.selected_logic.get()
-        params['useMultiCPU'] = self.use_multiCPU.get()
+        params['useMultiCPU'] = self.multicore.get()
         kb.query_params = params
         log.info(params)
         return kb
-    
-    
-    def setGUIFromKB(self, kb):
-        self.selected_mln.setText(kb.query_mln_str)
-        print dir(kb)
-        p = dict(kb.query_params)
-        self.query.set(p.get('queries', ''))
-        if 'queries' in p: del p['queries']
-        self.selected_method.set(InferenceMethods.value2name[(p.get('method', 'MCSAT'))])
-        if 'method' in p: del p['method']
-        self.cwPreds.set(', '.join(p.get('cwPreds', [])))
-        if 'cwPreds' in p: del p['cwPreds']
-        self.closed_world.set(p.get('closedWorld', False))
-        if 'closedWorld' in p: del p['closedWorld']
-        self.selected_logic.set(p.get('logic', 'FuzzyLogic'))
-        if 'logic' in p: del p['logic']
-        self.use_multiCPU.set(p.get('useMultiCPU', False))
-        if 'useMultiCPU' in p: del p['useMultiCPU']
-        self.params.set(','.join(map(lambda (x, y): '%s=%s' % (str(x), repr(y)), p.iteritems())))
 
 
     def start(self, saveGeometry = True):
@@ -485,7 +505,7 @@ class PRACQueryGUI(object):
         # collect the parameters and create a temporary KB
         
         if saveGeometry:
-            self.settings["geometry"] = self.master.winfo_geometry()
+            self.gconf["geometry"] = self.master.winfo_geometry()
         
         # hide main window
         self.master.withdraw()
