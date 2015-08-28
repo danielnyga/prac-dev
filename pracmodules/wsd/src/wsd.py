@@ -7,7 +7,7 @@ from utils import colorize
 
 #How to call it 
 #actionCore = prac.getModuleByName('ac_recognition')
-#prac.run(infer,actionCore,kb=actionCore.load_pracmt('robohow'))
+#prac.run(infer,actionCore,kb=actionCore.load_prac_kb('robohow'))
 
 class PRACWSD(PRACModule):
     def initialize(self):
@@ -25,7 +25,7 @@ class PRACWSD(PRACModule):
             if params.get('kb', None) is None:
                 # load the default arguments
                 dbs = pracinference.inference_steps[-1].output_dbs
-                kb = self.load_pracmt('default')
+                kb = self.load_prac_kb('default')
                 kb.dbs = dbs
             else:
                 kb = params['kb']

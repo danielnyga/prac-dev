@@ -46,7 +46,7 @@ class PropExtraction(PRACModule):
         print colorize('Inferring most probable ANNOTATION + simultaneous WORD SENSE DISMABIGUATION...', (None, 'white', True), True)
         
         if params.get('kb', None) is None: # load the default arguments
-            kb = self.load_pracmt('default')
+            kb = self.load_prac_kb('default')
             kb.dbs = pracinference.inference_steps[-1].output_dbs
         else:
             kb = params['kb']

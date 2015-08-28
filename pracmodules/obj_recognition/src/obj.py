@@ -51,7 +51,7 @@ class NLObjectRecognition(PRACModule):
         
         if params.get('kb', None) is None: # load the default arguments
             log.info('Using default knowledge base')
-            kb = self.load_pracmt('default')
+            kb = self.load_prac_kb('default')
             kb.dbs = pracinference.inference_steps[-1].output_dbs
             mln = kb.query_mln
         else: # load arguments from given knowlegebase
