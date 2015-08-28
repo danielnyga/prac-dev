@@ -6,6 +6,7 @@ has_pos(word,pos!)
 has_sense(word,sense!)
 action_core(word,actioncore?)
 dobj(word,word)
+#fuzzy
 is_a(sense,concept)
 #include Roles.mln
 

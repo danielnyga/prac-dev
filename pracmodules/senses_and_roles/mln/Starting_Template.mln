@@ -24,15 +24,11 @@
  ******************************************************************************/
 
 #include Roles.mln
+#include ../../wn_senses/mln/predicates.mln
 
 has_pos(word,pos!)
-is_a(sense, concept)
 dobj(word,word)
-has_sense(word, sense!)
 action_core(word,actioncore?)
-
-// hard fomulas 
-//has_sense(?w, null) ^ !action_role(?w, +?r1).
 
 // weighted formulas
 

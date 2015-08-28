@@ -76,14 +76,12 @@ class SensesAndRoles(PRACModule):
                 if actioncore == 'null': continue
                 if kb is None:
                     log.info('Loading Markov Logic Network: %s' % colorize(actioncore, (None, 'white', True), True))
-                    useKB = self.load_pracmt(actioncore)
-                else:
-                    useKB = kb
-                self.kbs.append(useKB)
-                params.update(useKB.query_params)
+                    kb = self.load_prac_kb(actioncore)
+                self.kbs.append(kb)
+                kb.config.update(params)
                 unknown_roles = set()
                 if 'missing' in params:
-                    roles = useKB.query_mln.domains.get('role', [])
+                    roles = kb.query_mln.domains.get('role', [])
                     log.info('roles: %s' % roles)
                     specified_roles = []
                     for q in db_copy.query('action_role(?w, ?r)'):
@@ -99,7 +97,7 @@ class SensesAndRoles(PRACModule):
                         db_copy << ('action_role(Skolem-%s, %s)' % (role, role))
                 else:
                     log.info('Inferring given roles...')
-                concepts = useKB.query_mln.domains['concept']#mergeDomains(, self.merge_all_domains(pracinference))['concept']
+                concepts = kb.query_mln.domains['concept']#mergeDomains(, self.merge_all_domains(pracinference))['concept']
 
                 # adding senses and similarities. might be obsolete as it has
                 # already been performed in ac recognition
@@ -108,12 +106,26 @@ class SensesAndRoles(PRACModule):
                 db = wordnet_module.get_senses_and_similarities(db_copy, concepts)
 
                 # we need senes and similarities as well as original evidence
-                tmp_union_db = db.union(useKB.query_mln, db_copy)
-                result_db = list(useKB.infer(tmp_union_db))[0]
+                tmp_union_db = db.union(kb.query_mln, db_copy)
 
-                # result_db only contains inference result of this module,
-                # therefore we unify it with result of previous inference step
-                unified_db = db_copy.union(useKB.query_mln, result_db)
+                result_db = list(kb.infer(tmp_union_db))[0]
+
+                # get query roles for given actioncore and add inference results
+                # for them to final output db. ignore 0-truth results.
+                unified_db = tmp_union_db.copy(kb.query_mln)
+                # argdoms = kb.query_mln.predicate(role).argdoms
+                roles = ActioncoreDescriptionHandler.getRolesBasedOnActioncore(actioncore)
+                for atom, truth in result_db.evidence.iteritems():
+                    if any(r in atom for r in roles):
+                        log.info('adding {} with truth value {}'.format(atom, truth))
+                        unified_db << (atom, truth)
+                    # for q in result_db.query('{}(?{})'.format(role, ',?'.join(argdoms))):
+                    #     log.info('Adding {}({}) to output database'.format(role, ','.join([q['?{}'.format(x)] for x in argdoms])))
+                    #     unified_db << '{}({})'.format(role, ','.join([q['?{}'.format(x)] for x in argdoms]))
+                    # add inferred senses to final output db
+                for atom, truth in result_db.evidence.iteritems():
+                    if 'has_sense' in atom:
+                        unified_db << (atom, truth)
 
                 if 'missing' not in params:
                     for q in unified_db.query('has_sense(?w, ?s)', thr=1):
@@ -133,7 +145,6 @@ class SensesAndRoles(PRACModule):
                     print
 
                 inf_step.output_dbs.append(unified_db)
-                kb = useKB
 
         if kb is not None:
             png, ratio = kb.get_cond_prob_png(filename=self.name)
@@ -150,7 +161,7 @@ class SensesAndRoles(PRACModule):
             for word in db_.domains['word']:
                 for q in db_.query('action_core(?w,?ac)'):
                     actioncore = q['?ac']
-                    kb = self.load_pracmt(actioncore)
+                    kb = self.load_prac_kb(actioncore)
                     mln = kb.query_mln
 #                     mln.write(sys.stdout)
                     db = db_.copy(mln=mln)
