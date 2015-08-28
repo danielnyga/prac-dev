@@ -24,14 +24,17 @@ import logging
 
 import os
 import sys
+from prac.core.inference import PRACInferenceStep
 from prac.core.wordnet import WordNet
 from pracmln import Database, MLN
 
 # adapt PYTHONPATH where necessary
+import pracmln
 from pracmln.mln.base import parse_mln
 from pracmln.mln.database import parse_db
 from pracmln.mln.util import mergedom
 from pracmln.mlnquery import MLNQuery
+from pracmln.utils.config import PRACMLNConfig, query_config_pattern
 
 PRAC_HOME = os.environ['PRAC_HOME']
 prac_module_path = os.path.join(PRAC_HOME, 'pracmodules')
@@ -43,11 +46,11 @@ if dill_path not in sys.path:
 
 from string import whitespace, strip
 import pickle
-from inference import PRACInference, PRACInferenceStep
 import fnmatch
 import yaml
 from pracmln.utils.latexmath2png import math2png
 
+log = pracmln.praclog.logger(__name__)
 
 class PRAC(object):
     '''
@@ -151,7 +154,8 @@ class PRAC(object):
         '''
         inferenceStep = inference(pracinfer, *args, **kwargs)
         if inferenceStep is None or type(inferenceStep) != PRACInferenceStep:
-            PRAC.log.exception('%s.__call__() must return a PRACInferenceStep object.' % type(callable))
+            # PRAC.log.exception('%s.__call__() must return a PRACInferenceStep object.' % type(callable))
+            PRAC.log.exception('%s.__call__() must return a PRACInferenceStep object.' % inference.name)
         pracinfer.inference_steps.append(inferenceStep)
 
 
@@ -210,7 +214,6 @@ class ActionCore(object):
         Deserializes an action core definition from the given file. The file
         must be given in YAML format. Returns an ActionCore object.
         '''
-        log = logging.getLogger('PRAC')
         path = os.path.dirname(filepath)
         alldocs = yaml.load_all(open(filepath))
         actioncores = {}
@@ -300,30 +303,31 @@ class PRACModuleManifest(object):
 
 class PRACKnowledgeBase(object):
     '''
-    Base class for PRAC microtheroies. Every subclass must ensure
-    that it is pickleable.
+    Base class for PRAC knowledge base.
     '''
     
-    def __init__(self, prac):
+    def __init__(self, prac, config=None):
         self.prac = prac
-#         self.__prac_mln = prac.mln.duplicate()
-        self.learn_mln = prac.mln.duplicate()
-        self.learn_mln_str = ''
+        self.config = config
+        self.learn_mln = prac.mln.copy()
         self.learn_params = {}
-        self.query_mln = prac.mln.duplicate()
-        self.query_mln_str = ''
-        self.query_params = {}
+        self.query_mln = prac.mln.copy()
         self.dbs = []
         self.path = PRAC_HOME
         self.filename = None
         
         
-    def set_querymln(self, mln_text, path='.'):
-        self.query_mln_str = mln_text
-        mln = self.prac.mln.copy()
-        self.query_mln = parse_mln(mln_text, searchPath=path, logic=self.query_params.get('logic', 'FirstOrderLogic'), mln=mln)
-#         self.query_mln.write(sys.stdout, color=True)
-        
+    def set_querymln(self, mln_filename=None, path='.', logic='FirstOrderLogic'):
+        if os.path.exists(path) and mln_filename:
+            mlnfilepath = os.path.join(path, mln_filename)
+            if os.path.isfile(mlnfilepath):
+                log.info('Setting query mln from file: {}'.format(mlnfilepath))
+                mln = MLN(logic=logic, grammar='PRACGrammar', mlnfile=mlnfilepath)
+        else:
+            log.error('Cannot set query_mln from file {}/{}. Creating new one...'.format(path,mln_filename))
+            mln = MLN(logic=logic, grammar='PRACGrammar')
+        self.query_mln = mln
+
         
     def infer(self, *dbs):
         '''
@@ -331,8 +335,8 @@ class PRACKnowledgeBase(object):
         Yields all resulting databases.
         '''
         self.dbs = dbs
-        for db  in dbs:
-            yield MLNQuery(db=db, mln=self.query_mln, **self.query_params).run().resultdb
+        for db in dbs:
+            yield MLNQuery(config=self.config, db=db, mln=self.query_mln).run().resultdb
 
     
     def __getstate__(self): # do not store
@@ -356,7 +360,7 @@ class PRACKnowledgeBase(object):
         \newcommand{\Pcond}[1]{\ensuremath{P\left(\begin{array}{c|c}#1\end{array}\right)}} 
         '''
 
-        queriesList = [s.strip() for s in self.query_params['queries'].split(',')]
+        queriesList = [s.strip() for s in self.config.config['queries'].split(',')]
         evidenceList = []
         for db in self.dbs:
             evidenceList.extend([e for e in db.evidence.keys() if db.evidence[e] == 1.0])
@@ -427,37 +431,29 @@ class PRACModule(object):
         kb = PRACKnowledgeBase(self.prac)
     
     
-    def load_pracmt(self, mt_name):
+    def load_prac_kb(self, kb_name):
         '''
-        Loads a pickled PRAC microtheory with given name.
+        Loads a dumped PRACMLNConfig object with given name or creates new
+        one if it doesn't exist yet.
         '''
-        binaryFileName = '%s.pracmln' % mt_name
-        filepath = os.path.join(self.module_path, 'bin')
-        f = open(os.path.join(filepath, binaryFileName), 'r')
-        kb = pickle.load(f)
-        kb.prac = self.prac
-        kb.filename = mt_name
-        kb.set_querymln(kb.query_mln_str, os.path.join(self.module_path, 'mln'))
-        f.close()
-        
-        return kb
-    
-    def save_pracmt(self, prac_mt, name=None):
-        '''
-        Pickles the state of the given microtheory in its binary folder.
-        - prac_mt:    instance of a PRACKnowledgeBase
-        '''
-        if name is None and not hasattr(prac_mt, 'name'):
-            raise Exception('No module name specified.')
-        binaryFileName = '%s.pracmln' % (name if name is not None else prac_mt.name)
-        binPath = os.path.join(prac_module_path, self.name, 'bin')
-        if not os.path.exists(binPath):
-            os.mkdir(binPath)
-        f = open(os.path.join(prac_module_path, self.name, 'bin', binaryFileName), 'w+')
-        pickle.dump(prac_mt, f)
-        f.close()
 
-    
+        config = PRACMLNConfig(os.path.join(self.module_path, 'bin', query_config_pattern % kb_name))
+        kb = PRACKnowledgeBase(self.prac, config=config)
+        kb.filename = kb_name
+        kb.set_querymln(config.get('mln'), path=os.path.join(self.module_path, 'mln'), logic='FuzzyLogic')
+        return kb
+
+    def save_prac_kb(self, prac_kb, name=None):
+        '''
+        Dumps the state of the given PRACMLNConfig object in its binary folder.
+        - prac_kb:    instance of a PRACKnowledgeBase
+        '''
+        if name is None and not hasattr(prac_kb, 'name'):
+            raise Exception('No module name specified.')
+
+        config = PRACMLNConfig(os.path.join(self.module_path, 'bin', query_config_pattern % prac_kb.name))
+        config.dump()
+
     @PRACPIPE
     def infer(self, pracinference):
         '''
