@@ -297,7 +297,7 @@ class WNSenses(PRACModule):
     def infer(self, pracinference):
         log = logging.getLogger('wnsenses')
         inf_step = PRACInferenceStep(pracinference, self)
-        mt = self.load_pracmt('word_senses')
+        mt = self.load_prac_kb('word_senses')
         for db in pracinference.get_inference_steps_of_module('nl_parsing').output_dbs:
             
             database = Database(mt.mln)
@@ -324,7 +324,7 @@ class WNSenses(PRACModule):
                 training_dbs.append(db)
         mt = WordSensesMT(self, 'word_senses')
         mt.train(training_dbs)
-        self.save_pracmt(mt)
+        self.save_prac_kb(mt)
     
     
 class WordSensesMT(PRACKnowledgeBase):
