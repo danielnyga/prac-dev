@@ -52,7 +52,7 @@ class ActionCoreIdentification(PRACModule):
         if params.get('kb', None) is None:
             # load the default arguments
             dbs = pracinference.inference_steps[-1].output_dbs
-            kb = self.load_pracmt('chemical_ac')
+            kb = self.load_prac_kb('chemical_ac')
             kb.dbs = dbs
         else:
             kb = params['kb']
@@ -64,27 +64,16 @@ class ActionCoreIdentification(PRACModule):
         wordnet_module = self.prac.getModuleByName('wn_senses')
         for db_ in kb.dbs:
             db = wordnet_module.get_senses_and_similarities(db_, known_concepts)
-            # db.write(sys.stdout, color=True)
-#             print '---'
-            result_db = list(kb.infer(db))[0]
+            tmp_union_db = db.union(kb.query_mln, db_)
 
-            # Remove AC which have the probability zero
-            r_db_ = Database(mln)
-            for atom, truth in sorted(result_db.evidence.iteritems()):
-                if 'action_core' in atom and truth == 0: continue
-                r_db_ << (atom,truth)
+            result_db = list(kb.infer(tmp_union_db))[0]
 
-            unified_db = db.union(mln, result_db)
-            # unified_db = db.union(mln, r_db) # if necessary to have 0-probability cores removed
-
-            log.info('Unified DB:')
-            unified_db.write(color=True)
-
-
-            for q in unified_db.query('action_core(?w, ?ac)'):
-                ac = q['?ac']
-                if ac == 'null': continue
-                log.info('Identified Action Core(s): {}'.format(colorize(ac, (None, 'white', True), True)))
+            unified_db = result_db.union(mln, db) # alternative to query below
+            # only add inferred action_core atoms, leave out 0-evidence atoms
+            # unified_db = tmp_union_db.copy(mln)
+            # for q in result_db.query('action_core(?w,?ac)'):
+            #     log.info('Identified Action Core(s): {}'.format(colorize(q['?ac'], (None, 'white', True), True)))
+            #     unified_db << 'action_core({},{})'.format(q['?w'],q['?ac'])
 
             inf_step.output_dbs.append(unified_db)
 

@@ -1,4 +1,5 @@
 has_pos(word,pos!)
+#fuzzy
 is_a(sense, concept)
 action_core(word,actioncore?)
 dobj(word,word)
