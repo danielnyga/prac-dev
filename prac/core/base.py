@@ -318,13 +318,12 @@ class PRACKnowledgeBase(object):
         
         
     def set_querymln(self, mln_filename=None, path='.', logic='FirstOrderLogic'):
-        if os.path.exists(path) and mln_filename:
+        if os.path.exists(path) and mln_filename and os.path.isfile(os.path.join(path, mln_filename)):
             mlnfilepath = os.path.join(path, mln_filename)
-            if os.path.isfile(mlnfilepath):
-                log.info('Setting query mln from file: {}'.format(mlnfilepath))
-                mln = MLN(logic=logic, grammar='PRACGrammar', mlnfile=mlnfilepath)
+            log.info('Setting query mln from file: {}'.format(mlnfilepath))
+            mln = MLN(logic=logic, grammar='PRACGrammar', mlnfile=mlnfilepath)
         else:
-            log.error('Cannot set query_mln from file {}/{}. Creating new one...'.format(path,mln_filename))
+            log.error('Cannot set query_mln from file {} in folder {}. Creating new one...'.format(mln_filename, path))
             mln = MLN(logic=logic, grammar='PRACGrammar')
         self.query_mln = mln
 

@@ -28,18 +28,19 @@ from pracmln import Database
 from pracmln.mln.util import colorize
 from pracmln.praclog import logger
 
+log = logger(__name__)
 
 class AchievedBy(PRACModule):
     '''
-    
+
     '''
-    
+
     def initialize(self):
         pass
-    
+
     def shutdown(self):
         pass
-    
+
     def extendDBWithAchievedByEvidence(self,db,queryMln):
         actioncore = ""
         #It will be assumed that there is only one true action_core predicate per database
@@ -49,20 +50,19 @@ class AchievedBy(PRACModule):
         acDomain.extend(queryMln.domains.get("actioncore"))
         acDomain = set(acDomain)
         db_ = Database(queryMln)
-        
+
         for ac1 in acDomain:
             for ac2 in acDomain:
                 if ac1 == actioncore: continue
                 db_ << ("achieved_by({},{})".format(ac1,ac2),0)
-        
+
         for atom, truth in sorted(db.evidence.iteritems()):
             db_ << (atom,truth)
-        
+
         return db_
-    
+
     @PRACPIPE
     def __call__(self, pracinference, **params):
-        log = logger(self.name)
         print colorize('+==========================================+', (None, 'green', True), True)
         print colorize('| PRAC INFERENCE: RECOGNIZING ACHIEVED BY  ' , (None, 'green', True), True)
         print colorize('+==========================================+', (None, 'green', True), True)
@@ -93,7 +93,7 @@ class AchievedBy(PRACModule):
                     db_ << (atom,truth)
 
                 if kb is None:
-                    print 'Loading Markov Logic Network: %s' % colorize(actioncore, (None, 'white', True), True)
+                    log.info('Loading Markov Logic Network: %s' % colorize(actioncore, (None, 'cyan', True), True))
                     kb = self.load_prac_kb(actioncore)
                     
                 concepts = kb.query_mln.domains.get('concept', [])
@@ -104,6 +104,9 @@ class AchievedBy(PRACModule):
 
                 #Inference achieved_by predicate        
                 db_ = self.extendDBWithAchievedByEvidence(unified_db,kb.query_mln)
+
+                log.info('using following db for achieved_by inference')
+                db_.write(bars=False)
                 result_db = list(kb.infer(db_))[0]
 
                 # unified_db = result_db.union(kb.query_mln, db_)

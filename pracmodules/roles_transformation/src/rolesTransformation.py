@@ -73,7 +73,7 @@ class RolesTransformation(PRACModule):
                 log.info(actioncore)
 
                 if kb is None:
-                    print 'Loading Markov Logic Network: %s' % colorize(actioncore+'Transformation', (None, 'white', True), True)
+                    log.info('Loading Markov Logic Network: %s' % colorize(actioncore+'Transformation', (None, 'cyan', True), True))
                     kb = self.load_prac_kb(actioncore+'Transformation')
 
                 result_db = list(kb.infer(db))[0]
