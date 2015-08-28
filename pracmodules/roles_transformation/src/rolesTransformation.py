@@ -30,10 +30,8 @@ from pracmln.mln.util import colorize
 from pracmln.praclog import logger
 
 PRAC_HOME = os.environ['PRAC_HOME']
-achievedByModulePath = os.path.join(PRAC_HOME, 'pracmodules', 'roles_transformation')
-planListFilePath = os.path.join(achievedByModulePath,'plan_list.yaml')
-
-
+rolesTransformationModulePath = os.path.join(PRAC_HOME, 'pracmodules', 'roles_transformation')
+planListFilePath = os.path.join(rolesTransformationModulePath,'plan_list.yaml')
 
 class RolesTransformation(PRACModule):
     '''
@@ -61,50 +59,47 @@ class RolesTransformation(PRACModule):
         
         kb = params.get('kb', None)
         if kb is None:
-            # load the default arguments
             dbs = pracinference.inference_steps[-1].output_dbs
         else:
             kb = params['kb']
             dbs = kb.dbs
-        
+
         inf_step = PRACInferenceStep(pracinference, self)
-        planList = self.getPlanList()
+        planlist = self.getPlanList()
         
         for db in dbs:
-            db_ = db.duplicate()
             for q in db.query('achieved_by(?w,?ac)'):
                 actioncore = q['?ac']
+                log.info(actioncore)
 
                 if kb is None:
                     print 'Loading Markov Logic Network: %s' % colorize(actioncore+'Transformation', (None, 'white', True), True)
-                    useKB = self.load_pracmt(actioncore+'Transformation')
-                else:
-                    useKB = kb
-                
-                result_db = list(useKB.infer(db_))
-                if actioncore not in planList:
-                    for r_db in result_db:
-                        r_db_ = Database(r_db.mln)
-                        actionverb = ""
-                        
-                        #It will be assumed that there is only one true action_core predicate per database 
-                        for q1 in db.query("action_core(?w,?ac)"):
-                            actionverb = q1["?w"]
-                            
-                        for atom, truth in sorted(r_db.evidence.iteritems()):
-                            if 'action_core' in atom: continue
-                            r_db_ << (atom,truth)
-                        r_db_ << ("action_core("+actionverb+","+actioncore+")")
-                        inf_step.output_dbs.append(r_db_)
+                    kb = self.load_prac_kb(actioncore+'Transformation')
+
+                result_db = list(kb.infer(db))[0]
+
+                if actioncore not in planlist:
+                    # ONLY LEAVE POSITIVE ACTION CORE /UPDATE /TODO
+                    # r_db_ = Database(result_db.mln)
+                    # actionverb = ""
+                    #
+                    # #It will be assumed that there is only one true action_core predicate per database
+                    # for q1 in db.query("action_core(?w,?ac)"):
+                    #     actionverb = q1["?w"]
+                    #
+                    # for atom, truth in sorted(r_db.evidence.iteritems()):
+                    #     if 'action_core' in atom: continue
+                    #     r_db_ << (atom,truth)
+                    # r_db_ << ("action_core({},{})".format(actionverb, actioncore))
+                    inf_step.output_dbs.append(db)
                 else:
                     self.isLastActionCoreAPlan = True
-                    inf_step.output_dbs.extend(result_db)
+                    unified_db = db.union(kb.query_mln, result_db)
 
-                kb = useKB
+                inf_step.output_dbs.append(unified_db)
 
-        print 'generatinig png'
+        log.info("Generating png")
         if kb is not None:
-            print 'blubbel'
             png, ratio = kb.get_cond_prob_png(filename=self.name)
             inf_step.png = (png, ratio)
             inf_step.applied_kb = kb.filename                
