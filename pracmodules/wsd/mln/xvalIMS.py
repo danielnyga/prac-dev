@@ -17,11 +17,14 @@ from utils.eval import ConfusionMatrix
 import xml.etree.cElementTree as ET
 import math
 
+from subprocess import Popen, PIPE, STDOUT
 
+ims_path = "ims_0.9.2.1"
 wnl = WordNetLemmatizer()
 MLN = None
 regex_new_db = re.compile("\n\s*-+\s*\n")
 wordnet = WordNet(None)
+cm_path_list = []
 
 nounTags = ['NN', 'NNS', 'CD']
 verbTags = ['VB', 'VBG', 'VBZ', 'VBD', 'VBN', 'VBP', 'MD']
@@ -62,67 +65,15 @@ class XValFold(object):
         self.fold_id = 'Fold-%d' % params.foldIdx
         self.confMatrix = ConfusionMatrix()
             
-    def evalMLN(self, mln, dbs, logicInfer,cm):
-        '''
-        Returns a confusion matrix for the given (learned) MLN evaluated on
-        the databases given in dbs.
-        '''
-        mln.predicates.update({'has_pos' : ['word','pos']})
-        queryPred = self.params.queryPred
-        sig = ['?arg%d' % i for i, _ in enumerate(mln.predicates[queryPred])]
-        querytempl = '%s(%s)' % (queryPred, ','.join(sig))
-        i = 0
-        for db in dbs:
-            i = i + 1
-            db_ = Database(mln)
-            # save and remove the query predicates from the evidence
-            trueDB = Database(mln)
-            
-            for bindings in db.query(querytempl):
-                atom = querytempl
-                for binding in bindings:
-                    atom = atom.replace(binding, bindings[binding])
-                trueDB.addGroundAtom(atom)
-                #db_.retractGndAtom(atom)
-            
-            #WSD specific stuff
-            #Remove all is_a predicates of the training db
-            for pred in ['has_pos','is_a','predicate','dobj']:
-                for atom in list(db.iterGroundLiteralStrings(pred)):
-                    db_.addGroundAtom(atom[1])
-            prac = PRAC()
-            prac.mln = mln;
-            prac.wordnet = WordNet(concepts=None)
-            senses = prac.getModuleByName('wn_senses')
-            senses.initialize()
-            infer = PRACInference(prac, 'None');
-            wsd = prac.getModuleByName('wsd')
-            kb = PRACKnowledgeBase(prac)
-            print "LOGIC INFER: " + logicInfer
-            kb.query_params = {'verbose': False, 
-                               'logic': logicInfer, 'queries': 'has_sense',
-                                'debug': 'ERROR', 'useMultiCPU': 0, 'method': 'WCSP'}
-
-            kb.dbs.append(db_)
-            prac.run(infer,wsd,kb=kb)
-            inferStep = infer.inference_steps[0]
-            resultDB = inferStep.output_dbs[0]
-            for predicate in trueDB.iterGroundLiteralStrings('has_sense'):
-                group = re.split(',',re.split('has_sense\w*\(|\)',predicate[1])[1])
-                word = group[0];
-                truth = group[1];
-                query = 'has_sense('+word+',?s)'
-                for result in resultDB.query(query):
-                    pred = result['?s']
-                    cm.addClassificationResult(truth, pred)
-
     def run(self):
         '''
         Runs the respective fold of the crossvalidation.
         '''
+        
         print 'Running fold %d of %d...' % (self.params.foldIdx + 1, self.params.foldCount)
         directory = os.path.join(self.params.directory,str(self.params.foldIdx))
         os.mkdir(directory)
+        os.mkdir(os.path.join(directory,'model'))
         
         try:
                 
@@ -138,11 +89,25 @@ class XValFold(object):
             create_test_set(testDBs_,directory )
             print 'Finished test set'
             
+            train_classifier(os.path.abspath(os.path.join(directory,'train.xml')), 
+                             os.path.abspath(os.path.join(directory,'train.key')), 
+                             os.path.abspath(os.path.join(directory,'model')))
+            
+            test_classifier(os.path.abspath(os.path.join(directory,'test.txt')), 
+                                            os.path.abspath(os.path.join(directory,'model')),
+                                            os.path.abspath(os.path.join(directory,'result.txt')))
+            
+           
             #cm = ConfusionMatrix()
             #self.evalMLN(learnedMLN, testDBs_, 'FirstOrderLogic',cm)
             #cm.toFile(os.path.join(directory,'FOL', 'conf_matrix_%d.cm' % self.params.foldIdx))
             
             print 'Evaluation finished.'
+        
+            cm = compare_results(testDBs_, os.path.abspath(os.path.join(directory,'result.txt')))
+            cm.toFile(os.path.abspath(os.path.join(directory,'result.cm')))
+            
+            return cm
         except (KeyboardInterrupt, SystemExit):
             return None
     
@@ -151,7 +116,7 @@ class IMSDatabase(object):
     def __init__(self,sentence,db):
         self.sentence = sentence
         self.db = db
-        
+
 def get_wn30_to_wn171_dict(file_path):
     print 'Start process'
     mapping_file = open(file_path,'r')
@@ -176,7 +141,7 @@ def get_wn30_to_wn171_dict(file_path):
     return mapping_dict
 
 
-def get_offset(sense):
+def get_offset_of_wn30_synset(sense):
     mapping_dict = None
     sense_synset = wordnet.synset(sense)
     syn_pos = sense_synset.pos
@@ -208,7 +173,7 @@ def get_offset(sense):
 
 def runFold(fold):
     try:
-        fold.run()
+        return fold.run()
     except:
         print traceback.format_exc()
     return fold
@@ -229,6 +194,60 @@ def get_wordnet_index_sense():
     
     return wordnet_index_sense
 
+def train_classifier(xml_file,key_file,output_folder):
+    cmd = './train_one.bash {} {} {}'.format(xml_file,key_file,output_folder)
+    p = Popen(cmd, shell=True, stdin=PIPE, stdout=PIPE, stderr=STDOUT, close_fds=True)
+    print p.stdout.read()
+
+def test_classifier(plain_text_file,model_path,output_file):
+    cmd = './testPlain.bash {} {} {} index.sense 0 0 0 0'.format(model_path,plain_text_file,output_file)
+    p = Popen(cmd, shell=True, stdin=PIPE, stdout=PIPE, stderr=STDOUT, close_fds=True)
+    print p.stdout.read()
+    
+def compare_results(test_dbs,result_file_path):
+    cm = ConfusionMatrix()
+    
+    regex_sense = re.compile('length="1[^\|]*')
+    result_file = open(result_file_path,'r')
+    content = result_file.read().split('\n')[:-1]
+    
+    result_dbs_senses_list = []
+    test_dbs_senses_list = [] 
+    
+    for i  in range(0,len(test_dbs)):
+        db = test_dbs[i].db
+        sense_list = []
+        for q1 in db.query('predicate(?w)'):
+            for q2 in db.query('has_sense({},?s)'.format(q1['?w'])):
+                sense_list.append(wordnet_index_sense[get_offset_of_wn30_synset(q2['?s'])])
+
+        for q1 in db.query('dobj(?w1,?w2)'):
+            for q2 in db.query('has_sense({},?s)'.format(q1['?w2'])):
+                offset = get_offset_of_wn30_synset(q2['?s'])
+                if offset is not None:
+                    sense_list.append(wordnet_index_sense[offset])
+                    test_dbs_senses_list.append(sense_list)
+                else:
+                    del content[i]
+            break
+    
+    
+    for c in content:
+        senses = []
+        for e in regex_sense.findall(c):
+            senses.append(re.split("\s+",e)[1])
+        result_dbs_senses_list.append(senses)
+        
+    
+    if result_dbs_senses_list :
+        for i in range(0,len(result_dbs_senses_list)):
+            #To handle proper names.
+            cm.addClassificationResult(test_dbs_senses_list[i][0],result_dbs_senses_list[i][0])
+            if len(result_dbs_senses_list[i]) > 1:
+                cm.addClassificationResult(test_dbs_senses_list[i][1],result_dbs_senses_list[i][1])
+    
+    return cm
+    
 def create_test_set(dbs,result_path):
     test_file = open(os.path.join(result_path,'test.txt'),"w")
     
@@ -260,10 +279,9 @@ def create_training_set(dbs,result_path):
             predicate = wnl.lemmatize('-'.join(q1['?w'].split('-')[:-1]),'v')
             
             for q2 in db.query('has_sense({},?s)'.format(q1['?w'])):
-                predicate_sense = wordnet_index_sense[get_offset(q2['?s'])]
+                predicate_sense = wordnet_index_sense[get_offset_of_wn30_synset(q2['?s'])]
         
         for q1 in db.query('dobj(?w1,?w2)'):
-            
             for q2 in db.query('has_pos({},?p)'.format(q1['?w2'])):
                 pos = posMap.get(q2['?p'], None)
                 if pos is not None:
@@ -273,7 +291,7 @@ def create_training_set(dbs,result_path):
                     dobj = '-'.join(q1['?w2'].split('-')[:-1])
             
             for q2 in db.query('has_sense({},?s)'.format(q1['?w2'])):
-                    offset = get_offset(q2['?s'])
+                    offset = get_offset_of_wn30_synset(q2['?s'])
                     if offset is not None:
                         dobj_sense = wordnet_index_sense[offset]
         
@@ -357,7 +375,7 @@ def doXVal(folds, multicore, dbfile,inverse=False,testSetCount=1):
     dbs_as_textfiles = regex_new_db.split(open(dbfile,'r').read())
     
     for i in range(0,len(dbs_mln)):
-        sentence = dbs_as_textfiles[i].split('\n')[0]
+        sentence = dbs_as_textfiles[i].split('\n')[0].replace("/","")
         dbs.append(IMSDatabase(sentence,dbs_mln[i]))
         
     if len(dbs) < folds:
@@ -407,20 +425,25 @@ def doXVal(folds, multicore, dbfile,inverse=False,testSetCount=1):
             cm = ConfusionMatrix()
             
             for r in result:
-                cm.combine(r.confMatrix)
-            
+                cm.combine(r)
+            print os.path.join(directory,'result.cm')
+            cm.toFile(os.path.join(directory,'result.cm'))
+            cm_path_list.append(os.path.join(directory,'result.cm'))
         except (KeyboardInterrupt, SystemExit, SystemError):
             workerPool.terminate()
             workerPool.join()
+            print traceback.format_exc()
             exit(1)
+            
         except:
+            print traceback.format_exc()
             exit(1)
 #     startTime = time.time()
     else:
         
         for fold in foldRunnables:
             runFold(fold)
-        
+    
 if __name__ == '__main__':
     args = sys.argv[1:]
     
@@ -439,7 +462,9 @@ if __name__ == '__main__':
         for filename in os.listdir(input_dir):
             file_list.append(os.path.join(input_dir,filename))
         
-        for db in file_list:
-            doXVal(10, False, db)
+        for f in file_list:
+            doXVal(10, True, f)
+        
+        
         
     
