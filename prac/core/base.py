@@ -441,7 +441,7 @@ class PRACModule(object):
         config = PRACMLNConfig(os.path.join(self.module_path, 'bin', query_config_pattern % kb_name))
         kb = PRACKnowledgeBase(self.prac, config=config)
         kb.filename = kb_name
-        kb.set_querymln(config.get('mln'), path=os.path.join(self.module_path, 'mln'), logic='FuzzyLogic')
+        kb.set_querymln(config.get('mln'), path=os.path.join(self.module_path, 'mln'))
         return kb
 
     def save_prac_kb(self, prac_kb, name=None):
