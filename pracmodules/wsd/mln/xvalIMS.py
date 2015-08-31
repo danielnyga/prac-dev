@@ -390,8 +390,9 @@ def create_training_set(dbs,result_path):
     tree_file.write(tree_content)
     tree_file.close()
                 
-def doXVal(folds, multicore, dbfile,inverse=False,testSetCount=1):
-    directory = time.strftime("%a_%d_%b_%Y_%H:%M:%S_K="+str(folds)+"_TSC="+str(testSetCount)+"_"+str(os.path.basename(dbfile))+"_", time.localtime())
+def doXVal(folds, multicore, dbfile,testSetCount=1):
+    
+    directory = os.path.join(str(testSetCount),time.strftime("%a_%d_%b_%Y_%H:%M:%S_K="+str(folds)+"_TSC="+str(testSetCount)+"_"+str(os.path.basename(dbfile))+"_", time.localtime()))
     os.mkdir(directory)
     dbs = []
     dbs_mln = readDBFromFile(MLN,dbfile)
@@ -487,11 +488,13 @@ if __name__ == '__main__':
         
         for filename in os.listdir(input_dir):
             file_list.append(os.path.join(input_dir,filename))
-        
-        for f in file_list:
-            doXVal(10, True, f)
-        
-        ConfusionMatrix.write_comparison_results_between_confusion_matrices('OVERALL_RESULT', *cm_path_list)
+        for x in range(9,0,-1):
+            cm_path_list = []
+            os.mkdir(str(x))
+            for f in file_list:
+                doXVal(10, True, f,x)
+                
+            ConfusionMatrix.write_comparison_results_between_confusion_matrices(os.path.join(str(x),'OVERALL_RESULT_{}'.format(str(x))), *cm_path_list)
         
         
         
