@@ -30,9 +30,7 @@ for pkg in packages:
 python_apps = [
     {"name": "pracquery", "script": "$PRAC_HOME/prac/pracquery.py"},
     {"name": "praclearn", "script": "$PRAC_HOME/prac/praclearn.py"},
-    {"name": "pracparse", "script": "$PRAC_HOME/prac/pracparse.py"},
     {"name": "senses", "script": "$PRAC_HOME/prac/senses.py"},
-    {"name": "pracserver", "script": "$PRAC_HOME/prac/pracserver.py"},
     {"name": "pracobjrec", "script": "$PRAC_HOME/prac/pracobjrec.py"},
     {"name": "pracxfold", "script": "$PRAC_HOME/prac/pracxfold.py"},
     {"name": "pracweb", "script": "$PRAC_HOME/pracweb/run.py"},
@@ -107,7 +105,6 @@ if __name__ == '__main__':
 
     # write shell script for environment setup
     appsDir = adapt("$PRAC_HOME/apps", arch)
-    dillDir = adapt("$PRAC_HOME/3rdparty/dill-0.2b1", arch)
     praccoreDir = adapt("$PRAC_HOME/praccore", arch)
 
     if not "win" in arch:
@@ -115,7 +112,6 @@ if __name__ == '__main__':
         f.write('#!/bin/bash\n')
         f.write("export PATH=$PATH:%s\n" % appsDir)
         f.write("export PYTHONPATH=$PYTHONPATH:%s\n" % praccoreDir)
-        f.write("export PYTHONPATH=$PYTHONPATH:%s\n" % dillDir)
         f.write("export PRAC_HOME=%s\n" % adapt("$PRAC_HOME", arch))
         f.write("export PYTHONPATH=$PRAC_HOME:$PYTHONPATH\n")
         print 'Now, to set up your environment type:'
