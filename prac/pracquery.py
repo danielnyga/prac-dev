@@ -1,6 +1,6 @@
 # 
 #
-# (C) 2011-2014 by Daniel Nyga (nyga@cs.uni-bremen.de)
+# (C) 2015 by Mareike Picklum (mareikep@cs.uni-bremen.de)
 # 
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
@@ -25,164 +25,31 @@ from Tkinter import _setit, Tk, Frame, Label, StringVar, OptionMenu, Entry,\
     IntVar, Checkbutton, Button
 import sys
 import os
-import time
 import re
-from tkMessageBox import askyesno
 import traceback
-import subprocess
-import logging
 import StringIO
 from Tkconstants import BOTH, W, LEFT, NE, E
 
-# --- inference class ---
 from prac.core import PRACKnowledgeBase
 from prac.core.base import PRAC
-from prac.core.inference import PRACInference
+from prac.core.inference import PRACInference, PRACInferenceStep
 from prac.core.wordnet import WordNet
 from prac.pracutils.RolequeryHandler import RolequeryHandler
-from pracmln import MLN, Database
+from pracmln.mln.database import parse_db
 from pracmln.mln.methods import InferenceMethods
-from pracmln.mln.util import balancedParentheses, ifNone, colorize
+from pracmln.mln.util import ifNone, colorize, out
 from pracmln.praclog import logger
 from pracmln.utils.config import query_config_pattern, PRACMLNConfig
 from pracmln.utils.widgets import FilePickEdit
 from pracmln.utils import config
 
+log = logger(__name__)
 
 def nop(*args, **kwargs): pass
 
-class MLNInfer(object):
-    def __init__(self):
-        self.pymlns_methods = InferenceMethods.names()
-        self.default_settings = {"numChains":"1", "maxSteps":"", "saveResults":False, "convertAlchemy":False, "openWorld":True} # a minimal set of settings required to run inference
-    
-    def run(self, mlnFiles, evidenceDB, method, queries, engine="PRACMLNs", output_filename=None, params="", **settings):
-        '''
-            runs an MLN inference method with the given parameters
-        
-            mlnFiles: list of one or more MLN input files
-            evidenceDB: name of the MLN database file from which to read evidence data
-            engine: either "PyMLNs"/"internal", "J-MLNs" or one of the keys in the configured Alchemy versions (see configMLN.py)
-            method: name of the inference method
-            queries: comma-separated list of queries
-            output_filename (compulsory only when using Alchemy): name of the file to which to save results
-                For the internal engine, specify saveResults=True as an additional settings to save the results
-            params: additional parameters to pass to inference method. For the internal engine, it is a comma-separated
-                list of assignments to parameters (dictionary-type string), for the others it's just a string of command-line
-                options to pass on
-            settings: additional settings that control the inference process, which are usually set by the GUI (see code)
-                
-            returns a mapping (dictionary) from ground atoms to probability values.
-                For J-MLNs, results are only returned if settings are saved to a file (settings["saveResults"]=True and output_filename given)
-        '''
-        self.gconf = dict(self.default_settings)        
-        self.gconf.update(settings)
-        input_files = mlnFiles
-        db = evidenceDB
-        query = queries
-        
-        params = {}
-
-#         results_suffix = ".results"
-#         output_base_filename = output_filename
-#         if output_base_filename[-len(results_suffix):] == results_suffix:
-#             output_base_filename = output_base_filename[:-len(results_suffix)]
-        
-        # determine closed-world preds
-        cwPreds = []
-        if "cwPreds" in self.gconf:            
-            cwPreds = filter(lambda x: x != "", map(str.strip, self.gconf["cwPreds"].split(",")))
-        
-        # collect inference arguments
-        args = {"details":True, "shortOutput":True, "debugLevel":1}
-        args.update(eval("dict(%s)" % params)) # add additional parameters
-        # set the debug level
-        logging.getLogger().setLevel(eval('logging.%s' % args.get('debug', 'WARNING').upper()))
-
-        if self.gconf["numChains"] != "":
-            args["numChains"] = int(self.gconf["numChains"])
-        if self.gconf["maxSteps"] != "":
-            args["maxSteps"] = int(self.gconf["maxSteps"])
-        outFile = None
-        if self.gconf["saveResults"]:
-            haveOutFile = True
-            outFile = file(output_filename, "w")
-            args["outFile"] = outFile
-        args['useMultiCPU'] = self.gconf.get('useMultiCPU', False)
-        args["probabilityFittingResultFileName"] = output_base_filename + "_fitted.mln"
-
-        print args
-        # engine-specific handling
-        if engine in ("internal", "PRACMLNs"): 
-            try:
-                print "\nStarting %s...\n" % method
-                
-                # read queries
-                queries = []
-                q = ""
-                for s in map(str.strip, query.split(",")):
-                    if q != "": q += ','
-                    q += s
-                    if balancedParentheses(q):
-                        queries.append(q)
-                        q = ""
-                if q != "": raise Exception("Unbalanced parentheses in queries!")
-                
-                # create MLN
-                # mln = MLN.MLN(input_files, verbose=verbose, defaultInferenceMethod=MLN.InferenceMethods.byName(method))
-                mln = MLN(mlnfile=input_files, logic=self.gconf['logic'], grammar=self.gconf['grammar'])#, verbose=verbose, defaultInferenceMethod=MLN.InferenceMethods.byName(method))
-                mln.defaultInferenceMethod = InferenceMethods.byName(method)
-                # set closed-world predicates
-                for pred in cwPreds:
-                    mln.setClosedWorldPred(pred)
-                
-                # create ground MRF
-                start = time.time()
-                mrf = mln.groundMRF(db, verbose=args.get('verbose', False), method='FastConjunctionGrounding')
-                groundingTime = time.time() - start
-                print 'Grounding took %.2f sec.' % groundingTime
-
-                # check for print/write requests
-                if "printGroundAtoms" in args:
-                    if args["printGroundAtoms"]:
-                        mrf.printGroundAtoms()
-                if "printGroundFormulas" in args:
-                    if args["printGroundFormulas"]:
-                        mrf.printGroundFormulas()
-                if "writeGraphML" in args:
-                    if args["writeGraphML"]:
-                        graphml_filename = output_base_filename + ".graphml"
-                        print "writing ground MRF as GraphML to %s..." % graphml_filename
-                        mrf.writeGraphML(graphml_filename)
-                # invoke inference and retrieve results
-                mrf.infer(queries, **args)
-                results = {}
-                for gndFormula, p in mrf.getResultsDict().iteritems():
-                    results[str(gndFormula)] = p
-                
-                # close output file and open if requested
-                if outFile != None:
-                    outFile.close()
-            except:
-                cls, e, tb = sys.exc_info()
-                sys.stderr.write("Error: %s\n" % str(e))
-                traceback.print_tb(tb)
-                
-        # open output file in editor
-        if False and haveOutFile and config.query_edit_outfile_when_done: # this is mostly useless
-            editor = config.editor
-            params = [editor, output_filename]
-            print 'starting editor: %s' % subprocess.list2cmdline(params)
-            subprocess.Popen(params, shell=False)
-            
-        return results
-
-# --- main gui class ---
-
 class PRACQueryGUI(object):
 
-    def __init__(self, pracinference, conf, directory='.'):
-        log = logger(__name__)
+    def __init__(self, master, pracinference, conf, directory='.'):
         self.prac = pracinference.prac
         prac = self.prac
         self.prac_inference = pracinference
@@ -191,12 +58,10 @@ class PRACQueryGUI(object):
         self.initialized = False
         self.directory = directory # TODO remove
         self.module_dir = os.path.join(os.environ['PRAC_HOME'], 'pracmodules', 'wnsenses')
-        self.master = Tk()
+        self.master = master
         self.master.bind('<Return>', self.start)
         self.master.bind('<Escape>', lambda a: self.master.quit())
         self.master.title("PRAC Query Tool")
-        master = self.master
-
 
         self.config = None
         self.gconf = conf # TODO remove
@@ -286,7 +151,6 @@ class PRACQueryGUI(object):
 
         # inference method selection
         row += 1
-        self.inference = MLNInfer()
         self.list_methods_row = row
         Label(self.frame, text="Method: ").grid(row=row, column=0, sticky=E)
         self.selected_method = StringVar(master)
@@ -322,21 +186,33 @@ class PRACQueryGUI(object):
         self.entry_cw.grid(row=row, column=1, sticky="NEW")
 
         # all preds open-world
-        option_container = Frame(self.frame)
-        option_container.grid(row=row, column=1, sticky="NES")
-        row += 1
+        cw_container = Frame(self.frame)
+        cw_container.grid(row=row, column=1, sticky="NES")
         self.closed_world = IntVar()
-        self.cb_closed_world = Checkbutton(option_container, text="Apply CW assumption to all except queries", variable=self.closed_world)
-        self.cb_closed_world.grid(row=0, column=1, sticky=W)
+        self.cb_closed_world = Checkbutton(cw_container, text="Apply CW assumption to all except queries", variable=self.closed_world)
+        self.cb_closed_world.grid(row=row, column=2, sticky='E')
         self.closed_world.set(self.gconf.get("closedWorld", True))
-        
-        # Multiprocessing 
+
+        # Multiprocessing and verbose
+        row += 1
+        options_container = Frame(self.frame)
+        options_container.grid(row=row, column=1, sticky='NEWS')
+
         self.multicore = IntVar()
-        self.cb_use_multiCPU = Checkbutton(option_container, text="Use all CPUs", variable=self.multicore)
-        self.cb_use_multiCPU.grid(row=0, column=2, sticky=W)
+        self.cb_use_multiCPU = Checkbutton(options_container, text="Use all CPUs", variable=self.multicore)
+        self.cb_use_multiCPU.grid(row=0, column=0, sticky=W)
         self.multicore.set(self.gconf.get("useMultiCPU", False))
+        self.verbose = IntVar()
+        self.cb_use_verbose = Checkbutton(options_container, text="verbose", variable=self.verbose)
+        self.cb_use_verbose.grid(row=0, column=1, sticky=W)
+        self.verbose.set(self.gconf.get("verbose", False))
+        self.keep_evidence = IntVar()
+        self.cb_keep_evidence = Checkbutton(options_container, text="keep result", variable=self.keep_evidence)
+        self.cb_keep_evidence.grid(row=0, column=2, sticky=W)
+        self.keep_evidence.set(self.gconf.get("keep_evidence", False))
 
         # start and continue buttons
+        row += 1
         self.btn_container = Frame(self.frame)
         self.btn_container.grid(row=row, column=1, sticky='EW')
         
@@ -350,27 +226,8 @@ class PRACQueryGUI(object):
         kb = self.gconf.get("module", modules[0])
         self.selected_module.set(kb)
         self.setDatabases(*pracinference.inference_steps[-1].output_dbs)
-#         self.onChangeModule()
-#         self.onChangeKB()
-        self.setGeometry()
 
-    def setGeometry(self):
-        g = self.gconf.get("geometry")
-        if g is None: return
-        # this is a hack: since geometry apparently does not work as expected
-        # (at least under Ubuntu: the main window is not put at the same position
-        # where it has been before), do this correction of coordinates.
-        re_pattern = r'([\-0-9]+)x([\-0-9]+)\+([\-0-9]+)\+([\-0-9]+)'
-        (w_old, h_old, x_old, y_old) = map(int, re.search(re_pattern, g).groups())
-        self.master.geometry(g)
-        new_g = self.master.winfo_geometry()
-        (w_new, h_new, x_new, y_new) = map(int, re.search(re_pattern, new_g).groups())
-        (w_diff, h_diff, x_diff, y_diff) = (w_old-w_new, h_old-h_new, x_old-x_new, y_old-y_new)
-        (w_new, h_new, x_new, y_new) = (w_old, h_old, x_new-x_diff, y_new-y_diff)
-        self.master.geometry('%dx%d+%d+%d' % (w_new, h_new, x_new, y_new))
-         
     def onSaveKB(self):
-        print 'kbname', self.kb_name.get()
         self.config = PRACMLNConfig(os.path.join(self.module_dir, 'bin', query_config_pattern % self.kb_name.get()))
         self.config["mln_rename"] = self.selected_mln.rename_on_edit.get()
         self.config["db"] = self.selected_db.get()
@@ -385,40 +242,25 @@ class PRACQueryGUI(object):
         self.config["use_emln"] = self.use_emln.get()
         self.config['logic'] = self.selected_logic.get()
         self.config['multicore'] = self.multicore.get()
+        self.config['verbose'] = self.verbose.get()
         self.config.dump()
 
 
-    def onChangeKB(self, name = None, index = None, mode = None):
-        self.kb_name.set(self.selected_kb.get())
-        if self.selected_kb.get() == 'new':
+    def onChangeKB(self, *args):
+        kbname = self.selected_kb.get()
+        self.kb_name.set(kbname)
+        if kbname == 'new':
             return
 
-        confname = os.path.join(self.module_dir, 'bin', query_config_pattern % self.selected_kb.get())
+        confname = os.path.join(self.module_dir, 'bin', query_config_pattern % kbname)
         if self.config is None or not self.initialized or os.path.exists(confname):
             self.set_config(PRACMLNConfig(confname))
 
 
-    def changedMLN(self, mlnname): pass
+    def changedMLN(self, filename): pass
 
+    def changedDB(self, filename): pass
 
-    def changedDB(self, name):
-        self.db_filename = name
-#         self.setOutputFilename()
-        # restore stored query (if any)
-#         query = self.gconf["queryByDB"].get(name)
-#         if query is None: # try file
-#             query_file = "%s.query" % name
-#             if os.path.exists(query_file) and "query" in dir(self):
-#                 f = file(query_file, "r")
-#                 query = f.read()
-#                 f.close()
-#         if not query is None and hasattr(self, "query"):
-#             self.query.set(query)
-#         # select EMLN
-#         emln = self.gconf["emlnByDB"].get(name)
-#         if not emln is None:
-#             self.selected_emln.set(emln)
-            
 
     def onChangeModule(self, *args):
         module_path = self.prac.moduleManifestByName[self.selected_module.get()].module_path
@@ -429,7 +271,8 @@ class PRACQueryGUI(object):
         dirpath = os.path.abspath(dirpath)
         self.selected_mln.setDirectory(os.path.join(dirpath, 'mln'))
         self.selected_emln.setDirectory(os.path.join(dirpath, 'emln'))
-        self.selected_db.setDirectory(os.path.join(dirpath, 'db'))
+        if not self.keep_evidence.get():
+            self.selected_db.setDirectory(os.path.join(dirpath, 'db'))
         self.module_dir = dirpath
 
     def updateKBList(self):
@@ -452,8 +295,7 @@ class PRACQueryGUI(object):
             menu.add_command(label=item, command=_setit(self.selected_kb, item, None))
         self.selected_kb.set(kbs[0])
 
-    def onChangeUseMultiCPU(self, *args):
-        pass
+    def onChangeUseMultiCPU(self, *args): pass
 
     def onChangeUseEMLN(self, *args):
         if self.use_emln.get() == 0:
@@ -461,19 +303,20 @@ class PRACQueryGUI(object):
         else:
             self.selected_emln.grid(row=self.selected_mln.row+1, column=0, sticky="NWES")
 
-    def onChangeLogic(self, name = None, index = None, mode = None):
-        pass
+    def onChangeLogic(self, name = None, index = None, mode = None): pass
     
     def set_config(self, conf):
         self.config = conf
         self.selected_logic.set(ifNone(conf['logic'], 'FirstOrderLogic'))
         self.selected_mln.select(ifNone(conf['mln'], ''))
         self.selected_mln.rename_on_edit.set(ifNone(conf['mln_rename'], 0))
-        self.selected_db.select(ifNone(conf['db'], ''))
-        self.selected_db.rename_on_edit.set(ifNone(conf['db_rename'], False))
+        if not self.keep_evidence:
+            self.selected_db.select(ifNone(conf['db'], ''))
+            self.selected_db.rename_on_edit.set(ifNone(conf['db_rename'], False))
         self.selected_method.set(ifNone(self.config["method"], InferenceMethods.name('MCSAT'), transform=InferenceMethods.name))
         self.selected_emln.set(ifNone(conf['emln'], ''))
         self.multicore.set(ifNone(conf['multicore'], False))
+        self.verbose.set(ifNone(conf['verbose'], False))
         self.params.set(ifNone(conf['params'], ''))
         self.use_emln.set(ifNone(conf['use_emln'], False))
         if self.use_emln.get():
@@ -485,44 +328,44 @@ class PRACQueryGUI(object):
 
 
     def getTempKBFromGUI(self):
-        log = logging.getLogger(self.__class__.__name__)
-        params = {}
-        kb = PRACKnowledgeBase(self.prac)
-        kb.set_querymln(self.selected_mln.get_text(), path=os.path.join(self.prac.moduleManifestByName[self.selected_module.get()].module_path, 'mln'))
-        kb.dbs = list(Database(kb.query_mln, dbfile=str(self.selected_db.get_text())))
-        params['queries'] = self.query.get()
-        params['method'] = InferenceMethods.name2value.get(self.selected_method.get(), '')
-        params.update(eval("dict(%s)" % self.params.get()))
-        params['cwPreds'] = filter(lambda x: x != "", map(str.strip, self.cwPreds.get().split(",")))
-        params['closedWorld'] = self.closed_world.get()
-        params['logic'] = self.selected_logic.get()
-        params['useMultiCPU'] = self.multicore.get()
-        kb.query_params = params
-        log.info(params)
+        config = PRACMLNConfig(os.path.join('/tmp', query_config_pattern % 'tmp'))
+        config.update({'queries': self.query.get(),
+                       'method': InferenceMethods.id(self.selected_method.get()),
+                       'cw_preds': self.cwPreds.get(),
+                       'cw': self.closed_world.get(),
+                       'logic': self.selected_logic.get(),
+                       'mln': self.selected_mln.get_filename(),
+                       'emln': self.selected_emln.get_filename(),
+                       'db': self.selected_db.get_filename(),
+                       'multicore': self.multicore.get(),
+                       'use_emln': self.use_emln.get(),
+                       'verbose': self.verbose.get()
+                       })
+        config.update(eval("dict(%s)" % self.params.get()))
+        mlncontent = str(self.selected_mln.get_text().strip())
+        dbcontent = str(self.selected_db.get_text().strip())
+
+        kb = PRACKnowledgeBase(self.prac, config)
+        kb.set_querymln(mln_str=mlncontent, path=os.path.join(self.prac.moduleManifestByName[self.selected_module.get()].module_path, 'mln'))
+        kb.dbs = parse_db(kb.query_mln,dbcontent,ignore_unknown_preds=True)
+
         return kb
 
 
-    def start(self, saveGeometry = True):
-
-        log = logging.getLogger(self.__class__.__name__)
-        # collect the parameters and create a temporary KB
-        
+    def start(self, saveGeometry=True):
         if saveGeometry:
             self.gconf["geometry"] = self.master.winfo_geometry()
         
         # hide main window
         self.master.withdraw()
+
         # runinference
         try:
             module = self.prac.getModuleByName(self.selected_module.get())
-            oldDebugMode = logging.getLogger().level
             kb = self.getTempKBFromGUI()
-            if 'debug' in kb.query_params:
-                log.info('Setting Debug level to %s' % kb.query_params['debug'])
-                logging.getLogger().setLevel(kb.query_params['debug'])
+
             self.infStep = module(self.prac_inference, kb=kb)
-            logging.getLogger().setLevel(oldDebugMode)
-            
+
         except:
             cls, e, tb = sys.exc_info()
             sys.stderr.write("Error: %s\n" % str(e))
@@ -530,26 +373,20 @@ class PRACQueryGUI(object):
 
         # restore main window
         self.master.deiconify()
-        self.setGeometry()
-        # reload the files (in case they changed)
-#         self.selected_mln.reloadFile()
-#         self.selected_db.reloadFile()
 
-        sys.stdout.flush()
-        
-        
+
     def onContinue(self):
         if self.infStep is None:
             self.start()
         self.prac_inference.inference_steps.append(self.infStep)
         self.setDatabases(*self.infStep.output_dbs)
-        print 'Input databases have been replaced by the latest results.'
+        log.info('Input databases have been replaced by the latest results.')
         
         
     def setDatabases(self, *dbs):
         strBuf = StringIO.StringIO()
         for i, db in enumerate(dbs):
-            db.write(strBuf, color=False)
+            db.write(strBuf, bars=False, color=False)
             if i < len(dbs) - 1:
                 strBuf.write('---\n')
         strBuf.seek(0)
@@ -561,84 +398,76 @@ class PRACQueryGUI(object):
         self.master.mainloop()
         
 
-# -- main app --
-
-
 
 if __name__ == '__main__':
 
     from optparse import OptionParser
     parser = OptionParser()
-    parser.add_option("-i", "--interactive", dest="interactive", default=False, action='store_true',
-                      help="Starts PRAC inference with an interactive GUI tool.")
+    parser.add_option("-i", "--interactive", dest="interactive", default=False,
+                                             action='store_true',
+                                             help="Starts PRAC inference with an interactive GUI tool.")
+    parser.add_option("-m", "--mln", dest="mln", help="the MLN model file to use")
+    parser.add_option("-q", "--queries", dest="query", help="queries (comma-separated)")
+    parser.add_option("-e", "--evidence", dest="db", help="the evidence database file")
+    parser.add_option("-r", "--results-file", dest="output_filename", help="the results file to save")
     (options, args) = parser.parse_args()
 
-    interactive = options.interactive
-
     sentences = args
-
-    log = logging.getLogger()
-    log.setLevel(logging.INFO)
-    actionRoles = None
     prac = PRAC()
     prac.wordnet = WordNet(concepts=None)
 
-    infer = PRACInference(prac, sentences)
-#     actionCore.insertdbs(infer, *readDBFromString(prac.mln, dbs))
+    root = Tk()
+    inference = PRACInference(prac, sentences)
+    conf = PRACMLNConfig()
 
-    if interactive: # use the GUI
+    if options.interactive: # use the GUI
+        print options
+        print args
         # in case we have natural-language parameters, parse them
-        if len(infer.instructions) > 0:
+        if len(inference.instructions) > 0:
             parser = prac.getModuleByName('nl_parsing')
-            prac.run(infer, parser)
-        conf = PRACMLNConfig()
-        gui = PRACQueryGUI(infer, conf)
-        gui.open()
+            prac.run(inference, parser)
+        app = PRACQueryGUI(root, inference, conf, directory=args[0] if args else None)
+        app.open()
     else: # regular PRAC pipeline
-        while infer.next_module() != None :
-            modulename = infer.next_module()
+        while inference.next_module() != None :
+            modulename = inference.next_module()
             module = prac.getModuleByName(modulename)
-            prac.run(infer,module)
-#             if modulename == 'senses_and_roles':
-#                 module.role_distributions(infer)
-#                 exit(0)
+            prac.run(inference, module)
 
-
-    step = infer.inference_steps[-1]
-    print
-    print colorize('+========================+',  (None, 'green', True), True)
-    print colorize('| PRAC INFERENCE RESULTS |',  (None, 'green', True), True)
-    print colorize('+========================+',  (None, 'green', True), True)
-    wordnet_module = prac.getModuleByName('wn_senses')
-
-
-#             db.write(sys.stdout, color=True)
-    for db in step.output_dbs:
-        for a in sorted(db.evidence.keys()):
-            v = db.evidence[a]
-            if v > 0.001 and (a.startswith('action_core') or a.startswith('has_sense') or a.startswith('achieved_by')):
-                if a.startswith('has_sense'):
-
-                    group = re.split(',',re.split('has_sense\w*\(|\)',a)[1])
-                    word = group[0];
-                    sense = group[1];
-                    if sense != 'null':
-                        print
-                        print colorize('  WORD:', (None, 'white', True), True), word,
-                        print colorize('  SENSE:', (None, 'white', True), True), sense
-                        wordnet_module.printWordSenses(wordnet_module.get_possible_meanings_of_word(db, word), sense)
-                        print
-                else:
-                    print '%.3f    %s' % (v, a)
-        RolequeryHandler.queryRolesBasedOnActioncore(db).write(color=True)
-
-    if hasattr(step, 'executable_plans'):
         print
-        print colorize('+==========================+',  (None, 'green', True), True)
-        print colorize('| PARAMETERIZED ROBOT PLAN |',  (None, 'green', True), True)
-        print colorize('+==========================+',  (None, 'green', True), True)
-        print
-        for plan in step.executable_plans:
-            print plan
+        print colorize('+========================+',  (None, 'green', True), True)
+        print colorize('| PRAC INFERENCE RESULTS |',  (None, 'green', True), True)
+        print colorize('+========================+',  (None, 'green', True), True)
+
+        step = inference.inference_steps[-1]
+        wordnet_module = prac.getModuleByName('wn_senses')
+        for db in step.output_dbs:
+            for a in sorted(db.evidence.keys()):
+                v = db.evidence[a]
+                if v > 0.001 and (a.startswith('action_core') or a.startswith('has_sense') or a.startswith('achieved_by')):
+                    if a.startswith('has_sense'):
+
+                        group = re.split(',',re.split('has_sense\w*\(|\)',a)[1])
+                        word = group[0];
+                        sense = group[1];
+                        if sense != 'null':
+                            print
+                            print colorize('  WORD:', (None, 'white', True), True), word,
+                            print colorize('  SENSE:', (None, 'white', True), True), sense
+                            wordnet_module.printWordSenses(wordnet_module.get_possible_meanings_of_word(db, word), sense)
+                            print
+                    else:
+                        print '%.3f    %s' % (v, a)
+            RolequeryHandler.queryRolesBasedOnActioncore(db).write(color=True)
+
+        if hasattr(step, 'executable_plans'):
+            print
+            print colorize('+==========================+',  (None, 'green', True), True)
+            print colorize('| PARAMETERIZED ROBOT PLAN |',  (None, 'green', True), True)
+            print colorize('+==========================+',  (None, 'green', True), True)
+            print
+            for plan in step.executable_plans:
+                print plan
 
 
