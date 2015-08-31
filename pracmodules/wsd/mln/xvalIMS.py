@@ -144,7 +144,7 @@ def get_wn30_to_wn171_dict(file_path):
 def get_offset_of_wn30_synset(sense):
     mapping_dict = None
     sense_synset = wordnet.synset(sense)
-    syn_pos = sense_synset.pos
+    syn_pos = sense_synset.pos()
 
     
     if syn_pos == 'n':
@@ -159,7 +159,7 @@ def get_offset_of_wn30_synset(sense):
     if mapping_dict is None:
         return None
     
-    offset = str(sense_synset.offset)
+    offset = str(sense_synset.offset())
     
     if len(offset) < 8:
         for x in range(0,8-len(offset)):
@@ -207,10 +207,12 @@ def test_classifier(plain_text_file,model_path,output_file):
 def compare_results(test_dbs,result_file_path):
     cm = ConfusionMatrix()
     
-    regex_sense = re.compile('length="1[^\|]*')
+    regex_word_sense = re.compile('<x[^<]+')
+    regex_sense = re.compile('[\w_%:]+\|\d+\.*\d*')
     result_file = open(result_file_path,'r')
     content = result_file.read().split('\n')[:-1]
-    
+    #print content
+    del_index_list = []
     result_dbs_senses_list = []
     test_dbs_senses_list = [] 
     
@@ -228,15 +230,36 @@ def compare_results(test_dbs,result_file_path):
                     sense_list.append(wordnet_index_sense[offset])
                     test_dbs_senses_list.append(sense_list)
                 else:
-                    del content[i]
+                    del_index_list.append(i)
             break
     
     
-    for c in content:
-        senses = []
-        for e in regex_sense.findall(c):
-            senses.append(re.split("\s+",e)[1])
-        result_dbs_senses_list.append(senses)
+    for i in range(0,len(content)):
+        if i not in del_index_list:
+            c = content[i]
+            senses = []
+            regex_findall_word_sense_result = regex_word_sense.findall(c)
+            for element in regex_findall_word_sense_result:
+                #print 'ELEMENT {}'.format(element)
+                regex_findall_result = regex_sense.findall(element)
+                #print "Regex_findall_result {}".format(regex_findall_result)
+                
+                if len(regex_findall_result) == 1:
+                    e = regex_findall_result[0]
+                    senses.append(re.split("\|",e)[0])
+                 #   print "One Sense only {}".format(e)
+                else:
+                    senses_dict = {}
+                    for e in regex_findall_result:
+                        temp = re.split("\|",e)
+                        senses_dict[float(temp[1])] = temp[0]
+                    
+                    probable_sense = sorted(senses_dict.keys(),reverse=True)[0]
+                    senses.append(probable_sense)
+                  #  print "DICT {}".format(senses_dict)
+                   # print "PROB {}".format(probable_sense)
+            #print     
+            result_dbs_senses_list.append(senses)
         
     
     if result_dbs_senses_list :
@@ -276,7 +299,7 @@ def create_training_set(dbs,result_path):
         i += 1
         
         for q1 in db.query('predicate(?w)'):
-            predicate = wnl.lemmatize('-'.join(q1['?w'].split('-')[:-1]),'v')
+            predicate = wnl.lemmatize('-'.join(q1['?w'].split('-')[:-1]),'v').lower()
             
             for q2 in db.query('has_sense({},?s)'.format(q1['?w'])):
                 predicate_sense = wordnet_index_sense[get_offset_of_wn30_synset(q2['?s'])]
@@ -426,9 +449,12 @@ def doXVal(folds, multicore, dbfile,inverse=False,testSetCount=1):
             
             for r in result:
                 cm.combine(r)
-            print os.path.join(directory,'result.cm')
-            cm.toFile(os.path.join(directory,'result.cm'))
-            cm_path_list.append(os.path.join(directory,'result.cm'))
+            cm_path = os.path.join(directory,os.path.basename(directory)+'.cm')
+            
+            print cm_path
+            cm.toFile(cm_path)
+            cm_path_list.append(cm_path)
+            
         except (KeyboardInterrupt, SystemExit, SystemError):
             workerPool.terminate()
             workerPool.join()
@@ -464,6 +490,8 @@ if __name__ == '__main__':
         
         for f in file_list:
             doXVal(10, True, f)
+        
+        ConfusionMatrix.write_comparison_results_between_confusion_matrices('OVERALL_RESULT', *cm_path_list)
         
         
         
