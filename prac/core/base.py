@@ -32,7 +32,7 @@ from pracmln import Database, MLN
 import pracmln
 from pracmln.mln.base import parse_mln
 from pracmln.mln.database import parse_db
-from pracmln.mln.util import mergedom
+from pracmln.mln.util import mergedom, out
 from pracmln.mlnquery import MLNQuery
 from pracmln.utils.config import PRACMLNConfig, query_config_pattern
 
@@ -323,6 +323,7 @@ class PRACKnowledgeBase(object):
             log.info('Setting query mln from file: {}'.format(mlnfilepath))
             mln = MLN(logic=self.config['logic'], grammar='PRACGrammar', mlnfile=mlnfilepath)
         elif (mln_str and os.path.exists(path)):
+            log.info('Setting query mln from string')
             mln = parse_mln(mln_str, searchPath=path, logic=self.config['logic'], grammar='PRACGrammar')
         else:
             log.error('Cannot set query_mln from file {} in folder {}. Creating new one...'.format(mln_filename, path))
@@ -441,7 +442,7 @@ class PRACModule(object):
         config = PRACMLNConfig(os.path.join(self.module_path, 'bin', query_config_pattern % kb_name))
         kb = PRACKnowledgeBase(self.prac, config=config)
         kb.filename = kb_name
-        kb.set_querymln(config.get('mln'), path=os.path.join(self.module_path, 'mln'))
+        kb.set_querymln(mln_filename=config.get('mln'), path=os.path.join(self.module_path, 'mln'))
         return kb
 
     def save_prac_kb(self, prac_kb, name=None):

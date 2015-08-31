@@ -21,9 +21,10 @@
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-from subprocess import Popen, PIPE
-from prac.wordnet import WordNet
-from utils.eval import ConfusionMatrix
+from subprocess import Popen
+from prac.core.wordnet import WordNet
+from pracmln.utils.eval import ConfusionMatrix
+
 
 class ConfusionMatrixSim(ConfusionMatrix):
     '''

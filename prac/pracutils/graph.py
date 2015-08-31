@@ -23,7 +23,6 @@
 
 import copy
 from collections import Iterable
-from nltk.corpus import wordnet as wn
 
 class VarSet(object):
     '''

@@ -1,5 +1,3 @@
-# 
-#
 # (C) 2015 by Mareike Picklum (mareikep@cs.uni-bremen.de)
 # 
 # Permission is hereby granted, free of charge, to any person obtaining
@@ -32,7 +30,7 @@ from Tkconstants import BOTH, W, LEFT, NE, E
 
 from prac.core import PRACKnowledgeBase
 from prac.core.base import PRAC
-from prac.core.inference import PRACInference, PRACInferenceStep
+from prac.core.inference import PRACInference
 from prac.core.wordnet import WordNet
 from prac.pracutils.RolequeryHandler import RolequeryHandler
 from pracmln.mln.database import parse_db
@@ -45,7 +43,9 @@ from pracmln.utils import config
 
 log = logger(__name__)
 
+
 def nop(*args, **kwargs): pass
+
 
 class PRACQueryGUI(object):
 
@@ -227,6 +227,7 @@ class PRACQueryGUI(object):
         self.selected_module.set(kb)
         self.setDatabases(*pracinference.inference_steps[-1].output_dbs)
 
+
     def onSaveKB(self):
         self.config = PRACMLNConfig(os.path.join(self.module_dir, 'bin', query_config_pattern % self.kb_name.get()))
         self.config["mln_rename"] = self.selected_mln.rename_on_edit.get()
@@ -259,6 +260,7 @@ class PRACQueryGUI(object):
 
     def changedMLN(self, filename): pass
 
+
     def changedDB(self, filename): pass
 
 
@@ -267,6 +269,7 @@ class PRACQueryGUI(object):
         self.set_module_dir(module_path)
         self.updateKBList()
 
+
     def set_module_dir(self, dirpath):
         dirpath = os.path.abspath(dirpath)
         self.selected_mln.setDirectory(os.path.join(dirpath, 'mln'))
@@ -274,6 +277,7 @@ class PRACQueryGUI(object):
         if not self.keep_evidence.get():
             self.selected_db.setDirectory(os.path.join(dirpath, 'db'))
         self.module_dir = dirpath
+
 
     def updateKBList(self):
         modulename = self.selected_module.get()
@@ -295,7 +299,9 @@ class PRACQueryGUI(object):
             menu.add_command(label=item, command=_setit(self.selected_kb, item, None))
         self.selected_kb.set(kbs[0])
 
+
     def onChangeUseMultiCPU(self, *args): pass
+
 
     def onChangeUseEMLN(self, *args):
         if self.use_emln.get() == 0:
@@ -303,8 +309,10 @@ class PRACQueryGUI(object):
         else:
             self.selected_emln.grid(row=self.selected_mln.row+1, column=0, sticky="NWES")
 
+
     def onChangeLogic(self, name = None, index = None, mode = None): pass
-    
+
+
     def set_config(self, conf):
         self.config = conf
         self.selected_logic.set(ifNone(conf['logic'], 'FirstOrderLogic'))
@@ -352,8 +360,8 @@ class PRACQueryGUI(object):
         return kb
 
 
-    def start(self, saveGeometry=True):
-        if saveGeometry:
+    def start(self, savegeometry=True):
+        if savegeometry:
             self.gconf["geometry"] = self.master.winfo_geometry()
         
         # hide main window
@@ -398,7 +406,6 @@ class PRACQueryGUI(object):
         self.master.mainloop()
         
 
-
 if __name__ == '__main__':
 
     from optparse import OptionParser
@@ -421,8 +428,6 @@ if __name__ == '__main__':
     conf = PRACMLNConfig()
 
     if options.interactive: # use the GUI
-        print options
-        print args
         # in case we have natural-language parameters, parse them
         if len(inference.instructions) > 0:
             parser = prac.getModuleByName('nl_parsing')
