@@ -138,16 +138,16 @@ def _get_settings(module, kbname, evidence):
     else:
         dbStr = StringIO.StringIO()
         for db in evidence:
-            db.write(dbStr, color=False)
+            db.write(dbStr, color=False, bars=False)
         settings['evidence'] = dbStr.getvalue()
     
     # if knowledge base exists, read settings
     if kbname is not None:
-        kb = module.load_pracmt(kbname)
+        kb = module.load_prac_kb(kbname)
         mlnstr = StringIO.StringIO()
         kb.query_mln.write(mlnstr, color=False)
+        settings.update(kb.config.config)
         settings['mln'] = mlnstr.getvalue()
-        settings.update(kb.query_params)
 
     return settings
 
