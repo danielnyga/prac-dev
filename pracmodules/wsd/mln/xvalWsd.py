@@ -46,6 +46,10 @@ from prac.inference import PRACInference
 import re
 import pickle
 
+
+fol_cm_path_list = []
+fuzzy_cm_path_list = []
+
 usage = '''Usage: %prog [options] <predicate> <domain> <mlnfile> <dbfiles>'''
 
 parser = OptionParser(usage=usage)
@@ -294,6 +298,8 @@ def prepareResults(directory, logic):
             matrix = pickle.load(open(os.path.join(directory,logic,f),'rb'))
             cm.combine(matrix)
         cm.toFile(os.path.join(directory,logic, 'conf_matrix.cm'))
+        
+        return cm
         #pdfname = 'conf_matrix_'+logic
         #cm.toPDF(pdfname)
         #os.rename('%s.pdf' % pdfname, os.path.join(directory,logic, '%s.pdf' % pdfname))
@@ -301,7 +307,7 @@ def prepareResults(directory, logic):
 def doXVal(folds, percent, verbose, multicore, noisy, predName, domain, mlnfile, dbfiles,logicLearn, logicInfer,inverse=False,testSetCount=1):  
     startTime = time.time()
     
-    directory = time.strftime("%a_%d_%b_%Y_%H:%M:%S_K="+str(folds)+"_TSC="+str(testSetCount)+"_"+str(os.path.basename(dbfiles[0]))+"_", time.localtime())
+    directory = os.path.join(str(testSetCount),time.strftime("%a_%d_%b_%Y_%H:%M:%S_K="+str(folds)+"_TSC="+str(testSetCount)+"_"+str(os.path.basename(dbfiles[0]))+"_", time.localtime()))
     os.mkdir(directory)
     os.mkdir(os.path.join(directory, 'FOL'))
     os.mkdir(os.path.join(directory, 'FUZZY'))
@@ -377,7 +383,7 @@ def doXVal(folds, percent, verbose, multicore, noisy, predName, domain, mlnfile,
     if multicore:
         # set up a pool of worker processes
         try:
-            workerPool = Pool(maxtasksperchild=1)
+            workerPool = Pool()
             log.info('Starting %d-fold Cross-Validation in %d processes.' % (folds, workerPool._processes))
             result = workerPool.map_async(runFold, foldRunnables).get()
             workerPool.close()
@@ -386,8 +392,10 @@ def doXVal(folds, percent, verbose, multicore, noisy, predName, domain, mlnfile,
             for r in result:
                 cm.combine(r.confMatrix)
             elapsedTimeMP = time.time() - startTime
-            prepareResults(directory,'FOL')
-            prepareResults(directory,'FUZZY')
+            
+            fol_cm_path_list.append(prepareResults(directory,'FOL'))
+            fuzzy_cm_path_list.append(prepareResults(directory,'FUZZY'))
+            
         except (KeyboardInterrupt, SystemExit, SystemError):
             log.critical("Caught KeyboardInterrupt, terminating workers")
             workerPool.terminate()
@@ -403,8 +411,8 @@ def doXVal(folds, percent, verbose, multicore, noisy, predName, domain, mlnfile,
         for fold in foldRunnables:
             runFold(fold)
         
-        prepareResults(directory,'FOL')
-        prepareResults(directory,'FUZZY')
+        fol_cm_path_list.append(prepareResults(directory,'FOL'))
+        fuzzy_cm_path_list.append(prepareResults(directory,'FUZZY'))
         
         elapsedTimeSP = time.time() - startTime
     
@@ -434,15 +442,23 @@ if __name__ == '__main__':
     logicInfer = options.infer
     inverse = options.inverse
     
-    #for x in range(folds-1,0,-1):
-    
-    if os.path.isdir(dbfiles):
-        for filename in os.listdir(dbfiles):
-            try:
-                db = os.path.join(dbfiles,filename)
-                doXVal(folds, percent, verbose, multicore, noisy, predName, domain, mlnfile, [db], logicLearn, logicInfer,inverse,1)
-                os.remove(db)
-            except:
-                print "ERROR during xval"
-    else:
-        doXVal(folds, percent, verbose, multicore, noisy, predName, domain, mlnfile, [dbfiles], logicLearn, logicInfer,inverse,1)
+    for x in range(folds-1,0,-1):
+        os.mkdir(str(x))
+        
+        fol_cm_path_list = []
+        fuzzy_cm_path_list = []
+        
+        if os.path.isdir(dbfiles):
+            for filename in os.listdir(dbfiles):
+                try:
+                    db = os.path.join(dbfiles,filename)
+                    doXVal(folds, percent, verbose, multicore, noisy, predName, domain, mlnfile, [db], logicLearn, logicInfer,inverse,x)
+                except:
+                    print "ERROR during xval"
+        else:
+            doXVal(folds, percent, verbose, multicore, noisy, predName, domain, mlnfile, [dbfiles], logicLearn, logicInfer,inverse,x)
+        
+        ConfusionMatrix.write_comparison_results_between_confusion_matrices(os.path.join(str(x),'OVERALL_FOL_RESULT_{}'.format(str(x))), *fol_cm_path_list)
+        ConfusionMatrix.write_comparison_results_between_confusion_matrices(os.path.join(str(x),'OVERALL_FUZZY_RESULT_{}'.format(str(x))), *fuzzy_cm_path_list)
+        
+        
