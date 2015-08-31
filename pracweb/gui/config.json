@@ -50,8 +50,16 @@
     "ROOT"         : "."
   },
 
+
   // You only need to edit the remainder of this file, if you want to customize
   // specific jobs, or add own job definitions.
+
+  // suppress warnings for globals specified in lint-check below
+  "config-warnings" :
+  {
+      "job-shadowing": ["common", "source-all", "build"]
+  },
+
 
   "jobs" :
   {
@@ -64,10 +72,7 @@
     {
       "library" :
       [
-        {
-          "manifest" : "../../3rdparty/QxD3/Manifest.json"
-        }
-        // { 
+        // {
         //   "manifest" : "contrib://UploadMgr/trunk/Manifest.json" 
         // },
         // { 
@@ -76,7 +81,7 @@
       ]
     }
     
-    // try to add external js file
+    // adding js file(s)
     ,"common" : 
     {
        "add-script" : 
@@ -93,7 +98,14 @@
         {
           "uri" : "static/css/codemirror.css"
         }
-      ]
+      ],
+      "lint-check": {
+          "allowed-globals": [
+                "CodeMirror",
+                "Audio",
+                "d3"
+          ]
+      }
    },
    "source-script" : {
        "extend" : ["common"]

@@ -63,7 +63,7 @@ qx.Class.define("pracweb.Application",
         req.addListener("success", function(e) { 
             var tar = e.getTarget();                                
             var response = tar.getResponse();
-            sessionname = response;
+            var sessionname = response;
         });
         req.send();
         }; 

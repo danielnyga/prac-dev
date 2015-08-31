@@ -23,8 +23,13 @@ qx.Class.define("pracweb.Graph",
   *****************************************************************************
   */
   construct: function(prarent) {
-    this.container = new qxd3.Svg("#viz", 'pracgraph');
-    this.d3 = this.container.getD3();
+    this.container = d3.select("#viz")
+        .append("svg")
+        .attr("id", "pracgraph")
+        .attr('width','100%')
+        .attr('height','100%')
+        .append('svg:g');
+
     this.WAITMSEC = 500;
 
     this.audio = new Audio("/prac/static/audio/bubble.mp3");
@@ -34,7 +39,7 @@ qx.Class.define("pracweb.Graph",
     this.w = window.innerWidth;
     this.h = window.innerHeight;
 
-    this.svnContainer = this.d3.select('#viz').select("svg").select("g");
+    this.svnContainer = d3.select('#viz').select("svg").select("g");
 
     this.svnContainer.append("defs").selectAll("marker")
       .data(["dashedred", "strokegreen", "dashed", "strokeblue", "arrowhead", "default"])
@@ -49,7 +54,7 @@ qx.Class.define("pracweb.Graph",
       .append("path")
       .attr("d", "M0,-5L10,0L0,5 Z");
 
-    this.force = this.d3.layout.force();
+    this.force = d3.layout.force();
     this.nodes = this.force.nodes();
     this.links = this.force.links();
 
