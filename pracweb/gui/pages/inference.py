@@ -1,19 +1,20 @@
 from flask import request, jsonify
 import sys
 import StringIO
-import logging
 from flask.globals import session
 import json
 from prac.core.inference import PRACInference
-from prac.pracutils import ActioncoreDescriptionHandler
+from prac.pracutils.ActioncoreDescriptionHandler import ActioncoreDescriptionHandler
+from pracmln.praclog import logger
 from pracweb.gui.pages.utils import ensure_prac_session
 from pracmln import Database
 from pracweb.gui.app import pracApp
 
+log = logger(__name__)
+
 
 @pracApp.app.route('/prac/_pracinfer_step', methods=['POST', 'GET'])
 def _pracinfer_step():
-    log = logging.getLogger(__name__)
     pracsession = ensure_prac_session(session)
     prac = pracsession.prac
 
@@ -49,7 +50,7 @@ def _pracinfer_step():
                         if truth == 0: continue
                         _, predname, args = pracsession.prac.mln.logic.parse_literal(atom)
                         if predname in ActioncoreDescriptionHandler.roles().union(['has_sense', 'action_core', 'achieved_by']):
-                            finaldb.addGroundAtom(atom)
+                            finaldb << (atom, truth)
             # add all roles and word sense links
             for res in finaldb.query('action_core(?w, ?a) ^ has_sense(?w, ?s)'):
                 actioncore = res['?a']
@@ -58,17 +59,17 @@ def _pracinfer_step():
                 
                 roles = ActioncoreDescriptionHandler.getRolesBasedOnActioncore(actioncore)
                 for role in roles:
-                    for res in db.query('%s(?w, %s) ^ has_sense(?w, ?s)' % (role, actioncore)):
-                        sense = res['?s']
+                    for dbres in finaldb.query('%s(?w, %s) ^ has_sense(?w, ?s)' % (role, actioncore)):
+                        sense = dbres['?s']
                         result.append({'source': actioncore, 'target': sense , 'value': role , 'arcStyle': 'strokegreen'})
-            for res in finaldb.query('achieved_by(?a1, ?a2)'):
-                a1 = res['?a1']
-                actioncore = res['?a2']
+            for finaldbres in finaldb.query('achieved_by(?a1, ?a2)'):
+                a1 = finaldbres['?a1']
+                actioncore = finaldbres['?a2']
                 result.append({'source': a1, 'target': actioncore , 'value': 'achieved_by' , 'arcStyle': 'strokegreen'})
                 roles = ActioncoreDescriptionHandler.getRolesBasedOnActioncore(actioncore)
                 for role in roles:
-                    for res in db.query('%s(?w, %s) ^ has_sense(?w, ?s)' % (role, actioncore)):
-                        sense = res['?s']
+                    for dbr in finaldb.query('%s(?w, %s) ^ has_sense(?w, ?s)' % (role, actioncore)):
+                        sense = dbr['?s']
                         result.append({'source': actioncore, 'target': sense , 'value': role , 'arcStyle': 'strokegreen'})
 
             # store current inference step if an executable plan exists
@@ -87,7 +88,7 @@ def _pracinfer_step():
             # finally delete inference object
             delattr(pracsession, 'infer')
 
-            return jsonify( {'result': result, 'finish': True, 'settings': settings } )
+            return jsonify({'result': result, 'finish': True, 'settings': settings})
 
     # generate graph links
     result = []
@@ -114,7 +115,7 @@ def _pracinfer_step():
     else:
         settings = _get_settings(step.module, None, evidence)
 
-    return jsonify( { 'result': result, 'finish': False, 'settings': settings } )
+    return jsonify({'result': result, 'finish': False, 'settings': settings})
 
 
 @pracApp.app.route('/prac/_pracinfer_get_next_module', methods=['GET'])
@@ -128,18 +129,16 @@ def _pracinfer_get_next_module():
 
 
 def _get_settings(module, kbname, evidence):
-    settings = {}
-    settings['module'] = module.name
-    settings['mln'] = ''
+    settings = {'module': module.name, 'mln': ''}
 
     # evidence is either text or list of dbs
     if type(evidence) is unicode:
         settings['evidence'] = evidence
     else:
-        dbStr = StringIO.StringIO()
+        dbstr = StringIO.StringIO()
         for db in evidence:
-            db.write(dbStr, color=False, bars=False)
-        settings['evidence'] = dbStr.getvalue()
+            db.write(dbstr, color=False, bars=False)
+        settings['evidence'] = dbstr.getvalue()
     
     # if knowledge base exists, read settings
     if kbname is not None:
@@ -151,10 +150,11 @@ def _get_settings(module, kbname, evidence):
 
     return settings
 
-def format_cram_string(cramString):
+
+def format_cram_string(cramstring):
     l = {}
     newstring = ''
-    lines = cramString.split('\n')
+    lines = cramstring.split('\n')
 
     for line in lines:
         ts = line.split('\t!')
@@ -167,12 +167,13 @@ def format_cram_string(cramString):
         newstring += ' '*l.get(tabcnt, 0) + nline.strip() + '\n'
     return newstring
 
+
 @pracApp.app.route('/prac/_get_cram_plan', methods=['GET'])
 def _get_cram_plan():
     pracsession = ensure_prac_session(session)
-    cramPlans = pracsession.old_infer.inference_steps[-1].executable_plans
+    cramplans = pracsession.old_infer.inference_steps[-1].executable_plans
 
-    return jsonify( {'plans': [format_cram_string(cp) for cp in cramPlans] })
+    return jsonify({'plans': [format_cram_string(cp) for cp in cramplans]})
 
 
 @pracApp.app.route('/prac/_pracinfer_get_cond_prob', methods=['GET'])
@@ -184,7 +185,7 @@ def _get_cond_prob():
         inf_step = pracsession.infer.inference_steps[-1]
         if hasattr(inf_step, 'png'):
             png, ratio = inf_step.png
-    return jsonify( {'ratio': ratio, 'img': png })
+    return jsonify({'ratio': ratio, 'img': png})
 
 
 @pracApp.app.route('/prac/_get_role_distributions', methods=['GET'])
@@ -192,5 +193,5 @@ def _get_role_distributions():
     pracsession = ensure_prac_session(session)
     module = pracsession.prac.getModuleByName('senses_and_roles')
     role_dists = module.role_distributions(pracsession.sar_step)
-    return jsonify( {'distributions': role_dists })
+    return jsonify({'distributions': role_dists})
 

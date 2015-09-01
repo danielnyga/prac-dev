@@ -1,18 +1,19 @@
+from pracmln.utils.config import query_config_pattern, PRACMLNConfig
 from pracweb.gui.app import pracApp
 import os, re
 import logging
-import json
 import collections
 from pracweb.gui.app import PRACSession
 from prac.core.base import PRAC
 from prac.core.wordnet import WordNet
 from pracmln.mln.methods import InferenceMethods
 
-FILEDIRS = {'mln':'mln', 'pracmln':'bin', 'db':'db'}
-LOGICS = [('FirstOrderLogic','FOL'),('FuzzyLogic','Fuzzy')]
-GRAMMAR = [('PRACGrammar','PRAC Grammar'), ('StandardGrammar','Standard Grammar')]
+FILEDIRS = {'mln': 'mln', 'pracmln': 'bin', 'db': 'db'}
+LOGICS = [('FirstOrderLogic', 'FOL'), ('FuzzyLogic', 'Fuzzy')]
+GRAMMAR = [('PRACGrammar', 'PRAC Grammar'), ('StandardGrammar', 'Standard Grammar')]
 PRAC_HOME = os.environ['PRAC_HOME']
 INFMETHODS = InferenceMethods.names()
+
 
 def ensure_prac_session(session):
     log = logging.getLogger(__name__)
@@ -26,16 +27,16 @@ def ensure_prac_session(session):
         prac_session.prac.getModuleByName('nl_parsing')
         log.info('created new PRAC session %s' % str(prac_session.id.encode('base-64')))
         pracApp.session_store.put(prac_session)
-        initFileStorage()
+        init_file_storage()
     return prac_session
 
 
 def convert(data):
-    '''
+    """
     Converts a dictionary's keys/values from unicode to string
     - data:    dictionary containing unicode keys and values
     - returns:  the converted dictionary
-    '''
+    """
     if isinstance(data, basestring):
         return str(data)
     elif isinstance(data, collections.Mapping):
@@ -46,7 +47,7 @@ def convert(data):
         return data
 
 
-def updateKBList(prac, modulename):
+def update_kb_list(prac, modulename):
     kbs = []
     if modulename in prac.moduleManifestByName:
         module_path = prac.moduleManifestByName[modulename].module_path
@@ -62,10 +63,10 @@ def updateKBList(prac, modulename):
             if path.endswith('.pracmln'):
                 kbs.append(path[0:path.rfind('.pracmln')])
 
-    return [(kb,kb) for kb in kbs]
+    return [(kb, kb) for kb in kbs]
 
 
-def updateMLNList(prac, modulename):
+def update_mln_list(prac, modulename):
     mlns = []
     if modulename in prac.moduleManifestByName:
         module_path = prac.moduleManifestByName[modulename].module_path
@@ -80,10 +81,10 @@ def updateMLNList(prac, modulename):
             if path.endswith('.mln'):
                 mlns.append(path[0:path.rfind('.mln')])
 
-    return [('{}.mln'.format(mln),'{}.mln'.format(mln)) for mln in mlns]
+    return [('{}.mln'.format(mln), '{}.mln'.format(mln)) for mln in mlns]
 
 
-def updateEvidenceList(prac, modulename):
+def update_evidence_list(prac, modulename):
     evidence = []
     if modulename in prac.moduleManifestByName:
         module_path = prac.moduleManifestByName[modulename].module_path
@@ -99,14 +100,14 @@ def updateEvidenceList(prac, modulename):
             if path.endswith('.db'):
                 evidence.append(path[0:path.rfind('.db')])
 
-    return [('{}.db'.format(ev),'{}.db'.format(ev)) for ev in evidence]
+    return [('{}.db'.format(ev), '{}.db'.format(ev)) for ev in evidence]
 
 
 # returns content of given file, replaces includes by content of the included file
-def getFileContent(fDir, fName):
+def get_file_content(fdir, fname):
     c = ''
-    if os.path.isfile(os.path.join(fDir, fName)):
-        with open (os.path.join(fDir, fName), "r") as f:
+    if os.path.isfile(os.path.join(fdir, fname)):
+        with open(os.path.join(fdir, fname), "r") as f:
             c = f.readlines()
 
     content = ''
@@ -114,28 +115,17 @@ def getFileContent(fDir, fName):
         if '#include' in l:
             # includefile = re.sub('#include (.*[.].*$)', '\g<1>', l).strip()
             includefile = re.sub('#include ([\w,\s-]+\.[A-Za-z])', '\g<1>', l).strip()
-            content += getFileContent(fDir, includefile)
+            content += get_file_content(fdir, includefile)
         else:
             content += l
     return content
 
 
 def save_kb(kb, name=None):
-    '''
-    Pickles the state of the given kb in the uploadfolder.
-    - kb:    instance of a PRACKnowledgeBase
-    - name:  name of the PRACKnowledgeBase
-    '''
-    import pickle
     if name is None and not hasattr(kb, 'name'):
         raise Exception('No name specified.')
-    binaryFileName = '{}.pracmln'.format(name if name is not None else kb.name)
-    binPath = os.path.join(pracApp.app.config['UPLOAD_FOLDER'], 'bin')
-    if not os.path.exists(binPath):
-        os.mkdir(binPath)
-    f = open(os.path.join(binPath, binaryFileName), 'w+')
-    pickle.dump(kb, f)
-    f.close()
+    config = PRACMLNConfig(os.path.join(pracApp.app.config['UPLOAD_FOLDER'], 'bin', query_config_pattern % name if name is not None else kb.name))
+    config.dump()
 
 
 def add_wn_similarities(db, concepts, wn):
@@ -148,10 +138,10 @@ def add_wn_similarities(db, concepts, wn):
             db.addGroundAtom('is_a({},{})'.format(kc.name, ec.name), sim)
 
 
-def initFileStorage():
+def init_file_storage():
     if not os.path.exists(os.path.join(pracApp.app.config['UPLOAD_FOLDER'])):
-       os.mkdir(os.path.join(pracApp.app.config['UPLOAD_FOLDER']))
+        os.mkdir(os.path.join(pracApp.app.config['UPLOAD_FOLDER']))
 
     if not os.path.exists(os.path.join(pracApp.app.config['LOG_FOLDER'])):
-       os.mkdir(os.path.join(pracApp.app.config['LOG_FOLDER']))
+        os.mkdir(os.path.join(pracApp.app.config['LOG_FOLDER']))
 
