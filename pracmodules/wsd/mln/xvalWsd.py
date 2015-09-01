@@ -299,7 +299,7 @@ def prepareResults(directory, logic):
             cm.combine(matrix)
         cm.toFile(os.path.join(directory,logic, 'conf_matrix.cm'))
         
-        return cm
+        return os.path.join(directory,logic, 'conf_matrix.cm')
         #pdfname = 'conf_matrix_'+logic
         #cm.toPDF(pdfname)
         #os.rename('%s.pdf' % pdfname, os.path.join(directory,logic, '%s.pdf' % pdfname))
