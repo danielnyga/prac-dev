@@ -437,7 +437,9 @@ def doXVal(folds, multicore, dbfile,testSetCount=1):
         params.foldIdx = foldIdx
         params.foldCount = folds
         params.directory = directory
-        foldRunnables.append(XValFold(params))
+        #Remove folds which are not containing tests or learn due to uneven num_of_test_sets/k
+        if((len(params.learnDBs) > 0) and (len(params.testDBs) > 0)):
+            foldRunnables.append(XValFold(params))
     
     if multicore:
         # set up a pool of worker processes
