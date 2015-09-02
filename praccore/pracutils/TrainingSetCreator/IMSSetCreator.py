@@ -126,22 +126,19 @@ def create_ukb_data_set(file_list):
 
                 
             for q1 in db.query('dobj(?w1,?w2)'):
-                
-                for q2 in db.query('has_pos({},?p)'.format(q1['?w2'])):
-                    pos = posMap.get(q2['?p'], None)
-                    if pos is not None:
-                        dobj = wnl.lemmatize('-'.join(q1['?w2'].split('-')[:-1]),pos)
-                        
-                    else:
-                        dobj = '-'.join(q1['?w2'].split('-')[:-1])
-                
                 for q2 in db.query('has_sense({},?s)'.format(q1['?w2'])):
+                    syn = wn.synset(q2['?s'])
+                    word = syn.name().split(".")[0]
+                    pos = str(syn.pos())
+                    
+                    if pos is not None:
+                        dobj = wnl.lemmatize(word,pos)
+                        
                     dobj_sense = "TRUE"
             
             
             if dobj_sense:
-                
-                if pos is 'n':
+                if pos == 'n':
                     sentence = predicate+ ' the '+ dobj+'.\n' 
                 else:
                     sentence = predicate+ ' ' + dobj+'.\n'
