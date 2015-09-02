@@ -466,13 +466,13 @@ if __name__ == '__main__':
                         print '%.3f    %s' % (v, a)
             RolequeryHandler.queryRolesBasedOnActioncore(db).write(color=True)
 
-        if hasattr(step, 'executable_plans'):
-            print
-            print colorize('+==========================+',  (None, 'green', True), True)
-            print colorize('| PARAMETERIZED ROBOT PLAN |',  (None, 'green', True), True)
-            print colorize('+==========================+',  (None, 'green', True), True)
-            print
-            for plan in step.executable_plans:
-                print plan
+    if hasattr(inference.inference_steps[-1], 'executable_plans'):
+        print
+        print colorize('+==========================+',  (None, 'green', True), True)
+        print colorize('| PARAMETERIZED ROBOT PLAN |',  (None, 'green', True), True)
+        print colorize('+==========================+',  (None, 'green', True), True)
+        print
+        for plan in step.executable_plans:
+            print plan
 
 

@@ -31,6 +31,11 @@ def download_static(filename):
                                filename)
 
 
+@pracApp.app.route('/prac/doc/<path:filename>')
+def download_docs(filename):
+    return send_from_directory(os.path.join(pracApp.app.config['PRAC_ROOT_PATH'], 'doc'), filename)
+
+
 @pracApp.app.route('/prac/')
 def prac():
     return render_template('welcome.html', **locals())

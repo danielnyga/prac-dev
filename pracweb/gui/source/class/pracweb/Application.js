@@ -217,8 +217,31 @@ qx.Class.define("pracweb.Application",
       splitPane.add(graphVizContainer);
       container.add(splitPane, {flex: 1, width: "100%"});
       container.add(controlPane, {width: "100%"});
-      mainScrollContainer.add(container);
+
+      var tabView = new qx.ui.tabview.TabView('bottom');
+      tabView.setContentPadding(2,2,2,2);
+      this.__tabView = tabView;
+
+      ////////////////// INFERENCE PAGE ////////////////////
+      var inferencePage = new qx.ui.tabview.Page("Inference");
+      this.__inferencePage = inferencePage;
+      inferencePage.setLayout(new qx.ui.layout.Grow());
+      inferencePage.add(container, {width: "100%", height: "100%"});
+      tabView.add(inferencePage, {width: "100%", height: "100%"});
+
+      ////////////////// DOKU PAGE ////////////////////
+      var aboutPage = new qx.ui.tabview.Page("Documentation");
+      this.__aboutPage = aboutPage;
+      var iframe = new qx.ui.embed.Iframe("/prac/doc/_build/html/index.html");
+      aboutPage.setLayout(new qx.ui.layout.Grow());
+      aboutPage.add(iframe);
+      tabView.add(aboutPage, {width: "100%", height: "100%"});
+
+      mainScrollContainer.add(tabView, {width: "100%", height: "100%"});
       contentIsle.add(mainScrollContainer, {width: "100%", height: "100%"});
+
+//      mainScrollContainer.add(container);
+//      contentIsle.add(mainScrollContainer, {width: "100%", height: "100%"});
 
       /* *************************** INIT ************************************/
       this._load_flow_chart();
