@@ -4,7 +4,7 @@ import os
 import time
 import re
 import sys
-from nltk.corpus import wordnet as wn
+from nltk.corpus import wordnet as wn, WordNetCorpusReader
 from prac.wordnet import WordNet
 from random import shuffle
 
@@ -37,11 +37,12 @@ for v in verbTags:
 for a in adjTags:
     posMap[a] = 'a'
 
-mapping_noun_dict = None
-mapping_verb_dict = None
-mapping_adj_dict = None
+wn_171 = WordNetCorpusReader('/home/seba/Downloads/WordNet-1.7.1/dict', None)
 
-wordnet_index_sense = None
+
+offsets_noun_dict = dict([(s.offset(), s) for s in list(wn_171.all_synsets('n'))])
+offsets_verb_dict = dict([(s.offset(), s) for s in list(wn_171.all_synsets('v'))])
+offsets_adj_dict = dict([(s.offset(), s) for s in list(wn_171.all_synsets('a'))])
 
 class XValFoldParams(object):
     
@@ -169,7 +170,7 @@ def get_offset_of_wn30_synset(sense):
         print "{} cannot be mapped".format(sense)
     else:
         offset = mapping_dict[offset]
-    return offset
+    return int(offset)
 
 def runFold(fold):
     try:
@@ -177,7 +178,74 @@ def runFold(fold):
     except:
         print traceback.format_exc()
     return fold
+
+def transform_30_nltk_sense_to_17_nltk_sense(sense):
+    syn_pos = wn.synset(sense).pos()
+    offset = get_offset_of_wn30_synset(sense)
     
+    syn = None
+    
+    if syn_pos == 'n':
+        syn = offsets_noun_dict[offset]
+    if syn_pos == 'v':
+        syn = offsets_verb_dict[offset]
+    if syn_pos == 'a':
+        syn = offsets_adj_dict[offset]
+    
+    if syn is None:
+        return None
+    
+    return syn 
+
+def transform_17_nltk_sense_to_ims_sense(sense):
+    
+    syn_pos = wn_171.synset(sense).pos()
+    offset = wn_171.synset(sense).offset()
+    
+    syn = None
+    
+    if syn_pos == 'n':
+        syn = offsets_noun_dict[offset]
+    if syn_pos == 'v':
+        syn = offsets_verb_dict[offset]
+    if syn_pos == 'a':
+        syn = offsets_adj_dict[offset]
+    
+    if syn is None:
+        return None
+    
+    lemma = syn.name().split('.')[0]
+    
+    return get_index_sense(lemma, offset)
+    
+def transform_30_nltk_sense_to_ims_sense(sense):
+    syn_pos = wn.synset(sense).pos()
+    offset = get_offset_of_wn30_synset(sense)
+    
+    syn = None
+    
+    if syn_pos == 'n':
+        syn = offsets_noun_dict[offset]
+    if syn_pos == 'v':
+        syn = offsets_verb_dict[offset]
+    if syn_pos == 'a':
+        syn = offsets_adj_dict[offset]
+    
+    if syn is None:
+        return None
+    
+    lemma = syn.name().split('.')[0]
+    
+    return get_index_sense(lemma, offset)
+    
+def get_index_sense(lemma,offset):
+    for key in wordnet_index_sense.keys():
+        if (lemma in key) and (int(wordnet_index_sense[key]) == offset):
+            sense = key
+            break
+        
+    return sense
+            
 def get_wordnet_index_sense():
     index_file = open("index.sense",'r')
     sense_list = index_file.read().split('\n')
@@ -190,7 +258,7 @@ def get_wordnet_index_sense():
             splited_res = re.split("\s+",res.group())
             sense_id = splited_res[0]
             offset = splited_res[1]
-            wordnet_index_sense[offset] = sense_id
+            wordnet_index_sense[sense_id] = offset
     
     return wordnet_index_sense
 
@@ -221,13 +289,13 @@ def compare_results(test_dbs,result_file_path):
         sense_list = []
         for q1 in db.query('predicate(?w)'):
             for q2 in db.query('has_sense({},?s)'.format(q1['?w'])):
-                sense_list.append(wordnet_index_sense[get_offset_of_wn30_synset(q2['?s'])])
+                sense_list.append(transform_30_nltk_sense_to_ims_sense(q2['?s']))
 
         for q1 in db.query('dobj(?w1,?w2)'):
             for q2 in db.query('has_sense({},?s)'.format(q1['?w2'])):
                 offset = get_offset_of_wn30_synset(q2['?s'])
                 if offset is not None:
-                    sense_list.append(wordnet_index_sense[offset])
+                    sense_list.append(transform_30_nltk_sense_to_ims_sense(q2['?s']))
                     test_dbs_senses_list.append(sense_list)
                 else:
                     del_index_list.append(i)
@@ -302,28 +370,27 @@ def create_training_set(dbs,result_path):
             predicate = wnl.lemmatize('-'.join(q1['?w'].split('-')[:-1]),'v').lower()
             
             for q2 in db.query('has_sense({},?s)'.format(q1['?w'])):
-                predicate_sense = wordnet_index_sense[get_offset_of_wn30_synset(q2['?s'])]
+                predicate_sense = transform_30_nltk_sense_to_ims_sense(q2['?s'])
         
         for q1 in db.query('dobj(?w1,?w2)'):
-            for q2 in db.query('has_pos({},?p)'.format(q1['?w2'])):
-                pos = posMap.get(q2['?p'], None)
-                if pos is not None:
-                    dobj = wnl.lemmatize('-'.join(q1['?w2'].split('-')[:-1]),pos)
-                    
-                else:
-                    dobj = '-'.join(q1['?w2'].split('-')[:-1])
-            
             for q2 in db.query('has_sense({},?s)'.format(q1['?w2'])):
+                    syn = wn.synset(q2['?s'])
+                    word = syn.name().split(".")[0]
+                    pos = str(syn.pos())
+                    
+                    if pos is not None:
+                        dobj = wnl.lemmatize(word,pos)
+                        
                     offset = get_offset_of_wn30_synset(q2['?s'])
                     if offset is not None:
-                        dobj_sense = wordnet_index_sense[offset]
+                        dobj_sense = transform_30_nltk_sense_to_ims_sense(q2['?s'])
         
         
         if dobj_sense:
             predicate_lemma = predicate + '.v'
             dobj_lemma = dobj + '.n'
             
-            if pos is 'n':
+            if pos == 'n':
                 sentence = '<head>' + predicate+ '</head> the '+ dobj+'.\n' 
             else:
                 sentence = '<head>'+predicate+ '</head>' + dobj+'.\n'
@@ -389,18 +456,23 @@ def create_training_set(dbs,result_path):
     tree_content = tree_content.replace("&gt;",">")
     tree_file.write(tree_content)
     tree_file.close()
-                
-def doXVal(folds, multicore, dbfile,testSetCount=1):
-    
-    directory = os.path.join(str(testSetCount),time.strftime("%a_%d_%b_%Y_%H:%M:%S_K="+str(folds)+"_TSC="+str(testSetCount)+"_"+str(os.path.basename(dbfile))+"_", time.localtime()))
-    os.mkdir(directory)
+
+def create_IMS_dbs(mln,dbfile):
     dbs = []
-    dbs_mln = readDBFromFile(MLN,dbfile)
+    dbs_mln = readDBFromFile(mln,dbfile)
     dbs_as_textfiles = regex_new_db.split(open(dbfile,'r').read())
     
     for i in range(0,len(dbs_mln)):
         sentence = dbs_as_textfiles[i].split('\n')[0].replace("/","")
         dbs.append(IMSDatabase(sentence,dbs_mln[i]))
+    
+    return dbs
+                    
+def doXVal(folds, multicore, dbfile,testSetCount=1):
+    
+    directory = os.path.join(str(testSetCount),time.strftime("%a_%d_%b_%Y_%H:%M:%S_K="+str(folds)+"_TSC="+str(testSetCount)+"_"+str(os.path.basename(dbfile))+"_", time.localtime()))
+    os.mkdir(directory)
+    dbs = create_IMS_dbs(MLN,dbfile) 
         
     if len(dbs) < folds:
         print 'Cannot do %d-fold cross validation with only %d databases.' % (folds, len(dbs))
@@ -472,7 +544,11 @@ def doXVal(folds, multicore, dbfile,testSetCount=1):
         
         for fold in foldRunnables:
             runFold(fold)
-    
+mapping_noun_dict = get_wn30_to_wn171_dict('wn30-171.noun')
+mapping_verb_dict = get_wn30_to_wn171_dict('wn30-171.verb')
+mapping_adj_dict = get_wn30_to_wn171_dict('wn30-171.adj')
+wordnet_index_sense = get_wordnet_index_sense()
+
 if __name__ == '__main__':
     args = sys.argv[1:]
     
@@ -480,12 +556,6 @@ if __name__ == '__main__':
         input_dir = args[0]
         MLN = readMLNFromFile(args[1], grammar='PRACGrammar', logic='FirstOrderLogic')
         
-        mapping_noun_dict = get_wn30_to_wn171_dict('wn30-171.noun')
-        mapping_verb_dict = get_wn30_to_wn171_dict('wn30-171.verb')
-        mapping_adj_dict = get_wn30_to_wn171_dict('wn30-171.adj')
-        
-        wordnet_index_sense = get_wordnet_index_sense()
-
         file_list = []
         
         for filename in os.listdir(input_dir):
