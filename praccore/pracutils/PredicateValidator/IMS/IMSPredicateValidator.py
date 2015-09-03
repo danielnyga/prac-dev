@@ -86,61 +86,43 @@ class PredicateValidator(object):
         self.train_mln(dbs,result_path)
         
         
-        self.generate_test_dbs(dbs,result_path)
+        test_dbs = self.generate_test_dbs(dbs,result_path)
         
-        '''
-        cm = self.start_validation(test_dbs, learned_mln)
-        
-        
-        dbs_file = open(os.path.join(result_path,"test.db"),'w')
-        Database.writeDBs(test_dbs,dbs_file)
+        cm = self.start_validation(test_dbs, result_path)
+        self.write_test_dbs(test_dbs,result_path)
         cm.toFile(os.path.join(result_path,os.path.basename(filepath)))
-        file.close()                    
-        dbs_file.close()
-        '''
+    
+    def write_test_dbs(self,test_dbs,result_path):
+        test_db_file = open(os.path.join(result_path,'test.db'),'w')
         
-    def start_validation(self,dbs,learned_mln):
+        for test_db in test_dbs:
+            test_db_file.write("{}\n".format(test_db.predicate_truth))
+            test_db_file.write("{}\n".format(test_db.dobj_truth))
+            test_db_file.write("---\n".format(test_db.predicate_truth))
+        
+        test_db_file.close()
+                    
+    def start_validation(self,dbs,result_path):
         cm = ConfusionMatrix()
         
-        for db in dbs:
-            truth_db = Database(db.mln)
-            test_db = Database(db.mln)
+        IMS_XVAL_MODULE.test_classifier(os.path.abspath(os.path.join(result_path,'test.txt')), 
+                                            os.path.abspath(os.path.join(result_path,'model')),
+                                            os.path.abspath(os.path.join(result_path,'result.txt')))
+        
+        pred_dbs = IMS_XVAL_MODULE.get_highest_probable_senses(os.path.abspath(os.path.join(result_path,'result.txt')))
+        for i in range(0,len(dbs)):
+            truth_db = dbs[i]
+            pred_db = pred_dbs[i]
             
-            for atom, truth in sorted(db.evidence.iteritems()):
-                if 'has_sense' in atom:
-                    truth_db.addGroundAtom(atom,truth)
-                    continue
+            if len(pred_db) > 0:
+                cm.addClassificationResult(truth_db.predicate_truth, pred_db[0])
+                cm.addClassificationResult(truth_db.dobj_truth, pred_db[-1])
+            else:
+                cm.addClassificationResult(truth_db.predicate_truth, "NONE")
+                cm.addClassificationResult(truth_db.dobj_truth, "NONE")
                 
-                test_db.addGroundAtom(atom,truth)
-                
-            prac = PRAC()
-            prac.mln = learned_mln;
-            prac.wordnet = WordNet(concepts=None)
-            senses = prac.getModuleByName('wn_senses')
-            senses.initialize()
-            infer = PRACInference(prac, 'None');
-            wsd = prac.getModuleByName('wsd')
-            kb = PRACKnowledgeBase(prac)
-            kb.query_params = {'verbose': False, 
-                               'logic': 'FirstOrderLogic', 'queries': 'has_sense',
-                                'debug': 'ERROR', 'useMultiCPU': 0, 'method': 'WCSP'}
-
-            kb.dbs.append(test_db)
-            prac.run(infer,wsd,kb=kb)
-            inferStep = infer.inference_steps[0]
-            resultDB = inferStep.output_dbs[0]
-            
-            for predicate in truth_db.iterGroundLiteralStrings('has_sense'):
-                group = re.split(',',re.split('has_sense\w*\(|\)',predicate[1])[1])
-                word = group[0];
-                truth = group[1];
-                query = 'has_sense('+word+',?s)'
-                for result in resultDB.query(query):
-                    pred = result['?s']
-                    cm.addClassificationResult(truth, pred)
-                
-            
         return cm
+    
     def train_mln(self,dbs,result_path):
         os.mkdir(os.path.join(result_path,'model'))
         IMS_XVAL_MODULE.create_training_set(dbs,result_path)
@@ -179,6 +161,8 @@ class PredicateValidator(object):
                                     test_dbs.append(test_db)
             
         IMS_XVAL_MODULE.create_test_set(test_dbs,result_path)
+        
+        return test_dbs
 
 def write_cm_results():
     cm_filename_regex = re.compile("\d+\.db")
@@ -227,6 +211,6 @@ if __name__ == '__main__':
         workerPool.map_async(run_process, splitted_file_list)
         workerPool.close()
         workerPool.join()
-        #write_cm_results()
+        write_cm_results()
     
     
