@@ -271,7 +271,41 @@ def test_classifier(plain_text_file,model_path,output_file):
     cmd = './testPlain.bash {} {} {} index.sense 0 0 0 0'.format(model_path,plain_text_file,output_file)
     p = Popen(cmd, shell=True, stdin=PIPE, stdout=PIPE, stderr=STDOUT, close_fds=True)
     print p.stdout.read()
+
+def get_highest_probable_senses(result_file_path):
+    regex_word_sense = re.compile('<x[^<]+')
+    regex_sense = re.compile('[\w_%:]+\|\d+\.*\d*')
+    result_file = open(result_file_path,'r')
+    content = result_file.read().split('\n')[:-1]
+    result_dbs_senses_list = []
     
+    for c in content:
+        senses = []
+        regex_findall_word_sense_result = regex_word_sense.findall(c)
+        for element in regex_findall_word_sense_result:
+            #print 'ELEMENT {}'.format(element)
+            regex_findall_result = regex_sense.findall(element)
+            #print "Regex_findall_result {}".format(regex_findall_result)
+            
+            if len(regex_findall_result) == 1:
+                e = regex_findall_result[0]
+                senses.append(re.split("\|",e)[0])
+             #   print "One Sense only {}".format(e)
+            else:
+                senses_dict = {}
+                for e in regex_findall_result:
+                    temp = re.split("\|",e)
+                    senses_dict[float(temp[1])] = temp[0]
+                
+                probable_sense = sorted(senses_dict.keys(),reverse=True)[0]
+                senses.append(probable_sense)
+              #  print "DICT {}".format(senses_dict)
+               # print "PROB {}".format(probable_sense)
+        #print     
+        result_dbs_senses_list.append(senses)
+    
+    return result_dbs_senses_list
+
 def compare_results(test_dbs,result_file_path):
     cm = ConfusionMatrix()
     
