@@ -40,8 +40,8 @@ qx.Class.define("pracweb.Application",
      */
 
 
-    main : function()
-    {
+    main : function() {
+
         // Call super class
         this.base(arguments);
         var that = this;
@@ -57,108 +57,108 @@ qx.Class.define("pracweb.Application",
 
         // destroy the session before leaving PRAC
         window.onbeforeunload = function () {
-        var    req = new qx.io.request.Xhr();
-        req.setUrl("/prac/_destroy_session");
-        req.setMethod("POST");
-        req.addListener("success", function(e) { 
-            var tar = e.getTarget();                                
-            var response = tar.getResponse();
-            var sessionname = response;
-        });
-        req.send();
+            var req = new qx.io.request.Xhr();
+            req.setUrl("/prac/_destroy_session");
+            req.setMethod("POST");
+            req.addListener("success", function(e) {
+                var tar = e.getTarget();
+                var response = tar.getResponse();
+                var sessionname = response;
+            });
+            req.send();
         }; 
 
-      /* ********************** CREATE ELEMENTS ******************************/
-      var prac_container = document.getElementById("prac_container", true, true);
-      var contentIsle = new qx.ui.root.Inline(prac_container,true,true);
+        /* ********************** CREATE ELEMENTS ******************************/
+        var prac_container = document.getElementById("prac_container", true, true);
+        var contentIsle = new qx.ui.root.Inline(prac_container,true,true);
           contentIsle.setWidth(document.getElementById("container", true, true).offsetWidth);
           contentIsle.setHeight(document.getElementById("container", true, true).offsetHeight);
           contentIsle.setLayout(new qx.ui.layout.Grow());
 
-      // scrollable container
-      var mainScrollContainer = new qx.ui.container.Scroll().set({
+        // scrollable container
+        var mainScrollContainer = new qx.ui.container.Scroll().set({
         width: 1024,
         height: 768
-      });
+        });
 
-      // main layout container
-      var mainLayoutContainer = new qx.ui.container.Composite(new qx.ui.layout.Canvas);
+        // main layout container
+        var mainLayoutContainer = new qx.ui.container.Composite(new qx.ui.layout.Canvas);
 
-      // main container (contains outer splitpane and control panel)
-      var container = new qx.ui.container.Composite(new qx.ui.layout.VBox());
+        // main container (contains outer splitpane and control panel)
+        var container = new qx.ui.container.Composite(new qx.ui.layout.VBox());
 
-      // outer splitpane (contains inference settings and inner splitpane)
-      var splitPane = new qx.ui.splitpane.Pane("horizontal");
-      this._pane = splitPane;
+        // outer splitpane (contains inference settings and graph visualization container)
+        var splitPane = new qx.ui.splitpane.Pane("horizontal");
+        this._pane = splitPane;
 
-      // container for inference settings form
-      var infSettingsContainer = new qx.ui.container.Composite(new qx.ui.layout.VBox()).set({
-        minWidth: .2*document.getElementById("container", true, true).offsetWidth
-      });
-      this._infSettingsContainer = infSettingsContainer;
-      var form = this.buildForm();
-      var placeholder = new qx.ui.container.Composite();
-      placeholder.setHeight(100);
+        // container for inference settings form
+        var infSettingsContainer = new qx.ui.container.Composite(new qx.ui.layout.VBox()).set({
+            minWidth: .2*document.getElementById("container", true, true).offsetWidth
+        });
+        this._infSettingsContainer = infSettingsContainer;
+        var form = this.buildForm();
+        var placeholder = new qx.ui.container.Composite();
+        placeholder.setHeight(100);
 
-      // container for visualization elements
-      var graphVizContainer = new qx.ui.container.Composite(new qx.ui.layout.Canvas()).set({
+        // container for visualization elements
+        var graphVizContainer = new qx.ui.container.Composite(new qx.ui.layout.Canvas()).set({
         width: .79*document.getElementById("container", true, true).offsetWidth
-      });
-      this._graphVizContainer = graphVizContainer;
+        });
+        this._graphVizContainer = graphVizContainer;
 
-      // embedding for conditional probability png
-      var condProb = new qx.ui.basic.Image();
-      condProb.setAllowGrowX(true);
-      condProb.setAllowShrinkX(true);
-      condProb.setAllowGrowY(true);
-      condProb.setAllowShrinkY(true);
-      condProb.setScale(true);
-      this._condProb = condProb;
+        // embedding for conditional probability png
+        var condProb = new qx.ui.basic.Image();
+        condProb.setAllowGrowX(true);
+        condProb.setAllowShrinkX(true);
+        condProb.setAllowGrowY(true);
+        condProb.setAllowShrinkY(true);
+        condProb.setScale(true);
+        this._condProb = condProb;
 
-      var condProbWin = new qx.ui.window.Window("Conditional Probability");
-      condProbWin.setWidth(.2*document.getElementById("container", true, true).offsetWidth);
-      condProbWin.setHeight(.1*document.getElementById("container", true, true).offsetWidth);
-      condProbWin.setShowMinimize(false);
-      condProbWin.setLayout(new qx.ui.layout.Canvas());
-      condProbWin.setContentPadding(4);
-      condProbWin.add(condProb);
-      condProbWin.open();
-      condProbWin.hide();
-      this._condProbWin = condProbWin;
+        var condProbWin = new qx.ui.window.Window("Conditional Probability");
+        condProbWin.setWidth(.2*document.getElementById("container", true, true).offsetWidth);
+        condProbWin.setHeight(.1*document.getElementById("container", true, true).offsetWidth);
+        condProbWin.setShowMinimize(false);
+        condProbWin.setLayout(new qx.ui.layout.Canvas());
+        condProbWin.setContentPadding(4);
+        condProbWin.add(condProb);
+        condProbWin.open();
+        condProbWin.hide();
+        this._condProbWin = condProbWin;
 
-      var waitImage = new qx.ui.basic.Image();
-      waitImage.setSource('/prac/static/images/wait.gif');
-      waitImage.getContentElement().setAttribute('id', 'waitImg');
-      waitImage.setWidth(300);
-      waitImage.setHeight(225);
-      waitImage.setMarginLeft(-150);
-      waitImage.setMarginTop(-125);
-      waitImage.setScale(1);
-      waitImage.hide();
-      this._waitImage = waitImage;
+        var waitImage = new qx.ui.basic.Image();
+        waitImage.setSource('/prac/static/images/wait.gif');
+        waitImage.getContentElement().setAttribute('id', 'waitImg');
+        waitImage.setWidth(300);
+        waitImage.setHeight(225);
+        waitImage.setMarginLeft(-150);
+        waitImage.setMarginTop(-125);
+        waitImage.setScale(1);
+        waitImage.hide();
+        this._waitImage = waitImage;
 
-      var praclogo = new qx.ui.basic.Image();
-      praclogo.setSource('/prac/static/images/prac-darkonbright-transp.png');
-      praclogo.getContentElement().setAttribute('id', 'praclogo');
-      praclogo.setWidth(220);
-      praclogo.setHeight(95);
-      praclogo.setScale(1);
-      this._praclogo = praclogo;
+        var praclogo = new qx.ui.basic.Image();
+        praclogo.setSource('/prac/static/images/prac-darkonbright-transp.png');
+        praclogo.getContentElement().setAttribute('id', 'praclogo');
+        praclogo.setWidth(220);
+        praclogo.setHeight(95);
+        praclogo.setScale(1);
+        this._praclogo = praclogo;
 
-      var vizComposite = new qx.ui.container.Composite()
-      vizComposite.setLayout(new qx.ui.layout.Grow());
-      vizComposite.getContentElement().setAttribute('id', 'viz');
+        var vizComposite = new qx.ui.container.Composite()
+        vizComposite.setLayout(new qx.ui.layout.Grow());
+        vizComposite.getContentElement().setAttribute('id', 'viz');
 
-      var flowChartComposite = new qx.ui.container.Composite()
-      flowChartComposite.setLayout(new qx.ui.layout.Grow());
-      flowChartComposite.getContentElement().setAttribute('id', 'flowchart');
-      this._flowChartComposite = flowChartComposite;
+        var flowChartComposite = new qx.ui.container.Composite()
+        flowChartComposite.setLayout(new qx.ui.layout.Grow());
+        flowChartComposite.getContentElement().setAttribute('id', 'flowchart');
+        this._flowChartComposite = flowChartComposite;
 
-      // control pane (containing text field, buttons and checkboxes used for inference)
-      var controlPane = this.buildControlPane();
-      this._controlPane = controlPane;
+        // control pane (containing text field, buttons and checkboxes used for inference)
+        var controlPane = this.buildControlPane();
+        this._controlPane = controlPane;
 
-      /* ************************ LISTENERS **********************************/
+        /* ************************ LISTENERS **********************************/
         prac_container.addEventListener("resize", function() {
             var w = document.getElementById("container", true, true).offsetWidth;
             var h = document.getElementById("container", true, true).offsetHeight;
@@ -166,19 +166,20 @@ qx.Class.define("pracweb.Application",
             contentIsle.setHeight(h);
         }, this);
 
-      document.addEventListener("roll", function(e) {
+        document.addEventListener("roll", function(e) {
         this[0].scrollTop = this[0].scrollTop + e.delta.y;
         this[0].scrollLeft = this[0].scrollLeft + e.delta.x;
-      }, this);
+        }, this);
 
-      window.addEventListener("resize", function() {
+        window.addEventListener("resize", function() {
         var w = document.getElementById("container", true, true).offsetWidth;
         var h = document.getElementById("container", true, true).offsetHeight;
           contentIsle.setWidth(w);
           contentIsle.setHeight(h);
-      }, this);
-      // resize image to fit in window
-      condProbWin.addListener("resize", function(e) {
+        }, this);
+
+        // resize image to fit in window
+        condProbWin.addListener("resize", function(e) {
         var ratio =  typeof this._imgRatio != 'undefined'? this._imgRatio : 1;
         var newWidth = e.getData().width - 10;
         var newHeight = e.getData().height - 30;
@@ -189,10 +190,10 @@ qx.Class.define("pracweb.Application",
         }
         condProb.setWidth(parseInt(newWidth, 10));
         condProb.setHeight(parseInt(newHeight, 10));
-      }, this);
+        }, this);
 
-      // resize image to fit in window
-      condProb.addListener("changeSource", function(e) {
+        // resize image to fit in window
+        condProb.addListener("changeSource", function(e) {
         var ratio =  typeof this._imgRatio != 'undefined'? this._imgRatio : 1;
         var newWidth = condProbWin.getInnerSize().width - 10;
         var newHeight = condProbWin.getInnerSize().height - 30;
@@ -203,11 +204,11 @@ qx.Class.define("pracweb.Application",
         }
         condProb.setWidth(parseInt(newWidth, 10));
         condProb.setHeight(parseInt(newHeight, 10));
-      }, this);
+        }, this);
 
 
-      // reposition graph when inference settings are shown/hidden
-      graphVizContainer.addListener('resize', function(e) {
+        // reposition graph when inference settings are shown/hidden
+        graphVizContainer.addListener('resize', function(e) {
         if (typeof this._graph != 'undefined') {
           var vizSize = graphVizContainer.getInnerSize();
           var bounds = graphVizContainer.getBounds();
@@ -215,55 +216,52 @@ qx.Class.define("pracweb.Application",
           this._graph.h = vizSize.height;
           this._graph.update();
         }
-      }, this);
+        }, this);
 
 
-      /* ********************** SET UP LAYOUT ********************************/
-      infSettingsContainer.add(placeholder);
-      infSettingsContainer.add(form);
-      graphVizContainer.add(flowChartComposite, { left: "80%", top: 0, width: "20%", height:"auto"});
-      graphVizContainer.add(vizComposite, { left: 0, top: 0, width: "100%", height:"100%"});
-      graphVizContainer.add(waitImage, { left: "50%", top: "50%"});
-      splitPane.add(infSettingsContainer, {width: "20%"});
-      splitPane.add(graphVizContainer);
-      container.add(splitPane, {flex: 1, width: "100%"});
-      container.add(controlPane, {width: "100%"});
+        /* ********************** SET UP LAYOUT ********************************/
+        infSettingsContainer.add(placeholder);
+        infSettingsContainer.add(form);
+        graphVizContainer.add(flowChartComposite, { left: "80%", top: 0, width: "20%", height:"auto"});
+        graphVizContainer.add(vizComposite, { left: 0, top: 0, width: "100%", height:"100%"});
+        graphVizContainer.add(waitImage, { left: "50%", top: "50%"});
+        splitPane.add(infSettingsContainer, {width: "20%"});
+        splitPane.add(graphVizContainer);
+        container.add(splitPane, {flex: 1, width: "100%"});
+        container.add(controlPane, {width: "100%"});
 
-      var tabView = new qx.ui.tabview.TabView('bottom');
-      tabView.setContentPadding(2,2,2,2);
-      this.__tabView = tabView;
+        var tabView = new qx.ui.tabview.TabView('bottom');
+        tabView.setContentPadding(2,2,2,2);
+        this.__tabView = tabView;
 
-      ////////////////// INFERENCE PAGE ////////////////////
-      var inferencePage = new qx.ui.tabview.Page("Inference");
-      this.__inferencePage = inferencePage;
-      inferencePage.setLayout(new qx.ui.layout.Grow());
-      inferencePage.add(container, {width: "100%", height: "100%"});
-      tabView.add(inferencePage, {width: "100%", height: "100%"});
+        ////////////////// INFERENCE PAGE ////////////////////
+        var inferencePage = new qx.ui.tabview.Page("Inference");
+        this.__inferencePage = inferencePage;
+        inferencePage.setLayout(new qx.ui.layout.Grow());
+        inferencePage.add(container, {width: "100%", height: "100%"});
+        tabView.add(inferencePage, {width: "100%", height: "100%"});
 
-      ////////////////// DOKU PAGE ////////////////////
-      var aboutPage = new qx.ui.tabview.Page("Documentation");
-      this.__aboutPage = aboutPage;
-      var iframe = new qx.ui.embed.Iframe("/prac/doc/_build/html/index.html");
-      aboutPage.setLayout(new qx.ui.layout.Grow());
-      aboutPage.add(iframe);
-      tabView.add(aboutPage, {width: "100%", height: "100%"});
+        ////////////////// DOKU PAGE ////////////////////
+        var aboutPage = new qx.ui.tabview.Page("Documentation");
+        this.__aboutPage = aboutPage;
+        var iframe = new qx.ui.embed.Iframe("/prac/doc/_build/html/index.html");
+        aboutPage.setLayout(new qx.ui.layout.Grow());
+        aboutPage.add(iframe);
+        tabView.add(aboutPage, {width: "100%", height: "100%"});
 
-      mainLayoutContainer.add(tabView, {width: "100%", height: "100%"});
-      mainLayoutContainer.add(praclogo, {left: 20, top: 20});
-      mainScrollContainer.add(mainLayoutContainer, {width: "100%", height: "100%"});
-      contentIsle.add(mainScrollContainer, {width: "100%", height: "100%"});
+        mainLayoutContainer.add(tabView, {width: "100%", height: "100%"});
+        mainLayoutContainer.add(praclogo, {left: 20, top: 20});
+        mainScrollContainer.add(mainLayoutContainer, {width: "100%", height: "100%"});
+        contentIsle.add(mainScrollContainer, {width: "100%", height: "100%"});
 
-//      mainScrollContainer.add(container);
-//      contentIsle.add(mainScrollContainer, {width: "100%", height: "100%"});
-
-      /* *************************** INIT ************************************/
-      this._load_flow_chart();
-      this.getRoot().add(condProbWin, {left:20, top:20});
-      this._showinfSettingsContainer = false;
-      this._use_exp_settings = false;
-      this._stepwise = false;
-      this._change_visibility();
-      this._send_user_stats();
+        /* *************************** INIT ************************************/
+        this._load_flow_chart();
+        this.getRoot().add(condProbWin, {left:20, top:20});
+        this._showinfSettingsContainer = false;
+        this._use_exp_settings = false;
+        this._stepwise = false;
+        this._change_visibility();
+        this._send_user_stats();
     },
 
     /**
