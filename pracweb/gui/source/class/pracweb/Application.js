@@ -81,6 +81,9 @@ qx.Class.define("pracweb.Application",
         height: 768
       });
 
+      // main layout container
+      var mainLayoutContainer = new qx.ui.container.Composite(new qx.ui.layout.Canvas);
+
       // main container (contains outer splitpane and control panel)
       var container = new qx.ui.container.Composite(new qx.ui.layout.VBox());
 
@@ -133,6 +136,14 @@ qx.Class.define("pracweb.Application",
       waitImage.setScale(1);
       waitImage.hide();
       this._waitImage = waitImage;
+
+      var praclogo = new qx.ui.basic.Image();
+      praclogo.setSource('/prac/static/images/prac-darkonbright-transp.png');
+      praclogo.getContentElement().setAttribute('id', 'praclogo');
+      praclogo.setWidth(220);
+      praclogo.setHeight(95);
+      praclogo.setScale(1);
+      this._praclogo = praclogo;
 
       var vizComposite = new qx.ui.container.Composite()
       vizComposite.setLayout(new qx.ui.layout.Grow());
@@ -237,7 +248,9 @@ qx.Class.define("pracweb.Application",
       aboutPage.add(iframe);
       tabView.add(aboutPage, {width: "100%", height: "100%"});
 
-      mainScrollContainer.add(tabView, {width: "100%", height: "100%"});
+      mainLayoutContainer.add(tabView, {width: "100%", height: "100%"});
+      mainLayoutContainer.add(praclogo, {left: 20, top: 20});
+      mainScrollContainer.add(mainLayoutContainer, {width: "100%", height: "100%"});
       contentIsle.add(mainScrollContainer, {width: "100%", height: "100%"});
 
 //      mainScrollContainer.add(container);
