@@ -71,8 +71,8 @@ qx.Class.define("pracweb.Application",
         /* ********************** CREATE ELEMENTS ******************************/
         var prac_container = document.getElementById("prac_container", true, true);
         var contentIsle = new qx.ui.root.Inline(prac_container,true,true);
-          contentIsle.setWidth(document.getElementById("container", true, true).offsetWidth);
-          contentIsle.setHeight(document.getElementById("container", true, true).offsetHeight);
+          contentIsle.setWidth(document.getElementById("page", true, true).offsetWidth);
+          contentIsle.setHeight(document.getElementById("page", true, true).offsetHeight);
           contentIsle.setLayout(new qx.ui.layout.Grow());
 
         // scrollable container
@@ -93,7 +93,7 @@ qx.Class.define("pracweb.Application",
 
         // container for inference settings form
         var infSettingsContainer = new qx.ui.container.Composite(new qx.ui.layout.VBox()).set({
-            minWidth: .2*document.getElementById("container", true, true).offsetWidth
+            minWidth: .2*document.getElementById("page", true, true).offsetWidth
         });
         this._infSettingsContainer = infSettingsContainer;
         var form = this.buildForm();
@@ -102,7 +102,7 @@ qx.Class.define("pracweb.Application",
 
         // container for visualization elements
         var graphVizContainer = new qx.ui.container.Composite(new qx.ui.layout.Canvas()).set({
-        width: .79*document.getElementById("container", true, true).offsetWidth
+        width: .79*document.getElementById("page", true, true).offsetWidth
         });
         this._graphVizContainer = graphVizContainer;
 
@@ -116,8 +116,8 @@ qx.Class.define("pracweb.Application",
         this._condProb = condProb;
 
         var condProbWin = new qx.ui.window.Window("Conditional Probability");
-        condProbWin.setWidth(.2*document.getElementById("container", true, true).offsetWidth);
-        condProbWin.setHeight(.1*document.getElementById("container", true, true).offsetWidth);
+        condProbWin.setWidth(.2*document.getElementById("page", true, true).offsetWidth);
+        condProbWin.setHeight(.1*document.getElementById("page", true, true).offsetWidth);
         condProbWin.setShowMinimize(false);
         condProbWin.setLayout(new qx.ui.layout.Canvas());
         condProbWin.setContentPadding(4);
@@ -160,8 +160,8 @@ qx.Class.define("pracweb.Application",
 
         /* ************************ LISTENERS **********************************/
         prac_container.addEventListener("resize", function() {
-            var w = document.getElementById("container", true, true).offsetWidth;
-            var h = document.getElementById("container", true, true).offsetHeight;
+            var w = document.getElementById("page", true, true).offsetWidth;
+            var h = document.getElementById("page", true, true).offsetHeight;
             contentIsle.setWidth(w);
             contentIsle.setHeight(h);
         }, this);
@@ -172,8 +172,8 @@ qx.Class.define("pracweb.Application",
         }, this);
 
         window.addEventListener("resize", function() {
-        var w = document.getElementById("container", true, true).offsetWidth;
-        var h = document.getElementById("container", true, true).offsetHeight;
+        var w = document.getElementById("page", true, true).offsetWidth;
+        var h = document.getElementById("page", true, true).offsetHeight;
           contentIsle.setWidth(w);
           contentIsle.setHeight(h);
         }, this);
