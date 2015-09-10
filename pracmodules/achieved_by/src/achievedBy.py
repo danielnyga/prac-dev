@@ -41,18 +41,18 @@ class AchievedBy(PRACModule):
     def shutdown(self):
         pass
 
-    def extendDBWithAchievedByEvidence(self,db,queryMln):
+    def extendDBWithAchievedByEvidence(self, db, querymln):
         actioncore = ""
         #It will be assumed that there is only one true action_core predicate per database
         for q in db.query("action_core(?w,?ac)"):
             actioncore = q["?ac"]
-        acDomain = db.mln.domains.get("actioncore")
-        acDomain.extend(queryMln.domains.get("actioncore"))
-        acDomain = set(acDomain)
-        db_ = Database(queryMln)
+        acdomain = db.mln.domains.get("actioncore")
+        acdomain.extend(db.domains.get("actioncore"))
+        acdomain = set(acdomain)
+        db_ = Database(querymln)
 
-        for ac1 in acDomain:
-            for ac2 in acDomain:
+        for ac1 in acdomain:
+            for ac2 in acdomain:
                 if ac1 == actioncore: continue
                 db_ << ("achieved_by({},{})".format(ac1,ac2),0)
 
