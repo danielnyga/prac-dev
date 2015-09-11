@@ -1,0 +1,260 @@
+// Put the salt and the pepper on a egg.
+1.00 predicate(put)
+1.00 prep_on(add,egg)
+1.00 dobj(put,salt)
+1.00 dobj(put,pepper)
+1.00 has_sense(put,put.v.01)
+1.00 has_sense(salt,salt.n.02)
+1.00 has_sense(pepper,pepper.n.03)
+1.00 has_sense(egg,egg.n.02)
+1.00 has_pos(put,VB)
+1.00 has_pos(salt,NN)
+1.00 has_pos(pepper,NN)
+1.00 has_pos(egg,NN)
+
+---
+
+// Put the chicken in a pan.
+1.00 predicate(put)
+1.00 prep_in(add,pan)
+1.00 dobj(put,chicken)
+1.00 has_sense(put,put.v.01)
+1.00 has_sense(chicken,chicken.n.01)
+1.00 has_sense(pan,pan.n.03)
+1.00 has_pos(put,VB)
+1.00 has_pos(chicken,NN)
+1.00 has_pos(pan,NN)
+
+---
+
+// Put the pizza in a pan.
+1.00 predicate(put)
+1.00 prep_in(add,pan)
+1.00 dobj(put,pizza)
+1.00 has_sense(put,put.v.01)
+1.00 has_sense(pizza,pizza.n.01)
+1.00 has_sense(pan,pan.n.03)
+1.00 has_pos(put,VB)
+1.00 has_pos(pizza,NN)
+1.00 has_pos(pan,NN)
+
+---
+
+// Put the beef and the onion on a plate .
+1.00 predicate(put)
+1.00 prep_on(add,plate)
+1.00 dobj(put,beef)
+1.00 dobj(put,onion)
+1.00 has_sense(put,put.v.01)
+1.00 has_sense(beef,beef.n.02)
+1.00 has_sense(onion,onion.n.01)
+1.00 has_sense(plate,plate.n.04)
+1.00 has_pos(put,VB)
+1.00 has_pos(beef,NN)
+1.00 has_pos(onion,NN)
+1.00 has_pos(plate,NN)
+
+---
+
+// Put the whipped_cream on a cake .
+1.00 predicate(put)
+1.00 prep_on(add,cake)
+1.00 dobj(put,whipped_cream)
+1.00 has_sense(put,put.v.01)
+1.00 has_sense(whipped_cream,whipped_cream.n.01)
+1.00 has_sense(cake, cake.n.03)
+1.00 has_pos(put,VB)
+1.00 has_pos(whipped_cream,NN)
+1.00 has_pos(cake,NN)
+
+---
+
+// Put the batter on a spoon.
+1.00 predicate(put)
+1.00 prep_on(add,spoon)
+1.00 dobj(put,batter)
+
+1.00 has_sense(put,put.v.01)
+1.00 has_sense(spoon,spoon.n.01)
+1.00 has_sense(batter,batter.n.02)
+1.00 has_pos(put,VB)
+1.00 has_pos(spoon,NN)
+1.00 has_pos(batter,NN)
+
+---
+
+// Put the cherries in a bowl .
+1.00 predicate(put)
+1.00 prep_in(add,bowl)
+1.00 dobj(put,cherries)
+1.00 has_sense(put,put.v.01)
+1.00 has_sense(cherries, cherry.n.03)
+1.00 has_sense(bowl,bowl.n.01)
+1.00 has_pos(put,VB)
+1.00 has_pos(cherries,NN)
+1.00 has_pos(bowl,NN)
+---
+
+// Put the banana in a blender .
+1.00 predicate(put)
+1.00 prep_in(add,blender)
+1.00 dobj(put,banana)
+1.00 has_sense(put,put.v.01)
+1.00 has_sense(banana,banana.n.02)
+1.00 has_sense(blender,blender.n.01)
+1.00 has_pos(put,VB)
+1.00 has_pos(banana,NN)
+1.00 has_pos(blender,NN)
+
+---
+
+// Put the steak in a oven .
+1.00 predicate(put)
+1.00 prep_in(add,oven)
+1.00 dobj(put,steak)
+1.00 has_sense(put,put.v.01)
+1.00 has_sense(steak,steak.n.01)
+1.00 has_sense(oven,oven.n.01)
+1.00 has_pos(put,VB)
+1.00 has_pos(steak,NN)
+1.00 has_pos(oven,NN)
+
+---
+
+// Put the mug in a microwave.
+1.00 predicate(put)
+1.00 prep_in(add,microwave)
+1.00 dobj(put,mug)
+1.00 has_sense(put,put.v.01)
+1.00 has_sense(mug,mug.n.04)
+1.00 has_sense(microwave,microwave.n.02)
+1.00 has_pos(put,VB)
+1.00 has_pos(mug,NN)
+1.00 has_pos(microwave,NN)
+
+---
+
+// Put the salt on a rib.
+1.00 predicate(put)
+1.00 prep_on(add,rib)
+1.00 dobj(put,salt)
+1.00 has_sense(put,put.v.01)
+1.00 has_sense(salt,salt.n.02)
+1.00 has_sense(rib,rib.n.03)
+1.00 has_pos(put,VB)
+1.00 has_pos(salt,NN)
+1.00 has_pos(rib,NN)
+
+---
+
+// Put the jam in a refrigerator.
+1.00 predicate(put)
+1.00 prep_in(add,refrigerator)
+1.00 dobj(put,jam)
+1.00 has_sense(put,put.v.01)
+1.00 has_sense(jam,jam.n.01)
+1.00 has_sense(refrigerator,refrigerator.n.01)
+1.00 has_pos(put,VB)
+1.00 has_pos(jam,NN)
+1.00 has_pos(refrigerator,NN)
+
+---
+
+// Put the paste on a bread.
+1.00 predicate(put)
+1.00 prep_on(add,bread)
+1.00 dobj(put,paste)
+1.00 has_sense(put,put.v.01)
+1.00 has_sense(paste,spread.n.05)
+1.00 has_sense(bread,bread.n.01)
+1.00 has_pos(put,VB)
+1.00 has_pos(paste,NN)
+1.00 has_pos(bread,NN)
+
+
+---
+
+// Put the salmon on a plate .
+1.00 predicate(put)
+1.00 prep_on(add,plate)
+1.00 dobj(put,salmon)
+1.00 has_sense(put,put.v.01)
+1.00 has_sense(salmon,salmon.n.03)
+1.00 has_sense(plate,plate.n.04)
+1.00 has_pos(put,VB)
+1.00 has_pos(salmon,NN)
+1.00 has_pos(plate,NN)
+
+---
+
+// Put the coke in a fridge.
+1.00 predicate(put)
+1.00 prep_in(add,fridge)
+1.00 dobj(put,coke)
+1.00 has_sense(put,put.v.01)
+1.00 has_sense(coke,coca_cola.n.01)
+1.00 has_sense(fridge, electric_refrigerator.n.01)
+1.00 has_pos(put,VB)
+1.00 has_pos(coke,NN)
+1.00 has_pos(fridge,NN)
+
+---
+
+//Put the fries to it.
+1.00 predicate(put)
+1.00 dobj(put,fries)
+1.00 has_sense(put,put.v.01)
+1.00 has_sense(fries,french_fries.n.01)
+1.00 has_pos(put,VB)
+1.00 has_pos(fries,NN)
+
+---
+
+//Put the dressing on a salad.
+1.00 predicate(put)
+1.00 prep_on(add,salad)
+1.00 dobj(put,dressing)
+1.00 has_sense(put,put.v.01)
+1.00 has_sense(dressing,dressing.n.01)
+1.00 has_sense(salad,salad.n.01)
+1.00 has_pos(put,VB)
+1.00 has_pos(dressing,NN)
+1.00 has_pos(salad,NN)
+
+---
+
+// Put the rice in a bowl .
+1.00 predicate(put)
+1.00 prep_in(add,bowl)
+1.00 dobj(put,rice)
+1.00 has_sense(put,put.v.01)
+1.00 has_sense(rice, rice.n.01)
+1.00 has_sense(bowl,bowl.n.01)
+1.00 has_pos(put,VB)
+1.00 has_pos(rice,NN)
+1.00 has_pos(bowl,NN)
+---
+
+// Put the dish in a oven .
+1.00 predicate(put)
+1.00 prep_in(add,oven)
+1.00 dobj(put,dish)
+1.00 has_sense(put,put.v.01)
+1.00 has_sense(dish,dish.n.02)
+1.00 has_sense(oven,oven.n.01)
+1.00 has_pos(put,VB)
+1.00 has_pos(dish,NN)
+1.00 has_pos(oven,NN)
+
+---
+
+// Put the soup in a microwave.
+1.00 predicate(put)
+1.00 prep_in(add,microwave)
+1.00 dobj(put,soup)
+1.00 has_sense(put,put.v.01)
+1.00 has_sense(soup,soup.n.01)
+1.00 has_sense(microwave,microwave.n.02)
+1.00 has_pos(put,VB)
+1.00 has_pos(soup,NN)
+1.00 has_pos(microwave,NN)

@@ -1,0 +1,249 @@
+// Add the rib.
+1.00 predicate(add)
+1.00 dobj(add,rib)
+
+1.00 has_pos(add,VB)
+1.00 has_sense(add, add.v.01)
+1.00 has_pos(rib,NN)
+1.00 has_sense(rib, rib.n.03)
+
+---
+
+// Add the sugar and the butter to a mixing_bowl.
+1.00 predicate(add)
+1.00 dobj(add,sugar)
+1.00 dobj(add,butter)
+1.00 prep_to(add,mixing_bowl)
+1.00 has_sense(add,add.v.01)
+1.00 has_sense(sugar,sugar.n.01)
+1.00 has_sense(butter,butter.n.01)
+1.00 has_sense(mixing_bowl,mixing_bowl.n.01)
+1.00 has_pos(add,VB)
+1.00 has_pos(sugar,NN)
+1.00 has_pos(butter,NN)
+1.00 has_pos(mixing_bowl,NN)
+
+---
+// Add the butter and the vanilla to a pan.
+1.00 predicate(add)
+1.00 dobj(add,butter)
+1.00 dobj(add,vanilla)
+1.00 prep_to(add,pan)
+1.00 has_sense(add,add.v.01)
+1.00 has_sense(butter,butter.n.01)
+1.00 has_sense(vanilla,vanilla.n.02)
+1.00 has_sense(pan, pan.n.03)
+1.00 has_pos(pan,NN)
+1.00 has_pos(add,VB)
+1.00 has_pos(butter,NN)
+1.00 has_pos(vanilla,NN)
+
+---
+// Add the eggs.
+1.00 predicate(add)
+1.00 dobj(add,eggs)
+1.00 has_sense(add,add.v.01)
+1.00 has_sense(eggs, egg.n.02)
+1.00 has_pos(eggs,NN)
+1.00 has_pos(add,VB)
+
+---
+
+// Add the butter to a pan.
+1.00 predicate(add)
+1.00 dobj(add,butter)
+1.00 prep_to(add,pan)
+1.00 has_sense(add,add.v.01)
+1.00 has_sense(butter,butter.n.01)
+1.00 has_sense(pan, pan.n.03)
+1.00 has_pos(pan,NN)
+1.00 has_pos(add,VB)
+1.00 has_pos(butter,NN)
+
+---
+
+// Add the vanilla to a pan.
+1.00 predicate(add)
+1.00 dobj(add,vanilla)
+1.00 prep_to(add,pan)
+1.00 has_sense(add,add.v.01)
+1.00 has_sense(vanilla,vanilla.n.02)
+1.00 has_sense(pan, pan.n.03)
+1.00 has_pos(pan,NN)
+1.00 has_pos(add,VB)
+1.00 has_pos(vanilla,NN)
+
+---
+// Add the vegetables.
+1.00 predicate(add)
+1.00 dobj(add,vegetables)
+1.00 has_sense(add,add.v.01)
+1.00 has_sense(vegetables,vegetable.n.01)
+1.00 has_pos(add,VB)
+1.00 has_pos(vegetables,NN)
+
+---
+// Add the beans to a pot.
+1.00 predicate(add)
+1.00 dobj(add,beans)
+1.00 prep_to(add,pot)
+1.00 has_sense(add,add.v.01)
+1.00 has_sense(beans,bean.n.01)
+1.00 has_pos(add,VB)
+1.00 has_pos(beans,NN)
+1.00 has_pos(pot,NN)
+1.00 has_sense(pot,pot.n.01)
+
+---
+
+// Add the flour and the eggs to a mixing_bowl.
+1.00 predicate(add)
+1.00 dobj(add,flour)
+1.00 dobj(add,eggs)
+1.00 prep_to(add,mixing_bowl)
+1.00 has_sense(add,add.v.01)
+1.00 has_sense(flour,flour.n.01)
+1.00 has_sense(eggs,egg.n.02)
+1.00 has_sense(mixing_bowl,mixing_bowl.n.01)
+1.00 has_pos(add,VB)
+1.00 has_pos(flour,NN)
+1.00 has_pos(eggs,NN)
+1.00 has_pos(mixing_bowl,NN)
+
+---
+
+// Add the salt to a meat.
+1.00 predicate(add)
+1.00 dobj(add,salt)
+1.00 prep_to(add,meat)
+1.00 has_sense(add,add.v.01)
+1.00 has_sense(salt,salt.n.02)
+1.00 has_sense(meat,meat.n.01)
+1.00 has_pos(add,VB)
+1.00 has_pos(salt,NN)
+1.00 has_pos(meat,NN)
+
+---
+
+//Add the onion.
+1.00 predicate(add)
+1.00 dobj(add,onion)
+1.00 has_sense(add,add.v.01)
+1.00 has_sense(onion,onion.n.03)
+1.00 has_pos(add,VB)
+1.00 has_pos(onion,NN)
+
+---
+//Add the fries to a steak.
+1.00 predicate(add)
+1.00 dobj(add,fries)
+1.00 prep_to(add,steak)
+1.00 has_sense(add,add.v.01)
+1.00 has_sense(steak,steak.n.01)
+1.00 has_sense(fries,french_fries.n.01)
+1.00 has_pos(add,VB)
+1.00 has_pos(steak,NN)
+1.00 has_pos(fries,NN)
+
+---
+
+//Add the dressing to a salad.
+1.00 predicate(add)
+1.00 dobj(add,dressing)
+1.00 prep_to(add,salad)
+1.00 has_sense(add,add.v.01)
+1.00 has_sense(dressing,dressing.n.01)
+1.00 has_sense(salad,salad.n.01)
+1.00 has_pos(add,VB)
+1.00 has_pos(dressing,NN)
+1.00 has_pos(salad,NN)
+
+---
+
+//Add the ingredients.
+1.00 predicate(add)
+1.00 dobj(add,ingredients)
+1.00 has_sense(add,add.v.01)
+1.00 has_sense(ingredient,ingredient.n.03)
+1.00 has_pos(add,VB)
+1.00 has_pos(ingredient,NN)
+
+---
+
+//Add the asparagus and the salad.
+1.00 predicate(add)
+1.00 dobj(add,asparagus)
+1.00 has_sense(add,add.v.01)
+1.00 has_sense(asparagus,asparagus.n.02)
+1.00 has_sense(salad,salad.n.01)
+1.00 has_pos(add,VB)
+1.00 has_pos(asparagus,NN)
+1.00 has_pos(salad,NN)
+
+---
+
+//Add the milk and the water.
+1.00 predicate(add)
+1.00 dobj(add,milk)
+1.00 has_sense(add,add.v.01)
+1.00 has_sense(milk,milk.n.01)
+1.00 has_sense(water,water.n.06)
+1.00 has_pos(add,VB)
+1.00 has_pos(milk,NN)
+1.00 has_pos(water,NN)
+
+---
+
+//Add the corn to a dish.
+1.00 predicate(add)
+1.00 dobj(add,corn)
+1.00 prep_to(add,dish)
+
+1.00 has_sense(add,add.v.01)
+1.00 has_sense(corn,corn.n.03)
+1.00 has_sense(dish,dish.n.02)
+1.00 has_pos(add,VB)
+1.00 has_pos(corn,NN)
+1.00 has_pos(dish,NN)
+
+---
+
+//Add the apple.
+1.00 predicate(add)
+1.00 dobj(add,apple)
+
+1.00 has_sense(add,add.v.01)
+1.00 has_sense(apple,apple.n.01)
+1.00 has_pos(add,VB)
+1.00 has_pos(apple,NN)
+
+---
+
+//Add the cream to a sauce.
+1.00 predicate(add)
+1.00 dobj(add,cream)
+1.00 prep_to(add,sauce)
+
+1.00 has_sense(add,add.v.01)
+1.00 has_sense(cream,cream.n.02)
+1.00 has_sense(sauce,sauce.n.01)
+1.00 has_pos(add,VB)
+1.00 has_pos(cream,NN)
+1.00 has_pos(sauce,NN)
+
+---
+
+//Add the ingredients and the cream to a mixture.
+1.00 predicate(add)
+1.00 dobj(add,ingredients)
+1.00 dobj(add,cream)
+1.00 prep_to(add,mixture)
+1.00 has_sense(add,add.v.01)
+1.00 has_sense(ingredient,ingredient.n.03)
+1.00 has_pos(add,VB)
+1.00 has_pos(ingredient,NN)
+1.00 has_sense(cream,cream.n.02)
+1.00 has_pos(cream,NN)
+1.00 has_sense(mixture,concoction.n.01)
+1.00 has_pos(mixture,NN)
+
