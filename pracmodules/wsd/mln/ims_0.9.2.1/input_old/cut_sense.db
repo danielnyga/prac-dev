@@ -3,7 +3,6 @@
 1.00 prep_into(cut,slices)
 1.00 dobj(cut,pizza)
 1.00 has_pos(cut, VB)
- 1.00 predicate(cut)
 1.00 has_sense(cut, cut.v.01)
 
 1.00 has_pos(pizza, NN)
@@ -18,7 +17,6 @@
 1.00 predicate(cut)
 1.00 dobj(cut,cheese)
 1.00 has_pos(cut, VB)
- 1.00 predicate(cut)
 1.00 has_sense(cut, cut.v.01)
 
 1.00 has_pos(cheese, NN)
@@ -30,7 +28,6 @@
 1.00 prep_with(cut,knife)
 1.00 dobj(cut,banana)
 1.00 has_pos(cut, VB)
- 1.00 predicate(cut)
 1.00 has_sense(cut, cut.v.01)
 
 1.00 has_pos(banana, NN) 
@@ -44,7 +41,6 @@
 1.00 predicate(cut)
 1.00 dobj(cut,flesh)
 1.00 has_pos(cut, VB)
- 1.00 predicate(cut)
 1.00 has_sense(cut, cut.v.01)
 
 1.00 has_pos(flesh, NN) 
@@ -57,7 +53,6 @@
 1.00 dobj(cut,tomato)
 
 1.00 has_pos(cut, VB)
- 1.00 predicate(cut)
 1.00 has_sense(cut, cut.v.01)
 
 1.00 has_pos(tomato, NN) 
@@ -73,7 +68,6 @@
 1.00 has_sense(cut,cut.v.01)
 1.00 has_sense(mushroom,mushroom.n.05)
 1.00 has_pos(cut,VB)
- 1.00 predicate(cut)
 1.00 has_pos(mushroom,NN)
 
 ---
@@ -86,7 +80,6 @@
 1.00 has_sense(meat,meat.n.01)
 1.00 has_sense(chopper,cleaver.n.01)
 1.00 has_pos(cut,VB)
- 1.00 predicate(cut)
 1.00 has_pos(meat,NN)
 1.00 has_pos(chopper,NN)
 
@@ -141,7 +134,6 @@
 1.00 dobj(cut,bread)
 
 1.00 has_pos(cut, VB)
- 1.00 predicate(cut)
 1.00 has_sense(cut, cut.v.01)
 
 1.00 has_pos(bread, NN) 
@@ -191,7 +183,6 @@
 1.00 dobj(cut,vegetables)
 
 1.00 has_pos(cut, VB)
- 1.00 predicate(cut)
 1.00 has_sense(cut, cut.v.01)
 
 1.00 has_pos(vegetable, NN) 
@@ -220,7 +211,6 @@
 1.00 dobj(cut,spring_onion)
 
 1.00 has_pos(cut, VB)
- 1.00 predicate(cut)
 1.00 has_sense(cut, cut.v.01)
 
 1.00 has_pos(spring_onion, NN) 

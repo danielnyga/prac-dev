@@ -3,7 +3,7 @@
 1.00 prep_into(slice,slice)
 1.00 dobj(slice,pizza)
 1.00 has_pos(slice, VB)
- 1.00 predicate(slice)
+
 1.00 has_sense(slice, slice.v.03)
 
 1.00 has_pos(pizza, NN)
@@ -18,7 +18,7 @@
 1.00 predicate(slice)
 1.00 dobj(slice,cheese)
 1.00 has_pos(slice, VB)
- 1.00 predicate(slice)
+
 1.00 has_sense(slice, slice.v.03)
 
 1.00 has_pos(cheese, NN)
@@ -30,7 +30,7 @@
 1.00 prep_with(slice,knife)
 1.00 dobj(slice,banana)
 1.00 has_pos(slice, VB)
- 1.00 predicate(slice)
+
 1.00 has_sense(slice, slice.v.03)
 
 1.00 has_pos(banana, NN) 
@@ -44,7 +44,7 @@
 1.00 predicate(slice)
 1.00 dobj(slice,flesh)
 1.00 has_pos(slice, VB)
- 1.00 predicate(slice)
+ 
 1.00 has_sense(slice, slice.v.03)
 
 1.00 has_pos(flesh, NN) 
@@ -57,7 +57,7 @@
 1.00 dobj(slice,tomato)
 
 1.00 has_pos(slice, VB)
- 1.00 predicate(slice)
+
 1.00 has_sense(slice, slice.v.03)
 
 1.00 has_pos(tomato, NN) 
@@ -73,7 +73,7 @@
 1.00 has_sense(slice,slice.v.03)
 1.00 has_sense(mushroom,mushroom.n.05)
 1.00 has_pos(slice,VB)
- 1.00 predicate(slice)
+
 1.00 has_pos(mushroom,NN)
 
 ---
@@ -86,7 +86,7 @@
 1.00 has_sense(meat,meat.n.01)
 1.00 has_sense(chopper,cleaver.n.01)
 1.00 has_pos(slice,VB)
- 1.00 predicate(slice)
+
 1.00 has_pos(meat,NN)
 1.00 has_pos(chopper,NN)
 
@@ -141,7 +141,7 @@
 1.00 dobj(slice,bread)
 
 1.00 has_pos(slice, VB)
- 1.00 predicate(slice)
+
 1.00 has_sense(slice, slice.v.03)
 
 1.00 has_pos(bread, NN) 
@@ -191,7 +191,7 @@
 1.00 dobj(slice,vegetables)
 
 1.00 has_pos(slice, VB)
- 1.00 predicate(slice)
+
 1.00 has_sense(slice, slice.v.03)
 
 1.00 has_pos(vegetable, NN) 
@@ -220,7 +220,7 @@
 1.00 dobj(slice,spring_onion)
 
 1.00 has_pos(slice, VB)
- 1.00 predicate(slice)
+
 1.00 has_sense(slice, slice.v.03)
 
 1.00 has_pos(spring_onion, NN) 

@@ -173,6 +173,7 @@
 //Add the asparagus and the salad.
 1.00 predicate(add)
 1.00 dobj(add,asparagus)
+1.00 dobj(add,salad)
 1.00 has_sense(add,add.v.01)
 1.00 has_sense(asparagus,asparagus.n.02)
 1.00 has_sense(salad,salad.n.01)
@@ -185,6 +186,7 @@
 //Add the milk and the water.
 1.00 predicate(add)
 1.00 dobj(add,milk)
+1.00 dobj(add,water)
 1.00 has_sense(add,add.v.01)
 1.00 has_sense(milk,milk.n.01)
 1.00 has_sense(water,water.n.06)

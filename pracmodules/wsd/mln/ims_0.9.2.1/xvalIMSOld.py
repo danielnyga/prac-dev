@@ -326,15 +326,17 @@ def compare_results(test_dbs,result_file_path):
                 sense_list.append(transform_30_nltk_sense_to_ims_sense(q2['?s']))
 
         for q1 in db.query('dobj(?w1,?w2)'):
+            print q1
             for q2 in db.query('has_sense({},?s)'.format(q1['?w2'])):
-                offset = get_offset_of_wn30_synset(q2['?s'])
-                if offset is not None:
+                sense_list.append(transform_30_nltk_sense_to_ims_sense(q2['?s']))
+
+        for prep_pred in ['prep_into','prep_to','prep_with','prep_in','prep_on']:
+            for q1 in db.query('{}(?w1,?w2)'.format(prep_pred)):
+                for q2 in db.query('has_sense({},?s)'.format(q1['?w2'])):
                     sense_list.append(transform_30_nltk_sense_to_ims_sense(q2['?s']))
-                    test_dbs_senses_list.append(sense_list)
-                else:
-                    del_index_list.append(i)
-            break
-    
+        
+        test_dbs_senses_list.append(sense_list)
+
     
     for i in range(0,len(content)):
         if i not in del_index_list:
@@ -365,11 +367,20 @@ def compare_results(test_dbs,result_file_path):
         
     
     if result_dbs_senses_list :
+        print test_dbs_senses_list
         for i in range(0,len(result_dbs_senses_list)):
-            #To handle proper names.
-            cm.addClassificationResult(test_dbs_senses_list[i][0],result_dbs_senses_list[i][0])
-            if len(result_dbs_senses_list[i]) > 1:
-                cm.addClassificationResult(test_dbs_senses_list[i][1],result_dbs_senses_list[i][1])
+            test_db = test_dbs_senses_list[i]
+            result_db = result_dbs_senses_list[i]
+            print result_db
+            print test_db
+         
+            for result_sense in result_db:
+                if result_sense in test_db:
+                    cm.addClassificationResult(result_sense,result_sense)
+                    print "TRUE"
+                else:
+                    cm.addClassificationResult("NONE",result_sense)
+                    print 'FALSE'
     
     return cm
     
@@ -666,7 +677,7 @@ if __name__ == '__main__':
             cm_path_list = []
             os.mkdir(str(x))
             for f in file_list:
-                doXVal(10, False, f,x)
+                doXVal(10, True, f,x)
                 
             ConfusionMatrix.write_comparison_results_between_confusion_matrices(os.path.join(str(x),'OVERALL_RESULT_{}'.format(str(x))), *cm_path_list)
         

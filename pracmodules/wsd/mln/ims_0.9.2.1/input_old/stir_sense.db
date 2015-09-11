@@ -1,8 +1,8 @@
-//Stir the milk
+//Stir the milk.
 1.00 predicate(stir-9)
 1.00 has_sense(stir-9,stir.v.01)
 1.00 has_pos(stir-9,VB)
- 1.00 predicate(stir-9)
+
 
 1.00 has_pos(milk,NN)
 1.00 dobj(stir-9,milk)
@@ -10,11 +10,11 @@
 
 ---
 
-//Stir the coke
+//Stir the coke.
 1.00 predicate(stir-9)
 1.00 has_sense(stir-9,stir.v.01)
 1.00 has_pos(stir-9,VB)
- 1.00 predicate(stir-9)
+
 
 1.00 has_pos(coke,NN)
 1.00 dobj(stir-9,coke)
@@ -22,11 +22,11 @@
 
 ---
 
-//Stir the water
+//Stir the water.
 1.00 predicate(stir-9)
 1.00 has_sense(stir-9,stir.v.01)
 1.00 has_pos(stir-9,VB)
- 1.00 predicate(stir-9)
+
 
 1.00 has_pos(water,NN)
 1.00 dobj(stir-9,water)
@@ -34,11 +34,11 @@
 
 ---
 
-//Stir the tea
+//Stir the tea.
 1.00 predicate(stir-9)
 1.00 has_sense(stir-9,stir.v.01)
 1.00 has_pos(stir-9,VB)
- 1.00 predicate(stir-9)
+
 
 1.00 has_pos(tea,NN)
 1.00 dobj(stir-9,tea)
@@ -46,11 +46,11 @@
 
 ---
 
-//Stir the coffee
+//Stir the coffee.
 1.00 predicate(stir-9)
 1.00 has_sense(stir-9,stir.v.01)
 1.00 has_pos(stir-9,VB)
- 1.00 predicate(stir-9)
+
 
 1.00 has_pos(coffee,NN)
 1.00 dobj(stir-9,coffee)
@@ -58,11 +58,11 @@
 
 ---
 
-//Stir the juice
+//Stir the juice.
 1.00 predicate(stir-9)
 1.00 has_sense(stir-9,stir.v.01)
 1.00 has_pos(stir-9,VB)
- 1.00 predicate(stir-9)
+
 
 1.00 has_pos(juice,NN)
 1.00 dobj(stir-9,juice)
@@ -70,23 +70,23 @@
 
 ---
 
-//Stir the cappuccino
+//Stir the coffee.
 1.00 predicate(stir-9)
 1.00 has_sense(stir-9,stir.v.01)
 1.00 has_pos(stir-9,VB)
- 1.00 predicate(stir-9)
 
-1.00 has_pos(cappuccino,NN)
-1.00 dobj(stir-9,cappuccino)
-1.00 has_sense(cappuccino,cappuccino.n.01)
+
+1.00 has_pos(coffee,NN)
+1.00 dobj(stir-9,coffee)
+1.00 has_sense(coffee,coffee.n.01)
 
 ---
 
-//Stir the wine
+//Stir the wine.
 1.00 predicate(stir-9)
 1.00 has_sense(stir-9,stir.v.01)
 1.00 has_pos(stir-9,VB)
- 1.00 predicate(stir-9)
+
 
 1.00 has_pos(wine,NN)
 1.00 dobj(stir-9,wine)
@@ -94,11 +94,11 @@
 
 ---
 
-//Stir the whiskey
+//Stir the whiskey.
 1.00 predicate(stir-9)
 1.00 has_sense(stir-9,stir.v.01)
 1.00 has_pos(stir-9,VB)
- 1.00 predicate(stir-9)
+
 
 1.00 has_pos(whiskey,NN)
 1.00 dobj(stir-9,whiskey)
@@ -106,11 +106,11 @@
 
 ---
 
-//Stir the champagne
+//Stir the champagne.
 1.00 predicate(stir-9)
 1.00 has_sense(stir-9,stir.v.01)
 1.00 has_pos(stir-9,VB)
- 1.00 predicate(stir-9)
+
 
 1.00 has_pos(champagne,NN)
 1.00 dobj(stir-9,champagne)
@@ -118,11 +118,11 @@
 
 ---
 
-//Stir the egg
+//Stir the egg.
 1.00 predicate(stir-9)
 1.00 has_sense(stir-9,stir.v.08)
 1.00 has_pos(stir-9,VB)
- 1.00 predicate(stir-9)
+
 
 1.00 has_pos(egg,NN)
 1.00 dobj(stir-9,egg)
@@ -130,11 +130,10 @@
 
 ---
 
-//Stir the butter
+//Stir the butter.
 1.00 predicate(stir-9)
 1.00 has_sense(stir-9,stir.v.08)
 1.00 has_pos(stir-9,VB)
- 1.00 predicate(stir-9)
 
 1.00 has_pos(butter,NN)
 1.00 dobj(stir-9,butter)
@@ -142,11 +141,11 @@
 
 ---
 
-//Stir the sugar
+//Stir the sugar.
 1.00 predicate(stir-9)
 1.00 has_sense(stir-9,stir.v.08)
 1.00 has_pos(stir-9,VB)
- 1.00 predicate(stir-9)
+
 
 1.00 has_pos(sugar,NN)
 1.00 dobj(stir-9,sugar)
@@ -154,11 +153,11 @@
 
 ---
 
-//Stir the salt
+//Stir the salt.
 1.00 predicate(stir-9)
 1.00 has_sense(stir-9,stir.v.08)
 1.00 has_pos(stir-9,VB)
- 1.00 predicate(stir-9)
+
 
 1.00 has_pos(salt,NN)
 1.00 dobj(stir-9,salt)
@@ -166,11 +165,11 @@
 
 ---
 
-//Stir the cream
+//Stir the cream.
 1.00 predicate(stir-9)
 1.00 has_sense(stir-9,stir.v.08)
 1.00 has_pos(stir-9,VB)
- 1.00 predicate(stir-9)
+
 
 1.00 has_pos(cream,NN)
 1.00 dobj(stir-9,cream)
@@ -178,11 +177,10 @@
 
 ---
 
-//Stir the vegetable
+//Stir the vegetable.
 1.00 predicate(stir-9)
 1.00 has_sense(stir-9,stir.v.08)
 1.00 has_pos(stir-9,VB)
- 1.00 predicate(stir-9)
 
 1.00 has_pos(vegetable,NN)
 1.00 dobj(stir-9,vegetable)
@@ -190,11 +188,10 @@
 
 ---
 
-//Stir the apples
+//Stir the apples.
 1.00 predicate(stir-9)
 1.00 has_sense(stir-9,stir.v.08)
 1.00 has_pos(stir-9,VB)
- 1.00 predicate(stir-9)
 
 1.00 has_pos(apple,NN)
 1.00 dobj(stir-9,apple)
@@ -202,11 +199,10 @@
 
 ---
 
-//Stir the banana
+//Stir the banana.
 1.00 predicate(stir-9)
 1.00 has_sense(stir-9,stir.v.08)
 1.00 has_pos(stir-9,VB)
- 1.00 predicate(stir-9)
 
 1.00 has_pos(banana,NN)
 1.00 dobj(stir-9,banana)
@@ -214,11 +210,10 @@
 
 ---
 
-//Stir the peanut
+//Stir the peanut.
 1.00 predicate(stir-9)
 1.00 has_sense(stir-9,stir.v.08)
 1.00 has_pos(stir-9,VB)
- 1.00 predicate(stir-9)
 
 1.00 has_pos(peanut,NN)
 1.00 dobj(stir-9,peanut)
@@ -226,11 +221,10 @@
 
 ---
 
-//Stir the tomato
+//Stir the tomato.
 1.00 predicate(stir-9)
 1.00 has_sense(stir-9,stir.v.08)
 1.00 has_pos(stir-9,VB)
- 1.00 predicate(stir-9)
 
 1.00 has_pos(tomato,NN)
 1.00 dobj(stir-9,tomato)

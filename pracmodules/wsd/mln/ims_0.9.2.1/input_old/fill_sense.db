@@ -2,7 +2,6 @@
 1.00 predicate(fill)
 1.00 dobj(fill,pan)
 1.00 prep_with(fill,water)
-1.00 prep_with(fill,water)
 
 1.00 has_pos(fill,VB)
 1.00 has_sense(fill,fill.v.01)
