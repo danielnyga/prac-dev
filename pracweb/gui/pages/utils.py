@@ -1,6 +1,7 @@
 from pracmln.utils.config import query_config_pattern, PRACMLNConfig
 from pracweb.gui.app import pracApp
 import os, re
+import tempfile
 import logging
 import collections
 from pracweb.gui.app import PRACSession
@@ -26,8 +27,8 @@ def ensure_prac_session(session):
         # initialize the nl_parsing module so the JVM is started
         prac_session.prac.getModuleByName('nl_parsing')
         log.info('created new PRAC session %s' % str(prac_session.id.encode('base-64')))
+        prac_session.tmpsessionfolder = init_file_storage()
         pracApp.session_store.put(prac_session)
-        init_file_storage()
     return prac_session
 
 
@@ -47,7 +48,7 @@ def convert(data):
         return data
 
 
-def update_kb_list(prac, modulename):
+def update_kb_list(prac, modulename, tmpfoldername):
     kbs = []
     if modulename in prac.moduleManifestByName:
         module_path = prac.moduleManifestByName[modulename].module_path
@@ -58,15 +59,15 @@ def update_kb_list(prac, modulename):
             if path.endswith('.pracmln'):
                 kbs.append(path[0:path.rfind('.pracmln')])
 
-    if os.path.isdir(os.path.join(pracApp.app.config['UPLOAD_FOLDER'], 'bin')):
-        for path in os.listdir(os.path.join(pracApp.app.config['UPLOAD_FOLDER'], 'bin')):
+    if os.path.isdir(os.path.join(tmpfoldername, 'bin')):
+        for path in os.listdir(os.path.join(tmpfoldername, 'bin')):
             if path.endswith('.pracmln'):
                 kbs.append(path[0:path.rfind('.pracmln')])
 
     return [(kb, kb) for kb in kbs]
 
 
-def update_mln_list(prac, modulename):
+def update_mln_list(prac, modulename, tmpfoldername):
     mlns = []
     if modulename in prac.moduleManifestByName:
         module_path = prac.moduleManifestByName[modulename].module_path
@@ -76,15 +77,15 @@ def update_mln_list(prac, modulename):
             if path.endswith('.mln'):
                 mlns.append(path[0:path.rfind('.mln')])
 
-    if os.path.isdir(os.path.join(pracApp.app.config['UPLOAD_FOLDER'], 'mln')):
-        for path in os.listdir(os.path.join(pracApp.app.config['UPLOAD_FOLDER'], 'mln')):
+    if os.path.isdir(os.path.join(tmpfoldername, 'mln')):
+        for path in os.listdir(os.path.join(tmpfoldername, 'mln')):
             if path.endswith('.mln'):
                 mlns.append(path[0:path.rfind('.mln')])
 
     return [('{}.mln'.format(mln), '{}.mln'.format(mln)) for mln in mlns]
 
 
-def update_evidence_list(prac, modulename):
+def update_evidence_list(prac, modulename, tmpfoldername):
     evidence = []
     if modulename in prac.moduleManifestByName:
         module_path = prac.moduleManifestByName[modulename].module_path
@@ -95,8 +96,8 @@ def update_evidence_list(prac, modulename):
             if path.endswith('.db'):
                 evidence.append(path[0:path.rfind('.db')])
 
-    if os.path.isdir(os.path.join(pracApp.app.config['UPLOAD_FOLDER'], 'db')):
-        for path in os.listdir(os.path.join(pracApp.app.config['UPLOAD_FOLDER'], 'db')):
+    if os.path.isdir(os.path.join(tmpfoldername, 'db')):
+        for path in os.listdir(os.path.join(tmpfoldername, 'db')):
             if path.endswith('.db'):
                 evidence.append(path[0:path.rfind('.db')])
 
@@ -121,10 +122,10 @@ def get_file_content(fdir, fname):
     return content
 
 
-def save_kb(kb, name=None):
+def save_kb(kb, tmpfoldername, name=None):
     if name is None and not hasattr(kb, 'name'):
         raise Exception('No name specified.')
-    config = PRACMLNConfig(os.path.join(pracApp.app.config['UPLOAD_FOLDER'], 'bin', query_config_pattern % name if name is not None else kb.name))
+    config = PRACMLNConfig(os.path.join(tmpfoldername, 'bin', query_config_pattern % name if name is not None else kb.name))
     config.dump()
 
 
@@ -141,7 +142,10 @@ def add_wn_similarities(db, concepts, wn):
 def init_file_storage():
     if not os.path.exists(os.path.join(pracApp.app.config['UPLOAD_FOLDER'])):
         os.mkdir(os.path.join(pracApp.app.config['UPLOAD_FOLDER']))
+    dirname = tempfile.mkdtemp(prefix='pracweb', dir=pracApp.app.config['UPLOAD_FOLDER'])
 
     if not os.path.exists(os.path.join(pracApp.app.config['LOG_FOLDER'])):
         os.mkdir(os.path.join(pracApp.app.config['LOG_FOLDER']))
+
+    return dirname
 

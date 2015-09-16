@@ -1,10 +1,10 @@
 {% extends "layout.html" %}
-{% block title %}Inference{% endblock %}
+{% block title %}{% endblock %}
 {% block head %}
     {{ super() }}
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <script type="text/javascript" src="{{ url_for('download_static', filename='script/pracweb.js') }}"></script>
-    <script src="{{ url_for('download_static', filename='script/d3.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('download_prac_static', filename='script/pracweb.js') }}"></script>
+    <script src="{{ url_for('download_prac_static', filename='script/d3.min.js') }}"></script>
 {% endblock %}
 
   {% block content %}

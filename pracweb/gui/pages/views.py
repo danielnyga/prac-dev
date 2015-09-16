@@ -1,3 +1,4 @@
+import shutil
 from pracmln.praclog import logger
 from pracweb.gui.app import pracApp
 import json
@@ -6,7 +7,7 @@ from flask import render_template, request, send_from_directory, url_for, \
     jsonify, session, redirect
 from geoip import geolite2
 from pracweb.gui.pages.routes import ulogger
-from pracweb.gui.pages.utils import init_file_storage, get_file_content, \
+from pracweb.gui.pages.utils import get_file_content, \
     update_mln_list, update_evidence_list, update_kb_list, PRAC_HOME, \
     INFMETHODS, \
     convert
@@ -21,18 +22,17 @@ ulog = ulogger('userstats')
 
 
 @pracApp.app.route('/prac/test/')
-def test():
+def prac_test():
     return render_template('test.html', **locals())
 
 
 @pracApp.app.route('/prac/static/<path:filename>')
-def download_static(filename):
-    return send_from_directory(pracApp.app.config['PRAC_STATIC_PATH'],
-                               filename)
+def download_prac_static(filename):
+    return send_from_directory(pracApp.app.config['PRAC_STATIC_PATH'], filename)
 
 
 @pracApp.app.route('/prac/doc/<path:filename>')
-def download_docs(filename):
+def download_prac_docs(filename):
     return send_from_directory(os.path.join(pracApp.app.config['PRAC_ROOT_PATH'], 'doc'), filename)
 
 
@@ -52,14 +52,19 @@ def _prac():
     return redirect('/prac/pracinfer')
 
 
+@pracApp.app.route('/prac/pracinfer', methods=['GET', 'POST'])
+def pracinfer():
+    ensure_prac_session(session)
+    return render_template('infer.html', **locals())
+
+
 @pracApp.app.after_request
 def remove_if_invalid(response):
     if "__invalidate__" in session:
         response.delete_cookie(pracApp.app.session_cookie_name)
         prac_session = pracApp.session_store[session]
         if prac_session is not None:
-            log.info(
-                'removed PRAC session %s' % prac_session.id.encode('base-64'))
+            log.info('removed PRAC session %s' % prac_session.id.encode('base-64'))
             pracApp.session_store.remove(session)
         session.clear()
     return response
@@ -69,6 +74,9 @@ def remove_if_invalid(response):
 def destroy():
     prac_session = pracApp.session_store[session]
     if prac_session is None: return ''
+    if os.path.exists(prac_session.tmpsessionfolder):
+        log.info('removing temporary folder %s' % prac_session.tmpsessionfolder)
+        shutil.rmtree(prac_session.tmpsessionfolder)
     log.info('invalidating session %s' % prac_session.id.encode('base-64'))
     session["__invalidate__"] = True
     return prac_session.id.encode('base-64')
@@ -81,12 +89,11 @@ def get_wn_tax():
 
 
 @pracApp.app.route('/prac/menu', methods=['POST'])
-def menu():
+def prac_menu():
     menu_left = []
 
     selection = "Options"
-    choices = [('PracLEARN', url_for('prac') + 'praclearn'),
-               ('PracINFER', url_for('prac') + 'pracinfer')]
+    choices = [('PracINFER', url_for('prac') + 'pracinfer')]
 
     menu_right = [
         ('CHOICES', (selection, choices))
@@ -102,13 +109,10 @@ def praclog():
 
 @pracApp.app.route('/prac/log/<filename>')
 def praclog_(filename):
-    if os.path.isfile(
-            os.path.join(pracApp.app.config['LOG_FOLDER'], filename)):
+    if os.path.isfile(os.path.join(pracApp.app.config['LOG_FOLDER'], filename)):
         return send_from_directory(pracApp.app.config['LOG_FOLDER'], filename)
-    elif os.path.isfile(os.path.join(pracApp.app.config['LOG_FOLDER'],
-                                     '{}.json'.format(filename))):
-        return send_from_directory(pracApp.app.config['LOG_FOLDER'],
-                                   '{}.json'.format(filename))
+    elif os.path.isfile(os.path.join(pracApp.app.config['LOG_FOLDER'], '{}.json'.format(filename))):
+        return send_from_directory(pracApp.app.config['LOG_FOLDER'], '{}.json'.format(filename))
     else:
         return render_template('userstats.html', **locals())
 
@@ -157,6 +161,12 @@ def user_stats():
         return ''
 
 
+# route for qooxdoo resources
+@pracApp.app.route('/prac/resource/<path:filename>')
+def resource_file(filename):
+    return redirect('/prac/static/resource/{}'.format(filename))
+
+
 @pracApp.app.route('/prac/_get_modules', methods=['GET'])
 def get_modules():
     pracsession = ensure_prac_session(session)
@@ -167,8 +177,7 @@ def get_modules():
 
 @pracApp.app.route('/prac/_load_flow_chart', methods=['GET'])
 def _load_flow_chart():
-    filename = os.path.join(os.path.join(PRAC_HOME, 'etc'),
-                            'prac-flowchart.svg')
+    filename = os.path.join(os.path.join(PRAC_HOME, 'etc'), 'prac-flowchart.svg')
     with open(filename, 'r') as svgFile:
         content = svgFile.readlines()
     return ''.join(content)
@@ -179,10 +188,10 @@ def update_module():
     pracsession = ensure_prac_session(session)
     data = json.loads(request.get_data())
     module = data.get('module')
-    kblist = [kb[0] for kb in update_kb_list(pracsession.prac, module)]
-    mlnlist = [mln[0] for mln in update_mln_list(pracsession.prac, module)]
+    kblist = [kb[0] for kb in update_kb_list(pracsession.prac, module, pracsession.tmpsessionfolder)]
+    mlnlist = [mln[0] for mln in update_mln_list(pracsession.prac, module, pracsession.tmpsessionfolder)]
     evidencelist = [ev[0] for ev in
-                    update_evidence_list(pracsession.prac, module)]
+                    update_evidence_list(pracsession.prac, module, pracsession.tmpsessionfolder)]
 
     return jsonify({'value': module, 'kblist': kblist, 'mlnlist': mlnlist,
                     'evidencelist': evidencelist})
@@ -191,8 +200,8 @@ def update_module():
 @pracApp.app.route('/prac/updateUploadedFiles', methods=['GET'])
 def update_uploaded_files():
     pracsession = ensure_prac_session(session)
-    mlnlist = [mln[0] for mln in update_mln_list(pracsession.prac, None)]
-    evidencelist = [ev[0] for ev in update_evidence_list(pracsession.prac, None)]
+    mlnlist = [mln[0] for mln in update_mln_list(pracsession.prac, None, pracsession.tmpsessionfolder)]
+    evidencelist = [ev[0] for ev in update_evidence_list(pracsession.prac, None, pracsession.tmpsessionfolder)]
     ret_data = {'mlnlist': mlnlist, 'evidencelist': evidencelist}
 
     return jsonify(ret_data)
@@ -206,16 +215,14 @@ def update_text():
     modulename = data['module']
 
     # look for file in upload folder
-    for root, subFolders, files in os.walk(
-            pracApp.app.config['UPLOAD_FOLDER']):
+    for root, subFolders, files in os.walk(pracsession.tmpsessionfolder):
         if filename in files:
             text = get_file_content(root, filename)
             return jsonify({'text': text})
 
     # look for file in module path
     if modulename in pracsession.prac.moduleManifestByName:
-        module_path = pracsession.prac.moduleManifestByName[
-            modulename].module_path
+        module_path = pracsession.prac.moduleManifestByName[modulename].module_path
         for root, subFolders, files in os.walk(module_path):
             if filename in files:
                 text = get_file_content(root, filename)
@@ -236,17 +243,3 @@ def update_kb():
     res = kb.query_params
     res['mln'] = kb.query_mln_str
     return jsonify(res)
-
-
-@pracApp.app.route('/prac/praclearn', methods=['GET', 'POST'])
-def praclearn():
-    ensure_prac_session(session)
-    if 'UPLOAD_FOLDER' not in pracApp.app.config:
-        init_file_storage()
-    return render_template('learn.html', **locals())
-
-
-@pracApp.app.route('/prac/pracinfer', methods=['GET', 'POST'])
-def pracinfer():
-    ensure_prac_session(session)
-    return render_template('infer.html', **locals())

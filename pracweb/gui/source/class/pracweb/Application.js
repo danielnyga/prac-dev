@@ -102,7 +102,7 @@ qx.Class.define("pracweb.Application",
 
         // container for visualization elements
         var graphVizContainer = new qx.ui.container.Composite(new qx.ui.layout.Canvas()).set({
-        width: .79*document.getElementById("page", true, true).offsetWidth
+            width: .79*document.getElementById("page", true, true).offsetWidth
         });
         this._graphVizContainer = graphVizContainer;
 
@@ -149,8 +149,10 @@ qx.Class.define("pracweb.Application",
         vizComposite.setLayout(new qx.ui.layout.Grow());
         vizComposite.getContentElement().setAttribute('id', 'viz');
 
-        var flowChartComposite = new qx.ui.container.Composite()
-        flowChartComposite.setLayout(new qx.ui.layout.Grow());
+        var flowChartComposite = new qx.ui.container.Composite(new qx.ui.layout.Grow()).set({
+            minWidth: 270,
+            minHeight: 310
+        });
         flowChartComposite.getContentElement().setAttribute('id', 'flowchart');
         this._flowChartComposite = flowChartComposite;
 
@@ -222,9 +224,10 @@ qx.Class.define("pracweb.Application",
         /* ********************** SET UP LAYOUT ********************************/
         infSettingsContainer.add(placeholder);
         infSettingsContainer.add(form);
-        graphVizContainer.add(flowChartComposite, { left: "80%", top: 0, width: "20%", height:"auto"});
+        graphVizContainer.add(flowChartComposite, { right: 0, top: 0, width: "20%", height:"auto"});
         graphVizContainer.add(vizComposite, { left: 0, top: 0, width: "100%", height:"100%"});
         graphVizContainer.add(waitImage, { left: "50%", top: "50%"});
+        graphVizContainer.add(praclogo, { left: 5, top: 5});
         splitPane.add(infSettingsContainer, {width: "20%"});
         splitPane.add(graphVizContainer);
         container.add(splitPane, {flex: 1, width: "100%"});
@@ -250,7 +253,7 @@ qx.Class.define("pracweb.Application",
         tabView.add(aboutPage, {width: "100%", height: "100%"});
 
         mainLayoutContainer.add(tabView, {width: "100%", height: "100%"});
-        mainLayoutContainer.add(praclogo, {left: 20, top: 20});
+
         mainScrollContainer.add(mainLayoutContainer, {width: "100%", height: "100%"});
         contentIsle.add(mainScrollContainer, {width: "100%", height: "100%"});
 

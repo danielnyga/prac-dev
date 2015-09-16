@@ -1,11 +1,11 @@
 <!doctype html>
 <html>
   <head>
-    <title>PRAC - {% block title %}{% endblock %}</title>
+    <title>PRACWeb {% block title %}{% endblock %}</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
-    <link rel="shortcut icon" href="{{ url_for('download_static', filename='images/favicon.ico') }}" />
-    <link rel="stylesheet" href="{{ url_for('download_static', filename='css/style.css') }}">
+    <link rel="shortcut icon" href="{{ url_for('download_prac_static', filename='images/favicon.ico') }}" />
+    <link rel="stylesheet" href="{{ url_for('download_prac_static', filename='css/style.css') }}">
     <script type="text/javascript">
       var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
     </script>  
