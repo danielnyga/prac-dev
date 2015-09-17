@@ -64,11 +64,11 @@ class ActionCoreIdentification(PRACModule):
         wordnet_module = self.prac.getModuleByName('wn_senses')
         for db_ in kb.dbs:
             db = wordnet_module.get_senses_and_similarities(db_, known_concepts)
-            tmp_union_db = db.union(kb.query_mln, db_)
+            tmp_union_db = db.union(db_)
 
             result_db = list(kb.infer(tmp_union_db))[0]
 
-            unified_db = result_db.union(mln, db) # alternative to query below
+            unified_db = result_db.union(db) # alternative to query below
             # only add inferred action_core atoms, leave out 0-evidence atoms
             # unified_db = tmp_union_db.copy(mln)
             # for q in result_db.query('action_core(?w,?ac)'):

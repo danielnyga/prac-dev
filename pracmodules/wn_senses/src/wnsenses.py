@@ -33,7 +33,8 @@ from nltk.corpus.reader.wordnet import Synset
 
 # mapping from PennTreebank POS tags to NLTK POS Tags
 from pracmln import MLN, Database
-from pracmln.mln.util import colorize, mergedom
+from pracmln.mln.util import colorize, mergedom, out
+
 
 nounTags = ['NN', 'NNS', 'NNP', 'CD']
 verbTags = ['VB', 'VBG', 'VBZ', 'VBD', 'VBN', 'VBP', 'MD']
@@ -86,7 +87,7 @@ class WNSenses(PRACModule):
         log = logging.getLogger(self.__class__.__name__)
         wordnet = self.wordnet
         word2senses = defaultdict(list)
-        db_ = db.copy()
+        db_ = db.copy(self.prac.mln)
         for res in db.query('has_pos(?word,?pos)'):
             word_const = res['?word']
             pos = posMap.get(res['?pos'], None)

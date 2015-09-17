@@ -68,6 +68,7 @@ class RolesTransformation(PRACModule):
         planlist = self.getPlanList()
         
         for db in dbs:
+
             for q in db.query('achieved_by(?w,?ac)'):
                 actioncore = q['?ac']
                 log.info(actioncore)
@@ -94,7 +95,7 @@ class RolesTransformation(PRACModule):
                     inf_step.output_dbs.append(db)
                 else:
                     self.isLastActionCoreAPlan = True
-                    unified_db = db.union(kb.query_mln, result_db)
+                    unified_db = db.union(result_db)
 
                 inf_step.output_dbs.append(unified_db)
 

@@ -21,11 +21,11 @@
 # CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-from prac.core.base import PRACModule, PRACPIPE
+from prac.core.base import PRACModule, PRACPIPE, DB_TRANSFORM
 from prac.core.inference import PRACInferenceStep
 from prac.core.wordnet import WordNet
 from pracmln import Database
-from pracmln.mln.util import colorize
+from pracmln.mln.util import colorize, out
 from pracmln.praclog import logger
 
 log = logger(__name__)
@@ -46,15 +46,15 @@ class AchievedBy(PRACModule):
         #It will be assumed that there is only one true action_core predicate per database
         for q in db.query("action_core(?w,?ac)"):
             actioncore = q["?ac"]
-        acdomain = db.mln.domains.get("actioncore")
+        acdomain = querymln.domains.get("actioncore")
         acdomain.extend(db.domains.get("actioncore"))
         acdomain = set(acdomain)
-        db_ = Database(querymln)
+        db_ = Database(self.prac.mln)
 
         for ac1 in acdomain:
             for ac2 in acdomain:
                 if ac1 == actioncore: continue
-                db_ << ("achieved_by({},{})".format(ac1,ac2),0)
+                db_ << ("achieved_by({},{})".format(ac1, ac2), 0)
 
         for atom, truth in sorted(db.evidence.iteritems()):
             db_ << (atom,truth)
@@ -77,18 +77,17 @@ class AchievedBy(PRACModule):
         
         inf_step = PRACInferenceStep(pracinference, self)
         
-        for db in dbs:
-            
-            for q in db.query('action_core(?w,?ac)'):
+        for olddb in dbs:
+            for q in olddb.query('action_core(?w,?ac)'):
                 actioncore = q['?ac']
                 #This list is used to avoid an infinite loop during the achieved by inference.
                 #To avoid this infinite loop, the list contains the pracmlns which were inferenced during the process.
                 #Every pracmln should be used only once during the process because the evidence for the inference will always remain the same.
                 #So if the pracmln hadnt inferenced a plan in the first time, it will never do it.
 
-                db_ = Database(db.mln)
                 #Need to remove possible achieved_by predicates from previous achieved_by inferences
-                for atom, truth in sorted(db.evidence.iteritems()):
+                db_ = Database(self.prac.mln)
+                for atom, truth in sorted(olddb.evidence.iteritems()):
                     if 'achieved_by' in atom: continue
                     db_ << (atom,truth)
 
@@ -100,12 +99,12 @@ class AchievedBy(PRACModule):
                 wordnet_module = self.prac.getModuleByName('wn_senses')
                 db = wordnet_module.get_senses_and_similarities(db_, concepts)
 
-                unified_db = db.union(kb.query_mln, db_)
+                unified_db = db.union(db_)
 
                 #Inference achieved_by predicate        
                 db_ = self.extendDBWithAchievedByEvidence(unified_db,kb.query_mln)
 
-                log.info('using following db for achieved_by inference')
+                out('db for achievedby')
                 db_.write(bars=False)
                 result_db = list(kb.infer(db_))[0]
 

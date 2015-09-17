@@ -32,7 +32,7 @@ from prac.pracutils.RolequeryHandler import RolequeryHandler
 from prac.pracutils.pracgraphviz import render_gv
 from prac.sense_distribution import add_all_wordnet_similarities, \
     get_prob_color
-from pracmln.mln.util import colorize
+from pracmln.mln.util import colorize, stop, out
 from pracmln.praclog import logger
 
 
@@ -69,9 +69,9 @@ class SensesAndRoles(PRACModule):
             dbs = kb.dbs
         self.kbs = []
         inf_step = PRACInferenceStep(pracinference, self)
-        for db_ in dbs:
-            db_copy = db_.copy()
-            for q in db_copy.query('action_core(?w,?ac)'):
+        for olddb in dbs:
+            db_copy = olddb.copy(mln=self.prac.mln)
+            for q in olddb.query('action_core(?w,?ac)'):
                 actioncore = q['?ac']
                 if actioncore == 'null': continue
                 if kb is None:
@@ -84,7 +84,7 @@ class SensesAndRoles(PRACModule):
                     roles = kb.query_mln.domains.get('role', [])
                     log.info('roles: %s' % roles)
                     specified_roles = []
-                    for q in db_copy.query('action_role(?w, ?r)'):
+                    for q in olddb.query('action_role(?w, ?r)'):
                         specified_roles.append(q['?r'])
                     unknown_roles = set(roles).difference(set(specified_roles))
                     log.info('unknown roles: %s' % unknown_roles)
@@ -105,14 +105,14 @@ class SensesAndRoles(PRACModule):
                 wordnet_module = self.prac.getModuleByName('wn_senses')
                 db = wordnet_module.get_senses_and_similarities(db_copy, concepts)
 
-                # we need senes and similarities as well as original evidence
-                tmp_union_db = db.union(kb.query_mln, db_copy)
+                # we need senses and similarities as well as original evidence
+                tmp_union_db = db.union(db_copy)
 
                 result_db = list(kb.infer(tmp_union_db))[0]
 
                 # get query roles for given actioncore and add inference results
                 # for them to final output db. ignore 0-truth results.
-                unified_db = tmp_union_db.copy(kb.query_mln)
+                unified_db = tmp_union_db.copy(self.prac.mln)
                 # argdoms = kb.query_mln.predicate(role).argdoms
                 roles = ActioncoreDescriptionHandler.getRolesBasedOnActioncore(actioncore)
                 for atom, truth in result_db.evidence.iteritems():
@@ -136,8 +136,6 @@ class SensesAndRoles(PRACModule):
                         wordnet_module.printWordSenses(wordnet_module.get_possible_meanings_of_word(unified_db, q['?w']), q['?s'])
                         print
 
-                    RolequeryHandler.queryRoles(actioncore,unified_db).write()
-
                 for ur in unknown_roles:
                     print '%s:' % colorize(ur, (None, 'red', True), True)
                     for q in unified_db.query('action_role(?w, %s) ^ has_sense(?w, ?s)' % ur, thr=1):
@@ -157,13 +155,11 @@ class SensesAndRoles(PRACModule):
         wn = WordNet()
         distrs = {}
         for db_ in step.output_dbs:
-            db_.write(sys.stdout, color=True)
             for word in db_.domains['word']:
                 for q in db_.query('action_core(?w,?ac)'):
                     actioncore = q['?ac']
                     kb = self.load_prac_kb(actioncore)
                     mln = kb.query_mln
-#                     mln.write(sys.stdout)
                     db = db_.copy(mln=mln)
                     for qs in db.query('!(EXIST ?w (has_sense(?w,?s)))'):
                         print 'removing', qs
@@ -172,7 +168,6 @@ class SensesAndRoles(PRACModule):
                     for concept in db_.domains['concept']:
                         if concept not in mln.domains['concept']:
                             db.removeDomainValue('concept', concept)
-                    db.write(sys.stdout, color=True)
                     for res in db_.query('has_sense(%s, ?s)' % (word)):
                         sense = res['?s']
                         if sense == 'null': continue
@@ -196,10 +191,8 @@ class SensesAndRoles(PRACModule):
 #                         for synset in wnmod.get_possible_meanings_of_word(db, word):
 #                             db.removeDomainValue('sense', synset.name)
                         add_all_wordnet_similarities(db, wn)
-                        db.write(sys.stdout)
                         result = mln.infer(queries='has_sense', method='EnumerationAsk', evidence_db=db, closedWorld=True, useMultiCPU=False)
                         g = wn.to_dot()
-                        result.write(sys.stdout, color=True)
                         maxprob = 0.
                         for atom, truth in result.evidence.iteritems():
                             _, predname, args = db.mln.logic.parseLiteral(atom)
