@@ -84,7 +84,6 @@ class PRAC(object):
         #TODO: replace this by real action core definitions
         self.wordnet = WordNet()
         self.mln = self.readAllMLNDeclarations()
-        
 
     def readAllMLNDeclarations(self):
         '''
@@ -256,7 +255,12 @@ def PRACPIPE(method):
         if not self._initialized:
             self.initialize()
             self._initialized = True
-        return method(self,*args,**kwargs)
+        # transform output databases to be bound to global mln
+        step = method(self,*args,**kwargs)
+        for i, db in enumerate(step.output_dbs):
+            step.output_dbs[i] = db.copy(self.prac.mln)
+        return step
+
     return wrapper
 
 class PRACModuleManifest(object):
