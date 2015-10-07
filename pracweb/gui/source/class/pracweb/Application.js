@@ -250,7 +250,7 @@ qx.Class.define("pracweb.Application",
         var iframe = new qx.ui.embed.Iframe("/prac/doc/_build/html/index.html");
         aboutPage.setLayout(new qx.ui.layout.Grow());
         aboutPage.add(iframe);
-        tabView.add(aboutPage, {width: "100%", height: "100%"});
+//        tabView.add(aboutPage, {width: "100%", height: "100%"});
 
         mainLayoutContainer.add(tabView, {width: "100%", height: "100%"});
 

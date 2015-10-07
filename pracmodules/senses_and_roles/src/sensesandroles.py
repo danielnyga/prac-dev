@@ -21,18 +21,15 @@
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-import sys
-import os
 from prac.core.base import PRACModule, PRACPIPE
 from prac.core.inference import PRACInferenceStep
 from prac.core.wordnet import WordNet
 from prac.pracutils.ActioncoreDescriptionHandler import \
     ActioncoreDescriptionHandler
-from prac.pracutils.RolequeryHandler import RolequeryHandler
 from prac.pracutils.pracgraphviz import render_gv
 from prac.sense_distribution import add_all_wordnet_similarities, \
     get_prob_color
-from pracmln.mln.util import colorize, stop, out
+from pracmln.mln.util import colorize, out
 from pracmln.praclog import logger
 
 
@@ -47,28 +44,30 @@ class SensesAndRoles(PRACModule):
     def shutdown(self):
         pass
     
-    def roleQueryBuilder(self, actioncore,predicate, domainList):
+    def roleQueryBuilder(self, actioncore, predicate, domainList):
         # assuming that the role predicates are always of the form
         # predname(?x, actioncore)
-        return '{}(?{},{})'.format(predicate,domainList[0],actioncore)
+        return '{}(?{},{})'.format(predicate, domainList[0], actioncore)
 
     @PRACPIPE
-    def __call__(self, pracinference, **params):
+    def __call__(self, pracinference, kb=None, **params):
         log = logger(self.name)
         
         print colorize('+==========================================+', (None, 'green', True), True)
         print colorize('| PRAC INFERENCE: RECOGNIZING %s ROLES  ' % ({True: 'MISSING', False: 'GIVEN'}[params.get('missing', False)]), (None, 'green', True), True)
         print colorize('+==========================================+', (None, 'green', True), True)
         
-        kb = params.get('kb', None)
+        kb = kb
         if kb is None:
             # load the default arguments
             dbs = pracinference.inference_steps[-1].output_dbs
         else:
-            kb = params['kb']
+            kb = kb
             dbs = kb.dbs
         self.kbs = []
         inf_step = PRACInferenceStep(pracinference, self)
+
+        out('')
         for olddb in dbs:
             db_copy = olddb.copy(mln=self.prac.mln)
             for q in olddb.query('action_core(?w,?ac)'):
@@ -113,6 +112,7 @@ class SensesAndRoles(PRACModule):
                 # get query roles for given actioncore and add inference results
                 # for them to final output db. ignore 0-truth results.
                 unified_db = tmp_union_db.copy(self.prac.mln)
+
                 # argdoms = kb.query_mln.predicate(role).argdoms
                 roles = ActioncoreDescriptionHandler.getRolesBasedOnActioncore(actioncore)
                 for atom, truth in result_db.evidence.iteritems():

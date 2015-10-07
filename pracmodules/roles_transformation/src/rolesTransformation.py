@@ -78,26 +78,26 @@ class RolesTransformation(PRACModule):
                     kb = self.load_prac_kb(actioncore+'Transformation')
 
                 result_db = list(kb.infer(db))[0]
+                unified_db = db.union(result_db)
 
                 if actioncore not in planlist:
                     # ONLY LEAVE POSITIVE ACTION CORE /UPDATE /TODO
-                    # r_db_ = Database(result_db.mln)
-                    # actionverb = ""
-                    #
-                    # #It will be assumed that there is only one true action_core predicate per database
-                    # for q1 in db.query("action_core(?w,?ac)"):
-                    #     actionverb = q1["?w"]
-                    #
-                    # for atom, truth in sorted(r_db.evidence.iteritems()):
-                    #     if 'action_core' in atom: continue
-                    #     r_db_ << (atom,truth)
-                    # r_db_ << ("action_core({},{})".format(actionverb, actioncore))
-                    inf_step.output_dbs.append(db)
+                    r_db_ = Database(self.prac.mln)
+                    actionverb = ""
+
+                    #It will be assumed that there is only one true action_core predicate per database
+                    for q1 in unified_db.query("action_core(?w,?ac)"):
+                        actionverb = q1["?w"]
+
+                    for atom, truth in sorted(unified_db.evidence.iteritems()):
+                        if 'action_core' in atom: continue
+                        r_db_ << (atom, truth)
+                    r_db_ << ("action_core({},{})".format(actionverb, actioncore))
+                    inf_step.output_dbs.append(r_db_)
                 else:
                     self.isLastActionCoreAPlan = True
-                    unified_db = db.union(result_db)
+                    inf_step.output_dbs.append(unified_db)
 
-                inf_step.output_dbs.append(unified_db)
 
         log.info("Generating png")
         if kb is not None:

@@ -209,7 +209,7 @@ class PRACQueryGUI(object):
         self.keep_evidence = IntVar()
         self.cb_keep_evidence = Checkbutton(options_container, text="keep result", variable=self.keep_evidence)
         self.cb_keep_evidence.grid(row=0, column=2, sticky=W)
-        self.keep_evidence.set(self.gconf.get("keep_evidence", False))
+        self.keep_evidence.set(True)
 
         # start and continue buttons
         row += 1
@@ -274,8 +274,7 @@ class PRACQueryGUI(object):
         dirpath = os.path.abspath(dirpath)
         self.selected_mln.setDirectory(os.path.join(dirpath, 'mln'))
         self.selected_emln.setDirectory(os.path.join(dirpath, 'emln'))
-        if not self.keep_evidence.get():
-            self.selected_db.setDirectory(os.path.join(dirpath, 'db'))
+        self.selected_db.setDirectory(os.path.join(dirpath, 'db'), keep=self.keep_evidence.get())
         self.module_dir = dirpath
 
 
@@ -355,7 +354,7 @@ class PRACQueryGUI(object):
 
         kb = PRACKnowledgeBase(self.prac, config)
         kb.set_querymln(mln_str=mlncontent, path=os.path.join(self.prac.moduleManifestByName[self.selected_module.get()].module_path, 'mln'))
-        kb.dbs = parse_db(kb.query_mln,dbcontent,ignore_unknown_preds=True)
+        kb.dbs = parse_db(self.prac.mln, dbcontent, ignore_unknown_preds=True)
 
         return kb
 
@@ -392,14 +391,14 @@ class PRACQueryGUI(object):
         
         
     def setDatabases(self, *dbs):
-        strBuf = StringIO.StringIO()
+        strbuf = StringIO.StringIO()
         for i, db in enumerate(dbs):
-            db.write(strBuf, bars=False, color=False)
+            db.write(strbuf, bars=False, color=False)
             if i < len(dbs) - 1:
-                strBuf.write('---\n')
-        strBuf.seek(0)
-        self.selected_db.setText(strBuf.getvalue().encode('utf-8'))
-        strBuf.close()
+                strbuf.write('---\n')
+        strbuf.seek(0)
+        self.selected_db.setText(strbuf.getvalue().encode('utf-8'))
+        strbuf.close()
 
 
     def open(self):
