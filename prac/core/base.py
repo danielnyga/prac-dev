@@ -328,7 +328,7 @@ class PRACKnowledgeBase(object):
             mln = MLN(logic=self.config['logic'], grammar='PRACGrammar', mlnfile=mlnfilepath)
         elif (mln_str and os.path.exists(path)):
             log.info('Setting query mln from string')
-            mln = parse_mln(mln_str, searchPath=path, logic=self.config['logic'], grammar='PRACGrammar')
+            mln = parse_mln(mln_str, searchpaths=[path], logic=self.config['logic'], grammar='PRACGrammar')
         else:
             log.error('Cannot set query_mln from file {} in folder {}. Creating new one...'.format(mln_filename, path))
             mln = MLN(logic=self.config['logic'], grammar='PRACGrammar')

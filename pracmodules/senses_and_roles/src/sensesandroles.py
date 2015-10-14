@@ -107,11 +107,26 @@ class SensesAndRoles(PRACModule):
                 # we need senses and similarities as well as original evidence
                 tmp_union_db = db.union(db_copy)
 
-                result_db = list(kb.infer(tmp_union_db))[0]
+                # ignore roles of false ac's
+                new_tmp_union_db = tmp_union_db.copy(mln=self.prac.mln)
+                roles = ActioncoreDescriptionHandler.getRolesBasedOnActioncore(actioncore)
+                for q in tmp_union_db.query('action_core(?w, ?ac)', thr=0):
+                    ac = q['?ac']
+                    w = q['?w']
+                    if ac == actioncore:
+                        for r1 in roles:
+                            # words with sense null can be discarded as they can not have a role
+                            for q2 in tmp_union_db.query('has_sense(?w, null)', thr=1):
+                                new_tmp_union_db << ('{}({},{})'.format(r1, q2['?w'], ac), 0)
+                        continue
+                    for r in roles:
+                        new_tmp_union_db << ('{}({},{})'.format(r, w, ac), 0)
+
+                result_db = list(kb.infer(new_tmp_union_db))[0]
 
                 # get query roles for given actioncore and add inference results
                 # for them to final output db. ignore 0-truth results.
-                unified_db = tmp_union_db.copy(self.prac.mln)
+                unified_db = new_tmp_union_db.copy(self.prac.mln)
 
                 # argdoms = kb.query_mln.predicate(role).argdoms
                 roles = ActioncoreDescriptionHandler.getRolesBasedOnActioncore(actioncore)
