@@ -33,11 +33,20 @@ python_apps = [
     {"name": "senses", "script": "$PRAC_HOME/prac/senses.py"},
     {"name": "pracobjrec", "script": "$PRAC_HOME/prac/pracobjrec.py"},
     {"name": "pracxfold", "script": "$PRAC_HOME/prac/pracxfold.py"},
-    {"name": "pracweb", "script": "$PRAC_HOME/pracweb/run.py"},
 ]
 
 def adapt(name, arch):
     return name.replace("<ARCH>", arch).replace("$PRAC_HOME", os.path.abspath(".")).replace("/", os.path.sep)
+
+
+def build_pracweb():
+    # build qooxdoo
+    generate = adapt("$PRAC_HOME/pracweb/gui/generate.py", arch)
+    os.system(generate + ' source-all')
+    os.system(generate + ' build')
+
+    python_apps.append({"name": "pracweb", "script": "$PRAC_HOME/pracweb/run.py"})
+
 
 if __name__ == '__main__':
 
@@ -96,10 +105,9 @@ if __name__ == '__main__':
         f.close()
         if not isWindows: os.chmod(filename, stat.S_IRUSR | stat.S_IWUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH)
 
-    # build qooxdoo
-    generate = adapt("$PRAC_HOME/pracweb/gui/generate.py", arch)
-    os.system(generate + ' source-all')
-    os.system(generate + ' build')
+
+    if '--pracweb' in args:
+        build_pracweb()
 
     print
 
