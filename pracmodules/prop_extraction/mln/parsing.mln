@@ -1,4 +1,4 @@
-#include predicates.mln
+#include "predicates.mln"
 
 0 nsubj(?w1, ?w2) ^ has_pos(?w1, JJ) ^ has_sense(?w1, ?s1) ^ property(?w1, +?prop) ^ ?w1 =/= ?w2
 

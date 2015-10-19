@@ -22,7 +22,7 @@
  * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ******************************************************************************/
-#include predicates.mln
+#include "predicates.mln"
 
 2 is_a(?s1,add.v.01) ^ is_a(?s2,milk.n.01) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^  action_core(?w1, FluidFlowTranslation) ^ ?w1=/=?w2
 -5 is_a(?s1,add.v.04) ^ is_a(?s2,milk.n.01) ^ dobj(?w1, ?w2) ^ has_sense(?w1, ?s1) ^ has_sense(?w2, ?s2) ^  action_core(?w1, FluidFlowTranslation) ^ ?w1=/=?w2

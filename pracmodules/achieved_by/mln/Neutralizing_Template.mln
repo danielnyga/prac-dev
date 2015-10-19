@@ -22,8 +22,8 @@
  * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ******************************************************************************/
-#include  ../../senses_and_roles/mln/Roles.mln
-#include ../../wn_senses/mln/predicates.mln
+#include  "../../senses_and_roles/mln/Roles.mln"
+#include "../../wn_senses/mln/predicates.mln"
 
 action_core(word,actioncore?)
 achieved_by(actioncore,actioncore?)

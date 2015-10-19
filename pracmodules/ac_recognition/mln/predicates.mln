@@ -24,7 +24,7 @@
  ******************************************************************************/
  
 //#include ../../nl_parsing/mln/nl_parsing.mln
-#include ../../wn_senses/mln/predicates.mln
+#include "../../wn_senses/mln/predicates.mln"
 
 
 action_core(word, actioncore?)

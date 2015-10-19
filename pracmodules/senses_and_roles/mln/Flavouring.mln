@@ -2,7 +2,7 @@
 
 
 // predicate declarations
-#include Roles.mln
+#include "Roles.mln"
 
 has_pos(word,pos!)
 prep_with(word,word)

@@ -3,7 +3,7 @@
 
 // predicate declarations
 
-#include  ../../senses_and_roles/mln/Roles.mln
+#include  "../../senses_and_roles/mln/Roles.mln"
 
 has_pos(word,pos!)
 has_sense(word,sense!)

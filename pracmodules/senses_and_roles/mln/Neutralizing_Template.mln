@@ -23,8 +23,8 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ******************************************************************************/
 
-#include Roles.mln
-#include ../../wn_senses/mln/predicates.mln
+#include "Roles.mln"
+#include "../../wn_senses/mln/predicates.mln"
 
 has_pos(word,pos!)
 dobj(word,word)

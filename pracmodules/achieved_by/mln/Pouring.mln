@@ -9,7 +9,7 @@ dobj(word,word)
 is_a(sense,concept)
 achieved_by(actioncore,actioncore?)
 action_core(word,actioncore?)
-#include  ../../senses_and_roles/mln/Roles.mln
+#include  "../../senses_and_roles/mln/Roles.mln"
 
 // formulas
 
