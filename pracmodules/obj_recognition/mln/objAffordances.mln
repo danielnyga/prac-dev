@@ -1,4 +1,0 @@
-#include predicates.mln
-
-// object-affordance relation
-0 object(?c, +?objID) ^ affordances(?c, +?ability)

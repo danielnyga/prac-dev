@@ -26,4 +26,4 @@ description: "Object recognition based on properties retrieved from natural lang
 dependencies: []
 class_name: "obj.NLObjectRecognition" 
 declarations: ['predicates.mln']
-
+project: 'ObjectRecognition.pracmln'

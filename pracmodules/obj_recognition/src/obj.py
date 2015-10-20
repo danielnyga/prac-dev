@@ -20,16 +20,19 @@
 # CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+import os
+import sys
+from prac.core.base import PRACModule, PRACPIPE
+from prac.core.inference import PRACInferenceStep
+from pracmln import MLNQuery, MLN, Database
 
-from prac.core import PRACModule, PRACKnowledgeBase, PRACPIPE
-from mln import readMLNFromFile, readDBFromFile, Database
-import logging
-from mln.methods import LearningMethods
-from prac.wordnet import WordNet
-from prac.inference import PRACInferenceStep
-import sys, os
-from utils import colorize
+from pracmln.mln.base import parse_mln
+from pracmln.mln.methods import LearningMethods
+from pracmln.mln.util import colorize
+from pracmln.praclog import logger
+from pracmln.utils.project import MLNProject
 
+log = logger(__name__)
 possibleProps = ['color', 'size', 'shape', 'hypernym', 'hasa']#, 'dimension', 'consistency', 'material']
 
 class NLObjectRecognition(PRACModule):    
@@ -40,7 +43,6 @@ class NLObjectRecognition(PRACModule):
     
     @PRACPIPE
     def __call__(self, pracinference, **params):
-        log = logging.getLogger(self.name)
         log.info('Running {}'.format(self.name))
         
         print colorize('+=============================================+', (None, 'green', True), True)
@@ -49,34 +51,35 @@ class NLObjectRecognition(PRACModule):
         print
         print colorize('Inferring most probable object based on nl description properties...', (None, 'white', True), True)
         
-        if params.get('kb', None) is None: # load the default arguments
-            log.info('Using default knowledge base')
-            kb = self.load_prac_kb('default')
-            kb.dbs = pracinference.inference_steps[-1].output_dbs
-            mln = kb.query_mln
-        else: # load arguments from given knowlegebase
-            log.info('Using knowledge base from params')
-            kb = params['kb']
-            mln = kb.query_mln
-        if not hasattr(kb, 'dbs'): # update dbs in knowledge base
-            kb.dbs = pracinference.inference_steps[-1].output_dbs
-        if params.get('mln', None) is not None: # use mln from params
-            mln = params.get('mln')
-            kb.query_mln = mln
+        if params.get('project', None) is None:
+            # load default project
+            projectpath = self.project_path
+            project = MLNProject.open(projectpath)
+        else:
+            log.info(colorize('Loading Project from params', (None, 'cyan', True), True))
+            projectpath = os.path.join(params.get('projectpath', None) or self.module_path, params.get('project').name)
+            project = params.get('project')
 
         inf_step = PRACInferenceStep(pracinference, self)
+        dbs = pracinference.inference_steps[-1].output_dbs
+
+        mlntext = project.mlns.get(project.queryconf['mln'], None)
+        mln = parse_mln(mlntext, searchpaths=[self.module_path], projectpath=projectpath, logic=project.queryconf.get('logic', 'FuzzyLogic'), grammar=project.queryconf.get('grammar', 'PRACGrammar'))
         wordnet_module = self.prac.getModuleByName('wn_senses')
 
         # adding evidence properties to new query db
-        for db in kb.dbs:
+        for db in dbs:
             # find properties and add word similarities
             propsFound = self.processDB(db)
-            output_db = wordnet_module.add_similarities(db, kb.query_mln.domains, propsFound)
+            output_db = wordnet_module.add_similarities(db, mln.domains, propsFound)
             output_db.write(sys.stdout, color=True)
-            
+            unified_db = output_db.union(db)
+
             # infer and update output dbs
-            inferred_db = list(kb.infer(output_db))
-            inf_step.output_dbs.extend(inferred_db)
+            infer = MLNQuery(config=project.queryconf, db=unified_db, mln=mln).run()
+            result_db = infer.resultdb
+
+            inf_step.output_dbs.append(result_db)
 
         return inf_step
 
@@ -85,20 +88,20 @@ class NLObjectRecognition(PRACModule):
         print colorize('| TRAINING KNOWLEDGEBASE...                   |', (None, 'green', True), True)
         print colorize('+=============================================+', (None, 'green', True), True)
 
-        log = logging.getLogger(self.name)
 
         mlnName =  praclearning.otherParams.get('mln', None)
         mlnLogic =  praclearning.otherParams.get('logic', None)
         objName = praclearning.otherParams.get('concept', None)
         onTheFly = praclearning.otherParams.get('onthefly', False)
 
-        mln = readMLNFromFile(mlnName, logic=mlnLogic)
+        mln = MLN(mlnfile=os.path.abspath(mlnName), logic=mlnLogic, grammar='PRACGrammar')
+
         pracTrainingDBS = praclearning.training_dbs
         trainingDBS = []
 
         if len(pracTrainingDBS) >= 1 and type(pracTrainingDBS[0]) is str: # db from file
             log.info('Learning from db files...')
-            inputdbs = readDBFromFile(mln, pracTrainingDBS, ignoreUnknownPredicates=True)
+            inputdbs = Database.load(mln, dbfile=pracTrainingDBS, ignore_unknown_preds=True)
             trainingDBS += inputdbs
         elif len(pracTrainingDBS) > 1:
             log.info('Learning from db files (xfold)...')
@@ -107,7 +110,7 @@ class NLObjectRecognition(PRACModule):
             log.info('Learning from inference result...')
             inputdbs = pracTrainingDBS
             for db in inputdbs:
-                db.addGroundAtom('object(cluster, {})'.format(objName))
+                db << 'object(cluster, {})'.format(objName)
                 trainingDBS.append(db)
 
         outputfile = '{}_trained.mln'.format(mlnName.split('.')[0])
