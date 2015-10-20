@@ -285,6 +285,7 @@ class PRACModuleManifest(object):
     MAIN_CLASS = 'class_name'
 #     TRAINABLE = 'trainable'
     PRED_DECLS = 'declarations'
+    DEFAULT_PROJECT = 'project'
     
     @staticmethod
     def read(stream, prac):
@@ -302,81 +303,10 @@ class PRACModuleManifest(object):
         manifest.depends_on = yamlData.get(PRACModuleManifest.DEPENDENCIES, [])
     #         manifest.is_trainable = yamlData.get(PRACModuleManifest.TRAINABLE, False)
         manifest.pred_decls = yamlData.get(PRACModuleManifest.PRED_DECLS, [])
+        manifest.project_path = os.path.join(prac_module_path, manifest.name, yamlData.get(PRACModuleManifest.DEFAULT_PROJECT, ''))
         return manifest
 
 
-class PRACKnowledgeBase(object):
-    '''
-    Base class for PRAC knowledge base.
-    '''
-    
-    def __init__(self, prac, config=None):
-        self.prac = prac
-        self.config = config
-        self.learn_mln = prac.mln.copy()
-        self.learn_params = {}
-        self.query_mln = prac.mln.copy()
-        self.dbs = []
-        self.path = PRAC_HOME
-        self.filename = None
-        
-        
-    def set_querymln(self, mln_str=None, mln_filename=None, path='.'):
-        if os.path.exists(path) and mln_filename and os.path.isfile(os.path.join(path, mln_filename)):
-            mlnfilepath = os.path.join(path, mln_filename)
-            log.info('Setting query mln from file: {}'.format(mlnfilepath))
-            mln = MLN(logic=self.config['logic'], grammar='PRACGrammar', mlnfile=mlnfilepath)
-        elif (mln_str and os.path.exists(path)):
-            log.info('Setting query mln from string')
-            mln = parse_mln(mln_str, searchpaths=[path], logic=self.config['logic'], grammar='PRACGrammar')
-        else:
-            log.error('Cannot set query_mln from file {} in folder {}. Creating new one...'.format(mln_filename, path))
-            mln = MLN(logic=self.config['logic'], grammar='PRACGrammar')
-        self.query_mln = mln
-
-        
-    def infer(self, *dbs):
-        '''
-        Runs MLN inference on the given database using this KB.
-        Yields all resulting databases.
-        '''
-        self.dbs = dbs
-        for db in dbs:
-            yield MLNQuery(config=self.config, db=db, mln=self.query_mln).run().resultdb
-
-    
-    def __getstate__(self): # do not store
-        odict = self.__dict__.copy()
-        del odict['dbs']
-        del odict['path']
-        del odict['prac']
-        del odict['query_mln']
-        del odict['learn_mln']
-        return odict
-      
-      
-    def __setstate__(self, d):
-        self.__dict__.update(d)
-
-
-    def get_cond_prob_png(self, filename='cond_prob', filedir='/tmp'):
-        declarations = r'''
-        \DeclareMathOperator*{\argmin}{\arg\!\min}
-        \DeclareMathOperator*{\argmax}{\arg\!\max}
-        \newcommand{\Pcond}[1]{\ensuremath{P\left(\begin{array}{c|c}#1\end{array}\right)}} 
-        '''
-
-        queriesList = [s.strip() for s in self.config.config['queries'].split(',')]
-        evidenceList = []
-        for db in self.dbs:
-            evidenceList.extend([e for e in db.evidence.keys() if db.evidence[e] == 1.0])
-        query    = r'''\\'''.join([r'''\text{{ {0} }} '''.format(q.replace('_', '\_')) for q in queriesList])
-        evidence = r'''\\'''.join([r'''\text{{ {0} }} '''.format(e.replace('_', '\_')) for e in evidenceList])
-        eq       = r'''\argmax \Pcond{{ \begin{{array}}{{c}}{0}\end{{array}} & \begin{{array}}{{c}}{1}\end{{array}} }}'''.format(query, evidence)                               
-
-        return math2png(eq, filedir, declarations=[declarations], filename=filename, size=10)             
-
-        
 class PRACModule(object):
     '''
     Base class for all PRAC reasoning modules. Provides 
@@ -418,6 +348,7 @@ class PRACModule(object):
         module.manifest = manifest
         module.module_path = manifest.module_path
         module.name = manifest.name
+        module.project_path = manifest.project_path
         return module
     
     
@@ -429,36 +360,6 @@ class PRACModule(object):
         fullDomain = mergedom(*[db.domains for db in all_dbs])
         return fullDomain
         
-            
-    def create_pracmt(self):
-        '''
-        Creates a new PRACKnowledgeBase instance initialized by PRAC.
-        '''
-        kb = PRACKnowledgeBase(self.prac)
-    
-    
-    def load_prac_kb(self, kb_name):
-        '''
-        Loads a dumped PRACMLNConfig object with given name or creates new
-        one if it doesn't exist yet.
-        '''
-
-        config = PRACMLNConfig(os.path.join(self.module_path, 'bin', query_config_pattern % kb_name))
-        kb = PRACKnowledgeBase(self.prac, config=config)
-        kb.filename = kb_name
-        kb.set_querymln(mln_filename=config.get('mln'), path=os.path.join(self.module_path, 'mln'))
-        return kb
-
-    def save_prac_kb(self, prac_kb, name=None):
-        '''
-        Dumps the state of the given PRACMLNConfig object in its binary folder.
-        - prac_kb:    instance of a PRACKnowledgeBase
-        '''
-        if name is None and not hasattr(prac_kb, 'name'):
-            raise Exception('No module name specified.')
-
-        config = PRACMLNConfig(os.path.join(self.module_path, 'bin', query_config_pattern % prac_kb.name))
-        config.dump()
 
     @PRACPIPE
     def infer(self, pracinference):
