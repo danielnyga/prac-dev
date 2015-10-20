@@ -51,8 +51,9 @@ from pracmln.utils import config
 logger = praclog.logger(__name__)
 
 DEFAULTNAME = 'unknown{}'
+PRACMLN_HOME = os.getenv('PRACMLN_HOME', os.getcwd())
 PRAC_HOME = os.getenv('PRAC_HOME', os.getcwd())
-DEFAULT_CONFIG = os.path.join(PRAC_HOME, global_config_filename)
+DEFAULT_CONFIG = os.path.join(PRACMLN_HOME, global_config_filename)
 WINDOWTITLE = 'PRAC Query Tool - {}' + os.path.sep + '{}'
 WINDOWTITLEEDITED = 'PRAC Query Tool - {}' + os.path.sep + '*{}'
 
@@ -83,7 +84,7 @@ class PRACQueryGUI(object):
         # module selection
         row = 0        
         Label(self.frame, text="Module: ").grid(row=row, column=0, sticky="E")
-        modules = [module for module in self.prac.moduleManifestByName]
+        modules = sorted([module for module in self.prac.moduleManifestByName])
         self.selected_module = StringVar(master)
         self.selected_module.trace("w", self.select_module)
         self.list_modules = apply(OptionMenu, (self.frame, self.selected_module) + tuple(modules))
@@ -959,7 +960,7 @@ class PRACQueryGUI(object):
 
             module = self.prac.getModuleByName(self.selected_module.get())
 
-            self.infStep = module(self.prac_inference, project=self.project, projectpath=os.path.join(self.dir, self.project.name))
+            self.infStep = module(self.prac_inference, project=self.project, projectpath=os.path.join(self.module_dir, self.project.name))
 
         except:
             cls, e, tb = sys.exc_info()
