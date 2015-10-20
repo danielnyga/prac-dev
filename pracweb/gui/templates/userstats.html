@@ -191,7 +191,7 @@ function change(svgTitle, svg, data) {
 
     text.enter()
         .append("text")
-        .attr("dy", ".35em")
+        .attr("dy", thickness)
         .text(function(d) {
             return d.data.label;
         });
@@ -323,7 +323,7 @@ svg_subdivs.append("g")
 svg_subdivs.append("g")
     .attr("class", "lines");
 
-svg_subdivs.attr("transform", "translate(" + width/6 + "," + height/3 + ")");
+svg_subdivs.attr("transform", "translate(" + width/5 + "," + height/2 + ")");
 
 
 //----SVG COUNTRY----//
@@ -342,7 +342,7 @@ svg_country.append("g")
 svg_country.append("g")
     .attr("class", "title");
 
-svg_country.attr("transform", "translate(" + width/6 + "," + height/3 + ")");
+svg_country.attr("transform", "translate(" + width/5 + "," + height/2 + ")");
 
 </script>
 {% endblock %}

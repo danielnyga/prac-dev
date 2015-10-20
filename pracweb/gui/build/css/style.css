@@ -77,6 +77,12 @@ circle {
   stroke-width: 1.5px;
 }*/
 
+text {
+  color: blue;
+  font-weight: bold;
+  font-size:x-small;
+}
+
 /*text {
   font: 15px helvetica, arial, sans-serif;
   pointer-events: none;
