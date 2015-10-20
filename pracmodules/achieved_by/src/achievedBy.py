@@ -21,12 +21,17 @@
 # CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+import os
 from prac.core.base import PRACModule, PRACPIPE, DB_TRANSFORM
 from prac.core.inference import PRACInferenceStep
 from prac.core.wordnet import WordNet
-from pracmln import Database
+from pracmln import Database, MLNQuery
+from pracmln.mln.base import parse_mln
 from pracmln.mln.util import colorize, out
 from pracmln.praclog import logger
+from pracmln.utils.project import MLNProject
+from webmln.gui.pages.utils import get_cond_prob_png
+
 
 log = logger(__name__)
 
@@ -66,17 +71,10 @@ class AchievedBy(PRACModule):
         print colorize('+==========================================+', (None, 'green', True), True)
         print colorize('| PRAC INFERENCE: RECOGNIZING ACHIEVED BY  ' , (None, 'green', True), True)
         print colorize('+==========================================+', (None, 'green', True), True)
-        
-        kb = params.get('kb', None)
-        if kb is None:
-            # load the default arguments
-            dbs = pracinference.inference_steps[-1].output_dbs
-        else:
-            kb = params['kb']
-            dbs = kb.dbs
-        
+
         inf_step = PRACInferenceStep(pracinference, self)
-        
+        dbs = pracinference.inference_steps[-1].output_dbs
+
         for olddb in dbs:
             for q in olddb.query('action_core(?w,?ac)'):
                 actioncore = q['?ac']
@@ -91,22 +89,31 @@ class AchievedBy(PRACModule):
                     if 'achieved_by' in atom: continue
                     db_ << (atom,truth)
 
-                if kb is None:
-                    log.info('Loading Markov Logic Network: %s' % colorize(actioncore, (None, 'cyan', True), True))
-                    kb = self.load_prac_kb(actioncore)
-                    
-                concepts = kb.query_mln.domains.get('concept', [])
+                if params.get('project', None) is None:
+                    log.info('Loading Project: %s.pracmln' % colorize(actioncore, (None, 'cyan', True), True))
+                    projectpath = os.path.join(self.module_path, '{}.pracmln'.format(actioncore))
+                    project = MLNProject.open(projectpath)
+                else:
+                    log.info(colorize('Loading Project from params', (None, 'cyan', True), True))
+                    projectpath = os.path.join(params.get('projectpath', None) or self.module_path, params.get('project').name)
+                    project = params.get('project')
+
+
+                mlntext = project.mlns.get(project.queryconf['mln'], None)
+                mln = parse_mln(mlntext, searchpaths=[self.module_path], projectpath=projectpath, logic=project.queryconf.get('logic', 'FirstOrderLogic'), grammar=project.queryconf.get('grammar', 'PRACGrammar'))
+                known_concepts = mln.domains.get('concept', [])
                 wordnet_module = self.prac.getModuleByName('wn_senses')
-                db = wordnet_module.get_senses_and_similarities(db_, concepts)
+
+                db = wordnet_module.get_senses_and_similarities(db_, known_concepts)
 
                 unified_db = db.union(db_)
 
                 #Inference achieved_by predicate        
-                db_ = self.extendDBWithAchievedByEvidence(unified_db,kb.query_mln)
+                db_ = self.extendDBWithAchievedByEvidence(unified_db, mln)
 
-                out('db for achievedby')
-                db_.write(bars=False)
-                result_db = list(kb.infer(db_))[0]
+                # result_db = list(kb.infer(db_))[0]
+                infer = MLNQuery(config=project.queryconf, db=db_, mln=mln).run()
+                result_db = infer.resultdb
 
                 # unified_db = result_db.union(kb.query_mln, db_)
                 # only add inferred achieved_by atoms, leave out 0-evidence atoms
@@ -115,9 +122,8 @@ class AchievedBy(PRACModule):
 
                 inf_step.output_dbs.append(unified_db)
 
-        if kb is not None:
-            png, ratio = kb.get_cond_prob_png(filename=self.name)
-            inf_step.png = (png, ratio)
-            inf_step.applied_kb = kb.filename 
+        png, ratio = get_cond_prob_png(project.queryconf.get('queries', ''), dbs, filename=self.name)
+        inf_step.png = (png, ratio)
+        inf_step.applied_settings = project.queryconf.config
         return inf_step
     

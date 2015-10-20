@@ -20,17 +20,21 @@
 # CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+import os
 import sys
 
-from prac.core.base import PRACModule, PRACKnowledgeBase, PRACPIPE
+from prac.core.base import PRACModule, PRACPIPE
+from pracmln.mln.base import parse_mln
 from pracmln.mln.methods import LearningMethods
 from prac.core.wordnet import WordNet
 from prac.core.inference import PRACInferenceStep
 
 # mapping from PennTreebank POS tags to NLTK POS Tags
-from pracmln import Database
-from pracmln.mln.util import colorize
+from pracmln import Database, MLN, MLNQuery
+from pracmln.mln.util import colorize, out, stop
 from pracmln.praclog import logger
+from pracmln.utils.project import MLNProject
+from webmln.gui.pages.utils import get_cond_prob_png
 
 
 class ActionCoreIdentification(PRACModule):
@@ -49,24 +53,31 @@ class ActionCoreIdentification(PRACModule):
         print colorize('+==========================================+', (None, 'green', True), True)
         print
         print colorize('Inferring most probable ACTION CORE', (None, 'white', True), True)
-        if params.get('kb', None) is None:
-            # load the default arguments
-            dbs = pracinference.inference_steps[-1].output_dbs
-            kb = self.load_prac_kb('chemical_ac')
-            kb.dbs = dbs
+
+        if params.get('project', None) is None:
+            # load default project
+            projectpath = self.project_path
+            ac_project = MLNProject.open(projectpath)
         else:
-            kb = params['kb']
-        if not hasattr(kb, 'dbs'):
-            kb.dbs = pracinference.inference_steps[-1].output_dbs
-        mln = kb.query_mln
+            log.info(colorize('Loading Project from params', (None, 'cyan', True), True))
+            projectpath = os.path.join(params.get('projectpath', None) or self.module_path, params.get('project').name)
+            ac_project = params.get('project')
+
+        dbs = pracinference.inference_steps[-1].output_dbs
+
+        mlntext = ac_project.mlns.get(ac_project.queryconf['mln'], None)
+        mln = parse_mln(mlntext, searchpaths=[self.module_path], projectpath=projectpath, logic=ac_project.queryconf.get('logic', 'FirstOrderLogic'), grammar=ac_project.queryconf.get('grammar', 'PRACGrammar'))
         known_concepts = mln.domains.get('concept', [])
         inf_step = PRACInferenceStep(pracinference, self)
         wordnet_module = self.prac.getModuleByName('wn_senses')
-        for db_ in kb.dbs:
+
+        for db_ in dbs:
             db = wordnet_module.get_senses_and_similarities(db_, known_concepts)
             tmp_union_db = db.union(db_)
 
-            result_db = list(kb.infer(tmp_union_db))[0]
+            # result_db = list(kb.infer(tmp_union_db))[0]
+            infer = MLNQuery(config=ac_project.queryconf, db=tmp_union_db, mln=mln).run()
+            result_db = infer.resultdb
 
             unified_db = result_db.union(db) # alternative to query below
             # only add inferred action_core atoms, leave out 0-evidence atoms
@@ -77,9 +88,9 @@ class ActionCoreIdentification(PRACModule):
 
             inf_step.output_dbs.append(unified_db)
 
-        png, ratio = kb.get_cond_prob_png(filename=self.name)
+        png, ratio = get_cond_prob_png(ac_project.queryconf.get('queries', ''), dbs, filename=self.name)
         inf_step.png = (png, ratio)
-        inf_step.applied_kb = kb.filename
+        inf_step.applied_settings = ac_project.queryconf.config
         return inf_step
     
     
@@ -119,22 +130,22 @@ class ActionCoreIdentification(PRACModule):
             training_dbs.append(new_db)
 
         log.info('Starting training with %d databases'.format(len(training_dbs)))
-        actioncore_KB = ActionCoreKB(self, 'action_cores')
-        actioncore_KB.wordnet = wordnet
-        actioncore_KB.train(training_dbs)
-        self.save_pracmt(actioncore_KB)
+        # actioncore_KB = ActionCoreKB(self, 'action_cores')
+        # actioncore_KB.wordnet = wordnet
+        # actioncore_KB.train(training_dbs)
+        # self.save_pracmt(actioncore_KB)
         
-        
-class ActionCoreKB(PRACKnowledgeBase):
-    '''
-    Represents the probabilistic KB for learning and inferring
-    the correct action core.
-    '''
-    
-    def train(self, training_dbs):
-        mln = self.module.mln
-        self.training_dbs = training_dbs
-        self.trained_mln = mln.learnWeights(training_dbs, LearningMethods.BPLL_CG, verbose=True, optimizer='bfgs')
+#
+# class ActionCoreKB(PRACKnowledgeBase):
+#     '''
+#     Represents the probabilistic KB for learning and inferring
+#     the correct action core.
+#     '''
+#
+#     def train(self, training_dbs):
+#         mln = self.module.mln
+#         self.training_dbs = training_dbs
+#         self.trained_mln = mln.learnWeights(training_dbs, LearningMethods.BPLL_CG, verbose=True, optimizer='bfgs')
         
         
         

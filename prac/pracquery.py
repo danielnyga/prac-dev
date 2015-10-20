@@ -21,50 +21,60 @@
 
 from Tkinter import _setit, Tk, Frame, Label, StringVar, OptionMenu, Entry,\
     IntVar, Checkbutton, Button
+from Tkinter import *
 import sys
 import os
 import re
+import ntpath
+from tkFileDialog import askopenfilename, asksaveasfilename
+import tkMessageBox
 import traceback
 import StringIO
 from Tkconstants import BOTH, W, LEFT, NE, E
 
-from prac.core import PRACKnowledgeBase
 from prac.core.base import PRAC
 from prac.core.inference import PRACInference
 from prac.core.wordnet import WordNet
 from prac.pracutils.RolequeryHandler import RolequeryHandler
+from pracmln import praclog
+from pracmln.mln import mlnpath
+from pracmln.mln.base import parse_mln
 from pracmln.mln.database import parse_db
 from pracmln.mln.methods import InferenceMethods
-from pracmln.mln.util import ifNone, colorize, out
-from pracmln.praclog import logger
-from pracmln.utils.config import query_config_pattern, PRACMLNConfig
-from pracmln.utils.widgets import FilePickEdit
+from pracmln.mln.util import ifNone, colorize, out, headline
+from pracmln.utils.config import query_config_pattern, PRACMLNConfig, \
+    global_config_filename
+from pracmln.utils.project import MLNProject
+from pracmln.utils.widgets import FilePickEdit, SyntaxHighlightingText
 from pracmln.utils import config
 
-log = logger(__name__)
+logger = praclog.logger(__name__)
 
+DEFAULTNAME = 'unknown{}'
+PRAC_HOME = os.getenv('PRAC_HOME', os.getcwd())
+DEFAULT_CONFIG = os.path.join(PRAC_HOME, global_config_filename)
+WINDOWTITLE = 'PRAC Query Tool - {}' + os.path.sep + '{}'
+WINDOWTITLEEDITED = 'PRAC Query Tool - {}' + os.path.sep + '*{}'
 
 def nop(*args, **kwargs): pass
 
 
 class PRACQueryGUI(object):
 
-    def __init__(self, master, pracinference, conf, directory='.'):
+    def __init__(self, master, pracinference, gconf, directory='.'):
+        self.master = master
+
+        self.initialized = False
+
+        self.master.bind('<Return>', self.start)
+        self.master.bind('<Escape>', lambda a: self.master.quit())
+        self.master.protocol('WM_DELETE_WINDOW', self.quit)
+
         self.prac = pracinference.prac
-        prac = self.prac
         self.prac_inference = pracinference
         self.infStep = None
 
-        self.initialized = False
-        self.directory = directory # TODO remove
         self.module_dir = os.path.join(os.environ['PRAC_HOME'], 'pracmodules', 'wnsenses')
-        self.master = master
-        self.master.bind('<Return>', self.start)
-        self.master.bind('<Escape>', lambda a: self.master.quit())
-        self.master.title("PRAC Query Tool")
-
-        self.config = None
-        self.gconf = conf # TODO remove
 
         self.frame = Frame(master)
         self.frame.pack(fill=BOTH, expand=1)
@@ -73,80 +83,180 @@ class PRACQueryGUI(object):
         # module selection
         row = 0        
         Label(self.frame, text="Module: ").grid(row=row, column=0, sticky="E")
-        modules = [module for module in prac.moduleManifestByName]
+        modules = [module for module in self.prac.moduleManifestByName]
         self.selected_module = StringVar(master)
-        self.selected_module.trace("w", self.onChangeModule)
-        l = OptionMenu(self.frame, self.selected_module, *tuple(modules))
-        l.grid(row=row, column=1, sticky="NWE")
+        self.selected_module.trace("w", self.select_module)
+        self.list_modules = apply(OptionMenu, (self.frame, self.selected_module) + tuple(modules))
+        self.list_modules.grid(row=row, column=1, sticky="NWE")
         
-        # Knowledge Base selection
+        # Project selection
         row += 1
-        Label(self.frame, text="Knowledge Base: ").grid(row=row, column=0, sticky="E")
-        self.selected_kb = StringVar(master)
-        self.selected_kb.trace("w", self.onChangeKB)
-        self.drop_down_kb_selection = OptionMenu(self.frame, variable=self.selected_kb, value=None)
-        self.drop_down_kb_selection.grid(row=row, column=1, sticky="NEWS")
-        
-        # Save KB
-        row += 1
-        Label(self.frame, text="Save KB: ").grid(row=row, column=0, sticky="NE")
-        saveKBFrame = Frame(self.frame)
-        saveKBFrame.grid(row=row, column=1, sticky="NEWS")
-        saveKBFrame.columnconfigure(0, weight=1)
-        
-        # KB name
-        self.kb_name = StringVar(master)
-        self.kb_name.set('%s' % self.gconf.get("selected_kb", ""))
-        self.entry_kb_filename = Entry(saveKBFrame, textvariable = self.kb_name)
-        self.entry_kb_filename.grid(row=0, column=0, sticky="NEWS")
-        # save button
-        self.save_button = Button(self.frame, text="save", command=self.onSaveKB, height=1)
-        self.save_button.grid(row=row, column=1, sticky="NES")
+        Label(self.frame, text="Project: ").grid(row=row, column=0, sticky="E")
+        saveProjectFrame = Frame(self.frame)
+        saveProjectFrame.grid(row=row, column=1, sticky="NEWS")
+        saveProjectFrame.columnconfigure(0, weight=1)
+
+
+        self.selected_project = StringVar(master)
+        projectfiles = ['']
+        self.list_projects = apply(OptionMenu, (saveProjectFrame, self.selected_project) + tuple(projectfiles))
+        self.list_projects.grid(row=0, column=0, sticky="NWES")
+        self.selected_project.trace("w", self.select_project)
+
+        # save proj file
+        self.btn_saveproj = Button(saveProjectFrame, text='Save Project...', command=self.noask_save_project)
+        self.btn_saveproj.grid(row=0, column=1, sticky="E")
+
+        # save proj file as...
+        self.btn_saveproj = Button(saveProjectFrame, text='Save Project as...', command=self.ask_save_project)
+        self.btn_saveproj.grid(row=0, column=2, sticky="E")
         
         # logic selection
         row += 1
         Label(self.frame, text='Logic: ').grid(row=row, column=0, sticky='E')
         logics = ['FirstOrderLogic', 'FuzzyLogic']
         self.selected_logic = StringVar(master)
-        logic = self.gconf.get('logic')
-        if not logic in logics: logic = logics[0]
-        self.selected_logic.set(logic)
-        self.selected_logic.trace('w', self.onChangeLogic)
         l = apply(OptionMenu, (self.frame, self.selected_logic) + tuple(logics))
         l.grid(row=row, column=1, sticky='NWE')
         
         # mln selection
         row += 1
-        Label(self.frame, text="MLN: ").grid(row=row, column=0, sticky=NE)
-        self.selected_mln = FilePickEdit(self.frame, config.query_mln_filemask, 
-                                         self.gconf.get("mln", ""), 22, self.changedMLN, 
-                                         rename_on_edit=self.gconf.get("mln_rename", 0), 
-                                         font=config.fixed_width_font, coloring=True,
-                                         directory=os.path.join(self.module_dir,'mln'))
+        Label(self.frame, text="MLN: ").grid(row=row, column=0, sticky='E')
+        mln_container = Frame(self.frame)
+        mln_container.grid(row=row, column=1, sticky="NEWS")
+        mln_container.columnconfigure(1, weight=2)
 
-        self.selected_mln.grid(row=row, column=1, sticky="NWES")
+        self.selected_mln = StringVar(master)
+        mlnfiles = []
+        self.mln_buffer = {}
+        self._dirty_mln_name = ''
+        self._mln_editor_dirty = False
+        self.mln_reload = True
+        if len(mlnfiles) == 0: mlnfiles.append("")
+        self.list_mlns = apply(OptionMenu, (mln_container, self.selected_mln) + tuple(mlnfiles))
+        self.list_mlns.grid(row=0, column=1, sticky="NWE")
+        self.selected_mln.trace("w", self.select_mln)
+
+        # new mln file
+        self.btn_newmln = Button(mln_container, text='New', command=self.new_mln)
+        self.btn_newmln.grid(row=0, column=2, sticky="E")
+
+        # import mln file
+        self.btn_importmln = Button(mln_container, text='Import', command=self.import_mln)
+        self.btn_importmln.grid(row=0, column=3, sticky="E")
+
+        # delete mln file
+        self.btn_delmln = Button(mln_container, text='Delete', command=self.delete_mln)
+        self.btn_delmln.grid(row=0, column=4, sticky="E")
+
+        # mln filename field & save button
+        self.mln_filename = StringVar(master, value='filename.mln')
+        self.save_edit_mln = Entry(mln_container, textvariable=self.mln_filename)
+        self.save_edit_mln.grid(row=0, column=5, sticky="E")
+
+        self.btn_savemln = Button(mln_container, text='Save', command=self.save_mln)
+        self.btn_savemln.grid(row=0, column=6, sticky="E")
+
+        # mln editor
+        row += 1
+        self.mln_editor = SyntaxHighlightingText(self.frame, change_hook=self.onchange_mlncontent)
+        self.mln_editor.grid(row=row, column=1, sticky="NWES")
         self.frame.rowconfigure(row, weight=1)
 
-        # option: use model extension
-        self.use_emln = IntVar()
-        self.cb_use_emln = Checkbutton(self.selected_mln.options_frame, text="use model extension", 
-                                       variable=self.use_emln)
-        self.cb_use_emln.pack(side=LEFT)
-        self.use_emln.set(self.gconf.get("useEMLN", 0))
-        self.use_emln.trace("w", self.onChangeUseEMLN)
-        # mln extension selection
-        self.selected_emln = FilePickEdit(self.selected_mln, "*.emln", None, 12, None, 
-                                          rename_on_edit=self.gconf.get("emln_rename", 0),
-                                          font=config.fixed_width_font, coloring=True)
-        self.onChangeUseEMLN()
-
-        # evidence database selection
         row += 1
-        Label(self.frame, text="Evidence: ").grid(row=row, column=0, sticky=NE)
-        self.selected_db = FilePickEdit(self.frame, config.query_db_filemask, self.gconf.get("db", ""), 
-                                        12, self.changedDB, rename_on_edit=self.gconf.get("db_rename", 0),
-                                        font=config.fixed_width_font, coloring=True, directory=os.path.join(self.module_dir,'db'))
-        self.selected_db.grid(row=row,column=1, sticky="NWES")
+        self.use_emln = IntVar()
+        self.cb_use_emln = Checkbutton(self.frame, text="use model extension", variable=self.use_emln, command=self.onchange_use_emln)
+        self.cb_use_emln.grid(row=row, column=1, sticky="W")
+
+        # mln extension selection
+        row += 1
+        self.emlncontainerrow = row
+        self.emln_label = Label(self.frame, text="EMLN: ")
+        self.emln_label.grid(row=row, column=0, sticky='E')
+        self.emln_container = Frame(self.frame)
+        self.emln_container.grid(row=row, column=1, sticky="NEWS")
+        self.emln_container.columnconfigure(1, weight=2)
+
+        self.selected_emln = StringVar(master)
+        emlnfiles = []
+        self.emln_buffer = {}
+        self._dirty_emln_name = ''
+        self._emln_editor_dirty = False
+        self.emln_reload = True
+        if len(emlnfiles) == 0: emlnfiles.append("")
+        self.list_emlns = apply(OptionMenu, (self.emln_container, self.selected_emln) + tuple(emlnfiles))
+        self.list_emlns.grid(row=0, column=1, sticky="NWE")
+        self.selected_emln.trace("w", self.select_emln)
+
+        # new emln file
+        self.btn_newemln = Button(self.emln_container, text='New', command=self.new_emln)
+        self.btn_newemln.grid(row=0, column=2, sticky="W")
+
+        # import emln file
+        self.btn_importemln = Button(self.emln_container, text='Import', command=self.import_emln)
+        self.btn_importemln.grid(row=0, column=3, sticky="W")
+
+        # delete emln file
+        self.btn_delemln = Button(self.emln_container, text='Delete', command=self.delete_emln)
+        self.btn_delemln.grid(row=0, column=4, sticky="W")
+
+        # emln filename field & save button
+        self.emln_filename = StringVar(master, value='filename.emln')
+        self.save_edit_emln = Entry(self.emln_container, textvariable=self.emln_filename)
+        self.save_edit_emln.grid(row=0, column=5, sticky="WE")
+
+        self.btn_saveemln = Button(self.emln_container, text='Save', command=self.save_emln)
+        self.btn_saveemln.grid(row=0, column=6, sticky="E")
+
+        # emln editor
+        row += 1
+        self.emln_editor = SyntaxHighlightingText(self.frame)
+        self.emln_editor.grid(row=row, column=1, sticky="NWES")
+        self.frame.rowconfigure(row, weight=1)
+        self.onchange_use_emln(dirty=False)
+
+        # db selection
+        row += 1
+        Label(self.frame, text="Evidence: ").grid(row=row, column=0, sticky='E')
+        db_container = Frame(self.frame)
+        db_container.grid(row=row, column=1, sticky="NEWS")
+        db_container.columnconfigure(1, weight=2)
+
+        self.selected_db = StringVar(master)
+        dbfiles = []
+        self.db_buffer = {}
+        self._dirty_db_name = ''
+        self._db_editor_dirty = False
+        self.db_reload = True
+        if len(dbfiles) == 0: dbfiles.append("")
+        self.list_dbs = apply(OptionMenu, (db_container, self.selected_db) + tuple(dbfiles))
+        self.list_dbs.grid(row=0, column=1, sticky="NWE")
+        self.selected_db.trace("w", self.select_db)
+
+        # new db file
+        self.btn_newdb = Button(db_container, text='New', command=self.new_db)
+        self.btn_newdb.grid(row=0, column=2, sticky="W")
+
+        # import db file
+        self.btn_importdb = Button(db_container, text='Import', command=self.import_db)
+        self.btn_importdb.grid(row=0, column=3, sticky="W")
+
+        # delete db file
+        self.btn_deldb = Button(db_container, text='Delete', command=self.delete_db)
+        self.btn_deldb.grid(row=0, column=4, sticky="W")
+
+        # db filename field & save button
+        self.db_filename = StringVar(master, value='filename.db')
+        self.save_edit_db = Entry(db_container, textvariable=self.db_filename)
+        self.save_edit_db.grid(row=0, column=5, sticky="WE")
+
+        self.btn_savedb = Button(db_container, text='Save', command=self.save_db)
+        self.btn_savedb.grid(row=0, column=6, sticky="E")
+
+        # db editor
+        row += 1
+        self.db_editor = SyntaxHighlightingText(self.frame, change_hook=self.onchange_dbcontent)
+        self.db_editor.grid(row=row, column=1, sticky="NWES")
         self.frame.rowconfigure(row, weight=1)
 
         # inference method selection
@@ -161,14 +271,7 @@ class PRACQueryGUI(object):
         row += 1
         Label(self.frame, text="Queries: ").grid(row=row, column=0, sticky=E)
         self.query = StringVar(master)
-        self.query.set(self.gconf.get("query", "foo"))
         Entry(self.frame, textvariable = self.query).grid(row=row, column=1, sticky="NEW")
-
-        # query formula selection
-        #row += 1
-        #Label(self.frame, text="Query formulas: ").grid(row=row, column=0, sticky=NE)
-        self.selected_qf = FilePickEdit(self.frame, "*.qf", self.gconf.get("qf", ""), 6)
-        #self.selected_qf.grid(row=row,column=1)
 
         #  parameters
         row += 1
@@ -180,9 +283,8 @@ class PRACQueryGUI(object):
         # closed-world predicates
         row += 1
         Label(self.frame, text="CW preds: ").grid(row=row, column=0, sticky="NE")
-        self.cwPreds = StringVar(master)
-        self.cwPreds.set(self.gconf.get("cwPreds", ""))
-        self.entry_cw = Entry(self.frame, textvariable = self.cwPreds)
+        self.cwpreds = StringVar(master)
+        self.entry_cw = Entry(self.frame, textvariable = self.cwpreds)
         self.entry_cw.grid(row=row, column=1, sticky="NEW")
 
         # all preds open-world
@@ -191,7 +293,6 @@ class PRACQueryGUI(object):
         self.closed_world = IntVar()
         self.cb_closed_world = Checkbutton(cw_container, text="Apply CW assumption to all except queries", variable=self.closed_world)
         self.cb_closed_world.grid(row=row, column=2, sticky='E')
-        self.closed_world.set(self.gconf.get("closedWorld", True))
 
         # Multiprocessing and verbose
         row += 1
@@ -199,13 +300,13 @@ class PRACQueryGUI(object):
         options_container.grid(row=row, column=1, sticky='NEWS')
 
         self.multicore = IntVar()
-        self.cb_use_multiCPU = Checkbutton(options_container, text="Use all CPUs", variable=self.multicore)
-        self.cb_use_multiCPU.grid(row=0, column=0, sticky=W)
-        self.multicore.set(self.gconf.get("useMultiCPU", False))
+        self.cb_multicore = Checkbutton(options_container, text="Use all CPUs", variable=self.multicore)
+        self.cb_multicore.grid(row=0, column=0, sticky=W)
+
         self.verbose = IntVar()
-        self.cb_use_verbose = Checkbutton(options_container, text="verbose", variable=self.verbose)
-        self.cb_use_verbose.grid(row=0, column=1, sticky=W)
-        self.verbose.set(self.gconf.get("verbose", False))
+        self.cb_verbose = Checkbutton(options_container, text="verbose", variable=self.verbose)
+        self.cb_verbose.grid(row=0, column=1, sticky=W)
+
         self.keep_evidence = IntVar()
         self.cb_keep_evidence = Checkbutton(options_container, text="keep result", variable=self.keep_evidence)
         self.cb_keep_evidence.grid(row=0, column=2, sticky=W)
@@ -219,159 +320,646 @@ class PRACQueryGUI(object):
         start_button = Button(self.btn_container, text="Start Inference", command=self.start)
         start_button.grid(row=0, column=1, sticky='E')
         
-        continue_button = Button(self.btn_container, text="Continue >", command=self.onContinue)
+        continue_button = Button(self.btn_container, text="Continue >", command=self.oncontinue)
         continue_button.grid(row=0, column=2, sticky='W')
 
+        self.settings_dirty = IntVar()
+        self.project_dirty = IntVar()
+
+        self.gconf = gconf
+        self.project = None
+        self.dir = '.'
+        self.set_dir(ifNone(gconf['prev_prac_query_path'], DEFAULT_CONFIG))
+        if gconf['prev_prac_query_project': self.dir] is not None:
+            self.load_project(os.path.join(self.dir, gconf['prev_prac_query_project': self.dir]))
+        else:
+            self.new_project()
+        self.config = self.project.queryconf
+        self.project.addlistener(self.project_setdirty)
+
+        self.selected_module.set(self.gconf.get("module", modules[0]))
+        self.update_dbeditor_from_result(*pracinference.inference_steps[-1].output_dbs)
+
+        self.master.geometry(gconf['window_loc_prac_query'])
+
         self.initialized = True
-        kb = self.gconf.get("module", modules[0])
-        self.selected_module.set(kb)
-        self.setDatabases(*pracinference.inference_steps[-1].output_dbs)
 
 
-    def onSaveKB(self):
-        self.config = PRACMLNConfig(os.path.join(self.module_dir, 'bin', query_config_pattern % self.kb_name.get()))
-        self.config["mln_rename"] = self.selected_mln.rename_on_edit.get()
-        self.config["db"] = self.selected_db.get()
-        self.config['mln'] = self.selected_mln.get()
-        self.config["db_rename"] = self.selected_db.rename_on_edit.get()
-        self.config["method"] = InferenceMethods.id(str(self.selected_method.get()))
-        self.config["params"] = str(self.params.get())
+    def quit(self):
+        if self.settings_dirty.get() or self.project_dirty.get():
+            savechanges = tkMessageBox.askyesnocancel("Save changes", "You have unsaved project changes. Do you want to save them before quitting?")
+            if savechanges is None: return
+            elif savechanges:
+                self.noask_save_project()
+            self.master.destroy()
+        else:
+            # write gui settings and destroy
+            self.write_config()
+            self.master.destroy()
+
+
+    ####################### PROJECT FUNCTIONS #################################
+    def new_project(self):
+        self.project = MLNProject()
+        self.project.addlistener(self.project_setdirty)
+        self.project.name = DEFAULTNAME.format('.pracmln')
+        self.reset_gui()
+        self.set_config(self.project.queryconf)
+        self.update_mln_choices()
+        self.update_db_choices()
+        self.settings_setdirty()
+
+
+    def project_setdirty(self, isdirty, *args):
+        self.project_dirty.set(isdirty)
+        self.changewindowtitle()
+
+
+    def settings_setdirty(self, *args):
+        self.settings_dirty.set(1)
+        self.changewindowtitle()
+
+
+    def changewindowtitle(self):
+        title = (WINDOWTITLEEDITED if (self.settings_dirty.get() or self.project_dirty.get()) else WINDOWTITLE).format(self.dir, self.project.name)
+        self.master.title(title)
+
+
+    def select_project(self, *args):
+        filename = os.path.join(self.prac.moduleManifestByName[self.selected_module.get()].module_path, self.selected_project.get())
+        out('loading project', filename)
+        if filename and os.path.exists(filename):
+            self.load_project(filename)
+        else:
+            logger.info('No file selected.')
+            return
+
+
+    def load_project(self, filename):
+        if filename and os.path.exists(filename):
+            projdir, _ = ntpath.split(filename)
+            self.set_dir(projdir)
+            self.project = MLNProject.open(filename)
+            self.project.addlistener(self.project_setdirty)
+            self.reset_gui(keepdb=True)
+            self.set_config(self.project.queryconf.config)
+            self.update_mln_choices()
+            self.update_db_choices()
+            if len(self.project.mlns) > 0:
+                self.selected_mln.set(self.project.queryconf['mln'] or self.project.mlns.keys()[0])
+            if len(self.project.dbs) > 0 and not self.keep_evidence.get():
+                self.selected_db.set(self.project.queryconf['db'] or self.project.dbs.keys()[0])
+            self.settings_dirty.set(0)
+            self.project_setdirty(False)
+        else:
+            logger.error('File {} does not exist. Creating new project...'.format(filename))
+            self.new_project()
+
+
+    def noask_save_project(self):
+        if self.project.name and not self.project.name == DEFAULTNAME.format('.pracmln'):
+            self.save_project(os.path.join(self.dir, self.project.name))
+        else:
+            self.ask_save_project()
+
+
+    def ask_save_project(self):
+        fullfilename = asksaveasfilename(initialdir=self.dir, confirmoverwrite=True, filetypes=[('PRACMLN project files', '.pracmln')], defaultextension=".pracmln")
+        self.save_project(fullfilename)
+
+
+    def save_project(self, fullfilename):
+        if fullfilename:
+            fpath, fname = ntpath.split(fullfilename)
+            fname = fname.split('.')[0]
+            self.project.name = fname
+            self.set_dir(fpath)
+            self.save_mln()
+            self.save_db()
+            self.update_settings()
+            self.project.save(dirpath=fpath)
+            self.write_config()
+            self.load_project(fullfilename)
+            self.settings_dirty.set(0)
+
+
+    ####################### MLN FUNCTIONS #####################################
+    def new_mln(self):
+        self.project.add_mln(DEFAULTNAME.format('.mln'), content='')
+        self.update_mln_choices()
+        self.selected_mln.set(DEFAULTNAME.format('.mln'))
+
+
+    def import_mln(self):
+        filename = askopenfilename(initialdir=self.dir, filetypes=[('MLN files', '.mln')], defaultextension=".mln")
+        if filename:
+            fpath, fname = ntpath.split(filename)
+            content = mlnpath(filename).content
+            self.project.add_mln(fname, content)
+            self.update_mln_choices()
+            self.selected_mln.set(fname)
+
+
+    def delete_mln(self):
+        fname = self.selected_mln.get().strip()
+
+        # remove element from project mlns and buffer
+        if fname in self.mln_buffer:
+            del self.mln_buffer[fname]
+        if fname in self.project.mlns:
+            self.project.rm_mln(fname)
+        self.update_mln_choices()
+
+        # select first element from remaining list
+        if len(self.project.mlns) > 0:
+            self.selected_mln.set(self.project.mlns.keys()[0])
+        else:
+            self.selected_mln.set('')
+            self.mln_editor.delete("1.0", END)
+            self.mln_filename.set('')
+            self.list_mlns['menu'].delete(0, 'end')
+
+
+    def save_mln(self):
+        oldfname = self.selected_mln.get().strip()
+        newfname = self.mln_filename.get().strip()
+        content = self.mln_editor.get("1.0", END).strip()
+
+        if oldfname:
+            if oldfname in self.mln_buffer:
+                del self.mln_buffer[oldfname]
+            if oldfname == newfname:
+                self.project.mlns[oldfname] = content
+            else:
+                if oldfname in self.project.mlns:
+                    self.project.rm_mln(oldfname)
+                if newfname != '':
+                    self.project.add_mln(newfname, content)
+
+        self.update_mln_choices()
+        self.project.save(dirpath=self.dir)
+        self.write_config()
+        if newfname != '': self.selected_mln.set(newfname)
+        self.project_setdirty(False)
+
+
+    def select_mln(self, *args):
+        mlnname = self.selected_mln.get().strip()
+        self.project_setdirty(True)
+        if mlnname and mlnname != '':
+            if self._mln_editor_dirty:
+                #save current state to buffer
+                self.mln_buffer[self._dirty_mln_name] = self.mln_editor.get("1.0", END).strip()
+                self._mln_editor_dirty = True if '*' in mlnname else False
+                if not self.mln_reload:
+                    self.mln_reload = True
+                    return
+            if '*' in mlnname:# is edited
+                content = self.mln_buffer.get(mlnname, '').strip()
+                self.mln_editor.delete("1.0", END)
+                content = content.replace("\r", "")
+                self.mln_editor.insert(INSERT, content)
+                self.mln_filename.set(mlnname.lstrip('*'))
+                self._mln_editor_dirty = True
+                self._dirty_mln_name = '*' + mlnname if '*' not in mlnname else mlnname
+                return
+            if mlnname in self.project.mlns:
+                content = self.project.mlns.get(mlnname, '').strip()
+                self.mln_editor.delete("1.0", END)
+                content = content.replace("\r", "")
+                self.mln_editor.insert(INSERT, content)
+                self.mln_filename.set(mlnname)
+                self._mln_editor_dirty = False
+        else:
+            self.selected_mln.set('')
+            self.mln_editor.delete("1.0", END)
+            self.mln_filename.set('')
+            self.list_mlns['menu'].delete(0, 'end')
+
+
+    def update_mln_choices(self):
+        self.list_mlns['menu'].delete(0, 'end')
+
+        new_mlns = sorted([i if '*'+i not in self.mln_buffer else '*'+i for i in self.project.mlns.keys()])
+        for mln in new_mlns:
+            self.list_mlns['menu'].add_command(label=mln, command=_setit(self.selected_mln, mln))
+
+
+    def onchange_mlncontent(self, *args):
+        if not self._mln_editor_dirty:
+            self._mln_editor_dirty = True
+            self.mln_reload = False
+            fname = self.selected_mln.get().strip()
+            fname = '*' + fname if '*' not in fname else fname
+            self._dirty_mln_name = fname
+            self.mln_buffer[self._dirty_mln_name] = self.mln_editor.get("1.0", END).strip()
+            self.update_mln_choices()
+            self.selected_mln.set(self._dirty_mln_name)
+
+
+    ####################### EMLN FUNCTIONS ####################################
+    def new_emln(self):
+        self.project.add_emln(DEFAULTNAME.format('.emln'), content='')
+        self.update_emln_choices()
+        self.selected_emln.set(DEFAULTNAME.format('.emln'))
+
+
+    def import_emln(self):
+        filename = askopenfilename(initialdir=self.dir, filetypes=[('MLN extension files', '.emln')], defaultextension=".emln")
+        if filename:
+            fpath, fname = ntpath.split(filename)
+            content = mlnpath(filename).content
+            self.project.add_emln(fname, content)
+            self.update_emln_choices()
+            self.selected_emln.set(fname)
+
+
+    def delete_emln(self):
+        fname = self.selected_emln.get()
+
+        # remove element from project mlns and buffer
+        if fname in self.emln_buffer:
+            del self.emln_buffer[fname]
+        if fname in self.project.emlns:
+            self.project.rm_emln(fname)
+        self.update_emln_choices()
+
+        # select first element from remaining list
+        if len(self.project.emlns) > 0:
+            self.selected_emln.set(self.project.emlns.keys()[0])
+        else:
+            self.selected_emln.set('')
+            self.emln_editor.delete("1.0", END)
+            self.emln_filename.set('')
+
+
+    def save_emln(self):
+        oldfname = self.selected_emln.get()
+        newfname = self.emln_filename.get()
+        content = self.emln_editor.get("1.0", END).strip()
+
+        if oldfname.strip():
+            if oldfname in self.emln_buffer:
+                del self.emln_buffer[oldfname]
+            if oldfname == newfname:
+                self.project.emlns[oldfname] = content
+            else:
+                if oldfname in self.project.emlns:
+                    self.project.rm_emln(oldfname)
+                self.project.add_emln(newfname, content)
+
+        self.update_emln_choices()
+        self.project.save(dirpath=self.dir)
+        self.write_config()
+        self.selected_emln.set(newfname)
+        self.project_setdirty(False)
+
+
+    def select_emln(self, *args):
+        emlnname = self.selected_emln.get()
+        self.project_setdirty(True)
+        if emlnname:
+            if self._emln_editor_dirty:
+                #save current state to buffer
+                self.emln_buffer[self._dirty_emln_name] = self.emln_editor.get("1.0", END).strip()
+                self._emln_editor_dirty = True if '*' in emlnname else False
+                if not self.emln_reload:
+                    self.emln_reload = True
+                    return
+            if '*' in emlnname:# is edited
+                content = self.emln_buffer.get(emlnname, '').strip()
+                self.emln_editor.delete("1.0", END)
+                content = content.replace("\r", "")
+                self.emln_editor.insert(INSERT, content)
+                self.emln_filename.set(emlnname.lstrip('*'))
+                self._emln_editor_dirty = True
+                self._dirty_emln_name = '*' + emlnname if '*' not in emlnname else emlnname
+                return
+            if emlnname in self.project.emlns:
+                content = self.project.emlns.get(emlnname, '').strip()
+                self.emln_editor.delete("1.0", END)
+                content = content.replace("\r", "")
+                self.emln_editor.insert(INSERT, content)
+                self.emln_filename.set(emlnname)
+                self._emln_editor_dirty = False
+
+
+    def update_emln_choices(self):
+        self.list_emlns['menu'].delete(0, 'end')
+
+        new_emlns = sorted([i if '*'+i not in self.emln_buffer else '*'+i for i in self.project.emlns.keys()])
+        for emln in new_emlns:
+            self.list_emlns['menu'].add_command(label=emln, command=_setit(self.selected_emln, emln))
+
+
+    def onchange_emlncontent(self, *args):
+        if not self._emln_editor_dirty:
+            self._emln_editor_dirty = True
+            self.emln_reload = False
+            fname = self.selected_emln.get()
+            fname = '*' + fname if '*' not in fname else fname
+            self._dirty_emln_name = fname
+            self.emln_buffer[self._dirty_emln_name] = self.emln_editor.get("1.0", END).strip()
+            self.update_emln_choices()
+            self.selected_emln.set(self._dirty_emln_name)
+
+
+    ####################### DB FUNCTIONS ######################################
+    def new_db(self):
+        out('new_db')
+        self.project.add_db(DEFAULTNAME.format('.db'), content='')
+        self.update_db_choices()
+        self.selected_db.set(DEFAULTNAME.format('.db'))
+
+
+    def import_db(self):
+        out('import_db')
+        filename = askopenfilename(initialdir=self.dir, filetypes=[('Database files', '.db')], defaultextension=".db")
+        if filename:
+            fpath, fname = ntpath.split(filename)
+            content = mlnpath(filename).content
+            self.project.add_db(fname, content)
+            self.update_db_choices()
+            self.selected_db.set(fname)
+
+
+    def delete_db(self):
+        out('delete_db')
+        fname = self.selected_db.get()
+
+        # remove element from project dbs and buffer
+        if fname in self.db_buffer:
+            del self.db_buffer[fname]
+        if fname in self.project.dbs:
+            self.project.rm_db(fname)
+        self.update_db_choices()
+
+        # select first element from remaining list
+        if len(self.project.dbs) > 0:
+            self.selected_db.set(self.project.dbs.keys()[0])
+        else:
+            self.selected_db.set('')
+            self.db_editor.delete("1.0", END)
+            self.db_filename.set('')
+
+
+    def save_db(self):
+        out('save_db')
+        oldfname = self.selected_db.get()
+        newfname = self.db_filename.get()
+        content = self.db_editor.get("1.0", END).strip()
+
+        if oldfname.strip():
+            if oldfname in self.db_buffer:
+                del self.db_buffer[oldfname]
+            if oldfname == newfname:
+                self.project.dbs[oldfname] = content
+            else:
+                if oldfname in self.project.dbs:
+                    self.project.rm_db(oldfname)
+                self.project.add_db(newfname, content)
+
+        self.update_db_choices()
+        self.project.save(dirpath=self.dir)
+        self.write_config()
+        self.selected_db.set(newfname)
+        self.project_setdirty(False)
+
+
+    def select_db(self, *args):
+        out('select_db')
+        dbname = self.selected_db.get()
+        self.project_setdirty(True)
+        if dbname:
+            if self._db_editor_dirty:
+                #save current state to buffer
+                self.db_buffer[self._dirty_db_name] = self.db_editor.get("1.0", END).strip()
+                self._db_editor_dirty = True if '*' in dbname else False
+                if not self.db_reload:
+                    self.db_reload = True
+                    return
+            if '*' in dbname:# is edited
+                content = self.db_buffer.get(dbname, '').strip()
+                self.db_editor.delete("1.0", END)
+                content = content.replace("\r", "")
+                self.db_editor.insert(INSERT, content)
+                self.db_filename.set(dbname.lstrip('*'))
+                self._db_editor_dirty = True
+                self._dirty_db_name = '*' + dbname if '*' not in dbname else dbname
+                return
+            if dbname in self.project.dbs:
+                content = self.project.dbs.get(dbname, '').strip()
+                self.db_editor.delete("1.0", END)
+                content = content.replace("\r", "")
+                self.db_editor.insert(INSERT, content)
+                self.db_filename.set(dbname)
+                self._db_editor_dirty = False
+
+
+
+    def update_db_choices(self):
+        out('update_db_choices')
+        content = ''
+        if self.keep_evidence.get():
+            content = self.db_editor.get("1.0", END).strip()
+
+        self.list_dbs['menu'].delete(0, 'end')
+
+        new_dbs = sorted([i if '*' + i not in self.db_buffer else '*'+i for i in self.project.dbs.keys()])
+        for db in new_dbs:
+            self.list_dbs['menu'].add_command(label=db, command=_setit(self.selected_db, db))
+
+        if self.keep_evidence.get():
+            self.db_editor.delete("1.0", END)
+            self.db_editor.insert(INSERT, content)
+
+
+    def onchange_dbcontent(self, *args):
+        out('onchange_dbcontent')
+        if not self._db_editor_dirty:
+            self._db_editor_dirty = True
+            self.db_reload = False
+            fname = self.selected_db.get()
+            fname = '*' + fname if '*' not in fname else fname
+            self._dirty_db_name = fname
+            self.db_buffer[self._dirty_db_name] = self.db_editor.get("1.0", END).strip()
+            self.update_db_choices()
+            self.selected_db.set(self._dirty_db_name)
+
+
+    ####################### GENERAL FUNCTIONS #################################
+    def set_dir(self, dirpath):
+        self.dir = os.path.abspath(dirpath)
+
+
+    def select_method(self, *args):
+        self.settings_setdirty()
+
+
+    def onchange_use_emln(self, dirty=True, *args):
+        if not self.use_emln.get():
+            self.emln_label.grid_forget()
+            self.emln_container.grid_forget()
+            self.emln_editor.grid_forget()
+        else:
+            self.emln_label.grid(row=self.emlncontainerrow, column=0, sticky="NWES")
+            self.emln_container.grid(row=self.emlncontainerrow, column=1, sticky="NWES")
+            self.emln_editor.grid(row=self.emlncontainerrow+1, column=1, sticky="NWES")
+        if dirty:
+            self.settings_setdirty()
+
+
+    def select_logic(self, *args):
+        self.logic = self.selected_logic.get()
+        self.settings_setdirty()
+
+
+    def onchange_cw(self, *args):
+        if self.closed_world.get():
+            self.entry_cw.configure(state=DISABLED)
+        else:
+            self.entry_cw.configure(state=NORMAL)
+        self.settings_setdirty()
+
+
+    def reset_gui(self, keepdb=False):
+        out('reset_gui')
+        self.db_buffer.clear()
+        self.mln_buffer.clear()
+        self.set_config({})
+        self.mln_editor.delete("1.0", END)
+        self.mln_filename.set('')
+        if not keepdb:
+            self.db_editor.delete("1.0", END)
+        self.db_filename.set('')
+
+
+    def set_config(self, conf):
+        out('set_config')
+        self.config = conf
+        self.selected_logic.set(ifNone(conf.get('logic'), 'FirstOrderLogic'))
+        self.selected_mln.set(ifNone(conf.get('mln'), ''))
+        if not self.keep_evidence:
+            self.selected_db.set(ifNone(conf.get('db'), ''))
+        self.selected_method.set(ifNone(self.config.get("method"), InferenceMethods.name('MCSAT'), transform=InferenceMethods.name))
+        self.use_emln.set(ifNone(conf.get('use_emln'), False))
+        if self.use_emln.get():
+            self.selected_emln.set(ifNone(conf.get('emln'), ""))
+        self.multicore.set(ifNone(conf.get('multicore'), False))
+        self.verbose.set(ifNone(conf.get('verbose'), False))
+        self.params.set(ifNone(conf.get('params'), ''))
+        self.cwpreds.set(ifNone(conf.get('cw_preds'), ''))
+        self.closed_world.set(ifNone(conf.get('cw'), False))
+        self.query.set(ifNone(conf.get('queries'), 'foo, bar'))
+
+
+    def update_settings(self):
+        out('update_settings')
+
+        self.config = PRACMLNConfig()
+        self.config["db"] = self.selected_db.get().strip().lstrip('*')
+        self.config['mln'] = self.selected_mln.get().strip().lstrip('*')
+        self.config["method"] = InferenceMethods.id(self.selected_method.get().strip())
+        self.config["params"] = self.params.get().strip()
         self.config["queries"] = self.query.get()
-        self.config['emln'] = self.selected_emln.get().encode('utf8')
+        self.config['emln'] = self.selected_emln.get().strip().lstrip('*')
         self.config["cw"] = self.closed_world.get()
-        self.config["cw_preds"] = self.cwPreds.get()
+        self.config["cw_preds"] = self.cwpreds.get()
         self.config["use_emln"] = self.use_emln.get()
         self.config['logic'] = self.selected_logic.get()
         self.config['multicore'] = self.multicore.get()
         self.config['verbose'] = self.verbose.get()
-        self.config.dump()
+        self.config['window_loc'] = self.master.winfo_geometry()
+        self.config['dir'] = self.dir
+        self.project.queryconf = PRACMLNConfig()
+        self.project.queryconf.update(self.config.config.copy())
+        self.save_mln()
+        self.save_emln()
+        self.save_db()
 
 
-    def onChangeKB(self, *args):
-        kbname = self.selected_kb.get()
-        self.kb_name.set(kbname)
-        if kbname == 'new':
-            return
+    def write_config(self, savegeometry=True):
+        self.gconf['prev_prac_query_path'] = self.dir
+        self.gconf['prev_prac_query_project': self.dir] = self.project.name
 
-        confname = os.path.join(self.module_dir, 'bin', query_config_pattern % kbname)
-        if self.config is None or not self.initialized or os.path.exists(confname):
-            self.set_config(PRACMLNConfig(confname))
-
-
-    def changedMLN(self, filename): pass
+        # save geometry
+        if savegeometry:
+            self.gconf['window_loc_prac_query'] = self.master.geometry()
+        self.gconf.dump()
 
 
-    def changedDB(self, filename): pass
-
-
-    def onChangeModule(self, *args):
+    def select_module(self, *args):
+        out('selected module', self.selected_module.get())
         module_path = self.prac.moduleManifestByName[self.selected_module.get()].module_path
-        self.set_module_dir(module_path)
-        self.updateKBList()
-
-
-    def set_module_dir(self, dirpath):
-        dirpath = os.path.abspath(dirpath)
-        self.selected_mln.setDirectory(os.path.join(dirpath, 'mln'))
-        self.selected_emln.setDirectory(os.path.join(dirpath, 'emln'))
-        self.selected_db.setDirectory(os.path.join(dirpath, 'db'), keep=self.keep_evidence.get())
+        dirpath = os.path.abspath(module_path)
         self.module_dir = dirpath
+        self.update_project_choices()
 
 
-    def updateKBList(self):
+    def update_project_choices(self):
         modulename = self.selected_module.get()
-        kbs = ['new']
         module_path = self.prac.moduleManifestByName[modulename].module_path
 
-        if os.path.exists(os.path.join(module_path, 'bin')):
-            for path in os.listdir(os.path.join(module_path, 'bin')):
-                if os.path.isdir(path): continue
-                if path.endswith('.query.conf'):
-                    kbs.append(path[0:path.rfind('.query.conf')])
-
         # remove all items
-        menu = self.drop_down_kb_selection["menu"] 
-        menu.delete(0, 'end')
+        self.list_projects['menu'].delete(0, 'end')
 
-        # add the new ones
-        for item in kbs:
-            menu.add_command(label=item, command=_setit(self.selected_kb, item, None))
-        self.selected_kb.set(kbs[0])
-
-
-    def onChangeUseMultiCPU(self, *args): pass
+        projects = [y for y in os.listdir(module_path) if os.path.isfile(os.path.join(module_path, y)) and y.endswith('.pracmln')]
+        out('found projects', projects)
+        for p in projects:
+            self.list_projects['menu'].add_command(label=p, command=_setit(self.selected_project, p))
 
 
-    def onChangeUseEMLN(self, *args):
-        if self.use_emln.get() == 0:
-            self.selected_emln.grid_forget()
-        else:
-            self.selected_emln.grid(row=self.selected_mln.row+1, column=0, sticky="NWES")
+    def oncontinue(self):
+        if self.infStep is None:
+            self.start()
+        self.prac_inference.inference_steps.append(self.infStep)
+        self.update_dbeditor_from_result(*self.infStep.output_dbs)
+        logger.info('Input databases have been replaced by the latest results.')
 
 
-    def onChangeLogic(self, name = None, index = None, mode = None): pass
+    def update_dbeditor_from_result(self, *dbs):
+        self.selected_db.set('')
+        strbuf = StringIO.StringIO()
+        for i, db in enumerate(dbs):
+            db.write(strbuf, bars=False, color=False)
+            if i < len(dbs) - 1:
+                strbuf.write('---\n')
+
+        self.db_editor.delete("1.0", END)
+        self.db_editor.insert(INSERT, strbuf.getvalue().encode('utf-8'))
+        strbuf.close()
+        self._db_editor_dirty = True
 
 
-    def set_config(self, conf):
-        self.config = conf
-        self.selected_logic.set(ifNone(conf['logic'], 'FirstOrderLogic'))
-        self.selected_mln.select(ifNone(conf['mln'], ''))
-        self.selected_mln.rename_on_edit.set(ifNone(conf['mln_rename'], 0))
-        if not self.keep_evidence:
-            self.selected_db.select(ifNone(conf['db'], ''))
-            self.selected_db.rename_on_edit.set(ifNone(conf['db_rename'], False))
-        self.selected_method.set(ifNone(self.config["method"], InferenceMethods.name('MCSAT'), transform=InferenceMethods.name))
-        self.selected_emln.set(ifNone(conf['emln'], ''))
-        self.multicore.set(ifNone(conf['multicore'], False))
-        self.verbose.set(ifNone(conf['verbose'], False))
-        self.params.set(ifNone(conf['params'], ''))
-        self.use_emln.set(ifNone(conf['use_emln'], False))
-        if self.use_emln.get():
-            self.selected_emln.select(self.use_emln.get())
-        self.cwPreds.set(ifNone(conf['cw_preds'], ''))
-        self.closed_world.set(ifNone(conf['cw'], False))
-        self.query.set(ifNone(conf['queries'], 'foo, bar'))
-        self.selected_emln.set(ifNone(conf['use_emln'], False))
+    def update_result_from_dbeditor(self):
+        dbtext = self.db_editor.get("1.0", END).encode('utf8').strip()
+        dbobj = parse_db(self.prac.mln, dbtext, ignore_unknown_preds=self.config.get('ignore_unknown_preds', True))
 
-
-    def getTempKBFromGUI(self):
-        config = PRACMLNConfig(os.path.join('/tmp', query_config_pattern % 'tmp'))
-        config.update({'queries': self.query.get(),
-                       'method': InferenceMethods.id(self.selected_method.get()),
-                       'cw_preds': self.cwPreds.get(),
-                       'cw': self.closed_world.get(),
-                       'logic': self.selected_logic.get(),
-                       'mln': self.selected_mln.get_filename(),
-                       'emln': self.selected_emln.get_filename(),
-                       'db': self.selected_db.get_filename(),
-                       'multicore': self.multicore.get(),
-                       'use_emln': self.use_emln.get(),
-                       'verbose': self.verbose.get()
-                       })
-        config.update(eval("dict(%s)" % self.params.get()))
-        mlncontent = str(self.selected_mln.get_text().strip())
-        dbcontent = str(self.selected_db.get_text().strip())
-
-        kb = PRACKnowledgeBase(self.prac, config)
-        kb.set_querymln(mln_str=mlncontent, path=os.path.join(self.prac.moduleManifestByName[self.selected_module.get()].module_path, 'mln'))
-        kb.dbs = parse_db(self.prac.mln, dbcontent, ignore_unknown_preds=True)
-
-        return kb
+        self.prac_inference.inference_steps[-1].output_dbs = dbobj
 
 
     def start(self, savegeometry=True):
-        if savegeometry:
-            self.gconf["geometry"] = self.master.winfo_geometry()
-        
-        # hide main window
+
+        # create conf from current gui settings
+        self.update_settings()
+
+        # write gui settings
+        self.write_config(savegeometry=savegeometry)
+
+        # hide gui
         self.master.withdraw()
+
+        # if evidence was modified in gui, update dbs for next inference step
+        self.update_result_from_dbeditor()
 
         # runinference
         try:
-            module = self.prac.getModuleByName(self.selected_module.get())
-            kb = self.getTempKBFromGUI()
+            print headline('PRAC QUERY TOOL')
+            print
 
-            self.infStep = module(self.prac_inference, kb=kb)
+            module = self.prac.getModuleByName(self.selected_module.get())
+
+            self.infStep = module(self.prac_inference, project=self.project, projectpath=os.path.join(self.dir, self.project.name))
 
         except:
             cls, e, tb = sys.exc_info()
@@ -382,29 +970,6 @@ class PRACQueryGUI(object):
         self.master.deiconify()
 
 
-    def onContinue(self):
-        if self.infStep is None:
-            self.start()
-        self.prac_inference.inference_steps.append(self.infStep)
-        self.setDatabases(*self.infStep.output_dbs)
-        log.info('Input databases have been replaced by the latest results.')
-        
-        
-    def setDatabases(self, *dbs):
-        strbuf = StringIO.StringIO()
-        for i, db in enumerate(dbs):
-            db.write(strbuf, bars=False, color=False)
-            if i < len(dbs) - 1:
-                strbuf.write('---\n')
-        strbuf.seek(0)
-        self.selected_db.setText(strbuf.getvalue().encode('utf-8'))
-        strbuf.close()
-
-
-    def open(self):
-        self.master.mainloop()
-        
-
 if __name__ == '__main__':
 
     from optparse import OptionParser
@@ -412,10 +977,6 @@ if __name__ == '__main__':
     parser.add_option("-i", "--interactive", dest="interactive", default=False,
                                              action='store_true',
                                              help="Starts PRAC inference with an interactive GUI tool.")
-    parser.add_option("-m", "--mln", dest="mln", help="the MLN model file to use")
-    parser.add_option("-q", "--queries", dest="query", help="queries (comma-separated)")
-    parser.add_option("-e", "--evidence", dest="db", help="the evidence database file")
-    parser.add_option("-r", "--results-file", dest="output_filename", help="the results file to save")
     (options, args) = parser.parse_args()
 
     sentences = args
@@ -424,7 +985,7 @@ if __name__ == '__main__':
 
     root = Tk()
     inference = PRACInference(prac, sentences)
-    conf = PRACMLNConfig()
+    conf = PRACMLNConfig(DEFAULT_CONFIG)
 
     if options.interactive: # use the GUI
         # in case we have natural-language parameters, parse them
@@ -432,7 +993,7 @@ if __name__ == '__main__':
             parser = prac.getModuleByName('nl_parsing')
             prac.run(inference, parser)
         app = PRACQueryGUI(root, inference, conf, directory=args[0] if args else None)
-        app.open()
+        root.mainloop()
     else: # regular PRAC pipeline
         while inference.next_module() != None :
             modulename = inference.next_module()

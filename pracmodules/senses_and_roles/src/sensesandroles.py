@@ -20,6 +20,7 @@
 # CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+import os
 
 from prac.core.base import PRACModule, PRACPIPE
 from prac.core.inference import PRACInferenceStep
@@ -29,8 +30,12 @@ from prac.pracutils.ActioncoreDescriptionHandler import \
 from prac.pracutils.pracgraphviz import render_gv
 from prac.sense_distribution import add_all_wordnet_similarities, \
     get_prob_color
+from pracmln import MLNQuery
+from pracmln.mln.base import parse_mln
 from pracmln.mln.util import colorize, out
 from pracmln.praclog import logger
+from pracmln.utils.project import MLNProject
+from webmln.gui.pages.utils import get_cond_prob_png
 
 
 class SensesAndRoles(PRACModule):
@@ -50,37 +55,39 @@ class SensesAndRoles(PRACModule):
         return '{}(?{},{})'.format(predicate, domainList[0], actioncore)
 
     @PRACPIPE
-    def __call__(self, pracinference, kb=None, **params):
+    def __call__(self, pracinference, **params):
         log = logger(self.name)
         
         print colorize('+==========================================+', (None, 'green', True), True)
-        print colorize('| PRAC INFERENCE: RECOGNIZING %s ROLES  ' % ({True: 'MISSING', False: 'GIVEN'}[params.get('missing', False)]), (None, 'green', True), True)
+        print colorize('| PRAC INFERENCE: RECOGNIZING %s ROLES     ' % ({True: 'MISSING', False: 'GIVEN'}[params.get('missing', False)]), (None, 'green', True), True)
         print colorize('+==========================================+', (None, 'green', True), True)
-        
-        kb = kb
-        if kb is None:
-            # load the default arguments
-            dbs = pracinference.inference_steps[-1].output_dbs
-        else:
-            kb = kb
-            dbs = kb.dbs
-        self.kbs = []
+
+        dbs = pracinference.inference_steps[-1].output_dbs
         inf_step = PRACInferenceStep(pracinference, self)
 
-        out('')
         for olddb in dbs:
             db_copy = olddb.copy(mln=self.prac.mln)
             for q in olddb.query('action_core(?w,?ac)'):
                 actioncore = q['?ac']
                 if actioncore == 'null': continue
-                if kb is None:
-                    log.info('Loading Markov Logic Network: %s' % colorize(actioncore, (None, 'white', True), True))
-                    kb = self.load_prac_kb(actioncore)
-                self.kbs.append(kb)
-                kb.config.update(params)
+
+                if params.get('project', None) is None:
+                    log.info('Loading Project: %s.pracmln' % colorize(actioncore, (None, 'cyan', True), True))
+                    projectpath = os.path.join(self.module_path, '{}.pracmln'.format(actioncore))
+                    project = MLNProject.open(projectpath)
+                else:
+                    log.info(colorize('Loading Project from params', (None, 'cyan', True), True))
+                    projectpath = os.path.join(params.get('projectpath', None) or self.module_path, params.get('project').name)
+                    project = params.get('project')
+
+                mlntext = project.mlns.get(project.queryconf['mln'], None)
+                mln = parse_mln(mlntext, searchpaths=[self.module_path], projectpath=projectpath, logic=project.queryconf.get('logic', 'FirstOrderLogic'), grammar=project.queryconf.get('grammar', 'PRACGrammar'))
+                known_concepts = mln.domains.get('concept', [])
+                wordnet_module = self.prac.getModuleByName('wn_senses')
+
                 unknown_roles = set()
                 if 'missing' in params:
-                    roles = kb.query_mln.domains.get('role', [])
+                    roles = mln.domains.get('role', [])
                     log.info('roles: %s' % roles)
                     specified_roles = []
                     for q in olddb.query('action_role(?w, ?r)'):
@@ -96,13 +103,11 @@ class SensesAndRoles(PRACModule):
                         db_copy << ('action_role(Skolem-%s, %s)' % (role, role))
                 else:
                     log.info('Inferring given roles...')
-                concepts = kb.query_mln.domains['concept']#mergeDomains(, self.merge_all_domains(pracinference))['concept']
 
                 # adding senses and similarities. might be obsolete as it has
                 # already been performed in ac recognition
-                log.info('adding senses. concepts=%s' % concepts)
-                wordnet_module = self.prac.getModuleByName('wn_senses')
-                db = wordnet_module.get_senses_and_similarities(db_copy, concepts)
+                log.info('adding senses. concepts=%s' % known_concepts)
+                db = wordnet_module.get_senses_and_similarities(db_copy, known_concepts)
 
                 # we need senses and similarities as well as original evidence
                 tmp_union_db = db.union(db_copy)
@@ -122,7 +127,9 @@ class SensesAndRoles(PRACModule):
                     for r in roles:
                         new_tmp_union_db << ('{}({},{})'.format(r, w, ac), 0)
 
-                result_db = list(kb.infer(new_tmp_union_db))[0]
+                # result_db = list(kb.infer(new_tmp_union_db))[0]
+                infer = MLNQuery(config=project.queryconf, db=new_tmp_union_db, mln=mln).run()
+                result_db = infer.resultdb
 
                 # get query roles for given actioncore and add inference results
                 # for them to final output db. ignore 0-truth results.
@@ -154,15 +161,14 @@ class SensesAndRoles(PRACModule):
                 for ur in unknown_roles:
                     print '%s:' % colorize(ur, (None, 'red', True), True)
                     for q in unified_db.query('action_role(?w, %s) ^ has_sense(?w, ?s)' % ur, thr=1):
-                        self.prac.getModuleByName('wn_senses').printWordSenses(concepts, q['?s'])
+                        self.prac.getModuleByName('wn_senses').printWordSenses(known_concepts, q['?s'])
                     print
 
                 inf_step.output_dbs.append(unified_db)
 
-        if kb is not None:
-            png, ratio = kb.get_cond_prob_png(filename=self.name)
-            inf_step.png = (png, ratio)
-            inf_step.applied_kb = kb.filename
+        png, ratio = get_cond_prob_png(project.queryconf.get('queries', ''), dbs, filename=self.name)
+        inf_step.png = (png, ratio)
+        inf_step.applied_settings = project.queryconf.config
         return inf_step
         
     

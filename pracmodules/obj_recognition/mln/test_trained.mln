@@ -1,0 +1,13 @@
+// domain declarations
+
+
+// predicate declarations
+hypernym(cluster,hypernym)
+color(cluster,color)
+object(cluster,object!)
+hasa(cluster,hasa)
+shape(cluster,shape)
+size(cluster,size)
+
+// formulas
+0.000000    object(?c, pan.n.01) ^ size(?c, wide.a.01) ^ shape(?c, bowl-shaped.s.01)

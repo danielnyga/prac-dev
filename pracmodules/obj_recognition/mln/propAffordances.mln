@@ -1,0 +1,10 @@
+#include predicates.mln
+
+// property-affordances relations
+0 hasa(?c,+?part) ^ affordances(?c,Grab-Support-Ability)
+0 hypernym(?c,+?hyp) ^ affordances(?c,Contain-Ability)
+0 shape(?c,+?shp) ^ affordances(?c,+?ability)
+0 hypernym(?c,+?hyp) ^ hasa(?c,+?part) ^ affordances(?c,Lift-Support-Ability)
+0 hypernym(?c,+?hyp1) ^ hypernym(?c,+?hyp2) ^ affordances(?c,Lift-Support-Ability)
+0 hasa(?c,+?part1) ^ hasa(?c,+?part2) ^ affordances(?c,Lift-Support-Ability)
+0 hasa(?c,+?part) ^ affordances(?c,Incision-Ability)

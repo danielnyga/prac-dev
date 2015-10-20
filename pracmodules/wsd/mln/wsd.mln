@@ -26,6 +26,7 @@
 // #include "predicates.mln"
 has_pos(word,pos!)
 prep_with(word, word)
+#fuzzy
 is_a(sense, concept)
 has_sense(word, sense!)
 

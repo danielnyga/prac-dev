@@ -2,6 +2,7 @@
 
 
 // predicate declarations
+#fuzzy
 is_a(sense, concept)
 has_sense(word, sense!)
 has_pos(word, pos!)

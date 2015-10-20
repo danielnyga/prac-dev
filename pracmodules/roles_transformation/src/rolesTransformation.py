@@ -25,13 +25,21 @@ import yaml
 
 from prac.core.base import PRACModule, PRACPIPE
 from prac.core.inference import PRACInferenceStep
-from pracmln import Database
+from pracmln import Database, MLNQuery
+from pracmln.mln.base import parse_mln
 from pracmln.mln.util import colorize
 from pracmln.praclog import logger
+from pracmln.utils.project import MLNProject
+from webmln.gui.pages.utils import get_cond_prob_png
+
 
 PRAC_HOME = os.environ['PRAC_HOME']
 rolesTransformationModulePath = os.path.join(PRAC_HOME, 'pracmodules', 'roles_transformation')
 planListFilePath = os.path.join(rolesTransformationModulePath,'plan_list.yaml')
+
+
+log = logger(__name__)
+
 
 class RolesTransformation(PRACModule):
     '''
@@ -52,32 +60,34 @@ class RolesTransformation(PRACModule):
     
     @PRACPIPE
     def __call__(self, pracinference, **params):
-        log = logger(self.name)
-        print colorize('+==========================================+', (None, 'green', True), True)
-        print colorize('| PRAC INFERENCE: Update roles based on achieved_by' , (None, 'green', True), True)
-        print colorize('+==========================================+', (None, 'green', True), True)
+        print colorize('+===================================================+', (None, 'green', True), True)
+        print colorize('| PRAC INFERENCE: Update roles based on achieved_by |' , (None, 'green', True), True)
+        print colorize('+===================================================+', (None, 'green', True), True)
         
-        kb = params.get('kb', None)
-        if kb is None:
-            dbs = pracinference.inference_steps[-1].output_dbs
-        else:
-            kb = params['kb']
-            dbs = kb.dbs
-
         inf_step = PRACInferenceStep(pracinference, self)
         planlist = self.getPlanList()
-        
+        dbs = pracinference.inference_steps[-1].output_dbs
+
         for db in dbs:
 
             for q in db.query('achieved_by(?w,?ac)'):
                 actioncore = q['?ac']
-                log.info(actioncore)
+                log.info('Action core: ', actioncore)
 
-                if kb is None:
-                    log.info('Loading Markov Logic Network: %s' % colorize(actioncore+'Transformation', (None, 'cyan', True), True))
-                    kb = self.load_prac_kb(actioncore+'Transformation')
+                if params.get('project', None) is None:
+                    log.info('Loading Project: %s.pracmln' % colorize(actioncore, (None, 'cyan', True), True))
+                    projectpath = os.path.join(self.module_path, '{}Transformation.pracmln'.format(actioncore))
+                    project = MLNProject.open(projectpath)
+                else:
+                    log.info(colorize('Loading Project from params', (None, 'cyan', True), True))
+                    projectpath = os.path.join(params.get('projectpath', None) or self.module_path, params.get('project').name)
+                    project = params.get('project')
 
-                result_db = list(kb.infer(db))[0]
+                mlntext = project.mlns.get(project.queryconf['mln'], None)
+                mln = parse_mln(mlntext, searchpaths=[self.module_path], projectpath=projectpath, logic=project.queryconf.get('logic', 'FirstOrderLogic'), grammar=project.queryconf.get('grammar', 'PRACGrammar'))
+
+                infer = MLNQuery(config=project.queryconf, db=db, mln=mln).run()
+                result_db = infer.resultdb
                 unified_db = db.union(result_db)
 
                 if actioncore not in planlist:
@@ -99,9 +109,7 @@ class RolesTransformation(PRACModule):
                     inf_step.output_dbs.append(unified_db)
 
 
-        log.info("Generating png")
-        if kb is not None:
-            png, ratio = kb.get_cond_prob_png(filename=self.name)
-            inf_step.png = (png, ratio)
-            inf_step.applied_kb = kb.filename                
+        png, ratio = get_cond_prob_png(project.queryconf.get('queries', ''), dbs, filename=self.name)
+        inf_step.png = (png, ratio)
+        inf_step.applied_settings = project.queryconf.config
         return inf_step

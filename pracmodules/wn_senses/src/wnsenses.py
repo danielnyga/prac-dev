@@ -22,7 +22,7 @@
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 import sys
 
-from prac.core.base import PRACModule, PRACPIPE, PRACKnowledgeBase, DB_TRANSFORM
+from prac.core.base import PRACModule, PRACPIPE, DB_TRANSFORM
 from nltk.corpus import wordnet as wn
 import logging
 from prac.core.inference import PRACInferenceStep
@@ -323,19 +323,19 @@ class WNSenses(PRACModule):
             for dbfile in self.prac.getActionCoreTrainingDBs():
                 db = Database(self.mln, dbfile=dbfile, ignoreUnknownPredicates=True)
                 training_dbs.append(db)
-        mt = WordSensesMT(self, 'word_senses')
-        mt.train(training_dbs)
-        self.save_prac_kb(mt)
-    
-    
-class WordSensesMT(PRACKnowledgeBase):
-    '''
-    Wrapper Knowledge Base around WordNet for pickling and unpickling.
-    '''
-    
-    def train(self, training_dbs):
-        self.mln = self.module.mln.duplicate()
-        full_domains = mergedom(*[db.domains for db in training_dbs])
-        logging.getLogger('wnsenses').debug('known concepts: %s' % full_domains['concept'])
-        self.mln.domains['concept'] = full_domains['concept']
-    
+#         mt = WordSensesMT(self, 'word_senses')
+#         mt.train(training_dbs)
+#         self.save_prac_kb(mt)
+#
+#
+# class WordSensesMT(PRACKnowledgeBase):
+#     '''
+#     Wrapper Knowledge Base around WordNet for pickling and unpickling.
+#     '''
+#
+#     def train(self, training_dbs):
+#         self.mln = self.module.mln.duplicate()
+#         full_domains = mergedom(*[db.domains for db in training_dbs])
+#         logging.getLogger('wnsenses').debug('known concepts: %s' % full_domains['concept'])
+#         self.mln.domains['concept'] = full_domains['concept']
+#

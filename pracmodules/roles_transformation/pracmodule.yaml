@@ -25,5 +25,4 @@ module_name: 'roles_transformation'
 description: 'Updated given roles based on action_core & achieved_by predicates.'
 dependencies: [achieved_by]
 class_name: 'rolesTransformation.RolesTransformation'
-#declarations: ['predicates.mln']
-
+project: 'Adding.pracmln'
