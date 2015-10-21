@@ -72,7 +72,7 @@ class RolesTransformation(PRACModule):
 
             for q in db.query('achieved_by(?w,?ac)'):
                 actioncore = q['?ac']
-                log.info('Action core: ', actioncore)
+                log.info('Action core: {}'.format(actioncore))
 
                 if params.get('project', None) is None:
                     log.info('Loading Project: %s.pracmln' % colorize(actioncore, (None, 'cyan', True), True))
