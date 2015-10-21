@@ -488,7 +488,6 @@ class PRACQueryGUI(object):
             content = self.mln_buffer[mln]
             if mln == current:
                 content = self.mln_editor.get("1.0", END).strip()
-                out(content)
             if mlnstr in self.project.mlns:
                 self.project.rm_mln(mlnstr)
             self.project.add_mln(mlnstr, content)
@@ -635,7 +634,6 @@ class PRACQueryGUI(object):
             content = self.emln_buffer[emln]
             if emln == current:
                 content = self.emln_editor.get("1.0", END).strip()
-                out(content)
             if emlnstr in self.project.emlns:
                 self.project.rm_emln(emlnstr)
             self.project.add_emln(emlnstr, content)
@@ -921,7 +919,6 @@ class PRACQueryGUI(object):
 
 
     def reset_gui(self, keepdb=False):
-        out('reset_gui')
         self.db_buffer.clear()
         self.mln_buffer.clear()
         self.set_config({})
@@ -933,7 +930,6 @@ class PRACQueryGUI(object):
 
 
     def set_config(self, conf):
-        out('set_config')
         self.config = conf
         self.selected_logic.set(ifNone(conf.get('logic'), 'FirstOrderLogic'))
         self.selected_mln.set(ifNone(conf.get('mln'), ''))
@@ -952,7 +948,6 @@ class PRACQueryGUI(object):
 
 
     def update_config(self):
-        out('update_config')
 
         self.config = PRACMLNConfig()
         self.config["db"] = self.selected_db.get().strip().lstrip('*')
@@ -984,7 +979,6 @@ class PRACQueryGUI(object):
 
 
     def select_module(self, *args):
-        out('selected module', self.selected_module.get())
         module_path = self.prac.moduleManifestByName[self.selected_module.get()].module_path
         dirpath = os.path.abspath(module_path)
         self.module_dir = dirpath
@@ -999,7 +993,6 @@ class PRACQueryGUI(object):
         self.list_projects['menu'].delete(0, 'end')
 
         projects = [y for y in os.listdir(module_path) if os.path.isfile(os.path.join(module_path, y)) and y.endswith('.pracmln')]
-        out('found projects', projects)
         for p in projects:
             self.list_projects['menu'].add_command(label=p, command=_setit(self.selected_project, p))
 
@@ -1037,6 +1030,7 @@ class PRACQueryGUI(object):
 
         # create conf from current gui settings
         self.update_config()
+        self.update_mln()
 
         # write gui settings
         self.write_gconfig(savegeometry=savegeometry)
