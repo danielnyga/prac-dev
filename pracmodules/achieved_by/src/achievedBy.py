@@ -83,6 +83,7 @@ class AchievedBy(PRACModule):
                 #Every pracmln should be used only once during the process because the evidence for the inference will always remain the same.
                 #So if the pracmln hadnt inferenced a plan in the first time, it will never do it.
 
+
                 #Need to remove possible achieved_by predicates from previous achieved_by inferences
                 db_ = Database(self.prac.mln)
                 for atom, truth in sorted(olddb.evidence.iteritems()):
@@ -92,7 +93,12 @@ class AchievedBy(PRACModule):
                 if params.get('project', None) is None:
                     log.info('Loading Project: %s.pracmln' % colorize(actioncore, (None, 'cyan', True), True))
                     projectpath = os.path.join(self.module_path, '{}.pracmln'.format(actioncore))
-                    project = MLNProject.open(projectpath)
+                    if os.path.exists(projectpath):
+                        project = MLNProject.open(projectpath)
+                    else:
+                        inf_step.output_dbs.append(olddb)
+                        logger.error(actioncore + ".pracmln does not exist.")
+                        return inf_step
                 else:
                     log.info(colorize('Loading Project from params', (None, 'cyan', True), True))
                     projectpath = os.path.join(params.get('projectpath', None) or self.module_path, params.get('project').name)
@@ -108,10 +114,9 @@ class AchievedBy(PRACModule):
 
                 unified_db = db.union(db_)
 
-                #Inference achieved_by predicate        
+                #Inference achieved_by predicate
                 db_ = self.extendDBWithAchievedByEvidence(unified_db, mln)
 
-                # result_db = list(kb.infer(db_))[0]
                 infer = MLNQuery(config=project.queryconf, db=db_, mln=mln).run()
                 result_db = infer.resultdb
 

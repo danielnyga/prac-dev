@@ -23,31 +23,37 @@
 import copy
 from prac.core.base import PRACModule
 from prac.core.inference import PRACInferenceStep
+from pracmln.mln.util import out
 from pracmln.praclog import logger
+
+log = logger(__name__)
 
 
 class PlanGenerator(PRACModule):
-    
+
     def __call__(self, pracinference, **params):
-        log = logger(self.name)
         print 'generating CRAM plan'
         infstep = PRACInferenceStep(pracinference, self)
         dbs = pracinference.inference_steps[-1].output_dbs
         infstep.output_dbs = dbs
         infstep.executable_plans = []
         for db in dbs:
+            out('final db', len(dbs))
+            db.write(bars=False)
+
             for query in ('achieved_by(?ac1, ?ac)', 'action_core(?w, ?ac)'):
                 for q in db.query(query):
                     actioncore = q['?ac']
-                    log.info(actioncore)
+                    log.info('actioncore: ', actioncore)
                     ac = self.prac.actioncores.get(actioncore)
                     if not ac.plan: continue
                     assignment = {}
                     role_assignments = [assignment]
-                    log.info('roles')
+                    log.info('roles: ')
                     print ac.roles
                     for role in ac.roles:
                         for i, rq in enumerate(db.query('{0}(?w,{1}) ^ has_sense(?w, ?s)'.format(role, actioncore))):
+                            print i, rq
                             if i > 0:
                                 for ass in list(role_assignments):
                                     new_ass = copy.copy(ass)

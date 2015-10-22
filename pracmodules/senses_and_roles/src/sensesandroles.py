@@ -30,7 +30,7 @@ from prac.pracutils.ActioncoreDescriptionHandler import \
 from prac.pracutils.pracgraphviz import render_gv
 from prac.sense_distribution import add_all_wordnet_similarities, \
     get_prob_color
-from pracmln import MLNQuery
+from pracmln import MLNQuery, Database
 from pracmln.mln.base import parse_mln
 from pracmln.mln.util import colorize, out
 from pracmln.praclog import logger
@@ -110,7 +110,7 @@ class SensesAndRoles(PRACModule):
                 db = wordnet_module.get_senses_and_similarities(db_copy, known_concepts)
 
                 # we need senses and similarities as well as original evidence
-                tmp_union_db = db.union(db_copy)
+                tmp_union_db = db.union(db_copy, mln=self.prac.mln)
 
                 # ignore roles of false ac's
                 new_tmp_union_db = tmp_union_db.copy(mln=self.prac.mln)
@@ -127,27 +127,35 @@ class SensesAndRoles(PRACModule):
                     for r in roles:
                         new_tmp_union_db << ('{}({},{})'.format(r, w, ac), 0)
 
-                # result_db = list(kb.infer(new_tmp_union_db))[0]
                 infer = MLNQuery(config=project.queryconf, db=new_tmp_union_db, mln=mln).run()
                 result_db = infer.resultdb
 
                 # get query roles for given actioncore and add inference results
                 # for them to final output db. ignore 0-truth results.
-                unified_db = new_tmp_union_db.copy(self.prac.mln)
+                unified_db = new_tmp_union_db.union(result_db, mln=self.prac.mln)
+
+                out('evidence db')
+                unified_db.write(bars=False)
+
 
                 # argdoms = kb.query_mln.predicate(role).argdoms
                 roles = ActioncoreDescriptionHandler.getRolesBasedOnActioncore(actioncore)
-                for atom, truth in result_db.evidence.iteritems():
+                out('roles:', roles)
+                new_result = Database(self.prac.mln)
+                for atom, truth in unified_db.evidence.iteritems():
                     if any(r in atom for r in roles):
-                        log.info('adding {} with truth value {}'.format(atom, truth))
-                        unified_db << (atom, truth)
+                        (_, predname, args) = self.prac.mln.logic.parse_literal(atom)
+                        if not args[-1] == actioncore:
+                            out('omitted role ', r, 'with actioncore', args[-1], atom)
+                            continue
+                        out('adding', atom, truth)
+                    new_result << (atom, truth)
+                new_result.write(bars=False)
+
                     # for q in result_db.query('{}(?{})'.format(role, ',?'.join(argdoms))):
                     #     log.info('Adding {}({}) to output database'.format(role, ','.join([q['?{}'.format(x)] for x in argdoms])))
                     #     unified_db << '{}({})'.format(role, ','.join([q['?{}'.format(x)] for x in argdoms]))
                     # add inferred senses to final output db
-                for atom, truth in result_db.evidence.iteritems():
-                    if 'has_sense' in atom:
-                        unified_db << (atom, truth)
 
                 if 'missing' not in params:
                     for q in unified_db.query('has_sense(?w, ?s)', thr=1):
@@ -164,7 +172,7 @@ class SensesAndRoles(PRACModule):
                         self.prac.getModuleByName('wn_senses').printWordSenses(known_concepts, q['?s'])
                     print
 
-                inf_step.output_dbs.append(unified_db)
+                inf_step.output_dbs.append(new_result)
 
             png, ratio = get_cond_prob_png(project.queryconf.get('queries', ''), dbs, filename=self.name)
             inf_step.png = (png, ratio)

@@ -25,9 +25,11 @@ import yaml
 
 from prac.core.base import PRACModule, PRACPIPE
 from prac.core.inference import PRACInferenceStep
+from prac.pracutils.ActioncoreDescriptionHandler import \
+    ActioncoreDescriptionHandler
 from pracmln import Database, MLNQuery
 from pracmln.mln.base import parse_mln
-from pracmln.mln.util import colorize
+from pracmln.mln.util import colorize, out
 from pracmln.praclog import logger
 from pracmln.utils.project import MLNProject
 from webmln.gui.pages.utils import get_cond_prob_png
@@ -86,12 +88,22 @@ class RolesTransformation(PRACModule):
                 mlntext = project.mlns.get(project.queryconf['mln'], None)
                 mln = parse_mln(mlntext, searchpaths=[self.module_path], projectpath=projectpath, logic=project.queryconf.get('logic', 'FirstOrderLogic'), grammar=project.queryconf.get('grammar', 'PRACGrammar'))
 
+                db.write(bars=False)
+
                 infer = MLNQuery(config=project.queryconf, db=db, mln=mln).run()
                 result_db = infer.resultdb
-                unified_db = db.union(result_db)
+
+                r_db = Database(self.prac.mln)
+                roles = ActioncoreDescriptionHandler.getRolesBasedOnActioncore(actioncore)
+                for atom, truth in sorted(result_db.evidence.iteritems()):
+                    if any(r in atom for r in roles):
+                        (_, predname, args) = self.prac.mln.logic.parse_literal(atom)
+                        if args[-1] == actioncore:
+                            r_db << (atom, truth)
+
+                unified_db = db.union(r_db, mln=self.prac.mln)
 
                 if actioncore not in planlist:
-                    # ONLY LEAVE POSITIVE ACTION CORE /UPDATE /TODO
                     r_db_ = Database(self.prac.mln)
                     actionverb = ""
 
@@ -109,7 +121,7 @@ class RolesTransformation(PRACModule):
                     inf_step.output_dbs.append(unified_db)
 
 
-        png, ratio = get_cond_prob_png(project.queryconf.get('queries', ''), dbs, filename=self.name)
-        inf_step.png = (png, ratio)
-        inf_step.applied_settings = project.queryconf.config
+            png, ratio = get_cond_prob_png(project.queryconf.get('queries', ''), dbs, filename=self.name)
+            inf_step.png = (png, ratio)
+            inf_step.applied_settings = project.queryconf.config
         return inf_step

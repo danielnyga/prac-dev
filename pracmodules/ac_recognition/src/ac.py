@@ -73,15 +73,15 @@ class ActionCoreIdentification(PRACModule):
 
         for db_ in dbs:
             db = wordnet_module.get_senses_and_similarities(db_, known_concepts)
-            tmp_union_db = db.union(db_)
+            tmp_union_db = db.union(db_, mln=self.prac.mln)
 
             # result_db = list(kb.infer(tmp_union_db))[0]
             infer = MLNQuery(config=ac_project.queryconf, db=tmp_union_db, mln=mln).run()
             result_db = infer.resultdb
 
-            unified_db = result_db.union(db) # alternative to query below
+            unified_db = result_db.union(tmp_union_db, mln=self.prac.mln) # alternative to query below
             # only add inferred action_core atoms, leave out 0-evidence atoms
-            # unified_db = tmp_union_db.copy(mln)
+            # unified_db = tmp_union_db.copy(mln, mln=self.prac.mln)
             # for q in result_db.query('action_core(?w,?ac)'):
             #     log.info('Identified Action Core(s): {}'.format(colorize(q['?ac'], (None, 'white', True), True)))
             #     unified_db << 'action_core({},{})'.format(q['?w'],q['?ac'])
