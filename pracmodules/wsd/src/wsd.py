@@ -32,6 +32,8 @@ class PRACWSD(PRACModule):
             if not hasattr(kb, 'dbs'):
                 kb.dbs = pracinference.inference_steps[-1].output_dbs
             mln = kb.query_mln
+            mln.write()
+            logger.info('=====================================================================================================================')
             logic = kb.query_params['logic']
             fol =  False
             if(logic == 'FirstOrderLogic'):
