@@ -164,9 +164,9 @@
 1.00 predicate(add)
 1.00 dobj(add,ingredients)
 1.00 has_sense(add,add.v.01)
-1.00 has_sense(ingredient,ingredient.n.03)
+1.00 has_sense(ingredients,ingredient.n.03)
 1.00 has_pos(add,VB)
-1.00 has_pos(ingredient,NN)
+1.00 has_pos(ingredients,NN)
 
 ---
 
@@ -237,13 +237,13 @@
 
 //Add the ingredients and the cream to a mixture.
 1.00 predicate(add)
-1.00 dobj(add,ingredients)
+1.00 dobj(add,ingredient)
 1.00 dobj(add,cream)
 1.00 prep_to(add,mixture)
 1.00 has_sense(add,add.v.01)
 1.00 has_sense(ingredient,ingredient.n.03)
 1.00 has_pos(add,VB)
-1.00 has_pos(ingredient,NN)
+1.00 has_pos(ingredients,NN)
 1.00 has_sense(cream,cream.n.02)
 1.00 has_pos(cream,NN)
 1.00 has_sense(mixture,concoction.n.01)

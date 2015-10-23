@@ -316,25 +316,27 @@ def compare_results(test_dbs,result_file_path):
     #print content
     del_index_list = []
     result_dbs_senses_list = []
-    test_dbs_senses_list = [] 
-    
+    test_dbs_senses_list = []
+    num_of_preps_list = []
     for i  in range(0,len(test_dbs)):
         db = test_dbs[i].db
+        num_of_preps = 0
         sense_list = []
         for q1 in db.query('predicate(?w)'):
             for q2 in db.query('has_sense({},?s)'.format(q1['?w'])):
                 sense_list.append(transform_30_nltk_sense_to_ims_sense(q2['?s']))
 
         for q1 in db.query('dobj(?w1,?w2)'):
-            print q1
+            
             for q2 in db.query('has_sense({},?s)'.format(q1['?w2'])):
                 sense_list.append(transform_30_nltk_sense_to_ims_sense(q2['?s']))
 
         for prep_pred in ['prep_into','prep_to','prep_with','prep_in','prep_on']:
             for q1 in db.query('{}(?w1,?w2)'.format(prep_pred)):
                 for q2 in db.query('has_sense({},?s)'.format(q1['?w2'])):
+                    num_of_preps += 1
                     sense_list.append(transform_30_nltk_sense_to_ims_sense(q2['?s']))
-        
+        num_of_preps_list.append(num_of_preps)
         test_dbs_senses_list.append(sense_list)
 
     
@@ -359,7 +361,7 @@ def compare_results(test_dbs,result_file_path):
                         senses_dict[float(temp[1])] = temp[0]
                     
                     probable_sense = sorted(senses_dict.keys(),reverse=True)[0]
-                    senses.append(probable_sense)
+                    senses.append(senses_dict[probable_sense])
                   #  print "DICT {}".format(senses_dict)
                    # print "PROB {}".format(probable_sense)
             #print     
@@ -367,20 +369,30 @@ def compare_results(test_dbs,result_file_path):
         
     
     if result_dbs_senses_list :
-        print test_dbs_senses_list
+        print result_dbs_senses_list
         for i in range(0,len(result_dbs_senses_list)):
             test_db = test_dbs_senses_list[i]
             result_db = result_dbs_senses_list[i]
-            print result_db
-            print test_db
-         
-            for result_sense in result_db:
-                if result_sense in test_db:
-                    cm.addClassificationResult(result_sense,result_sense)
-                    print "TRUE"
-                else:
-                    cm.addClassificationResult("NONE",result_sense)
-                    print 'FALSE'
+            #Check predicates
+            cm.addClassificationResult(test_db[0],result_db[0])
+            if num_of_preps_list[i] > 0:
+                cm.addClassificationResult(test_db[-1],result_db[-1])
+                result_db = sorted(result_db[1:-1])
+                test_db = sorted(test_db[1:-1])
+            
+            else:
+                result_db = sorted(result_db[1:])
+                test_db = sorted(test_db[1:])
+
+            for j in range(0,len(result_db)):
+                 print result_db[j]
+                 print test_db[j]
+                 print "XXXXXXXXXXXXx"
+                 if result_db[j] in test_db:
+                     cm.addClassificationResult(result_db[j],result_db[j])
+                 else:
+                     cm.addClassificationResult(test_db[j],result_db[j])
+            
     
     return cm
     
@@ -673,7 +685,7 @@ if __name__ == '__main__':
         
         for filename in os.listdir(input_dir):
             file_list.append(os.path.join(input_dir,filename))
-        for x in range(1,0,-1):
+        for x in range(9,0,-1):
             cm_path_list = []
             os.mkdir(str(x))
             for f in file_list:

@@ -185,8 +185,8 @@
 1.00 has_pos(cut, VB)
 1.00 has_sense(cut, cut.v.01)
 
-1.00 has_pos(vegetable, NN) 
-1.00 has_sense(vegetable, vegetable.n.01)
+1.00 has_pos(vegetables, NN) 
+1.00 has_sense(vegetables, vegetable.n.01)
 
 1.00 has_pos(knife, NN) 
 1.00 has_sense(knife, knife.n.01)
