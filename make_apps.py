@@ -96,6 +96,9 @@ if __name__ == '__main__':
     allargs = '%*' if isWindows else '"$@"'
     pathsep = os.path.pathsep
 
+    if '--pracweb' in args:
+        build_pracweb()
+
     for app in python_apps:
         filename = os.path.join("apps", "%s%s" % (app["name"], {True:".bat", False:""}[isWindows]))
         print "  %s" % filename
@@ -106,8 +109,7 @@ if __name__ == '__main__':
         if not isWindows: os.chmod(filename, stat.S_IRUSR | stat.S_IWUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH)
 
 
-    if '--pracweb' in args:
-        build_pracweb()
+
 
     print
 
