@@ -125,6 +125,7 @@ class PRACQueryGUI(object):
                                          onchangehook=self.project_setdirty)
         self.mln_container.grid(row=row, column=1, sticky="NEWS")
         self.mln_container.columnconfigure(1, weight=2)
+        self.frame.rowconfigure(row, weight=1)
 
         row += 1
         self.use_emln = IntVar()
@@ -146,6 +147,7 @@ class PRACQueryGUI(object):
         self.emln_container.grid(row=self.emlncontainerrow, column=1, sticky="NEWS")
         self.emln_container.columnconfigure(1, weight=2)
         self.onchange_use_emln(dirty=False)
+        self.frame.rowconfigure(row, weight=1)
 
         # db section
         row += 1
@@ -158,6 +160,7 @@ class PRACQueryGUI(object):
                                           onchangehook=self.project_setdirty)
         self.db_container.grid(row=row, column=1, sticky="NEWS")
         self.db_container.columnconfigure(1, weight=2)
+        self.frame.rowconfigure(row, weight=1)
 
         # # OLD DB SECTION
         # row += 1
