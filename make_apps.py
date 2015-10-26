@@ -119,13 +119,11 @@ if __name__ == '__main__':
 
     # write shell script for environment setup
     appsDir = adapt("$PRAC_HOME/apps", arch)
-    praccoreDir = adapt("$PRAC_HOME/praccore", arch)
 
     if not "win" in arch:
         f = file("env.sh", "w")
         f.write('#!/bin/bash\n')
         f.write("export PATH=$PATH:%s\n" % appsDir)
-        f.write("export PYTHONPATH=$PYTHONPATH:%s\n" % praccoreDir)
         f.write("export PRAC_HOME=%s\n" % adapt("$PRAC_HOME", arch))
         f.write("export PYTHONPATH=$PRAC_HOME:$PYTHONPATH\n")
         print 'Now, to set up your environment type:'
