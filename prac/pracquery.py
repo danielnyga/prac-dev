@@ -25,7 +25,7 @@ import sys
 import os
 import re
 import ntpath
-from tkFileDialog import askopenfilename, asksaveasfilename
+from tkFileDialog import asksaveasfilename
 import tkMessageBox
 import traceback
 import StringIO
@@ -39,8 +39,8 @@ from pracmln.mln.database import parse_db
 from pracmln.mln.methods import InferenceMethods
 from pracmln.mln.util import ifNone, colorize, out, headline
 from pracmln.utils.config import PRACMLNConfig, global_config_filename
-from pracmln.utils.project import MLNProject, mlnpath
-from pracmln.utils.widgets import SyntaxHighlightingText, FileEditBar
+from pracmln.utils.project import MLNProject
+from pracmln.utils.widgets import FileEditBar
 
 
 logger = praclog.logger(__name__)
@@ -87,23 +87,23 @@ class PRACQueryGUI(object):
         # Project selection
         row += 1
         Label(self.frame, text="Project: ").grid(row=row, column=0, sticky="E")
-        saveProjectFrame = Frame(self.frame)
-        saveProjectFrame.grid(row=row, column=1, sticky="NEWS")
-        saveProjectFrame.columnconfigure(0, weight=1)
+        saveprojectcontainer = Frame(self.frame)
+        saveprojectcontainer.grid(row=row, column=1, sticky="NEWS")
+        saveprojectcontainer.columnconfigure(0, weight=1)
 
 
         self.selected_project = StringVar(master)
         projectfiles = ['']
-        self.list_projects = apply(OptionMenu, (saveProjectFrame, self.selected_project) + tuple(projectfiles))
+        self.list_projects = apply(OptionMenu, (saveprojectcontainer, self.selected_project) + tuple(projectfiles))
         self.list_projects.grid(row=0, column=0, sticky="NWES")
         self.selected_project.trace("w", self.select_project)
 
         # save proj file
-        self.btn_saveproj = Button(saveProjectFrame, text='Save Project...', command=self.noask_save_project)
+        self.btn_saveproj = Button(saveprojectcontainer, text='Save Project...', command=self.noask_save_project)
         self.btn_saveproj.grid(row=0, column=1, sticky="E")
 
         # save proj file as...
-        self.btn_saveproj = Button(saveProjectFrame, text='Save Project as...', command=self.ask_save_project)
+        self.btn_saveproj = Button(saveprojectcontainer, text='Save Project as...', command=self.ask_save_project)
         self.btn_saveproj.grid(row=0, column=2, sticky="E")
         
         # logic selection
@@ -111,6 +111,7 @@ class PRACQueryGUI(object):
         Label(self.frame, text='Logic: ').grid(row=row, column=0, sticky='E')
         logics = ['FirstOrderLogic', 'FuzzyLogic']
         self.selected_logic = StringVar(master)
+        self.selected_logic.trace('w', self.settings_setdirty)
         l = apply(OptionMenu, (self.frame, self.selected_logic) + tuple(logics))
         l.grid(row=row, column=1, sticky='NWE')
         
@@ -162,55 +163,12 @@ class PRACQueryGUI(object):
         self.db_container.columnconfigure(1, weight=2)
         self.frame.rowconfigure(row, weight=1)
 
-        # # OLD DB SECTION
-        # row += 1
-        # Label(self.frame, text="Evidence: ").grid(row=row, column=0, sticky='E')
-        # db_container = Frame(self.frame)
-        # db_container.grid(row=row, column=1, sticky="NEWS")
-        # db_container.columnconfigure(1, weight=2)
-        #
-        # self.selected_db = StringVar(master)
-        # dbfiles = []
-        # self.db_buffer = {}
-        # self._dirty_db_name = ''
-        # self._db_editor_dirty = False
-        # self.db_reload = True
-        # if len(dbfiles) == 0: dbfiles.append("")
-        # self.list_dbs = apply(OptionMenu, (db_container, self.selected_db) + tuple(dbfiles))
-        # self.list_dbs.grid(row=0, column=1, sticky="NWE")
-        # self.selected_db.trace("w", self.select_db)
-        #
-        # # new db file
-        # self.btn_newdb = Button(db_container, text='New', command=self.new_db)
-        # self.btn_newdb.grid(row=0, column=2, sticky="W")
-        #
-        # # import db file
-        # self.btn_importdb = Button(db_container, text='Import', command=self.import_db)
-        # self.btn_importdb.grid(row=0, column=3, sticky="W")
-        #
-        # # delete db file
-        # self.btn_deldb = Button(db_container, text='Delete', command=self.delete_db)
-        # self.btn_deldb.grid(row=0, column=4, sticky="W")
-        #
-        # # db filename field & save button
-        # self.db_filename = StringVar(master, value='filename.db')
-        # self.save_edit_db = Entry(db_container, textvariable=self.db_filename)
-        # self.save_edit_db.grid(row=0, column=5, sticky="WE")
-        #
-        # self.btn_updatedb = Button(db_container, text='Save', command=self.update_db)
-        # self.btn_updatedb.grid(row=0, column=6, sticky="E")
-        #
-        # # db editor
-        # row += 1
-        # self.db_editor = SyntaxHighlightingText(self.frame, change_hook=self.onchange_dbcontent)
-        # self.db_editor.grid(row=row, column=1, sticky="NWES")
-        # self.frame.rowconfigure(row, weight=1)
-
         # inference method selection
         row += 1
         self.list_methods_row = row
         Label(self.frame, text="Method: ").grid(row=row, column=0, sticky=E)
         self.selected_method = StringVar(master)
+        self.selected_method.trace('w', self.settings_setdirty)
         self.list_methods = OptionMenu(self.frame, self.selected_method, *InferenceMethods.names())
         self.list_methods.grid(row=self.list_methods_row, column=1, sticky="NWE")
 
@@ -287,6 +245,8 @@ class PRACQueryGUI(object):
         self.selected_module.set(self.gconf.get("module", modules[0]))
         self.update_dbeditor_from_result(*pracinference.inference_steps[-1].output_dbs)
         self.mln_container.dirty = False
+        self.emln_container.dirty = False
+        self.db_container.dirty = False
         self.project_setdirty(dirty=False)
 
         self.master.geometry(gconf['window_loc_query'])
@@ -321,7 +281,7 @@ class PRACQueryGUI(object):
 
 
     def project_setdirty(self, dirty=False, *args):
-        self.project_dirty.set(dirty or self.mln_container.dirty)# or self.db_container.dirty or self.emln_container.dirty
+        self.project_dirty.set(dirty or self.mln_container.dirty or self.db_container.dirty or self.emln_container.dirty)
         self.changewindowtitle()
 
 
@@ -337,7 +297,6 @@ class PRACQueryGUI(object):
 
     def select_project(self, *args):
         filename = os.path.join(self.prac.moduleManifestByName[self.selected_module.get()].module_path, self.selected_project.get())
-        out('loading project', filename)
         if filename and os.path.exists(filename):
             self.load_project(filename)
         else:
@@ -359,8 +318,12 @@ class PRACQueryGUI(object):
             if len(self.project.mlns) > 0:
                 self.mln_container.selected_file.set(self.project.queryconf['mln'] or self.project.mlns.keys()[0])
                 self.mln_container.dirty = False
+            if len(self.project.emlns) > 0:
+                self.emln_container.selected_file.set(self.project.queryconf['emln'] or self.project.emlns.keys()[0])
+                self.emln_container.dirty = False
             if len(self.project.dbs) > 0 and not self.keep_evidence.get():
                 self.db_container.selected_file.set(self.project.queryconf['db'] or self.project.dbs.keys()[0])
+            self.write_gconfig(savegeometry=False)
             self.settings_dirty.set(0)
             self.changewindowtitle()
         else:
@@ -568,177 +531,7 @@ class PRACQueryGUI(object):
     ####################### /DB FUNCTIONS #####################################
 
 
-    # ####################### OLD DB FUNCTIONS ######################################
-    # def new_db(self):
-    #     self.project.add_db(DEFAULTNAME.format('.db'), content='')
-    #     self.update_db_choices()
-    #     self.selected_db.set(DEFAULTNAME.format('.db'))
-    # 
-    # 
-    # def import_db(self):
-    #     filename = askopenfilename(initialdir=self.dir, filetypes=[('Database files', '.db')], defaultextension=".db")
-    #     if filename:
-    #         fpath, fname = ntpath.split(filename)
-    #         self.dir = os.path.abspath(fpath)
-    #         content = mlnpath(filename).content
-    #         self.project.add_db(fname, content)
-    #         self.update_db_choices()
-    #         self.selected_db.set(fname)
-    # 
-    # 
-    # def delete_db(self):
-    #     fname = self.selected_db.get()
-    #     fnamestr = fname.strip('*')
-    # 
-    #     # remove element from project dbs and buffer
-    #     if fname in self.db_buffer:
-    #         del self.db_buffer[fname]
-    #     if fname in self.project.dbs:
-    #         self.project.rm_db(fname)
-    #     if fnamestr in self.project.dbs:
-    #         self.project.rm_db(fnamestr)
-    #     self.update_db_choices()
-    # 
-    #     # select first element from remaining list
-    #     if len(self.project.dbs) > 0:
-    #         self.selected_db.set(self.project.dbs.keys()[0])
-    #     else:
-    #         self.selected_db.set('')
-    #         self.db_editor.delete("1.0", END)
-    #         self.db_filename.set('')
-    #         self.list_dbs['menu'].delete(0, 'end')
-    # 
-    # 
-    # def save_all_dbs(self):
-    #     current = self.selected_db.get().strip()
-    #     for db in self.db_buffer:
-    #         dbstr = db.strip('*')
-    #         content = self.db_buffer[db]
-    #         if db == current:
-    #             content = self.db_editor.get("1.0", END).strip()
-    #         if dbstr in self.project.dbs:
-    #             self.project.rm_db(dbstr)
-    #         self.project.add_db(dbstr, content)
-    # 
-    #     # reset buffer, dirty flag for editor and update mln selections
-    #     self.db_buffer.clear()
-    #     self._db_editor_dirty = False
-    #     self.update_db_choices()
-    # 
-    #     self.project.save(dirpath=self.module_dir)
-    #     self.write_gconfig()
-    #     # self.project_setdirty(False)
-    #     self.changewindowtitle()
-    # 
-    # 
-    # 
-    # def update_db(self):
-    #     oldfname = self.selected_db.get().strip()
-    #     newfname = self.db_filename.get().strip()
-    #     content = self.db_editor.get("1.0", END).strip()
-    # 
-    #     if oldfname:
-    #         if oldfname in self.db_buffer:
-    #             del self.db_buffer[oldfname]
-    #         if oldfname == newfname:
-    #             self.project.dbs[oldfname] = content
-    #         else:
-    #             if oldfname in self.project.dbs:
-    #                 self.project.rm_db(oldfname)
-    #             if newfname != '':
-    #                 self.project.add_db(newfname, content)
-    #     else:
-    #         if newfname:
-    #             self.project.add_db(newfname, content)
-    #         else:
-    #             logger.error('no name specified!')
-    #             return
-    # 
-    #     # reset dirty flag for editor and update db selections
-    #     self._db_editor_dirty = False
-    #     self.update_db_choices()
-    # 
-    #     self.project.save(dirpath=self.module_dir)
-    #     self.write_gconfig()
-    #     if newfname != '': self.selected_db.set(newfname)
-    #     # self.project_setdirty(False)
-    #     self.changewindowtitle()
-    # 
-    # 
-    # def select_db(self, *args):
-    #     dbname = self.selected_db.get().strip()
-    #     self.project_setdirty(True)
-    # 
-    #     if dbname is not None and dbname != '':
-    #         # filename is neither None nor empty
-    #         if self._db_editor_dirty:
-    #             # save current state to buffer before updating editor
-    #             self.db_buffer[self._dirty_db_name] = self.db_editor.get("1.0", END).strip()
-    #             self._db_editor_dirty = True if '*' in dbname else False
-    #             if not self.db_reload:
-    #                 self.db_reload = True
-    #                 return
-    #         if '*' in dbname:# is edited
-    #             # load previously edited content from buffer instead of db file in project
-    #             content = self.db_buffer.get(dbname, '').strip()
-    #             self.db_editor.delete("1.0", END)
-    #             content = content.replace("\r", "")
-    #             self.db_editor.insert(INSERT, content)
-    #             self.db_filename.set(dbname.lstrip('*'))
-    #             self._db_editor_dirty = True
-    #             self._dirty_db_name = '*' + dbname if '*' not in dbname else dbname
-    #             return
-    #         if dbname in self.project.dbs:
-    #             # load content from db file in project
-    #             content = self.project.dbs.get(dbname, '').strip()
-    #             self.db_editor.delete("1.0", END)
-    #             content = content.replace("\r", "")
-    #             self.db_editor.insert(INSERT, content)
-    #             self.db_filename.set(dbname)
-    #             self._db_editor_dirty = False
-    #     else:
-    #         # should not happen
-    #         self.db_editor.delete("1.0", END)
-    #         self.db_filename.set('')
-    #         self.list_dbs['menu'].delete(0, 'end')
-    # 
-    # 
-    # def update_db_choices(self):
-    #     content = ''
-    #     if self.keep_evidence.get():
-    #         content = self.db_editor.get("1.0", END).strip()
-    # 
-    #     self.list_dbs['menu'].delete(0, 'end')
-    # 
-    #     new_dbs = sorted([i for i in self.project.dbs.keys() if '*'+i not in self.db_buffer] + self.db_buffer.keys())
-    #     for db in new_dbs:
-    #         self.list_dbs['menu'].add_command(label=db, command=_setit(self.selected_db, db))
-    # 
-    #     if self.keep_evidence.get():
-    #         self.db_editor.delete("1.0", END)
-    #         self.db_editor.insert(INSERT, content)
-    # 
-    # 
-    # def onchange_dbcontent(self, *args):
-    #     if not self._db_editor_dirty:
-    #         self._db_editor_dirty = True
-    #         self.db_reload = False
-    #         fname = self.selected_db.get().strip()
-    #         fname = '*' + fname if '*' not in fname else fname
-    #         self._dirty_db_name = fname
-    #         self.db_buffer[self._dirty_db_name] = self.db_editor.get("1.0", END).strip()
-    #         self.update_db_choices()
-    #         self.selected_db.set(self._dirty_db_name)
-    #
-    #
-    ####################### /OLD DB FUNCTIONS #################################
-
-
-
     ####################### GENERAL FUNCTIONS #################################
-    def select_method(self, *args):
-        self.settings_setdirty()
-
 
     def onchange_use_emln(self, dirty=True, *args):
         if not self.use_emln.get():
@@ -749,11 +542,6 @@ class PRACQueryGUI(object):
             self.emln_container.grid(row=self.emlncontainerrow, column=1, sticky="NWES")
         if dirty:
             self.settings_setdirty()
-
-
-    def select_logic(self, *args):
-        self.logic = self.selected_logic.get()
-        self.settings_setdirty()
 
 
     def onchange_cw(self, *args):
@@ -767,6 +555,7 @@ class PRACQueryGUI(object):
     def reset_gui(self, keepdb=False):
         self.set_config({})
         self.db_container.clear(keep=keepdb)
+        self.emln_container.clear()
         self.mln_container.clear()
 
 
@@ -791,12 +580,12 @@ class PRACQueryGUI(object):
     def update_config(self):
 
         self.config = PRACMLNConfig()
-        self.config["db"] = self.db_container.selected_file.get().strip().lstrip('*')
         self.config['mln'] = self.mln_container.selected_file.get().strip().lstrip('*')
+        self.config['emln'] = self.emln_container.selected_file.get().strip().lstrip('*')
+        self.config["db"] = self.db_container.selected_file.get().strip().lstrip('*')
         self.config["method"] = InferenceMethods.id(self.selected_method.get().strip())
         self.config["params"] = self.params.get().strip()
         self.config["queries"] = self.query.get()
-        self.config['emln'] = self.emln_container.selected_file.get().strip().lstrip('*')
         self.config["cw"] = self.closed_world.get()
         self.config["cw_preds"] = self.cwpreds.get()
         self.config["use_emln"] = self.use_emln.get()
