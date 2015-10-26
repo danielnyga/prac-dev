@@ -11,7 +11,8 @@ sys.path.append(os.path.join(os.getcwd(), 'prac'))
 
 from pracmln.mln.util import colorize
 
-packages = [('web', 'webpy'),('bs4','bs4')]
+packages = [('web', 'webpy'),('bs4','bs4'),('jpype', 'jpype')]
+pracwebpackages = [('flask', 'Flask'), ('pyparsing', 'pyparsing')]
 
 def check_package(pkg):
     try:
@@ -41,6 +42,9 @@ def adapt(name, arch):
 
 def build_pracweb():
     # build qooxdoo
+    for pkg in pracwebpackages:
+        check_package(pkg)
+
     generate = adapt("$PRAC_HOME/pracweb/gui/generate.py", arch)
     os.system(generate + ' source-all')
     os.system(generate + ' build')
