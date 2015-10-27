@@ -29,7 +29,7 @@ sys.modules['BeautifulSoup'] = bs4
 import lxml.html.soupparser as p
 from pracmln.praclog import logging
 import os
-from nltk.corpus import wordnet
+from prac_nltk.corpus import wordnet
 
 java.classpath.append(os.path.join('3rdparty', 'stanford-parser-2012-02-03', 'stanford-parser.jar'))
 grammarPath = os.path.join('3rdparty', 'stanford-parser-2012-02-03', 'grammar', 'englishPCFG.ser.gz')

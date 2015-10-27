@@ -8,6 +8,7 @@ import shutil
 import imp
 
 sys.path.append(os.path.join(os.getcwd(), 'prac'))
+sys.path.append(os.path.join(os.getcwd(), '3rdparty', 'nltk_2.0b9'))
 
 from pracmln.mln.util import colorize
 

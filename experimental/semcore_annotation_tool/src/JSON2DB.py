@@ -6,7 +6,7 @@ Created on Mar 1, 2012
 
 import json
 import re
-from nltk.corpus import wordnet as wn
+from prac_nltk.corpus import wordnet as wn
 import utils
     
 class AnnotatedWord:

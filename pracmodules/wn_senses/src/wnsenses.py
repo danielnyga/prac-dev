@@ -23,13 +23,13 @@
 import sys
 
 from prac.core.base import PRACModule, PRACPIPE, DB_TRANSFORM
-from nltk.corpus import wordnet as wn
+from prac_nltk.corpus import wordnet as wn
 import logging
 from prac.core.inference import PRACInferenceStep
 import os
 from prac.core.wordnet import WordNet
 from collections import defaultdict
-from nltk.corpus.reader.wordnet import Synset
+from prac_nltk.corpus.reader.wordnet import Synset
 
 # mapping from PennTreebank POS tags to NLTK POS Tags
 from pracmln import MLN, Database

@@ -22,7 +22,7 @@
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 import os
 from praclog import logging
-from nltk.corpus import wordnet as wn
+from prac_nltk.corpus import wordnet as wn
 from nlparsing import StanfordParser
 import java
 import itertools

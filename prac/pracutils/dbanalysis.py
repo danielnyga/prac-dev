@@ -14,7 +14,7 @@ from mln.util import mergeDomains
 from praclog import logging
 from prac.core import PRAC
 from mln.database import readAllDBsInDir, readDBFromString, readDBFromFile
-from nltk.corpus import wordnet as wn
+from prac_nltk.corpus import wordnet as wn
 from matplotlib.pyplot import text
 from scipy.optimize.optimize import fmin_bfgs
 

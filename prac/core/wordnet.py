@@ -21,12 +21,12 @@
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-from nltk.corpus import wordnet
+from prac_nltk.corpus import wordnet
 from prac.pracutils.graph import DAG , Node
-import nltk
+import prac_nltk
 import logging 
 from itertools import chain
-from nltk.corpus.reader.wordnet import Synset
+from prac_nltk.corpus.reader.wordnet import Synset
 from pracmln.mln.util import out
 from pracmln.utils.graphml import Graph, Node as GMLNode, Edge
 import itertools
@@ -37,7 +37,7 @@ import properties # contains similarity dictionaries for colors, shapes, sizes, 
 from prac.pracutils.pracgraphviz import render_gv
 
 PRAC_HOME = os.environ['PRAC_HOME']
-nltk.data.path = [os.path.join(PRAC_HOME, 'data', 'nltk_data')]
+prac_nltk.data.path = [os.path.join(PRAC_HOME, 'data', 'nltk_data')]
 
 NLTK_POS = ['n', 'v', 'a', 'r']
 

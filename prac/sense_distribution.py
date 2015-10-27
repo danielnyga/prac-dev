@@ -26,7 +26,7 @@ import jpype
 import os
 from core.wordnet import WordNet, known_concepts
 from itertools import chain
-import nltk
+import prac_nltk
 from collections import defaultdict
 import sys
 from core.base import PRAC
