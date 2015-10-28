@@ -32,7 +32,7 @@ from pracmln.mln.base import parse_mln
 from pracmln.mln.util import colorize, out
 from pracmln.praclog import logger
 from pracmln.utils.project import MLNProject
-from webmln.gui.pages.utils import get_cond_prob_png
+from pracmln.utils.visualization import get_cond_prob_png
 
 
 PRAC_HOME = os.environ['PRAC_HOME']

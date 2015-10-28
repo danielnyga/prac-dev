@@ -9,6 +9,8 @@ from pracmln.praclog import logger
 from pracweb.gui.pages.utils import ensure_prac_session
 from pracmln import Database
 from pracweb.gui.app import pracApp
+from pracmln.utils.project import mlnpath
+from pracmln.mln.util import out
 
 log = logger(__name__)
 
@@ -80,8 +82,8 @@ def _pracinfer_step():
 
             # retrieve settings for executed pracmodule
             step = pracsession.infer.inference_steps[-1]
-            if hasattr(step, 'applied_kb'):
-                settings = _get_settings(step.module, step.applied_kb, evidence)
+            if hasattr(step, 'applied_settings'):
+                settings = _get_settings(step.module, step.applied_settings, evidence)
             else:
                 settings = None
 
@@ -110,8 +112,8 @@ def _pracinfer_step():
 
     # retrieve settings for executed pracmodule
     step = pracsession.infer.inference_steps[-1]
-    if hasattr(step, 'applied_kb'):
-        settings = _get_settings(step.module, step.applied_kb, evidence)
+    if hasattr(step, 'applied_settings'):
+        settings = _get_settings(step.module, step.applied_settings, evidence)
     else:
         settings = _get_settings(step.module, None, evidence)
 
@@ -128,8 +130,16 @@ def _pracinfer_get_next_module():
         return 'nl_parsing'
 
 
-def _get_settings(module, kbname, evidence):
+def _get_settings(module, appliedsettings, evidence):
     settings = {'module': module.name, 'mln': ''}
+
+    # if settings base exists, read settings
+    if appliedsettings is not None:
+        mlnstr = StringIO.StringIO()
+        appliedsettings.get('mln').write(mlnstr, color=False)
+        settings.update(appliedsettings)
+        del settings['db']
+        settings['mln'] = mlnstr.getvalue()
 
     # evidence is either text or list of dbs
     if type(evidence) is unicode:
@@ -139,14 +149,6 @@ def _get_settings(module, kbname, evidence):
         for db in evidence:
             db.write(dbstr, color=False, bars=False)
         settings['evidence'] = dbstr.getvalue()
-    
-    # if knowledge base exists, read settings
-    if kbname is not None:
-        kb = module.load_prac_kb(kbname)
-        mlnstr = StringIO.StringIO()
-        kb.query_mln.write(mlnstr, color=False)
-        settings.update(kb.config.config)
-        settings['mln'] = mlnstr.getvalue()
 
     return settings
 

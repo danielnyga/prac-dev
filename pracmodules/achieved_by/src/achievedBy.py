@@ -30,7 +30,7 @@ from pracmln.mln.base import parse_mln
 from pracmln.mln.util import colorize, out
 from pracmln.praclog import logger
 from pracmln.utils.project import MLNProject
-from webmln.gui.pages.utils import get_cond_prob_png
+from pracmln.utils.visualization import get_cond_prob_png
 
 
 log = logger(__name__)
@@ -127,8 +127,8 @@ class AchievedBy(PRACModule):
 
                 inf_step.output_dbs.append(unified_db)
 
-        png, ratio = get_cond_prob_png(project.queryconf.get('queries', ''), dbs, filename=self.name)
-        inf_step.png = (png, ratio)
-        inf_step.applied_settings = project.queryconf.config
+            png, ratio = get_cond_prob_png(project.queryconf.get('queries', ''), dbs, filename=self.name)
+            inf_step.png = (png, ratio)
+            inf_step.applied_settings = project.queryconf.config
         return inf_step
     

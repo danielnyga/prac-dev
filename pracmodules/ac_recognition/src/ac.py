@@ -34,7 +34,7 @@ from pracmln import Database, MLN, MLNQuery
 from pracmln.mln.util import colorize, out, stop
 from pracmln.praclog import logger
 from pracmln.utils.project import MLNProject
-from webmln.gui.pages.utils import get_cond_prob_png
+from pracmln.utils.visualization import get_cond_prob_png
 
 
 class ActionCoreIdentification(PRACModule):

@@ -8,6 +8,7 @@ from pracweb.gui.app import PRACSession
 from prac.core.base import PRAC
 from prac.core.wordnet import WordNet
 from pracmln.mln.methods import InferenceMethods
+from pracmln.utils.project import MLNProject
 
 FILEDIRS = {'mln': 'mln', 'pracmln': 'bin', 'db': 'db'}
 LOGICS = [('FirstOrderLogic', 'FOL'), ('FuzzyLogic', 'Fuzzy')]
@@ -16,12 +17,12 @@ PRAC_HOME = os.environ['PRAC_HOME']
 INFMETHODS = InferenceMethods.names()
 
 
-def ensure_prac_session(session):
+def ensure_prac_session(cursession):
     log = logging.getLogger(__name__)
-    prac_session = pracApp.session_store[session]
+    prac_session = pracApp.session_store[cursession]
     if prac_session is None:
-        session['id'] = os.urandom(24)
-        prac_session = PRACSession(session)
+        cursession['id'] = os.urandom(24)
+        prac_session = PRACSession(cursession)
         prac_session.prac = PRAC()
         prac_session.prac.wordnet = WordNet(concepts=None)
         # initialize the nl_parsing module so the JVM is started
@@ -120,13 +121,6 @@ def get_file_content(fdir, fname):
         else:
             content += l
     return content
-
-
-def save_kb(kb, tmpfoldername, name=None):
-    if name is None and not hasattr(kb, 'name'):
-        raise Exception('No name specified.')
-    config = PRACMLNConfig(os.path.join(tmpfoldername, 'bin', query_config_pattern % name if name is not None else kb.name))
-    config.dump()
 
 
 def add_wn_similarities(db, concepts, wn):
