@@ -21,7 +21,6 @@
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 import os
-
 from prac.core.base import PRACModule, PRACPIPE
 from prac.core.inference import PRACInferenceStep
 from prac.core.wordnet import WordNet
@@ -38,17 +37,20 @@ from pracmln.utils.project import MLNProject
 from pracmln.utils.visualization import get_cond_prob_png
 
 
+log = logger(__name__)
+
+
 class SensesAndRoles(PRACModule):
     '''
-    
+
     '''
-    
+
     def initialize(self):
         pass
-    
+
     def shutdown(self):
         pass
-    
+
     def roleQueryBuilder(self, actioncore, predicate, domainList):
         # assuming that the role predicates are always of the form
         # predname(?x, actioncore)
@@ -56,8 +58,7 @@ class SensesAndRoles(PRACModule):
 
     @PRACPIPE
     def __call__(self, pracinference, **params):
-        log = logger(self.name)
-        
+
         print colorize('+==========================================+', (None, 'green', True), True)
         print colorize('| PRAC INFERENCE: RECOGNIZING %s ROLES     ' % ({True: 'MISSING', False: 'GIVEN'}[params.get('missing', False)]), (None, 'green', True), True)
         print colorize('+==========================================+', (None, 'green', True), True)
@@ -187,23 +188,25 @@ class SensesAndRoles(PRACModule):
             for word in db_.domains['word']:
                 for q in db_.query('action_core(?w,?ac)'):
                     actioncore = q['?ac']
-                    kb = self.load_prac_kb(actioncore)
-                    mln = kb.query_mln
+
+                    projectpath = os.path.join(self.module_path, '{}.pracmln'.format(actioncore))
+                    project = MLNProject.open(projectpath)
+                    mlntext = project.mlns.get(project.queryconf['mln'], None)
+                    mln = parse_mln(mlntext, searchpaths=[self.module_path], projectpath=projectpath, logic=project.queryconf.get('logic', 'FuzzyLogic'), grammar=project.queryconf.get('grammar', 'PRACGrammar'))
+
                     db = db_.copy(mln=mln)
-                    for qs in db.query('!(EXIST ?w (has_sense(?w,?s)))'):
-                        print 'removing', qs
-                        db.removeDomainValue('sense', qs['?s']) 
-                    print db.domains
+                    for qs in db_.query('!(EXIST ?w (has_sense(?w,?s)))'):
+                        db.rmval('sense', qs['?s'])
                     for concept in db_.domains['concept']:
                         if concept not in mln.domains['concept']:
-                            db.removeDomainValue('concept', concept)
+                            db.rmval('concept', concept)
                     for res in db_.query('has_sense(%s, ?s)' % (word)):
                         sense = res['?s']
                         if sense == 'null': continue
                         roles = ActioncoreDescriptionHandler.getRolesBasedOnActioncore(actioncore)
                         role = None
                         for r in roles:
-                            vars = ['?v%d' % i for i in range(len(db_.mln.predicates[r])-1)]
+                            vars = ['?v%d' % i for i in range(len(db_.mln.predicate(r).argdoms)-1)]
                             br = False
                             for qr in db_.query('%s(%s,%s)' % (r, ','.join(vars), actioncore)): 
                                 for v in vars:
@@ -213,27 +216,33 @@ class SensesAndRoles(PRACModule):
                                         break
                                 if br: break
                             if br: break
-                        print role
                         if role is None: continue
-                        db.retractGndAtom('has_sense(%s, %s)' % (word, sense))
+                        db.retract('has_sense(%s, %s)' % (word, sense))
 #                         wnmod = self.prac.getModuleByName('wn_senses')
 #                         for synset in wnmod.get_possible_meanings_of_word(db, word):
-#                             db.removeDomainValue('sense', synset.name)
+#                             db.rmval('sense', synset.name)
                         add_all_wordnet_similarities(db, wn)
-                        result = mln.infer(queries='has_sense', method='EnumerationAsk', evidence_db=db, closedWorld=True, useMultiCPU=False)
+
+                        db.write()
+
+
+                        # result = mln.infer(queries='has_sense', method='EnumerationAsk', evidence_db=db, cw=True, multicore=False)
+                        infer = MLNQuery(method='EnumerationAsk', mln=mln, db=db, queries='has_sense', cw=True, multicore=False)
+                        result = infer.run()
+
+
                         g = wn.to_dot()
                         maxprob = 0.
-                        for atom, truth in result.evidence.iteritems():
-                            _, predname, args = db.mln.logic.parseLiteral(atom)
+                        for atom, truth in result.resultdb.gndatoms():
+                            _, predname, args = db.mln.logic.parse_literal(atom)
                             concept = args[1]
-                            if predname == 'has_sense' and args[0] == word and args[1] != 'null':
+                            if predname == 'has_sense' and args[0] == word and concept != 'null':
                                 maxprob = max(maxprob, truth) 
 
-                        for atom, truth in result.evidence.iteritems():
-                            _, predname, args = db.mln.logic.parseLiteral(atom)
+                        for atom, truth in result.resultdb.gndatoms():
+                            _, predname, args = db.mln.logic.parse_literal(atom)
                             concept = args[1]
-                            if predname == 'has_sense' and args[0] == word and args[1] != 'null':
-                                print concept, get_prob_color(truth)
+                            if predname == 'has_sense' and args[0] == word and concept != 'null':
                                 if concept in wn.known_concepts:
                                     g.node(concept, fillcolor=get_prob_color(truth / maxprob))
                         render_gv(g, 'prac-%s-%s.svg' % (actioncore, role))

@@ -21,20 +21,20 @@
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 import os
-import sys
-
 from prac.core.base import PRACModule, PRACPIPE
 from pracmln.mln.base import parse_mln
 from pracmln.mln.methods import LearningMethods
 from prac.core.wordnet import WordNet
 from prac.core.inference import PRACInferenceStep
-
 # mapping from PennTreebank POS tags to NLTK POS Tags
 from pracmln import Database, MLN, MLNQuery
 from pracmln.mln.util import colorize, out, stop
 from pracmln.praclog import logger
 from pracmln.utils.project import MLNProject
 from pracmln.utils.visualization import get_cond_prob_png
+
+
+log = logger(__name__)
 
 
 class ActionCoreIdentification(PRACModule):
@@ -45,7 +45,6 @@ class ActionCoreIdentification(PRACModule):
 
     @PRACPIPE
     def __call__(self, pracinference, **params):
-        log = logger(self.name)
         log.debug('inference on %s' % self.name)
         
         print colorize('+==========================================+', (None, 'green', True), True)

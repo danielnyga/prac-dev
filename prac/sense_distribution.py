@@ -100,7 +100,7 @@ def add_similarities(db, concept, wn):
     mln_concepts = map(lambda c: wn.synset(c), db.mln.domains['concept'])
     for knwn_concept in mln_concepts:
         sim = wn.wup_similarity(concept, knwn_concept)
-        db.addGroundAtom('is_a(%s,%s)' % (concept.name, knwn_concept.name), sim)
+        db << ('is_a(%s,%s)' % (concept.name, knwn_concept.name), sim)
     
                 
 if __name__ == '__main__':

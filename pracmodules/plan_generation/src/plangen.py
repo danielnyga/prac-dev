@@ -38,13 +38,10 @@ class PlanGenerator(PRACModule):
         infstep.output_dbs = dbs
         infstep.executable_plans = []
         for db in dbs:
-            out('final db', len(dbs))
-            db.write(bars=False)
 
             for query in ('achieved_by(?ac1, ?ac)', 'action_core(?w, ?ac)'):
                 for q in db.query(query):
                     actioncore = q['?ac']
-                    log.info('actioncore: ', actioncore)
                     ac = self.prac.actioncores.get(actioncore)
                     if not ac.plan: continue
                     assignment = {}
@@ -65,5 +62,4 @@ class PlanGenerator(PRACModule):
                     for assignment in role_assignments:
                         infstep.executable_plans.append(ac.parameterize_plan(**assignment))
                     break
-        print 'executable plans:', infstep.executable_plans
         return infstep
