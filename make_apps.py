@@ -7,12 +7,17 @@ import platform
 import shutil
 import imp
 
-sys.path.append(os.path.join(os.getcwd(), 'prac'))
-sys.path.append(os.path.join(os.getcwd(), '3rdparty', 'nltk_2.0b9'))
+try:
+    from pracmln.mln.util import colorize
+except:
+    print
+    print "Could not find PRACMLN. Please install PRACMLN first using the make_apps.py in your PRACMLN root directory!"
+    print
+    sys.exit(-1)
 
-from pracmln.mln.util import colorize
 
-packages = [('jpype', 'jpype1', False), ('nltk', 'nltk', False), ('graphviz', 'graphviz', False), ('bs4', 'beautifulsoup4', False), ('lxml', 'lxml', False)]
+
+packages = [('jpype', 'jpype1', False), ('nltk', 'nltk', False), ('graphviz', 'graphviz', False), ('bs4', 'beautifulsoup4', False), ('lxml', 'lxml', False), ('yaml', 'pyyaml', False)]
 pracwebpackages = [('flask', 'Flask', False), ('werkzeug', 'werkzeug', False), ('PIL', 'Pillow', False), ('jinja2', 'Jinja2', False), ('geoip', 'python-geoip python-geoip-geolite2', True)]
 
 def check_package(pkg):
@@ -120,11 +125,13 @@ if __name__ == '__main__':
 
     # write shell script for environment setup
     appsDir = adapt("$PRAC_HOME/apps", arch)
+    nltkdir = adapt("$PRAC_HOME/3rdparty/nltk_2.0b9", arch)
 
     if not "win" in arch:
         f = file("env.sh", "w")
         f.write('#!/bin/bash\n')
         f.write("export PATH=$PATH:%s\n" % appsDir)
+        f.write("export PYTHONPATH=$PYTHONPATH:%s\n" % nltkdir)
         f.write("export PRAC_HOME=%s\n" % adapt("$PRAC_HOME", arch))
         f.write("export PYTHONPATH=$PRAC_HOME:$PYTHONPATH\n")
         print 'Now, to set up your environment type:'
@@ -134,10 +141,17 @@ if __name__ == '__main__':
         print '    source %s' % adapt("$PRAC_HOME/env.sh", arch)
         print
     else:
+        pypath = ';'.join([adapt("$PRAC_HOME", arch), nltkdir])
         f = file("env.bat", "w")
-        f.write("SET PATH=%%PATH%%;%s\r\n" % appsDir)
-        f.write("SET PRAC_HOME=%s\n" % adapt("$PRAC_HOME", arch))
+        f.write("@ECHO OFF\n")
+        f.write('SETX PATH "%%PATH%%;%s"\r\n' % appsDir)
+        f.write('SETX PRAC_HOME "%s"\r\n' % adapt("$PRAC_HOME", arch))
+        f.write('SETX PYTHONPATH "%%PYTHONPATH%%;%s"\r\n' % pypath)
         f.close()
+        # f = file("env.bat", "w")
+        # f.write("SET PATH=%%PATH%%;%s\r\n" % appsDir)
+        # f.write("SET PRAC_HOME=%s\n" % adapt("$PRAC_HOME", arch))
+        # f.close()
         print 'To temporarily set up your environment for the current session, type:'
         print '    env.bat'
         print
