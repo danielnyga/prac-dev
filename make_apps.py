@@ -17,7 +17,7 @@ except:
 
 
 
-packages = [('jpype', 'jpype1', False), ('nltk', 'nltk', False), ('graphviz', 'graphviz', False), ('bs4', 'beautifulsoup4', False), ('lxml', 'lxml', False), ('yaml', 'pyyaml', False)]
+packages = [('jpype', 'jpype1', False), ('nltk', 'nltk', False), ('graphviz', 'graphviz', False), ('bs4', 'beautifulsoup4', False), ('lxml', 'lxml', False), ('yaml', 'pyyaml', False), ('matplotlib', 'matplotlib', False)]
 pracwebpackages = [('flask', 'Flask', False), ('werkzeug', 'werkzeug', False), ('PIL', 'Pillow', False), ('jinja2', 'Jinja2', False), ('geoip', 'python-geoip python-geoip-geolite2', True)]
 
 def check_package(pkg):
