@@ -223,13 +223,9 @@ class SensesAndRoles(PRACModule):
 #                             db.rmval('sense', synset.name)
                         add_all_wordnet_similarities(db, wn)
 
-                        db.write()
-
-
                         # result = mln.infer(queries='has_sense', method='EnumerationAsk', evidence_db=db, cw=True, multicore=False)
                         infer = MLNQuery(method='EnumerationAsk', mln=mln, db=db, queries='has_sense', cw=True, multicore=False)
                         result = infer.run()
-
 
                         g = wn.to_dot()
                         maxprob = 0.

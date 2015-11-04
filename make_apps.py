@@ -49,7 +49,6 @@ def adapt(name, arch):
 def build_pracweb():
     # build qooxdoo
     generate = adapt("$PRAC_HOME/pracweb/gui/generate.py -q", arch)
-    os.system(generate + ' source-all')
     os.system(generate + ' build')
 
     for pkg in pracwebpackages:

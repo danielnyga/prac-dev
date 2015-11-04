@@ -30,7 +30,6 @@ import time
 import xml.etree.ElementTree as ET
 from xml.etree.ElementTree import ElementTree
 
-
 def render_gv(graph, filename=None, directory='/tmp'):
     """
     A modification of the original graphviz rendering, which 
@@ -58,7 +57,7 @@ def render_gv(graph, filename=None, directory='/tmp'):
                 'make sure the Graphviz executables '
                 'are on your systems\' path' % cmd)
         else:
-            raise
+            raise e
 
     # scale generated svg to 100%
     ET.register_namespace('', "http://www.w3.org/2000/svg")
