@@ -34,7 +34,8 @@ from pracmln.mln.base import parse_mln
 from pracmln.mln.database import parse_db
 from pracmln.mln.util import mergedom, out
 from pracmln.mlnquery import MLNQuery
-from pracmln.utils.config import PRACMLNConfig, query_config_pattern
+from pracmln.utils.config import query_config_pattern
+from pracmln.utils.project import PRACMLNConfig
 
 PRAC_HOME = os.environ['PRAC_HOME']
 prac_module_path = os.path.join(PRAC_HOME, 'pracmodules')

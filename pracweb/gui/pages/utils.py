@@ -1,4 +1,4 @@
-from pracmln.utils.config import query_config_pattern, PRACMLNConfig
+from pracmln.utils.config import query_config_pattern
 from pracweb.gui.app import pracApp
 import os, re
 import tempfile
@@ -8,7 +8,7 @@ from pracweb.gui.app import PRACSession
 from prac.core.base import PRAC
 from prac.core.wordnet import WordNet
 from pracmln.mln.methods import InferenceMethods
-from pracmln.utils.project import MLNProject
+from pracmln.utils.project import MLNProject, PRACMLNConfig
 
 FILEDIRS = {'mln': 'mln', 'pracmln': 'bin', 'db': 'db'}
 LOGICS = [('FirstOrderLogic', 'FOL'), ('FuzzyLogic', 'Fuzzy')]

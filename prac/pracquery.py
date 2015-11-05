@@ -38,8 +38,8 @@ from pracmln import praclog
 from pracmln.mln.database import parse_db
 from pracmln.mln.methods import InferenceMethods
 from pracmln.mln.util import ifNone, colorize, out, headline
-from pracmln.utils.config import PRACMLNConfig, global_config_filename
-from pracmln.utils.project import MLNProject
+from pracmln.utils.config import global_config_filename
+from pracmln.utils.project import MLNProject, PRACMLNConfig
 from pracmln.utils.widgets import FileEditBar
 
 
