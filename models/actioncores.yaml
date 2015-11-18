@@ -68,7 +68,7 @@ action_roles: ['theme','goal','action_verb','unit','amount']
 ---
 
 action_core: Preheating
-action_roles: ['obj_to_be_heated','temperature','action_verb']
+action_roles: ['obj_to_be_heated','temperature_unit','temperature_setting','action_verb']
 
 ---
 
