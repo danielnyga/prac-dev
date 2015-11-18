@@ -267,7 +267,7 @@ class WordNet(object):
             return 0.
         similarity = synset1.wup_similarity(synset2)
 #         similarity = synset1.path_similarity(synset2)
-        return max(0.001, 0. if similarity is None else similarity)
+        return max(0.000, 0. if similarity is None else similarity)
     
     def path_similarity(self, synset1, synset2):
         '''
@@ -282,7 +282,7 @@ class WordNet(object):
             return 0.
         similarity = synset1.path_similarity(synset2)
 #         similarity = synset1.path_similarity(synset2)
-        return max(0.001, 0. if similarity is None else similarity)
+        return max(0.000, 0. if similarity is None else similarity)
     
     def lowest_common_hypernyms(self, synset, other, simulate_root=False, use_min_depth=False):
         """
