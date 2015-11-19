@@ -318,6 +318,13 @@ qx.Class.define("pracweb.Application",
       description.add(new qx.ui.form.ListItem("Open the fridge."));
       description.add(new qx.ui.form.ListItem("Open the test_tube."));
       description.add(new qx.ui.form.ListItem("Open the cupboard."));
+      description.add(new qx.ui.form.ListItem("Flavour the tomato_sauce with the oregano."));
+      description.add(new qx.ui.form.ListItem("Fill a cup with water."));
+      description.add(new qx.ui.form.ListItem("Preheat the oven to 100 degree_fahrenheit."));
+      description.add(new qx.ui.form.ListItem("Fill a blender with apples."));
+      description.add(new qx.ui.form.ListItem("Fill a mixer with pineapples."));
+      description.add(new qx.ui.form.ListItem("Fill a glass with wine."));
+      description.add(new qx.ui.form.ListItem("Add some cheese to the pizza."));
       description.setValue(description.getChildrenContainer().getSelectables()[0].getLabel());
       
       description.addListener("keydown", function(e) {
