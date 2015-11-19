@@ -107,3 +107,6 @@ cram_plan: "<span>(use-measuring-cup (from (an object (type container.n.01)</spa
 action_core: Pipetting
 action_roles: ['content','goal','action_verb','amount','unit']
 cram_plan: "<span>(use-pipette (from (an object (type container.n.01)</span><br><span style='margin-left: 20.4em;'>(contains (some stuff (type {content}))))</span><br><span style='margin-left: 10.1em;'>(to (an object (type container.n.01)</span><br><span style='margin-left: 19.1em;'>(contains (some stuff (type {goal})))</span><br><span style='margin-left: 10.1em;'>(amount (a quantity (type {unit})</span><br><span style='margin-left: 22.1em;'>(number {amount}))))</span><br><br>"
+---
+action_core: Baking
+action_roles: ['obj_to_be_baked','action_verb','device','ingredient']
