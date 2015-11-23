@@ -59,6 +59,9 @@ class PlanGenerator(PRACModule):
                             else:
                                 for ass in role_assignments:
                                     ass[role] = rq['?s']
+                        #Handle missing plan parameters
+                        if not role in ass.keys():
+                            ass[role] = "Unknown"
                     for assignment in role_assignments:
                         infstep.executable_plans.append(ac.parameterize_plan(**assignment))
                     break
