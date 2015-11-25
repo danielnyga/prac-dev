@@ -160,6 +160,18 @@ qx.Class.define("pracweb.Application",
         var controlPane = this.buildControlPane();
         this._controlPane = controlPane;
 
+        var cramPlanWindow = new qx.ui.window.Window('Cram Plans');
+        cramPlanWindow.setWidth(900);
+        cramPlanWindow.setHeight(300);
+        cramPlanWindow.setShowMinimize(false);
+        cramPlanWindow.setLayout(new qx.ui.layout.Grow());
+        this.__planField = new qx.ui.form.TextArea("").set({
+            font: qx.bom.Font.fromString("14px monospace")
+        });
+        cramPlanWindow.add(this.__planField);
+        this.getRoot().add(cramPlanWindow, {left:20, top:20});
+        this.__cramPlanWindow = cramPlanWindow;
+
         /* ************************ LISTENERS **********************************/
         prac_container.addEventListener("resize", function() {
             var w = document.getElementById("page", true, true).offsetWidth;
@@ -479,6 +491,7 @@ qx.Class.define("pracweb.Application",
     _run_inference : function(method) {
       this._show_wait_animation(true);
       this._nextButton.setEnabled(false);
+      this.__cramPlanWindow.close();
 
       // update flowchart
       if (this._next_module === 'achieved_by' || (this._next_module === 'plan_generation') && (this._last_module != 'plan_generation')) {
@@ -638,7 +651,7 @@ qx.Class.define("pracweb.Application",
         remove = true;
         for (var j = 0; j < newRes.length; j++) {
           // if there is already a link between the nodes, do not remove it
-          if (oldRes[i].source === newRes[j].source && oldRes[i].target === newRes[j].target && oldRes[i].value === newRes[j].value) {
+          if (oldRes[i].source.name === newRes[j].source.name && oldRes[i].target.name === newRes[j].target.name && oldRes[i].value === newRes[j].value) {
             remove = false;
             break;
           }
@@ -653,7 +666,7 @@ qx.Class.define("pracweb.Application",
         add = true;
         for (var j = 0; j < oldRes.length; j++) {
           // if there is already a link, do not add it
-          if (newRes[i].target === oldRes[j].target && newRes[i].source === oldRes[j].source && newRes[i].value === oldRes[j].value) {
+          if (newRes[i].target.name === oldRes[j].target.name && newRes[i].source.name === oldRes[j].source.name && newRes[i].value === oldRes[j].value) {
             add = false;
             break;
           }
@@ -678,8 +691,8 @@ qx.Class.define("pracweb.Application",
       for (var i = 0; i < oldRes.length; i++) {
         redraw = true;
         for (var j = 0; j < newRes.length; j++) {
-          if (oldRes[i].target === newRes[j].target 
-            && oldRes[i].source === newRes[j].source
+          if (oldRes[i].target.name === newRes[j].target.name
+            && oldRes[i].source.name === newRes[j].source.name
             && oldRes[i].value === newRes[j].value) {
             redraw = false;
             break;
@@ -692,8 +705,8 @@ qx.Class.define("pracweb.Application",
       for (var i = 0; i < newRes.length; i++) {
         redraw = true;
         for (var j = 0; j < oldRes.length; j++) {
-          if (newRes[i].target === oldRes[j].target 
-            && newRes[i].source === oldRes[j].source
+          if (newRes[i].target.name === oldRes[j].target.name
+            && newRes[i].source.name === oldRes[j].source.name
             && newRes[i].value === oldRes[j].value) {
             redraw = false;
             break;
@@ -908,18 +921,9 @@ qx.Class.define("pracweb.Application",
         var tar = e.getTarget();
         var response = tar.getResponse();
         if (response.plans) {
-          var cramPlanWindow = new qx.ui.window.Window('Cram Plans');
-          cramPlanWindow.setWidth(900);
-          cramPlanWindow.setHeight(300);
-          cramPlanWindow.setShowMinimize(false);
-          cramPlanWindow.setLayout(new qx.ui.layout.Grow());
-          var planField = new qx.ui.form.TextArea("").set({
-            font: qx.bom.Font.fromString("14px monospace")
-          });
-          cramPlanWindow.add(planField);
-          this.getRoot().add(cramPlanWindow, {left:20, top:20});
-          planField.setValue(response.plans.join(''));
-          cramPlanWindow.open();     
+
+          this.__planField.setValue(response.plans.join(''));
+          this.__cramPlanWindow.open();
           return;
         }
       }, that);

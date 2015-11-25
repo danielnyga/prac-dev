@@ -75,8 +75,8 @@ qx.Class.define("pracweb.Graph",
         var rInterval = setTimeout( function() {
           if (dIndex < toBeRemoved.length) {
             t.removeLink(toBeRemoved[dIndex]);
-            t.removeIfSingle(toBeRemoved[dIndex].source);
-            t.removeIfSingle(toBeRemoved[dIndex].target);
+            t.removeIfSingle(toBeRemoved[dIndex].source.name);
+            t.removeIfSingle(toBeRemoved[dIndex].target.name);
             dIndex++;
           }
           if (dIndex < toBeRemoved.length) {
@@ -90,11 +90,11 @@ qx.Class.define("pracweb.Graph",
       var addNodesAndLinks = function(dataIndex, t) {
         var aInterval = setTimeout( function() {
           if (dataIndex < toBeAdded.length) {
-            if (t.findNodeIndex(toBeAdded[dataIndex].source) === -1) {
-              t.addNode(toBeAdded[dataIndex].source);
+            if (t.findNodeIndex(toBeAdded[dataIndex].source.name) === -1) {
+              t.addNode(toBeAdded[dataIndex].source.name, toBeAdded[dataIndex].source.text);
             }
-            if (t.findNodeIndex(toBeAdded[dataIndex].target) === -1) {
-              t.addNode(toBeAdded[dataIndex].target);
+            if (t.findNodeIndex(toBeAdded[dataIndex].target.name) === -1) {
+              t.addNode(toBeAdded[dataIndex].target.name, toBeAdded[dataIndex].target.text);
             }
             t.addLink(toBeAdded[dataIndex]);
             dataIndex++;
@@ -116,11 +116,11 @@ qx.Class.define("pracweb.Graph",
     replaceData : function (data) {
       this.clear();
       for (var dataIndex = 0; dataIndex < data.length; dataIndex++) {
-        if (this.findNodeIndex(data[dataIndex].source) === -1) {
-              this.addNode(data[dataIndex].source);
+        if (this.findNodeIndex(data[dataIndex].source.name) === -1) {
+              this.addNode(data[dataIndex].source.name, data[dataIndex].source.text);
             }
-            if (this.findNodeIndex(data[dataIndex].target) === -1) {
-              this.addNode(data[dataIndex].target);
+            if (this.findNodeIndex(data[dataIndex].target.name) === -1) {
+              this.addNode(data[dataIndex].target.name, data[dataIndex].target.text);
             }
         this.links.push({"source": this.findNode(data[dataIndex].source),"target": this.findNode(data[dataIndex].target),"value": data[dataIndex].value, "arcStyle":data[dataIndex].arcStyle});
       }
@@ -130,8 +130,8 @@ qx.Class.define("pracweb.Graph",
     /**
      * adds a node with the given id to the nodes list
      */
-    addNode : function (id) {
-      this.nodes.push({"id":id});
+    addNode : function (id, tttext) {
+      this.nodes.push({"id":id, 'text': tttext});
       this.playSound();
       this.update();
     },
@@ -149,9 +149,9 @@ qx.Class.define("pracweb.Graph",
      * adds a link if it does not exist yet, otherwise updates the edge label
      */
     addLink : function (lnk){
-      var index = this.findLinkIndex(this.findNode(lnk.source), this.findNode(lnk.target));
+      var index = this.findLinkIndex(this.findNode(lnk.source.name), this.findNode(lnk.target.name));
       if (index == -1) {
-        this.links.push({"source": this.findNode(lnk.source),"target": this.findNode(lnk.target),"value": [lnk.value], "arcStyle": lnk.arcStyle});
+        this.links.push({"source": this.findNode(lnk.source.name),"target": this.findNode(lnk.target.name),"value": [lnk.value], "arcStyle": lnk.arcStyle});
       } else {
         var valIndex = this.links[index].value.indexOf(lnk.value);
         if (valIndex == -1) {
@@ -170,7 +170,7 @@ qx.Class.define("pracweb.Graph",
      * removes a link between two nodes or updates edge label
      */
     removeLink : function (lnk){
-      var index = this.findLinkIndex(this.findNode(lnk.source), this.findNode(lnk.target));
+      var index = this.findLinkIndex(this.findNode(lnk.source.name), this.findNode(lnk.target.name));
       if (index != -1) {
         var valIndex = this.links[index].value.indexOf(lnk.value);
         if (valIndex != -1) {
@@ -304,15 +304,27 @@ qx.Class.define("pracweb.Graph",
         .call(this.force.drag);
 
       circleEnter.append("svg:circle")
+        .on("mouseover", function(d) {
+            //Get this bar's x/y values, then augment for the tooltip
+           circleEnter.append("text")
+          .attr("id", "tooltip")
+          .attr("dx", function (d) { return 0; }) // move inside rect
+          .attr("dy", function (d) { return 0; }) // move inside rect
+          .attr("text-anchor", "middle")
+          .attr("font-family", "sans-serif")
+          .attr("font-size", "11px")
+          .attr("font-weight", "bold")
+          .attr("fill", "black")
+          .text(d.text);
+        })
+        .on("mouseout", function() {
+            //Remove the tooltip
+            d3.select("#tooltip").remove();
+        })
         .attr("r", function(d) { 
           d.radius = 10;
           return d.radius; } )
         .attr("id", function(d) { return d.id; } );
-
-      // circleEnter.append("svg:rect")
-      //   .attr("width", function(d) {return 10*d.id.length;}) // set width according to text length
-      //   .attr("height", 25)
-      //   .attr("id", function(d) { return d.id; } );
 
       circleEnter.append("svg:text")
         .attr("class","textClass")
