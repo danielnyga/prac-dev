@@ -1,12 +1,24 @@
+from itertools import chain
+from pydot import Edge
 import urllib2
-import os
 import json
+from pracmln.utils.graphml import Graph, Node as GMLNode, Edge
+from prac.pracutils.graph import DAG , Node
+import os
+import graphviz as gv
+import properties
+from scipy import spatial
+from pracmln.praclog import logger
+from prac.pracutils.pracgraphviz import render_gv
+
+log = logger(__name__)
+
 
 WUP_SIM_LINK = "http://strazdas.vdu.lt:8081/AcatWSOntology4/rest/similarity"
 SYNSET_LINK = "http://strazdas.vdu.lt:8081/AcatWSOntology4/rest/synsets"
 HYPERNYMS_LINK = "http://strazdas.vdu.lt:8081/AcatWSOntology4/rest/hypernyms"
-PRAC_HOME = os.environ['PRAC_HOME']
 
+PRAC_HOME = os.environ['PRAC_HOME']
 NLTK_POS = ['n', 'v', 'a', 'r']
 
 colorsims = {}
@@ -87,8 +99,7 @@ class Synset():
                 result.append(Synset(path[1]['synsetName']))
                 
         except Exception as e:
-            #TODO add logger
-            print "No hypernyms for " + self.name
+            log.error("No hypernyms for " + self.name)
             return result
         
         return result
@@ -167,7 +178,8 @@ class Synset():
             else:
                 self._min_depth = 1 + min(h.min_depth() for h in hypernyms)
         return self._min_depth
-    
+
+
     def shortest_path_distance(self, other):
         """
         Returns the distance of the shortest path linking the two synsets (if
@@ -251,7 +263,7 @@ class Synset():
             return [s for s in synsets if s.min_depth() == max_depth]
         except ValueError:
             return []
-    
+
 class WordNet(object):
     
     def __init__(self, concepts=known_concepts):
@@ -309,7 +321,6 @@ class WordNet(object):
         Creates a new taxonomy given a set of concepts. If collapse is True,
         all subpaths with only one child and parent are collapsed. 
         '''
-        log = logging.getLogger('WordNet')
         entity_name = 'entity.n.01'
         self.core_taxonomy = DAG(root=Node(entity_name, entity_name))
         self.known_concepts = {entity_name: self.core_taxonomy.root}
@@ -357,7 +368,6 @@ class WordNet(object):
         - concept:     (Node) concept node to be extended (the root in most cases)
         - synset_path: a path as it is return by Synset.hypernym_paths(), for instance.
         '''
-        log = logging.getLogger(__name__)
         if len(synset_path) == 0:
             return
         synset = synset_path[0]
@@ -404,7 +414,7 @@ class WordNet(object):
             synset = Synset(synset_id)
             return synset
         except Exception, e:
-            logging.getLogger('WordNet').error('Could not obtain synset with ID "%s"' % synset_id)
+            log.error('Could not obtain synset with ID "%s"' % synset_id)
             raise e
         
         
@@ -421,22 +431,29 @@ class WordNet(object):
             print request_answer
         
         return sim
-    
+
+
     def path_similarity(self, synset1, synset2):
         '''
         Returns the WUP similariy of the two given synsets, which
         may be given as strings of the synset id or the respective Synset objects themselves.
         '''
+
+
         if type(synset1) is str:
             synset1 = self.synset(synset1)
         if type(synset2) is str:
             synset2 = self.synset(synset2)
         if synset1 is None or synset2 is None:
             return 0.
-        similarity = synset1.path_similarity(synset2)
-#         similarity = synset1.path_similarity(synset2)
+        #
+        # similarity = synset1.path_similarity(synset2)
+        # not implemented, therefore
+        similarity = self.wup_similarity(synset1.name, synset2.name)
+
         return max(0.001, 0. if similarity is None else similarity)
-    
+
+
     def lowest_common_hypernyms(self, synset, other, simulate_root=False, use_min_depth=False):
         """
         -- NOTE: THIS CODE IS COPIED FROM NLTK3 --
@@ -518,7 +535,7 @@ class WordNet(object):
 
             try:
                 data = iter(item)
-                iterable = itertools.chain(data, iterable)
+                iterable = chain(data, iterable)
             except:
                 yield item
 
@@ -542,7 +559,6 @@ class WordNet(object):
         similarity, which adds a penalizing factor for inferring 
         another synset from adjectives.
         '''
-        log = logging.getLogger(__name__)
 
         ADJ_POS = ['s','a']
         posDiff = 0.
@@ -743,7 +759,6 @@ class WordNet(object):
         '''
         Prints a GraphML string to the specified stream.
         '''
-        log = logging.getLogger(self.__class__.__name__)
         if self.core_taxonomy is None:
             raise Exception('Need a collapsed taxonomy')
         tax = self.core_taxonomy

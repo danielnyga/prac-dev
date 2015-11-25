@@ -174,9 +174,9 @@ class SensesAndRoles(PRACModule):
 
                 inf_step.output_dbs.append(new_result)
 
-            png, ratio = get_cond_prob_png(project.queryconf.get('queries', ''), dbs, filename=self.name)
-            inf_step.png = (png, ratio)
-            inf_step.applied_settings = project.queryconf.config
+                png, ratio = get_cond_prob_png(project.queryconf.get('queries', ''), dbs, filename=self.name)
+                inf_step.png = (png, ratio)
+                inf_step.applied_settings = project.queryconf.config
         return inf_step
         
     
