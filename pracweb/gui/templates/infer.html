@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+{% block title %}{% endblock %}
+{% block head %}
+    {{ super() }}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <script type="text/javascript" src="{{ url_for('download_prac_static', filename='script/pracweb.js') }}"></script>
+{% endblock %}
+
+  {% block content %}
+    {{ super() }}
+  {% endblock %}

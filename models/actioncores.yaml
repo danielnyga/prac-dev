@@ -22,7 +22,7 @@
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 action_core: Neutralizing
-action_roles: ['neutralizee','neutralizer','action_verb','amount',unit]
+action_roles: ['neutralizee','neutralizer','action_verb','amount','unit']
 
 ---
 
@@ -38,17 +38,17 @@ action_roles: ['obj_to_be_opened','action_verb']
 
 action_core: Unscrewing
 action_roles: ['obj_to_be_unscrewed','action_verb']
-cram_plan: "<span>(unscrew (an object (type {obj_to_be_unscrewed})))</span><br><br>"
+cram_plan: "(unscrew (an object (type {obj_to_be_unscrewed})))\n\n"
 ---
 
 action_core: Pulling
 action_roles: ['obj_to_be_pulled','action_verb']
-cram_plan: "<span>(pull-object (an object (type {obj_to_be_pulled})))</span><br><br>"
+cram_plan: "(pull-object (an object (type {obj_to_be_pulled})))\n\n"
 ---
 
 action_core: OpeningADoor
 action_roles: ['obj_to_be_opened','action_verb']
-cram_plan: "<span>(open-door (of (an object (type {obj_to_be_opened}))))</span><br><br>"
+cram_plan: "(open-door (of (an object (type {obj_to_be_opened}))))\n\n"
 
 ---
 
@@ -59,7 +59,7 @@ action_roles: ['obj_to_be_started','action_verb']
 
 action_core: Pouring
 action_roles: ['stuff','goal','action_verb']
-cram_plan: "<span>(pour-from-container (from (an object (type container.n.01)</span><br><span style='margin-left: 22.8em;'>(contains (some stuff (type {stuff}))))</span><br><span style='margin-left: 12.5em;'>(to (an object (type {goal})))))</span><br><br>"
+cram_plan: "(pour-from-container \t!(from (an object \t!(type container.n.01)\n\t\t(contains (some stuff (type {stuff}))))\n\t(to (an object (type {goal})))))\n\n"
 ---
 
 action_core: Adding
@@ -68,23 +68,23 @@ action_roles: ['theme','goal','action_verb','unit','amount']
 ---
 
 action_core: Preheating
-action_roles: ['obj_to_be_heated','temperature','action_verb']
+action_roles: ['obj_to_be_heated','temperature_unit','temperature_setting','action_verb']
 
 ---
 
 action_core: OperatingATap
 action_roles: ['liquid','goal','action_verb','amount','unit']
-cram_plan: "<span>(operate-tap (liquid (some stuff (type {liquid})))</span><br><span style='margin-left: 7.8em;'>(destination (an object (type {goal}))))</span><br><br>"
+cram_plan: "(operate-tap \t!(liquid (some stuff (type {liquid})))\n\t(destination (an object (type {goal}))))\n\n"
 ---
 
 action_core: UsingSpiceJar
 action_roles: ['content','goal','action_verb']
-cram_plan: "<span>(pour-from-spice-jar (from (an object (type container.n.01)</span><br><span style='margin-left: 22.8em;'>(contains (some stuff (type {content}))))</span><br><span style='margin-left: 12.5em;'>(to (an object (type {goal})))))</span><br><br>"
+cram_plan: "(pour-from-spice-jar \t!(from (an object \t!(type container.n.01)\n\t\t(contains (some stuff (type {content}))))\n\t(to (an object (type {goal})))))\n\n"
 ---
 
 action_core: Spooning
 action_roles: ['substance','goal','action_verb']
-cram_plan: "<span>(use-spoon (from (an object (type container.n.01)</span><br><span style='margin-left: 17em;'>(contains (some stuff (type {substance}))))</span><br><span style='margin-left: 6.5em;'>(to (an object (type {goal})))))</span><br><br>"
+cram_plan: "(use-spoon \t!(from (an object \t!(type container.n.01)\n\t\t(contains (some stuff (type {substance}))))\n\t(to (an object (type {goal})))))\n\n"
 ---
 
 action_core: Flavouring
@@ -94,16 +94,16 @@ action_roles: ['spice','goal','action_verb']
 
 action_core: TurningOnElectricalDevice
 action_roles: ['device','action_verb']
-cram_plan: "<span>(turn-on-device (an object (type {device})))</span><br><br>"
+cram_plan: "(turn-on-device (an object (type {device})))\n\n"
 
 ---
-  
+
 action_core: UsingMeasuringCup
 action_roles: ['content','goal','action_verb','amount','unit']
-cram_plan: "<span>(use-measuring-cup (from (an object (type container.n.01)</span><br><span style='margin-left: 22.8em;'>(contains (some stuff (type {content}))))</span><br><span style='margin-left: 12.5em;'>(amount ({amount} {unit}))</span><br><span style='margin-left: 12.5em;'>(to (an object (type container.n.01)</span><br> <span style='margin-left: 22.8em;'>(contains (some stuff (type {goal})))</span>))))<br>"
+cram_plan: "(use-measuring-cup \t!(from (an object \t!(type container.n.01)\n\t\t(contains (some stuff (type {content}))))\n\t(amount ({amount} {unit}))\n\t(to (an object \t!(type container.n.01)\n\t\t(contains (some stuff (type {goal})))\n\n"
 
 ---
 
 action_core: Pipetting
 action_roles: ['content','goal','action_verb','amount','unit']
-cram_plan: "<span>(use-pipette (from (an object (type container.n.01)</span><br><span style='margin-left: 20.4em;'>(contains (some stuff (type {content}))))</span><br><span style='margin-left: 10.1em;'>(to (an object (type container.n.01)</span><br><span style='margin-left: 19.1em;'>(contains (some stuff (type {goal})))</span><br><span style='margin-left: 10.1em;'>(amount (a quantity (type {unit})</span><br><span style='margin-left: 22.1em;'>(number {amount}))))</span><br><br>"
+cram_plan: "(use-pipette \t!(from (an object \t!(type container.n.01)\n\t\t(contains (some stuff (type {content}))))\n\t(to (an object \t!(type container.n.01)\n\t\t(contains (some stuff (type {goal})))\n\t(amount (a quantity \t!(type {unit})\n\t\t(number {amount}))))"

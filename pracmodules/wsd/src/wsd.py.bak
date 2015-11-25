@@ -66,7 +66,7 @@ class PRACWSD(PRACModule):
     def infer(self, pracinference): 
         log = logging.getLogger(self.name)
         inf_step = PRACInferenceStep(pracinference, self)
-        mt = self.load_pracmt('wsd')
+        mt = self.load_prac_kb('wsd')
         mln = mt.learned_mln
 #         mln.addConstant('concept', 'NULL')
 #         mln.addConstant('sense', 'Nullsense')
@@ -105,7 +105,7 @@ class PRACWSD(PRACModule):
         kb = WSD(self, 'wsd')
         kb.train(dbs)
         kb.learned_mln.write(open(os.path.join(self.module_path, 'mln', 'learned.mln'), 'w+'))
-        self.save_pracmt(kb)
+        self.save_prac_kb(kb)
         
 
 class WSD(PRACKnowledgeBase):

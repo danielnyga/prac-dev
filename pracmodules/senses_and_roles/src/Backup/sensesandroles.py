@@ -71,7 +71,7 @@ class SensesAndRoles(PRACModule):
                 if actioncore == 'null': continue
                 if kb is None:
                     print 'Loading Markov Logic Network: %s' % colorize(actioncore, (None, 'white', True), True)
-                    useKB = self.load_pracmt(actioncore)
+                    useKB = self.load_prac_kb(actioncore)
                 else:
                     useKB = kb
                 self.kbs.append(useKB)

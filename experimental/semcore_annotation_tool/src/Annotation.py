@@ -7,8 +7,8 @@ import os
 import re
 import utils
 from JSON2DB import *
-from nltk.corpus import wordnet as wn
-from nltk.corpus import verbnet as vn
+from prac_nltk.corpus import wordnet as wn
+from prac_nltk.corpus import verbnet as vn
 import copy
 from copy import deepcopy
 

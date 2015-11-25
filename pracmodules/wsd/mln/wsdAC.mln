@@ -23,6 +23,7 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ******************************************************************************/
 
+#fuzzy
 is_a(sense, concept)
 has_sense(word, sense!)
 ac_word(word,ac)

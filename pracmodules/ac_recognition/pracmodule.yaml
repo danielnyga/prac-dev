@@ -26,4 +26,4 @@ description: 'Decides on which action core specification to use based on the syn
 dependencies: ['nl_parsing']
 class_name: 'ac.ActionCoreIdentification'
 declarations: ['predicates.mln']
-
+project: 'ac_recognition.pracmln'

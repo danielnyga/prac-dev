@@ -21,133 +21,113 @@
 # CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-from prac.core import PRACModule, PRACPIPE, PRACKnowledgeBase, PRAC
-import logging
-from mln import readMLNFromFile, readDBFromFile#, MLNParsingError
-from mln.methods import LearningMethods
-import sys
-from wcsp.converter import WCSPConverter
-from mln.database import Database
 import os
-from prac.inference import PRACInferenceStep, PRACInference
-from mln.util import mergeDomains
-from utils import colorize
-from pracutils import printListAndTick
-from prac.wordnet import WordNet
-import yaml
+from prac.core.base import PRACModule, PRACPIPE, DB_TRANSFORM
+from prac.core.inference import PRACInferenceStep
+from pracmln import Database, MLNQuery
+from pracmln.mln.base import parse_mln
+from pracmln.mln.util import colorize, out
+from pracmln.praclog import logger
+from pracmln.utils.project import MLNProject
+from pracmln.utils.visualization import get_cond_prob_png
 
+
+log = logger(__name__)
 
 class AchievedBy(PRACModule):
     '''
-    
+
     '''
-    
+
     def initialize(self):
         pass
-    
+
     def shutdown(self):
         pass
-    
-    def extendDBWithAchievedByEvidence(self,db,queryMln):
+
+    def extendDBWithAchievedByEvidence(self, db, querymln):
         actioncore = ""
         #It will be assumed that there is only one true action_core predicate per database
         for q in db.query("action_core(?w,?ac)"):
             actioncore = q["?ac"]
-        acDomain = db.mln.domains.get("actioncore")
-        acDomain.extend(queryMln.domains.get("actioncore"))
-        acDomain = set(acDomain)
-        db_ = Database(queryMln)
-        
-        for ac1 in acDomain:
-            for ac2 in acDomain:
+        acdomain = querymln.domains.get("actioncore")
+        acdomain.extend(db.domains.get("actioncore"))
+        acdomain = set(acdomain)
+        db_ = Database(self.prac.mln)
+
+        for ac1 in acdomain:
+            for ac2 in acdomain:
                 if ac1 == actioncore: continue
-                db_.addGroundAtom("achieved_by({},{})".format(ac1,ac2),0)
-        
+                db_ << ("achieved_by({},{})".format(ac1, ac2), 0)
+
         for atom, truth in sorted(db.evidence.iteritems()):
-            db_.addGroundAtom(atom,truth)
-        
+            db_ << (atom,truth)
+
         return db_
-    
+
     @PRACPIPE
     def __call__(self, pracinference, **params):
-        log = logging.getLogger(self.name)
         print colorize('+==========================================+', (None, 'green', True), True)
         print colorize('| PRAC INFERENCE: RECOGNIZING ACHIEVED BY  ' , (None, 'green', True), True)
         print colorize('+==========================================+', (None, 'green', True), True)
-        
-        kb = params.get('kb', None)
-        if kb is None:
-            # load the default arguments
-            dbs = pracinference.inference_steps[-1].output_dbs
-        else:
-            kb = params['kb']
-            dbs = kb.dbs
-        
+
         inf_step = PRACInferenceStep(pracinference, self)
-        
-        for db in dbs:
-            
-            for q in db.query('action_core(?w,?ac)'):
-                #running = True
+        dbs = pracinference.inference_steps[-1].output_dbs
+
+        for olddb in dbs:
+            for q in olddb.query('action_core(?w,?ac)'):
+                actioncore = q['?ac']
                 #This list is used to avoid an infinite loop during the achieved by inference.
                 #To avoid this infinite loop, the list contains the pracmlns which were inferenced during the process.
                 #Every pracmln should be used only once during the process because the evidence for the inference will always remain the same.
                 #So if the pracmln hadnt inferenced a plan in the first time, it will never do it.
-                
-                db_ = Database(db.mln)
-                #Need to remove possible achieved_by predicates from previous achieved_by inferences
-                for atom, truth in sorted(db.evidence.iteritems()):
-                    if 'achieved_by' in atom: continue
-                    db_.addGroundAtom(atom,truth)
-                    
-                wordnet = WordNet(concepts=None)
-                actionword = q['?w']
-                actioncore = q['?ac']
 
-                if kb is None:
-                    print 'Loading Markov Logic Network: %s' % colorize(actioncore, (None, 'white', True), True)
-                    useKB = self.load_pracmt(actioncore)
-                    
+
+                #Need to remove possible achieved_by predicates from previous achieved_by inferences
+                db_ = Database(self.prac.mln)
+                for atom, truth in sorted(olddb.evidence.iteritems()):
+                    if 'achieved_by' in atom: continue
+                    db_ << (atom,truth)
+
+                if params.get('project', None) is None:
+                    log.info('Loading Project: %s.pracmln' % colorize(actioncore, (None, 'cyan', True), True))
+                    projectpath = os.path.join(self.module_path, '{}.pracmln'.format(actioncore))
+                    if os.path.exists(projectpath):
+                        project = MLNProject.open(projectpath)
+                    else:
+                        inf_step.output_dbs.append(olddb)
+                        logger.error(actioncore + ".pracmln does not exist.")
+                        return inf_step
                 else:
-                    useKB = kb
-                
-                concepts = useKB.query_mln.domains.get('concept', [])
-                
-                for q in db_.query("has_sense(?w,?s)"):
-                    for concept in concepts:
-                        sim = wordnet.wup_similarity(q["?s"], concept)
-                        db_.addGroundAtom('is_a(%s,%s)' % (q["?s"], concept),sim)
-                
-                #Inference achieved_by predicate        
-                #self.kbs.append(useKB)  
-                #params.update(useKB.query_params)
-                db_ = self.extendDBWithAchievedByEvidence(db_,useKB.query_mln)
-                result_db = list(useKB.infer(db_))
-                result_db_ = []
-                #Removing achieved_by predicates with prob zero
-                for r_db in result_db:
-                    r_db_ = Database(useKB.query_mln)
-                    for atom, truth in sorted(r_db.evidence.iteritems()):
-                        _, predname, args = db.mln.logic.parseLiteral(atom)
-                        if predname == 'achieved_by'  and truth == 0: continue
-                        r_db_.addGroundAtom(atom,truth)
-                    result_db_.append(r_db_)
-                
-                result_db = result_db_
-                    
-                for r_db in result_db:
-                    for q in r_db.query('achieved_by({0},?nac) ^ action_core(?w,{0})'.format(actioncore)):
-                        achievedByAc = q['?nac']
-                        
-                        r_db_ = Database(r_db.mln)
-                        
-                        for atom, truth in sorted(r_db.evidence.iteritems()):
-                            if 'is_a' in atom: continue
-                            r_db_.addGroundAtom(atom,truth)
-                        
-                        inf_step.output_dbs.append(r_db_)
-                        print actionword + " achieved by: " + achievedByAc
-                            
+                    log.info(colorize('Loading Project from params', (None, 'cyan', True), True))
+                    projectpath = os.path.join(params.get('projectpath', None) or self.module_path, params.get('project').name)
+                    project = params.get('project')
+
+
+                mlntext = project.mlns.get(project.queryconf['mln'], None)
+                mln = parse_mln(mlntext, searchpaths=[self.module_path], projectpath=projectpath, logic=project.queryconf.get('logic', 'FirstOrderLogic'), grammar=project.queryconf.get('grammar', 'PRACGrammar'))
+                known_concepts = mln.domains.get('concept', [])
+                wordnet_module = self.prac.getModuleByName('wn_senses')
+
+                db = wordnet_module.get_senses_and_similarities(db_, known_concepts)
+
+                unified_db = db.union(db_)
+
+                #Inference achieved_by predicate
+                db_ = self.extendDBWithAchievedByEvidence(unified_db, mln)
+
+                infer = MLNQuery(config=project.queryconf, db=db_, mln=mln).run()
+                result_db = infer.resultdb
+
+                # unified_db = result_db.union(kb.query_mln, db_)
+                # only add inferred achieved_by atoms, leave out 0-evidence atoms
+                for q in result_db.query('achieved_by(?ac1,?ac2)'):
+                    unified_db << 'achieved_by({},{})'.format(q['?ac1'],q['?ac2'])
+
+                inf_step.output_dbs.append(unified_db)
+
+            png, ratio = get_cond_prob_png(project.queryconf.get('queries', ''), dbs, filename=self.name)
+            inf_step.png = (png, ratio)
+            inf_step.applied_settings = project.queryconf.config
         return inf_step
     

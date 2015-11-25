@@ -22,12 +22,18 @@
  * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ******************************************************************************/
- 
-shape(cluster, shape)
-color(cluster, color)
-size(cluster, size)
-hypernym(cluster, hypernym)
-hasa(cluster, hasa)
+
+#fuzzy
+hypernym(cluster,hypernym)
+#fuzzy
+color(cluster,color)
+#fuzzy
+hasa(cluster,hasa)
+#fuzzy
+shape(cluster,shape)
+#fuzzy
+size(cluster,size)
+
 //dimension(cluster, dimension)
 //consistency(cluster, consistency)
 //material(cluster, material)

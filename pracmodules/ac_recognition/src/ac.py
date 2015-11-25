@@ -20,37 +20,30 @@
 # CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-from prac.core import PRACModule, PRACKnowledgeBase, PRACPIPE
 import os
-from mln import readMLNFromFile, readDBFromFile, Database
-import logging
-from mln.methods import LearningMethods
-from prac.wordnet import WordNet
-from prac.inference import PRACInferenceStep
-import StringIO
-import sys
-from utils import colorize
-
+from prac.core.base import PRACModule, PRACPIPE
+from pracmln.mln.base import parse_mln
+from pracmln.mln.methods import LearningMethods
+from prac.core.inference import PRACInferenceStep
 # mapping from PennTreebank POS tags to NLTK POS Tags
-nounTags = ['NN', 'NNS', 'NNP']
-verbTags = ['VB', 'VBG', 'VBZ', 'VBD', 'VBN', 'VBP', 'MD']
-posMap = {}
-for n in nounTags:
-    posMap[n] = 'n'
-for v in verbTags:
-    posMap[v] = 'v'
-    
+from pracmln import Database, MLN, MLNQuery
+from pracmln.mln.util import colorize, out, stop
+from pracmln.praclog import logger
+from pracmln.utils.project import MLNProject
+from pracmln.utils.visualization import get_cond_prob_png
+
+
+log = logger(__name__)
+
+
 class ActionCoreIdentification(PRACModule):
     
 
     def initialize(self):
         pass
-#         self.mln = readMLNFromFile(os.path.join(self.module_path, 'mln', 'action_cores.mln'), logic='FuzzyLogic', grammar='PRACGrammar')
-    
+
     @PRACPIPE
     def __call__(self, pracinference, **params):
-        log = logging.getLogger(self.name)
         log.debug('inference on %s' % self.name)
         
         print colorize('+==========================================+', (None, 'green', True), True)
@@ -58,51 +51,56 @@ class ActionCoreIdentification(PRACModule):
         print colorize('+==========================================+', (None, 'green', True), True)
         print
         print colorize('Inferring most probable ACTION CORE', (None, 'white', True), True)
-        if params.get('kb', None) is None:
-            # load the default arguments
-            dbs = pracinference.inference_steps[-1].output_dbs
-            kb = self.load_pracmt('chemical_ac')
-            kb.dbs = dbs
+
+        if params.get('project', None) is None:
+            # load default project
+            projectpath = self.project_path
+            ac_project = MLNProject.open(projectpath)
         else:
-            kb = params['kb']
-        if not hasattr(kb, 'dbs'):
-            kb.dbs = pracinference.inference_steps[-1].output_dbs
-        mln = kb.query_mln
+            log.info(colorize('Loading Project from params', (None, 'cyan', True), True))
+            projectpath = os.path.join(params.get('projectpath', None) or self.module_path, params.get('project').name)
+            ac_project = params.get('project')
+
+        dbs = pracinference.inference_steps[-1].output_dbs
+
+        mlntext = ac_project.mlns.get(ac_project.queryconf['mln'], None)
+        mln = parse_mln(mlntext, searchpaths=[self.module_path], projectpath=projectpath, logic=ac_project.queryconf.get('logic', 'FirstOrderLogic'), grammar=ac_project.queryconf.get('grammar', 'PRACGrammar'))
         known_concepts = mln.domains.get('concept', [])
         inf_step = PRACInferenceStep(pracinference, self)
         wordnet_module = self.prac.getModuleByName('wn_senses')
-        for db in kb.dbs:
-            db = wordnet_module.get_senses_and_similarities(db, known_concepts)
-#             db.write(sys.stdout, color=True)
-#             print '---'
-            result_db = list(kb.infer(db))
-            result_db_ = []
-            
-            print
-            for r_db in result_db:
-                for q in r_db.query('action_core(?w,?ac)'):
-                    if q['?ac'] == 'null': continue
-                    print 'Identified Action Core(s):', colorize(q['?ac'], (None, 'white', True), True)
-                    #Remove AC which have the probability zero
-                    r_db_ = Database(mln)
-                    for atom, truth in sorted(r_db.evidence.iteritems()):
-                        if 'action_core' in atom and truth == 0: continue
-                        r_db_.addGroundAtom(atom,truth)
-                    result_db_.append(r_db_)
-                print
-            inf_step.output_dbs.extend(result_db_)
+
+        for db_ in dbs:
+            db = wordnet_module.get_senses_and_similarities(db_, known_concepts)
+            tmp_union_db = db.union(db_, mln=self.prac.mln)
+
+            # result_db = list(kb.infer(tmp_union_db))[0]
+            infer = MLNQuery(config=ac_project.queryconf, db=tmp_union_db, mln=mln).run()
+            result_db = infer.resultdb
+
+            unified_db = result_db.union(tmp_union_db, mln=self.prac.mln) # alternative to query below
+            # only add inferred action_core atoms, leave out 0-evidence atoms
+            # unified_db = tmp_union_db.copy(mln, mln=self.prac.mln)
+            # for q in result_db.query('action_core(?w,?ac)'):
+            #     log.info('Identified Action Core(s): {}'.format(colorize(q['?ac'], (None, 'white', True), True)))
+            #     unified_db << 'action_core({},{})'.format(q['?w'],q['?ac'])
+
+            inf_step.output_dbs.append(unified_db)
+
+        png, ratio = get_cond_prob_png(ac_project.queryconf.get('queries', ''), dbs, filename=self.name)
+        inf_step.png = (png, ratio)
+        inf_step.applied_settings = ac_project.queryconf.config
         return inf_step
     
     
     def train(self, praclearning):
-        log = logging.getLogger('prac')
+        log = logger('prac')
         prac = praclearning.prac
         # get all the relevant training databases
         db_files = prac.getActionCoreTrainingDBs()
         nl_module = prac.getModuleByName('nl_parsing')
         syntactic_preds = nl_module.mln.predicates
         log.debug(db_files)
-        dbs = filter(lambda x: type(x) is Database, map(lambda name: readDBFromFile(self.mln, name, True), db_files))
+        dbs = filter(lambda x: type(x) is Database, map(lambda name: Database(self.mln, dbfile=name, ignore_unknown_preds=True), db_files))
         log.debug(dbs)
         new_dbs = []
         training_dbs = []
@@ -114,7 +112,7 @@ class ActionCoreIdentification(PRACModule):
             for c in db.domains['concept']:
                 known_concepts.append(c)
             new_dbs.append(db)
-        wordnet = WordNet()
+        wordnet = prac.wordnet
         for db in new_dbs:
             new_db = db.duplicate()
             for sol in db.query('has_sense(?w, ?s) ^ is_a(?s, ?c)'):
@@ -126,25 +124,26 @@ class ActionCoreIdentification(PRACModule):
                     known_synset = wordnet.synset(known_concept)
                     if known_synset is None or synset is None: sim = 0
                     else: sim = wordnet.wup_similarity(synset, known_synset)
-                    new_db.addGroundAtom('is_a(%s,%s)' % (sense, known_concept), sim)
+                    new_db << ('is_a(%s,%s)' % (sense, known_concept), sim)
             training_dbs.append(new_db)
-        log.info('Starting training with %d databases' % len(training_dbs))
-        actioncore_KB = ActionCoreKB(self, 'action_cores')
-        actioncore_KB.wordnet = wordnet
-        actioncore_KB.train(training_dbs)
-        self.save_pracmt(actioncore_KB)
+
+        log.info('Starting training with %d databases'.format(len(training_dbs)))
+        # actioncore_KB = ActionCoreKB(self, 'action_cores')
+        # actioncore_KB.wordnet = wordnet
+        # actioncore_KB.train(training_dbs)
+        # self.save_pracmt(actioncore_KB)
         
-        
-class ActionCoreKB(PRACKnowledgeBase):
-    '''
-    Represents the probabilistic KB for learning and inferring
-    the correct action core.
-    '''
-    
-    def train(self, training_dbs):
-        mln = self.module.mln
-        self.training_dbs = training_dbs
-        self.trained_mln = mln.learnWeights(training_dbs, LearningMethods.BPLL_CG, verbose=True, optimizer='bfgs')
+#
+# class ActionCoreKB(PRACKnowledgeBase):
+#     '''
+#     Represents the probabilistic KB for learning and inferring
+#     the correct action core.
+#     '''
+#
+#     def train(self, training_dbs):
+#         mln = self.module.mln
+#         self.training_dbs = training_dbs
+#         self.trained_mln = mln.learnWeights(training_dbs, LearningMethods.BPLL_CG, verbose=True, optimizer='bfgs')
         
         
         

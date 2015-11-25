@@ -1,0 +1,122 @@
+html, body {
+  width: 100%;
+  height: 100%;
+}
+
+#viz {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.1);;
+}
+
+#prac_container {
+  width: 100%;
+  height: 100%;
+}
+
+
+#waitImg {
+  width: 300px;
+  height: 225px;
+    position:relative;
+    left:-webkit-calc(50% - 150px);
+    left:-moz-calc(50% - 150px);
+    left:calc(50% - 150px);
+    top:-webkit-calc(50% - 125px);
+    top:-moz-calc(50% - 125px);
+    top:calc(50% - 125px);
+}
+
+#flowchart {
+    width: 20%;
+    position:absolute;
+    right:0px;
+    top:0px;
+}
+
+.link {
+  fill: none;
+  stroke: #08088A;;
+  stroke-width: 1.5px;
+}
+
+.link.strokegreen {
+  stroke: #89a35c;
+}
+
+.link.object {
+  stroke: green;
+}
+
+.link.strokeblue {
+  stroke: blue;
+}
+
+.link.default {
+  stroke: black;
+}
+
+.link.dashedred {
+  stroke-dasharray: 0,2 1;
+  stroke: red;
+}
+
+marker {
+  fill: #89a35c;
+}
+
+circle {
+  fill: #bee280;
+  stroke: #89a35c;
+  stroke-width: 1.5px;
+}
+
+/*rect {
+  fill: #bee280;
+  stroke: #89a35c;
+  stroke-width: 1.5px;
+}*/
+
+text {
+  color: blue;
+  font-weight: bold;
+  font-size:x-small;
+}
+
+/*text {
+  font: 15px helvetica, arial, sans-serif;
+  pointer-events: none;
+  text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;
+}*/
+
+text.textClass {
+  font: 15px helvetica, arial, sans-serif;
+  font-weight: bold;
+  pointer-events: none;
+  text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;
+}
+
+text.label {
+  font: 15px helvetica, arial, sans-serif;
+  pointer-events: none;
+  text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;
+}
+
+.cramPlan {
+  font-family: "Courier New", Courier, monospace;
+  font-weight: bold;
+  font-size: 15px;
+  pointer-events: none;
+  text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;
+}
+
+.CodeMirror-line-numbers {
+  width: 2.2em;
+  color: #aaa;
+  background-color: #eee;
+  text-align: right;
+  padding-right: .3em;
+  font-size: 10pt;
+  font-family: monospace;
+  padding-top: .4em;
+}
