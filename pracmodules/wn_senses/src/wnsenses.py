@@ -23,7 +23,6 @@
 import sys
 
 from prac.core.base import PRACModule, PRACPIPE, DB_TRANSFORM
-from prac_nltk.corpus import wordnet as wn
 import logging
 from prac.core.inference import PRACInferenceStep
 import os

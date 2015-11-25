@@ -23,7 +23,6 @@
 import os
 from prac.core.base import PRACModule, PRACPIPE
 from prac.core.inference import PRACInferenceStep
-from prac.core.wordnet import WordNet
 from prac.pracutils.ActioncoreDescriptionHandler import \
     ActioncoreDescriptionHandler
 from prac.pracutils.pracgraphviz import render_gv
@@ -182,7 +181,7 @@ class SensesAndRoles(PRACModule):
         
     
     def role_distributions(self, step):
-        wn = WordNet()
+        wn = self.prac.wordnet
         distrs = {}
         for db_ in step.output_dbs:
             for word in db_.domains['word']:

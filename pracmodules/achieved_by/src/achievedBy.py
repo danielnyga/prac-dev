@@ -24,7 +24,6 @@
 import os
 from prac.core.base import PRACModule, PRACPIPE, DB_TRANSFORM
 from prac.core.inference import PRACInferenceStep
-from prac.core.wordnet import WordNet
 from pracmln import Database, MLNQuery
 from pracmln.mln.base import parse_mln
 from pracmln.mln.util import colorize, out

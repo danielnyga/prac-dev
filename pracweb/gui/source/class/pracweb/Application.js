@@ -275,6 +275,7 @@ qx.Class.define("pracweb.Application",
         this._showinfSettingsContainer = false;
         this._use_exp_settings = false;
         this._stepwise = false;
+        this._acatontology = false;
         this._change_visibility();
         this._send_user_stats();
     },
@@ -417,7 +418,7 @@ qx.Class.define("pracweb.Application",
          this._oldEvidence = description.getValue();
          var req = this._run_inference("POST");
          req.setRequestHeader("Content-Type", "application/json");
-         req.setRequestData({ 'sentence': description.getValue() });
+         req.setRequestData({ 'sentence': description.getValue(), 'acatontology': this._acatontology });
          req.send();
       }, this);
       
@@ -457,6 +458,11 @@ qx.Class.define("pracweb.Application",
             this._condProbWin.hide();
         }, this);
 
+        var acatontology = new qx.ui.form.CheckBox("Use ACAT ontology");
+        acatontology.addListener("changeValue", function(e) {
+            var that = this;
+            that._acatontology = e.getData();
+        }, this);
 
         var instructionContainer = new qx.ui.container.Composite(new qx.ui.layout.VBox());
         instructionContainer.add(new qx.ui.basic.Label("Natural-language instruction:"));
@@ -476,6 +482,7 @@ qx.Class.define("pracweb.Application",
         optionsSlideBar.add(stepInf);
         optionsSlideBar.add(showFlowchart);
         optionsSlideBar.add(showCondProb);
+        optionsSlideBar.add(acatontology);
 
 
         mainGroup.add(instructionContainer, {edge: 0, width: "40%"});

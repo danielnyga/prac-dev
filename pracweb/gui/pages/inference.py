@@ -11,6 +11,7 @@ from pracweb.gui.pages.utils import ensure_prac_session
 from pracmln import Database
 from pracweb.gui.app import pracApp
 from prac.core.wordnet import WordNet
+from prac.core.wordnet_online import WordNet as acatwordnet
 
 
 log = logger(__name__)
@@ -28,6 +29,8 @@ def _pracinfer_step():
         pracsession.count = 1
         log.info('starting new PRAC inference on "%s"' % data['sentence'])
         pracsession.prac = prac
+        if data['acatontology']:
+            pracsession.prac.wordnet = acatwordnet()
         infer = PRACInference(prac, [data['sentence']])
         parser = prac.getModuleByName('nl_parsing')
         prac.run(infer, parser)

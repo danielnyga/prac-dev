@@ -24,7 +24,6 @@ import os
 from prac.core.base import PRACModule, PRACPIPE
 from pracmln.mln.base import parse_mln
 from pracmln.mln.methods import LearningMethods
-from prac.core.wordnet import WordNet
 from prac.core.inference import PRACInferenceStep
 # mapping from PennTreebank POS tags to NLTK POS Tags
 from pracmln import Database, MLN, MLNQuery
@@ -113,7 +112,7 @@ class ActionCoreIdentification(PRACModule):
             for c in db.domains['concept']:
                 known_concepts.append(c)
             new_dbs.append(db)
-        wordnet = WordNet()
+        wordnet = prac.wordnet
         for db in new_dbs:
             new_db = db.duplicate()
             for sol in db.query('has_sense(?w, ?s) ^ is_a(?s, ?c)'):
