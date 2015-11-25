@@ -13,10 +13,9 @@ from prac.pracutils.pracgraphviz import render_gv
 
 log = logger(__name__)
 
-
-WUP_SIM_LINK = "http://strazdas.vdu.lt:8081/AcatWSOntology4/rest/similarity"
-SYNSET_LINK = "http://strazdas.vdu.lt:8081/AcatWSOntology4/rest/synsets"
-HYPERNYMS_LINK = "http://strazdas.vdu.lt:8081/AcatWSOntology4/rest/hypernyms"
+WUP_SIM_LINK = "http://strazdas.vdu.lt:8081/AcatWSOntology4/rest/similarity/{}/{}"
+SYNSET_LINK = "http://strazdas.vdu.lt:8081/AcatWSOntology4/rest/synsets/{}"
+HYPERNYMS_LINK = "http://strazdas.vdu.lt:8081/AcatWSOntology4/rest/hypernyms/{}"
 
 PRAC_HOME = os.environ['PRAC_HOME']
 NLTK_POS = ['n', 'v', 'a', 'r']
@@ -86,7 +85,7 @@ class Synset():
             self.pos = str(name).split(".")[1]
             
     def hypernyms(self):
-        request_answer = urllib2.urlopen(HYPERNYMS_LINK+"/"+self.name).read()
+        request_answer = urllib2.urlopen(HYPERNYMS_LINK.format(self.name)).read()
         result = []
         
         try:
@@ -109,7 +108,7 @@ class Synset():
         return []
     
     def hypernym_paths(self):
-        request_answer = urllib2.urlopen(HYPERNYMS_LINK+"/"+self.name).read()
+        request_answer = urllib2.urlopen(HYPERNYMS_LINK.format(self.name)).read()
         result = []
         
         try:
@@ -126,8 +125,7 @@ class Synset():
                 result.append(temp)
                 
         except Exception as e:
-            #TODO add logger
-            print request_answer
+            log.error(request_answer)
         
         return result
     
@@ -386,10 +384,10 @@ class WordNet(object):
 
     def synsets(self, word, pos):
         if not pos in NLTK_POS:
-            #TODO add logger and abort 
-            print 'Unknown POS tag: %s' % pos
+            log.error('Unknown POS tag: %s' % pos)
+            return []
         
-        request_answer = urllib2.urlopen(SYNSET_LINK+"/"+word+"/").read()
+        request_answer = urllib2.urlopen(SYNSET_LINK.format(word)).read()
         synsets = []
         
         try:
@@ -399,8 +397,7 @@ class WordNet(object):
             for element in data:
                 synsets.append(Synset(element["synset"]))
         except Exception as e:
-            #TODO add logger
-            print request_answer
+            log.error(request_answer)
         
         return synsets
     
@@ -419,7 +416,7 @@ class WordNet(object):
         
         
     def wup_similarity(self, synset1, synset2):
-        request_answer = urllib2.urlopen(WUP_SIM_LINK+"/"+synset1+"/"+synset2).read()
+        request_answer = urllib2.urlopen(WUP_SIM_LINK.format(synset1, synset2)).read()
         sim = 0.0
         
         try:
@@ -427,8 +424,7 @@ class WordNet(object):
             sim = float(json_obj['SimilarityValue'])
         
         except Exception as e:
-            #TODO add logger
-            print request_answer
+            log.error(request_answer)
         
         return sim
 
@@ -752,9 +748,8 @@ class WordNet(object):
     def get_mln_similarity_and_sense_assertions(self, known_concepts, unknown_concepts):
         for i, unkwn in enumerate(unknown_concepts):
             for kwn in known_concepts:
-                print '%.4f is_a(sense_%s, %s)' % (self.semilarity(unkwn, kwn), self.synset(unkwn).lemmas[0].name, kwn)
-            print
-    
+                log.info('%.4f is_a(sense_%s, %s)' % (self.semilarity(unkwn, kwn), self.synset(unkwn).lemmas[0].name, kwn))
+
     def asGraphML(self):
         '''
         Prints a GraphML string to the specified stream.
