@@ -1,5 +1,4 @@
 from itertools import chain
-from pydot import Edge
 import urllib2
 import json
 from pracmln.utils.graphml import Graph, Node as GMLNode, Edge
