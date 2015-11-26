@@ -21,16 +21,18 @@ log = logger(__name__)
 def _pracinfer_step():
     pracsession = ensure_prac_session(session)
     prac = pracsession.prac
-    wn = WordNet()
+    wn = WordNet(concepts=None)
 
     # first inference step (nl parsing)
     if request.method == 'POST':
         data = json.loads(request.get_data())
         pracsession.count = 1
+        if data['acatontology']:
+            prac.wordnet = acatwordnet()
+        else:
+            prac.wordnet = wn
         log.info('starting new PRAC inference on "%s"' % data['sentence'])
         pracsession.prac = prac
-        if data['acatontology']:
-            pracsession.prac.wordnet = acatwordnet()
         infer = PRACInference(prac, [data['sentence']])
         parser = prac.getModuleByName('nl_parsing')
         prac.run(infer, parser)
