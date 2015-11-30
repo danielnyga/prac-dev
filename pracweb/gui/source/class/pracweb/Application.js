@@ -126,6 +126,27 @@ qx.Class.define("pracweb.Application",
         condProbWin.hide();
         this._condProbWin = condProbWin;
 
+        var popup = new qx.ui.embed.Html();
+        popup.setWidth(500);
+        popup.setHeight(300);
+        popup.setMarginLeft(-250);
+        popup.setMarginTop(-150);
+        popup.setOpacity(0);
+        popup.hide();
+        this._popup = popup;
+
+        var logwindow = new qx.ui.window.Window("Log");
+        logwindow.setWidth(500);
+        logwindow.setHeight(300);
+        logwindow.setShowMinimize(false);
+        logwindow.setLayout(new qx.ui.layout.Grow());
+        this.__log = new qx.ui.form.TextArea("").set({
+            font: qx.bom.Font.fromString("14px monospace")
+        });
+        logwindow.add(this.__log);
+        this.getRoot().add(logwindow, {left:50, top:50});
+        this._logwindow = logwindow;
+
         var waitImage = new qx.ui.basic.Image();
         waitImage.setSource('/prac/static/images/wait.gif');
         waitImage.getContentElement().setAttribute('id', 'waitImg');
@@ -265,6 +286,7 @@ qx.Class.define("pracweb.Application",
 //        tabView.add(aboutPage, {width: "100%", height: "100%"});
 
         mainLayoutContainer.add(tabView, {width: "100%", height: "100%"});
+        mainLayoutContainer.add(popup, { left: "50%", top: "50%"});
 
         mainScrollContainer.add(mainLayoutContainer, {width: "100%", height: "100%"});
         contentIsle.add(mainScrollContainer, {width: "100%", height: "100%"});
@@ -451,11 +473,18 @@ qx.Class.define("pracweb.Application",
 
       var showCondProb = new qx.ui.form.CheckBox("Show/hide Cond. Probability");
       showCondProb.addListener('changeValue', function(e) {
-          var el = this._condProb.getContentElement().getDomElement();
           if (e.getData())
             this._condProbWin.show();
           else
             this._condProbWin.hide();
+        }, this);
+
+      var showLog = new qx.ui.form.CheckBox("Show/hide Log");
+      showLog.addListener('changeValue', function(e) {
+          if (e.getData())
+            this._logwindow.show();
+          else
+            this._logwindow.hide();
         }, this);
 
         var acatontology = new qx.ui.form.CheckBox("Use ACAT ontology");
@@ -483,6 +512,7 @@ qx.Class.define("pracweb.Application",
         optionsSlideBar.add(showFlowchart);
         optionsSlideBar.add(showCondProb);
         optionsSlideBar.add(acatontology);
+        optionsSlideBar.add(showLog);
 
 
         mainGroup.add(instructionContainer, {edge: 0, width: "40%"});
@@ -524,6 +554,9 @@ qx.Class.define("pracweb.Application",
         var that = this;
         var tar = e.getTarget();                
         var response = tar.getResponse();
+
+        this.__log.setValue(response.log);
+        this.__log.getContentElement().scrollToY(100000);
 
         var responseResult = response.result;
         var responseSettings = response.settings == null ? {} : response.settings;
@@ -909,6 +942,10 @@ qx.Class.define("pracweb.Application",
           return;
         }
       }, that);
+      req.addListener("fail", function(e) {
+        this._show_wait_animation(false);
+        this._notify("Error! Could not generate Role Distributions.", 100);
+      }, that);
       req.send();
     },
 
@@ -996,6 +1033,44 @@ qx.Class.define("pracweb.Application",
         this._waitImage.hide();
       }
     },
+
+
+    /**
+     * show or hide message
+     */
+    _notify : function(message, delay, callback) {
+        if (message && message != '') {
+            var msg = '<div style="background-color: #bee280;"><center><h1>' + message + '</h1></center></div>';
+            this._popup.setHtml(msg);
+
+            var fadeIN = function(val, t) {
+                var fadeinInterval = setTimeout( function() {
+                      if (val < 1.0) {
+                        t._popup.setOpacity(val);
+                        fadeIN(val + 0.1, t);
+                      } else {
+                        fadeOUT(1.0, t);
+                      }
+                }, delay || 200);
+            };
+
+            var fadeOUT = function(val, t) {
+                var fadeoutInterval = setTimeout( function() {
+                      if (val > 0.0) {
+                        t._popup.setOpacity(val);
+                        fadeOUT(val - 0.1, t);
+                      } else {
+                        t._popup.hide();
+                        callback && callback.call(t||this);
+                      }
+                }, delay || 200);
+            };
+
+            this._popup.show();
+            fadeIN(0, this);
+        }
+    },
+
 
     /**
      * formatting template for inf settings labels and text

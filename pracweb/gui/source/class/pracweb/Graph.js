@@ -30,7 +30,7 @@ qx.Class.define("pracweb.Graph",
         .attr('height','100%')
         .append('svg:g');
 
-    this.WAITMSEC = 500;
+    this.WAITMSEC = 200;
 
     this.audio = new Audio("/prac/static/audio/bubble.mp3");
 

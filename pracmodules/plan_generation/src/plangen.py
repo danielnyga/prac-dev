@@ -50,7 +50,6 @@ class PlanGenerator(PRACModule):
                     print ac.roles
                     for role in ac.roles:
                         for i, rq in enumerate(db.query('{0}(?w,{1}) ^ has_sense(?w, ?s)'.format(role, actioncore))):
-                            print i, rq
                             if i > 0:
                                 for ass in list(role_assignments):
                                     new_ass = copy.copy(ass)

@@ -24,7 +24,7 @@ def ensure_prac_session(cursession):
         cursession['id'] = os.urandom(24)
         prac_session = PRACSession(cursession)
         prac_session.prac = PRAC()
-        prac_session.prac.wordnet = WordNet(concepts=None)
+        prac_session.prac.wordnet = WordNet()
         # initialize the nl_parsing module so the JVM is started
         prac_session.prac.getModuleByName('nl_parsing')
         log.info('created new PRAC session %s' % str(prac_session.id.encode('base-64')))

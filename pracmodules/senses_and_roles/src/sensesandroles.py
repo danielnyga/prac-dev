@@ -23,6 +23,7 @@
 import os
 from prac.core.base import PRACModule, PRACPIPE
 from prac.core.inference import PRACInferenceStep
+from prac.core.wordnet import WordNet
 from prac.pracutils.ActioncoreDescriptionHandler import \
     ActioncoreDescriptionHandler
 from prac.pracutils.pracgraphviz import render_gv
@@ -30,7 +31,7 @@ from prac.sense_distribution import add_all_wordnet_similarities, \
     get_prob_color
 from pracmln import MLNQuery, Database
 from pracmln.mln.base import parse_mln
-from pracmln.mln.util import colorize, out
+from pracmln.mln.util import colorize, out, stop
 from pracmln.praclog import logger
 from pracmln.utils.project import MLNProject
 from pracmln.utils.visualization import get_cond_prob_png
@@ -181,7 +182,7 @@ class SensesAndRoles(PRACModule):
         
     
     def role_distributions(self, step):
-        wn = self.prac.wordnet
+        wn = WordNet()#self.prac.wordnet
         distrs = {}
         for db_ in step.output_dbs:
             for word in db_.domains['word']:
@@ -222,9 +223,9 @@ class SensesAndRoles(PRACModule):
 #                             db.rmval('sense', synset.name)
                         add_all_wordnet_similarities(db, wn)
 
-                        # result = mln.infer(queries='has_sense', method='EnumerationAsk', evidence_db=db, cw=True, multicore=False)
-                        infer = MLNQuery(method='EnumerationAsk', mln=mln, db=db, queries='has_sense', cw=True, multicore=False)
+                        infer = MLNQuery(method='EnumerationAsk', mln=mln, db=db, queries='has_sense', cw=True, multicore=True)
                         result = infer.run()
+
 
                         g = wn.to_dot()
                         maxprob = 0.
