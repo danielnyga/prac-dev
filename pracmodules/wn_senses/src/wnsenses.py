@@ -94,17 +94,15 @@ class WNSenses(PRACModule):
         for res in db.query('has_pos(?word,?pos)'):
             word_const = res['?word']
             pos = posMap.get(res['?pos'], None)
-            # if no possible sense can be determined by WordNet, assert null
+            # if no possible sense can be determined by WordNet, skip word
+            # for now. False senses will be asserted later
             if pos is None:
-                db_ << 'has_sense({},null)'.format(word_const)
-                for c in concepts:
-                    db_ << ('is_a(null,{})'.format(c), 0)
                 continue
             # extract everything except the number (e.g. compound words like
             # heart-shaped from heart-shaped-4)
             word = '-'.join(word_const.split('-')[:-1])
             for i, synset in enumerate(wordnet.synsets(word, pos)):
-                sense_id = synset.name  # '%s-%.2d' % (word_const, i+1)
+                sense_id = synset.name
                 word2senses[word_const].append(sense_id)
                 for concept in concepts:
                     sim = wordnet.path_similarity(synset, concept)
@@ -116,7 +114,17 @@ class WNSenses(PRACModule):
                 else:
                     for s in senses:
                         db_ << '!has_sense({},{})'.format(word, s)
-            db_ << '!has_sense({},null)'.format(word)
+
+        # assert false for combinations of possible senses and
+        # words without POS tag
+        for res in db.query('has_pos(?word,?pos)'):
+            word_const = res['?word']
+            pos = posMap.get(res['?pos'], None)
+            # if no possible sense can be determined by WordNet, assert false
+            # for all possible senses
+            if pos is None:
+                for s in db_.domain('sense'):
+                    db_ << '!has_sense({},{})'.format(word_const, s)
         return db_
 
 

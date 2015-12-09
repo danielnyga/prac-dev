@@ -141,15 +141,12 @@ class SensesAndRoles(PRACModule):
 
                 # argdoms = kb.query_mln.predicate(role).argdoms
                 roles = ActioncoreDescriptionHandler.getRolesBasedOnActioncore(actioncore)
-                out('roles:', roles)
                 new_result = Database(self.prac.mln)
                 for atom, truth in unified_db.evidence.iteritems():
                     if any(r in atom for r in roles):
                         (_, predname, args) = self.prac.mln.logic.parse_literal(atom)
                         if not args[-1] == actioncore:
-                            out('omitted role ', r, 'with actioncore', args[-1], atom)
                             continue
-                        out('adding', atom, truth)
                     new_result << (atom, truth)
                 new_result.write(bars=False)
 
