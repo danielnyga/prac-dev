@@ -213,6 +213,14 @@ qx.Class.define("pracweb.Application",
           contentIsle.setHeight(h);
         }, this);
 
+        logwindow.addListener("close", function() {
+            this._chkbxshowlog.setValue(false);
+        }, this);
+
+        condProbWin.addListener("close", function() {
+            this._showcondprob.setValue(false);
+        }, this);
+
         // resize image to fit in window
         condProbWin.addListener("resize", function(e) {
         var ratio =  typeof this._imgRatio != 'undefined'? this._imgRatio : 1;
@@ -472,6 +480,7 @@ qx.Class.define("pracweb.Application",
         }, this);
 
       var showCondProb = new qx.ui.form.CheckBox("Show/hide Cond. Probability");
+      this._showcondprob = showCondProb;
       showCondProb.addListener('changeValue', function(e) {
           if (e.getData())
             this._condProbWin.show();
@@ -486,6 +495,7 @@ qx.Class.define("pracweb.Application",
           else
             this._logwindow.hide();
         }, this);
+      this._chkbxshowlog = showLog;
 
         var acatontology = new qx.ui.form.CheckBox("Use ACAT ontology");
         acatontology.addListener("changeValue", function(e) {
