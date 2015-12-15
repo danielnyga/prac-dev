@@ -404,7 +404,39 @@ qx.Class.define("pracweb.Application",
       var nextButton = new qx.ui.form.Button("Next Step",  "/prac/static/images/resultset_last.png");
       this._nextButton = nextButton;
       nextButton.setEnabled(false);
-      
+
+
+    /**
+     * trigger the PRAC inference
+     */
+      vizButton.addListener('execute', function() {
+        if (this._stepwise) {
+          this._vizButton.setEnabled(false);
+        }
+         getRoleDist.setEnabled(false);
+         this.loadGraph();
+         this._clear_flow_chart();
+         this._next_module = 'nl_parsing';
+         document.getElementById('init').nextElementSibling.style.fill = "#bee280";
+         this._oldRes = {};
+         this._oldEvidence = description.getValue();
+         var req = this._start_inference("POST");
+         req.setRequestHeader("Content-Type", "application/json");
+         req.setRequestData({ 'sentence': description.getValue(), 'acatontology': this._acatontology });
+         req.send();
+      }, this);
+
+
+    /**
+     * 'Next'-button will trigger new inference step
+     */
+      nextButton.addListener('execute', function(e) {
+        var that = this;
+        var req = that._start_inference("GET");
+            req.send();
+      }, this);
+
+
     /**
      * taxonomy visualization
      */
@@ -432,36 +464,6 @@ qx.Class.define("pracweb.Application",
         req.send();
       }, this);
     
-    /**
-     * trigger the PRAC inference
-     */
-      vizButton.addListener('execute', function() {
-        if (this._stepwise) {
-          this._vizButton.setEnabled(false);
-        }
-         getRoleDist.setEnabled(false);
-         this.loadGraph();
-         this._clear_flow_chart();
-         this._next_module = 'nl_parsing';
-         document.getElementById('init').nextElementSibling.style.fill = "#bee280";
-         this._oldRes = {};
-         this._oldEvidence = description.getValue();
-         var req = this._run_inference("POST");
-         req.setRequestHeader("Content-Type", "application/json");
-         req.setRequestData({ 'sentence': description.getValue(), 'acatontology': this._acatontology });
-         req.send();
-      }, this);
-      
-
-
-    /**
-     * 'Next'-button will trigger new inference step
-     */
-      nextButton.addListener('execute', function(e) {
-        var that = this;
-        var req = that._run_inference("GET");
-            req.send();
-      }, this);
 
 
       var getRoleDist = new qx.ui.form.Button("Get Role Distributions");
@@ -532,10 +534,31 @@ qx.Class.define("pracweb.Application",
         return mainGroup;
     },
 
-  /**
-   * update flowchart and request next inference step
-   */
-    _run_inference : function(method) {
+
+    /**
+    * Start the inference process
+    */
+    _start_inference : function(e) {
+       this._show_wait_animation(true);
+
+       var req = new qx.io.request.Xhr("/prac/_start_inference", e);
+       req.setRequestHeader("Content-Type", "application/json");
+       req.addListener("success", function(e) {
+               var that = this;
+               var tar = e.getTarget();
+               var response = tar.getResponse();
+               this._notify(response.message, 100);
+               this._get_inf_status();
+       }, this);
+       return req;
+    },
+
+
+    /**
+    * Request inference status
+    */
+    _get_inf_status : function() {
+
       this._show_wait_animation(true);
       this._nextButton.setEnabled(false);
       this.__cramPlanWindow.close();
@@ -544,7 +567,7 @@ qx.Class.define("pracweb.Application",
       if (this._next_module === 'achieved_by' || (this._next_module === 'plan_generation') && (this._last_module != 'plan_generation')) {
         var that = this;
         var tmpNM = that._next_module; //because following timeout will cause _next_module to be overwritten too quickly
-        that._clear_flow_chart();
+        this._clear_flow_chart();
         document.getElementById('executable').nextElementSibling.style.fill = "#bee280";
         setTimeout( function() {
           that._clear_flow_chart();
@@ -553,70 +576,76 @@ qx.Class.define("pracweb.Application",
       } else {
         this._clear_flow_chart();
         document.getElementById(this._next_module).nextElementSibling.style.fill = "#bee280";
-      } 
-    
-      // request next inference result
-      var req = new qx.io.request.Xhr(); 
-      req.setUrl("/prac/_pracinfer_step");
-      req.setMethod(method);
-      req.setRequestHeader("Cache-Control", "no-cache");
-      req.addListener("success", function(e) {
-        var that = this;
-        var tar = e.getTarget();                
-        var response = tar.getResponse();
+      }
 
-        this.__log.setValue(response.log);
-        this.__log.getContentElement().scrollToY(100000);
+        var req = new qx.io.request.Xhr("/prac/_get_status", "POST");
+        req.setRequestHeader("Content-Type", "application/json");
+        req.addListener("success", function(e) {
+            var that = this;
+            var tar = e.getTarget();
+            var response = tar.getResponse();
 
-        var responseResult = response.result;
-        var responseSettings = response.settings == null ? {} : response.settings;
-        that._set_exp_settings(responseSettings);
+            var message = response.message;
+
+            if (response.status == true) {
+                this.__log.setValue(response.log);
+                this.__log.getContentElement().scrollToY(100000);
+
+                var responseResult = response.result;
+                var responseSettings = response.settings == null ? {} : response.settings;
+                that._set_exp_settings(responseSettings);
 
 
-        // determine links to be removed/added
-        var updateLinks = that._calculateRedrawing(that._oldRes, responseResult);
-        var idle_time = 1000 + (updateLinks[0].length + updateLinks[1].length) * 500;
-        that._oldRes = responseResult;
-        that._oldEvidence = responseSettings == null ? '' : responseSettings['evidence'];
+                // determine links to be removed/added
+                var updateLinks = that._calculateRedrawing(that._oldRes, responseResult);
+                var idle_time = 1000 + (updateLinks[0].length + updateLinks[1].length) * that._graph.WAITMSEC;
+                that._oldRes = responseResult;
+                that._oldEvidence = responseSettings == null ? '' : responseSettings['evidence'];
 
-        that._show_wait_animation(false);
-        if (response.finish) {
-          console.log(" I am DONE! ");
-          that._show_wait_animation(true);
-          that.updateGraph(updateLinks[0], updateLinks[1]);
-          setTimeout( function() {
-            that._get_cram_plan();
-          }, idle_time); // wait 3 seconds, then clear flowchart
-          that._nextButton.setEnabled(false);
-          that._vizButton.setEnabled(true);
-          that._last_module = '';
-          that._show_wait_animation(false);
-        } else if (that._next_module === 'plan_generation') {
-          // do not redraw graph because plan_generation does not update output_dbs
-          var req = that._run_inference("GET");
-          req.send();
-        } else {
-          that._last_module = that._next_module;
-          that._next_module = that._get_next_module();
-          that._get_cond_prob();
-          that.updateGraph(updateLinks[0], updateLinks[1]);
-          setTimeout( function() {
-            that._nextButton.setEnabled(true);
-            if (that._last_module == 'senses_and_roles') {
-              that._getRoleDist.setEnabled(true); // set enabled when senses_and_roles has finished
+                that._show_wait_animation(false);
+                if (response.finish) {
+                    console.log(" I am DONE! ");
+                    that._show_wait_animation(true);
+                    that.updateGraph(updateLinks[0], updateLinks[1]);
+                    setTimeout( function() {
+                        that._get_cram_plan();
+                    }, idle_time); // wait 3 seconds, then clear flowchart
+                    that._nextButton.setEnabled(false);
+                    that._vizButton.setEnabled(true);
+                    that._last_module = '';
+                    that._show_wait_animation(false);
+                } else if (that._next_module === 'plan_generation') {
+                    // do not redraw graph because plan_generation does not update output_dbs
+                    that._last_module = 'plan_generation';
+                    var req = that._start_inference("GET");
+                    req.send();
+                } else {
+                    that._last_module = that._next_module;
+                    that._next_module = that._get_next_module();
+                    that._get_cond_prob();
+                    that.updateGraph(updateLinks[0], updateLinks[1]);
+                    setTimeout( function() {
+                        that._nextButton.setEnabled(true);
+                        if (that._last_module == 'senses_and_roles') {
+                          that._getRoleDist.setEnabled(true); // set enabled when senses_and_roles has finished
+                        }
+                    }, idle_time);
+                    if (!that._stepwise) {
+                        console.log('bumming around for', idle_time, ' mseconds before sending new request...');
+                        setTimeout( function() {
+                            var req = that._start_inference("GET");
+                            req.send();
+                        }, idle_time); // wait for graph to be updated
+                    }
+                }
+            } else {
+                this._get_inf_status();
             }
-          }, idle_time);
-          if (!that._stepwise) {
-            console.log('bumming around for', idle_time, ' mseconds before sending new request...');
-            setTimeout( function() {
-              var req = that._run_inference("GET");
-              req.send();
-            }, idle_time); // wait for graph to be updated
-          }
-        }
-      }, this);
-          return req;
+            this._notify(message, 100);
+        }, this);
+        req.send();
     },
+
 
     /**
      * get name of the next module to be executed

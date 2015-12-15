@@ -405,10 +405,10 @@ qx.Class.define("pracweb.Graph",
       this.force
         .size([this.w, this.h])
         .linkDistance( this.h/2 )
-        .charge(-1000)
+        .charge(-700)
         .on("tick", tick)
-        .gravity( .025 )
-        .distance( 250 )
+        .gravity( .1 )
+        .distance( 200 )
         .start();
     }
   }

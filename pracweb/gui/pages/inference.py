@@ -1,6 +1,5 @@
 import traceback
 from flask import request, jsonify
-import sys
 from StringIO import StringIO
 from flask.globals import session
 from threading import Thread
@@ -22,38 +21,40 @@ log = logger(__name__)
 wn = WordNet(concepts=None)
 awn = AcatWordnet(concepts=None)
 
-
-# @pracApp.app.route('/prac/_start_inference', methods=['POST'])
-# def start_inference():
-#     pracsession = ensure_prac_session(session)
-#     pracsession.infbuffer = RequestBuffer()
-#     t = Thread(target=_pracinfer_step, args=(pracsession))
-#     t.start()
-#     pracsession.infbuffer.waitformsg()
-#     return jsonify(pracsession.infbuffer.content)
-#
-#
-# @pracApp.app.route('/prac/_get_status', methods=['POST'])
-# def getinfstatus():
-#     pracsession = ensure_prac_session(session)
-#     pracsession.infbuffer.waitformsg()
-#     return jsonify(pracsession.infbuffer.content)
-
 # initialize logger
 stream = StringIO()
 handler = logging.StreamHandler(stream)
-sformatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+sformatter = logging.Formatter(
+    "%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 handler.setFormatter(sformatter)
 streamlog = logging.getLogger('streamlog')
 streamlog.setLevel(logging.INFO)
 streamlog.addHandler(handler)
-streamlog.info('STARTING INFERENCE')
 
 
-
-@pracApp.app.route('/prac/_pracinfer_step', methods=['POST', 'GET'])
-def _pracinfer_step():
+@pracApp.app.route('/prac/_start_inference', methods=['POST', 'GET'])
+def start_inference():
     pracsession = ensure_prac_session(session)
+    method = request.method
+    if method == 'POST':
+        data = json.loads(request.get_data())
+    else:
+        data = None
+    pracsession.infbuffer = RequestBuffer()
+    t = Thread(target=_pracinfer, args=(pracsession, 180, method, data))
+    t.start()
+    pracsession.infbuffer.waitformsg()
+    return jsonify(pracsession.infbuffer.content)
+
+
+@pracApp.app.route('/prac/_get_status', methods=['POST'])
+def getinfstatus():
+    pracsession = ensure_prac_session(session)
+    pracsession.infbuffer.waitformsg()
+    return jsonify(pracsession.infbuffer.content)
+
+
+def _pracinfer(pracsession, timeout, method, data):
     prac = pracsession.prac
 
     logmsg = ''
@@ -61,27 +62,32 @@ def _pracinfer_step():
     settings = {}
     finish = False
     msg = ''
+    streamlog.info('STARTING INFERENCE STEP')
+    pracsession.infbuffer.setmsg({'message': '', 'status': False})
     try:
-        if request.method == 'POST' or (hasattr(pracsession, 'infer') and pracsession.infer.next_module() is not None):
+        if method == 'POST' or (hasattr(pracsession, 'infer') and pracsession.infer.next_module() is not None):
             # any step except first and last
-            if hasattr(pracsession, 'infer') and pracsession.infer.next_module() is not None:
+            if hasattr(pracsession, 'infer') \
+                    and pracsession.infer.next_module() is not None:
                 # no executable plan has been found so far
                 if pracsession.infer.next_module() is not None:
-                    module = prac.getModuleByName(pracsession.infer.next_module())
+                    module = prac.getModuleByName(
+                        pracsession.infer.next_module())
                     streamlog.info('Running Module {}'.format(module.name))
                     prac.run(pracsession.infer, module)
                     if module.name == 'senses_and_roles':
-                        pracsession.sar_step = pracsession.infer.inference_steps[-1]
+                        pracsession.sar_step = \
+                            pracsession.infer.inference_steps[-1]
 
             # first inference step (nl parsing)
             else:
-                data = json.loads(request.get_data())
                 pracsession.count = 1
                 if data['acatontology']:
                     prac.wordnet = awn
                 else:
                     prac.wordnet = wn
-                streamlog.info('starting new PRAC inference on "{}"'.format(data['sentence']))
+                streamlog.info('starting new PRAC inference on "{}"'.format(
+                    data['sentence']))
                 pracsession.prac = prac
                 infer = PRACInference(prac, [data['sentence']])
                 parser = prac.getModuleByName('nl_parsing')
@@ -111,7 +117,6 @@ def _pracinfer_step():
             # finally delete inference object
             delattr(pracsession, 'infer')
 
-
         # retrieve settings for executed pracmodule
         if hasattr(step, 'applied_settings'):
             settings = _get_settings(step.module,
@@ -127,18 +132,21 @@ def _pracinfer_step():
         handler.flush()
         streamlog.info('\n')
         value = stream.getvalue()
-        if finish: stream.truncate(0)
+        if finish:
+            stream.truncate(0)
+            msg = 'Success!'
         try:
             logmsg += u'\n%s' % unicode(value, 'utf-8')
         except UnicodeError:
             traceback.print_exc()
             logmsg += u'\n%s' % repr(value)
 
-        return jsonify({'result': result,
-                        'finish': finish,
-                        'settings': settings,
-                        'log': logmsg,
-                        'message': msg})
+        pracsession.infbuffer.setmsg({'result': result,
+                                      'finish': finish,
+                                      'status': True,
+                                      'settings': settings,
+                                      'log': logmsg,
+                                      'message': msg})
 
 
 @pracApp.app.route('/prac/_pracinfer_get_next_module', methods=['GET'])
@@ -285,7 +293,8 @@ def generate_final_links(pracsession):
     for step in pracsession.infer.inference_steps:
         for db in step.output_dbs:
             for atom, truth in db.evidence.iteritems():
-                if truth == 0: continue
+                if truth == 0:
+                    continue
                 _, predname, _ = pracsession.prac.mln.logic.parse_literal(
                     atom)
                 if predname in ActioncoreDescriptionHandler.roles().union(
@@ -305,9 +314,8 @@ def generate_final_links(pracsession):
         roles = ActioncoreDescriptionHandler.getRolesBasedOnActioncore(
             actioncore)
         for role in roles:
-            for dbres in finaldb.query(
-                            '%s(?w, %s) ^ has_sense(?w, ?s)' % (
-                            role, actioncore)):
+            for dbres in finaldb.query('{}(?w, {}) ^ has_sense(?w, ?s)'.format(
+                    role, actioncore)):
                 sense = dbres['?s']
                 result.append(
                     {'source': {'name': actioncore, 'text': ''},
@@ -326,9 +334,8 @@ def generate_final_links(pracsession):
         roles = ActioncoreDescriptionHandler.getRolesBasedOnActioncore(
             actioncore)
         for role in roles:
-            for dbr in finaldb.query(
-                            '%s(?w, %s) ^ has_sense(?w, ?s)' % (
-                            role, actioncore)):
+            for dbr in finaldb.query('{}(?w, {}) ^ has_sense(?w, ?s)'.format(
+                    role, actioncore)):
                 sense = dbr['?s']
                 result.append(
                     {'source': {'name': actioncore, 'text': ''},
