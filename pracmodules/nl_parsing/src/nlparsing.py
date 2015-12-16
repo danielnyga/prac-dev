@@ -33,11 +33,8 @@ from mln.database import Database
 from utils import colorize
 import sys
 
-os.environ['JAVA_HOME'] = '/opt/Oracle_Java/jdk1.8.0_66/'
-os.environ['NLP_PARSER'] = '/home/seba/workspace/prac/3rdparty/stanford-parser-2015/edu/stanford/nlp/models/lexparser/englishPCFG.ser.gz'
 java.classpath.append(os.path.join(PRAC_HOME, '3rdparty', 'stanford-parser-2015', 'stanford-parser.jar'))
-grammarPath = os.path.join(PRAC_HOME, '3rdparty', 'stanford-parser-2015', 'grammar', 'englishPCFG.ser.gz')
-
+os.environ['NLP_PARSER'] = os.path.join(PRAC_HOME, '3rdparty', 'stanford-parser-2015', 'edu','stanford','nlp','models','lexparser', 'englishPCFG.ser.gz')
 
 class ParserError(Exception):
     def __init__(self, *args, **margs):
@@ -158,7 +155,7 @@ class NLParsing(PRACModule):
         if not jpype.isThreadAttachedToJVM():
             jpype.attachThreadToJVM()
         if self.stanford_parser is None:
-            self.stanford_parser = StanfordParser(grammarPath)
+            self.stanford_parser = StanfordParser()
         self.mln = readMLNFromFile(os.path.join(self.module_path, 'mln', 'predicates.mln'), grammar='PRACGrammar', logic='FuzzyLogic')
 
     
