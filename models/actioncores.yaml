@@ -110,3 +110,12 @@ cram_plan: "<span>(use-pipette (from (an object (type container.n.01)</span><br>
 ---
 action_core: Baking
 action_roles: ['obj_to_be_baked','action_verb','device','ingredient']
+---
+action_core: Storing
+action_roles: ['obj_to_be_stored','action_verb','location']
+---
+action_core: Cleaning
+action_roles: ['obj_to_be_cleaned','action_verb','cleanser','utensil']
+---
+action_core: Flipping
+action_roles: ['obj_to_be_flipped','action_verb','utensil']
