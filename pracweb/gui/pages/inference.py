@@ -1,4 +1,6 @@
 import traceback
+import ctypes
+import multiprocessing as mp
 from flask import request, jsonify
 from StringIO import StringIO
 from flask.globals import session
@@ -74,24 +76,52 @@ def _pracinfer(pracsession, timeout, method, data):
                     module = prac.getModuleByName(
                         pracsession.infer.next_module())
                     streamlog.info('Running Module {}'.format(module.name))
-                    prac.run(pracsession.infer, module)
+
+                    t = Thread(target=prac.run, args=(pracsession.infer, module))
+                    t.start()
+                    threadid = t.ident
+                    t.join(timeout)  # wait until either thread is done or time is up
+
+                    if t.isAlive():
+                        # stop inference and raise TimeoutError locally
+                        ctypes.pythonapi.PyThreadState_SetAsyncExc(
+                            ctypes.c_long(threadid),
+                            ctypes.py_object(SystemExit))
+                        raise mp.TimeoutError
+
                     if module.name == 'senses_and_roles':
                         pracsession.sar_step = \
                             pracsession.infer.inference_steps[-1]
 
             # first inference step (nl parsing)
             else:
-                pracsession.count = 1
+                if hasattr(pracsession, 'infer'):
+                    delattr(pracsession, 'infer')
+
                 if data['acatontology']:
                     prac.wordnet = awn
                 else:
                     prac.wordnet = wn
+
                 streamlog.info('starting new PRAC inference on "{}"'.format(
                     data['sentence']))
                 pracsession.prac = prac
                 infer = PRACInference(prac, [data['sentence']])
-                parser = prac.getModuleByName('nl_parsing')
-                prac.run(infer, parser)
+                parser = pracsession.parser
+
+                t = Thread(target=prac.run, args=(infer, parser))
+                t.start()
+                threadid = t.ident
+                # wait until either thread is done or time is up
+                t.join(timeout)
+
+                if t.isAlive():
+                    # stop inference and raise TimeoutError locally
+                    ctypes.pythonapi.PyThreadState_SetAsyncExc(
+                        ctypes.c_long(threadid),
+                        ctypes.py_object(SystemExit))
+                    raise mp.TimeoutError
+
                 pracsession.infer = infer
                 pracsession.synPreds = parser.mln.predicates
                 pracsession.leaveSynPreds = True
@@ -124,8 +154,16 @@ def _pracinfer(pracsession, timeout, method, data):
                                      evidence)
         else:
             settings = _get_settings(step.module, None, evidence)
-
+    except SystemExit:
+        streamlog.error('Cancelled...')
+        msg = 'Cancelled!\nCheck log for more information.'
+    except mp.TimeoutError:
+        streamlog.error('Timeouterror! '
+                        'Inference took more than {} seconds. '
+                        'Increase the timeout and try again.'.format(timeout))
+        msg = 'Timeout!'
     except:
+        traceback.print_exc()
         traceback.print_exc(file=stream)
         msg = 'Failed!\nCheck log for more information.'
     finally:

@@ -26,7 +26,8 @@ def ensure_prac_session(cursession):
         prac_session.prac = PRAC()
         prac_session.prac.wordnet = WordNet()
         # initialize the nl_parsing module so the JVM is started
-        prac_session.prac.getModuleByName('nl_parsing')
+        # prac_session.prac.getModuleByName('nl_parsing')
+        prac_session.parser = prac_session.prac.getModuleByName('nl_parsing')
         log.info('created new PRAC session %s' % str(prac_session.id.encode('base-64')))
         prac_session.tmpsessionfolder = init_file_storage()
         pracApp.session_store.put(prac_session)
