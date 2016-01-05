@@ -1,8 +1,10 @@
+import pracmln
 from pracweb.gui.app import pracApp
-import logging
 import os
 from werkzeug.serving import run_simple
-from OpenSSL import SSL
+
+
+log = pracmln.praclog.logger(__name__)
 
 def init_app(app):
 
@@ -20,12 +22,12 @@ init_app(pracApp.app)
 
 
 if __name__ == '__main__':
-    logging.getLogger().setLevel(logging.INFO)
     if 'PRAC_SERVER' in os.environ and os.environ['PRAC_SERVER'] == 'true':
-        context = SSL.Context(SSL.SSLv23_METHOD)
-        context.use_privatekey_file(os.path.join('../../', 'default.key'))
-        context.use_certificate_file(os.path.join('../../', 'default.crt'))
-        run_simple('0.0.0.0', 5002, pracApp.app, ssl_context=context)
+        log.info('Running PRACWEB in server mode')
+        certpath = os.path.dirname(os.path.realpath(__file__))
+        context = (os.path.join(certpath, 'default.crt'), os.path.join(certpath, 'default.key'))
+        run_simple('0.0.0.0', 5001, pracApp.app, ssl_context=context)
     else:
+        log.info('Running PRACWEB in development mode')
         pracApp.app.run(host='0.0.0.0', port=5001, debug=True, threaded=True)
 
