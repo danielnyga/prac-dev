@@ -1,3 +1,4 @@
+import time
 import traceback
 import ctypes
 import multiprocessing as mp
@@ -65,6 +66,7 @@ def _pracinfer(pracsession, timeout, method, data):
     finish = False
     msg = ''
     streamlog.info('STARTING INFERENCE STEP')
+    time.sleep(0.5)
     pracsession.infbuffer.setmsg({'message': '', 'status': False})
     try:
         if method == 'POST' or (hasattr(pracsession, 'infer') and pracsession.infer.next_module() is not None):
