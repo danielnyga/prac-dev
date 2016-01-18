@@ -39,6 +39,7 @@ from sense_distribution import add_word_evidence_complete,\
 from mln.mln import readMLNFromString
 from pracutils.pracgraphviz import render_gv
 from pracutils.ActioncoreDescriptionHandler import ActioncoreDescriptionHandler
+from ies_utils import MongoDatabaseHandler
 
 
 
@@ -73,7 +74,40 @@ class SensesAndRoles(PRACModule):
                     query += "?"+str(i)+d
             query += ")"
         return query
+    
+    def determine_missing_roles(self,db):
+        db_ = db.duplicate()
+        
+        for q in db.query('action_core(?w,?ac)'):
+            actioncore = q['?ac']
+            roles_db = RolequeryHandler.queryRoles(actioncore,db)
+            inferred_roles_set = set()
+            roles_dict = {}    
+            for atom, truth in sorted(roles_db.evidence.iteritems()):
+                _ , predname, args = roles_db.mln.logic.parseLiteral(atom)
+                if truth == 1.0:
+                    inferred_roles_set.add(predname)
+                    for sense_query in db.query('has_sense({},?s)'.format(args[0])):
+                        roles_dict[sense_query['?s']] = predname
+            missing_roles = set(ActioncoreDescriptionHandler.getRolesBasedOnActioncore(actioncore)).difference(inferred_roles_set)
             
+            #build query
+            mongo_roles_query_list = []
+            for key, value in roles_dict.iteritems():
+                mongo_roles_query_list.append({"actioncore_roles.{}.nltk_wordnet_sense".format(value) : "{}".format(key)})
+            
+            print mongo_roles_query_list    
+            frame_result_list = (MongoDatabaseHandler.get_frames_based_on_query({'$and':[{"action_core" : "{}".format(actioncore)},{'$or':mongo_roles_query_list}]}))
+            m_role = frame_result_list[0].actioncore_roles[list(missing_roles)[0]]
+            atom_role = "{}({},{})".format(list(missing_roles)[0],m_role.word+"_mongo",actioncore)
+            db_.addGroundAtom(atom_role,1.0)
+            atom_sense = "{}({},{})".format('has_sense',m_role.word+"_mongo",m_role.nltk_wordnet_sense)
+            db_.addGroundAtom(atom_sense,1.0)
+            print atom_role
+            print atom_sense
+            raw_input('ENTER')
+             
+        return db_
     @PRACPIPE
     def __call__(self, pracinference, **params):
         log = logging.getLogger(self.name)
@@ -149,7 +183,10 @@ class SensesAndRoles(PRACModule):
                         for atom, truth in sorted(db.evidence.iteritems()):
                             if 'is_a' in atom : continue
                             r_db.addGroundAtom(atom,truth)
+                        # r_db = self.determine_missing_roles(r_db)
+                            
                         result_db.append(r_db)
+                        
                 for ur in unknown_roles:
                     print '%s:' % colorize(ur, (None, 'red', True), True)
                     for q in r_db.query('action_role(?w, %s) ^ has_sense(?w, ?s)' % ur, truthThreshold=1):
