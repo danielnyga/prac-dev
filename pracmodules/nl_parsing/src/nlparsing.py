@@ -33,8 +33,9 @@ from mln.database import Database
 from utils import colorize
 import sys
 
-java.classpath.append(os.path.join(PRAC_HOME, '3rdparty', 'stanford-parser-2015', 'stanford-parser.jar'))
-os.environ['NLP_PARSER'] = os.path.join(PRAC_HOME, '3rdparty', 'stanford-parser-2015', 'edu','stanford','nlp','models','lexparser', 'englishPCFG.ser.gz')
+java.classpath.append(os.path.join(PRAC_HOME, '3rdparty', 'stanford-parser-2012-02-03', 'stanford-parser.jar'))
+grammarPath = os.path.join(PRAC_HOME, '3rdparty', 'stanford-parser-2012-02-03', 'grammar', 'englishPCFG.ser.gz')
+
 
 class ParserError(Exception):
     def __init__(self, *args, **margs):
@@ -63,8 +64,7 @@ class StanfordParser(object):
         self.package_lexparser = jpype.JPackage("edu.stanford.nlp.parser.lexparser")
         self.package_trees = jpype.JPackage('edu.stanford.nlp.trees')
         self.package = jpype.JPackage("edu.stanford.nlp")
-        #self.parser = self.package_lexparser.LexicalizedParser(self.pcfg_model_fname, ['-retainTmpSubcategories', '-maxLength', '160'])
-        self.parser = jpype.JClass("edu.stanford.nlp.parser.lexparser.LexicalizedParser").loadModel()
+        self.parser = self.package_lexparser.LexicalizedParser(self.pcfg_model_fname, ['-retainTmpSubcategories', '-maxLength', '160'])
         
     def getDependencies(self, sentence=None, collapsed=False):
         '''
@@ -72,7 +72,7 @@ class StanfordParser(object):
         applied to the given sentence.
         ''' 
         if sentence is not None:
-            self.parse = self.parser.parse(sentence)
+            self.parse = self.parser.apply(sentence)
         tlp = self.package_trees.PennTreebankLanguagePack()
         puncWordFilter = tlp.punctuationWordRejectFilter()
         gsf = tlp.grammaticalStructureFactory(puncWordFilter)
@@ -155,7 +155,7 @@ class NLParsing(PRACModule):
         if not jpype.isThreadAttachedToJVM():
             jpype.attachThreadToJVM()
         if self.stanford_parser is None:
-            self.stanford_parser = StanfordParser()
+            self.stanford_parser = StanfordParser(grammarPath)
         self.mln = readMLNFromFile(os.path.join(self.module_path, 'mln', 'predicates.mln'), grammar='PRACGrammar', logic='FuzzyLogic')
 
     
@@ -213,10 +213,6 @@ class NLParsing(PRACModule):
             deps = map(str, deps)
             words = set()
             for d in deps:
-                if d.startswith('nmod:agent'):
-                    d = d.replace('nmod:',"",1)
-                elif d.startswith('nmod:'):
-                    d = d.replace('nmod:',"prep_",1)
                 db.addGroundAtom(d)
                 f = self.mln.logic.parseFormula(str(d))
                 words.update(f.params)
