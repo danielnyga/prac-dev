@@ -100,13 +100,16 @@ class SensesAndRoles(PRACModule):
             #build query based on inferred senses and roles
             mongo_roles_query_list = []
             for key, value in roles_dict.iteritems():
-                mongo_roles_query_list.append({"actioncore_roles.{}.nltk_wordnet_sense".format(value) : "{}".format(key)})
+                #Action verb cannot be used for direct query
+                if value != 'action_verb':
+                    mongo_roles_query_list.append({"actioncore_roles.{}.nltk_wordnet_sense".format(value) : "{}".format(key)})
             '''
             To determine the missing roles, query for all frames which have the same action core and contain at least the same inferred roles/senses
             Take the first role which fits the requirement 
             '''
             frame_result_list = (MongoDatabaseHandler.get_frames_based_on_query({'$and':[{"action_core" : "{}".format(actioncore)},{'$or':mongo_roles_query_list}]}))
-            
+            print mongo_roles_query_list
+            raw_input("asdasds")
             for frame in frame_result_list:
                 temp_missing_role_list = []
                 for missing_role in missing_role_list:
