@@ -78,35 +78,52 @@ class SensesAndRoles(PRACModule):
     def determine_missing_roles(self,db):
         db_ = db.duplicate()
         
+        #Assuming there is only one action core
         for q in db.query('action_core(?w,?ac)'):
             actioncore = q['?ac']
             roles_db = RolequeryHandler.queryRoles(actioncore,db)
+            
             inferred_roles_set = set()
-            roles_dict = {}    
+            roles_dict = {}
+            
+            #Get inferred roles and the corresponding senses
             for atom, truth in sorted(roles_db.evidence.iteritems()):
                 _ , predname, args = roles_db.mln.logic.parseLiteral(atom)
                 if truth == 1.0:
                     inferred_roles_set.add(predname)
                     for sense_query in db.query('has_sense({},?s)'.format(args[0])):
                         roles_dict[sense_query['?s']] = predname
-            missing_roles = set(ActioncoreDescriptionHandler.getRolesBasedOnActioncore(actioncore)).difference(inferred_roles_set)
             
-            #build query
+            #Determine missing roles: All_Action_Roles\Inferred_Roles
+            missing_role_list = list(set(ActioncoreDescriptionHandler.getRolesBasedOnActioncore(actioncore)).difference(inferred_roles_set))
+            
+            #build query based on inferred senses and roles
             mongo_roles_query_list = []
             for key, value in roles_dict.iteritems():
                 mongo_roles_query_list.append({"actioncore_roles.{}.nltk_wordnet_sense".format(value) : "{}".format(key)})
-            
-            print mongo_roles_query_list    
+            '''
+            To determine the missing roles, query for all frames which have the same action core and contain at least the same inferred roles/senses
+            Take the first role which fits the requirement 
+            '''
             frame_result_list = (MongoDatabaseHandler.get_frames_based_on_query({'$and':[{"action_core" : "{}".format(actioncore)},{'$or':mongo_roles_query_list}]}))
-            m_role = frame_result_list[0].actioncore_roles[list(missing_roles)[0]]
-            atom_role = "{}({},{})".format(list(missing_roles)[0],m_role.word+"_mongo",actioncore)
-            db_.addGroundAtom(atom_role,1.0)
-            atom_sense = "{}({},{})".format('has_sense',m_role.word+"_mongo",m_role.nltk_wordnet_sense)
-            db_.addGroundAtom(atom_sense,1.0)
-            print atom_role
-            print atom_sense
-            raw_input('ENTER')
-             
+            
+            for frame in frame_result_list:
+                temp_missing_role_list = []
+                for missing_role in missing_role_list:
+                    if frame.actioncore_roles.has_key(missing_role):
+                        missing_role_sense = frame.actioncore_roles[missing_role]
+                        atom_role = "{}({},{})".format(missing_role,missing_role_sense.word+"_mongo",actioncore)
+                        db_.addGroundAtom(atom_role,1.0)
+                        atom_sense = "{}({},{})".format('has_sense',missing_role_sense.word+"_mongo",missing_role_sense.nltk_wordnet_sense)
+                        db_.addGroundAtom(atom_sense,1.0)
+                    else:
+                        temp_missing_role_list.append(missing_role)
+                
+                #If all missing roles are inferred, stop evaluate the other frames
+                if not temp_missing_role_list:
+                    break
+                else:
+                    missing_role_list = temp_missing_role_list
         return db_
     @PRACPIPE
     def __call__(self, pracinference, **params):
@@ -183,7 +200,8 @@ class SensesAndRoles(PRACModule):
                         for atom, truth in sorted(db.evidence.iteritems()):
                             if 'is_a' in atom : continue
                             r_db.addGroundAtom(atom,truth)
-                        # r_db = self.determine_missing_roles(r_db)
+                        
+                        r_db = self.determine_missing_roles(r_db)
                             
                         result_db.append(r_db)
                         
