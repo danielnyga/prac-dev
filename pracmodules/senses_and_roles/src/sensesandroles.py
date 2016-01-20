@@ -108,8 +108,7 @@ class SensesAndRoles(PRACModule):
             Take the first role which fits the requirement 
             '''
             frame_result_list = (MongoDatabaseHandler.get_frames_based_on_query({'$and':[{"action_core" : "{}".format(actioncore)},{'$or':mongo_roles_query_list}]}))
-            print mongo_roles_query_list
-            raw_input("asdasds")
+            
             for frame in frame_result_list:
                 temp_missing_role_list = []
                 for missing_role in missing_role_list:
