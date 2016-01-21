@@ -40,6 +40,7 @@ from mln.mln import readMLNFromString
 from pracutils.pracgraphviz import render_gv
 from pracutils.ActioncoreDescriptionHandler import ActioncoreDescriptionHandler
 from ies_utils import MongoDatabaseHandler
+import numpy
 
 
 
@@ -101,13 +102,19 @@ class SensesAndRoles(PRACModule):
             mongo_roles_query_list = []
             for key, value in roles_dict.iteritems():
                 #Action verb cannot be used for direct query
-                if value != 'action_verb':
-                    mongo_roles_query_list.append({"actioncore_roles.{}.nltk_wordnet_sense".format(value) : "{}".format(key)})
+                mongo_roles_query_list.append({"actioncore_roles.{}.nltk_wordnet_sense".format(value) : "{}".format(key)})
             '''
             To determine the missing roles, query for all frames which have the same action core and contain at least the same inferred roles/senses
             Take the first role which fits the requirement 
             '''
-            frame_result_list = (MongoDatabaseHandler.get_frames_based_on_query({'$and':[{"action_core" : "{}".format(actioncore)},{'$or':mongo_roles_query_list}]}))
+            #frame_result_list = (MongoDatabaseHandler.get_frames_based_on_query({'$and':[{"action_core" : "{}".format(actioncore)},{'$or':mongo_roles_query_list}]}))
+            frame_result_list = MongoDatabaseHandler.get_frames_based_on_query({"action_core" : "{}".format(actioncore)})
+            roles_senses_dict = RolequeryHandler.query_roles_and_senses_based_on_action_core(db_)
+            
+            frame_matrix = numpy.array(map(lambda x: x.transform_to_frame_vector(roles_senses_dict,missing_role_list),frame_result_list))
+            
+            print (frame_matrix.sum(1)/(numpy.sqrt(numpy.square(frame_matrix).sum(1))*numpy.sqrt(len(ActioncoreDescriptionHandler.getRolesBasedOnActioncore(actioncore)))))
+            raw_input("LOL")
             
             for frame in frame_result_list:
                 temp_missing_role_list = []
