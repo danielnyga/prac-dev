@@ -96,7 +96,7 @@ class SensesAndRoles(PRACModule):
                         roles_dict[sense_query['?s']] = predname
             
             #Determine missing roles: All_Action_Roles\Inferred_Roles
-            missing_role_list = list(set(ActioncoreDescriptionHandler.getRolesBasedOnActioncore(actioncore)).difference(inferred_roles_set))
+            missing_role_set = set(ActioncoreDescriptionHandler.getRolesBasedOnActioncore(actioncore)).difference(inferred_roles_set)
             
             #build query based on inferred senses and roles
             mongo_roles_query_list = []
@@ -111,28 +111,26 @@ class SensesAndRoles(PRACModule):
             frame_result_list = MongoDatabaseHandler.get_frames_based_on_query({"action_core" : "{}".format(actioncore)})
             roles_senses_dict = RolequeryHandler.query_roles_and_senses_based_on_action_core(db_)
             
-            frame_matrix = numpy.array(map(lambda x: x.transform_to_frame_vector(roles_senses_dict,missing_role_list),frame_result_list))
+            frame_matrix = numpy.array(map(lambda x: x.transform_to_frame_vector(roles_senses_dict,missing_role_set),frame_result_list))
             
-            print (frame_matrix.sum(1)/(numpy.sqrt(numpy.square(frame_matrix).sum(1))*numpy.sqrt(len(ActioncoreDescriptionHandler.getRolesBasedOnActioncore(actioncore)))))
-            raw_input("LOL")
+            score_frame_matrix = (frame_matrix.sum(1)/(numpy.sqrt(numpy.square(frame_matrix).sum(1))*numpy.sqrt(len(ActioncoreDescriptionHandler.getRolesBasedOnActioncore(actioncore)))))
             
-            for frame in frame_result_list:
-                temp_missing_role_list = []
-                for missing_role in missing_role_list:
-                    if frame.actioncore_roles.has_key(missing_role):
-                        missing_role_sense = frame.actioncore_roles[missing_role]
-                        atom_role = "{}({},{})".format(missing_role,missing_role_sense.word+"_mongo",actioncore)
-                        db_.addGroundAtom(atom_role,1.0)
-                        atom_sense = "{}({},{})".format('has_sense',missing_role_sense.word+"_mongo",missing_role_sense.nltk_wordnet_sense)
-                        db_.addGroundAtom(atom_sense,1.0)
-                    else:
-                        temp_missing_role_list.append(missing_role)
+            while frame_result_list and missing_role_set:
+                argmax_index = score_frame_matrix.argmax()
+                frame = frame_result_list[argmax_index]
                 
-                #If all missing roles are inferred, stop evaluate the other frames
-                if not temp_missing_role_list:
-                    break
-                else:
-                    missing_role_list = temp_missing_role_list
+                del frame_result_list[argmax_index]
+                score_frame_matrix = numpy.delete(score_frame_matrix, argmax_index)
+                
+                missing_roles_contained_in_frame = missing_role_set.intersection(set(frame.actioncore_roles.keys()))
+                
+                for missing_role in missing_roles_contained_in_frame:
+                    missing_role_sense = frame.actioncore_roles[missing_role]
+                    atom_role = "{}({},{})".format(missing_role,missing_role_sense.word+"_mongo",actioncore)
+                    db_.addGroundAtom(atom_role,1.0)
+                    atom_sense = "{}({},{})".format('has_sense',missing_role_sense.word+"_mongo",missing_role_sense.nltk_wordnet_sense)
+                    db_.addGroundAtom(atom_sense,1.0)
+                missing_role_set = missing_role_set.difference(missing_roles_contained_in_frame)
         return db_
     @PRACPIPE
     def __call__(self, pracinference, **params):
