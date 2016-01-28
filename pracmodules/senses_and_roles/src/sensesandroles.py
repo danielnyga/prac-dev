@@ -121,6 +121,8 @@ class SensesAndRoles(PRACModule):
                 
                 for missing_role in missing_roles_contained_in_frame:
                     missing_role_sense = frame.actioncore_roles[missing_role]
+                    print 'Found missing role "{}": {} Confidence: {}%'.format(missing_role,missing_role_sense.nltk_wordnet_sense,str(100*current_max_score))
+                    raw_input("prompt")
                     atom_role = "{}({},{})".format(missing_role,missing_role_sense.word+"_mongo",actioncore)
                     db_.addGroundAtom(atom_role,1.0)
                     atom_sense = "{}({},{})".format('has_sense',missing_role_sense.word+"_mongo",missing_role_sense.nltk_wordnet_sense)
