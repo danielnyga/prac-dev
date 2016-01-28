@@ -99,24 +99,19 @@ class SensesAndRoles(PRACModule):
             missing_role_set = set(ActioncoreDescriptionHandler.getRolesBasedOnActioncore(actioncore)).difference(inferred_roles_set)
             
             #build query based on inferred senses and roles
-            mongo_roles_query_list = []
-            for key, value in roles_dict.iteritems():
-                #Action verb cannot be used for direct query
-                mongo_roles_query_list.append({"actioncore_roles.{}.nltk_wordnet_sense".format(value) : "{}".format(key)})
-            '''
-            To determine the missing roles, query for all frames which have the same action core and contain at least the same inferred roles/senses
-            Take the first role which fits the requirement 
-            '''
-            #frame_result_list = (MongoDatabaseHandler.get_frames_based_on_query({'$and':[{"action_core" : "{}".format(actioncore)},{'$or':mongo_roles_query_list}]}))
             frame_result_list = MongoDatabaseHandler.get_frames_based_on_query({"action_core" : "{}".format(actioncore)})
             roles_senses_dict = RolequeryHandler.query_roles_and_senses_based_on_action_core(db_)
             
-            frame_matrix = numpy.array(map(lambda x: x.transform_to_frame_vector(roles_senses_dict,missing_role_set),frame_result_list))
-            
-            score_frame_matrix = (frame_matrix.sum(1)/(numpy.sqrt(numpy.square(frame_matrix).sum(1))*numpy.sqrt(len(ActioncoreDescriptionHandler.getRolesBasedOnActioncore(actioncore)))))
+            score_frame_matrix = numpy.array(map(lambda x: x.transform_to_frame_vector(roles_senses_dict,missing_role_set),frame_result_list))
+            confidence_level = 0.7
             
             while frame_result_list and missing_role_set:
                 argmax_index = score_frame_matrix.argmax()
+                current_max_score = score_frame_matrix[argmax_index]
+                
+                if current_max_score < confidence_level:
+                    break
+                
                 frame = frame_result_list[argmax_index]
                 
                 del frame_result_list[argmax_index]
@@ -130,7 +125,14 @@ class SensesAndRoles(PRACModule):
                     db_.addGroundAtom(atom_role,1.0)
                     atom_sense = "{}({},{})".format('has_sense',missing_role_sense.word+"_mongo",missing_role_sense.nltk_wordnet_sense)
                     db_.addGroundAtom(atom_sense,1.0)
+                    
                 missing_role_set = missing_role_set.difference(missing_roles_contained_in_frame)
+            
+            if missing_role_set:
+                print "Cannot determine missing roles."
+                raw_input("Enter")
+                break
+            
         return db_
     @PRACPIPE
     def __call__(self, pracinference, **params):
