@@ -212,7 +212,7 @@ class SensesAndRoles(PRACModule):
                             if 'is_a' in atom : continue
                             r_db.addGroundAtom(atom,truth)
                         
-                        r_db = self.determine_missing_roles(r_db)
+                        #r_db = self.determine_missing_roles(r_db)
                             
                         result_db.append(r_db)
                         
