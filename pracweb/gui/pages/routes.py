@@ -1,5 +1,6 @@
 import os
 import logging
+from logging import FileHandler
 from pracweb.gui.app import pracApp, app
 
 
@@ -16,7 +17,7 @@ def register_routes():
 
     # separate logger for user statistics
     root_logger = logging.getLogger('userstats')
-    handler = logging.FileHandler(os.path.join(
+    handler = FileHandler(os.path.join(
         pracApp.app.config['LOG_FOLDER'], "userstats.json"))
     formatter = logging.Formatter("%(message)s,")
     handler.setFormatter(formatter)
