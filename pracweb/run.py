@@ -1,33 +1,40 @@
-import pracmln
-from pracweb.gui.app import pracApp
 import os
-from werkzeug.serving import run_simple
+import logging
+from pracmln import praclog
+from pracweb.gui.app import pracApp
+from tornado.wsgi import WSGIContainer
+from tornado.httpserver import HTTPServer
+from tornado.ioloop import IOLoop
 
+log = praclog.logger(__name__)
 
-log = pracmln.praclog.logger(__name__)
 
 def init_app(app):
 
     from gui.pages.routes import register_routes
     # Load all views.py files to register @app.routes() with Flask
     register_routes()
-    
-    # Initialize app config settings
-    pracApp.app.config['WTF_CSRF_ENABLED'] = False # Disable CSRF checks while testing
-
     return app
-
 
 init_app(pracApp.app)
 
 
 if __name__ == '__main__':
+    logging.getLogger().setLevel(logging.INFO)
     if 'PRAC_SERVER' in os.environ and os.environ['PRAC_SERVER'] == 'true':
         log.info('Running PRACWEB in server mode')
-        certpath = os.path.dirname(os.path.realpath(__file__))
-        context = (os.path.join(certpath, 'default.crt'), os.path.join(certpath, 'default.key'))
-        run_simple('0.0.0.0', 5001, pracApp.app, ssl_context=context)
+
+        # load config
+        pracApp.app.config.from_object('configmodule.DeploymentConfig')
+
+        http_server = HTTPServer(WSGIContainer(pracApp.app))
+        http_server.listen(5001)
+        IOLoop.instance().start()
+
     else:
         log.info('Running PRACWEB in development mode')
-        pracApp.app.run(host='0.0.0.0', port=5001, debug=True, threaded=True)
 
+        # load config
+        pracApp.app.config.from_object('configmodule.DevelopmentConfig')
+
+        pracApp.app.run(host='0.0.0.0', port=5001)

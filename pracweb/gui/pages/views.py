@@ -1,25 +1,23 @@
+import os
+import imp
+import time
+import json
 import shutil
+from urlparse import urlparse
+from flask import render_template, request, send_from_directory, url_for, \
+    jsonify, session, redirect
+from prac.core.wordnet import WordNet
 from pracmln.mln.util import colorize
 from pracmln.praclog import logger
 from pracweb.gui.app import pracApp
-import json
-import os
-from flask import render_template, request, send_from_directory, url_for, \
-    jsonify, session, redirect
-import imp
 from pracweb.gui.pages.routes import ulogger
 from pracweb.gui.pages.utils import get_file_content, \
     update_mln_list, update_evidence_list, update_kb_list, PRAC_HOME, \
-    INFMETHODS, \
-    convert
-from urlparse import urlparse
-import time
-from prac.core.wordnet import WordNet
-from pracweb.gui.pages.utils import ensure_prac_session
+    INFMETHODS, convert, ensure_prac_session
 
 
 log = logger(__name__)
-ulog = ulogger('userstats')
+ulog = ulogger()
 
 
 @pracApp.app.route('/prac/test/')
@@ -29,12 +27,15 @@ def prac_test():
 
 @pracApp.app.route('/prac/static/<path:filename>')
 def download_prac_static(filename):
-    return send_from_directory(pracApp.app.config['PRAC_STATIC_PATH'], filename)
+    return send_from_directory(pracApp.app.config['PRAC_STATIC_PATH'],
+                               filename)
 
 
 @pracApp.app.route('/prac/doc/<path:filename>')
 def download_prac_docs(filename):
-    return send_from_directory(os.path.join(pracApp.app.config['PRAC_ROOT_PATH'], 'doc'), filename)
+    return send_from_directory(os.path.join(
+        pracApp.app.config['PRAC_ROOT_PATH'],
+        'doc'), filename)
 
 
 @pracApp.app.route('/prac/')
@@ -44,17 +45,14 @@ def prac():
 
 @pracApp.app.route('/prac/home/')
 def _prac():
-    error = ''
-    host_url = urlparse(request.host_url).hostname
-    container_name = ''
     ensure_prac_session(session)
     time.sleep(2)
-    # return render_template('prac.html', **locals()) // for openEASE integration
-    return redirect('/prac/pracinfer')
+    # return render_template('prac.html', **locals()) //openEASE integration
+    return redirect('/prac/pracweb')
 
 
-@pracApp.app.route('/prac/pracinfer', methods=['GET', 'POST'])
-def pracinfer():
+@pracApp.app.route('/prac/pracweb', methods=['GET', 'POST'])
+def pracweb():
     ensure_prac_session(session)
     return render_template('infer.html', **locals())
 
@@ -65,7 +63,7 @@ def remove_if_invalid(response):
         response.delete_cookie(pracApp.app.session_cookie_name)
         prac_session = pracApp.session_store[session]
         if prac_session is not None:
-            log.info('removed PRAC session %s' % prac_session.id.encode('base-64'))
+            log.info('removed session %s' % prac_session.id.encode('base-64'))
             pracApp.session_store.remove(session)
         session.clear()
     return response
@@ -74,9 +72,10 @@ def remove_if_invalid(response):
 @pracApp.app.route('/prac/_destroy_session', methods=['POST', 'OPTIONS'])
 def destroy():
     prac_session = pracApp.session_store[session]
-    if prac_session is None: return ''
+    if prac_session is None:
+        return ''
     if os.path.exists(prac_session.tmpsessionfolder):
-        log.info('removing temporary folder %s' % prac_session.tmpsessionfolder)
+        log.info('removing temp folder %s' % prac_session.tmpsessionfolder)
         shutil.rmtree(prac_session.tmpsessionfolder)
     log.info('invalidating session %s' % prac_session.id.encode('base-64'))
     session["__invalidate__"] = True
@@ -94,7 +93,7 @@ def prac_menu():
     menu_left = []
 
     selection = "Options"
-    choices = [('PracINFER', url_for('prac') + 'pracinfer')]
+    choices = [('pracweb', url_for('prac') + 'pracweb')]
 
     menu_right = [
         ('CHOICES', (selection, choices))
@@ -109,11 +108,13 @@ def praclog():
 
 
 @pracApp.app.route('/prac/log/<filename>')
-def praclog_(filename):
-    if os.path.isfile(os.path.join(pracApp.app.config['LOG_FOLDER'], filename)):
-        return send_from_directory(pracApp.app.config['LOG_FOLDER'], filename)
-    elif os.path.isfile(os.path.join(pracApp.app.config['LOG_FOLDER'], '{}.json'.format(filename))):
-        return send_from_directory(pracApp.app.config['LOG_FOLDER'], '{}.json'.format(filename))
+def praclog_(fname):
+    if os.path.isfile(os.path.join(pracApp.app.config['LOG_FOLDER'], fname)):
+        return send_from_directory(pracApp.app.config['LOG_FOLDER'], fname)
+    elif os.path.isfile(os.path.join(pracApp.app.config['LOG_FOLDER'],
+                                     '{}.json'.format(fname))):
+        return send_from_directory(pracApp.app.config['LOG_FOLDER'],
+                                   '{}.json'.format(fname))
     else:
         return render_template('userstats.html', **locals())
 
@@ -136,8 +137,8 @@ def user_stats():
 
     try:
         imp.find_module('geoip')
-        from geoip import geolite2
         try:
+            from geoip import geolite2
             geolite = geolite2.lookup(ip)
             stats.update(geolite.to_dict())
             stats['subdivisions'] = ', '.join(
@@ -159,7 +160,10 @@ def user_stats():
                       "Access Date:\t{date}\n"
                       "Access Time:\t{time}")
     except ImportError:
-        print colorize('geoip module was not found. Install by "sudo pip install python-geoip python-geoip-geolite2" if you want to request geoip information', (None, 'yellow', True), True)
+        print colorize('geoip module was not found. Install by "sudo pip '
+                       'install python-geoip python-geoip-geolite2" if you '
+                       'want to request geoip information',
+                       (None, 'yellow', True), True)
     finally:
         stats.update({'ip': ip, 'date': data['date'], 'time': data['time']})
         ulog.info(json.dumps(stats))
@@ -183,7 +187,8 @@ def get_modules():
 
 @pracApp.app.route('/prac/_load_flow_chart', methods=['GET'])
 def _load_flow_chart():
-    filename = os.path.join(os.path.join(PRAC_HOME, 'etc'), 'prac-flowchart.svg')
+    filename = os.path.join(os.path.join(PRAC_HOME, 'etc'),
+                            'prac-flowchart.svg')
     with open(filename, 'r') as svgFile:
         content = svgFile.readlines()
     return ''.join(content)
@@ -194,10 +199,13 @@ def update_module():
     pracsession = ensure_prac_session(session)
     data = json.loads(request.get_data())
     module = data.get('module')
-    kblist = [kb[0] for kb in update_kb_list(pracsession.prac, module, pracsession.tmpsessionfolder)]
-    mlnlist = [mln[0] for mln in update_mln_list(pracsession.prac, module, pracsession.tmpsessionfolder)]
+    kblist = [kb[0] for kb in update_kb_list(pracsession.prac, module,
+                                             pracsession.tmpsessionfolder)]
+    mlnlist = [mln[0] for mln in update_mln_list(pracsession.prac, module,
+                                                 pracsession.tmpsessionfolder)]
     evidencelist = [ev[0] for ev in
-                    update_evidence_list(pracsession.prac, module, pracsession.tmpsessionfolder)]
+                    update_evidence_list(pracsession.prac, module,
+                                         pracsession.tmpsessionfolder)]
 
     return jsonify({'value': module, 'kblist': kblist, 'mlnlist': mlnlist,
                     'evidencelist': evidencelist})
@@ -206,8 +214,11 @@ def update_module():
 @pracApp.app.route('/prac/updateUploadedFiles', methods=['GET'])
 def update_uploaded_files():
     pracsession = ensure_prac_session(session)
-    mlnlist = [mln[0] for mln in update_mln_list(pracsession.prac, None, pracsession.tmpsessionfolder)]
-    evidencelist = [ev[0] for ev in update_evidence_list(pracsession.prac, None, pracsession.tmpsessionfolder)]
+    mlnlist = [mln[0] for mln in update_mln_list(pracsession.prac, None,
+                                                 pracsession.tmpsessionfolder)]
+    evidencelist = [ev[0] for ev in update_evidence_list(pracsession.prac,
+                                                         None,
+                                                         pracsession.tmpsessionfolder)]
     ret_data = {'mlnlist': mlnlist, 'evidencelist': evidencelist}
 
     return jsonify(ret_data)
