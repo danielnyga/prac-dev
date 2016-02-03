@@ -216,6 +216,11 @@ class NLParsing(PRACModule):
             deps = map(str, deps)
             words = set()
             for d in deps:
+                if d.startswith('nmod:agent'):
+                    d = d.replace('nmod:',"",1)
+                elif d.startswith('nmod:'):
+                    d = d.replace('nmod:',"prep_",1)
+
                 db.addGroundAtom(d)
                 f = self.mln.logic.parseFormula(str(d))
                 words.update(f.params)
