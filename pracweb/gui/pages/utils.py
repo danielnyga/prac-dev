@@ -1,3 +1,4 @@
+from StringIO import StringIO
 from pracweb.gui.app import pracApp
 import os, re
 import tempfile
@@ -30,6 +31,20 @@ def ensure_prac_session(cursession):
         log.info('created new PRAC session %s' %
                  str(prac_session.id.encode('base-64')))
         prac_session.tmpsessionfolder = init_file_storage()
+
+        # initialize logger
+        stream = StringIO()
+        handler = logging.StreamHandler(stream)
+        sformatter = logging.Formatter(
+            "%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+        handler.setFormatter(sformatter)
+        streamlog = logging.getLogger('streamlog')
+        streamlog.setLevel(logging.INFO)
+        streamlog.addHandler(handler)
+        prac_session.stream = stream
+        prac_session.log = streamlog
+        prac_session.loghandler = handler
+
         pracApp.session_store.put(prac_session)
     return prac_session
 

@@ -32,7 +32,7 @@ log = logger(__name__)
 class PlanGenerator(PRACModule):
 
     def __call__(self, pracinference, **params):
-        print 'generating CRAM plan'
+        out('generating CRAM plan')
         infstep = PRACInferenceStep(pracinference, self)
         dbs = pracinference.inference_steps[-1].output_dbs
         infstep.output_dbs = dbs
@@ -46,8 +46,8 @@ class PlanGenerator(PRACModule):
                     if not ac.plan: continue
                     assignment = {}
                     role_assignments = [assignment]
-                    log.info('roles: ')
-                    print ac.roles
+                    out('roles: ')
+                    out(ac.roles)
                     for role in ac.roles:
                         for i, rq in enumerate(db.query('{0}(?w,{1}) ^ has_sense(?w, ?s)'.format(role, actioncore))):
                             if i > 0:

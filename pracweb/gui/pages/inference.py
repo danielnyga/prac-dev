@@ -1,4 +1,3 @@
-import time
 import traceback
 import ctypes
 import multiprocessing as mp
@@ -11,6 +10,7 @@ import logging
 from prac.core.inference import PRACInference
 from prac.pracutils.ActioncoreDescriptionHandler import \
     ActioncoreDescriptionHandler
+from pracmln.mln.util import out
 from pracmln.praclog import logger
 from pracweb.gui.pages.buffer import RequestBuffer
 from pracweb.gui.pages.utils import ensure_prac_session
@@ -23,16 +23,6 @@ from prac.core.wordnet_online import WordNet as AcatWordnet
 log = logger(__name__)
 wn = WordNet(concepts=None)
 awn = AcatWordnet(concepts=None)
-
-# initialize logger
-stream = StringIO()
-handler = logging.StreamHandler(stream)
-sformatter = logging.Formatter(
-    "%(asctime)s - %(name)s - %(levelname)s - %(message)s")
-handler.setFormatter(sformatter)
-streamlog = logging.getLogger('streamlog')
-streamlog.setLevel(logging.INFO)
-streamlog.addHandler(handler)
 
 
 @pracApp.app.route('/prac/_start_inference', methods=['POST', 'GET'])
@@ -65,8 +55,7 @@ def _pracinfer(pracsession, timeout, method, data):
     settings = {}
     finish = False
     msg = ''
-    streamlog.info('STARTING INFERENCE STEP')
-    time.sleep(0.5)
+    pracsession.log.info('STARTING INFERENCE STEP')
     pracsession.infbuffer.setmsg({'message': '', 'status': False})
     try:
         if method == 'POST' or (hasattr(pracsession, 'infer') and pracsession.infer.next_module() is not None):
@@ -77,7 +66,7 @@ def _pracinfer(pracsession, timeout, method, data):
                 if pracsession.infer.next_module() is not None:
                     module = prac.getModuleByName(
                         pracsession.infer.next_module())
-                    streamlog.info('Running Module {}'.format(module.name))
+                    pracsession.log.info('Running Module {}'.format(module.name))
 
                     t = Thread(target=prac.run, args=(pracsession.infer, module))
                     t.start()
@@ -105,7 +94,7 @@ def _pracinfer(pracsession, timeout, method, data):
                 else:
                     prac.wordnet = wn
 
-                streamlog.info('starting new PRAC inference on "{}"'.format(
+                pracsession.log.info('starting new PRAC inference on "{}"'.format(
                     data['sentence']))
                 pracsession.prac = prac
                 infer = PRACInference(prac, [data['sentence']])
@@ -135,7 +124,7 @@ def _pracinfer(pracsession, timeout, method, data):
             pracsession.leaveSynPreds = False
         # final step used to generate final graph structure
         else:
-            streamlog.info('Finalizing result...')
+            pracsession.log.info('Finalizing result...')
             step = pracsession.infer.inference_steps[-1]
             evidence = step.output_dbs
             finish = True
@@ -157,23 +146,23 @@ def _pracinfer(pracsession, timeout, method, data):
         else:
             settings = _get_settings(step.module, None, evidence)
     except SystemExit:
-        streamlog.error('Cancelled...')
+        pracsession.log.error('Cancelled...')
         msg = 'Cancelled!\nCheck log for more information.'
     except mp.TimeoutError:
-        streamlog.error('Timeouterror! '
+        pracsession.log.error('Timeouterror! '
                         'Inference took more than {} seconds. '
                         'Increase the timeout and try again.'.format(timeout))
         msg = 'Timeout!'
     except:
         traceback.print_exc()
-        traceback.print_exc(file=stream)
+        traceback.print_exc(file=pracsession.stream)
         msg = 'Failed!\nCheck log for more information.'
     finally:
-        handler.flush()
-        streamlog.info('\n')
-        value = stream.getvalue()
+        pracsession.loghandler.flush()
+        pracsession.log.info('\n')
+        value = pracsession.stream.getvalue()
         if finish:
-            stream.truncate(0)
+            pracsession.stream.truncate(0)
             msg = 'Success!'
         try:
             logmsg += u'\n%s' % unicode(value, 'utf-8')
@@ -277,7 +266,7 @@ def format_cram_string(cramstring):
 def generate_graph_links(pracsession, evidence):
     result = []
     for db in evidence:
-        db.write(stream, color=False, bars=False)
+        db.write(pracsession.stream, color=False, bars=False)
         _grammar = db.mln.logic.grammar
         for atom in db.evidence:
             a_tuple = _grammar.parse_literal(atom)
