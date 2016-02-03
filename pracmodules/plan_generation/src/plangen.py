@@ -43,7 +43,8 @@ class PlanGenerator(PRACModule):
                 for q in db.query(query):
                     actioncore = q['?ac']
                     ac = self.prac.actioncores.get(actioncore)
-                    if not ac.plan: continue
+                    if not ac.plan:
+                        continue
                     assignment = {}
                     role_assignments = [assignment]
                     out('roles: ')
@@ -58,10 +59,11 @@ class PlanGenerator(PRACModule):
                             else:
                                 for ass in role_assignments:
                                     ass[role] = rq['?s']
-                        #Handle missing plan parameters
-                        if not role in ass.keys():
+                        # Handle missing plan parameters
+                        if role not in ass.keys():
                             ass[role] = "Unknown"
                     for assignment in role_assignments:
-                        infstep.executable_plans.append(ac.parameterize_plan(**assignment))
+                        infstep.executable_plans.append(
+                            ac.parameterize_plan(**assignment))
                     break
         return infstep
