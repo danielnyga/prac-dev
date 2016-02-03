@@ -1,46 +1,45 @@
-/* **************************************************************************** 
- * PROBABILISTIC ROBOT ACTION CORES
- * 
- * (C) 2011-2013 by Daniel Nyga (nyga@cs.tum.edu)
- *
- * Permission is hereby granted, free of charge, to any person obtaining
- * a copy of this software and associated documentation files (the
- * "Software"), to deal in the Software without restriction, including
- * without limitation the rights to use, copy, modify, merge, publish,
- * distribute, sublicense, and/or sell copies of the Software, and to
- * permit persons to whom the Software is furnished to do so, subject to
- * the following conditions:
- *
- * The above copyright notice and this permission notice shall be
- * included in all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
- * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
- * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
- * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
- * CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
- * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
- * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- ******************************************************************************/
-
-#include predicates.mln
-
-role = {Theme, Instrument}
-
-// hard fomulas 
-has_sense(?w, ?s) ^ is_a(?s, null) => action_role(?w, null).
-
-// weighted formulas
-5 action_role(?word, Instrument) ^ has_sense(?word, ?sense) ^ is_a(?sense, spatula.n.01)
--2 action_role(?word, Instrument) ^ has_sense(?word, ?sense) ^ is_a(?sense, knife.n.01)
--2 action_role(?word, Instrument) ^ has_sense(?word, ?sense) ^ is_a(?sense, tongs.n.01)
--2 action_role(?word, Instrument) ^ has_sense(?word, ?sense) ^ is_a(?sense, fork.n.01)
--2 action_role(?word, Instrument) ^ has_sense(?word, ?sense) ^ is_a(?sense, spoon.n.01)
-5 action_role(?word, Theme) ^ has_sense(?word, ?sense) ^ is_a(?sense, pancake.n.01)
+// domain declarations
 
 
+// predicate declarations
+action_verb(word,actioncore)
+obj_to_be_flipped(word,actioncore)
+has_pos(word,pos!)
+prep_with(word,word)
+utensil(word,actioncore)
+has_sense(word,sense?)
+det(word,word)
+dobj(word,word)
+is_a(sense,concept)
+prep_in(word,word)
+action_core(word,actioncore?)
+root(root,word)
 
-
-
-
-
+// formulas
+1.481548    utensil(?w2, Flipping) ^ prep_with(?w1, ?w2) ^ is_a(?s1, tongs.n.01) ^ has_sense(?w2, ?s1) ^ ?w1=/=?w2
+1.481548    utensil(?w2, Flipping) ^ prep_with(?w1, ?w2) ^ is_a(?s1, fork.n.01) ^ has_sense(?w2, ?s1) ^ ?w1=/=?w2
+1.481548    utensil(?w2, Flipping) ^ prep_with(?w1, ?w2) ^ is_a(?s1, spatula.n.01) ^ has_sense(?w2, ?s1) ^ ?w1=/=?w2
+1.042597    obj_to_be_flipped(?w2, Flipping) ^ dobj(?w1, ?w2) ^ is_a(?s1, pancake.n.01) ^ has_sense(?w2, ?s1) ^ ?w1=/=?w2
+1.042597    obj_to_be_flipped(?w2, Flipping) ^ dobj(?w1, ?w2) ^ is_a(?s1, fish.n.02) ^ has_sense(?w2, ?s1) ^ ?w1=/=?w2
+1.042597    obj_to_be_flipped(?w2, Flipping) ^ dobj(?w1, ?w2) ^ is_a(?s1, bacon.n.01) ^ has_sense(?w2, ?s1) ^ ?w1=/=?w2
+1.042597    obj_to_be_flipped(?w2, Flipping) ^ dobj(?w1, ?w2) ^ is_a(?s1, omelet.n.01) ^ has_sense(?w2, ?s1) ^ ?w1=/=?w2
+1.042597    obj_to_be_flipped(?w2, Flipping) ^ dobj(?w1, ?w2) ^ is_a(?s1, ham.n.01) ^ has_sense(?w2, ?s1) ^ ?w1=/=?w2
+1.042597    obj_to_be_flipped(?w2, Flipping) ^ dobj(?w1, ?w2) ^ is_a(?s1, waffle.n.01) ^ has_sense(?w2, ?s1) ^ ?w1=/=?w2
+1.042597    obj_to_be_flipped(?w2, Flipping) ^ dobj(?w1, ?w2) ^ is_a(?s1, meatball.n.01) ^ has_sense(?w2, ?s1) ^ ?w1=/=?w2
+1.042597    obj_to_be_flipped(?w2, Flipping) ^ dobj(?w1, ?w2) ^ is_a(?s1, rib.n.03) ^ has_sense(?w2, ?s1) ^ ?w1=/=?w2
+1.042597    obj_to_be_flipped(?w2, Flipping) ^ dobj(?w1, ?w2) ^ is_a(?s1, steak.n.01) ^ has_sense(?w2, ?s1) ^ ?w1=/=?w2
+1.042597    obj_to_be_flipped(?w2, Flipping) ^ dobj(?w1, ?w2) ^ is_a(?s1, meat.n.01) ^ has_sense(?w2, ?s1) ^ ?w1=/=?w2
+-1.042597   action_verb(?w1, Flipping) ^ is_a(?s1, pancake.n.01) ^ has_sense(?w1, ?s1)
+-1.042597   action_verb(?w1, Flipping) ^ is_a(?s1, fish.n.02) ^ has_sense(?w1, ?s1)
+-1.042597   action_verb(?w1, Flipping) ^ is_a(?s1, bacon.n.01) ^ has_sense(?w1, ?s1)
+-1.042597   action_verb(?w1, Flipping) ^ is_a(?s1, omelet.n.01) ^ has_sense(?w1, ?s1)
+-1.042597   action_verb(?w1, Flipping) ^ is_a(?s1, ham.n.01) ^ has_sense(?w1, ?s1)
+-1.481548   action_verb(?w1, Flipping) ^ is_a(?s1, tongs.n.01) ^ has_sense(?w1, ?s1)
+-1.481548   action_verb(?w1, Flipping) ^ is_a(?s1, fork.n.01) ^ has_sense(?w1, ?s1)
+-1.042597   action_verb(?w1, Flipping) ^ is_a(?s1, waffle.n.01) ^ has_sense(?w1, ?s1)
+-1.042597   action_verb(?w1, Flipping) ^ is_a(?s1, meatball.n.01) ^ has_sense(?w1, ?s1)
+-1.042597   action_verb(?w1, Flipping) ^ is_a(?s1, rib.n.03) ^ has_sense(?w1, ?s1)
+-1.042597   action_verb(?w1, Flipping) ^ is_a(?s1, steak.n.01) ^ has_sense(?w1, ?s1)
+-1.042597   action_verb(?w1, Flipping) ^ is_a(?s1, meat.n.01) ^ has_sense(?w1, ?s1)
+2.646992    action_verb(?w1, Flipping) ^ is_a(?s1, flip.v.08) ^ has_sense(?w1, ?s1)
+-1.481548   action_verb(?w1, Flipping) ^ is_a(?s1, spatula.n.01) ^ has_sense(?w1, ?s1)

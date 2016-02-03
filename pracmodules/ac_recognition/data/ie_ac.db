@@ -65,4 +65,17 @@
 1.00  is_a(begin.v.03, begin.v.03)
 1.00  action_core(start,Starting)
 
+---
+
+1.00  has_pos(flip, VB)
+1.00  has_sense(flip, flip.v.08)
+1.00  is_a(flip.v.08, flip.v.08)
+1.00  action_core(flip,Flipping)
+
+---
+
+1.00  has_pos(store, VB)
+1.00  has_sense(store, store.v.02)
+1.00  is_a(store.v.02, store.v.02)
+1.00  action_core(store,Storing)
 
