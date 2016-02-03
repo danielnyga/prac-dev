@@ -1,0 +1,68 @@
+1.00  action_core(fill, Filling)
+1.00  has_pos(fill, VB)
+1.00  has_sense(fill, fill.v.01)
+1.00  is_a(fill.v.01, fill.v.01)
+---
+1.00  action_core(slice, Slicing)
+1.00  has_pos(slice, VB)
+1.00  has_sense(slice, slice.v.03)
+1.00  is_a(slice.v.03, slice.v.03)
+---
+
+1.00  action_core(cut, Cutting)
+1.00  has_pos(cut, VB)
+1.00  has_sense(cut, cut.v.01)
+1.00  is_a(cut.v.01, cut.v.01)
+---
+
+1.00  action_core(add, Adding)
+1.00  has_pos(add, VB)
+1.00  has_sense(add, add.v.01)
+1.00  is_a(add.v.01, add.v.01)
+---
+1.00  action_core(stir, Stirring)
+1.00  has_pos(stir, VB)
+1.00  has_sense(stir, stir.v.01)
+1.00  is_a(stir.v.01, stir.v.01)
+---
+1.00  has_pos(preheat, VB)
+1.00  has_sense(preheat, preheat.v.01)
+1.00  is_a(preheat.v.01, preheat.v.01)
+1.00  action_core(preheat,Preheating)
+
+---
+
+1.00  has_pos(flavour, VB)
+1.00  has_sense(flavour, season.v.01)
+1.00  is_a(season.v.01, season.v.01)
+1.00  action_core(flavour,Flavouring)
+
+---
+
+
+1.00  action_core(pour, Pouring)
+1.00  has_pos(pour, VB)
+1.00  has_sense(pour, pour.v.01)
+1.00  is_a(pour.v.01, pour.v.01)
+---
+
+1.00  action_core(neutralize, Neutralizing)
+1.00  has_pos(neutralize, VB)
+1.00  has_sense(neutralize, neutralize.v.06)
+1.00  is_a(neutralize.v.06, neutralize.v.06)
+
+---
+
+1.00  has_pos(open, VB)
+1.00  has_sense(open, open.v.01)
+1.00  is_a(open.v.01, open.v.01)
+1.00  action_core(open,Opening)
+
+---
+
+1.00  has_pos(start, VB)
+1.00  has_sense(start, begin.v.03)
+1.00  is_a(begin.v.03, begin.v.03)
+1.00  action_core(start,Starting)
+
+
