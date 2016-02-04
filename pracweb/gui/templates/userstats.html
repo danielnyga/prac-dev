@@ -44,7 +44,7 @@ function loadJSON(callback) {
     console.log('loadJSON');
     var xobj = new XMLHttpRequest();
     xobj.overrideMimeType("application/json");
-    xobj.open('GET', "{{ url_for('praclog_', filename='userstats.json') }}", true); // Replace 'my_data' with the path to your file
+    xobj.open('GET', "{{ url_for('praclog_', fname='userstats.json') }}", true); // Replace 'my_data' with the path to your file
     xobj.onreadystatechange = function () {
       if (xobj.readyState == 4 && xobj.status == "200") {
         callback(xobj);
