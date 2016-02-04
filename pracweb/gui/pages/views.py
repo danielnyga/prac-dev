@@ -107,7 +107,7 @@ def praclog():
     return praclog_('null')
 
 
-@pracApp.app.route('/prac/log/<filename>')
+@pracApp.app.route('/prac/log/<fname>')
 def praclog_(fname):
     if os.path.isfile(os.path.join(pracApp.app.config['LOG_FOLDER'], fname)):
         return send_from_directory(pracApp.app.config['LOG_FOLDER'], fname)
