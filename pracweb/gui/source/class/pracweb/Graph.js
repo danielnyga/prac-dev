@@ -132,7 +132,7 @@ qx.Class.define("pracweb.Graph",
      */
     addNode : function (id, tttext) {
       this.nodes.push({"id":id, 'text': tttext});
-      this.playSound();
+//      this.playSound();
       this.update();
     },
 
@@ -141,7 +141,7 @@ qx.Class.define("pracweb.Graph",
      */
     removeNode : function (id) {
       this.nodes.splice(this.findNodeIndex(id),1);
-      this.playSound();
+//      this.playSound();
       this.update();
     },
 
