@@ -1,5 +1,9 @@
+import BaseHTTPServer
+import SocketServer
 import os
 import logging
+import tornado.netutil
+import tornado.process
 from werkzeug.serving import run_simple
 from pracmln import praclog
 from pracweb.gui.app import pracApp
@@ -28,16 +32,19 @@ if __name__ == '__main__':
         # load config
         pracApp.app.config.from_object('configmodule.DeploymentConfig')
 
-        http_server = HTTPServer(WSGIContainer(pracApp.app))
-        http_server.listen(5001)
-        IOLoop.instance().start()
+        pracApp.app.run(host='0.0.0.0',
+                        port=5001,
+                        threaded=True)
+
     elif 'PRAC_SERVER' in os.environ and os.environ['PRAC_SERVER'] == 'testing':
         log.debug('Running PRACWEB in testing mode')
 
         # load config
         pracApp.app.config.from_object('configmodule.TestingConfig')
 
-        pracApp.app.run(host='0.0.0.0', port=5001)
+        pracApp.app.run(host='0.0.0.0',
+                        threaded=True,
+                        port=5001)
     elif 'PRAC_SERVER' in os.environ and os.environ['PRAC_SERVER'] == 'old':
         log.debug('Running PRACWEB in server mode')
 
@@ -46,11 +53,17 @@ if __name__ == '__main__':
 
         certpath = os.path.dirname(os.path.realpath(__file__))
         context = (os.path.join(certpath, 'default.crt'), os.path.join(certpath, 'default.key'))
-        run_simple('0.0.0.0', 5001, pracApp.app, ssl_context=context)
+        run_simple('0.0.0.0',
+                   5001,
+                   pracApp.app,
+                   threaded=True,
+                   ssl_context=context)
     else:
         log.debug('Running PRACWEB in development mode')
 
         # load config
         pracApp.app.config.from_object('configmodule.DevelopmentConfig')
 
-        pracApp.app.run(host='0.0.0.0', port=5001)
+        pracApp.app.run(host='0.0.0.0',
+                        port=5001,
+                        threaded=True)

@@ -15,7 +15,6 @@ class Config(object):
 
 class DeploymentConfig(Config):
     DEBUG = False
-    THREADED = False
     TESTING = False
     WTF_CSRF_ENABLED = True
     CSRF_ENABLED = True
@@ -23,13 +22,11 @@ class DeploymentConfig(Config):
 
 class DevelopmentConfig(Config):
     DEBUG = True
-    THREADED = True
     TESTING = False
     WTF_CSRF_ENABLED = False
 
 
 class TestingConfig(Config):
     DEBUG = False
-    THREADED = False
     TESTING = True
     WTF_CSRF_ENABLED = False
