@@ -36,6 +36,17 @@ import sys
 java.classpath.append(os.path.join(PRAC_HOME, '3rdparty', 'stanford-parser-2015', 'stanford-parser.jar'))
 os.environ['NLP_PARSER'] = os.path.join(PRAC_HOME, '3rdparty', 'stanford-parser-2015', 'edu','stanford','nlp','models','lexparser', 'englishPCFG.ser.gz')
 
+def process_extracted_dependency(d):
+    #Replace predicate names with ':' to avoid parsing names
+    result = d.replace(d.split('(')[0],d.split('(')[0].replace(":","_"),1)
+    
+    if result.startswith('nmod_agent'):
+        result = result.replace('nmod_',"",1)
+    elif result.startswith('nmod_'):
+        result = result.replace('nmod_',"prep_",1)
+
+    return result
+
 class ParserError(Exception):
     def __init__(self, *args, **margs):
         Exception.__init__(self, *args, **margs)
@@ -170,12 +181,7 @@ class NLParsing(PRACModule):
             deps = map(str, deps)
             words = set()
             for d in deps:
-                if d.startswith('nmod:agent'):
-                    d = d.replace('nmod:',"",1)
-                elif d.startswith('nmod:'):
-                    d = d.replace('nmod:',"prep_",1)
-
-                db.addGroundAtom(d)
+                db.addGroundAtom(process_extracted_dependency(d))
                 f = self.mln.logic.parseFormula(str(d))
                 words.update(f.params)
                 log.info(f)
@@ -216,12 +222,7 @@ class NLParsing(PRACModule):
             deps = map(str, deps)
             words = set()
             for d in deps:
-                if d.startswith('nmod:agent'):
-                    d = d.replace('nmod:',"",1)
-                elif d.startswith('nmod:'):
-                    d = d.replace('nmod:',"prep_",1)
-
-                db.addGroundAtom(d)
+                db.addGroundAtom(process_extracted_dependency(d))
                 f = self.mln.logic.parseFormula(str(d))
                 words.update(f.params)
                 log.debug(f)

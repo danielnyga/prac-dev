@@ -166,4 +166,11 @@ mwe(word, word)
 pcomp(word, word)
 parataxis(word, word)
 attr(word, word)
+/*
+ * Updated StanfordParser 
+ */
+
 case(word, word)
+compound(word, word)
+
+
