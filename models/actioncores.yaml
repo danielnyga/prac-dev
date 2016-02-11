@@ -107,3 +107,11 @@ cram_plan: "(use-measuring-cup \t!(from (an object \t!(type container.n.01)\n\t\
 action_core: Pipetting
 action_roles: ['content','goal','action_verb','amount','unit']
 cram_plan: "(use-pipette \t!(from (an object \t!(type container.n.01)\n\t\t(contains (some stuff (type {content}))))\n\t(to (an object \t!(type container.n.01)\n\t\t(contains (some stuff (type {goal})))\n\t(amount (a quantity \t!(type {unit})\n\t\t(number {amount}))))"
+
+---
+action_core: Storing
+action_roles: ['obj_to_be_stored','action_verb','location']
+
+---
+action_core: Flipping
+action_roles: ['obj_to_be_flipped','action_verb','utensil']
