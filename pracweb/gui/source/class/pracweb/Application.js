@@ -190,8 +190,19 @@ qx.Class.define("pracweb.Application",
         this.__planField = new qx.ui.form.TextArea("").set({
             font: qx.bom.Font.fromString("14px monospace")
         });
+        this.__planField.setReadOnly(true);
 
         var cramButton = new qx.ui.form.Button("Execute");
+
+        cramButton.addListener("execute", function (e) {
+
+            var updatedText = this.__planField.getValue() + '\n' + "Sending CRAM plan to execute...";
+
+            this.__planField.setValue(updatedText);
+            console.log(updatedText);
+
+        }, this);
+
         this.__cramButton = cramButton;
 
         cramPlanWindow.add(this.__planField,  {left:"0%", top:"0%", right:"0%", bottom:" 15%"});
