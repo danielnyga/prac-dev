@@ -33,9 +33,9 @@ qx.Class.define("pracweb.Application",
   members :
   {
     /**
-     * This method contains the initial application code and gets called 
+     * This method contains the initial application code and gets called
      * during startup of the application
-     * 
+     *
      * @lint ignoreDeprecated(alert)
      */
 
@@ -66,7 +66,7 @@ qx.Class.define("pracweb.Application",
                 var sessionname = response;
             });
             req.send();
-        }; 
+        };
 
         /* ********************** CREATE ELEMENTS ******************************/
         var prac_container = document.getElementById("prac_container", true, true);
@@ -185,12 +185,19 @@ qx.Class.define("pracweb.Application",
         cramPlanWindow.setWidth(900);
         cramPlanWindow.setHeight(300);
         cramPlanWindow.setShowMinimize(false);
-        cramPlanWindow.setLayout(new qx.ui.layout.Grow());
+        cramPlanWindow.setLayout(new qx.ui.layout.Canvas());
+
         this.__planField = new qx.ui.form.TextArea("").set({
             font: qx.bom.Font.fromString("14px monospace")
         });
-        cramPlanWindow.add(this.__planField);
-        this.getRoot().add(cramPlanWindow, {left:20, top:20});
+
+        var cramButton = new qx.ui.form.Button("Execute");
+        this.__cramButton = cramButton;
+
+        cramPlanWindow.add(this.__planField,  {left:"0%", top:"0%", right:"0%", bottom:" 15%"});
+        cramPlanWindow.add(cramButton,  {right:"0%", bottom:"1%", width:"20%"});
+
+        this.getRoot().add(cramPlanWindow, {left:10, top:10});
         this.__cramPlanWindow = cramPlanWindow;
 
         /* ************************ LISTENERS **********************************/
@@ -285,6 +292,14 @@ qx.Class.define("pracweb.Application",
         inferencePage.add(container, {width: "100%", height: "100%"});
         tabView.add(inferencePage, {width: "100%", height: "100%"});
 
+        ////////////////// GAZEBO (GZWEB) PAGE ////////////////////
+        var gz_container = new qx.ui.container.Composite(new qx.ui.layout.VBox());
+        var gazeboPage = new qx.ui.tabview.Page("Gazebo Simulation");
+        this.__gazeboPage = gazeboPage;
+        gazeboPage.setLayout(new qx.ui.layout.Grow());
+        gazeboPage.add(gz_container, {width: "100%", height: "100%"});
+        tabView.add(gazeboPage, {width: "100%", height: "100%"});
+
         ////////////////// DOKU PAGE ////////////////////
         var aboutPage = new qx.ui.tabview.Page("Documentation");
         this.__aboutPage = aboutPage;
@@ -319,7 +334,7 @@ qx.Class.define("pracweb.Application",
         var vizSize = this._graphVizContainer.getInnerSize();
         this._graph.w = vizSize.width;
         this._graph.h = vizSize.height;
-      } 
+      }
       this._graph.clear();
     },
 
@@ -346,7 +361,7 @@ qx.Class.define("pracweb.Application",
       var mainGroup = new qx.ui.groupbox.GroupBox("PRAC Inference");
       var mainLayout = new qx.ui.layout.HBox(20);
       mainGroup.setLayout(mainLayout);
-      
+
       // combobox containing nl descriptions
       var description = new qx.ui.form.ComboBox();
       description.setWidth(500);
@@ -369,7 +384,7 @@ qx.Class.define("pracweb.Application",
       description.add(new qx.ui.form.ListItem("Fill a glass with wine."));
       description.add(new qx.ui.form.ListItem("Add some cheese to the pizza."));
       description.setValue(description.getChildrenContainer().getSelectables()[0].getLabel());
-      
+
       description.addListener("keydown", function(e) {
         this._vizButton.setEnabled(true);
         this._clear_flow_chart();
@@ -381,7 +396,7 @@ qx.Class.define("pracweb.Application",
         this._clear_flow_chart();
         document.getElementById('init').nextElementSibling.style.fill = "#bee280";
       }, this);
-      
+
       var expSettings = new qx.ui.form.CheckBox("Show Inference settings");
       expSettings.addListener("changeValue", function(e) {
         this._showinfSettingsContainer = e.getData();
@@ -448,22 +463,22 @@ qx.Class.define("pracweb.Application",
       var taxCanvas = new qx.ui.embed.Html();
       win.add(taxCanvas);
       this.getRoot().add(win, {left:20, top:20});
-      
+
       var wordnetButton = new qx.ui.form.Button("Show Taxonomy");
       wordnetButton.addListener("execute", function() {
-        var req = new qx.io.request.Xhr(); 
+        var req = new qx.io.request.Xhr();
         req.setUrl("/prac/_get_wordnet_taxonomy");
         req.setMethod("GET");
-        
+
         req.addListener("success", function(e) {
-          var tar = e.getTarget();                
+          var tar = e.getTarget();
           var response = tar.getResponse();
           taxCanvas.setHtml(response);
           win.open();
         });
         req.send();
       }, this);
-    
+
 
 
       var getRoleDist = new qx.ui.form.Button("Get Role Distributions");
@@ -651,7 +666,7 @@ qx.Class.define("pracweb.Application",
      * get name of the next module to be executed
      */
     _get_next_module : function() {
-      var moduleReq = new qx.io.request.Xhr(); 
+      var moduleReq = new qx.io.request.Xhr();
       moduleReq.setUrl("/prac/_pracinfer_get_next_module");
       moduleReq.setMethod('GET');
       moduleReq.setRequestHeader("Cache-Control", "no-cache");
@@ -671,7 +686,7 @@ qx.Class.define("pracweb.Application",
      * --currently not in use--
      */
     _get_modules : function() {
-      var moduleReq = new qx.io.request.Xhr(); 
+      var moduleReq = new qx.io.request.Xhr();
       moduleReq.setUrl("/prac/_get_modules");
       moduleReq.setMethod('GET');
       moduleReq.setRequestHeader("Cache-Control", "no-cache");
@@ -713,7 +728,7 @@ qx.Class.define("pracweb.Application",
         return;
       }, this);
       moduleReq.send();
-    },    
+    },
 
     /**
      * calculate the links to be added and the links
@@ -951,7 +966,7 @@ qx.Class.define("pracweb.Application",
 
       console.log('getting role distributions...');
       this._show_wait_animation(true);
-      var req = new qx.io.request.Xhr(); 
+      var req = new qx.io.request.Xhr();
       req.setUrl("/prac/_get_role_distributions");
       req.setMethod('GET');
       req.setRequestHeader("Cache-Control", "no-cache");
@@ -977,7 +992,7 @@ qx.Class.define("pracweb.Application",
             distWindow.open();
             left += 20;
             top += 20;
-            }      
+            }
           return;
         }
       }, that);
@@ -994,7 +1009,7 @@ qx.Class.define("pracweb.Application",
     _get_cram_plan : function(e)
     {
       console.log('asking for cram plans...');
-      var req = new qx.io.request.Xhr(); 
+      var req = new qx.io.request.Xhr();
       req.setUrl("/prac/_get_cram_plan");
       req.setMethod('GET');
       req.setRequestHeader("Cache-Control", "no-cache");
@@ -1018,7 +1033,7 @@ qx.Class.define("pracweb.Application",
      */
     _load_flow_chart : function(e) {
       console.log('loading flowchart...');
-      var req = new qx.io.request.Xhr(); 
+      var req = new qx.io.request.Xhr();
       req.setUrl("/prac/_load_flow_chart");
       req.setMethod('GET');
       req.setRequestHeader("Cache-Control", "no-cache");
