@@ -293,10 +293,13 @@ qx.Class.define("pracweb.Application",
         tabView.add(inferencePage, {width: "100%", height: "100%"});
 
         ////////////////// GAZEBO (GZWEB) PAGE ////////////////////
-        var gz_container = new qx.ui.container.Composite(new qx.ui.layout.VBox());
+        var gz_iframe = new qx.ui.embed.Iframe("/gzweb");
+        var gz_container = new qx.ui.container.Composite(new qx.ui.layout.Grow());
         var gazeboPage = new qx.ui.tabview.Page("Gazebo Simulation");
         this.__gazeboPage = gazeboPage;
-        gazeboPage.setLayout(new qx.ui.layout.Grow());
+        gazeboPage.setLayout(new qx.ui.layout.Grow()); // Grow because there'll be only one child
+
+        gz_container.add(gz_iframe);
         gazeboPage.add(gz_container, {width: "100%", height: "100%"});
         tabView.add(gazeboPage, {width: "100%", height: "100%"});
 

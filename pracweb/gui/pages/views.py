@@ -50,7 +50,6 @@ def _prac():
     # return render_template('prac.html', **locals()) //openEASE integration
     return redirect('/prac/pracweb')
 
-
 @pracApp.app.route('/prac/pracweb', methods=['GET', 'POST'])
 def pracweb():
     ensure_prac_session(session)
@@ -260,3 +259,7 @@ def update_kb():
     res = kb.query_params
     res['mln'] = kb.query_mln_str
     return jsonify(res)
+
+@pracApp.app.route('/gzweb')
+def gzweb():
+    return redirect('http://localhost:8080')
