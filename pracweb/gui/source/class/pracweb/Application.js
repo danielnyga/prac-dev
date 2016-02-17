@@ -197,9 +197,10 @@ qx.Class.define("pracweb.Application",
         cramButton.addListener("execute", function (e) {
 
             var updatedText = this.__planField.getValue() + '\n' + "Sending CRAM plan to execute...";
-
+            // TODO
             this.__planField.setValue(updatedText);
-            console.log(updatedText);
+            console.log(this.__gazeboPage);
+            this.__tabView.setSelection([this.__gazeboPage]);
 
         }, this);
 
