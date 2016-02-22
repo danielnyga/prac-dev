@@ -84,8 +84,10 @@ qx.Class.define("pracweb.Application",
         // main layout container
         var mainLayoutContainer = new qx.ui.container.Composite(new qx.ui.layout.Canvas);
 
+
+        // Inference page elements
         // main container (contains outer splitpane and control panel)
-        var container = new qx.ui.container.Composite(new qx.ui.layout.VBox());
+        var infcontainer = new qx.ui.container.Composite(new qx.ui.layout.VBox());
 
         // outer splitpane (contains inference settings and graph visualization container)
         var splitPane = new qx.ui.splitpane.Pane("horizontal");
@@ -262,6 +264,35 @@ qx.Class.define("pracweb.Application",
         }, this);
 
 
+        // Browser page elements
+
+        var praclogob = new qx.ui.basic.Image();
+        praclogob.setSource('/prac/static/images/prac-darkonbright-transp.png');
+        praclogob.getContentElement().setAttribute('id', 'praclogo');
+        praclogob.setWidth(220);
+        praclogob.setHeight(95);
+        praclogob.setScale(1);
+        this._praclogob = praclogob;
+
+        // main container (contains outer splitpane and control panel)
+        var browsercontainer = new qx.ui.container.Composite(new qx.ui.layout.Dock());
+
+        // placeholder. make containers out of it
+        var menuwidget = new qx.ui.container.Composite(new qx.ui.layout.VBox());
+        menuwidget.add(praclogob);
+
+        var graphwidget = new qx.ui.container.Composite(new qx.ui.layout.VBox());
+        var rolesselect = new qx.ui.form.SelectBox();
+        graphwidget.add(rolesselect);
+
+        var dbwidget = new qx.ui.container.Composite(new qx.ui.layout.VBox());
+        var dblabel = new qx.ui.basic.Label('Database');
+        dbwidget.add(dblabel);
+
+        browsercontainer.add(menuwidget, {edge:"west", width:"30%"});
+        browsercontainer.add(graphwidget, {edge:"center"});
+        browsercontainer.add(dbwidget, {edge:"east", width:"30%"});
+
         /* ********************** SET UP LAYOUT ********************************/
         infSettingsContainer.add(placeholder);
         infSettingsContainer.add(form);
@@ -271,8 +302,8 @@ qx.Class.define("pracweb.Application",
         graphVizContainer.add(praclogo, { left: 5, top: 5});
         splitPane.add(infSettingsContainer, {width: "20%"});
         splitPane.add(graphVizContainer);
-        container.add(splitPane, {flex: 1, width: "100%"});
-        container.add(controlPane, {width: "100%"});
+        infcontainer.add(splitPane, {flex: 1, width: "100%"});
+        infcontainer.add(controlPane, {width: "100%"});
 
         var tabView = new qx.ui.tabview.TabView('bottom');
         tabView.setContentPadding(2,2,2,2);
@@ -282,16 +313,15 @@ qx.Class.define("pracweb.Application",
         var inferencePage = new qx.ui.tabview.Page("Inference");
         this.__inferencePage = inferencePage;
         inferencePage.setLayout(new qx.ui.layout.Grow());
-        inferencePage.add(container, {width: "100%", height: "100%"});
+        inferencePage.add(infcontainer, {width: "100%", height: "100%"});
         tabView.add(inferencePage, {width: "100%", height: "100%"});
 
-        ////////////////// DOKU PAGE ////////////////////
-        var aboutPage = new qx.ui.tabview.Page("Documentation");
-        this.__aboutPage = aboutPage;
-        var iframe = new qx.ui.embed.Iframe("/prac/doc/_build/html/index.html");
-        aboutPage.setLayout(new qx.ui.layout.Grow());
-        aboutPage.add(iframe);
-//        tabView.add(aboutPage, {width: "100%", height: "100%"});
+        ////////////////// BROWSER PAGE ////////////////////
+        var browserPage = new qx.ui.tabview.Page("Browser");
+        this.__browserPage = browserPage;
+        browserPage.setLayout(new qx.ui.layout.Grow());
+        browserPage.add(browsercontainer, {width: "100%", height: "100%"});
+        tabView.add(browserPage, {width: "100%", height: "100%"});
 
         mainLayoutContainer.add(tabView, {width: "100%", height: "100%"});
         mainLayoutContainer.add(popup, { left: "50%", top: "50%"});
