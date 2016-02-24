@@ -115,3 +115,18 @@ action_roles: ['obj_to_be_stored','action_verb','location']
 ---
 action_core: Flipping
 action_roles: ['obj_to_be_flipped','action_verb','utensil']
+
+---
+action_core: Lifting
+action_roles: ['obj_to_be_lifted','action_verb']
+
+---
+
+action_core: Putting
+action_roles: ['obj_to_be_put','action_verb','location']
+
+---
+
+action_core: Turning
+action_roles: ['obj_to_be_turned','action_verb']
+
