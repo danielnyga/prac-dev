@@ -119,6 +119,7 @@ action_roles: ['obj_to_be_flipped','action_verb','utensil']
 ---
 action_core: Lifting
 action_roles: ['obj_to_be_lifted','action_verb']
+cram_plan: "(lift-object (type {obj_to_be_lifted}))"
 
 ---
 
@@ -129,4 +130,6 @@ action_roles: ['obj_to_be_put','action_verb','location']
 
 action_core: Turning
 action_roles: ['obj_to_be_turned','action_verb']
+
+
 
