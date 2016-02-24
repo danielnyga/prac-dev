@@ -125,11 +125,11 @@ cram_plan: "(lift-object (type {obj_to_be_lifted}))"
 
 action_core: Putting
 action_roles: ['obj_to_be_put','action_verb','location']
-
+cram_plan: "(put-object (type {obj_to_be_put}) underneath (type {location}))"
 ---
 
 action_core: Turning
 action_roles: ['obj_to_be_turned','action_verb']
-
+cram_plan: "(rotate-joint (type {obj_to_be_turned}))"
 
 
