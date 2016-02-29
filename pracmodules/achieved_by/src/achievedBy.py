@@ -96,6 +96,7 @@ class AchievedBy(PRACModule):
                         project = MLNProject.open(projectpath)
                     else:
                         inf_step.output_dbs.append(olddb)
+                        print actioncore
                         logger.error(actioncore + ".pracmln does not exist.")
                         return inf_step
                 else:

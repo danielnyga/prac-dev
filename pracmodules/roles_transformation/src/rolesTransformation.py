@@ -60,6 +60,12 @@ class RolesTransformation(PRACModule):
         
         return yamlData['planList']
     
+    def getComplexList(self):
+        planListFile = open(planListFilePath, 'r')
+        yamlData = yaml.load(planListFile)
+        
+        return yamlData['complexList']
+    
     @PRACPIPE
     def __call__(self, pracinference, **params):
         print colorize('+===================================================+', (None, 'green', True), True)

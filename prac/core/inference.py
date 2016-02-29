@@ -96,11 +96,21 @@ class PRACInference(object):
                     if actioncore in plans: return 'plan_generation'
                     else: return 'achieved_by'
         elif previous_module == 'achieved_by':
-            return 'roles_transformation'
+            for outdb in self.inference_steps[-1].output_dbs:
+                for r in outdb.query('achieved_by(?w, ?a)'):
+                    actioncore = r['?a']
+                    mod = self.prac.getModuleByName('roles_transformation')
+                    complexList = mod.getComplexList()
+                    if actioncore in complexList:
+                        return 'complex_achieved_by'
+                    else:
+                        return 'roles_transformation'
         elif previous_module == 'roles_transformation':
             if self.inference_steps[-1].module.isLastActionCoreAPlan:
                 return 'plan_generation'
             return 'achieved_by'
+        elif previous_module == 'complex_achieved_by':
+            return 'plan_generation'
         elif previous_module == 'plan_generation':
             return None
         
