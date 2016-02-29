@@ -1,0 +1,99 @@
+1.00  has_pos(flavour, VB)
+1.00  has_pos(soup, NN)
+1.00  has_pos(salt, NN)
+1.00  has_sense(flavour, season.v.01)
+1.00  has_sense(soup, soup.n.01)
+1.00  has_sense(salt, salt.n.02)
+1.00  is_a(season.v.01, season.v.01)
+1.00  is_a(soup.n.01, soup.n.01)
+1.00  is_a(salt.n.02, salt.n.02)
+1.00  action_core(flavour,Flavouring)
+1.00  dobj(flavour, soup)
+
+---
+
+1.00  has_pos(flavour, VB)
+1.00  has_pos(steak, NN)
+1.00  has_pos(pepper, NN)
+1.00  has_sense(flavour, season.v.01)
+1.00  has_sense(steak, steak.n.01)
+1.00  has_sense(pepper, pepper.n.03)
+1.00  is_a(season.v.01, season.v.01)
+1.00  is_a(steak.n.01, steak.n.01)
+1.00  is_a(pepper.n.03, pepper.n.03)
+1.00  action_core(flavour,Flavouring)
+1.00  dobj(flavour, steak)
+
+
+---
+
+1.00  action_core(neutralize, Neutralizing)
+1.00  dobj(neutralize, base)
+1.00  has_pos(base, NN)
+1.00  has_pos(neutralize, VB)
+1.00  has_sense(base, pyridine.n.01)
+1.00  has_sense(neutralize, neutralize.v.06)
+1.00  is_a(neutralize.v.06, neutralize.v.06)
+1.00  is_a(pyridine.n.01, pyridine.n.01)
+
+---
+
+1.00  action_core(neutralize, Neutralizing)
+1.00  dobj(neutralize, acid)
+1.00  has_pos(acid, NN)
+1.00  has_pos(neutralize, VB)
+1.00  has_sense(acid, dibasic_acid.n.01)
+1.00  has_sense(neutralize, neutralize.v.06)
+1.00  is_a(dibasic_acid.n.01, dibasic_acid.n.01)
+1.00  is_a(neutralize.v.06, neutralize.v.06)
+
+
+---
+
+1.00  action_core(flip-1, Flipping)
+1.00  dobj(flip-1, omelette-3)
+1.00  has_pos(flip-1, VB)
+1.00  has_pos(omelette-3, NN)
+1.00  has_sense(flip-1, flip.v.08)
+1.00  has_sense(omelette-3, omelet.n.01)
+1.00  is_a(flip.v.08, flip.v.08)
+1.00  is_a(omelet.n.01, omelet.n.01)
+
+---
+
+1.00  action_core(flip-1, Flipping)
+1.00  dobj(flip-1, meatballs-3)
+1.00  has_pos(flip-1, VB)
+1.00  has_pos(meatballs-3, NNS)
+1.00  has_sense(flip-1, flip.v.08)
+1.00  has_sense(meatballs-3, meatball.n.01)
+1.00  is_a(flip.v.08, flip.v.08)
+1.00  is_a(meatball.n.01, meatball.n.01)
+
+---
+
+1.00  action_core(store-1, Storing)
+1.00  dobj(store-1, bottles-3)
+1.00  has_pos(bottles-3, NNS)
+1.00  has_pos(box-6, NN)
+1.00  has_pos(store-1, VB)
+1.00  has_sense(bottles-3, bottle.n.01)
+1.00  has_sense(box-6, box.n.01)
+1.00  has_sense(store-1, store.v.02)
+1.00  is_a(bottle.n.01, bottle.n.01)
+1.00  is_a(box.n.01, box.n.01)
+1.00  is_a(store.v.02, store.v.02)
+
+---
+
+1.00  action_core(store-1, Storing)
+1.00  dobj(store-1, spoon-3)
+1.00  has_pos(spoon-3, NN)
+1.00  has_pos(drawer-6, NN)
+1.00  has_pos(store-1, VB)
+1.00  has_sense(spoon-3, spoon.n.01)
+1.00  has_sense(drawer-6, drawer.n.01)
+1.00  has_sense(store-1, store.v.02)
+1.00  is_a(spoon.n.01, spoon.n.01)
+1.00  is_a(drawer.n.01, drawer.n.01)
+1.00  is_a(store.v.02, store.v.02)
