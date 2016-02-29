@@ -196,11 +196,36 @@ qx.Class.define("pracweb.Application",
 
         cramButton.addListener("execute", function (e) {
 
-            var updatedText = this.__planField.getValue() + '\n' + "Sending CRAM plan to execute...";
-            // TODO
+            cramPlan = this.__planField.getValue();
+            cramPlan = cramPlan.trim();
+            var updatedText = cramPlan + "\nSending CRAM plan to execute...";
+
             this.__planField.setValue(updatedText);
-            console.log(this.__gazeboPage);
-            this.__tabView.setSelection([this.__gazeboPage]);
+
+            var req = new qx.io.request.Xhr('/prac/_execute_plan', 'POST');
+            req.setRequestHeader("Content-Type", "application/json");
+
+            req.setRequestData({ 'plan': cramPlan});
+            var that = this;
+            req.addListener("success", function(e) {
+
+               var tar = e.getTarget();
+               var response = tar.getResponse();
+               that._notify(response.message, 500);
+               //console.log(response.message);
+               // switch automatically to gazebo tab
+               that.__tabView.setSelection([this.__gazeboPage]); //  must be given as a list with one element
+               that.__cramPlanWindow.setWidth(400);
+               var h = document.getElementById("page", true, true).offsetHeight;
+               that.__cramPlanWindow.moveTo(50, (h-500));
+
+
+
+            }, this);
+
+
+            req.send();
+
 
         }, this);
 
