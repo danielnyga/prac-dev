@@ -212,12 +212,16 @@ qx.Class.define("pracweb.Application",
                var tar = e.getTarget();
                var response = tar.getResponse();
                that._notify(response.message, 500);
-               //console.log(response.message);
+               if (response.status == 0) {
+
                // switch automatically to gazebo tab
                that.__tabView.setSelection([this.__gazeboPage]); //  must be given as a list with one element
                that.__cramPlanWindow.setWidth(400);
                var h = document.getElementById("page", true, true).offsetHeight;
                that.__cramPlanWindow.moveTo(50, (h-500));
+
+               }
+
 
 
 

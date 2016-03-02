@@ -37,7 +37,8 @@ def start_inference():
     t = Thread(target=_pracinfer, args=(pracsession, 180, method, data))
     t.start()
     pracsession.infbuffer.waitformsg()
-    return jsonify(pracsession.infbuffer.content)
+    #return jsonify(pracsession.infbuffer.content)
+    return pracsession.infbuffer.content
 
 
 @pracApp.app.route('/prac/_get_status', methods=['POST'])
