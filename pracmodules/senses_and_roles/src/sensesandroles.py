@@ -140,9 +140,9 @@ class SensesAndRoles(PRACModule):
     def __call__(self, pracinference, **params):
         log = logging.getLogger(self.name)
         
-        print colorize('+==========================================+', (None, 'green', True), True)
-        print colorize('| PRAC INFERENCE: RECOGNIZING %s ROLES  ' % ({True: 'MISSING', False: 'GIVEN'}[params.get('missing', False)]), (None, 'green', True), True)
-        print colorize('+==========================================+', (None, 'green', True), True)
+        #print colorize('+==========================================+', (None, 'green', True), True)
+        #print colorize('| PRAC INFERENCE: RECOGNIZING %s ROLES  ' % ({True: 'MISSING', False: 'GIVEN'}[params.get('missing', False)]), (None, 'green', True), True)
+        #print colorize('+==========================================+', (None, 'green', True), True)
         
         kb = params.get('kb', None)
         if kb is None:
@@ -160,7 +160,7 @@ class SensesAndRoles(PRACModule):
                 actioncore = q['?ac']
                 if actioncore == 'null': continue
                 if kb is None:
-                    print 'Loading Markov Logic Network: %s' % colorize(actioncore, (None, 'white', True), True)
+                    #print 'Loading Markov Logic Network: %s' % colorize(actioncore, (None, 'white', True), True)
                     useKB = self.load_pracmt(actioncore)
                 else:
                     useKB = kb
@@ -182,10 +182,10 @@ class SensesAndRoles(PRACModule):
                         print colorize('  %s' % role, (None, 'red', True), True)
                         log.info('adding %s' % ('action_role(Skolem-%s, %s)' % (role, role)))
                         db_.addGroundAtom('action_role(Skolem-%s, %s)' % (role, role))
-                else:
-                    print 
-                    print 'Inferring given roles...'
-                print 
+                #else:
+                    #print 
+                    # print 'Inferring given roles...'
+                #print 
                 concepts = useKB.query_mln.domains['concept']#mergeDomains(, self.merge_all_domains(pracinference))['concept']
                 log.info('adding senses. concepts=%s' % concepts)
                 wordnet_module = self.prac.getModuleByName('wn_senses')
@@ -198,6 +198,7 @@ class SensesAndRoles(PRACModule):
                 result_db = []
                 for r_db in result_db_temp:
                     if 'missing' not in params:
+                        '''
                         for q in r_db.query('has_sense(?w, ?s)', truthThreshold=1):
                             #TODO Add additional formulas to avoid the using of null values
                             if q['?s'] == 'null': continue
@@ -205,8 +206,8 @@ class SensesAndRoles(PRACModule):
                             print colorize('  SENSE:', (None, 'white', True), True), q['?s']
                             wordnet_module.printWordSenses(wordnet_module.get_possible_meanings_of_word(r_db, q['?w']), q['?s'])
                             print
-                        
-                        RolequeryHandler.queryRoles(actioncore,r_db).printEvidence()
+                        '''
+                        #RolequeryHandler.queryRoles(actioncore,r_db).printEvidence()
                         
                         for atom, truth in sorted(db.evidence.iteritems()):
                             if 'is_a' in atom : continue
@@ -215,13 +216,13 @@ class SensesAndRoles(PRACModule):
                         #r_db = self.determine_missing_roles(r_db)
                             
                         result_db.append(r_db)
-                        
+                '''        
                 for ur in unknown_roles:
                     print '%s:' % colorize(ur, (None, 'red', True), True)
                     for q in r_db.query('action_role(?w, %s) ^ has_sense(?w, ?s)' % ur, truthThreshold=1):
                         self.prac.getModuleByName('wn_senses').printWordSenses(concepts, q['?s'])
                     print
-                
+                '''
                 inf_step.output_dbs.extend(result_db)
         return inf_step
         

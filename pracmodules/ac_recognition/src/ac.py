@@ -52,12 +52,13 @@ class ActionCoreIdentification(PRACModule):
     def __call__(self, pracinference, **params):
         log = logging.getLogger(self.name)
         log.debug('inference on %s' % self.name)
-        
+        '''
         print colorize('+==========================================+', (None, 'green', True), True)
         print colorize('| PRAC INFERENCE: RECOGNIZING ACTION CORES |', (None, 'green', True), True)
         print colorize('+==========================================+', (None, 'green', True), True)
         print
         print colorize('Inferring most probable ACTION CORE', (None, 'white', True), True)
+        '''
         if params.get('kb', None) is None:
             # load the default arguments
             dbs = pracinference.inference_steps[-1].output_dbs
@@ -78,18 +79,18 @@ class ActionCoreIdentification(PRACModule):
             result_db = list(kb.infer(db))
             result_db_ = []
             
-            print
+            #print
             for r_db in result_db:
                 for q in r_db.query('action_core(?w,?ac)'):
                     if q['?ac'] == 'null': continue
-                    print 'Identified Action Core(s):', colorize(q['?ac'], (None, 'white', True), True)
+                    # print 'Identified Action Core(s):', colorize(q['?ac'], (None, 'white', True), True)
                     #Remove AC which have the probability zero
                     r_db_ = Database(mln)
                     for atom, truth in sorted(r_db.evidence.iteritems()):
                         if 'action_core' in atom and truth == 0: continue
                         r_db_.addGroundAtom(atom,truth)
                     result_db_.append(r_db_)
-                print
+            #print
             inf_step.output_dbs.extend(result_db_)
         return inf_step
     
