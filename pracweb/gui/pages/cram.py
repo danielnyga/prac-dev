@@ -53,7 +53,7 @@ def execute_plan():
     t.start()
     pracsession.infbuffer.waitformsg()
     pracsession.log.info('received msg: %s' %pracsession.infbuffer.content) #TODO ist noch falsch
-    return pracsession.infbuffer.content
+    return jsonify(pracsession.infbuffer.content)
 
 
 def _execute_plan(pracsession, timeout, method, data):
@@ -81,7 +81,11 @@ def _execute_plan(pracsession, timeout, method, data):
         prac2cram = rospy.ServiceProxy('prac2cram', Prac2Cram)
         resp = prac2cram(action_cores, plan)
         pracsession.log.info('Response: %s' %resp)
-        pracsession.infbuffer.setmsg(resp)
+        if resp.status: # if error
+            message = 'The CRAM service request failed!'
+        else:
+            message = 'CRAM service request successful!'
+        pracsession.infbuffer.setmsg({'status': resp.status, 'message': message})
 
     except rospy.ServiceException, e:
         print "Service call failed with the following error: %s" %e
