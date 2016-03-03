@@ -33,6 +33,10 @@ from pracmln.utils.visualization import get_cond_prob_png
 from prac.core.base import PRAC
 from prac.core.inference import PRACInference
 from prac.core.wordnet import WordNet
+from pymongo import MongoClient
+from pracutils.RolequeryHandler import RolequeryHandler
+from scipy import stats
+import numpy
 
 
 log = logger(__name__)
@@ -43,7 +47,58 @@ class ComplexAchievedBy(PRACModule):
     '''
 
     '''
+    
+    def get_senses_and_roles(self,actioncore,db):
+        roles_db = RolequeryHandler.queryRoles(actioncore,db)
+        
+        inferred_roles_set = set()
+        roles_dict = {}
+        
+        #Get inferred roles and the corresponding senses
+        for atom, truth in sorted(roles_db.evidence.iteritems()):
+            _ , predname, args = roles_db.mln.logic.parse_literal(atom)
+            if truth == 1.0:
+                inferred_roles_set.add(predname)
+                for sense_query in db.query('has_sense({},?s)'.format(args[0])):
+                    roles_dict[predname] = sense_query['?s']
+        
+        return roles_dict
+                
+    def get_instructions_based_on_action_core(self,db):
+        wordnet = WordNet(concepts=None)
+        #Assuming there is only one action core
+        for q in db.query('action_core(?w,?ac)'):
+            actioncore = q['?ac']
+            mongo_client = MongoClient()
+            ies_mongo_db = mongo_client.PRAC
+            instructions_collection = ies_mongo_db.Instructions
+        
+            cursor = instructions_collection.find({'action_core' : '{}'.format(actioncore)})
+            roles_dict =  self.get_senses_and_roles(actioncore, db)
+            documents_vector = []
+            
+            #After the for loop it is impossible to retrieve document by index
+            cloned_cursor = cursor.clone()
 
+            for document in cursor:
+                wup_vector = []
+                document_action_roles = document['action_roles']
+                
+                for role in roles_dict.keys():
+                    if role in document['action_roles'].keys():
+                        wup_vector.append(wordnet.wup_similarity(str(document_action_roles[role]),roles_dict[role]))
+                
+                if len(wup_vector) > 0 :
+                    documents_vector.append(stats.hmean(wup_vector))
+                else:
+                    documents_vector.append(0)
+            
+            documents_vector = numpy.array(documents_vector)
+            index = documents_vector.argmax()
+            
+            print map(lambda x : str(x),cloned_cursor[index]['plan_list'])
+            raw_input("prompt")
+            
     def initialize(self):
         pass
 
@@ -52,9 +107,9 @@ class ComplexAchievedBy(PRACModule):
 
     @PRACPIPE
     def __call__(self, pracinference, **params):
-        print colorize('+==========================================+', (None, 'green', True), True)
-        print colorize('| PRAC INFERENCE: PROCESSING COMPLEX ACHIEVED BY  ' , (None, 'green', True), True)
-        print colorize('+==========================================+', (None, 'green', True), True)
+        print colorize('+================================================+', (None, 'green', True), True)
+        print colorize('| PRAC INFERENCE: PROCESSING COMPLEX ACHIEVED BY |  ' , (None, 'green', True), True)
+        print colorize('+================================================+', (None, 'green', True), True)
 
         inf_step = PRACInferenceStep(pracinference, self)
         dbs = pracinference.inference_steps[-1].output_dbs
@@ -62,6 +117,7 @@ class ComplexAchievedBy(PRACModule):
         prac.wordnet = WordNet(concepts=None)
         
         for olddb in dbs:
+            self.get_instructions_based_on_action_core(olddb)
             for q in olddb.query('achieved_by(?w,?ac)'):
                 actioncore = q['?ac']
                 text_file = open(os.path.join(corpus_path_list,actioncore), 'r')
