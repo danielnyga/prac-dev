@@ -34,6 +34,28 @@ class RolequeryHandler(object):
     actioncoreDescription = {}
     
     @staticmethod
+    def queryRolesAndSensesBasedOnActioncore(db):
+        actioncore = ""
+        #It will be assumed that there is only one true action_core predicate per database 
+        for q in db.query("action_core(?w,?ac)"):
+            actioncore = q["?ac"]
+        
+        roles_db = RolequeryHandler.queryRoles(actioncore,db)
+        
+        inferred_roles_set = set()
+        roles_dict = {}
+        
+        #Get inferred roles and the corresponding senses
+        for atom, truth in sorted(roles_db.evidence.iteritems()):
+            _ , predname, args = roles_db.mln.logic.parse_literal(atom)
+            if truth == 1.0:
+                inferred_roles_set.add(predname)
+                for sense_query in db.query('has_sense({},?s)'.format(args[0])):
+                    roles_dict[predname] = sense_query['?s']
+        
+        return roles_dict
+    
+    @staticmethod
     def queryRolesBasedOnAchievedBy(db):
         actioncore = ""
         #It will be assumed that there is only one true achieved_by predicate per database 
