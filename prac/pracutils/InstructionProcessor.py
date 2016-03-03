@@ -38,14 +38,18 @@ if __name__ == '__main__':
         db = inference.inference_steps[-1].output_dbs[0]
         
         roles_dict = RolequeryHandler.queryRolesAndSensesBasedOnActioncore(db)
-        print roles_dict
-        raw_input("ENTER")
         
+        #Process all sentences
+        plan_list = []
         for s in sentences:
             inference = PRACInference(prac, [s])
-            while inference.inference_steps[-1].module.name != 'senses_and_roles' :
+            while inference.next_module() != None :
                 modulename = inference.next_module()
                 module = prac.getModuleByName(modulename)
                 prac.run(inference, module)
+            step = inference.inference_steps[-1]
                 
-                    
+            if hasattr(step, 'executable_plans'):
+                plan_list.extend(step.executable_plans)
+                
+        print plan_list            
