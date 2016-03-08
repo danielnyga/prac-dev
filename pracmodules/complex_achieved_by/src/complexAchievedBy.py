@@ -77,7 +77,7 @@ class ComplexAchievedBy(PRACModule):
             roles_dict =  self.get_senses_and_roles(actioncore, db)
             documents_vector = []
             
-            #After the for loop it is impossible to retrieve document by index
+            #After the 'for loop' it is impossible to retrieve document by index
             cloned_cursor = cursor.clone()
 
             for document in cursor:
@@ -96,8 +96,9 @@ class ComplexAchievedBy(PRACModule):
             documents_vector = numpy.array(documents_vector)
             index = documents_vector.argmax()
             
-            print map(lambda x : str(x),cloned_cursor[index]['plan_list'])
-            raw_input("prompt")
+            return map(lambda x : str(x),cloned_cursor[index]['plan_list'])
+    
+        return []
             
     def initialize(self):
         pass
@@ -113,28 +114,10 @@ class ComplexAchievedBy(PRACModule):
 
         inf_step = PRACInferenceStep(pracinference, self)
         dbs = pracinference.inference_steps[-1].output_dbs
-        prac = PRAC()
-        prac.wordnet = WordNet(concepts=None)
+        inf_step.executable_plans = []
         
         for olddb in dbs:
-            self.get_instructions_based_on_action_core(olddb)
-            for q in olddb.query('achieved_by(?w,?ac)'):
-                actioncore = q['?ac']
-                text_file = open(os.path.join(corpus_path_list,actioncore), 'r')
-                sentences = text_file.readlines()
-
-                for s in sentences:
-                    sub_inference = PRACInference(prac, [s])
-
-                    while sub_inference.next_module() != 'plan_generation' :
-                        modulename = sub_inference.next_module()
-                        module = prac.getModuleByName(modulename)
-                        prac.run(sub_inference, module)
-
-                    inf_step.output_dbs.extend(sub_inference.inference_steps[-1].output_dbs)
-                
-                
-
+            inf_step.executable_plans.extend(self.get_instructions_based_on_action_core(olddb))
             
         return inf_step
     

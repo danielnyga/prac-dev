@@ -100,8 +100,8 @@ class PRACInference(object):
                 for r in outdb.query('achieved_by(?w, ?a)'):
                     actioncore = r['?a']
                     mod = self.prac.getModuleByName('roles_transformation')
-                    complexList = mod.getComplexList()
-                    if actioncore in complexList:
+                    
+                    if actioncore == 'Complex':
                         return 'complex_achieved_by'
                     else:
                         return 'roles_transformation'
@@ -110,7 +110,7 @@ class PRACInference(object):
                 return 'plan_generation'
             return 'achieved_by'
         elif previous_module == 'complex_achieved_by':
-            return 'plan_generation'
+            return None
         elif previous_module == 'plan_generation':
             return None
         
