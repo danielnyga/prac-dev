@@ -81,5 +81,9 @@ if __name__ == '__main__':
                 
             if hasattr(step, 'executable_plans'):
                 plan_list.extend(step.executable_plans)
-                
-        store_instruction_in_mongo_db(text_file_name, "Flipping", roles_dict, plan_list)
+        actioncore = ""
+        #It will be assumed that there is only one true action_core predicate per database 
+        for q in db.query("action_core(?w,?ac)"):
+            actioncore = q["?ac"]
+                    
+        store_instruction_in_mongo_db(text_file_name, actioncore, roles_dict, plan_list)
