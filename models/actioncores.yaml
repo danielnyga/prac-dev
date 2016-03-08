@@ -132,4 +132,25 @@ action_core: Turning
 action_roles: ['obj_to_be_turned','action_verb']
 cram_plan: "(rotate-joint (type {obj_to_be_turned}))"
 
+---
 
+action_core: Taking
+action_roles: ['obj_to_be_taken','action_verb']
+
+---
+
+action_core: Grabbing 
+action_roles: ['obj_to_be_grapped','action_verb']
+cram_plan: "(grab (type {obj_to_be_grapped}))"
+
+---
+
+action_core: Shaking
+action_roles: ['obj_to_be_shaked','action_verb']
+cram_plan: "(shake (type {obj_to_be_shaked}))"
+
+---
+
+action_core: Waiting
+action_roles: ['unit','action_verb','amount']
+cram_plan: "(wait-for (type {amount}) (type {unit}))"
