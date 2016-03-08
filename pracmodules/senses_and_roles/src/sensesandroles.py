@@ -108,6 +108,7 @@ class SensesAndRoles(PRACModule):
             while frame_result_list and missing_role_set:
                 argmax_index = score_frame_matrix.argmax()
                 current_max_score = score_frame_matrix[argmax_index]
+                print current_max_score
                 
                 if current_max_score < confidence_level:
                     break
@@ -128,7 +129,7 @@ class SensesAndRoles(PRACModule):
                     atom_sense = "{}({},{})".format('has_sense',missing_role_sense.word+"_mongo",missing_role_sense.nltk_wordnet_sense)
                     db_.addGroundAtom(atom_sense,1.0)
                     
-                missing_role_set = missing_role_set.difference(missing_roles_contained_in_frame)
+                #missing_role_set = missing_role_set.difference(missing_roles_contained_in_frame)
             
             if missing_role_set:
                 print "Cannot determine missing roles."

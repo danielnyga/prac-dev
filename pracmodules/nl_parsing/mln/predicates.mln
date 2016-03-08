@@ -172,5 +172,6 @@ attr(word, word)
 
 case(word, word)
 compound(word, word)
+nummod(word,word)
 
 
