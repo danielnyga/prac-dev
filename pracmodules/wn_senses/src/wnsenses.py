@@ -94,6 +94,7 @@ class WNSenses(PRACModule):
                 db_.addGroundAtom('has_sense(%s,null)' % word_const)
                 continue
             word = '-'.join(word_const.split('-')[:-1])# extract everything except the number (e.g. compound words like heart-shaped from heart-shaped-4)
+            word2senses[word_const] = []
             for i, synset in enumerate(wordnet.synsets(word, pos)):
                 sense_id = synset.name#'%s-%.2d' % (word_const, i+1)
                 word2senses[word_const].append(sense_id)
