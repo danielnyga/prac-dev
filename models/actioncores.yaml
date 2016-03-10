@@ -146,8 +146,8 @@ cram_plan: "(grab (type {obj_to_be_grapped}))"
 ---
 
 action_core: Shaking
-action_roles: ['obj_to_be_shaked','action_verb']
-cram_plan: "(shake (type {obj_to_be_shaked}))"
+action_roles: ['obj_to_be_shaken','action_verb','unit','amount']
+cram_plan: "(shake (type {obj_to_be_shaken}) for ({amount} {unit}))"
 
 ---
 
