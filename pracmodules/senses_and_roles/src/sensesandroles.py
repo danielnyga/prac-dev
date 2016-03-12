@@ -95,11 +95,18 @@ class SensesAndRoles(PRACModule):
                     for sense_query in db.query('has_sense({},?s)'.format(args[0])):
                         roles_dict[sense_query['?s']] = predname
             
+            #Build query, return only frames where all roles are defined
+            actioncore_roles_list = ActioncoreDescriptionHandler.getRolesBasedOnActioncore(actioncore)
+            roles_query = [{"action_core" : "{}".format(actioncore)}]
+            roles_query.extend(map(lambda x: {"actioncore_roles.{}".format(x) : {'$exists': 'true'}}, actioncore_roles_list))
+
             #Determine missing roles: All_Action_Roles\Inferred_Roles
-            missing_role_set = set(ActioncoreDescriptionHandler.getRolesBasedOnActioncore(actioncore)).difference(inferred_roles_set)
+            missing_role_set = set(actioncore_roles_list).difference(inferred_roles_set)
             
             #build query based on inferred senses and roles
-            frame_result_list = MongoDatabaseHandler.get_frames_based_on_query({"action_core" : "{}".format(actioncore)})
+            frame_result_list = MongoDatabaseHandler.get_frames_based_on_query({'$and' : roles_query})
+            
+
             roles_senses_dict = RolequeryHandler.query_roles_and_senses_based_on_action_core(db_)
             
             score_frame_matrix = numpy.array(map(lambda x: x.transform_to_frame_vector(roles_senses_dict,missing_role_set),frame_result_list))
@@ -214,7 +221,7 @@ class SensesAndRoles(PRACModule):
                             if 'is_a' in atom : continue
                             r_db.addGroundAtom(atom,truth)
                         
-                        #r_db = self.determine_missing_roles(r_db)
+                        r_db = self.determine_missing_roles(r_db)
                             
                         result_db.append(r_db)
                 '''        
