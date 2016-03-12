@@ -55,6 +55,32 @@ class SensesAndRoles(PRACModule):
     def shutdown(self):
         pass
     
+    
+    def create_prob_distribution(self,missing_role,frame_list,roles_senses_dict,obj_list):
+        harmonic_mean_list = []
+        for obj in obj_list:
+            roles_senses_dict_ = roles_senses_dict.copy()
+            roles_senses_dict_[missing_role] = obj
+            
+            score_frame_matrix = numpy.array(map(lambda x: x.transform_to_frame_vector(roles_senses_dict_,{}),frame_list))
+            argmax_index = score_frame_matrix.argmax()
+            current_max_score = score_frame_matrix[argmax_index]
+            harmonic_mean_list.append(current_max_score)
+            '''
+            print obj
+            print current_max_score
+            print frame_list[argmax_index].actioncore_roles[missing_role].nltk_wordnet_sense
+            '''
+            
+    
+        sum_harmonic_mean = sum(harmonic_mean_list)
+        
+        for i in range(0,len(obj_list)):
+            print "{} : {}".format(obj_list[i],str(harmonic_mean_list[i]))
+            
+        
+        raw_input("asd")
+        
     def roleQueryBuilder(self, actioncore,predicate, domainList):
         query = predicate+'('
         
@@ -106,16 +132,15 @@ class SensesAndRoles(PRACModule):
             #build query based on inferred senses and roles
             frame_result_list = MongoDatabaseHandler.get_frames_based_on_query({'$and' : roles_query})
             
-
-            roles_senses_dict = RolequeryHandler.query_roles_and_senses_based_on_action_core(db_)
             
+            roles_senses_dict = RolequeryHandler.query_roles_and_senses_based_on_action_core(db_)
+            self.create_prob_distribution(missing_role_set.pop(), frame_result_list, roles_senses_dict, ['oven.n.01','fridge.n.01','jar.n.01','coffee_maker.n.01','spoon.n.01','blender.n.01'])
             score_frame_matrix = numpy.array(map(lambda x: x.transform_to_frame_vector(roles_senses_dict,missing_role_set),frame_result_list))
             confidence_level = 0.7
             
             while frame_result_list and missing_role_set:
                 argmax_index = score_frame_matrix.argmax()
                 current_max_score = score_frame_matrix[argmax_index]
-                print current_max_score
                 
                 if current_max_score < confidence_level:
                     break
