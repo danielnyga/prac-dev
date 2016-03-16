@@ -140,8 +140,8 @@ action_roles: ['obj_to_be_taken','action_verb']
 ---
 
 action_core: Grabbing 
-action_roles: ['obj_to_be_grapped','action_verb']
-cram_plan: "(grab (type {obj_to_be_grapped}))"
+action_roles: ['obj_to_be_grabbed','action_verb']
+cram_plan: "(grab (type {obj_to_be_grabbed}))"
 
 ---
 
