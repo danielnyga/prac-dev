@@ -66,11 +66,15 @@ class SensesAndRoles(PRACModule):
             argmax_index = score_frame_matrix.argmax()
             current_max_score = score_frame_matrix[argmax_index]
             harmonic_mean_list.append(current_max_score)
-            '''
-            print obj
-            print current_max_score
-            print frame_list[argmax_index].actioncore_roles[missing_role].nltk_wordnet_sense
-            '''
+            
+            print "#############################"
+            print "OBJ: {}".format(obj)
+            print "MAX_SCORE: {}".format(str(current_max_score))
+
+            for role in roles_senses_dict_.keys():
+                print "ROLE: {}| SENSE: {}".format(role,frame_list[argmax_index].actioncore_roles[role].nltk_wordnet_sense)
+            print "#############################"
+            print
             
     
         sum_harmonic_mean = sum(harmonic_mean_list)
@@ -134,7 +138,10 @@ class SensesAndRoles(PRACModule):
             
             
             roles_senses_dict = RolequeryHandler.query_roles_and_senses_based_on_action_core(db_)
-            self.create_prob_distribution(missing_role_set.pop(), frame_result_list, roles_senses_dict, ['oven.n.01','fridge.n.01','jar.n.01','coffee_maker.n.01','spoon.n.01','blender.n.01'])
+            store_list = ['oven.n.01','fridge.n.01','jar.n.01','coffee_maker.n.01','fork.n.01','blender.n.01','bowl.n.01']
+            flip_list = ['tongs.n.01','spatula.n.01','fork.n.01','bowl.n.01','plate.n.04','coffee_maker.n.01']
+            flavour_list = ['honey.n.01','sugar.n.01','sirup.n.01','pepper.n.03','salt.n.02','chili_powder.n.01']
+            self.create_prob_distribution(missing_role_set.pop(), frame_result_list, roles_senses_dict, flavour_list)
             score_frame_matrix = numpy.array(map(lambda x: x.transform_to_frame_vector(roles_senses_dict,missing_role_set),frame_result_list))
             confidence_level = 0.7
             
