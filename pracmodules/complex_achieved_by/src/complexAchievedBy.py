@@ -34,7 +34,7 @@ from prac.core.base import PRAC
 from prac.core.inference import PRACInference
 from prac.core.wordnet import WordNet
 from pymongo import MongoClient
-from pracutils.RolequeryHandler import RolequeryHandler
+from prac.pracutils.RolequeryHandler import RolequeryHandler
 from scipy import stats
 import numpy
 
