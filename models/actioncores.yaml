@@ -118,6 +118,12 @@ action_core: Flipping
 action_roles: ['obj_to_be_flipped','action_verb','utensil']
 
 ---
+
+action_core: Cooking
+action_roles: ['obj_to_be_cooked','action_verb']
+
+---
+
 action_core: Lifting
 action_roles: ['obj_to_be_lifted','action_verb']
 cram_plan: "(lift-object (type {obj_to_be_lifted}))"
