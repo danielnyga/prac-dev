@@ -57,6 +57,14 @@ known_concepts = ['hydrochloric_acid.n.01',
                   'morsel.n.01',
                   'test_tube.n.01',
                   'bottle.n.01',
+                  'cup.n.01',
+                  'glass.n.02',
+                  'salt.n.02',
+                  'pepper.n.03',
+                  'sugar.n.01',
+                  'pot.n.01',
+                  'cinnamon.n.01',
+                  'marjoram.n.02',
                   'petri_dish.n.01',
                   'silver_nitrate.n.01'
                 # 'soup.n.01',
@@ -685,7 +693,13 @@ class WordNet(object):
         return render_gv(g, 'wordnet.svg')
 
 
+    @synchronized(wordnetlock)
+    def get_all_synsets(self):
+        return [[str(i), v.name] for i, v in enumerate(sorted(list(wordnet.all_synsets()), key=lambda x: x.name))]
+
+
 if __name__ == '__main__':
 
     wn = WordNet()
-    print wn.to_svg()
+    syns = wn.get_all_synsets()
+    print syns[:20], len(syns)
