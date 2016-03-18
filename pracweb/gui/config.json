@@ -72,12 +72,9 @@
     {
       "library" :
       [
-        // {
-        //   "manifest" : "contrib://UploadMgr/trunk/Manifest.json" 
-        // },
-        // { 
-        //   "manifest" : "contrib://UploadWidget/trunk/Manifest.json" 
-        // } 
+        {
+          "manifest" : "../../3rdparty/combotable/trunk/Manifest.json"
+        }
       ]
     }
     

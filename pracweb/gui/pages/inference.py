@@ -215,6 +215,7 @@ def _get_cond_prob():
 def _get_role_distributions():
     pracsession = ensure_prac_session(session)
     prac = pracsession.prac
+    # prac.wordnet = wn
     prac.wordnet = WordNet()
     module = prac.getModuleByName('senses_and_roles')
     role_dists = module.role_distributions(pracsession.sar_step)

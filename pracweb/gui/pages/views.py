@@ -6,6 +6,7 @@ import shutil
 from urlparse import urlparse
 from flask import render_template, request, send_from_directory, url_for, \
     jsonify, session, redirect
+from prac.core.base import ActionCore
 from prac.core.wordnet import WordNet
 from pracmln.mln.util import colorize
 from pracmln.praclog import logger
@@ -260,3 +261,13 @@ def update_kb():
     res = kb.query_params
     res['mln'] = kb.query_mln_str
     return jsonify(res)
+
+
+@pracApp.app.route('/prac/_init', methods=['GET'])
+def init_options():
+    pracsession = ensure_prac_session(session)
+    actioncores = sorted(ActionCore.readFromFile(os.path.join(PRAC_HOME,
+                                                              'models',
+                                                              'actioncores.yaml')).keys())
+    return jsonify({"actioncores": actioncores,
+                    "data": pracsession.prac.wordnet.get_all_synsets()})
