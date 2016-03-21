@@ -6,33 +6,35 @@ import sys
 import platform
 import shutil
 import imp
+import apt
 
 try:
     from pracmln.mln.util import colorize
-except:
+except ImportError:
     print
-    print "Could not find PRACMLN. Please install PRACMLN first using the make_apps.py in your PRACMLN root directory!"
+    print "Could not find PRACMLN. Please install PRACMLN first using the " \
+          "make_apps.py in your PRACMLN root directory!"
     print
     sys.exit(-1)
 
 
+env_vars = ['JAVA_HOME']
+aptpackages = ['dvipng', 'texlive-base', 'default-jre']
 
-packages = [('jpype', 'jpype1', False), ('nltk', 'nltk', False), ('graphviz', 'graphviz', False), ('bs4', 'beautifulsoup4', False), ('lxml', 'lxml', False), ('yaml', 'pyyaml', False), ('matplotlib', 'matplotlib', False)]
-pracwebpackages = [('flask', 'Flask', False), ('werkzeug', 'werkzeug', False), ('PIL', 'Pillow', False), ('jinja2', 'Jinja2', False), ('geoip', 'python-geoip python-geoip-geolite2', True)]
+packages = [('sphinx', 'sphinx sphinxcontrib-bibtex', False),
+            ('jpype', 'jpype1', False),
+            ('nltk', 'nltk', False),
+            ('graphviz', 'graphviz', False),
+            ('bs4', 'beautifulsoup4', False),
+            ('lxml', 'lxml', False),
+            ('yaml', 'pyyaml', False),
+            ('matplotlib', 'matplotlib', False)]
 
-def check_package(pkg):
-    try:
-        sys.stdout.write('checking dependency %s...' % pkg[0])
-        imp.find_module(pkg[0])
-        sys.stdout.write(colorize('OK', (None, 'green', True), True))
-        print
-    except ImportError:
-        print
-        print colorize('%s was not found. Please install by "sudo pip install %s" %s' % (pkg[0], pkg[1], '(optional)' if pkg[2] else ''), (None, 'yellow', True), True)
-
-# check the package dependecies
-for pkg in packages:
-    check_package(pkg)
+pracwebpackages = [('flask', 'Flask', False),
+                   ('werkzeug', 'werkzeug', False),
+                   ('PIL', 'Pillow', False),
+                   ('jinja2', 'Jinja2', False),
+                   ('geoip', 'python-geoip python-geoip-geolite2', True)]
 
 python_apps = [
     {"name": "pracquery", "script": "$PRAC_HOME/prac/pracquery.py"},
@@ -42,8 +44,53 @@ python_apps = [
     {"name": "pracxfold", "script": "$PRAC_HOME/prac/pracxfold.py"},
 ]
 
+
+def check_package(pkg):
+    try:
+        sys.stdout.write('checking dependency %s...' % pkg[0])
+        imp.find_module(pkg[0])
+        sys.stdout.write(colorize('OK', (None, 'green', True), True))
+        print
+    except ImportError:
+        print
+        print colorize('%s was not found. Please install by '
+                       '"sudo pip install %s" %s' % (pkg[0], pkg[1],
+                                                     '(optional)' if pkg[2] else ''),
+                       (None, 'yellow', True), True)
+
+
+# check the package dependecies
+def check_dependencies():
+    for pkg in packages:
+        check_package(pkg)
+
+    # check debian package dependencies
+    cache = apt.Cache()
+    for pkg in aptpackages:
+        sys.stdout.write('checking dependency %s...' % pkg)
+        if not cache[pkg].is_installed:
+            print
+            print colorize('%s was not found. Please install by '
+                           '"sudo apt-get install %s"' % (pkg, pkg),
+                           (None, 'yellow', True), True)
+        else:
+            sys.stdout.write(colorize('OK', (None, 'green', True), True))
+            print
+
+    # check if JAVA_HOME is set
+    for var in env_vars:
+        sys.stdout.write('checking environment variable %s...' % var)
+        if var not in os.environ:
+            print colorize('%s was not found in your environment variables.'
+                           % var, (None, 'yellow', True), True)
+
+    print
+
+
 def adapt(name, arch):
-    return name.replace("<ARCH>", arch).replace("$PRAC_HOME", os.path.abspath(".")).replace("/", os.path.sep)
+    return name.replace("<ARCH>", arch)\
+               .replace("$PRAC_HOME", os.path.abspath("."))\
+               .replace("/", os.path.sep)
 
 
 def build_pracweb():
@@ -54,19 +101,22 @@ def build_pracweb():
     for pkg in pracwebpackages:
         check_package(pkg)
 
-    python_apps.append({"name": "pracweb", "script": "$PRAC_HOME/pracweb/run.py"})
+    python_apps.append({"name": "pracweb",
+                        "script": "$PRAC_HOME/pracweb/run.py"})
 
 
 if __name__ == '__main__':
 
     archs = ["win32", "linux_amd64", "linux_i386", "macosx", "macosx64"]
 
-    print "PRAC Apps Generator\n\n"
-    print "  usage: make_apps [--arch=%s] [--cppbindings]\n" % "|".join(archs)
-    print
-    print
-
     args = sys.argv[1:]
+
+    if '--help' in args:
+        print "PRAC Apps Generator\n\n"
+        print "  usage: make_apps [--arch=%s] [--pracweb]\n" % "|".join(archs)
+        print
+        print
+        exit(0)
 
     # determine architecture
     arch = None
@@ -81,16 +131,17 @@ if __name__ == '__main__':
     elif platform.dist()[0] != "":
         arch = "linux_i386" if bits == 32 else "linux_amd64"
     if arch is None:
-        print "Could not automatically determine your system's architecture. Please supply the --arch argument"
+        print "Could not automatically determine your system's architecture." \
+              " Please supply the --arch argument"
         sys.exit(1)
     if arch not in archs:
         print "Unknown architecture '%s'" % arch
         sys.exit(1)
 
-    buildlib = False
-    if len(args) > 0 and args[0] == "--cppbindings":
-        buildlib = True;
-        args = args[1:]
+    check_dependencies()
+
+    if '--pracweb' in args:
+        build_pracweb()
 
     print 'Removing old app folder...'
     shutil.rmtree('apps', ignore_errors=True)
@@ -105,28 +156,31 @@ if __name__ == '__main__':
     allargs = '%*' if isWindows else '"$@"'
     pathsep = os.path.pathsep
 
-    if '--pracweb' in args:
-        build_pracweb()
-
     for app in python_apps:
-        filename = os.path.join("apps", "%s%s" % (app["name"], {True:".bat", False:""}[isWindows]))
+        filename = os.path.join("apps", "%s%s" % (app["name"],
+                                                  {True: ".bat",
+                                                   False: ""}[isWindows]))
         print "  %s" % filename
         f = file(filename, "w")
         f.write(preamble)
         f.write("python \"%s\" %s\n" % (adapt(app["script"], arch), allargs))
         f.close()
-        if not isWindows: os.chmod(filename, stat.S_IRUSR | stat.S_IWUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH)
-
-
-
-
+        if not isWindows:
+            os.chmod(filename,
+                     stat.S_IRUSR |
+                     stat.S_IWUSR |
+                     stat.S_IXUSR |
+                     stat.S_IRGRP |
+                     stat.S_IXGRP |
+                     stat.S_IROTH |
+                     stat.S_IXOTH)
     print
 
     # write shell script for environment setup
     appsDir = adapt("$PRAC_HOME/apps", arch)
     nltkdir = adapt("$PRAC_HOME/3rdparty/nltk_2.0b9", arch)
 
-    if not "win" in arch:
+    if "win" not in arch:
         f = file("env.sh", "w")
         f.write('#!/bin/bash\n')
         f.write("export PATH=$PATH:%s\n" % appsDir)
@@ -136,7 +190,8 @@ if __name__ == '__main__':
         print 'Now, to set up your environment type:'
         print '    source env.sh'
         print
-        print 'To permantly configure your environment, add this line to your shell\'s initialization script (e.g. ~/.bashrc):'
+        print 'To permantly configure your environment, add this line to ' \
+              'your shell\'s initialization script (e.g. ~/.bashrc):'
         print '    source %s' % adapt("$PRAC_HOME/env.sh", arch)
         print
     else:
@@ -147,13 +202,11 @@ if __name__ == '__main__':
         f.write('SETX PRAC_HOME "%s"\r\n' % adapt("$PRAC_HOME", arch))
         f.write('SETX PYTHONPATH "%%PYTHONPATH%%;%s"\r\n' % pypath)
         f.close()
-        # f = file("env.bat", "w")
-        # f.write("SET PATH=%%PATH%%;%s\r\n" % appsDir)
-        # f.write("SET PRAC_HOME=%s\n" % adapt("$PRAC_HOME", arch))
-        # f.close()
-        print 'To temporarily set up your environment for the current session, type:'
+        print 'To temporarily set up your environment for the current ' \
+              'session, type:'
         print '    env.bat'
         print
-        print 'To permanently configure your environment, use Windows Control Panel to set the following environment variables:'
+        print 'To permanently configure your environment, use Windows ' \
+              'Control Panel to set the following environment variables:'
         print '  To the PATH variable add the directory "%s"' % appsDir
         print 'Should any of these variables not exist, simply create them.'
