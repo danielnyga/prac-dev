@@ -682,7 +682,10 @@ class PRACQueryGUI(object):
 
             module = self.prac.getModuleByName(self.selected_module.get())
 
-            self.infStep = module(self.prac_inference, project=self.project, projectpath=os.path.join(self.module_dir, self.project.name))
+            self.infStep = module(self.prac_inference,
+                                  project=self.project,
+                                  projectpath=os.path.join(self.module_dir,
+                                                           self.project.name))
 
         except:
             cls, e, tb = sys.exc_info()
@@ -710,15 +713,15 @@ if __name__ == '__main__':
     inference = PRACInference(prac, sentences)
     conf = PRACMLNConfig(DEFAULT_CONFIG)
 
-    if options.interactive: # use the GUI
+    if options.interactive:# use the GUI
         # in case we have natural-language parameters, parse them
         if len(inference.instructions) > 0:
             parser = prac.getModuleByName('nl_parsing')
             prac.run(inference, parser)
         app = PRACQueryGUI(root, inference, conf, directory=args[0] if args else None)
         root.mainloop()
-    else: # regular PRAC pipeline
-        while inference.next_module() != None :
+    else:# regular PRAC pipeline
+        while inference.next_module() is not None:
             modulename = inference.next_module()
             module = prac.getModuleByName(modulename)
             prac.run(inference, module)

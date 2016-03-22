@@ -19,7 +19,7 @@ except ImportError:
 
 
 env_vars = ['JAVA_HOME']
-aptpackages = ['dvipng', 'texlive-base', 'default-jre']
+aptpackages = ['dvipng', 'texlive-full', 'default-jre']
 
 packages = [('sphinx', 'sphinx sphinxcontrib-bibtex', False),
             ('jpype', 'jpype1', False),
@@ -28,7 +28,8 @@ packages = [('sphinx', 'sphinx sphinxcontrib-bibtex', False),
             ('bs4', 'beautifulsoup4', False),
             ('lxml', 'lxml', False),
             ('yaml', 'pyyaml', False),
-            ('matplotlib', 'matplotlib', False)]
+            ('matplotlib', 'matplotlib', False),
+            ('apt', 'python-apt', False)]
 
 pracwebpackages = [('flask', 'Flask', False),
                    ('werkzeug', 'werkzeug', False),
@@ -61,10 +62,16 @@ def check_package(pkg):
 
 # check the package dependecies
 def check_dependencies():
+    # python packages
+    print colorize('Checking python package dependencies...',
+                   (None, 'green', True), True)
     for pkg in packages:
         check_package(pkg)
+    print
 
-    # check debian package dependencies
+    # debian packages
+    print colorize('Checking debian package dependencies...',
+                   (None, 'green', True), True)
     cache = apt.Cache()
     for pkg in aptpackages:
         sys.stdout.write('checking dependency %s...' % pkg)
@@ -76,14 +83,19 @@ def check_dependencies():
         else:
             sys.stdout.write(colorize('OK', (None, 'green', True), True))
             print
+    print
 
-    # check if JAVA_HOME is set
+    # environment variables
+    print colorize('Checking necessary environment variables...',
+                   (None, 'green', True), True)
     for var in env_vars:
         sys.stdout.write('checking environment variable %s...' % var)
         if var not in os.environ:
             print colorize('%s was not found in your environment variables.'
                            % var, (None, 'yellow', True), True)
-
+        else:
+            sys.stdout.write(colorize('OK', (None, 'green', True), True))
+            print
     print
 
 
@@ -98,6 +110,7 @@ def build_pracweb():
     generate = adapt("$PRAC_HOME/pracweb/gui/generate.py -q", arch)
     os.system(generate + ' build')
 
+    print
     for pkg in pracwebpackages:
         check_package(pkg)
 
