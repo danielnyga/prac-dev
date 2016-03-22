@@ -86,10 +86,6 @@ def print_results(inference):
 def runall():
     start = time.time()
     test_prac_pipeline_simple(['start the centrifuge.'])
-    try:
-        test_prac_pipeline_simple(['fuck da police.'])
-    except NoConstraintsError:
-        print 'Gracefully terminated'
     test_prac_pipeline_simple(['Neutralize the methacrylic_acid with 100 '
                                'milliliters of cyanuramide.'])
     print
