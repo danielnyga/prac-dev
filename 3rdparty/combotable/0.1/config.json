@@ -1,0 +1,73 @@
+{
+  "name"    : "ComboTable",
+
+  "include" :
+  [
+    {
+      "path" : "${QOOXDOO_PATH}/tool/data/config/application.json"
+    }
+  ],
+
+  "export" :
+  [
+    "api",
+    "api-data",
+    "clean",
+    "distclean",
+    "fix",
+    "info",
+    "inspector",
+    "lint",
+    "migration",
+    "pretty",
+    "test",
+    "test-source",
+    "translation"
+  ],
+
+  "let" :
+  {
+    "APPLICATION"  : "combotable",
+    "APPLICATION_MAIN_CLASS" : "${APPLICATION}.demo.Demo",
+    "QOOXDOO_PATH" : "../../qooxdoo/1.3",
+    "QXTHEME"      : "qx.theme.Modern",
+    "API_EXCLUDE"  : ["qx.*", "combotable.demo.*", "${APPLICATION}.theme.*", "${APPLICATION}.test.*"],
+    "LOCALES"      : [ "en" ],
+    "CACHE"        : "${TMPDIR}/cache",
+    "ROOT"         : "."
+  },
+
+  // You only need to edit the remainder of this file, if you want to customize
+  // specific jobs, or add own job definitions.
+
+  "jobs" :
+  {
+    "pretty" :
+     {
+        "pretty-print" : 
+        {
+            "general" : 
+            {           
+               "indent-string"            : "    "
+            },
+            "comments" :
+            {
+                "trailing" :
+                {
+                    "keep-column"         : false,
+                    "padding"             : "* "
+                }
+            },
+            "blocks" :
+            {
+                "align-with-curlies"     :  false,
+                "open-curly" :
+                { 
+                    "newline-before"      : "n",
+                    "indent-before"        : false
+                }
+            }
+        }
+     }
+  }
+}
