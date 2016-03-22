@@ -1,4 +1,4 @@
-from pracmln.utils.config import query_config_pattern
+from StringIO import StringIO
 from pracweb.gui.app import pracApp
 import os, re
 import tempfile
@@ -8,11 +8,11 @@ from pracweb.gui.app import PRACSession
 from prac.core.base import PRAC
 from prac.core.wordnet import WordNet
 from pracmln.mln.methods import InferenceMethods
-from pracmln.utils.project import MLNProject, PRACMLNConfig
 
 FILEDIRS = {'mln': 'mln', 'pracmln': 'bin', 'db': 'db'}
 LOGICS = [('FirstOrderLogic', 'FOL'), ('FuzzyLogic', 'Fuzzy')]
-GRAMMAR = [('PRACGrammar', 'PRAC Grammar'), ('StandardGrammar', 'Standard Grammar')]
+GRAMMAR = [('PRACGrammar', 'PRAC Grammar'), ('StandardGrammar',
+                                             'Standard Grammar')]
 PRAC_HOME = os.environ['PRAC_HOME']
 INFMETHODS = InferenceMethods.names()
 
@@ -24,11 +24,27 @@ def ensure_prac_session(cursession):
         cursession['id'] = os.urandom(24)
         prac_session = PRACSession(cursession)
         prac_session.prac = PRAC()
-        prac_session.prac.wordnet = WordNet(concepts=None)
+        prac_session.prac.wordnet = WordNet()
         # initialize the nl_parsing module so the JVM is started
-        prac_session.prac.getModuleByName('nl_parsing')
-        log.info('created new PRAC session %s' % str(prac_session.id.encode('base-64')))
+        # prac_session.prac.getModuleByName('nl_parsing')
+        prac_session.parser = prac_session.prac.getModuleByName('nl_parsing')
+        log.info('created new PRAC session %s' %
+                 str(prac_session.id.encode('base-64')))
         prac_session.tmpsessionfolder = init_file_storage()
+
+        # initialize logger
+        stream = StringIO()
+        handler = logging.StreamHandler(stream)
+        sformatter = logging.Formatter(
+            "%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+        handler.setFormatter(sformatter)
+        streamlog = logging.getLogger('streamlog')
+        streamlog.setLevel(logging.INFO)
+        streamlog.addHandler(handler)
+        prac_session.stream = stream
+        prac_session.log = streamlog
+        prac_session.loghandler = handler
+
         pracApp.session_store.put(prac_session)
     return prac_session
 
@@ -54,9 +70,11 @@ def update_kb_list(prac, modulename, tmpfoldername):
     if modulename in prac.moduleManifestByName:
         module_path = prac.moduleManifestByName[modulename].module_path
 
-        if not os.path.isdir(os.path.join(module_path, 'bin')): return []
+        if not os.path.isdir(os.path.join(module_path, 'bin')):
+            return []
         for path in os.listdir(os.path.join(module_path, 'bin')):
-            if os.path.isdir(path): continue
+            if os.path.isdir(path):
+                continue
             if path.endswith('.pracmln'):
                 kbs.append(path[0:path.rfind('.pracmln')])
 
@@ -74,7 +92,8 @@ def update_mln_list(prac, modulename, tmpfoldername):
         module_path = prac.moduleManifestByName[modulename].module_path
 
         for path in os.listdir(os.path.join(module_path, 'mln')):
-            if os.path.isdir(path): continue
+            if os.path.isdir(path):
+                continue
             if path.endswith('.mln'):
                 mlns.append(path[0:path.rfind('.mln')])
 
@@ -91,9 +110,11 @@ def update_evidence_list(prac, modulename, tmpfoldername):
     if modulename in prac.moduleManifestByName:
         module_path = prac.moduleManifestByName[modulename].module_path
 
-        if not os.path.isdir(os.path.join(module_path, 'db')): return []
+        if not os.path.isdir(os.path.join(module_path, 'db')):
+            return []
         for path in os.listdir(os.path.join(module_path, 'db')):
-            if os.path.isdir(path): continue
+            if os.path.isdir(path):
+                continue
             if path.endswith('.db'):
                 evidence.append(path[0:path.rfind('.db')])
 
@@ -105,7 +126,8 @@ def update_evidence_list(prac, modulename, tmpfoldername):
     return [('{}.db'.format(ev), '{}.db'.format(ev)) for ev in evidence]
 
 
-# returns content of given file, replaces includes by content of the included file
+# returns content of given file,
+# replaces includes by content of the included file
 def get_file_content(fdir, fname):
     c = ''
     if os.path.isfile(os.path.join(fdir, fname)):
@@ -116,7 +138,8 @@ def get_file_content(fdir, fname):
     for l in c:
         if '#include' in l:
             # includefile = re.sub('#include (.*[.].*$)', '\g<1>', l).strip()
-            includefile = re.sub('#include ([\w,\s-]+\.[A-Za-z])', '\g<1>', l).strip()
+            includefile = re.sub('#include ([\w,\s-]+\.[A-Za-z])', '\g<1>', l)\
+                .strip()
             content += get_file_content(fdir, includefile)
         else:
             content += l
@@ -136,10 +159,10 @@ def add_wn_similarities(db, concepts, wn):
 def init_file_storage():
     if not os.path.exists(os.path.join(pracApp.app.config['UPLOAD_FOLDER'])):
         os.mkdir(os.path.join(pracApp.app.config['UPLOAD_FOLDER']))
-    dirname = tempfile.mkdtemp(prefix='pracweb', dir=pracApp.app.config['UPLOAD_FOLDER'])
+    dirname = tempfile.mkdtemp(prefix='pracweb',
+                               dir=pracApp.app.config['UPLOAD_FOLDER'])
 
     if not os.path.exists(os.path.join(pracApp.app.config['LOG_FOLDER'])):
         os.mkdir(os.path.join(pracApp.app.config['LOG_FOLDER']))
 
     return dirname
-

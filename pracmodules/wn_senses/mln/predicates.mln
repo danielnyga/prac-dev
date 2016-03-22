@@ -25,6 +25,6 @@
  
  #include "../../nl_parsing/mln/predicates.mln"
 
- has_sense(word, sense!)
+ has_sense(word, sense?)
  #fuzzy
  is_a(sense, concept)

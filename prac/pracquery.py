@@ -51,11 +51,11 @@ DEFAULT_CONFIG = os.path.join(PRAC_HOME, global_config_filename)
 WINDOWTITLE = 'PRAC Query Tool - {}' + os.path.sep + '{}'
 WINDOWTITLEEDITED = 'PRAC Query Tool - {}' + os.path.sep + '*{}'
 
+
 def nop(*args, **kwargs): pass
 
 
 class PRACQueryGUI(object):
-
     def __init__(self, master, pracinference, gconf, directory='.'):
         self.master = master
 
@@ -69,21 +69,24 @@ class PRACQueryGUI(object):
         self.prac_inference = pracinference
         self.infStep = None
 
-        self.module_dir = os.path.join(os.environ['PRAC_HOME'], 'pracmodules', 'wnsenses')
+        self.module_dir = os.path.join(os.environ['PRAC_HOME'], 'pracmodules',
+                                       'wnsenses')
 
         self.frame = Frame(master)
         self.frame.pack(fill=BOTH, expand=1)
         self.frame.columnconfigure(1, weight=1)
 
         # module selection
-        row = 0        
+        row = 0
         Label(self.frame, text="Module: ").grid(row=row, column=0, sticky="E")
         modules = sorted([module for module in self.prac.moduleManifestByName])
         self.selected_module = StringVar(master)
         self.selected_module.trace("w", self.select_module)
-        self.list_modules = apply(OptionMenu, (self.frame, self.selected_module) + tuple(modules))
+        self.list_modules = apply(OptionMenu,
+                                  (self.frame, self.selected_module) + tuple(
+                                      modules))
         self.list_modules.grid(row=row, column=1, sticky="NWE")
-        
+
         # Project selection
         row += 1
         Label(self.frame, text="Project: ").grid(row=row, column=0, sticky="E")
@@ -91,38 +94,49 @@ class PRACQueryGUI(object):
         saveprojectcontainer.grid(row=row, column=1, sticky="NEWS")
         saveprojectcontainer.columnconfigure(0, weight=1)
 
-
         self.selected_project = StringVar(master)
         projectfiles = ['']
-        self.list_projects = apply(OptionMenu, (saveprojectcontainer, self.selected_project) + tuple(projectfiles))
+        self.list_projects = apply(OptionMenu, (
+        saveprojectcontainer, self.selected_project) + tuple(projectfiles))
         self.list_projects.grid(row=0, column=0, sticky="NWES")
         self.selected_project.trace("w", self.select_project)
 
         # save proj file
-        self.btn_saveproj = Button(saveprojectcontainer, text='Save Project...', command=self.noask_save_project)
+        self.btn_saveproj = Button(saveprojectcontainer,
+                                   text='Save Project...',
+                                   command=self.noask_save_project)
         self.btn_saveproj.grid(row=0, column=1, sticky="E")
 
         # save proj file as...
-        self.btn_saveproj = Button(saveprojectcontainer, text='Save Project as...', command=self.ask_save_project)
+        self.btn_saveproj = Button(saveprojectcontainer,
+                                   text='Save Project as...',
+                                   command=self.ask_save_project)
         self.btn_saveproj.grid(row=0, column=2, sticky="E")
-        
+
         # logic selection
         row += 1
         Label(self.frame, text='Logic: ').grid(row=row, column=0, sticky='E')
         logics = ['FirstOrderLogic', 'FuzzyLogic']
         self.selected_logic = StringVar(master)
         self.selected_logic.trace('w', self.settings_setdirty)
-        l = apply(OptionMenu, (self.frame, self.selected_logic) + tuple(logics))
+        l = apply(OptionMenu,
+                  (self.frame, self.selected_logic) + tuple(logics))
         l.grid(row=row, column=1, sticky='NWE')
-        
+
         # mln section
         row += 1
         Label(self.frame, text="MLN: ").grid(row=row, column=0, sticky='NE')
         self.mln_container = FileEditBar(self.frame, dir=self.module_dir,
-                                         filesettings={'extension':'.mln', 'ftypes':[('MLN files', '.mln')]},
-                                         defaultname='*unknown{}', importhook=self.import_mln, deletehook=self.delete_mln,
-                                         projecthook=self.save_proj, filecontenthook=self.mlnfilecontent,
-                                         fileslisthook=self.mlnfiles, updatehook=self.update_mln,
+                                         filesettings={'extension': '.mln',
+                                                       'ftypes': [('MLN files',
+                                                                   '.mln')]},
+                                         defaultname='*unknown{}',
+                                         importhook=self.import_mln,
+                                         deletehook=self.delete_mln,
+                                         projecthook=self.save_proj,
+                                         filecontenthook=self.mlnfilecontent,
+                                         fileslisthook=self.mlnfiles,
+                                         updatehook=self.update_mln,
                                          onchangehook=self.project_setdirty)
         self.mln_container.grid(row=row, column=1, sticky="NEWS")
         self.mln_container.columnconfigure(1, weight=2)
@@ -131,7 +145,9 @@ class PRACQueryGUI(object):
         row += 1
         self.use_emln = IntVar()
         self.use_emln.set(0)
-        self.cb_use_emln = Checkbutton(self.frame, text="use model extension", variable=self.use_emln, command=self.onchange_use_emln)
+        self.cb_use_emln = Checkbutton(self.frame, text="use model extension",
+                                       variable=self.use_emln,
+                                       command=self.onchange_use_emln)
         self.cb_use_emln.grid(row=row, column=1, sticky="W")
 
         # mln extension section
@@ -140,25 +156,41 @@ class PRACQueryGUI(object):
         self.emln_label = Label(self.frame, text="EMLN: ")
         self.emln_label.grid(row=self.emlncontainerrow, column=0, sticky='NE')
         self.emln_container = FileEditBar(self.frame, dir=self.module_dir,
-                                          filesettings={'extension':'.emln', 'ftypes':[('MLN extension files', '.emln')]},
-                                          defaultname='*unknown{}', importhook=self.import_emln, deletehook=self.delete_emln,
-                                          projecthook=self.save_proj, filecontenthook=self.emlnfilecontent,
-                                          fileslisthook=self.emlnfiles, updatehook=self.update_emln,
+                                          filesettings={'extension': '.emln',
+                                                        'ftypes': [(
+                                                                   'MLN extension files',
+                                                                   '.emln')]},
+                                          defaultname='*unknown{}',
+                                          importhook=self.import_emln,
+                                          deletehook=self.delete_emln,
+                                          projecthook=self.save_proj,
+                                          filecontenthook=self.emlnfilecontent,
+                                          fileslisthook=self.emlnfiles,
+                                          updatehook=self.update_emln,
                                           onchangehook=self.project_setdirty)
-        self.emln_container.grid(row=self.emlncontainerrow, column=1, sticky="NEWS")
+        self.emln_container.grid(row=self.emlncontainerrow, column=1,
+                                 sticky="NEWS")
         self.emln_container.columnconfigure(1, weight=2)
         self.onchange_use_emln(dirty=False)
         self.frame.rowconfigure(row, weight=1)
 
         # db section
         row += 1
-        Label(self.frame, text="Evidence: ").grid(row=row, column=0, sticky='NE')
+        Label(self.frame, text="Evidence: ").grid(row=row, column=0,
+                                                  sticky='NE')
         self.db_container = FileEditBar(self.frame, dir=self.module_dir,
-                                          filesettings={'extension':'.db', 'ftypes':[('Database files', '.db')]},
-                                          defaultname='*unknown{}', importhook=self.import_db, deletehook=self.delete_db,
-                                          projecthook=self.save_proj, filecontenthook=self.dbfilecontent,
-                                          fileslisthook=self.dbfiles, updatehook=self.update_db,
-                                          onchangehook=self.project_setdirty)
+                                        filesettings={'extension': '.db',
+                                                      'ftypes': [(
+                                                                 'Database files',
+                                                                 '.db')]},
+                                        defaultname='*unknown{}',
+                                        importhook=self.import_db,
+                                        deletehook=self.delete_db,
+                                        projecthook=self.save_proj,
+                                        filecontenthook=self.dbfilecontent,
+                                        fileslisthook=self.dbfiles,
+                                        updatehook=self.update_db,
+                                        onchangehook=self.project_setdirty)
         self.db_container.grid(row=row, column=1, sticky="NEWS")
         self.db_container.columnconfigure(1, weight=2)
         self.frame.rowconfigure(row, weight=1)
@@ -169,34 +201,41 @@ class PRACQueryGUI(object):
         Label(self.frame, text="Method: ").grid(row=row, column=0, sticky=E)
         self.selected_method = StringVar(master)
         self.selected_method.trace('w', self.settings_setdirty)
-        self.list_methods = OptionMenu(self.frame, self.selected_method, *InferenceMethods.names())
-        self.list_methods.grid(row=self.list_methods_row, column=1, sticky="NWE")
+        self.list_methods = OptionMenu(self.frame, self.selected_method,
+                                       *InferenceMethods.names())
+        self.list_methods.grid(row=self.list_methods_row, column=1,
+                               sticky="NWE")
 
         # queries
         row += 1
         Label(self.frame, text="Queries: ").grid(row=row, column=0, sticky=E)
         self.query = StringVar(master)
-        Entry(self.frame, textvariable = self.query).grid(row=row, column=1, sticky="NEW")
+        Entry(self.frame, textvariable=self.query).grid(row=row, column=1,
+                                                        sticky="NEW")
 
         #  parameters
         row += 1
-        Label(self.frame, text="Parameters: ").grid(row=row, column=0, sticky="NE")
+        Label(self.frame, text="Parameters: ").grid(row=row, column=0,
+                                                    sticky="NE")
         self.params = StringVar(master)
-        self.entry_params = Entry(self.frame, textvariable = self.params)
+        self.entry_params = Entry(self.frame, textvariable=self.params)
         self.entry_params.grid(row=row, column=1, sticky="NEW")
 
         # closed-world predicates
         row += 1
-        Label(self.frame, text="CW preds: ").grid(row=row, column=0, sticky="NE")
+        Label(self.frame, text="CW preds: ").grid(row=row, column=0,
+                                                  sticky="NE")
         self.cwpreds = StringVar(master)
-        self.entry_cw = Entry(self.frame, textvariable = self.cwpreds)
+        self.entry_cw = Entry(self.frame, textvariable=self.cwpreds)
         self.entry_cw.grid(row=row, column=1, sticky="NEW")
 
         # all preds open-world
         cw_container = Frame(self.frame)
         cw_container.grid(row=row, column=1, sticky="NES")
         self.closed_world = IntVar()
-        self.cb_closed_world = Checkbutton(cw_container, text="Apply CW assumption to all except queries", variable=self.closed_world)
+        self.cb_closed_world = Checkbutton(cw_container,
+                                           text="Apply CW assumption to all except queries",
+                                           variable=self.closed_world)
         self.cb_closed_world.grid(row=row, column=2, sticky='E')
 
         # Multiprocessing and verbose
@@ -205,15 +244,19 @@ class PRACQueryGUI(object):
         options_container.grid(row=row, column=1, sticky='NEWS')
 
         self.multicore = IntVar()
-        self.cb_multicore = Checkbutton(options_container, text="Use all CPUs", variable=self.multicore)
+        self.cb_multicore = Checkbutton(options_container, text="Use all CPUs",
+                                        variable=self.multicore)
         self.cb_multicore.grid(row=0, column=0, sticky=W)
 
         self.verbose = IntVar()
-        self.cb_verbose = Checkbutton(options_container, text="verbose", variable=self.verbose)
+        self.cb_verbose = Checkbutton(options_container, text="verbose",
+                                      variable=self.verbose)
         self.cb_verbose.grid(row=0, column=1, sticky=W)
 
         self.keep_evidence = IntVar()
-        self.cb_keep_evidence = Checkbutton(options_container, text="keep result", variable=self.keep_evidence)
+        self.cb_keep_evidence = Checkbutton(options_container,
+                                            text="keep result",
+                                            variable=self.keep_evidence)
         self.cb_keep_evidence.grid(row=0, column=2, sticky=W)
         self.keep_evidence.set(True)
 
@@ -221,11 +264,13 @@ class PRACQueryGUI(object):
         row += 1
         self.btn_container = Frame(self.frame)
         self.btn_container.grid(row=row, column=1, sticky='EW')
-        
-        start_button = Button(self.btn_container, text="Start Inference", command=self.start)
+
+        start_button = Button(self.btn_container, text="Start Inference",
+                              command=self.start)
         start_button.grid(row=0, column=1, sticky='E')
-        
-        continue_button = Button(self.btn_container, text="Continue >", command=self.oncontinue)
+
+        continue_button = Button(self.btn_container, text="Continue >",
+                                 command=self.oncontinue)
         continue_button.grid(row=0, column=2, sticky='W')
 
         self.settings_dirty = IntVar()
@@ -233,9 +278,11 @@ class PRACQueryGUI(object):
 
         self.gconf = gconf
         self.project = None
-        self.dir = os.path.abspath(ifNone(gconf['prev_query_path'], DEFAULT_CONFIG))
+        self.dir = os.path.abspath(
+            ifNone(gconf['prev_query_path'], DEFAULT_CONFIG))
         if gconf['prev_query_project': self.dir] is not None:
-            self.load_project(os.path.join(self.dir, gconf['prev_query_project': self.dir]))
+            self.load_project(
+                os.path.join(self.dir, gconf['prev_query_project': self.dir]))
         else:
             self.new_project()
 
@@ -243,7 +290,8 @@ class PRACQueryGUI(object):
         self.project.addlistener(self.project_setdirty)
 
         self.selected_module.set(self.gconf.get("module", modules[0]))
-        self.update_dbeditor_from_result(*pracinference.inference_steps[-1].output_dbs)
+        self.update_dbeditor_from_result(
+            *pracinference.inference_steps[-1].output_dbs)
         self.mln_container.dirty = False
         self.emln_container.dirty = False
         self.db_container.dirty = False
@@ -256,8 +304,10 @@ class PRACQueryGUI(object):
 
     def quit(self):
         if self.settings_dirty.get() or self.project_dirty.get():
-            savechanges = tkMessageBox.askyesnocancel("Save changes", "You have unsaved project changes. Do you want to save them before quitting?")
-            if savechanges is None: return
+            savechanges = tkMessageBox.askyesnocancel("Save changes",
+                                                      "You have unsaved project changes. Do you want to save them before quitting?")
+            if savechanges is None:
+                return
             elif savechanges:
                 self.noask_save_project()
             self.master.destroy()
@@ -281,7 +331,8 @@ class PRACQueryGUI(object):
 
 
     def project_setdirty(self, dirty=False, *args):
-        self.project_dirty.set(dirty or self.mln_container.dirty or self.db_container.dirty or self.emln_container.dirty)
+        self.project_dirty.set(
+            dirty or self.mln_container.dirty or self.db_container.dirty or self.emln_container.dirty)
         self.changewindowtitle()
 
 
@@ -291,12 +342,16 @@ class PRACQueryGUI(object):
 
 
     def changewindowtitle(self):
-        title = (WINDOWTITLEEDITED if (self.settings_dirty.get() or self.project_dirty.get()) else WINDOWTITLE).format(self.dir, self.project.name)
+        title = (WINDOWTITLEEDITED if (
+        self.settings_dirty.get() or self.project_dirty.get()) else WINDOWTITLE).format(
+            self.dir, self.project.name)
         self.master.title(title)
 
 
     def select_project(self, *args):
-        filename = os.path.join(self.prac.moduleManifestByName[self.selected_module.get()].module_path, self.selected_project.get())
+        filename = os.path.join(self.prac.moduleManifestByName[
+                                    self.selected_module.get()].module_path,
+                                self.selected_project.get())
         if filename and os.path.exists(filename):
             self.load_project(filename)
         else:
@@ -316,30 +371,41 @@ class PRACQueryGUI(object):
             self.mln_container.update_file_choices()
             self.db_container.update_file_choices()
             if len(self.project.mlns) > 0:
-                self.mln_container.selected_file.set(self.project.queryconf['mln'] or self.project.mlns.keys()[0])
+                self.mln_container.selected_file.set(
+                    self.project.queryconf['mln'] or self.project.mlns.keys()[
+                        0])
                 self.mln_container.dirty = False
             if len(self.project.emlns) > 0:
-                self.emln_container.selected_file.set(self.project.queryconf['emln'] or self.project.emlns.keys()[0])
+                self.emln_container.selected_file.set(
+                    self.project.queryconf['emln'] or
+                    self.project.emlns.keys()[0])
                 self.emln_container.dirty = False
             if len(self.project.dbs) > 0 and not self.keep_evidence.get():
-                self.db_container.selected_file.set(self.project.queryconf['db'] or self.project.dbs.keys()[0])
+                self.db_container.selected_file.set(
+                    self.project.queryconf['db'] or self.project.dbs.keys()[0])
             self.write_gconfig(savegeometry=False)
             self.settings_dirty.set(0)
             self.changewindowtitle()
         else:
-            logger.error('File {} does not exist. Creating new project...'.format(filename))
+            logger.error(
+                'File {} does not exist. Creating new project...'.format(
+                    filename))
             self.new_project()
 
 
     def noask_save_project(self):
-        if self.project.name and not self.project.name == DEFAULTNAME.format('.pracmln'):
+        if self.project.name and not self.project.name == DEFAULTNAME.format(
+                '.pracmln'):
             self.save_project(os.path.join(self.module_dir, self.project.name))
         else:
             self.ask_save_project()
 
 
     def ask_save_project(self):
-        fullfilename = asksaveasfilename(initialdir=self.module_dir, confirmoverwrite=True, filetypes=[('PRACMLN project files', '.pracmln')], defaultextension=".pracmln")
+        fullfilename = asksaveasfilename(initialdir=self.module_dir,
+                                         confirmoverwrite=True, filetypes=[
+                ('PRACMLN project files', '.pracmln')],
+                                         defaultextension=".pracmln")
         self.save_project(fullfilename)
 
 
@@ -391,7 +457,9 @@ class PRACQueryGUI(object):
             content = self.mln_container.editor.get("1.0", END).strip()
 
         if old == new and askoverwrite:
-            savechanges = tkMessageBox.askyesno("Save changes", "A file '{}' already exists. Overwrite?".format(new))
+            savechanges = tkMessageBox.askyesno("Save changes",
+                                                "A file '{}' already exists. Overwrite?".format(
+                                                    new))
             if savechanges:
                 self.project.mlns[old] = content
             else:
@@ -402,7 +470,9 @@ class PRACQueryGUI(object):
         else:
             if new in self.project.mlns:
                 if askoverwrite:
-                    savechanges = tkMessageBox.askyesno("Save changes", "A file '{}' already exists. Overwrite?".format(new))
+                    savechanges = tkMessageBox.askyesno("Save changes",
+                                                        "A file '{}' already exists. Overwrite?".format(
+                                                            new))
                     if savechanges:
                         self.project.mlns[new] = content
                     else:
@@ -419,6 +489,7 @@ class PRACQueryGUI(object):
 
     def mlnfilecontent(self, filename):
         return self.project.mlns.get(filename, '').strip()
+
 
     ####################### /MLN FUNCTIONS #####################################
 
@@ -445,7 +516,9 @@ class PRACQueryGUI(object):
             content = self.emln_container.editor.get("1.0", END).strip()
 
         if old == new and askoverwrite:
-            savechanges = tkMessageBox.askyesno("Save changes", "A file '{}' already exists. Overwrite?".format(new))
+            savechanges = tkMessageBox.askyesno("Save changes",
+                                                "A file '{}' already exists. Overwrite?".format(
+                                                    new))
             if savechanges:
                 self.project.emlns[old] = content
             else:
@@ -456,7 +529,9 @@ class PRACQueryGUI(object):
         else:
             if new in self.project.emlns:
                 if askoverwrite:
-                    savechanges = tkMessageBox.askyesno("Save changes", "A file '{}' already exists. Overwrite?".format(new))
+                    savechanges = tkMessageBox.askyesno("Save changes",
+                                                        "A file '{}' already exists. Overwrite?".format(
+                                                            new))
                     if savechanges:
                         self.project.emlns[new] = content
                     else:
@@ -473,6 +548,7 @@ class PRACQueryGUI(object):
 
     def emlnfilecontent(self, filename):
         return self.project.emlns.get(filename, '').strip()
+
 
     ####################### /EMLN FUNCTIONS #####################################
 
@@ -499,7 +575,9 @@ class PRACQueryGUI(object):
             content = self.db_container.editor.get("1.0", END).strip()
 
         if old == new and askoverwrite:
-            savechanges = tkMessageBox.askyesno("Save changes", "A file '{}' already exists. Overwrite?".format(new))
+            savechanges = tkMessageBox.askyesno("Save changes",
+                                                "A file '{}' already exists. Overwrite?".format(
+                                                    new))
             if savechanges:
                 self.project.dbs[old] = content
             else:
@@ -510,7 +588,9 @@ class PRACQueryGUI(object):
         else:
             if new in self.project.dbs:
                 if askoverwrite:
-                    savechanges = tkMessageBox.askyesno("Save changes", "A file '{}' already exists. Overwrite?".format(new))
+                    savechanges = tkMessageBox.askyesno("Save changes",
+                                                        "A file '{}' already exists. Overwrite?".format(
+                                                            new))
                     if savechanges:
                         self.project.dbs[new] = content
                     else:
@@ -528,6 +608,7 @@ class PRACQueryGUI(object):
     def dbfilecontent(self, filename):
         return self.project.dbs.get(filename, '').strip()
 
+
     ####################### /DB FUNCTIONS #####################################
 
 
@@ -538,8 +619,10 @@ class PRACQueryGUI(object):
             self.emln_label.grid_forget()
             self.emln_container.grid_forget()
         else:
-            self.emln_label.grid(row=self.emlncontainerrow, column=0, sticky="NE")
-            self.emln_container.grid(row=self.emlncontainerrow, column=1, sticky="NWES")
+            self.emln_label.grid(row=self.emlncontainerrow, column=0,
+                                 sticky="NE")
+            self.emln_container.grid(row=self.emlncontainerrow, column=1,
+                                     sticky="NWES")
         if dirty:
             self.settings_setdirty()
 
@@ -565,7 +648,9 @@ class PRACQueryGUI(object):
         self.mln_container.selected_file.set(ifNone(conf.get('mln'), ''))
         if not self.keep_evidence:
             self.db_container.selected_file.set(ifNone(conf.get('db'), ''))
-        self.selected_method.set(ifNone(self.config.get("method"), InferenceMethods.name('MCSAT'), transform=InferenceMethods.name))
+        self.selected_method.set(
+            ifNone(self.config.get("method"), InferenceMethods.name('MCSAT'),
+                   transform=InferenceMethods.name))
         self.use_emln.set(ifNone(conf.get('use_emln'), False))
         if self.use_emln.get():
             self.emln_container.selected_file.set(ifNone(conf.get('emln'), ""))
@@ -580,10 +665,15 @@ class PRACQueryGUI(object):
     def update_config(self):
 
         self.config = PRACMLNConfig()
-        self.config['mln'] = self.mln_container.selected_file.get().strip().lstrip('*')
-        self.config['emln'] = self.emln_container.selected_file.get().strip().lstrip('*')
-        self.config["db"] = self.db_container.selected_file.get().strip().lstrip('*')
-        self.config["method"] = InferenceMethods.id(self.selected_method.get().strip())
+        self.config[
+            'mln'] = self.mln_container.selected_file.get().strip().lstrip('*')
+        self.config[
+            'emln'] = self.emln_container.selected_file.get().strip().lstrip(
+            '*')
+        self.config[
+            "db"] = self.db_container.selected_file.get().strip().lstrip('*')
+        self.config["method"] = InferenceMethods.id(
+            self.selected_method.get().strip())
         self.config["params"] = self.params.get().strip()
         self.config["queries"] = self.query.get()
         self.config["cw"] = self.closed_world.get()
@@ -616,7 +706,8 @@ class PRACQueryGUI(object):
         self.module_dir = dirpath
         self.update_project_choices()
         if self.gconf['prev_query_project': dirpath] is not None:
-            self.selected_project.set(self.gconf['prev_query_project': dirpath])
+            self.selected_project.set(
+                self.gconf['prev_query_project': dirpath])
 
 
     def update_project_choices(self):
@@ -626,9 +717,11 @@ class PRACQueryGUI(object):
         # remove all items
         self.list_projects['menu'].delete(0, 'end')
 
-        projects = [y for y in os.listdir(module_path) if os.path.isfile(os.path.join(module_path, y)) and y.endswith('.pracmln')]
+        projects = [y for y in os.listdir(module_path) if os.path.isfile(
+            os.path.join(module_path, y)) and y.endswith('.pracmln')]
         for p in projects:
-            self.list_projects['menu'].add_command(label=p, command=_setit(self.selected_project, p))
+            self.list_projects['menu'].add_command(label=p, command=_setit(
+                self.selected_project, p))
 
 
     def oncontinue(self):
@@ -636,7 +729,8 @@ class PRACQueryGUI(object):
             self.start()
         self.prac_inference.inference_steps.append(self.infStep)
         self.update_dbeditor_from_result(*self.infStep.output_dbs)
-        logger.info('Input databases have been replaced by the latest results.')
+        logger.info(
+            'Input databases have been replaced by the latest results.')
 
 
     def update_dbeditor_from_result(self, *dbs):
@@ -648,14 +742,18 @@ class PRACQueryGUI(object):
                 strbuf.write('---\n')
 
         self.db_container.editor.delete("1.0", END)
-        self.db_container.editor.insert(INSERT, strbuf.getvalue().encode('utf-8'))
+        self.db_container.editor.insert(INSERT,
+                                        strbuf.getvalue().encode('utf-8'))
         strbuf.close()
         self.db_container._editor_dirty = True
 
 
     def update_result_from_dbeditor(self):
-        dbtext = self.db_container.editor.get("1.0", END).encode('utf8').strip()
-        dbobj = parse_db(self.prac.mln, dbtext, ignore_unknown_preds=self.config.get('ignore_unknown_preds', True))
+        dbtext = self.db_container.editor.get("1.0", END).encode(
+            'utf8').strip()
+        dbobj = parse_db(self.prac.mln, dbtext,
+                         ignore_unknown_preds=self.config.get(
+                             'ignore_unknown_preds', True))
 
         self.prac_inference.inference_steps[-1].output_dbs = dbobj
 
@@ -682,7 +780,10 @@ class PRACQueryGUI(object):
 
             module = self.prac.getModuleByName(self.selected_module.get())
 
-            self.infStep = module(self.prac_inference, project=self.project, projectpath=os.path.join(self.module_dir, self.project.name))
+            self.infStep = module(self.prac_inference,
+                                  project=self.project,
+                                  projectpath=os.path.join(self.module_dir,
+                                                           self.project.name))
 
         except:
             cls, e, tb = sys.exc_info()
@@ -696,10 +797,12 @@ class PRACQueryGUI(object):
 if __name__ == '__main__':
 
     from optparse import OptionParser
+
+
     parser = OptionParser()
     parser.add_option("-i", "--interactive", dest="interactive", default=False,
-                                             action='store_true',
-                                             help="Starts PRAC inference with an interactive GUI tool.")
+                      action='store_true',
+                      help="Starts PRAC inference with an interactive GUI tool.")
     (options, args) = parser.parse_args()
 
     sentences = args
@@ -710,40 +813,50 @@ if __name__ == '__main__':
     inference = PRACInference(prac, sentences)
     conf = PRACMLNConfig(DEFAULT_CONFIG)
 
-    if options.interactive: # use the GUI
+    if options.interactive:  # use the GUI
         # in case we have natural-language parameters, parse them
         if len(inference.instructions) > 0:
             parser = prac.getModuleByName('nl_parsing')
             prac.run(inference, parser)
-        app = PRACQueryGUI(root, inference, conf, directory=args[0] if args else None)
+        app = PRACQueryGUI(root, inference, conf,
+                           directory=args[0] if args else None)
         root.mainloop()
-    else: # regular PRAC pipeline
-        while inference.next_module() != None :
+    else:  # regular PRAC pipeline
+        while inference.next_module() is not None:
             modulename = inference.next_module()
             module = prac.getModuleByName(modulename)
             prac.run(inference, module)
 
         print
-        print colorize('+========================+',  (None, 'green', True), True)
-        print colorize('| PRAC INFERENCE RESULTS |',  (None, 'green', True), True)
-        print colorize('+========================+',  (None, 'green', True), True)
+        print colorize('+========================+', (None, 'green', True),
+                       True)
+        print colorize('| PRAC INFERENCE RESULTS |', (None, 'green', True),
+                       True)
+        print colorize('+========================+', (None, 'green', True),
+                       True)
 
         step = inference.inference_steps[-1]
         wordnet_module = prac.getModuleByName('wn_senses')
         for db in step.output_dbs:
             for a in sorted(db.evidence.keys()):
                 v = db.evidence[a]
-                if v > 0.001 and (a.startswith('action_core') or a.startswith('has_sense') or a.startswith('achieved_by')):
+                if v > 0.001 and (a.startswith('action_core') or a.startswith(
+                        'has_sense') or a.startswith('achieved_by')):
                     if a.startswith('has_sense'):
 
-                        group = re.split(',',re.split('has_sense\w*\(|\)',a)[1])
+                        group = re.split(',',
+                                         re.split('has_sense\w*\(|\)', a)[1])
                         word = group[0];
                         sense = group[1];
                         if sense != 'null':
                             print
-                            print colorize('  WORD:', (None, 'white', True), True), word,
-                            print colorize('  SENSE:', (None, 'white', True), True), sense
-                            wordnet_module.printWordSenses(wordnet_module.get_possible_meanings_of_word(db, word), sense)
+                            print colorize('  WORD:', (None, 'white', True),
+                                           True), word,
+                            print colorize('  SENSE:', (None, 'white', True),
+                                           True), sense
+                            wordnet_module.printWordSenses(
+                                wordnet_module.get_possible_meanings_of_word(
+                                    db, word), sense)
                             print
                     else:
                         print '%.3f    %s' % (v, a)
@@ -751,11 +864,12 @@ if __name__ == '__main__':
 
     if hasattr(inference.inference_steps[-1], 'executable_plans'):
         print
-        print colorize('+==========================+',  (None, 'green', True), True)
-        print colorize('| PARAMETERIZED ROBOT PLAN |',  (None, 'green', True), True)
-        print colorize('+==========================+',  (None, 'green', True), True)
+        print colorize('+==========================+', (None, 'green', True),
+                       True)
+        print colorize('| PARAMETERIZED ROBOT PLAN |', (None, 'green', True),
+                       True)
+        print colorize('+==========================+', (None, 'green', True),
+                       True)
         print
         for plan in step.executable_plans:
             print plan
-
-

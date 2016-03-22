@@ -32,7 +32,7 @@ log = logger(__name__)
 class PlanGenerator(PRACModule):
 
     def __call__(self, pracinference, **params):
-        print 'generating CRAM plan'
+        out('generating CRAM plan')
         infstep = PRACInferenceStep(pracinference, self)
         dbs = pracinference.inference_steps[-1].output_dbs
         infstep.output_dbs = dbs
@@ -43,14 +43,14 @@ class PlanGenerator(PRACModule):
                 for q in db.query(query):
                     actioncore = q['?ac']
                     ac = self.prac.actioncores.get(actioncore)
-                    if not ac.plan: continue
+                    if not ac.plan:
+                        continue
                     assignment = {}
                     role_assignments = [assignment]
-                    log.info('roles: ')
-                    print ac.roles
+                    out('roles: ')
+                    out(ac.roles)
                     for role in ac.roles:
                         for i, rq in enumerate(db.query('{0}(?w,{1}) ^ has_sense(?w, ?s)'.format(role, actioncore))):
-                            print i, rq
                             if i > 0:
                                 for ass in list(role_assignments):
                                     new_ass = copy.copy(ass)
@@ -59,10 +59,11 @@ class PlanGenerator(PRACModule):
                             else:
                                 for ass in role_assignments:
                                     ass[role] = rq['?s']
-                        #Handle missing plan parameters
-                        if not role in ass.keys():
+                        # Handle missing plan parameters
+                        if role not in ass.keys():
                             ass[role] = "Unknown"
                     for assignment in role_assignments:
-                        infstep.executable_plans.append(ac.parameterize_plan(**assignment))
+                        infstep.executable_plans.append(
+                            ac.parameterize_plan(**assignment))
                     break
         return infstep

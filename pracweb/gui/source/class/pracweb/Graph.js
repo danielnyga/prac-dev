@@ -30,7 +30,7 @@ qx.Class.define("pracweb.Graph",
         .attr('height','100%')
         .append('svg:g');
 
-    this.WAITMSEC = 500;
+    this.WAITMSEC = 200;
 
     this.audio = new Audio("/prac/static/audio/bubble.mp3");
 
@@ -132,7 +132,7 @@ qx.Class.define("pracweb.Graph",
      */
     addNode : function (id, tttext) {
       this.nodes.push({"id":id, 'text': tttext});
-      this.playSound();
+//      this.playSound();
       this.update();
     },
 
@@ -141,7 +141,7 @@ qx.Class.define("pracweb.Graph",
      */
     removeNode : function (id) {
       this.nodes.splice(this.findNodeIndex(id),1);
-      this.playSound();
+//      this.playSound();
       this.update();
     },
 
@@ -405,10 +405,10 @@ qx.Class.define("pracweb.Graph",
       this.force
         .size([this.w, this.h])
         .linkDistance( this.h/2 )
-        .charge(-1000)
+        .charge(-700)
         .on("tick", tick)
-        .gravity( .025 )
-        .distance( 250 )
+        .gravity( .1 )
+        .distance( 200 )
         .start();
     }
   }
