@@ -325,6 +325,7 @@ qx.Class.define("pracweb.Application",
         var ctr_browsermenu = new qx.ui.container
                                   .Composite(new qx.ui.layout.VBox());
         ctr_browsermenu.setAlignX('right');
+        ctr_browsermenu.setMinWidth(400);
 
         // action core selectbox
         var layout_ctr_ac = new qx.ui.layout.Grid();
@@ -382,15 +383,33 @@ qx.Class.define("pracweb.Application",
         this.__wordnetconcepts = [];
 
         // canvas for drawing distribution svg
+        var layout_ctr_distrsvg = new qx.ui.layout.HBox()
         var ctr_distrsvg = new qx.ui.container.Composite();
-        ctr_distrsvg.setLayout(new qx.ui.layout.Grow());
+        this._ctr_distrsvg = ctr_distrsvg;
+        ctr_distrsvg.setLayout(layout_ctr_distrsvg);
+        ctr_distrsvg.set({
+            width: document.getElementById("page", true, true).offsetWidth - 450
+        });
+
+        var scrollbar_distr = new qx.ui.core.scroll.ScrollBar("vertical").set({
+            width: 20,
+            maximum: 1000
+        });
+
+        var scrollctr_html_distr = new qx.ui.container.Scroll().set({
+            width: document.getElementById("page", true, true).offsetWidth - 450
+        });
+        this._scrollctr_html_distr = scrollctr_html_distr;
+
         var html_distr = new qx.ui.embed.Html();
         this.__html_distr = html_distr;
+        this.__zoom = 1;
 
 
         /* ********************** LISTENERS **********************************/
 
         btn_sel_roledistr.addListener("execute", this.get_dists, this);
+        scrollbar_distr.addListener("scroll", this.dist_zoom, this);
         sel_ac.addListener("changeSelection", this.change_ac ,this);
         sel_role.addListener("changeSelection", this.change_distr ,this);
 
@@ -402,10 +421,13 @@ qx.Class.define("pracweb.Application",
         ctr_browsermenu.add(ctr_rolesconcepts);
         ctr_browsermenu.add(ctr_roles);
 
-        ctr_distrsvg.add(html_distr);
+        scrollctr_html_distr.add(html_distr);
 
-        ctr_browser.add(ctr_browsermenu);
-        ctr_browser.add(ctr_distrsvg, {flex: 2, height: "100%"});
+        ctr_distrsvg.add(scrollbar_distr);
+        ctr_distrsvg.add(scrollctr_html_distr, {height: "100%"});
+
+        ctr_browser.add(ctr_browsermenu, {height: "100%"});
+        ctr_browser.add(ctr_distrsvg, {height: "100%"});
 
         /* ********************** SET UP MAIN LAYOUT *************************/
 
@@ -1499,13 +1521,28 @@ qx.Class.define("pracweb.Application",
     */
     change_distr : function(e){
         var selected_role = this._sel_role.getSelection();
-
+        var parentwidth = this._scrollctr_html_distr.getWidth();
         if (selected_role.length == 0) {
             this.__html_distr.setHtml('');
         } else {
             this.__html_distr.setHtml(this.__distributions[selected_role[0]
                                                             .getLabel()]);
         }
+        this.__html_distr.setMinWidth(parentwidth);
+        this.__html_distr.setMaxWidth(parentwidth);
+    },
+
+
+    /**
+    * Zoom in and out of distribution svg
+    */
+    dist_zoom : function(e){
+        var pos = e.getData()
+        var parentwidth = this._scrollctr_html_distr.getWidth();
+
+        this.__html_distr.setMinWidth(pos/1000*parentwidth+parentwidth);
+        this.__html_distr.setMaxWidth(pos/1000*parentwidth+parentwidth);
+
     }
   }
 });
