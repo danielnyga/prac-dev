@@ -1,0 +1,3 @@
+coreference(word,word)
+distance(word,word,dist?)
+
