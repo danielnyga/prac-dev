@@ -162,16 +162,17 @@ class NLParsing(PRACModule):
     
     def get_all_verbs(self,db):
         valid_predicate_tags = ['VB', 'VBG', 'VBZ', 'VBD', 'VBN', 'VBP']
-        predicate_list=[]
+        verb_list=[]
         
         for q in db.query('has_pos(?w,?p)'):
             word_pos = q['?p']
             word = q['?w']
             
             if word_pos in valid_predicate_tags and not self.is_aux_verb(word, db):
-                predicate_list.append(word)
+                verb_list.append(word)
         
-        return predicate_list
+        #Sort list by the order occurrence of the verbs
+        return sorted(verb_list, key=lambda verb: int(verb.split('-')[-1]))
       
     def extract_multiple_action_cores(self,db):
         dbs = []
@@ -188,7 +189,6 @@ class NLParsing(PRACModule):
             while remaining_word_set:
                 processed_word = remaining_word_set.pop()
                 for atom, _ in sorted(db.evidence.iteritems()):
-                    
                     _ , pred , args = db.mln.logic.parse_literal(atom)
                     word1 = args[0]
                     word2 = args[1]
@@ -199,12 +199,11 @@ class NLParsing(PRACModule):
                     elif word2 == processed_word:
                         dependency_word = word1
                     
-                    if dependency_word and (not dependency_word in verb_list) and (not dependency_word in processed_word_set):#                      print "ADDED ATOM"
+                    if dependency_word and (not dependency_word in verb_list) and (not dependency_word in processed_word_set):
                         db_ << atom
                         if pred != 'has_pos':
                             remaining_word_set.add(dependency_word)
                 processed_word_set.add(processed_word)
-            
             dbs.append(db_)
         return dbs
     
