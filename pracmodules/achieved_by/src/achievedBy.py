@@ -75,6 +75,19 @@ class AchievedBy(PRACModule):
         dbs = pracinference.inference_steps[-1].output_dbs
 
         for olddb in dbs:
+            #To handle multiple acs in one task, we have to check if the single dbs contain achieved_bys which representing already plans
+            skip_db = False
+            for q in olddb.query('achieved_by(?w,?ac)'):
+                actioncore = q['?ac']
+                mod = self.prac.getModuleByName('roles_transformation')
+                plans = mod.getPlanList()
+                if actioncore in plans:
+                    skip_db = True 
+            
+            if skip_db:
+                inf_step.output_dbs.append(olddb)
+                continue
+                
             for q in olddb.query('action_core(?w,?ac)'):
                 actioncore = q['?ac']
                 #This list is used to avoid an infinite loop during the achieved by inference.
@@ -124,7 +137,7 @@ class AchievedBy(PRACModule):
                 # only add inferred achieved_by atoms, leave out 0-evidence atoms
                 for q in result_db.query('achieved_by(?ac1,?ac2)'):
                     unified_db << 'achieved_by({},{})'.format(q['?ac1'],q['?ac2'])
-
+                
                 inf_step.output_dbs.append(unified_db)
 
             png, ratio = get_cond_prob_png(project.queryconf.get('queries', ''), dbs, filename=self.name)

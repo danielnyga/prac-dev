@@ -718,6 +718,7 @@ if __name__ == '__main__':
         app = PRACQueryGUI(root, inference, conf, directory=args[0] if args else None)
         root.mainloop()
     else: # regular PRAC pipeline
+        
         while inference.next_module() != None :
             modulename = inference.next_module()
             module = prac.getModuleByName(modulename)
