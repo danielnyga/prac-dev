@@ -226,9 +226,11 @@ members : {
         win_cramplans.setHeight(300);
         win_cramplans.setShowMinimize(false);
         win_cramplans.setLayout(new qx.ui.layout.Grow());
-        this._txtarea_cramplans = new qx.ui.form.TextArea("").set({
-            font: qx.bom.Font.fromString("14px monospace")
-        });
+        //this._txtarea_cramplans = new qx.ui.form.TextArea("").set({
+        //    font: qx.bom.Font.fromString("14px monospace")
+        //});
+        this._txtarea_cramplans = new qx.ui.embed.Html("");
+        //this._txtarea_cramplans.setCssClass("formatcp");
 
         win_cramplans.add(this._txtarea_cramplans);
         this.getRoot().add(win_cramplans, {left:20, top:20});
@@ -1279,7 +1281,10 @@ members : {
             var response = tar.getResponse();
 
             if (response.plans) {
-                this._txtarea_cramplans.setValue(response.plans.join(''));
+                for (var i = 0; i < response.plans.length; i++) {
+                    response.plans[i] = formatCP(response.plans[i]);
+                }
+                this._txtarea_cramplans.setHtml(response.plans.join(''));
                 this.__win_cramplans.open();
                 return;
             }
