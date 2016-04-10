@@ -1,6 +1,7 @@
 var tabbed = ["contains", "to", "amount", "number", "destination"];
 var align = ["from", "liquid"];
 var alignType = ["a quantity \\(type", "an object \\(type"];
+var misc = ["some stuff"];
 
 function formatCP(cramPlan) {
     if (((cramPlan.match(/\(/g) || []).length) < 5) return (cramPlan + "<br><br>");
@@ -26,7 +27,7 @@ function formatCP(cramPlan) {
         tempAlignArray = [];
         for (var j = 0; j < alignArray.length; j++) {
             if (alignArray2[j] == i-1) {
-                if (!j || alignArray2[j-1] != alignArray2[j]) {  
+                if (!j || alignArray2[j-1] != alignArray2[j]) {
                     textSplit[i-1] = "<div id=\"cf\">" + textSplit[i-1].slice(0,alignArray[j]) + "&nbsp;<br>&nbsp;</div>" + textSplit[i-1].slice(alignArray[j],textSplit[i-1].length);
                     for (var k = 0; k < alignArray2.length; k++) {
                         if (alignArray2[k] == j) {
@@ -81,7 +82,20 @@ function formatCP(cramPlan) {
             }
         }
         alignArray = alignArray.concat(tempAlignArray.sort());
-    }
-    return textSplit.join("<br>") + "<br><br>";
+    } 
+    return "<span style=\"font-family: courier new;\">" + highlightCP(textSplit.join("<br>")) + "</span><br><br>";
 }
 
+function highlightCP(cramHtml) {
+    cramHtml = cramHtml.replace(new RegExp("(\\d+)", "g"), "<span style='color:#008c00; '>$1</span>");
+    specialCases = alignType.concat(misc);
+    for (var i = 0; i < specialCases.length; i++) {
+        var tempSplit = [];
+        tempSplit = specialCases[i].split(" \\(");
+        cramHtml = cramHtml.replace(new RegExp("\\(" + tempSplit[0], "g"), "(<span style='color:#800000; font-weight:bold; '>" + tempSplit[0] + "</span>");
+    }
+    cramHtml = cramHtml.replace(new RegExp("(\\([^ <>]+)", "g"), "<span style='color:#800000; font-weight:bold; '>$1</span>");
+    cramHtml = cramHtml.replace(new RegExp("([\\(\\)]+)", "g"), "<span style='color:#808030; '>$1</span>");
+
+    return cramHtml;
+}
