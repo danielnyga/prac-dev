@@ -94,7 +94,7 @@ function highlightCP(cramHtml) {
         tempSplit = specialCases[i].split(" \\(");
         cramHtml = cramHtml.replace(new RegExp("\\(" + tempSplit[0], "g"), "(<span style='color:#800000; font-weight:bold; '>" + tempSplit[0] + "</span>");
     }
-    cramHtml = cramHtml.replace(new RegExp("(\\([^ <>]+)", "g"), "<span style='color:#800000; font-weight:bold; '>$1</span>");
+    cramHtml = cramHtml.replace(new RegExp("\\(([^ <>]+)", "g"), "(<span style='color:#800000; font-weight:bold; '>$1</span>");
     cramHtml = cramHtml.replace(new RegExp("([\\(\\)]+)", "g"), "<span style='color:#808030; '>$1</span>");
 
     return cramHtml;
