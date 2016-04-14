@@ -68,13 +68,16 @@ class ControlStructureIdentification(PRACModule):
         inf_step = PRACInferenceStep(pracinference, self)
 
         for db in dbs:
-            
+            db_ = db.copy()
             # result_db = list(kb.infer(tmp_union_db))[0]
             infer = MLNQuery(config=ac_project.queryconf, db=db, mln=mln).run()
             result_db = infer.resultdb
-
-            unified_db = result_db.union(db, mln=self.prac.mln)
-            inf_step.output_dbs.append(unified_db)
+            for q in result_db.query('event(?w,?ac)'):
+                db_ << 'event({},{})'.format(q['?w'],q['?ac'])
+            for q in result_db.query('condition(?w)'):
+                db_ << 'condition({})'.format(q['?w'])
+                
+            inf_step.output_dbs.append(db_)
 
         png, ratio = get_cond_prob_png(ac_project.queryconf.get('queries', ''), dbs, filename=self.name)
         inf_step.png = (png, ratio)

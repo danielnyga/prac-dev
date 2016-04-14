@@ -148,6 +148,7 @@ class NLParsing(PRACModule):
         self.stanford_parser = None
         if not java.isJvmRunning():
             java.startJvm()
+            
     def is_aux_verb(self,word,db):
         #regex_aux = re.compile('aux\s*\(\s*(\w+)-{0,1}\d*\s*,\s*'+word+'\s*\)')
         #regex_auxpass = re.compile('auxpass\s*\(\s*\w+-{0,1}\d*\s*,\s*'+word+'\s*\)')
@@ -188,21 +189,29 @@ class NLParsing(PRACModule):
             
             while remaining_word_set:
                 processed_word = remaining_word_set.pop()
+                is_condition = False
+                
                 for atom, _ in sorted(db.evidence.iteritems()):
                     _ , pred , args = db.mln.logic.parse_literal(atom)
-                    word1 = args[0]
-                    word2 = args[1]
                     
-                    dependency_word = ""
-                    if word1 == processed_word: 
-                        dependency_word = word2
-                    elif word2 == processed_word:
-                        dependency_word = word1
-                    
-                    if dependency_word and (not dependency_word in verb_list) and (not dependency_word in processed_word_set):
+                    if len(args) == 1 and args[0] == processed_word: 
                         db_ << atom
-                        if pred != 'has_pos':
-                            remaining_word_set.add(dependency_word)
+                        is_condition = True
+                    elif len(args) > 1:
+                        word1 = args[0]
+                        word2 = args[1]
+                        
+                        dependency_word = ""
+                        if word1 == processed_word: 
+                            dependency_word = word2
+                        elif word2 == processed_word:
+                            dependency_word = word1
+                        
+                        if dependency_word and (not dependency_word in verb_list or pred == "event") and (not dependency_word in processed_word_set):
+                            if pred != 'event' or not is_condition: 
+                                db_ << atom
+                            if pred != 'has_pos' and pred != 'event':
+                                remaining_word_set.add(dependency_word)
                 processed_word_set.add(processed_word)
             dbs.append(db_)
         return dbs
@@ -285,7 +294,7 @@ class NLParsing(PRACModule):
                 db << posTagAtom
                 self.posTags[pos[0]] = pos[1]
             
-            inferenceStep.output_dbs.extend(self.extract_multiple_action_cores(db))
+            inferenceStep.output_dbs.append(db)
             
             print
             print colorize('Syntactic evidence:', (None, 'white', True), True)
