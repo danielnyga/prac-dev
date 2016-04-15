@@ -234,5 +234,3 @@ class NLParsing(PRACModule):
             
             
         return inferenceStep
-
-            

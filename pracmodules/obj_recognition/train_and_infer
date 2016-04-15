@@ -11,4 +11,4 @@ pracobjrec -r -m [...]/prac/pracmodules/obj_recognition/mln/trained.mln FuzzyLog
 #------------------------------------------------------------------------------
 
 # k-fold cross validation
-pracxfold --dbs [...]/prac/pracmodules/obj_recognition/db/natLan.db --mln [...]/prac/pracmodules/obj_recognition/mln/objInf.mln --predicate object --domain cluster --folder folderName --module obj_recognition --multicore --folds 10
+pracxfold --dbs [...]/prac/pracmodules/o    bj_recognition/db/natLan.db --mln [...]/prac/pracmodules/obj_recognition/mln/objInf.mln --predicate object --domain cluster --folder folderName --module obj_recognition --multicore --folds 10
