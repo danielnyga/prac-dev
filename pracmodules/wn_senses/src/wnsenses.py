@@ -184,16 +184,13 @@ class WNSenses(PRACModule):
           0.300  is_a(pot.n.01, pancake.n.01)
           1.000  is_a(pot.n.01, spatula.n.01)``
         """
+
         for c in db.domains['sense']:
-            print c
             synset = self.prac.wordnet.synset(c)
-            for c2 in mln.domains['concept']:
+            for c2 in mln.domains['concept'] + db.domains['concept']:
                 synset2 = self.prac.wordnet.synset(c2)
                 db << ('is_a(%s, %s)' % (synset.name, synset2.name),
                        self.prac.wordnet.similarity(synset, synset2))
-        print 'db in sims'
-        db.write()
-        print
         return db
 
 

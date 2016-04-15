@@ -60,7 +60,7 @@ class SensesAndRoles(PRACModule):
     def __call__(self, pracinference, **params):
 
         print colorize('+==========================================+', (None, 'green', True), True)
-        print colorize('| PRAC INFERENCE: RECOGNIZING %s ROLES     ' % ({True: 'MISSING', False: 'GIVEN'}[params.get('missing', False)]), (None, 'green', True), True)
+        print colorize('| PRAC INFERENCE: RECOGNIZING %s ROLES     ' % ({True: 'MISSING', False: 'GIVEN'}[params.get('missing', True)]), (None, 'green', True), True)
         print colorize('+==========================================+', (None, 'green', True), True)
 
         dbs = pracinference.inference_steps[-1].output_dbs
@@ -145,10 +145,6 @@ class SensesAndRoles(PRACModule):
                 # for them to final output db. ignore 0-truth results.
                 unified_db = new_tmp_union_db.union(result_db, mln=self.prac.mln)
 
-                out('evidence db')
-                unified_db.write(bars=False)
-
-
                 # argdoms = kb.query_mln.predicate(role).argdoms
                 roles = ActioncoreDescriptionHandler.getRolesBasedOnActioncore(actioncore)
                 new_result = Database(self.prac.mln)
@@ -158,7 +154,6 @@ class SensesAndRoles(PRACModule):
                         if not args[-1] == actioncore:
                             continue
                     new_result << (atom, truth)
-                new_result.write(bars=False)
 
                 if 'missing' not in params:
                     for q in unified_db.query('has_sense(?w, ?s)', thr=1):
@@ -188,9 +183,6 @@ class SensesAndRoles(PRACModule):
     def role_distributions(self, step):
         distrs = {}
         for db_ in step.output_dbs:
-            print 'db before update'
-            db_.write(bars=False)
-            print
             for word in db_.domains['word']:
                 for q in db_.query('action_core(?w,?ac)'):
                     #
@@ -243,9 +235,6 @@ class SensesAndRoles(PRACModule):
                         db.retract('has_sense(%s, %s)' % (word, sense))
                         add_all_wordnet_similarities(db, wn)
 
-                        print 'db before update'
-                        db.write(bars=False)
-                        print
                         infer = MLNQuery(method='EnumerationAsk',
                                          mln=mln,
                                          db=db,
