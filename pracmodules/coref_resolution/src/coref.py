@@ -27,7 +27,7 @@ from prac.core.inference import PRACInferenceStep, PRACInference
 from prac.core.wordnet import WordNet
 from pracmln import praclog, MLNQuery, Database
 from pracmln.mln.base import parse_mln
-from pracmln.mln.util import colorize
+from pracmln.mln.util import colorize, stop
 from pracmln.utils.project import MLNProject, PRACMLNConfig
 from pracmln.utils.visualization import get_cond_prob_png
 
@@ -66,27 +66,28 @@ class CorefResolution(PRACModule):
                 for q in dbs[i].query('action_core(?w,?ac)'):
                     ac = q['?ac']
                 print colorize('Loading Project {}'.format(ac),
-                                  (None, 'cyan', True),
-                                  True)
+                               (None, 'cyan', True),
+                               True)
                 log.info(colorize('Loading Project {}'.format(ac),
                                   (None, 'cyan', True),
                                   True))
                 projectpath = self.module_path
-                project = MLNProject.open(os.path.join(projectpath, ac))
+                project = MLNProject.open(
+                    os.path.join(projectpath, '{}.pracmln'.format(ac)))
+
+                # retrieve all words from the dbs to calculate distances
+                # do not use pracinference.instructions as they are not
+                # modified by the Stanford parser.
+                for s in range(max(0, i - 2), i + 1):
+                    sen = [x['?w'] for x in
+                           list(dbs[s].query('has_pos(?w,?pos)'))]
+                    sentences.append(sen)
+                    corefdb = corefdb.union(dbs[s], self.prac.mln)
 
                 # remove all senses from the databases' domain, that are not
                 # assigned to any word.
                 for q in corefdb.query('!(EXIST ?w (has_sense(?w,?sense)))'):
                     corefdb.rmval('sense', q['?sense'])
-
-                # retrieve all words from the dbs to calculate distances
-                # do not use pracinference.instructions as they are not
-                # modified by the Stanford parser.
-                for s in range(max(0, i - 3), i + 1):
-                    sen = [x['?w'] for x in
-                           list(dbs[s].query('has_pos(?w,?pos)'))]
-                    sentences.append(sen)
-                    corefdb = corefdb.union(dbs[s], self.prac.mln)
 
                 # preprocessing: adding distance information for each
                 # word-word pair in the instructions
@@ -99,6 +100,7 @@ class CorefResolution(PRACModule):
                 for sc in sentencecombinations:
                     for w1 in sc[0][1][1]:
                         for w2 in sc[1][1][1]:
+                            if w1[1] == w2[1]: continue
                             d = sc[0][0] - sc[1][0]
                             if d < 0:
                                 dist = abs(d)
@@ -128,13 +130,32 @@ class CorefResolution(PRACModule):
                 wordnet_module = self.prac.getModuleByName('wn_senses')
                 newdatabase = wordnet_module.add_sims(corefdb, mln)
 
-                print colorize('+=========new DB========================+',
-                               (None, 'green', True), True)
-                newdatabase.write(bars=False)
-                print colorize('+=========/new DB========================+',
+                # update queries depending on missing roles
+                acroles = self.prac.actioncores[ac].roles
+                missingroles = [x for x in acroles if len(
+                    list(newdatabase.query('{}(?w,Adding)'.format(x)))) == 0]
+                conf = project.queryconf
+                conf.update({'queries': ','.join(missingroles)})
+                print colorize('querying for {}'.format(conf['queries']),
                                (None, 'green', True), True)
 
-                infer = MLNQuery(config=project.queryconf,
+                # asserting impossible role-ac combinations, leaving previously
+                # inferred roles untouched
+                acs = list(set(newdatabase.domains['actioncore'] + mln.domains[
+                    'actioncore']))
+                acs.remove(ac)
+                for w in newdatabase.domains['word']:
+                    for ac1 in acs:
+                        for r in missingroles:
+                            if list(newdatabase.query('{}({},{})'.format(r, w, ac1))):
+                                continue
+                            else:
+                                newdatabase << '!{}({},{})'.format(r, w, ac1)
+
+                newdatabase.write(bars=False)
+                stop('newdatabase after assertions')
+
+                infer = MLNQuery(config=conf,
                                  db=newdatabase,
                                  mln=mln).run()
                 result_db = infer.resultdb
