@@ -32,7 +32,7 @@ from pracmln import Database, MLN
 import pracmln
 from pracmln.mln.base import parse_mln
 from pracmln.mln.database import parse_db
-from pracmln.mln.util import mergedom, out
+from pracmln.mln.util import mergedom, out, stop
 from pracmln.mlnquery import MLNQuery
 from pracmln.utils.config import query_config_pattern
 from pracmln.utils.project import PRACMLNConfig
@@ -193,9 +193,17 @@ class ActionCore(object):
     
     
     def __init__(self):
-        self.roles = []
+        self._roles = []
         pass
-    
+
+    @property
+    def roles(self):
+        return self._roles
+
+    @roles.setter
+    def roles(self, rs):
+        self._roles = rs
+
     def isLearned(self):
         '''
         Returns True if there is a learned MLN available for this action action
