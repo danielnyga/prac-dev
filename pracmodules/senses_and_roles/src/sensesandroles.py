@@ -60,7 +60,7 @@ class SensesAndRoles(PRACModule):
     def __call__(self, pracinference, **params):
 
         print colorize('+==========================================+', (None, 'green', True), True)
-        print colorize('| PRAC INFERENCE: RECOGNIZING %s ROLES     ' % ({True: 'MISSING', False: 'GIVEN'}[params.get('missing', True)]), (None, 'green', True), True)
+        print colorize('| PRAC INFERENCE: RECOGNIZING %s ROLES     ' % ({True: 'MISSING', False: 'GIVEN'}[params.get('missing', False)]), (None, 'green', True), True)
         print colorize('+==========================================+', (None, 'green', True), True)
 
         dbs = pracinference.inference_steps[-1].output_dbs
