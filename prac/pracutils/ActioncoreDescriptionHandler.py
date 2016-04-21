@@ -46,6 +46,13 @@ class ActioncoreDescriptionHandler(object):
         return ADHandler.actioncoreDescription[actioncore]['action_roles']
     
     @staticmethod
+    def get_required_roles_based_on_actioncore(actioncore):
+        ADHandler = ActioncoreDescriptionHandler
+        if ADHandler.actioncoreDescription == {}:
+            ADHandler.loadActioncoreDescription()
+        return ADHandler.actioncoreDescription[actioncore]['required_action_roles']
+    
+    @staticmethod
     def roles():
         ActioncoreDescriptionHandler.loadActioncoreDescription()
         return set(reduce(list.__add__, [ActioncoreDescriptionHandler.actioncoreDescription[ac]['action_roles'] for ac in ActioncoreDescriptionHandler.actioncoreDescription]))

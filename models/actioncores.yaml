@@ -23,7 +23,7 @@
 
 action_core: Neutralizing
 action_roles: ['neutralizee','neutralizer','action_verb','amount','unit']
-
+required_action_roles: ['neutralizee','neutralizer','action_verb']
 ---
 
 action_core: Filling

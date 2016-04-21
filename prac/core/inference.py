@@ -88,6 +88,7 @@ class PRACInference(object):
         elif previous_module == 'ac_recognition':
             return 'senses_and_roles'
         elif previous_module == 'senses_and_roles':
+            return 'role_look_up'
             for outdb in self.inference_steps[-1].output_dbs:
                 for r in outdb.query('action_core(?w, ?a)'):
                     actioncore = r['?a']
