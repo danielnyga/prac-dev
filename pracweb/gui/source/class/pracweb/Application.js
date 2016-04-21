@@ -204,7 +204,7 @@ qx.Class.define("pracweb.Application",
 
             var req = new qx.io.request.Xhr('/prac/_execute_plan', 'POST');
             req.setRequestHeader("Content-Type", "application/json");
-
+            // we on't need the fake plan string at the moment, but it could come handy later
             req.setRequestData({ 'plan': cramPlan});
             var that = this;
             req.addListener("success", function(e) {

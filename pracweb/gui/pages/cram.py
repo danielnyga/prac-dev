@@ -29,8 +29,7 @@ import std_msgs.msg
 
 # imports the service
 from prac2cram.srv import Prac2Cram
-#ActionCore[] action_cores # each action core contains a list of action roles
-#string plan  # plan name according to the last (executable) action core
+# ActionCore[] action_cores # each action core contains a list of action roles
 
 # import the messages
 from prac2cram.msg import ActionCore, ActionRole
@@ -42,7 +41,7 @@ awn = AcatWordnet(concepts=None)
 @pracApp.app.route('/prac/_execute_plan', methods=['POST', 'GET'])
 def execute_plan():
     pracsession = ensure_prac_session(session)
-    #pracsession.ĺog.info('execute_plan called') # warum error??
+    #pracsession.ĺog.info('execute_plan called') # why will this throw an error here??
     method = request.method
     if method == 'POST':
         data = json.loads(request.get_data())
@@ -58,10 +57,8 @@ def execute_plan():
 
 def _execute_plan(pracsession, timeout, method, data):
 
-    pracsession.log.info('executing plan...')
+    pracsession.log.info('Sending action cores to PRAC...')
     pracsession.log.info(data)
-
-    plan = data['plan']
 
     print pracsession.actioncores
     ros_actioncores = []
@@ -81,7 +78,7 @@ def _execute_plan(pracsession, timeout, method, data):
     try:
         # create a handle to the ROS service
         prac2cram = rospy.ServiceProxy('prac2cram', Prac2Cram)
-        resp = prac2cram(ros_actioncores, plan)
+        resp = prac2cram(ros_actioncores)
         pracsession.log.info('Response: %s' %resp)
         if resp.status: # if error
             message = 'The CRAM service request failed!'
