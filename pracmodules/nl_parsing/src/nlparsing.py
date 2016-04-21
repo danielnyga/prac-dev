@@ -178,9 +178,17 @@ class NLParsing(PRACModule):
     def extract_multiple_action_cores(self,db):
         dbs = []
         verb_list = self.get_all_verbs(db) 
-        if verb_list < 2:
+        if len(verb_list) < 2:
             return [db]
         
+        #TODO improve the handling
+        #Handle sentence with start with .....
+        if len(verb_list) == 2:
+            db.write()
+            for word in ['start','Start']:
+                for _ in db.query('prepc_with({}-1,?p)'.format(word)):
+                    return [db]
+                
         for verb in verb_list:
             db_ = Database(self.mln)
             processed_word_set = set()

@@ -156,7 +156,7 @@ class SensesAndRoles(PRACModule):
                     #     log.info('Adding {}({}) to output database'.format(role, ','.join([q['?{}'.format(x)] for x in argdoms])))
                     #     unified_db << '{}({})'.format(role, ','.join([q['?{}'.format(x)] for x in argdoms]))
                     # add inferred senses to final output db
-
+                
                 if 'missing' not in params:
                     for q in unified_db.query('has_sense(?w, ?s)', thr=1):
                         #TODO Add additional formulas to avoid the using of null values
