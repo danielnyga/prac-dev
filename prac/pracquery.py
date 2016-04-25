@@ -731,7 +731,6 @@ if __name__ == '__main__':
         
         while inference.next_module() != None :
             modulename = inference.next_module()
-            print modulename
             module = prac.getModuleByName(modulename)
             prac.run(inference, module)
 

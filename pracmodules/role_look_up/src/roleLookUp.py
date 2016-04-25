@@ -110,8 +110,10 @@ class RoleLookUp(PRACModule):
                         
                         i = 0
                         for missing_role in missing_role_set:
+                            print "Found {} as {}".format(frame[missing_role],missing_role)
                             atom_role = "{}({},{})".format(missing_role,"word_mongo_{}".format(str(i)),actioncore)
                             atom_sense = "{}({},{})".format('has_sense',"word_mongo_{}".format(str(i)),frame[missing_role])
+                            
                             db_ << (atom_role,1.0)
                             db_ << (atom_sense,1.0)
                             i += 1
