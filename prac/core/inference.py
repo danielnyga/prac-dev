@@ -91,9 +91,10 @@ class PRACInference(object):
             return 'senses_and_roles'
         elif previous_module == 'senses_and_roles':
             for outdb in self.inference_steps[-1].output_dbs:
+                '''
                 if self.is_task_missing_roles(outdb):
                     return 'role_look_up'
-                
+                '''
                 for r in outdb.query('action_core(?w, ?a)'):
                     actioncore = r['?a']
                     mod = self.prac.getModuleByName('roles_transformation')
