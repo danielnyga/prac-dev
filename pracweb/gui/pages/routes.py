@@ -25,6 +25,7 @@ def register_routes():
 
     from pracweb.gui.pages import pracSpec
     from pracweb.gui.pages import inference
+    from pracweb.gui.pages import browser
     from pracweb.gui.pages import views
     from pracweb.gui.pages import utils
     from pracweb.gui.pages import cram

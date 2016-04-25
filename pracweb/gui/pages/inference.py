@@ -197,7 +197,8 @@ def _get_cram_plan():
     else:
         cramplans = []
 
-    return jsonify({'plans': [format_cram_string(cp) for cp in cramplans]})
+    #return jsonify({'plans': [format_cram_string(cp) for cp in cramplans]})
+    return jsonify({'plans': cramplans})
 
 
 @pracApp.app.route('/prac/_pracinfer_get_cond_prob', methods=['GET'])
@@ -216,6 +217,7 @@ def _get_cond_prob():
 def _get_role_distributions():
     pracsession = ensure_prac_session(session)
     prac = pracsession.prac
+    # prac.wordnet = wn
     prac.wordnet = WordNet()
     module = prac.getModuleByName('senses_and_roles')
     role_dists = module.role_distributions(pracsession.sar_step)

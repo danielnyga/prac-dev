@@ -36,6 +36,7 @@ from pracmln.praclog import logger
 
 log = logger(__name__)
 
+basecols = ['green', 'yellow', 'brown', 'red', 'blue', 'orange']
 nounTags = ['NN', 'NNS', 'NNP', 'CD']
 verbTags = ['VB', 'VBG', 'VBZ', 'VBD', 'VBN', 'VBP', 'MD']
 adjTags = ['JJ', 'JJR', 'JJS']
@@ -101,12 +102,20 @@ class WNSenses(PRACModule):
             # extract everything except the number (e.g. compound words like
             # heart-shaped from heart-shaped-4)
             word = '-'.join(word_const.split('-')[:-1])
+            # if len(wordnet.synsets(word, pos)) == 0:
+            #     similarcols = sorted([x for x in [(word_const.find(col), col) for col in basecols] if x[0] >= 0])
+            #     word2senses[word_const].append(sense_id)
+            #     for concept in concepts:
+            #         sim = wordnet.path_similarity(synset, concept)
+            #         db_ << ('is_a({},{})'.format(sense_id, concept), sim)
+            # else:
             for i, synset in enumerate(wordnet.synsets(word, pos)):
                 sense_id = synset.name
                 word2senses[word_const].append(sense_id)
                 for concept in concepts:
                     sim = wordnet.path_similarity(synset, concept)
                     db_ << ('is_a({},{})'.format(sense_id, concept), sim)
+
         for word in word2senses:
             for word2, senses in word2senses.iteritems():
                 if word2 == word:
@@ -156,6 +165,35 @@ class WNSenses(PRACModule):
                 synset2 = self.prac.wordnet.synset(c2)
                 db << ('is_a(%s, %s)' % (synset.name, synset2.name),
                        self.prac.wordnet.similarity(synset, synset2))
+        return db
+
+
+    def add_sims(self, db, mln):
+        """
+        Adds for each sense s_db in the database the similarities to each
+        concept in the mln c_mln, i.e. the atom 'is_a(s_db,c_mln)'
+        Example:
+
+        ``senses_db = [pancake.n.01, spatula.n.01]``
+        ``concepts_mln = [milk.n.01, pot.n.01]``
+
+        will be transformed into
+
+        ``1.000  is_a(milk.n.01, pancake.n.01)
+          0.300  is_a(milk.n.01, spatula.n.01)
+          0.300  is_a(pot.n.01, pancake.n.01)
+          1.000  is_a(pot.n.01, spatula.n.01)``
+        """
+        for c in db.domains['sense']:
+            print c
+            synset = self.prac.wordnet.synset(c)
+            for c2 in mln.domains['concept']:
+                synset2 = self.prac.wordnet.synset(c2)
+                db << ('is_a(%s, %s)' % (synset.name, synset2.name),
+                       self.prac.wordnet.similarity(synset, synset2))
+        print 'db in sims'
+        db.write()
+        print
         return db
 
 

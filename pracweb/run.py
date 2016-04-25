@@ -35,7 +35,6 @@ if __name__ == '__main__':
         pracApp.app.run(host='0.0.0.0',
                         port=5001,
                         threaded=True)
-
     elif 'PRAC_SERVER' in os.environ and os.environ['PRAC_SERVER'] == 'testing':
         log.debug('Running PRACWEB in testing mode')
 
