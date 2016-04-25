@@ -4,7 +4,9 @@ var alignType = ["a quantity \\(type", "an object \\(type"];
 var misc = ["some stuff"];
 
 function formatCP(cramPlan) {
-    if (((cramPlan.match(/\(/g) || []).length) < 5) return (cramPlan + "<br><br>");
+    if (((cramPlan.match(/\(/g) || []).length) < 5) {
+        return '<span style="font-family: courier new,monospace; font-size:14px;">' + highlightCP(cramPlan + "<br><br>") + "</span><br><br>";
+    } 
     var idx;
     var textPre;
     var textPost;
@@ -83,7 +85,8 @@ function formatCP(cramPlan) {
         }
         alignArray = alignArray.concat(tempAlignArray.sort());
     } 
-    return "<span style=\"font-family: courier new;\">" + highlightCP(textSplit.join("<br>")) + "</span><br><br>";
+
+    return '<span style="font-family: courier new,monospace; font-size:14px;">' + highlightCP(textSplit.join("<br>")) + "</span><br><br>";
 }
 
 function highlightCP(cramHtml) {

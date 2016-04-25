@@ -272,4 +272,5 @@ def init_options():
                                                               'models',
                                                               'actioncores.yaml')).keys())
     return jsonify({"actioncores": actioncores,
-                    "data": pracsession.prac.wordnet.get_all_synsets()})
+                    "data": pracsession.prac.wordnet.get_all_synsets(),
+                    "useros": pracApp.app.config['rospy']})

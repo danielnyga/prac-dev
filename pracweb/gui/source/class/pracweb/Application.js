@@ -221,72 +221,6 @@ members : {
         var grp_pracinfcontrols = this.buildControlPane();
         this._grp_pracinfcontrols = grp_pracinfcontrols;
 
-        var win_cramplans = new qx.ui.window.Window('Cram Plans');
-        win_cramplans.setWidth(900);
-        win_cramplans.setHeight(300);
-        win_cramplans.setShowMinimize(false);
-        win_cramplans.setLayout(new qx.ui.layout.Canvas());
-        //this._txtarea_cramplans = new qx.ui.form.TextArea("").set({
-        //    font: qx.bom.Font.fromString("14px monospace")
-        //});
-        this._txtarea_cramplans = new qx.ui.embed.Html("");
-        //this._txtarea_cramplans.setCssClass("formatcp");
-
-
-        // begin PRAC2CRAM extension
-        var button_cram = new qx.ui.form.Button("Execute");
-
-        button_cram.addListener("execute", function (e) {
-
-            // this is a string, including html tags!
-            // tags should be removed before this is usable!
-            cramPlan = this._txtarea_cramplans.getHtml();
-            cramPlan = cramPlan.trim();
-            var updatedText = cramPlan + "<p>Sending CRAM plan to execute...</p>";
-
-            this._txtarea_cramplans.setHtml(updatedText);
-
-            var req = new qx.io.request.Xhr('/prac/_execute_plan', 'POST');
-            req.setRequestHeader("Content-Type", "application/json");
-            // we on't need the fake plan string at the moment, but it could come handy later
-            // so it's included in the data but not send to the service
-            req.setRequestData({ 'plan': cramPlan});
-            var that = this;
-            // when the ROS service call returns success
-            req.addListener("success", function(e) {
-
-               var tar = e.getTarget();
-               var response = tar.getResponse();
-               that.notify(response.message, 500);
-               if (response.status == 0) {
-
-               // switch automatically to gazebo tab
-               that.__tabview.setSelection([this.__page_gzweb]); //  must be given as a list with one element
-               // make the CRAM plan window smaller
-               that.__win_cramplans.setWidth(400);
-               // and move it where it  won  disturb
-               that.__win_cramplans.moveTo(50, (h-500));
-               // disable the Execute-button
-               this.__button_cram.setEnabled(false);
-               var h = document.getElementById("page", true, true).offsetHeight;
-
-
-               }
-            }, this);
-            req.send();
-        }, this);
-
-        this.__button_cram = button_cram;
-
-        win_cramplans.add(this._txtarea_cramplans,  {left:"0%", top:"0%", right:"0%", bottom:" 15%"});
-        win_cramplans.add(button_cram,  {right:"0%", bottom:"1%", width:"20%"});
-
-        this.getRoot().add(win_cramplans, {left:10, top:10});
-        this.__win_cramplans = win_cramplans;
-
-        // end PRAC2CRAM extension
-
-
         /* ************************ LISTENERS ********************************/
 
         win_logging.addListener("close", function() {
@@ -356,6 +290,7 @@ members : {
         ctr_graph_visualization.add(img_inferencelogo, { left: 5, top: 5});
         splitpane.add(ctr_infsettings, {width: "20%"});
         splitpane.add(ctr_graph_visualization);
+
         ctr_inference.add(splitpane, {flex: 1, width: "100%"});
         ctr_inference.add(grp_pracinfcontrols, {width: "100%"});
 
@@ -538,37 +473,106 @@ members : {
         ctr_browser.add(ctr_browsermenu, {height: "100%"});
         ctr_browser.add(ctr_distrsvg, {height: "100%"});
 
+        /* ********************** GAZEBO PAGE *****************************/
+
+        /* ********************** CREATE ELEMENTS ****************************/
+
+        var win_cramplans = new qx.ui.window.Window('Cram Plans');
+        win_cramplans.setWidth(900);
+        win_cramplans.setHeight(300);
+        win_cramplans.setShowMinimize(false);
+        win_cramplans.setLayout(new qx.ui.layout.Canvas());
+        this.__win_cramplans = win_cramplans;
+        //this._txtarea_cramplans = new qx.ui.form.TextArea("").set({
+        //    font: qx.bom.Font.fromString("14px monospace")
+        //});
+        this._txtarea_cramplans = new qx.ui.embed.Html("");
+        //this._txtarea_cramplans.setCssClass("formatcp");
+
+        var button_cram = new qx.ui.form.Button("Execute");
+        this.__button_cram = button_cram;
+
+        var iframe_gzweb = new qx.ui.embed.Iframe("/gzweb");
+        var ctr_gzweb = new qx.ui.container.Composite(new qx.ui.layout.Grow());
+        
+        /* ********************** LISTENERS **********************************/
+        
+        button_cram.addListener("execute", function (e) {
+
+            // this is a string, including html tags!
+            // tags should be removed before this is usable!
+            var cramPlan = this._txtarea_cramplans.getHtml();
+            cramPlan = cramPlan.trim();
+            var updatedText = cramPlan + "<p>Sending CRAM plan to execute...</p>";
+
+            this._txtarea_cramplans.setHtml(updatedText);
+
+            var req = new qx.io.request.Xhr('/prac/_execute_plan', 'POST');
+            req.setRequestHeader("Content-Type", "application/json");
+            // we on't need the fake plan string at the moment, but it could come handy later
+            // so it's included in the data but not send to the service
+            req.setRequestData({ 'plan': cramPlan});
+            var that = this;
+            // when the ROS service call returns success
+            req.addListener("success", function(e) {
+
+               var tar = e.getTarget();
+               var response = tar.getResponse();
+               that.notify(response.message, 500);
+               if (response.status == 0) {
+
+               // switch automatically to gazebo tab
+               that.__tabview.setSelection([this.__page_gzweb]); //  must be given as a list with one element
+               // make the CRAM plan window smaller
+               that.__win_cramplans.setWidth(400);
+               // and move it where it  won  disturb
+               that.__win_cramplans.moveTo(50, (h-500));
+               // disable the Execute-button
+               this.__button_cram.setEnabled(false);
+               var h = document.getElementById("page", true, true).offsetHeight;
+
+
+               }
+            }, this);
+            req.send();
+        }, this);        
+
+        /* ********************** SET UP LAYOUT ******************************/
+
+        win_cramplans.add(this._txtarea_cramplans,  
+                          {left:"0%", top:"0%", right:"0%", bottom:" 15%"});
+        ctr_gzweb.add(iframe_gzweb);
+
         /* ********************** SET UP MAIN LAYOUT *************************/
 
         var tabview = new qx.ui.tabview.TabView('bottom');
         tabview.setContentPadding(2,2,2,2);
         this.__tabview = tabview;
 
-        ////////////////// INFERENCE PAGE ////////////////////
+        ////////////////////////// INFERENCE PAGE ///////////////////////////
+
         var page_inference = new qx.ui.tabview.Page("Inference");
         this.__page_inference = page_inference;
         page_inference.setLayout(new qx.ui.layout.Grow());
         page_inference.add(ctr_inference, {width: "100%", height: "100%"});
         tabview.add(page_inference, {width: "100%", height: "100%"});
 
-        // begin PRAC2CRAM extension
-        ////////////////// GAZEBO (GZWEB) PAGE ////////////////////
-        var iframe_gzweb = new qx.ui.embed.Iframe("/gzweb");
-        var ctr_gzweb = new qx.ui.container.Composite(new qx.ui.layout.Grow());
-        var page_gzweb = new qx.ui.tabview.Page("Gazebo Simulation");
-        this.__page_gzweb = page_gzweb;
-        page_gzweb.setLayout(new qx.ui.layout.Grow()); // Grow layout because there'll be only one child
-        ctr_gzweb.add(iframe_gzweb);
-        page_gzweb.add(ctr_gzweb, {width: "100%", height: "100%"});
-        tabview.add(page_gzweb, {width: "100%", height: "100%"});
-        // end PRAC2CRAM extension
+        //////////////////////// BROWSER PAGE ///////////////////////////////
 
-        ////////////////// BROWSER PAGE ////////////////////
         var page_browser = new qx.ui.tabview.Page("Browser");
         this.__page_browser = page_browser;
         page_browser.setLayout(new qx.ui.layout.Grow());
         page_browser.add(ctr_browser, {width: "100%", height: "100%"});
         tabview.add(page_browser, {width: "100%", height: "100%"});
+
+        /////////////////////// GAZEBO (GZWEB) PAGE /////////////////////////
+    
+        var page_gzweb = new qx.ui.tabview.Page("Gazebo Simulation");
+        this.__page_gzweb = page_gzweb;
+        page_gzweb.setLayout(new qx.ui.layout.Grow()); 
+        page_gzweb.add(ctr_gzweb, {width: "100%", height: "100%"});
+
+        /////////////////////////////////////////////////////////////////////
 
         ctr_main.add(tabview, {width: "100%", height: "100%"});
         ctr_main.add(html_flashmsg, { left: "50%", top: "50%"});
@@ -582,6 +586,7 @@ members : {
         this.init();
         this.load_flow_chart();
         this.getRoot().add(img_condprobWin, {left:20, top:20});
+        this.getRoot().add(win_cramplans, {left:10, top:10});
         this.__var_show_ctr_infsettings = false;
         this.__var_infer_stepwise = false;
         this.__var_use_chkbx_acatontology = false;
@@ -1345,7 +1350,9 @@ members : {
 
             if (response.plans) {
                 for (var i = 0; i < response.plans.length; i++) {
-                    response.plans[i] = formatCP(response.plans[i]);
+                    var tmp = formatCP(response.plans[i]);
+                    response.plans[i] = tmp;
+                    console.log(tmp);
                 }
                 this._txtarea_cramplans.setHtml(response.plans.join(''));
                 this.__win_cramplans.open();
@@ -1543,6 +1550,12 @@ members : {
             var response = tar.getResponse();
 
             this.__wordnetconcepts = response.data;
+            this.__useros = response.useros;
+            if (this.__useros) {
+                this.__win_cramplans.add(this.__button_cram,  
+                          {right:"0%", bottom:"1%", width:"20%"});
+                this.__tabview.add(this.__page_gzweb, {width: "100%", height: "100%"});
+            }
 
             // set examples for inference and learning
             for (var i = 0; i < response.actioncores.length; i++) {
