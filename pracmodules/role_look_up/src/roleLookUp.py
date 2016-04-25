@@ -97,6 +97,9 @@ class RoleLookUp(PRACModule):
                 
                 #build query based on inferred senses and roles
                 cursor = frames_collection.find({'$and' : roles_query})
+                #After the processing it is impossible to retrieve document by index
+                
+                cloned_cursor = cursor.clone()
                 if cursor.count() > 0:
                     frame_result_list = transform_documents_to_action_role_map(cursor)
                     score_frame_matrix = numpy.array(map(lambda x: transform_to_frame_vector(roles_senses_dict,x),frame_result_list))
@@ -107,15 +110,26 @@ class RoleLookUp(PRACModule):
                         
                     if current_max_score >= confidence_level:
                         frame = frame_result_list[argmax_index]
-                        
+                        document = cloned_cursor[argmax_index]
                         i = 0
                         for missing_role in missing_role_set:
+                            word = "{}mongo{}".format(str(document['actioncore_roles'][missing_role]['word']),str(i))
                             print "Found {} as {}".format(frame[missing_role],missing_role)
-                            atom_role = "{}({},{})".format(missing_role,"word_mongo_{}".format(str(i)),actioncore)
-                            atom_sense = "{}({},{})".format('has_sense',"word_mongo_{}".format(str(i)),frame[missing_role])
+                            atom_role = "{}({},{})".format(missing_role,word,actioncore)
+                            atom_sense = "{}({},{})".format('has_sense',word,frame[missing_role])
+                            atom_has_pos = "{}({},{})".format('has_pos',word,str(document['actioncore_roles'][missing_role]['penn_treebank_pos']))
                             
                             db_ << (atom_role,1.0)
                             db_ << (atom_sense,1.0)
+                            db_ << (atom_has_pos,1.0)
+                            
+                            #Need to define that the retrieve role cannot be asserted to other roles
+                            no_roles_set = set(ActioncoreDescriptionHandler.getRolesBasedOnActioncore(actioncore))
+                            no_roles_set.remove(missing_role)
+                            for no_role in no_roles_set:
+                                atom_role = "{}({},{})".format(no_role,word,actioncore)
+                                db_ << (atom_role,0)
+
                             i += 1
                     else:
                         print "Confidence is too low."

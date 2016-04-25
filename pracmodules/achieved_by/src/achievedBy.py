@@ -122,14 +122,15 @@ class AchievedBy(PRACModule):
                 mln = parse_mln(mlntext, searchpaths=[self.module_path], projectpath=projectpath, logic=project.queryconf.get('logic', 'FirstOrderLogic'), grammar=project.queryconf.get('grammar', 'PRACGrammar'))
                 known_concepts = mln.domains.get('concept', [])
                 wordnet_module = self.prac.getModuleByName('wn_senses')
-
+                
+                #Merge domains of db and given mln to avoid errors due to role inference and the resulting missing fuzzy perdicates
+                known_concepts = list(set(known_concepts).union(set(db_.domains.get('concept', []))))
                 db = wordnet_module.get_senses_and_similarities(db_, known_concepts)
 
                 unified_db = db.union(db_)
 
                 #Inference achieved_by predicate
                 db_ = self.extendDBWithAchievedByEvidence(unified_db, mln)
-
                 infer = MLNQuery(config=project.queryconf, db=db_, mln=mln).run()
                 result_db = infer.resultdb
 
