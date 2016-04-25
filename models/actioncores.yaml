@@ -23,7 +23,7 @@
 
 action_core: Neutralizing
 action_roles: ['neutralizee','neutralizer','action_verb','amount','unit']
-
+required_action_roles: ['neutralizee','neutralizer','action_verb']
 ---
 
 action_core: Filling
@@ -58,8 +58,10 @@ action_roles: ['obj_to_be_started','action_verb']
 ---
 
 action_core: Pouring
-action_roles: ['stuff','goal','action_verb']
-cram_plan: "(pour-from-container (from (an object (type container.n.01)(contains (some stuff (type {stuff}))))(to (an object (type {goal})))))"
+
+action_roles: ['stuff','goal','action_verb','unit','amount']
+cram_plan: "(pour-from-container \t!(from (an object \t!(type container.n.01)\n\t\t(contains (some stuff (type {stuff}))))\n\t(amount ({amount} {unit}))\n\t(to (an object \t!(type {goal})\n\n"
+
 ---
 
 action_core: Adding
@@ -115,3 +117,48 @@ action_roles: ['obj_to_be_stored','action_verb','location']
 ---
 action_core: Flipping
 action_roles: ['obj_to_be_flipped','action_verb','utensil']
+
+---
+
+action_core: Cooking
+action_roles: ['obj_to_be_cooked','action_verb']
+
+---
+
+action_core: Lifting
+action_roles: ['obj_to_be_lifted','action_verb']
+cram_plan: "(lift-object (type {obj_to_be_lifted}))"
+
+---
+
+action_core: Putting
+action_roles: ['obj_to_be_put','action_verb','location']
+cram_plan: "(put-object (type {obj_to_be_put}) underneath (type {location}))"
+---
+
+action_core: Turning
+action_roles: ['obj_to_be_turned','action_verb']
+cram_plan: "(rotate-joint (type {obj_to_be_turned}))"
+
+---
+
+action_core: Taking
+action_roles: ['obj_to_be_taken','action_verb']
+
+---
+
+action_core: Grabbing 
+action_roles: ['obj_to_be_grabbed','action_verb']
+cram_plan: "(grab (type {obj_to_be_grabbed}))"
+
+---
+
+action_core: Shaking
+action_roles: ['obj_to_be_shaken','action_verb','unit','amount']
+cram_plan: "(shake (type {obj_to_be_shaken}) for ({amount} {unit}))"
+
+---
+
+action_core: Waiting
+action_roles: ['unit','action_verb','amount']
+cram_plan: "(wait-for (type {amount}) (type {unit}))"

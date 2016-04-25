@@ -1,0 +1,2 @@
+condition(word)
+event(word,word)

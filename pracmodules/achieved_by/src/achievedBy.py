@@ -80,6 +80,19 @@ class AchievedBy(PRACModule):
         dbs = pracinference.inference_steps[-1].output_dbs
 
         for olddb in dbs:
+            #To handle multiple acs in one task, we have to check if the single dbs contain achieved_bys which representing already plans
+            skip_db = False
+            for q in olddb.query('achieved_by(?w,?ac)'):
+                actioncore = q['?ac']
+                mod = self.prac.getModuleByName('roles_transformation')
+                plans = mod.getPlanList()
+                if actioncore in plans:
+                    skip_db = True 
+            
+            if skip_db:
+                inf_step.output_dbs.append(olddb)
+                continue
+                
             for q in olddb.query('action_core(?w,?ac)'):
                 actioncore = q['?ac']
                 # This list is used to avoid an infinite loop during the
@@ -108,6 +121,7 @@ class AchievedBy(PRACModule):
                         project = MLNProject.open(projectpath)
                     else:
                         inf_step.output_dbs.append(olddb)
+                        print actioncore
                         logger.error(actioncore + ".pracmln does not exist.")
                         return inf_step
                 else:
@@ -126,7 +140,9 @@ class AchievedBy(PRACModule):
                                                               'PRACGrammar'))
                 known_concepts = mln.domains.get('concept', [])
                 wordnet_module = self.prac.getModuleByName('wn_senses')
-
+                
+                #Merge domains of db and given mln to avoid errors due to role inference and the resulting missing fuzzy perdicates
+                known_concepts = list(set(known_concepts).union(set(db_.domains.get('concept', []))))
                 db = wordnet_module.get_senses_and_similarities(db_,
                                                                 known_concepts)
 
@@ -145,7 +161,6 @@ class AchievedBy(PRACModule):
                 for q in result_db.query('achieved_by(?ac1,?ac2)'):
                     unified_db << 'achieved_by({},{})'.format(q['?ac1'],
                                                               q['?ac2'])
-
                 inf_step.output_dbs.append(unified_db)
 
             png, ratio = get_cond_prob_png(project.queryconf.get('queries',

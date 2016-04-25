@@ -148,6 +148,81 @@ class NLParsing(PRACModule):
         self.stanford_parser = None
         if not java.isJvmRunning():
             java.startJvm()
+            
+    def is_aux_verb(self,word,db):
+        #regex_aux = re.compile('aux\s*\(\s*(\w+)-{0,1}\d*\s*,\s*'+word+'\s*\)')
+        #regex_auxpass = re.compile('auxpass\s*\(\s*\w+-{0,1}\d*\s*,\s*'+word+'\s*\)')
+        
+        for _ in db.query('aux(?w, {})'.format(word)):
+            return True;
+        
+        for _ in db.query('auxpass(?w, {})'.format(word)):
+            return True;
+        
+        return False;
+    
+    def get_all_verbs(self,db):
+        valid_predicate_tags = ['VB', 'VBG', 'VBZ', 'VBD', 'VBN', 'VBP']
+        verb_list=[]
+        
+        for q in db.query('has_pos(?w,?p)'):
+            word_pos = q['?p']
+            word = q['?w']
+            
+            if word_pos in valid_predicate_tags and not self.is_aux_verb(word, db):
+                verb_list.append(word)
+        
+        #Sort list by the order occurrence of the verbs
+        return sorted(verb_list, key=lambda verb: int(verb.split('-')[-1]))
+      
+    def extract_multiple_action_cores(self,db):
+        dbs = []
+        verb_list = self.get_all_verbs(db) 
+        if len(verb_list) < 2:
+            return [db]
+        
+        #TODO improve the handling
+        #Handle sentence with start with .....
+        if len(verb_list) == 2:
+            db.write()
+            for word in ['start','Start']:
+                for _ in db.query('prepc_with({}-1,?p)'.format(word)):
+                    return [db]
+                
+        for verb in verb_list:
+            db_ = Database(self.mln)
+            processed_word_set = set()
+            remaining_word_set = set()
+            remaining_word_set.add(verb)
+            
+            while remaining_word_set:
+                processed_word = remaining_word_set.pop()
+                is_condition = False
+                
+                for atom, _ in sorted(db.evidence.iteritems()):
+                    _ , pred , args = db.mln.logic.parse_literal(atom)
+                    
+                    if len(args) == 1 and args[0] == processed_word: 
+                        db_ << atom
+                        is_condition = True
+                    elif len(args) > 1:
+                        word1 = args[0]
+                        word2 = args[1]
+                        
+                        dependency_word = ""
+                        if word1 == processed_word: 
+                            dependency_word = word2
+                        elif word2 == processed_word:
+                            dependency_word = word1
+                        
+                        if dependency_word and (not dependency_word in verb_list or pred == "event") and (not dependency_word in processed_word_set):
+                            if pred != 'event' or not is_condition: 
+                                db_ << atom
+                            if pred != 'has_pos' and pred != 'event':
+                                remaining_word_set.add(dependency_word)
+                processed_word_set.add(processed_word)
+            dbs.append(db_)
+        return dbs
     
     def initialize(self):
         logging.getLogger().info('initializing nl_parsing')
@@ -226,6 +301,7 @@ class NLParsing(PRACModule):
                 self.pos.append(posTagAtom)
                 db << posTagAtom
                 self.posTags[pos[0]] = pos[1]
+            
             inferenceStep.output_dbs.append(db)
             
             print

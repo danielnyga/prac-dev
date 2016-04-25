@@ -89,7 +89,6 @@ class RolesTransformation(PRACModule):
                 mln = parse_mln(mlntext, searchpaths=[self.module_path], projectpath=projectpath, logic=project.queryconf.get('logic', 'FirstOrderLogic'), grammar=project.queryconf.get('grammar', 'PRACGrammar'))
 
                 db.write(bars=False)
-
                 infer = MLNQuery(config=project.queryconf, db=db, mln=mln).run()
                 result_db = infer.resultdb
 
