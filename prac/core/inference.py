@@ -39,6 +39,8 @@ from prac.pracutils.ActioncoreDescriptionHandler import ActioncoreDescriptionHan
 import sys
 from prac.pracutils.pracgraphviz import render_gv
 from pracmln import Database
+from prac.pracutils.RolequeryHandler import RolequeryHandler
+
 
 
 class PRACInferenceStep(object):
@@ -88,7 +90,18 @@ class PRACInference(object):
         elif previous_module == 'ac_recognition':
             return 'senses_and_roles'
         elif previous_module == 'senses_and_roles':
-            #return 'role_look_up'
+            for outdb in self.inference_steps[-1].output_dbs:
+                if self.is_task_missing_roles(outdb):
+                    return 'role_look_up'
+                
+                for r in outdb.query('action_core(?w, ?a)'):
+                    actioncore = r['?a']
+                    mod = self.prac.getModuleByName('roles_transformation')
+                    plans = mod.getPlanList()
+                    if actioncore not in plans: return 'achieved_by'
+                
+                return 'plan_generation'
+        elif previous_module == 'role_look_up':
             for outdb in self.inference_steps[-1].output_dbs:
                 for r in outdb.query('action_core(?w, ?a)'):
                     actioncore = r['?a']
@@ -97,6 +110,7 @@ class PRACInference(object):
                     if actioncore not in plans: return 'achieved_by'
                 
                 return 'plan_generation'
+            
         elif previous_module == 'achieved_by':
             return 'roles_transformation'
             #TODO ADD complex achieved by support
@@ -162,6 +176,25 @@ class PRACInference(object):
                     g.node(sense)
                     g.edge(actioncore, sense, label=role)
         return render_gv(g, filename)
+    
+    def is_task_missing_roles(self, db):
+        #Assuming there is only one action core
+        for q in db.query('action_core(?w,?ac)'):
+            actioncore = q['?ac']
+    
+            roles_senses_dict = RolequeryHandler.query_roles_and_senses_based_on_action_core(db)
+            inferred_roles_set = set(roles_senses_dict.keys())
+    
+            #Determine missing roles: All_Action_Roles\Inferred_Roles
+            actioncore_roles_list = ActioncoreDescriptionHandler.get_required_roles_based_on_actioncore(actioncore)
+            missing_role_set = set(actioncore_roles_list).difference(inferred_roles_set)
+    
+            if missing_role_set:
+                return True
+    
+            return False
+
+        return False
 
     
 # class PRACInit(PRACReasoner):
