@@ -225,22 +225,26 @@ members : {
         win_cramplans.setWidth(900);
         win_cramplans.setHeight(300);
         win_cramplans.setShowMinimize(false);
-        win_cramplans.setLayout(new qx.ui.layout.Grow());
+        win_cramplans.setLayout(new qx.ui.layout.Canvas());
         //this._txtarea_cramplans = new qx.ui.form.TextArea("").set({
         //    font: qx.bom.Font.fromString("14px monospace")
         //});
         this._txtarea_cramplans = new qx.ui.embed.Html("");
         //this._txtarea_cramplans.setCssClass("formatcp");
+
+
         // begin PRAC2CRAM extension
         var button_cram = new qx.ui.form.Button("Execute");
 
         button_cram.addListener("execute", function (e) {
 
-            cramPlan = this._txtarea_cramplans.getValue();
+            // this is a string, including html tags!
+            // tags should be removed before this is usable!
+            cramPlan = this._txtarea_cramplans.getHtml();
             cramPlan = cramPlan.trim();
-            var updatedText = cramPlan + "\nSending CRAM plan to execute...";
+            var updatedText = cramPlan + "<p>Sending CRAM plan to execute...</p>";
 
-            this._txtarea_cramplans.setValue(updatedText);
+            this._txtarea_cramplans.setHtml(updatedText);
 
             var req = new qx.io.request.Xhr('/prac/_execute_plan', 'POST');
             req.setRequestHeader("Content-Type", "application/json");
@@ -253,15 +257,20 @@ members : {
 
                var tar = e.getTarget();
                var response = tar.getResponse();
-               that._notify(response.message, 500);
+               that.notify(response.message, 500);
                if (response.status == 0) {
 
                // switch automatically to gazebo tab
-               that.__tabView.setSelection([this.__page_gzweb]); //  must be given as a list with one element
+               that.__tabview.setSelection([this.__page_gzweb]); //  must be given as a list with one element
                // make the CRAM plan window smaller
                that.__win_cramplans.setWidth(400);
-               var h = document.getElementById("page", true, true).offsetHeight;
+               // and move it where it  won  disturb
                that.__win_cramplans.moveTo(50, (h-500));
+               // disable the Execute-button
+               this.__button_cram.setEnabled(false);
+               var h = document.getElementById("page", true, true).offsetHeight;
+
+
                }
             }, this);
             req.send();
