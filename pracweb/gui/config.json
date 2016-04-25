@@ -91,19 +91,26 @@
          },
          {
            "uri": "static/script/d3.min.js"
+         },
+         {
+           "uri": "static/script/formatcp.js"
          }
        ],
       "add-css" :
       [
         {
           "uri" : "static/css/codemirror.css"
+        },
+        {
+          "uri" : "static/css/formatcp.css"
         }
       ],
       "lint-check": {
           "allowed-globals": [
                 "CodeMirror",
                 "Audio",
-                "d3"
+                "d3",
+                "formatcp"
           ]
       }
    },

@@ -1,11 +1,7 @@
 /* ************************************************************************
-
    Copyright:
-
    License:
-
-   Authors: Daniel Nyga, Mareike Picklum
-
+   Authors: Mareike Picklum
 ************************************************************************ */
 
 /**
@@ -13,27 +9,24 @@
  *
  * @asset(pracweb/*)
  */
-qx.Class.define("pracweb.Application",
-{
-  extend : qx.application.Inline,
+qx.Class.define("pracweb.Application", {
+    extend : qx.application.Inline,
 
 
+/*
+*****************************************************************************
+    MEMBERS
+*****************************************************************************
+*/
 
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
+members : {
 
-  members :
-  {
     /**
-     * This method contains the initial application code and gets called 
+     * This method contains the initial application code and gets called
      * during startup of the application
-     * 
+     *
      * @lint ignoreDeprecated(alert)
      */
-
 
     main : function() {
 
@@ -42,11 +35,10 @@ qx.Class.define("pracweb.Application",
         var that = this;
 
         // Enable logging in debug variant
-        if (qx.core.Environment.get("qx.debug"))
-        {
+        if (qx.core.Environment.get("qx.debug")) {
             // support native logging capabilities, e.g. Firebug for Firefox
             qx.log.appender.Native;
-            // support additional cross-browser console. Press F7 to toggle .
+            // support additional cross-browser console. Press F7 to toggle
             // visibility
             qx.log.appender.Console;
         }
@@ -64,6 +56,10 @@ qx.Class.define("pracweb.Application",
             req.send();
         }; 
 
+        /* **************************** COMMON *******************************/
+
+        /* ********************** CREATE ELEMENTS ****************************/
+
         var ctr_prac = document.getElementById("prac_container",
                                                      true,
                                                      true);
@@ -73,15 +69,37 @@ qx.Class.define("pracweb.Application",
         inline_content.setHeight(document.getElementById("page", true, true)
                                     .offsetHeight);
         inline_content.setLayout(new qx.ui.layout.Grow());
+        inline_content.setNativeContextMenu(true);
 
         // scrollable container
         var ctr_mainscroll = new qx.ui.container.Scroll().set({
-        width: 1024,
-        height: 768
+            width: 1024,
+            height: 768
         });
 
         // main layout container
         var ctr_main = new qx.ui.container.Composite(new qx.ui.layout.Canvas);
+
+        /* ************************ LISTENERS ********************************/
+
+        ctr_prac.addEventListener("resize", function() {
+            var w = document.getElementById("page", true, true).offsetWidth;
+            var h = document.getElementById("page", true, true).offsetHeight;
+            inline_content.setWidth(w);
+            inline_content.setHeight(h);
+        }, this);
+
+        document.addEventListener("roll", function(e) {
+            this[0].scrollTop = this[0].scrollTop + e.delta.y;
+            this[0].scrollLeft = this[0].scrollLeft + e.delta.x;
+        }, this);
+
+        window.addEventListener("resize", function() {
+            var w = document.getElementById("page", true, true).offsetWidth;
+            var h = document.getElementById("page", true, true).offsetHeight;
+            inline_content.setWidth(w);
+            inline_content.setHeight(h);
+        }, this);
 
         /* ********************** INFERENCE PAGE *****************************/
 
@@ -89,7 +107,7 @@ qx.Class.define("pracweb.Application",
 
         // main container (contains outer splitpane and control panel)
         var ctr_inference = new qx.ui.container
-                                    .Composite(new qx.ui.layout.VBox());
+                                     .Composite(new qx.ui.layout.VBox());
 
         // outer splitpane (contains inference settings and graph
         // visualization container)
@@ -167,16 +185,16 @@ qx.Class.define("pracweb.Application",
         this._win_logging = win_logging;
 
         // overlay image indicating work in progress
-        var img_wait = new qx.ui.basic.Image();
-        img_wait.setSource('/prac/static/images/wait.gif');
-        img_wait.getContentElement().setAttribute('id', 'waitImg');
-        img_wait.setWidth(300);
-        img_wait.setHeight(225);
-        img_wait.setMarginLeft(-150);
-        img_wait.setMarginTop(-125);
-        img_wait.setScale(1);
-        img_wait.hide();
-        this._img_wait = img_wait;
+        var img_wait_inf = new qx.ui.basic.Image();
+        img_wait_inf.setSource('/prac/static/images/wait.gif');
+        img_wait_inf.getContentElement().setAttribute('id', 'waitImgInf');
+        img_wait_inf.setWidth(300);
+        img_wait_inf.setHeight(225);
+        img_wait_inf.setMarginLeft(-150);
+        img_wait_inf.setMarginTop(-125);
+        img_wait_inf.setScale(1);
+        img_wait_inf.hide();
+        this._img_wait_inf = img_wait_inf;
 
         var img_inferencelogo = new qx.ui.basic.Image();
         img_inferencelogo.setSource('/prac/static/images/prac-darkonbright-transp.png');
@@ -208,33 +226,17 @@ qx.Class.define("pracweb.Application",
         win_cramplans.setHeight(300);
         win_cramplans.setShowMinimize(false);
         win_cramplans.setLayout(new qx.ui.layout.Grow());
-        this._txtarea_cramplans = new qx.ui.form.TextArea("").set({
-            font: qx.bom.Font.fromString("14px monospace")
-        });
+        //this._txtarea_cramplans = new qx.ui.form.TextArea("").set({
+        //    font: qx.bom.Font.fromString("14px monospace")
+        //});
+        this._txtarea_cramplans = new qx.ui.embed.Html("");
+        //this._txtarea_cramplans.setCssClass("formatcp");
+
         win_cramplans.add(this._txtarea_cramplans);
         this.getRoot().add(win_cramplans, {left:20, top:20});
         this.__win_cramplans = win_cramplans;
 
         /* ************************ LISTENERS ********************************/
-
-        ctr_prac.addEventListener("resize", function() {
-            var w = document.getElementById("page", true, true).offsetWidth;
-            var h = document.getElementById("page", true, true).offsetHeight;
-            inline_content.setWidth(w);
-            inline_content.setHeight(h);
-        }, this);
-
-        document.addEventListener("roll", function(e) {
-            this[0].scrollTop = this[0].scrollTop + e.delta.y;
-            this[0].scrollLeft = this[0].scrollLeft + e.delta.x;
-        }, this);
-
-        window.addEventListener("resize", function() {
-            var w = document.getElementById("page", true, true).offsetWidth;
-            var h = document.getElementById("page", true, true).offsetHeight;
-            inline_content.setWidth(w);
-            inline_content.setHeight(h);
-        }, this);
 
         win_logging.addListener("close", function() {
             this._chkbx_showlog.setValue(false);
@@ -299,7 +301,7 @@ qx.Class.define("pracweb.Application",
                                               top: 0,
                                               width: "100%",
                                               height:"100%"});
-        ctr_graph_visualization.add(img_wait, { left: "50%", top: "50%"});
+        ctr_graph_visualization.add(img_wait_inf, { left: "50%", top: "50%"});
         ctr_graph_visualization.add(img_inferencelogo, { left: 5, top: 5});
         splitpane.add(ctr_infsettings, {width: "20%"});
         splitpane.add(ctr_graph_visualization);
@@ -318,6 +320,18 @@ qx.Class.define("pracweb.Application",
         img_browserlogo.setScale(1);
         this._img_browserlogo = img_browserlogo;
 
+        // overlay image indicating work in progress
+        var img_wait_br = new qx.ui.basic.Image();
+        img_wait_br.setSource('/prac/static/images/wait.gif');
+        img_wait_br.getContentElement().setAttribute('id', 'waitImgInf');
+        img_wait_br.setWidth(300);
+        img_wait_br.setHeight(225);
+        img_wait_br.setMarginLeft(-150);
+        img_wait_br.setMarginTop(-125);
+        img_wait_br.setScale(1);
+        img_wait_br.hide();
+        this._img_wait_br = img_wait_br;
+
         // main container (contains outer menu widget and graph widget)
         var ctr_browser = new qx.ui.container
                                         .Composite(new qx.ui.layout.HBox());
@@ -325,6 +339,7 @@ qx.Class.define("pracweb.Application",
         var ctr_browsermenu = new qx.ui.container
                                   .Composite(new qx.ui.layout.VBox());
         ctr_browsermenu.setAlignX('right');
+        ctr_browsermenu.setMinWidth(400);
 
         // action core selectbox
         var layout_ctr_ac = new qx.ui.layout.Grid();
@@ -382,15 +397,74 @@ qx.Class.define("pracweb.Application",
         this.__wordnetconcepts = [];
 
         // canvas for drawing distribution svg
+        var layout_ctr_distrsvg = new qx.ui.layout.VBox()
         var ctr_distrsvg = new qx.ui.container.Composite();
-        ctr_distrsvg.setLayout(new qx.ui.layout.Grow());
+        this._ctr_distrsvg = ctr_distrsvg;
+        ctr_distrsvg.setLayout(layout_ctr_distrsvg);
+        ctr_distrsvg.set({
+            width: document.getElementById("page", true, true).offsetWidth - 450
+        });
+
+        this.__zoom = 3;
+        var slider_distr = new qx.ui.form.Slider('horizontal').set({
+            minimum: 100,
+            maximum: 100 * this.__zoom,
+            value: 0
+        })
+        slider_distr.setMaxHeight(100);
+        this._slider_distr = slider_distr;
+
+        var grp_slider =
+        {
+            slider: slider_distr,
+            minimum: new qx.ui.basic.Label("Min: " + slider_distr.getMinimum().toString() + '%'),
+            maximum: new qx.ui.basic.Label("Max: " + slider_distr.getMaximum().toString() + '%'),
+            value: new qx.ui.basic.Label('Zoom')
+        };
+        grp_slider.value.setTextAlign("center");
+        this._grp_slider = grp_slider;
+
+        var layout_ctr_slider = new qx.ui.layout.Grid();
+        var ctr_slider = new qx.ui.container.Composite(layout_ctr_slider);
+
+        ctr_slider.setPadding(20);
+        ctr_slider.setWidth(400);
+
+        layout_ctr_slider.setSpacing(5);
+        layout_ctr_slider.setColumnFlex(0, 1);
+        layout_ctr_slider.setColumnFlex(1, 1);
+        layout_ctr_slider.setColumnFlex(2, 1);
+
+        layout_ctr_slider.setColumnAlign(0, "left", "bottom");
+        layout_ctr_slider.setColumnAlign(1, "center", "bottom");
+        layout_ctr_slider.setColumnAlign(2, "right", "bottom");
+
+        ctr_slider.add(grp_slider.minimum, {row: 0, column: 0});
+        ctr_slider.add(grp_slider.value, {row: 0, column: 1});
+        ctr_slider.add(grp_slider.maximum, {row: 0, column: 2});
+
+        ctr_slider.add(grp_slider.slider, {row: 1, column: 0, colSpan: 3, rowSpan: 1});
+
+        var ctr_canvas_distribution = new qx.ui.container
+                                               .Composite(new qx.ui.layout.Canvas);
+
+        var scrollctr_html_distr = new qx.ui.container.Scroll().set({
+//            backgroundColor: "yellow",
+            width: document.getElementById("page", true, true).offsetWidth - 450,
+            height: document.getElementById("page", true, true).offsetHeight - 120
+        });
+        scrollctr_html_distr.getContentElement().setAttribute("id","scrollctr_html_distr");
+        this._scrollctr_html_distr = scrollctr_html_distr;
+
         var html_distr = new qx.ui.embed.Html();
+        html_distr.getContentElement().setAttribute("id","html_distr");
         this.__html_distr = html_distr;
 
 
         /* ********************** LISTENERS **********************************/
 
         btn_sel_roledistr.addListener("execute", this.get_dists, this);
+        slider_distr.addListener("changeValue", this.dist_zoom, this);
         sel_ac.addListener("changeSelection", this.change_ac ,this);
         sel_role.addListener("changeSelection", this.change_distr ,this);
 
@@ -402,10 +476,16 @@ qx.Class.define("pracweb.Application",
         ctr_browsermenu.add(ctr_rolesconcepts);
         ctr_browsermenu.add(ctr_roles);
 
-        ctr_distrsvg.add(html_distr);
+        scrollctr_html_distr.add(html_distr);
 
-        ctr_browser.add(ctr_browsermenu);
-        ctr_browser.add(ctr_distrsvg, {flex: 2, height: "100%"});
+        ctr_canvas_distribution.add(scrollctr_html_distr);
+        ctr_canvas_distribution.add(img_wait_br, { left: "50%", top: "50%"});
+
+        ctr_distrsvg.add(ctr_slider);
+        ctr_distrsvg.add(ctr_canvas_distribution);
+
+        ctr_browser.add(ctr_browsermenu, {height: "100%"});
+        ctr_browser.add(ctr_distrsvg, {height: "100%"});
 
         /* ********************** SET UP MAIN LAYOUT *************************/
 
@@ -682,7 +762,7 @@ qx.Class.define("pracweb.Application",
     * Start the inference process
     */
     start_inference : function(e) {
-       this.show_wait_animation(true);
+       this.show_wait_animation('inf', true);
 
        var req = new qx.io.request.Xhr("/prac/_start_inference", e);
        req.setRequestHeader("Content-Type", "application/json");
@@ -702,7 +782,7 @@ qx.Class.define("pracweb.Application",
     */
     get_inference_status : function() {
 
-        this.show_wait_animation(true);
+        this.show_wait_animation('inf', true);
         this._btn_next_infstep.setEnabled(false);
         this.__win_cramplans.close();
 
@@ -760,11 +840,11 @@ qx.Class.define("pracweb.Application",
                                                         '' :
                                                         responseSettings['evidence'];
 
-                that.show_wait_animation(false);
+                that.show_wait_animation('inf', false);
 
                 if (response.finish) {
                     console.log(" I am DONE! ");
-                    that.show_wait_animation(true);
+                    that.show_wait_animation('inf', true);
                     that.updateGraph(updateLinks[0], updateLinks[1]);
 
                     // wait 3 seconds, then clear flowchart
@@ -775,7 +855,7 @@ qx.Class.define("pracweb.Application",
                     that._btn_next_infstep.setEnabled(false);
                     that._btn_run_inference.setEnabled(true);
                     that._last_module = '';
-                    that.show_wait_animation(false);
+                    that.show_wait_animation('inf', false);
                 } else if (that._next_module === 'plan_generation') {
                     // do not redraw graph because plan_generation does
                     // not update output_dbs
@@ -1144,7 +1224,7 @@ qx.Class.define("pracweb.Application",
      */
     get_role_distributions : function(e) {
         console.log('getting role distributions...');
-        this.show_wait_animation(true);
+        this.show_wait_animation('inf', true);
         var req = new qx.io.request.Xhr();
         req.setUrl("/prac/_get_role_distributions");
         req.setMethod('GET');
@@ -1152,7 +1232,7 @@ qx.Class.define("pracweb.Application",
         req.setRequestHeader("Content-Type", "application/json");
         var that = this;
         req.addListener("success", function(e) {
-            this.show_wait_animation(false);
+            this.show_wait_animation('inf', false);
             var tar = e.getTarget();
             var response = tar.getResponse();
             if (response.distributions) {
@@ -1178,7 +1258,7 @@ qx.Class.define("pracweb.Application",
         }, that);
 
         req.addListener("fail", function(e) {
-            this.show_wait_animation(false);
+            this.show_wait_animation('inf', false);
             this.notify("Error! Could not generate Role Distributions.", 100);
         }, that);
         req.send();
@@ -1201,7 +1281,10 @@ qx.Class.define("pracweb.Application",
             var response = tar.getResponse();
 
             if (response.plans) {
-                this._txtarea_cramplans.setValue(response.plans.join(''));
+                for (var i = 0; i < response.plans.length; i++) {
+                    response.plans[i] = formatCP(response.plans[i]);
+                }
+                this._txtarea_cramplans.setHtml(response.plans.join(''));
                 this.__win_cramplans.open();
                 return;
             }
@@ -1266,11 +1349,11 @@ qx.Class.define("pracweb.Application",
     /**
      * show or hide animated wait logo
      */
-    show_wait_animation : function(wait) {
+    show_wait_animation : function(task, wait) {
         if (wait){
-            this._img_wait.show();
+            this["_img_wait_" + task].show();
         } else {
-            this._img_wait.hide();
+            this["_img_wait_" + task].hide();
         }
     },
 
@@ -1457,6 +1540,7 @@ qx.Class.define("pracweb.Application",
     * Update fields when changing the example folder for inference
     */
     get_dists : function(e){
+        this.show_wait_animation('br', true);
         var roles_selects = this._ctr_rolesconcepts.getChildren();
         this.__success_distributions = false;
         this._sel_role.removeAll();
@@ -1476,6 +1560,7 @@ qx.Class.define("pracweb.Application",
         req.addListener("success", function(e) {
             var tar = e.getTarget();
             var response = tar.getResponse();
+            this.show_wait_animation('br', false);
             this.__distributions = response.distributions;
             this.__success_distributions = response.success;
 
@@ -1499,13 +1584,33 @@ qx.Class.define("pracweb.Application",
     */
     change_distr : function(e){
         var selected_role = this._sel_role.getSelection();
-
+        var parentwidth = this._scrollctr_html_distr.getWidth();
         if (selected_role.length == 0) {
             this.__html_distr.setHtml('');
         } else {
             this.__html_distr.setHtml(this.__distributions[selected_role[0]
                                                             .getLabel()]);
         }
+        this.__html_distr.setMinWidth(parentwidth);
+        this.__html_distr.setMaxWidth(parentwidth);
+    },
+
+
+    /**
+    * Zoom in and out of distribution svg
+    */
+    dist_zoom : function(e){
+        var pos = e.getData();
+        var parentwidth = this._scrollctr_html_distr.getWidth();
+        var parentheight = this._scrollctr_html_distr.getHeight();
+        var newwidth = pos / 100 * parentwidth;
+        var newheight = pos / 100 * parentheight;
+
+        this.__html_distr.setMinWidth(newwidth);
+        this.__html_distr.setMaxWidth(newwidth);
+        this.__html_distr.setMinHeight(newheight);
+        this.__html_distr.setMaxHeight(newheight);
+        this._grp_slider.value.setValue('Zoom: ' + Math.round(newwidth/parentwidth * 100).toString() + '%');
     }
   }
 });

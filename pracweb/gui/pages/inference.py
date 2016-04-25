@@ -196,7 +196,8 @@ def _get_cram_plan():
     else:
         cramplans = []
 
-    return jsonify({'plans': [format_cram_string(cp) for cp in cramplans]})
+    #return jsonify({'plans': [format_cram_string(cp) for cp in cramplans]})
+    return jsonify({'plans': cramplans})
 
 
 @pracApp.app.route('/prac/_pracinfer_get_cond_prob', methods=['GET'])
