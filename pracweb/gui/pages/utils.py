@@ -19,6 +19,7 @@ INFMETHODS = InferenceMethods.names()
 
 def ensure_prac_session(cursession):
     log = logging.getLogger(__name__)
+    log.setLevel(logging.ERROR)
     prac_session = pracApp.session_store[cursession]
     if prac_session is None:
         cursession['id'] = os.urandom(24)
@@ -38,8 +39,9 @@ def ensure_prac_session(cursession):
         sformatter = logging.Formatter(
             "%(asctime)s - %(name)s - %(levelname)s - %(message)s")
         handler.setFormatter(sformatter)
+        handler.setLevel(logging.ERROR)
         streamlog = logging.getLogger('streamlog')
-        streamlog.setLevel(logging.INFO)
+        streamlog.setLevel(logging.ERROR)
         streamlog.addHandler(handler)
         prac_session.stream = stream
         prac_session.log = streamlog

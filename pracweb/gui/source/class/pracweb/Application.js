@@ -54,7 +54,7 @@ members : {
                 var sessionname = response;
             });
             req.send();
-        }; 
+        };
 
         /* **************************** COMMON *******************************/
 
@@ -225,16 +225,67 @@ members : {
         win_cramplans.setWidth(900);
         win_cramplans.setHeight(300);
         win_cramplans.setShowMinimize(false);
-        win_cramplans.setLayout(new qx.ui.layout.Grow());
+        win_cramplans.setLayout(new qx.ui.layout.Canvas());
         //this._txtarea_cramplans = new qx.ui.form.TextArea("").set({
         //    font: qx.bom.Font.fromString("14px monospace")
         //});
         this._txtarea_cramplans = new qx.ui.embed.Html("");
         //this._txtarea_cramplans.setCssClass("formatcp");
 
-        win_cramplans.add(this._txtarea_cramplans);
-        this.getRoot().add(win_cramplans, {left:20, top:20});
+
+        // begin PRAC2CRAM extension
+        var button_cram = new qx.ui.form.Button("Execute");
+
+        button_cram.addListener("execute", function (e) {
+
+            // this is a string, including html tags!
+            // tags should be removed before this is usable!
+            cramPlan = this._txtarea_cramplans.getHtml();
+            cramPlan = cramPlan.trim();
+            var updatedText = cramPlan + "<p>Sending CRAM plan to execute...</p>";
+
+            this._txtarea_cramplans.setHtml(updatedText);
+
+            var req = new qx.io.request.Xhr('/prac/_execute_plan', 'POST');
+            req.setRequestHeader("Content-Type", "application/json");
+            // we on't need the fake plan string at the moment, but it could come handy later
+            // so it's included in the data but not send to the service
+            req.setRequestData({ 'plan': cramPlan});
+            var that = this;
+            // when the ROS service call returns success
+            req.addListener("success", function(e) {
+
+               var tar = e.getTarget();
+               var response = tar.getResponse();
+               that.notify(response.message, 500);
+               if (response.status == 0) {
+
+               // switch automatically to gazebo tab
+               that.__tabview.setSelection([this.__page_gzweb]); //  must be given as a list with one element
+               // make the CRAM plan window smaller
+               that.__win_cramplans.setWidth(400);
+               // and move it where it  won  disturb
+               that.__win_cramplans.moveTo(50, (h-500));
+               // disable the Execute-button
+               this.__button_cram.setEnabled(false);
+               var h = document.getElementById("page", true, true).offsetHeight;
+
+
+               }
+            }, this);
+            req.send();
+        }, this);
+
+        this.__button_cram = button_cram;
+
+        win_cramplans.add(this._txtarea_cramplans,  {left:"0%", top:"0%", right:"0%", bottom:" 15%"});
+        win_cramplans.add(button_cram,  {right:"0%", bottom:"1%", width:"20%"});
+
+        this.getRoot().add(win_cramplans, {left:10, top:10});
         this.__win_cramplans = win_cramplans;
+
+        // end PRAC2CRAM extension
+
 
         /* ************************ LISTENERS ********************************/
 
@@ -499,6 +550,18 @@ members : {
         page_inference.setLayout(new qx.ui.layout.Grow());
         page_inference.add(ctr_inference, {width: "100%", height: "100%"});
         tabview.add(page_inference, {width: "100%", height: "100%"});
+
+        // begin PRAC2CRAM extension
+        ////////////////// GAZEBO (GZWEB) PAGE ////////////////////
+        var iframe_gzweb = new qx.ui.embed.Iframe("/gzweb");
+        var ctr_gzweb = new qx.ui.container.Composite(new qx.ui.layout.Grow());
+        var page_gzweb = new qx.ui.tabview.Page("Gazebo Simulation");
+        this.__page_gzweb = page_gzweb;
+        page_gzweb.setLayout(new qx.ui.layout.Grow()); // Grow layout because there'll be only one child
+        ctr_gzweb.add(iframe_gzweb);
+        page_gzweb.add(ctr_gzweb, {width: "100%", height: "100%"});
+        tabview.add(page_gzweb, {width: "100%", height: "100%"});
+        // end PRAC2CRAM extension
 
         ////////////////// BROWSER PAGE ////////////////////
         var page_browser = new qx.ui.tabview.Page("Browser");
