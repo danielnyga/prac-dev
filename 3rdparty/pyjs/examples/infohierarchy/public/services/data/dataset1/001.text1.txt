@@ -1,6 +1,0 @@
-html
-<b>hello!</b>
-<p>
-this is some useful html
-</p>
-

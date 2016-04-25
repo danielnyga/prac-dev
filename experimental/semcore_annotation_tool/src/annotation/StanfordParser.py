@@ -2,7 +2,7 @@ import jpype
 import re
 import platform
 from parsing import Trees
-from nltk.corpus import wordnet as wn
+from prac_nltk.corpus import wordnet as wn
 
 class ParserError(Exception):
     def __init__(self, *args, **margs):

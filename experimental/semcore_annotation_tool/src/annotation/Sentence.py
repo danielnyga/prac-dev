@@ -6,7 +6,7 @@ import utils
 import re
 import logging
 import jellyfish
-from nltk.corpus import wordnet as wn
+from prac_nltk.corpus import wordnet as wn
 from parsing import Trees
 import utilities as ut
 import csv

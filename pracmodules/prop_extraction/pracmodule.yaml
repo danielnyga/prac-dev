@@ -25,5 +25,5 @@ module_name: "prop_extraction"
 description: "Extraction of miscellaneous properties from natural language descripions."
 dependencies: ['nl_parsing']
 class_name: "prop.PropExtraction" 
-declarations: ['parsing.mln']
-
+declarations: ['predicates.mln']
+project: 'PropertyExtraction.pracmln'

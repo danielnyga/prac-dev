@@ -1,6 +1,0 @@
-0.62 is_a(tomato.n.01, liquid.n.01)
-0.90 is_a(knife.n.01, cutter.n.01)
-1 is_a(cut.v.01, cut.v.01)
-
-
-

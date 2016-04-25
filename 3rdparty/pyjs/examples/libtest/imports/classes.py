@@ -1,4 +1,0 @@
-
-class WithAttribute():
-    ATTR = 'attr'
-

@@ -23,8 +23,8 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ******************************************************************************/
  
- #include ../../nl_parsing/mln/predicates.mln
- 
- has_sense(word, sense!)
- 
+ #include "../../nl_parsing/mln/predicates.mln"
+
+ has_sense(word, sense?)
+ #fuzzy
  is_a(sense, concept)

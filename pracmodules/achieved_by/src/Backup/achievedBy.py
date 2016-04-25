@@ -64,7 +64,7 @@ class AchievedBy(PRACModule):
         infer = PRACInference(prac, 'None')
         senses = prac.getModuleByName('senses_and_roles')
         senses.initialize()
-        sensesKBFile = senses.load_pracmt(actioncore)
+        sensesKBFile = senses.load_prac_kb(actioncore)
         
         #Create senses and roles evidence DB
         db_senses = Database(sensesKBFile.query_mln)
@@ -122,7 +122,7 @@ class AchievedBy(PRACModule):
                 if kb is None:
                     print 'Loading Markov Logic Network: %s' % colorize(actioncore, (None, 'white', True), True)
                     if os.path.isfile(os.path.join(achievedByModulePath,'bin',actioncore+".pracmln")):
-                        useKB = self.load_pracmt(actioncore)
+                        useKB = self.load_prac_kb(actioncore)
                     else:
                         running = False
                         inf_step.output_dbs.append(db_)
@@ -168,7 +168,7 @@ class AchievedBy(PRACModule):
                                 resultSensesDB = self.updateActionRoles(db_,actionword,actioncore)
                                 
                                 #Prepare evidence db for the next inference of the achieved_by predicate
-                                useKB = self.load_pracmt(actioncore)
+                                useKB = self.load_prac_kb(actioncore)
                                 db_temp = Database(useKB.query_mln)
                                 
                                 for atom, truth in sorted(db_.evidence.iteritems()):

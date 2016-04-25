@@ -1,13 +1,14 @@
-from prac.core import PRACModule, PRACKnowledgeBase, PRACPIPE
-from mln import readMLNFromFile, readDBFromFile, Database
-import logging
-from prac.wordnet import WordNet
-from prac.inference import PRACInferenceStep
-from utils import colorize
-
-#How to call it 
+#How to call it
 #actionCore = prac.getModuleByName('ac_recognition')
-#prac.run(infer,actionCore,kb=actionCore.load_pracmt('robohow'))
+#prac.run(infer,actionCore,kb=actionCore.load_prac_kb('robohow'))
+from prac.core.base import PRACModule, PRACPIPE
+from prac.core.inference import PRACInferenceStep
+from pracmln import praclog
+from pracmln.mln.util import colorize
+
+
+logger = praclog.logger(__name__)
+
 
 class PRACWSD(PRACModule):
     def initialize(self):
@@ -15,8 +16,7 @@ class PRACWSD(PRACModule):
 
     @PRACPIPE
     def __call__(self,pracinference, **params):
-            log = logging.getLogger(self.name)
-            log.debug('inference on %s' % self.name)
+            logger.debug('inference on %s' % self.name)
  
             print colorize('+==========================================+', (None, 'green', True), True)
             print colorize('| PRAC INFERENCE: WORD SENSE DISMABIGUATION|', (None, 'green', True), True)
@@ -25,13 +25,15 @@ class PRACWSD(PRACModule):
             if params.get('kb', None) is None:
                 # load the default arguments
                 dbs = pracinference.inference_steps[-1].output_dbs
-                kb = self.load_pracmt('default')
+                kb = self.load_prac_kb('default')
                 kb.dbs = dbs
             else:
                 kb = params['kb']
             if not hasattr(kb, 'dbs'):
                 kb.dbs = pracinference.inference_steps[-1].output_dbs
             mln = kb.query_mln
+            mln.write()
+            logger.info('=====================================================================================================================')
             logic = kb.query_params['logic']
             fol =  False
             if(logic == 'FirstOrderLogic'):

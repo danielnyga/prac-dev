@@ -1,0 +1,38 @@
+{
+  "info" : 
+  {
+    "name" : "ComboTable",
+
+    "summary" : "A selectbox with incemental search",
+    "description" : "A selectbox using a qooxdoo table to show list of options supporting incremental search.",
+    
+    "homepage" : "http://contrib.qooxdoo.org/project/ComboTable",
+
+    "license" : "LGPL/EPL",
+    "authors" : 
+    [
+      {
+        "name" : "Tobi Oetiker (oetiker)",
+        "email" : "tobi@oetiker.ch"
+      },
+      {
+        "name" : "Mustafa Sak",
+        "email" : "info@saksys.de"
+      }
+    ],
+
+    "version" : "trunk",
+    "qooxdoo-versions": ["1.4"]
+  },
+  
+  "provides" : 
+  {
+    "namespace"   : "combotable",
+    "encoding"    : "utf-8",
+    "class"       : "source/class",
+    "resource"    : "source/resource",
+    "translation" : "source/translation",
+    "type"        : "contribution"
+  }
+}
+
