@@ -50,7 +50,11 @@ class ActioncoreDescriptionHandler(object):
         ADHandler = ActioncoreDescriptionHandler
         if ADHandler.actioncoreDescription == {}:
             ADHandler.loadActioncoreDescription()
-        return ADHandler.actioncoreDescription[actioncore]['required_action_roles']
+        
+        if 'required_action_roles' in ADHandler.actioncoreDescription[actioncore].keys():
+            return ADHandler.actioncoreDescription[actioncore]['required_action_roles']
+        
+        return ADHandler.actioncoreDescription[actioncore]['action_roles']
     
     @staticmethod
     def roles():

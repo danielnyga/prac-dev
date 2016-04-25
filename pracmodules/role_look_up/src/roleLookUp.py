@@ -96,11 +96,14 @@ class RoleLookUp(PRACModule):
                 roles_query.extend(map(lambda x: {"actioncore_roles.{}".format(x) : {'$exists': 'true'}}, actioncore_roles_list))
                 
                 #build query based on inferred senses and roles
+                print "Sending query to MONGO DB ..."
                 cursor = frames_collection.find({'$and' : roles_query})
+                
                 #After the processing it is impossible to retrieve document by index
                 
                 cloned_cursor = cursor.clone()
                 if cursor.count() > 0:
+                    print "Found suitable frames"
                     frame_result_list = transform_documents_to_action_role_map(cursor)
                     score_frame_matrix = numpy.array(map(lambda x: transform_to_frame_vector(roles_senses_dict,x),frame_result_list))
                     confidence_level = 0.7
