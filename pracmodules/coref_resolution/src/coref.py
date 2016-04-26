@@ -131,7 +131,7 @@ class CorefResolution(PRACModule):
                 newdatabase = wordnet_module.add_sims(corefdb, mln)
 
                 # update queries depending on missing roles
-                acroles = self.prac.actioncores[ac].roles
+                acroles = filter(lambda r: r != 'action_verb', self.prac.actioncores[ac].roles)
                 missingroles = [x for x in acroles if len(
                     list(newdatabase.query('{}(?w,Adding)'.format(x)))) == 0]
                 conf = project.queryconf
@@ -151,9 +151,6 @@ class CorefResolution(PRACModule):
                                 continue
                             else:
                                 newdatabase << '!{}({},{})'.format(r, w, ac1)
-
-                newdatabase.write(bars=False)
-                stop('newdatabase after assertions')
 
                 infer = MLNQuery(config=conf,
                                  db=newdatabase,
