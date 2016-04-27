@@ -36,6 +36,7 @@ class PlanGenerator(PRACModule):
         infstep = PRACInferenceStep(pracinference, self)
         dbs = pracinference.inference_steps[-1].output_dbs
         infstep.output_dbs = dbs
+        infstep.inferred_roles = {}
         infstep.executable_plans = []
         
         for db in dbs:
@@ -64,6 +65,7 @@ class PlanGenerator(PRACModule):
                         if role not in ass.keys():
                             ass[role] = "Unknown"
                     for assignment in role_assignments:
+                        infstep.inferred_roles[ac.name] = assignment
                         infstep.executable_plans.append(
                             ac.parameterize_plan(**assignment))
                     break

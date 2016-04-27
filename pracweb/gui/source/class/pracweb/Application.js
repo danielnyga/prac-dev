@@ -498,6 +498,7 @@ members : {
         /* ********************** LISTENERS **********************************/
         
         btn_gzsimulation.addListener('execute', this.sim_rospy, this);
+        btn_gzacquisition.addListener('execute', this.gz_acquire, this);
 
         /* ********************** SET UP LAYOUT ******************************/
 
@@ -1314,7 +1315,6 @@ members : {
                 for (var i = 0; i < response.plans.length; i++) {
                     var tmp = formatCP(response.plans[i]);
                     response.plans[i] = tmp;
-                    console.log(tmp);
                 }
                 this._html_cramplans.setHtml(response.plans.join(''));
                 this._win_cramplans.open();
@@ -1700,6 +1700,19 @@ members : {
             }
         }, this);
         req.send();
-    }
+    },
+
+
+    /**
+    * call data acquisition
+    */
+    gz_acquire : function (e) {
+        var req = new qx.io.request.Xhr('/prac/_gz_acquire', 'GET');
+        req.setRequestHeader("Content-Type", "text/plain");
+        req.addListener("success", function(e) {
+            this.notify('Gazebo Simulator will be started...', 300);
+        }, this);
+        req.send();
+    }    
   }
 });

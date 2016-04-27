@@ -261,9 +261,11 @@ def update_kb():
     res['mln'] = kb.query_mln_str
     return jsonify(res)
 
+
 @pracApp.app.route('/gzweb')
 def gzweb():
     return redirect('http://localhost:8080')
+
 
 @pracApp.app.route('/prac/_init', methods=['GET'])
 def init_options():
@@ -277,3 +279,20 @@ def init_options():
                     "gz_simulation": pracApp.app.config['gz_simulation'],
                     "instruction": pracApp.app.config['instruction']
                     })
+
+
+@pracApp.app.route('/prac/_gz_acquire', methods=['GET'])
+def gz_acquire():
+    pracsession = ensure_prac_session(session)
+    step = pracsession.old_infer.inference_steps[-1]
+    if hasattr(step, 'inferred_roles'):
+        plans = step.inferred_roles
+
+        for ac in plans:
+            infos = {"world": 'pipette' if ac == 'Pipetting' else 'pour', "instruction": str(' '.join(pracsession.old_infer.instructions)), "ac": ac, "roles": ' '.join(['--{} "{}"'.format(n,plans[ac][n]) for n in plans[ac]])}
+            # generate gazebo command containing ac and roles
+            cmd = 'gazebo worlds/acat_{world}.world --verbose -u -s libActionRolesReader.so --instruction "{instruction}" --ac "{ac}" {roles}'.format(**infos)
+            rs = os.system(cmd)
+            return str(rs)
+    return 'Error. No roles inferred.'
+
