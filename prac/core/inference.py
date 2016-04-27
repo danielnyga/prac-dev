@@ -115,7 +115,6 @@ class PRACInference(object):
                 return 'plan_generation'
             
         elif previous_module == 'achieved_by':
-            return 'roles_transformation'
             #TODO ADD complex achieved by support
             for outdb in self.inference_steps[-1].output_dbs:
                 for r in outdb.query('achieved_by(?w, ?a)'):
