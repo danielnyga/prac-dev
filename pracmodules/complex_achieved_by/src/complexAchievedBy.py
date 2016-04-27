@@ -25,6 +25,7 @@ import os
 from prac.core.base import PRACModule, PRACPIPE, DB_TRANSFORM
 from prac.core.inference import PRACInferenceStep
 from pracmln import Database, MLNQuery
+from pracmln.mln.database import parse_db
 from pracmln.mln.base import parse_mln
 from pracmln.mln.util import colorize, out
 from pracmln.praclog import logger
@@ -43,6 +44,13 @@ log = logger(__name__)
 PRAC_HOME = os.environ['PRAC_HOME']
 corpus_path_list = os.path.join(PRAC_HOME, 'corpus')
 
+def transform_to_db(plan_dict):
+    db_str = str(plan_dict['DB'])
+    mln_str = str(plan_dict['MLN'])
+    mln = parse_mln(mln_str,logic='FuzzyLogic')
+    dbs = parse_db(mln,db_str)
+    #There should be only one db
+    return dbs[0]
 class ComplexAchievedBy(PRACModule):
     '''
 
@@ -72,7 +80,8 @@ class ComplexAchievedBy(PRACModule):
             mongo_client = MongoClient()
             ies_mongo_db = mongo_client.PRAC
             instructions_collection = ies_mongo_db.Instructions
-        
+            
+            print "Sending query to MONGO DB ..."
             cursor = instructions_collection.find({'action_core' : '{}'.format(actioncore)})
             roles_dict =  self.get_senses_and_roles(actioncore, db)
             documents_vector = []
@@ -81,6 +90,7 @@ class ComplexAchievedBy(PRACModule):
             cloned_cursor = cursor.clone()
 
             for document in cursor:
+                print 'Found suitable instruction'
                 wup_vector = []
                 document_action_roles = document['action_roles']
                 
@@ -96,8 +106,9 @@ class ComplexAchievedBy(PRACModule):
             documents_vector = numpy.array(documents_vector)
             index = documents_vector.argmax()
             
-            return map(lambda x : str(x),cloned_cursor[index]['plan_list'])
-    
+            return map(lambda x : transform_to_db(x),cloned_cursor[index]['plan_list'])
+            
+            
         return []
             
     def initialize(self):
@@ -114,10 +125,10 @@ class ComplexAchievedBy(PRACModule):
 
         inf_step = PRACInferenceStep(pracinference, self)
         dbs = pracinference.inference_steps[-1].output_dbs
-        inf_step.executable_plans = []
+        
         
         for olddb in dbs:
-            inf_step.executable_plans.extend(self.get_instructions_based_on_action_core(olddb))
+            inf_step.output_dbs.extend(self.get_instructions_based_on_action_core(olddb))
             
         return inf_step
     
