@@ -36,7 +36,8 @@ pracwebpackages = [('flask', 'Flask', False),
                    ('PIL', 'Pillow', False),
                    ('jinja2', 'Jinja2', False),
                    ('geoip', 'python-geoip python-geoip-geolite2', True)
-                   ('tinyrpc', 'tinyrpc', False)]
+                   ('tinyrpc', 'tinyrpc', False)
+                   ('requests', 'requests', False)]
 
 python_apps = [
     {"name": "pracquery", "script": "$PRAC_HOME/prac/pracquery.py"},
