@@ -14,9 +14,6 @@ from prac.core.wordnet_online import WordNet as AcatWordnet
 from requests import ConnectionError
 
 try:
-    # uncomment only for testing 
-    raise ImportError
-
     import rospy
     # imports the service
     from prac2cram.srv import Prac2Cram
