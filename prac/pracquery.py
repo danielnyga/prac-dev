@@ -886,3 +886,4 @@ if __name__ == '__main__':
         print
         for plan in step.executable_plans:
             print plan
+            print
