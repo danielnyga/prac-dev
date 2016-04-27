@@ -675,7 +675,7 @@ class WordNet(object):
             raise Exception('Need a collapsed taxonomy')
         tax = self.core_taxonomy
         g = gv.Digraph(format='svg')
-        g.attr('graph', nodesep='.5', splines='true', rankdir='BT', ratio='fill', bgcolor='white')
+        g.attr('graph', nodesep='.5', splines='true', rankdir='BT', ratio='fill', bgcolor='transparent')
         processed = {}
         for c in tax.traverse(algo='BFS'):
             g.node(c.data, fillcolor='#dddddd', style='filled', shape='box', fontname='Helvetica, Arial, sans-serif', size='2,2')

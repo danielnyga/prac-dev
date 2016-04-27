@@ -92,6 +92,7 @@ class WNSenses(PRACModule):
         wordnet = self.prac.wordnet
         word2senses = defaultdict(list)
         db_ = db.copy(self.prac.mln)
+
         for res in db.query('has_pos(?word,?pos)'):
             word_const = res['?word']
             pos = posMap.get(res['?pos'], None)

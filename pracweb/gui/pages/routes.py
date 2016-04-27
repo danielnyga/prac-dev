@@ -28,3 +28,8 @@ def register_routes():
     from pracweb.gui.pages import browser
     from pracweb.gui.pages import views
     from pracweb.gui.pages import utils
+    try:
+        from pracweb.gui.pages import cram
+        pracApp.app.config['rospy'] = True
+    except ImportError:
+        pracApp.app.config['rospy'] = False

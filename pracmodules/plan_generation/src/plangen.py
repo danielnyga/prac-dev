@@ -36,9 +36,10 @@ class PlanGenerator(PRACModule):
         infstep = PRACInferenceStep(pracinference, self)
         dbs = pracinference.inference_steps[-1].output_dbs
         infstep.output_dbs = dbs
+        infstep.inferred_roles = {}
         infstep.executable_plans = []
+        
         for db in dbs:
-
             for query in ('achieved_by(?ac1, ?ac)', 'action_core(?w, ?ac)'):
                 for q in db.query(query):
                     actioncore = q['?ac']
@@ -49,6 +50,7 @@ class PlanGenerator(PRACModule):
                     role_assignments = [assignment]
                     out('roles: ')
                     out(ac.roles)
+
                     for role in ac.roles:
                         for i, rq in enumerate(db.query('{0}(?w,{1}) ^ has_sense(?w, ?s)'.format(role, actioncore))):
                             if i > 0:
@@ -63,6 +65,7 @@ class PlanGenerator(PRACModule):
                         if role not in ass.keys():
                             ass[role] = "Unknown"
                     for assignment in role_assignments:
+                        infstep.inferred_roles[ac.name] = assignment
                         infstep.executable_plans.append(
                             ac.parameterize_plan(**assignment))
                     break

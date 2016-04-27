@@ -33,7 +33,7 @@ from pracmln.mln.util import colorize, out
 from pracmln.praclog import logger
 from pracmln.utils.project import MLNProject
 from pracmln.utils.visualization import get_cond_prob_png
-
+from pracmln.mln.errors import NoConstraintsError
 
 PRAC_HOME = os.environ['PRAC_HOME']
 rolesTransformationModulePath = os.path.join(PRAC_HOME, 'pracmodules', 'roles_transformation')
@@ -89,10 +89,14 @@ class RolesTransformation(PRACModule):
                 mln = parse_mln(mlntext, searchpaths=[self.module_path], projectpath=projectpath, logic=project.queryconf.get('logic', 'FirstOrderLogic'), grammar=project.queryconf.get('grammar', 'PRACGrammar'))
 
                 db.write(bars=False)
-
-                infer = MLNQuery(config=project.queryconf, db=db, mln=mln).run()
-                result_db = infer.resultdb
-
+                result_db = None
+                
+                try:
+                    infer = MLNQuery(config=project.queryconf, db=db, mln=mln).run()
+                    result_db = infer.resultdb
+                except NoConstraintsError:
+                    result_db = db
+                    
                 r_db = Database(self.prac.mln)
                 roles = ActioncoreDescriptionHandler.getRolesBasedOnActioncore(actioncore)
                 for atom, truth in sorted(result_db.evidence.iteritems()):

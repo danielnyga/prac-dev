@@ -3,6 +3,7 @@ import imp
 import time
 import json
 import shutil
+import traceback
 from urlparse import urlparse
 from flask import render_template, request, send_from_directory, url_for, \
     jsonify, session, redirect
@@ -50,7 +51,6 @@ def _prac():
     time.sleep(2)
     # return render_template('prac.html', **locals()) //openEASE integration
     return redirect('/prac/pracweb')
-
 
 @pracApp.app.route('/prac/pracweb', methods=['GET', 'POST'])
 def pracweb():
@@ -263,6 +263,11 @@ def update_kb():
     return jsonify(res)
 
 
+@pracApp.app.route('/gzweb')
+def gzweb():
+    return redirect('http://localhost:8080')
+
+
 @pracApp.app.route('/prac/_init', methods=['GET'])
 def init_options():
     pracsession = ensure_prac_session(session)
@@ -270,4 +275,29 @@ def init_options():
                                                               'models',
                                                               'actioncores.yaml')).keys())
     return jsonify({"actioncores": actioncores,
-                    "data": pracsession.prac.wordnet.get_all_synsets()})
+                    "data": pracsession.prac.wordnet.get_all_synsets(),
+                    "gz_acquisition": pracApp.app.config['gz_acquisition'],
+                    "gz_simulation": pracApp.app.config['gz_simulation'],
+                    "instruction": pracApp.app.config['instruction']
+                    })
+
+
+@pracApp.app.route('/prac/_gz_acquire', methods=['GET'])
+def gz_acquire():
+    pracsession = ensure_prac_session(session)
+    step = pracsession.old_infer.inference_steps[-1]
+    if hasattr(step, 'inferred_roles'):
+        # this is generated in plan_generation, dictionary mapping
+        # ac name to dictionary of roles {rolename:rolevalue}
+        plans = step.inferred_roles
+
+        for ac in plans:
+            infos = {"world": 'pipette' if ac == 'Pipetting' else 'pour', "instruction": str(' '.join(pracsession.old_infer.instructions)), "ac": ac, "roles": ' '.join(['--{} "{}"'.format(n, plans[ac][n]) for n in plans[ac]])}
+            # generate gazebo command containing ac and roles.
+            # world is acat_pipette if action core is Pipetting, else acat_pour
+            # this is to be replaced by more advanced 
+            cmd = 'gazebo worlds/acat_{world}.world --verbose -u -s libActionRolesReader.so --instruction "{instruction}" --ac "{ac}" {roles}'.format(**infos)
+            rs = os.system(cmd)
+        return str(rs == 0)
+    return 'False'
+

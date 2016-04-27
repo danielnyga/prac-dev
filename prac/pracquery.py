@@ -818,11 +818,24 @@ if __name__ == '__main__':
         if len(inference.instructions) > 0:
             parser = prac.getModuleByName('nl_parsing')
             prac.run(inference, parser)
-        app = PRACQueryGUI(root, inference, conf,
-                           directory=args[0] if args else None)
+            #Started control structure handling
+            '''
+            cs_recognition = prac.getModuleByName('cs_recognition')
+            prac.run(inference, cs_recognition)
+            
+            
+            dbs = inference.inference_steps[-1].output_dbs
+            dbs_ = []
+            
+            for db in dbs:
+                dbs_.extend(parser.extract_multiple_action_cores(db)) 
+            inference.inference_steps[-1].output_dbs = dbs_
+            '''
+        app = PRACQueryGUI(root, inference, conf, directory=args[0] if args else None)
         root.mainloop()
-    else:  # regular PRAC pipeline
-        while inference.next_module() is not None:
+    else: # regular PRAC pipeline
+        
+        while inference.next_module() != None :
             modulename = inference.next_module()
             module = prac.getModuleByName(modulename)
             prac.run(inference, module)
@@ -873,3 +886,4 @@ if __name__ == '__main__':
         print
         for plan in step.executable_plans:
             print plan
+            print

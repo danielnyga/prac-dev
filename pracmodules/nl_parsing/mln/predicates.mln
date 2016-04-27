@@ -166,3 +166,10 @@ mwe(word, word)
 pcomp(word, word)
 parataxis(word, word)
 attr(word, word)
+
+/*
+ * Control Structure
+ */
+
+condition(word)
+event(word,word)

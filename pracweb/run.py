@@ -1,6 +1,7 @@
 import BaseHTTPServer
 import SocketServer
 import os
+import argparse
 import logging
 import tornado.netutil
 import tornado.process
@@ -26,6 +27,24 @@ init_app(pracApp.app)
 
 if __name__ == '__main__':
     logging.getLogger().setLevel(logging.DEBUG)
+
+    parser = argparse.ArgumentParser(description='pracweb')
+    parser.add_argument('--gz-acquisition',
+                        help='add option to acquire data for instruction in simulator',
+                        action="store_true")
+    parser.add_argument('--gz-simulation',
+                        help='add option to simulate instruction execution in browser',
+                        action="store_true")
+    parser.add_argument('--instruction',
+                        help='initialize browser with this instruction',
+                        type=str)
+    args = parser.parse_args()
+
+    # store command line options
+    pracApp.app.config['gz_acquisition'] = args.gz_acquisition
+    pracApp.app.config['gz_simulation'] = args.gz_simulation
+    pracApp.app.config['instruction'] = args.instruction 
+
     if 'PRAC_SERVER' in os.environ and os.environ['PRAC_SERVER'] == 'deploy':
         log.debug('Running PRACWEB in server mode')
 

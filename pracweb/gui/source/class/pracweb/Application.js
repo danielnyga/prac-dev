@@ -54,7 +54,7 @@ members : {
                 var sessionname = response;
             });
             req.send();
-        }; 
+        };
 
         /* **************************** COMMON *******************************/
 
@@ -185,16 +185,16 @@ members : {
         this._win_logging = win_logging;
 
         // overlay image indicating work in progress
-        var img_wait = new qx.ui.basic.Image();
-        img_wait.setSource('/prac/static/images/wait.gif');
-        img_wait.getContentElement().setAttribute('id', 'waitImg');
-        img_wait.setWidth(300);
-        img_wait.setHeight(225);
-        img_wait.setMarginLeft(-150);
-        img_wait.setMarginTop(-125);
-        img_wait.setScale(1);
-        img_wait.hide();
-        this._img_wait = img_wait;
+        var img_wait_inf = new qx.ui.basic.Image();
+        img_wait_inf.setSource('/prac/static/images/wait.gif');
+        img_wait_inf.getContentElement().setAttribute('id', 'waitImgInf');
+        img_wait_inf.setWidth(300);
+        img_wait_inf.setHeight(225);
+        img_wait_inf.setMarginLeft(-150);
+        img_wait_inf.setMarginTop(-125);
+        img_wait_inf.setScale(1);
+        img_wait_inf.hide();
+        this._img_wait_inf = img_wait_inf;
 
         var img_inferencelogo = new qx.ui.basic.Image();
         img_inferencelogo.setSource('/prac/static/images/prac-darkonbright-transp.png');
@@ -220,19 +220,6 @@ members : {
         // for inference)
         var grp_pracinfcontrols = this.buildControlPane();
         this._grp_pracinfcontrols = grp_pracinfcontrols;
-
-        var win_cramplans = new qx.ui.window.Window('Cram Plans');
-        win_cramplans.setWidth(900);
-        win_cramplans.setHeight(300);
-        win_cramplans.setShowMinimize(false);
-        win_cramplans.setLayout(new qx.ui.layout.Grow());
-        this._txtarea_cramplans = new qx.ui.form.TextArea("").set({
-            font: qx.bom.Font.fromString("14px monospace")
-        });
-
-        win_cramplans.add(this._txtarea_cramplans);
-        this.getRoot().add(win_cramplans, {left:20, top:20});
-        this.__win_cramplans = win_cramplans;
 
         /* ************************ LISTENERS ********************************/
 
@@ -299,10 +286,11 @@ members : {
                                               top: 0,
                                               width: "100%",
                                               height:"100%"});
-        ctr_graph_visualization.add(img_wait, { left: "50%", top: "50%"});
+        ctr_graph_visualization.add(img_wait_inf, { left: "50%", top: "50%"});
         ctr_graph_visualization.add(img_inferencelogo, { left: 5, top: 5});
         splitpane.add(ctr_infsettings, {width: "20%"});
         splitpane.add(ctr_graph_visualization);
+
         ctr_inference.add(splitpane, {flex: 1, width: "100%"});
         ctr_inference.add(grp_pracinfcontrols, {width: "100%"});
 
@@ -317,6 +305,18 @@ members : {
         img_browserlogo.setHeight(95);
         img_browserlogo.setScale(1);
         this._img_browserlogo = img_browserlogo;
+
+        // overlay image indicating work in progress
+        var img_wait_br = new qx.ui.basic.Image();
+        img_wait_br.setSource('/prac/static/images/wait.gif');
+        img_wait_br.getContentElement().setAttribute('id', 'waitImgInf');
+        img_wait_br.setWidth(300);
+        img_wait_br.setHeight(225);
+        img_wait_br.setMarginLeft(-150);
+        img_wait_br.setMarginTop(-125);
+        img_wait_br.setScale(1);
+        img_wait_br.hide();
+        this._img_wait_br = img_wait_br;
 
         // main container (contains outer menu widget and graph widget)
         var ctr_browser = new qx.ui.container
@@ -431,8 +431,11 @@ members : {
 
         ctr_slider.add(grp_slider.slider, {row: 1, column: 0, colSpan: 3, rowSpan: 1});
 
+        var ctr_canvas_distribution = new qx.ui.container
+                                               .Composite(new qx.ui.layout.Canvas);
 
         var scrollctr_html_distr = new qx.ui.container.Scroll().set({
+//            backgroundColor: "yellow",
             width: document.getElementById("page", true, true).offsetWidth - 450,
             height: document.getElementById("page", true, true).offsetHeight - 120
         });
@@ -461,11 +464,47 @@ members : {
 
         scrollctr_html_distr.add(html_distr);
 
+        ctr_canvas_distribution.add(scrollctr_html_distr);
+        ctr_canvas_distribution.add(img_wait_br, { left: "50%", top: "50%"});
+
         ctr_distrsvg.add(ctr_slider);
-        ctr_distrsvg.add(scrollctr_html_distr);
+        ctr_distrsvg.add(ctr_canvas_distribution);
 
         ctr_browser.add(ctr_browsermenu, {height: "100%"});
         ctr_browser.add(ctr_distrsvg, {height: "100%"});
+
+        /* ********************** GAZEBO *************************************/
+
+        /* ********************** CREATE ELEMENTS ****************************/
+
+        var win_cramplans = new qx.ui.window.Window('Cram Plans');
+        win_cramplans.setWidth(900);
+        win_cramplans.setHeight(300);
+        win_cramplans.setShowMinimize(false);
+        win_cramplans.setLayout(new qx.ui.layout.Canvas());
+        this._win_cramplans = win_cramplans;
+
+        this._html_cramplans = new qx.ui.embed.Html("");
+
+        var btn_gzsimulation = new qx.ui.form.Button("Execute Simulation");
+        this._btn_gzsimulation = btn_gzsimulation;
+
+        var btn_gzacquisition = new qx.ui.form.Button("Acquire Data");
+        this._btn_gzacquisition = btn_gzacquisition;
+
+        var iframe_gzweb = new qx.ui.embed.Iframe("/gzweb");
+        var ctr_gzweb = new qx.ui.container.Composite(new qx.ui.layout.Grow());
+        
+        /* ********************** LISTENERS **********************************/
+        
+        btn_gzsimulation.addListener('execute', this.sim_rospy, this);
+        btn_gzacquisition.addListener('execute', this.gz_acquire, this);
+
+        /* ********************** SET UP LAYOUT ******************************/
+
+        win_cramplans.add(this._html_cramplans,  
+                          {left:"0%", top:"0%", right:"0%", bottom:" 15%"});
+        ctr_gzweb.add(iframe_gzweb);
 
         /* ********************** SET UP MAIN LAYOUT *************************/
 
@@ -473,19 +512,30 @@ members : {
         tabview.setContentPadding(2,2,2,2);
         this.__tabview = tabview;
 
-        ////////////////// INFERENCE PAGE ////////////////////
+        ////////////////////////// INFERENCE PAGE ///////////////////////////
+
         var page_inference = new qx.ui.tabview.Page("Inference");
         this.__page_inference = page_inference;
         page_inference.setLayout(new qx.ui.layout.Grow());
         page_inference.add(ctr_inference, {width: "100%", height: "100%"});
         tabview.add(page_inference, {width: "100%", height: "100%"});
 
-        ////////////////// BROWSER PAGE ////////////////////
+        //////////////////////// BROWSER PAGE ///////////////////////////////
+
         var page_browser = new qx.ui.tabview.Page("Browser");
         this.__page_browser = page_browser;
         page_browser.setLayout(new qx.ui.layout.Grow());
         page_browser.add(ctr_browser, {width: "100%", height: "100%"});
         tabview.add(page_browser, {width: "100%", height: "100%"});
+
+        /////////////////////// GAZEBO (GZWEB) PAGE /////////////////////////
+    
+        var page_gzweb = new qx.ui.tabview.Page("Gazebo Simulation");
+        this._page_gzweb = page_gzweb;
+        page_gzweb.setLayout(new qx.ui.layout.Grow()); 
+        page_gzweb.add(ctr_gzweb, {width: "100%", height: "100%"});
+
+        /////////////////////////////////////////////////////////////////////
 
         ctr_main.add(tabview, {width: "100%", height: "100%"});
         ctr_main.add(html_flashmsg, { left: "50%", top: "50%"});
@@ -499,6 +549,7 @@ members : {
         this.init();
         this.load_flow_chart();
         this.getRoot().add(img_condprobWin, {left:20, top:20});
+        this.getRoot().add(win_cramplans, {left:10, top:10});
         this.__var_show_ctr_infsettings = false;
         this.__var_infer_stepwise = false;
         this.__var_use_chkbx_acatontology = false;
@@ -742,7 +793,7 @@ members : {
     * Start the inference process
     */
     start_inference : function(e) {
-       this.show_wait_animation(true);
+       this.show_wait_animation('inf', true);
 
        var req = new qx.io.request.Xhr("/prac/_start_inference", e);
        req.setRequestHeader("Content-Type", "application/json");
@@ -762,9 +813,9 @@ members : {
     */
     get_inference_status : function() {
 
-        this.show_wait_animation(true);
+        this.show_wait_animation('inf', true);
         this._btn_next_infstep.setEnabled(false);
-        this.__win_cramplans.close();
+        this._win_cramplans.close();
 
         // update flowchart
         if (this._next_module === 'achieved_by' ||
@@ -820,11 +871,11 @@ members : {
                                                         '' :
                                                         responseSettings['evidence'];
 
-                that.show_wait_animation(false);
+                that.show_wait_animation('inf', false);
 
                 if (response.finish) {
                     console.log(" I am DONE! ");
-                    that.show_wait_animation(true);
+                    that.show_wait_animation('inf', true);
                     that.updateGraph(updateLinks[0], updateLinks[1]);
 
                     // wait 3 seconds, then clear flowchart
@@ -835,7 +886,7 @@ members : {
                     that._btn_next_infstep.setEnabled(false);
                     that._btn_run_inference.setEnabled(true);
                     that._last_module = '';
-                    that.show_wait_animation(false);
+                    that.show_wait_animation('inf', false);
                 } else if (that._next_module === 'plan_generation') {
                     // do not redraw graph because plan_generation does
                     // not update output_dbs
@@ -1204,7 +1255,7 @@ members : {
      */
     get_role_distributions : function(e) {
         console.log('getting role distributions...');
-        this.show_wait_animation(true);
+        this.show_wait_animation('inf', true);
         var req = new qx.io.request.Xhr();
         req.setUrl("/prac/_get_role_distributions");
         req.setMethod('GET');
@@ -1212,7 +1263,7 @@ members : {
         req.setRequestHeader("Content-Type", "application/json");
         var that = this;
         req.addListener("success", function(e) {
-            this.show_wait_animation(false);
+            this.show_wait_animation('inf', false);
             var tar = e.getTarget();
             var response = tar.getResponse();
             if (response.distributions) {
@@ -1238,7 +1289,7 @@ members : {
         }, that);
 
         req.addListener("fail", function(e) {
-            this.show_wait_animation(false);
+            this.show_wait_animation('inf', false);
             this.notify("Error! Could not generate Role Distributions.", 100);
         }, that);
         req.send();
@@ -1261,8 +1312,12 @@ members : {
             var response = tar.getResponse();
 
             if (response.plans) {
-                this._txtarea_cramplans.setValue(response.plans.join(''));
-                this.__win_cramplans.open();
+                for (var i = 0; i < response.plans.length; i++) {
+                    var tmp = formatCP(response.plans[i]);
+                    response.plans[i] = tmp;
+                }
+                this._html_cramplans.setHtml(response.plans.join(''));
+                this._win_cramplans.open();
                 return;
             }
         }, that);
@@ -1326,11 +1381,11 @@ members : {
     /**
      * show or hide animated wait logo
      */
-    show_wait_animation : function(wait) {
+    show_wait_animation : function(task, wait) {
         if (wait){
-            this._img_wait.show();
+            this["_img_wait_" + task].show();
         } else {
-            this._img_wait.hide();
+            this["_img_wait_" + task].hide();
         }
     },
 
@@ -1457,6 +1512,23 @@ members : {
             var response = tar.getResponse();
 
             this.__wordnetconcepts = response.data;
+            this.__rospy = response.rospy;
+
+            // depending on command line options of pracweb, add
+            // button for acquisition
+            if (response.gz_acquisition) {
+                this._win_cramplans.add(this._btn_gzacquisition,  
+                                         {right:"20%", bottom:"1%", width:"20%"});
+            }
+
+            // depending on command line options of pracweb, add
+            // gzweb page and button for execution simulation
+            if (response.gz_simulation) {
+                this._win_cramplans.add(this._btn_gzsimulation,  
+                                         {right:"0%", bottom:"1%", width:"20%"});
+                this.__tabview.add(this._page_gzweb, 
+                                   {width: "100%", height: "100%"});
+            }
 
             // set examples for inference and learning
             for (var i = 0; i < response.actioncores.length; i++) {
@@ -1517,6 +1589,7 @@ members : {
     * Update fields when changing the example folder for inference
     */
     get_dists : function(e){
+        this.show_wait_animation('br', true);
         var roles_selects = this._ctr_rolesconcepts.getChildren();
         this.__success_distributions = false;
         this._sel_role.removeAll();
@@ -1536,6 +1609,7 @@ members : {
         req.addListener("success", function(e) {
             var tar = e.getTarget();
             var response = tar.getResponse();
+            this.show_wait_animation('br', false);
             this.__distributions = response.distributions;
             this.__success_distributions = response.success;
 
@@ -1586,6 +1660,59 @@ members : {
         this.__html_distr.setMinHeight(newheight);
         this.__html_distr.setMaxHeight(newheight);
         this._grp_slider.value.setValue('Zoom: ' + Math.round(newwidth/parentwidth * 100).toString() + '%');
-    }
+    },
+
+
+    /**
+    * connect via rospy
+    */
+    sim_rospy : function (e) {
+        // this is a string, including html tags!
+        // tags should be removed before this is usable!
+        var cramPlan = this._html_cramplans.getHtml();
+        cramPlan = cramPlan.trim();
+        var updatedText = cramPlan + "<p>Sending CRAM plan to execute...</p>";
+
+        this._html_cramplans.setHtml(updatedText);
+
+        var req = new qx.io.request.Xhr('/prac/_execute_plan', 'POST');
+        req.setRequestHeader("Content-Type", "application/json");
+        // we on't need the fake plan string at the moment, but it could come handy later
+        // so it's included in the data but not send to the service
+        req.setRequestData({ 'plan': cramPlan });
+        var that = this;
+        // when the ROS service call returns success
+        req.addListener("success", function(e) {
+
+            var tar = e.getTarget();
+            var response = tar.getResponse();
+            that.notify(response.message, 500);
+            if (response.status == 0) {
+                // switch automatically to gazebo tab
+                that.__tabview.setSelection([this._page_gzweb]); //  must be given as a list with one element
+                // make the CRAM plan window smaller
+                that._win_cramplans.setWidth(400);
+                // and move it where it  won  disturb
+                that._win_cramplans.moveTo(50, (h-500));
+                // disable the Execute-button
+                this._btn_gzsimulation.setEnabled(false);
+                var h = document.getElementById("page", true, true).offsetHeight;
+            }
+        }, this);
+        req.send();
+    },
+
+
+    /**
+    * call data acquisition
+    */
+    gz_acquire : function (e) {
+        var req = new qx.io.request.Xhr('/prac/_gz_acquire', 'GET');
+        req.setRequestHeader("Content-Type", "text/plain");
+        req.addListener("success", function(e) {
+            this.notify('Gazebo Simulator will be started...', 300);
+        }, this);
+        req.send();
+    }    
   }
 });

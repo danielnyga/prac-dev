@@ -49,7 +49,8 @@ def getinfstatus():
 
 def _pracinfer(pracsession, timeout, method, data):
     prac = pracsession.prac
-
+    prac.log.setLevel(logging.ERROR)
+    #prac.mln.verbose = False # does nothing
     logmsg = ''
     result = []
     settings = {}
@@ -196,7 +197,8 @@ def _get_cram_plan():
     else:
         cramplans = []
 
-    return jsonify({'plans': [format_cram_string(cp) for cp in cramplans]})
+    #return jsonify({'plans': [format_cram_string(cp) for cp in cramplans]})
+    return jsonify({'plans': cramplans})
 
 
 @pracApp.app.route('/prac/_pracinfer_get_cond_prob', methods=['GET'])
@@ -316,9 +318,10 @@ def generate_graph_links(pracsession, evidence):
                      'value': a_tuple[1], 'arcStyle': 'strokegreen'})
     return result
 
-
+# side effect: fill in actioncores list to pass to CRAM
 def generate_final_links(pracsession):
     result = []
+
     finaldb = Database(pracsession.prac.mln)
     for step in pracsession.infer.inference_steps:
         for db in step.output_dbs:
@@ -331,19 +334,37 @@ def generate_final_links(pracsession):
                         ['has_sense', 'action_core', 'achieved_by']):
                     finaldb << (atom, truth)
 
+    # want something nice like this in action_cores:
+    # action_cores:
+    #   - action_core_name: 'Starting'
+    #     action_roles:
+    #       - role_name: obj_to_be_started
+    #         role_value: centrifuge.n.01
+    #   - action_core_name: 'TurningOnElectricalDevice'
+    #     action_roles:
+    #       - role_name: device
+    #         role_value: centrifuge.n.01
+    actioncores = []
     # add all roles and word sense (is_a) links
     for res in finaldb.query(
             'action_core(?w, ?a) ^ has_sense(?w, ?s)'):
         actioncore = res['?a']
+        # wordnet sense
         sense = res['?s']
         result.append({'source': {'name': actioncore, 'text': ''},
                        'target': {'name': sense,
                                   'text': wn.synset(sense).definition},
                        'value': 'is_a', 'arcStyle': 'strokegreen'})
 
+        actioncore_dict = {}
+        actioncore_dict['action_core_name'] = actioncore
+        actioncore_dict['action_roles'] = []
+
         roles = ActioncoreDescriptionHandler.getRolesBasedOnActioncore(
             actioncore)
         for role in roles:
+            # we want to know whats missing, too
+            sense = None
             for dbres in finaldb.query('{}(?w, {}) ^ has_sense(?w, ?s)'.format(
                     role, actioncore)):
                 sense = dbres['?s']
@@ -353,7 +374,13 @@ def generate_final_links(pracsession):
                                 'text': wn.synset(sense).definition},
                      'value': role,
                      'arcStyle': 'strokegreen'})
-    # add achieved_by links
+
+            actioncore_dict['action_roles'].append({'role_name': role, 'role_value': sense})
+
+        actioncores.append(actioncore_dict)
+
+
+
     for finaldbres in finaldb.query('achieved_by(?a1, ?a2)'):
         a1 = finaldbres['?a1']
         actioncore = finaldbres['?a2']
@@ -361,9 +388,15 @@ def generate_final_links(pracsession):
                        'target': {'name': actioncore, 'text': ''},
                        'value': 'achieved_by',
                        'arcStyle': 'strokegreen'})
+
+        actioncore_dict = {}
+        actioncore_dict['action_core_name'] = actioncore
+        actioncore_dict['action_roles'] = []
+
         roles = ActioncoreDescriptionHandler.getRolesBasedOnActioncore(
             actioncore)
         for role in roles:
+            sense = None
             for dbr in finaldb.query('{}(?w, {}) ^ has_sense(?w, ?s)'.format(
                     role, actioncore)):
                 sense = dbr['?s']
@@ -373,4 +406,11 @@ def generate_final_links(pracsession):
                                 'text': wn.synset(sense).definition},
                      'value': role,
                      'arcStyle': 'strokegreen'})
+
+        actioncore_dict['action_roles'].append({'role_name': role, 'role_value': sense})
+        actioncores.append(actioncore_dict)
+
+
+
+    pracsession.actioncores = actioncores
     return result
