@@ -147,6 +147,10 @@ action_roles: ['obj_to_be_taken','action_verb']
 
 ---
 
+action_core: Evaluating
+action_roles: ['obj_to_be_evaluated','attribute','action_verb']
+
+---
 action_core: Grabbing 
 action_roles: ['obj_to_be_grabbed','action_verb']
 cram_plan: "(grab (type {obj_to_be_grabbed}))"
