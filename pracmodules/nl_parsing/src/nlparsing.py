@@ -302,7 +302,7 @@ class NLParsing(PRACModule):
                 db << posTagAtom
                 self.posTags[pos[0]] = pos[1]
             
-            inferenceStep.output_dbs.append(db)
+            inferenceStep.output_dbs.extend(self.extract_multiple_action_cores(db))
             
             print
             print colorize('Syntactic evidence:', (None, 'white', True), True)

@@ -95,6 +95,8 @@ class PRACInference(object):
                 if self.is_task_missing_roles(outdb):
                     return 'role_look_up'
                 '''
+                
+                
                 for r in outdb.query('action_core(?w, ?a)'):
                     actioncore = r['?a']
                     mod = self.prac.getModuleByName('roles_transformation')

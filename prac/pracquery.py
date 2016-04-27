@@ -822,6 +822,8 @@ if __name__ == '__main__':
             '''
             cs_recognition = prac.getModuleByName('cs_recognition')
             prac.run(inference, cs_recognition)
+            
+            
             dbs = inference.inference_steps[-1].output_dbs
             dbs_ = []
             

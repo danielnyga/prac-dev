@@ -74,7 +74,7 @@ class RoleLookUp(PRACModule):
     '''
     def determine_missing_roles(self,db):
         mongo_client = MongoClient()
-        ies_mongo_db = mongo_client.IES
+        ies_mongo_db = mongo_client.PRAC
         frames_collection = ies_mongo_db.Frames
         
         db_ = db.copy()
