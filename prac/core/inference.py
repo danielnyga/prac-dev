@@ -91,11 +91,11 @@ class PRACInference(object):
             return 'senses_and_roles'
         elif previous_module == 'senses_and_roles':
             for outdb in self.inference_steps[-1].output_dbs:
+                #return 'complex_achieved_by'
                 '''
                 if self.is_task_missing_roles(outdb):
                     return 'role_look_up'
                 '''
-                
                 
                 for r in outdb.query('action_core(?w, ?a)'):
                     actioncore = r['?a']
@@ -134,7 +134,7 @@ class PRACInference(object):
                         return 'achieved_by'
             return 'plan_generation'
         elif previous_module == 'complex_achieved_by':
-            return None
+            return 'plan_generation'
         elif previous_module == 'plan_generation':
             return None
         
