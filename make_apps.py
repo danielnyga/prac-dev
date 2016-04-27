@@ -35,8 +35,8 @@ pracwebpackages = [('flask', 'Flask', False),
                    ('werkzeug', 'werkzeug', False),
                    ('PIL', 'Pillow', False),
                    ('jinja2', 'Jinja2', False),
-                   ('geoip', 'python-geoip python-geoip-geolite2', True)
-                   ('tinyrpc', 'tinyrpc', False)
+                   ('geoip', 'python-geoip python-geoip-geolite2', True),
+                   ('tinyrpc', 'tinyrpc', False),
                    ('requests', 'requests', False)]
 
 python_apps = [
