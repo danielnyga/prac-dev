@@ -185,7 +185,7 @@ class WNSenses(PRACModule):
           1.000  is_a(pot.n.01, spatula.n.01)``
         """
 
-        mlndomains = mln.domains['concept'] + db.domains['concept']
+        mlndomains = mln.domains.get('concept', []) + db.domains.get('concept', [])
         for c in db.domains['sense']:
             synset = self.prac.wordnet.synset(c)
             for c2 in mlndomains:

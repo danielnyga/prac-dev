@@ -27,8 +27,8 @@ from prac.core.inference import PRACInferenceStep, PRACInference
 from prac.core.wordnet import WordNet
 from pracmln import praclog, MLNQuery, Database
 from pracmln.mln.base import parse_mln
-from pracmln.mln.util import colorize, stop
-from pracmln.utils.project import MLNProject, PRACMLNConfig
+from pracmln.mln.util import colorize, stop, out, mergedom
+from pracmln.utils.project import MLNProject
 from pracmln.utils.visualization import get_cond_prob_png
 
 
@@ -40,7 +40,6 @@ class CorefResolution(PRACModule):
     PRACmodule used to perform coreference resolution and simultaneous missing
     role inference.
     """
-
 
     @PRACPIPE
     def __call__(self, pracinference, **params):
@@ -63,8 +62,11 @@ class CorefResolution(PRACModule):
             if i == 0:
                 continue
             else:
+                # query action core and action verb for later use
                 for q in dbs[i].query('action_core(?w,?ac)'):
                     ac = q['?ac']
+                for q in dbs[i].query('action_verb(?av,{})'.format(ac)):
+                    av = q['?av']
                 print colorize('Loading Project {}'.format(ac),
                                (None, 'cyan', True),
                                True)
@@ -91,30 +93,12 @@ class CorefResolution(PRACModule):
 
                 # preprocessing: adding distance information for each
                 # word-word pair in the instructions
-                words = list(
-                    enumerate([list(enumerate(s)) for s in sentences]))
-                sentencecombinations = list(
-                    itertools.combinations_with_replacement(
-                        list(enumerate(words)), 2))
-
-                for sc in sentencecombinations:
-                    for w1 in sc[0][1][1]:
-                        for w2 in sc[1][1][1]:
-                            if w1[1] == w2[1]: continue
-                            d = sc[0][0] - sc[1][0]
-                            if d < 0:
-                                dist = abs(d)
-                                corefdb << 'distance({},{},DIST{})'.format(
-                                    w2[1], w1[1], dist)
-                            elif d == 0:
-                                corefdb << 'distance({},{},DIST{})'.format(
-                                    w1[1], w2[1], 0)
-                                corefdb << 'distance({},{},DIST{})'.format(
-                                    w2[1], w1[1], 0)
-                            else:
-                                dist = abs(d)
-                                corefdb << 'distance({},{},DIST{})'.format(
-                                    w1[1], w2[1], dist)
+                snts = list(enumerate(sentences))
+                idx = len(snts) - 1  # idx of current sentence
+                for s in snts[:-1]:
+                    idx2 = s[0]
+                    for w in s[1]:
+                        corefdb << 'distance({},DIST{})'.format(w, idx - idx2)
 
                 mlntext = project.mlns.get(project.queryconf['mln'], None)
                 mln = parse_mln(mlntext,
@@ -131,7 +115,8 @@ class CorefResolution(PRACModule):
                 newdatabase = wordnet_module.add_sims(corefdb, mln)
 
                 # update queries depending on missing roles
-                acroles = filter(lambda r: r != 'action_verb', self.prac.actioncores[ac].roles)
+                acroles = filter(lambda r: r != 'action_verb',
+                                 self.prac.actioncores[ac].roles)
                 missingroles = [x for x in acroles if len(
                     list(newdatabase.query('{}(?w,Adding)'.format(x)))) == 0]
                 conf = project.queryconf
@@ -141,13 +126,21 @@ class CorefResolution(PRACModule):
 
                 # asserting impossible role-ac combinations, leaving previously
                 # inferred roles untouched
-                acs = list(set(newdatabase.domains['actioncore'] + mln.domains[
-                    'actioncore']))
-                acs.remove(ac)
-                for w in newdatabase.domains['word']:
-                    for ac1 in acs:
-                        for r in missingroles:
-                            if list(newdatabase.query('{}({},{})'.format(r, w, ac1))):
+                fulldom = mergedom(mln.domains, newdatabase.domains)
+                ac_domains = [dom for dom in fulldom if '_ac' in dom]
+                acs = list(set([v for a in ac_domains for v in fulldom[a]]))
+                acs = filter(lambda ac_: ac_ != ac, acs)
+
+                for ac1 in acs:
+                    for r in missingroles:
+                        for w in newdatabase.domains['word']:
+                            # words with no sense are asserted false
+                            if list(corefdb.query('!(EXIST ?sense (has_sense({},?sense)))'.format(w))):
+                                newdatabase << '!{}({},{})'.format(r, w, ac)
+                            # leave previously inferred information roles
+                            # untouched
+                            if list(newdatabase.query('{}({},{})'.format(r, w,
+                                                                         ac1))):
                                 continue
                             else:
                                 newdatabase << '!{}({},{})'.format(r, w, ac1)
@@ -172,7 +165,6 @@ class CorefResolution(PRACModule):
 if __name__ == '__main__':
 
     from optparse import OptionParser
-
 
     parser = OptionParser()
     parser.add_option("-i", "--interactive", dest="interactive", default=False,
