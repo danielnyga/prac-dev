@@ -494,14 +494,14 @@ members : {
 
         var iframe_gzweb = new qx.ui.embed.Iframe("/gzweb");
         var ctr_gzweb = new qx.ui.container.Composite(new qx.ui.layout.Grow());
-        
+
         /* ********************** LISTENERS **********************************/
-        
+
         btn_gzsimulation.addListener('execute', this.sim_rospy, this);
 
         /* ********************** SET UP LAYOUT ******************************/
 
-        win_cramplans.add(this._html_cramplans,  
+        win_cramplans.add(this._html_cramplans,
                           {left:"0%", top:"0%", right:"0%", bottom:" 15%"});
         ctr_gzweb.add(iframe_gzweb);
 
@@ -528,10 +528,10 @@ members : {
         tabview.add(page_browser, {width: "100%", height: "100%"});
 
         /////////////////////// GAZEBO (GZWEB) PAGE /////////////////////////
-    
+
         var page_gzweb = new qx.ui.tabview.Page("Gazebo Simulation");
         this._page_gzweb = page_gzweb;
-        page_gzweb.setLayout(new qx.ui.layout.Grow()); 
+        page_gzweb.setLayout(new qx.ui.layout.Grow());
         page_gzweb.add(ctr_gzweb, {width: "100%", height: "100%"});
 
         /////////////////////////////////////////////////////////////////////
@@ -1517,16 +1517,16 @@ members : {
             // depending on command line options of pracweb, add
             // button for acquisition
             if (response.gz_acquisition) {
-                this._win_cramplans.add(this._btn_gzacquisition,  
+                this._win_cramplans.add(this._btn_gzacquisition,
                                          {right:"20%", bottom:"1%", width:"20%"});
             }
 
             // depending on command line options of pracweb, add
             // gzweb page and button for execution simulation
             if (response.gz_simulation) {
-                this._win_cramplans.add(this._btn_gzsimulation,  
+                this._win_cramplans.add(this._btn_gzsimulation,
                                          {right:"0%", bottom:"1%", width:"20%"});
-                this.__tabview.add(this._page_gzweb, 
+                this.__tabview.add(this._page_gzweb,
                                    {width: "100%", height: "100%"});
             }
 
@@ -1664,14 +1664,14 @@ members : {
 
 
     /**
-    * connect via rospy
+    * connect via rospy or, if ROS is not installed, via RPC
     */
     sim_rospy : function (e) {
         // this is a string, including html tags!
         // tags should be removed before this is usable!
         var cramPlan = this._html_cramplans.getHtml();
         cramPlan = cramPlan.trim();
-        var updatedText = cramPlan + "<p>Sending CRAM plan to execute...</p>";
+        var updatedText = cramPlan + '<p class="cramPlan">Sending CRAM plan to execute...</p>';
 
         this._html_cramplans.setHtml(updatedText);
 
@@ -1687,16 +1687,17 @@ members : {
             var tar = e.getTarget();
             var response = tar.getResponse();
             that.notify(response.message, 500);
+            // if ROS or RPC Service returns success
             if (response.status == 0) {
                 // switch automatically to gazebo tab
                 that.__tabview.setSelection([this._page_gzweb]); //  must be given as a list with one element
                 // make the CRAM plan window smaller
                 that._win_cramplans.setWidth(400);
                 // and move it where it  won  disturb
+                var h = document.getElementById("page", true, true).offsetHeight;
                 that._win_cramplans.moveTo(50, (h-500));
                 // disable the Execute-button
                 this._btn_gzsimulation.setEnabled(false);
-                var h = document.getElementById("page", true, true).offsetHeight;
             }
         }, this);
         req.send();

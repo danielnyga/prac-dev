@@ -45,6 +45,11 @@ if __name__ == '__main__':
     pracApp.app.config['gz_simulation'] = args.gz_simulation
     pracApp.app.config['instruction'] = args.instruction 
 
+    if args.gz_simulation:
+        pracApp.app.config['RPC_HOST'] = 'http://127.0.0.1' # adapt for deployment
+        pracApp.app.config['RPC_PORT'] = '5050' # arbitrary  
+
+
     if 'PRAC_SERVER' in os.environ and os.environ['PRAC_SERVER'] == 'deploy':
         log.debug('Running PRACWEB in server mode')
 
