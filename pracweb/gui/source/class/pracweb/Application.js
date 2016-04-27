@@ -473,7 +473,7 @@ members : {
         ctr_browser.add(ctr_browsermenu, {height: "100%"});
         ctr_browser.add(ctr_distrsvg, {height: "100%"});
 
-        /* ********************** GAZEBO PAGE *****************************/
+        /* ********************** GAZEBO *************************************/
 
         /* ********************** CREATE ELEMENTS ****************************/
 
@@ -482,64 +482,26 @@ members : {
         win_cramplans.setHeight(300);
         win_cramplans.setShowMinimize(false);
         win_cramplans.setLayout(new qx.ui.layout.Canvas());
-        this.__win_cramplans = win_cramplans;
-        //this._txtarea_cramplans = new qx.ui.form.TextArea("").set({
-        //    font: qx.bom.Font.fromString("14px monospace")
-        //});
-        this._txtarea_cramplans = new qx.ui.embed.Html("");
-        //this._txtarea_cramplans.setCssClass("formatcp");
+        this._win_cramplans = win_cramplans;
 
-        var button_cram = new qx.ui.form.Button("Execute");
-        this.__button_cram = button_cram;
+        this._html_cramplans = new qx.ui.embed.Html("");
+
+        var btn_gzsimulation = new qx.ui.form.Button("Execute Simulation");
+        this._btn_gzsimulation = btn_gzsimulation;
+
+        var btn_gzacquisition = new qx.ui.form.Button("Acquire Data");
+        this._btn_gzacquisition = btn_gzacquisition;
 
         var iframe_gzweb = new qx.ui.embed.Iframe("/gzweb");
         var ctr_gzweb = new qx.ui.container.Composite(new qx.ui.layout.Grow());
         
         /* ********************** LISTENERS **********************************/
         
-        button_cram.addListener("execute", function (e) {
-
-            // this is a string, including html tags!
-            // tags should be removed before this is usable!
-            var cramPlan = this._txtarea_cramplans.getHtml();
-            cramPlan = cramPlan.trim();
-            var updatedText = cramPlan + "<p>Sending CRAM plan to execute...</p>";
-
-            this._txtarea_cramplans.setHtml(updatedText);
-
-            var req = new qx.io.request.Xhr('/prac/_execute_plan', 'POST');
-            req.setRequestHeader("Content-Type", "application/json");
-            // we on't need the fake plan string at the moment, but it could come handy later
-            // so it's included in the data but not send to the service
-            req.setRequestData({ 'plan': cramPlan});
-            var that = this;
-            // when the ROS service call returns success
-            req.addListener("success", function(e) {
-
-               var tar = e.getTarget();
-               var response = tar.getResponse();
-               that.notify(response.message, 500);
-               if (response.status == 0) {
-
-               // switch automatically to gazebo tab
-               that.__tabview.setSelection([this.__page_gzweb]); //  must be given as a list with one element
-               // make the CRAM plan window smaller
-               that.__win_cramplans.setWidth(400);
-               // and move it where it  won  disturb
-               that.__win_cramplans.moveTo(50, (h-500));
-               // disable the Execute-button
-               this.__button_cram.setEnabled(false);
-               var h = document.getElementById("page", true, true).offsetHeight;
-
-
-               }
-            }, this);
-            req.send();
-        }, this);        
+        btn_gzsimulation.addListener('execute', this.sim_rospy, this);
 
         /* ********************** SET UP LAYOUT ******************************/
 
-        win_cramplans.add(this._txtarea_cramplans,  
+        win_cramplans.add(this._html_cramplans,  
                           {left:"0%", top:"0%", right:"0%", bottom:" 15%"});
         ctr_gzweb.add(iframe_gzweb);
 
@@ -568,7 +530,7 @@ members : {
         /////////////////////// GAZEBO (GZWEB) PAGE /////////////////////////
     
         var page_gzweb = new qx.ui.tabview.Page("Gazebo Simulation");
-        this.__page_gzweb = page_gzweb;
+        this._page_gzweb = page_gzweb;
         page_gzweb.setLayout(new qx.ui.layout.Grow()); 
         page_gzweb.add(ctr_gzweb, {width: "100%", height: "100%"});
 
@@ -852,7 +814,7 @@ members : {
 
         this.show_wait_animation('inf', true);
         this._btn_next_infstep.setEnabled(false);
-        this.__win_cramplans.close();
+        this._win_cramplans.close();
 
         // update flowchart
         if (this._next_module === 'achieved_by' ||
@@ -1354,8 +1316,8 @@ members : {
                     response.plans[i] = tmp;
                     console.log(tmp);
                 }
-                this._txtarea_cramplans.setHtml(response.plans.join(''));
-                this.__win_cramplans.open();
+                this._html_cramplans.setHtml(response.plans.join(''));
+                this._win_cramplans.open();
                 return;
             }
         }, that);
@@ -1550,11 +1512,22 @@ members : {
             var response = tar.getResponse();
 
             this.__wordnetconcepts = response.data;
-            this.__useros = response.useros;
-            if (this.__useros) {
-                this.__win_cramplans.add(this.__button_cram,  
-                          {right:"0%", bottom:"1%", width:"20%"});
-                this.__tabview.add(this.__page_gzweb, {width: "100%", height: "100%"});
+            this.__rospy = response.rospy;
+
+            // depending on command line options of pracweb, add
+            // button for acquisition
+            if (response.gz_acquisition) {
+                this._win_cramplans.add(this._btn_gzacquisition,  
+                                         {right:"20%", bottom:"1%", width:"20%"});
+            }
+
+            // depending on command line options of pracweb, add
+            // gzweb page and button for execution simulation
+            if (response.gz_simulation) {
+                this._win_cramplans.add(this._btn_gzsimulation,  
+                                         {right:"0%", bottom:"1%", width:"20%"});
+                this.__tabview.add(this._page_gzweb, 
+                                   {width: "100%", height: "100%"});
             }
 
             // set examples for inference and learning
@@ -1687,6 +1660,46 @@ members : {
         this.__html_distr.setMinHeight(newheight);
         this.__html_distr.setMaxHeight(newheight);
         this._grp_slider.value.setValue('Zoom: ' + Math.round(newwidth/parentwidth * 100).toString() + '%');
+    },
+
+
+    /**
+    * connect via rospy
+    */
+    sim_rospy : function (e) {
+        // this is a string, including html tags!
+        // tags should be removed before this is usable!
+        var cramPlan = this._html_cramplans.getHtml();
+        cramPlan = cramPlan.trim();
+        var updatedText = cramPlan + "<p>Sending CRAM plan to execute...</p>";
+
+        this._html_cramplans.setHtml(updatedText);
+
+        var req = new qx.io.request.Xhr('/prac/_execute_plan', 'POST');
+        req.setRequestHeader("Content-Type", "application/json");
+        // we on't need the fake plan string at the moment, but it could come handy later
+        // so it's included in the data but not send to the service
+        req.setRequestData({ 'plan': cramPlan });
+        var that = this;
+        // when the ROS service call returns success
+        req.addListener("success", function(e) {
+
+            var tar = e.getTarget();
+            var response = tar.getResponse();
+            that.notify(response.message, 500);
+            if (response.status == 0) {
+                // switch automatically to gazebo tab
+                that.__tabview.setSelection([this._page_gzweb]); //  must be given as a list with one element
+                // make the CRAM plan window smaller
+                that._win_cramplans.setWidth(400);
+                // and move it where it  won  disturb
+                that._win_cramplans.moveTo(50, (h-500));
+                // disable the Execute-button
+                this._btn_gzsimulation.setEnabled(false);
+                var h = document.getElementById("page", true, true).offsetHeight;
+            }
+        }, this);
+        req.send();
     }
   }
 });

@@ -273,4 +273,7 @@ def init_options():
                                                               'actioncores.yaml')).keys())
     return jsonify({"actioncores": actioncores,
                     "data": pracsession.prac.wordnet.get_all_synsets(),
-                    "useros": pracApp.app.config['rospy']})
+                    "gz_acquisition": pracApp.app.config['gz_acquisition'],
+                    "gz_simulation": pracApp.app.config['gz_simulation'],
+                    "instruction": pracApp.app.config['instruction']
+                    })
