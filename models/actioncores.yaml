@@ -60,18 +60,19 @@ action_roles: ['obj_to_be_started','action_verb']
 action_core: Pouring
 
 action_roles: ['stuff','goal','action_verb','unit','amount']
+required_action_roles: ['stuff','goal','action_verb']
 cram_plan: "(pour-from-container \t!(from (an object \t!(type container.n.01)\n\t\t(contains (some stuff (type {stuff}))))\n\t(amount ({amount} {unit}))\n\t(to (an object \t!(type {goal})\n\n"
 
 ---
 
 action_core: Adding
 action_roles: ['theme','goal','action_verb','unit','amount']
-
+required_action_roles: ['theme','goal','action_verb']
 ---
 
 action_core: Preheating
 action_roles: ['obj_to_be_heated','temperature_unit','temperature_setting','action_verb']
-
+required_action_roles: ['obj_to_be_heated','action_verb']
 ---
 
 action_core: OperatingATap

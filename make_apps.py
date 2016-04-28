@@ -19,7 +19,7 @@ except ImportError:
 
 
 env_vars = ['JAVA_HOME']
-aptpackages = ['dvipng', 'texlive-full', 'default-jre']
+aptpackages = ['dvipng', 'texlive-full', 'default-jre','mongodb-server']
 
 packages = [('sphinx', 'sphinx sphinxcontrib-bibtex', False),
             ('jpype', 'jpype1', False),
@@ -29,7 +29,8 @@ packages = [('sphinx', 'sphinx sphinxcontrib-bibtex', False),
             ('lxml', 'lxml', False),
             ('yaml', 'pyyaml', False),
             ('matplotlib', 'matplotlib', False),
-            ('apt', 'python-apt', False)]
+            ('apt', 'python-apt', False),
+            ('pymongo','pymongo',False)]
 
 pracwebpackages = [('flask', 'Flask', False),
                    ('werkzeug', 'werkzeug', False),
