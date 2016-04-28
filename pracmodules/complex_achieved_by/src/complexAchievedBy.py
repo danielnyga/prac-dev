@@ -112,7 +112,6 @@ class ComplexAchievedBy(PRACModule):
             cloned_cursor = cursor.clone()
 
             for document in cursor:
-                print 'Found suitable instruction'
                 wup_vector = []
                 document_action_roles = document['action_roles']
                 
@@ -125,10 +124,12 @@ class ComplexAchievedBy(PRACModule):
                 else:
                     documents_vector.append(0)
             
-            documents_vector = numpy.array(documents_vector)
-            index = documents_vector.argmax()
+            if documents_vector:
+                print 'Found suitable instruction'
+                documents_vector = numpy.array(documents_vector)
+                index = documents_vector.argmax()
             
-            return map(lambda x : transform_to_db(db,roles_dict,document_action_roles,actioncore,x),cloned_cursor[index]['plan_list'])
+                return map(lambda x : transform_to_db(db,roles_dict,document_action_roles,actioncore,x),cloned_cursor[index]['plan_list'])
             
             
         return []
@@ -150,7 +151,11 @@ class ComplexAchievedBy(PRACModule):
         
         
         for olddb in dbs:
-            inf_step.output_dbs.extend(self.get_instructions_based_on_action_core(olddb))
+            result = self.get_instructions_based_on_action_core(olddb)
+            if result:
+                inf_step.output_dbs.extend(result)
+            else:
+                inf_step.output_dbs.append(olddb)
             
         return inf_step
     
