@@ -166,3 +166,9 @@ cram_plan: "(shake (type {obj_to_be_shaken}) for ({amount} {unit}))"
 action_core: Waiting
 action_roles: ['unit','action_verb','amount']
 cram_plan: "(wait-for (type {amount}) (type {unit}))"
+
+---
+
+action_core: Pressing
+action_roles: ['obj_to_be_pressed','action_verb','location']
+cram_plan: "(wait-for (type {obj_to_be_pressed}) on (type {location}))"
