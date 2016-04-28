@@ -171,4 +171,4 @@ cram_plan: "(wait-for (type {amount}) (type {unit}))"
 
 action_core: Pressing
 action_roles: ['obj_to_be_pressed','action_verb','location']
-cram_plan: "(wait-for (type {obj_to_be_pressed}) on (type {location}))"
+cram_plan: "(press (type {obj_to_be_pressed}) on (type {location}))"
