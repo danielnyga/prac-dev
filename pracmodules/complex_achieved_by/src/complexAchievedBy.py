@@ -44,7 +44,7 @@ log = logger(__name__)
 PRAC_HOME = os.environ['PRAC_HOME']
 corpus_path_list = os.path.join(PRAC_HOME, 'corpus')
 
-def transform_to_db(complex_db,roles_dict, actioncore, plan_dict):
+def transform_to_db(complex_db,roles_dict,document_action_roles,actioncore, plan_dict): 
     plan_action_core = plan_dict['action_core']
     plan_action_roles = plan_dict['action_roles']
     
@@ -54,21 +54,33 @@ def transform_to_db(complex_db,roles_dict, actioncore, plan_dict):
     db = Database(mln=mln)
     
     for action_role in plan_action_roles.keys():
-        sense = str(plan_action_roles[action_role])
-        splitted_sense = sense.split('.')
-        word = splitted_sense[0]
+        sense = ""
+        word = ""
         pos = ""
         
-        if splitted_sense[1] == 'v':
-            pos = 'VB'
-        else:
-            pos = 'NN'
-        
-        db << ("has_pos({}-{},{})".format(word,str(i),pos))
-        db << ("has_sense({}-{},{})".format(word,str(i),sense))
-        db << ("{}({}-{},{})".format(str(action_role),word,str(i),plan_action_core))
+        updated_role = False
+        if plan_action_core == 'Pipetting' and actioncore == 'Evaluating'  and action_role == 'content':
+            for q in complex_db.query('obj_to_be_evaluated(?w,?ac) ^ has_sense(?w,?s) ^ has_pos(?w,?p) '):
+                sense = q["?s"]
+                word = q["?w"]
+                pos = q["?p"]
+                updated_role = True
+                
+        elif not updated_role:
+            sense = str(plan_action_roles[action_role])
+            splitted_sense = sense.split('.')
+            if splitted_sense[1] == 'v':
+                pos = 'VB'
+            else:
+                pos = 'NN'
+            
+            word = "{}-{}mongo".format(splitted_sense[0],str(i))
+            
+        db << ("has_pos({},{})".format(word,pos))
+        db << ("has_sense({},{})".format(word,sense))
+        db << ("{}({},{})".format(str(action_role),word,plan_action_core))
         if action_role == 'action_verb':
-            db << ("action_core({}-{},{})".format(word,str(i),actioncore))
+            db << ("action_core({},{})".format(word,actioncore))
         i += 1  
     
     
@@ -116,7 +128,7 @@ class ComplexAchievedBy(PRACModule):
             documents_vector = numpy.array(documents_vector)
             index = documents_vector.argmax()
             
-            return map(lambda x : transform_to_db(db,roles_dict,actioncore,x),cloned_cursor[index]['plan_list'])
+            return map(lambda x : transform_to_db(db,roles_dict,document_action_roles,actioncore,x),cloned_cursor[index]['plan_list'])
             
             
         return []
