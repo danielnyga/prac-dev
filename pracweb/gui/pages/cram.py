@@ -107,6 +107,7 @@ def _execute_plan(pracsession, timeout, method, data):
         RPC_HOST = pracApp.app.config['RPC_HOST'] 
         RPC_PORT = pracApp.app.config['RPC_PORT'] 
 
+        pracsession.log.info('Will connect to RPC Server:  %s:%s/' %(RPC_HOST, RPC_PORT)) 
         rpc_client = RPCClient(
             JSONRPCProtocol(),
             HttpPostClientTransport(RPC_HOST + ':' + RPC_PORT + '/')
