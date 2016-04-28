@@ -65,7 +65,14 @@ def transform_to_db(complex_db,roles_dict,document_action_roles,actioncore, plan
                 word = q["?w"]
                 pos = q["?p"]
                 updated_role = True
-                
+        
+        elif plan_action_core == 'Pressing' and actioncore == 'Starting'  and action_role == 'location':
+            for q in complex_db.query('obj_to_be_started(?w,?ac) ^ has_sense(?w,?s) ^ has_pos(?w,?p) '):
+                sense = q["?s"]
+                word = q["?w"]
+                pos = q["?p"]
+                updated_role = True
+        
         elif not updated_role:
             sense = str(plan_action_roles[action_role])
             splitted_sense = sense.split('.')
