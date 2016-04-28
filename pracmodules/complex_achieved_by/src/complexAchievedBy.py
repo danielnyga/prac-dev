@@ -56,21 +56,7 @@ class ComplexAchievedBy(PRACModule):
 
     '''
     
-    def get_senses_and_roles(self,actioncore,db):
-        roles_db = RolequeryHandler.queryRoles(actioncore,db)
-        
-        inferred_roles_set = set()
-        roles_dict = {}
-        
-        #Get inferred roles and the corresponding senses
-        for atom, truth in sorted(roles_db.evidence.iteritems()):
-            _ , predname, args = roles_db.mln.logic.parse_literal(atom)
-            if truth == 1.0:
-                inferred_roles_set.add(predname)
-                for sense_query in db.query('has_sense({},?s)'.format(args[0])):
-                    roles_dict[predname] = sense_query['?s']
-        
-        return roles_dict
+   
                 
     def get_instructions_based_on_action_core(self,db):
         wordnet = WordNet(concepts=None)
@@ -83,7 +69,7 @@ class ComplexAchievedBy(PRACModule):
             
             print "Sending query to MONGO DB ..."
             cursor = instructions_collection.find({'action_core' : '{}'.format(actioncore)})
-            roles_dict =  self.get_senses_and_roles(actioncore, db)
+            roles_dict =  RolequeryHandler.query_roles_and_senses_based_on_achieved_by(db)
             documents_vector = []
             
             #After the 'for loop' it is impossible to retrieve document by index

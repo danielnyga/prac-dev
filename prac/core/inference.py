@@ -103,7 +103,7 @@ class PRACInference(object):
                     plans = mod.getPlanList()
                     if actioncore not in plans: return 'achieved_by'
                 
-                return 'plan_generation'
+            return 'plan_generation'
         elif previous_module == 'role_look_up':
             for outdb in self.inference_steps[-1].output_dbs:
                 for r in outdb.query('action_core(?w, ?a)'):

@@ -69,9 +69,19 @@ class RolesTransformation(PRACModule):
         inf_step = PRACInferenceStep(pracinference, self)
         planlist = self.getPlanList()
         dbs = pracinference.inference_steps[-1].output_dbs
-
+        
         for db in dbs:
-
+            skip_db = False
+            for q in db.query('action_core(?w,?ac)'):
+                actioncore = q['?ac']
+                
+                if actioncore in planlist:
+                    skip_db = True
+             
+            if skip_db:
+                inf_step.output_dbs.append(db)
+                continue
+            
             for q in db.query('achieved_by(?w,?ac)'):
                 actioncore = q['?ac']
                 log.info('Action core: {}'.format(actioncore))
