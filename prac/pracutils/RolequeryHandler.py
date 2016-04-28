@@ -100,6 +100,7 @@ class RolequeryHandler(object):
         #It will be assumed that there is only one true action_core predicate per database 
         for q in db.query("action_core(?w,?ac)"):
             actioncore = q["?ac"]
+            if actioncore == 'Complex':continue
             roles_db = RolequeryHandler.queryRoles(actioncore,db)
             
             for atom, truth in sorted(roles_db.evidence.iteritems()):
@@ -120,6 +121,7 @@ class RolequeryHandler(object):
                  
         for q in db.query("achieved_by(?w,?ac)"):
             actioncore = q["?ac"]
+            if actioncore == 'Complex':continue
             roles_db = RolequeryHandler.queryRoles(actioncore,db)
             
             for atom, truth in sorted(roles_db.evidence.iteritems()):

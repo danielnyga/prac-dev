@@ -29,7 +29,22 @@ def store_instruction_in_mongo_db(text_file_name,action_core,roles_dict,plan_lis
             
             if not action_roles:
                 action_roles = RolequeryHandler.query_roles_and_senses_based_on_action_core(plan)
-            temp_dict = {'Sentence' : key,'MLN': mln_str.getvalue(),'DB' : db_str.getvalue(),'action_roles': action_roles}
+            
+            
+            plan_action_core = ""    
+            
+            for q in plan.query("action_core(?w,?ac)"):
+                plan_action_core = q["?ac"]
+            
+            for q in plan.query("achieved_by(?w,?ac)"):
+                plan_action_core = q["?ac"]
+        
+            temp_dict = {'Sentence' : key,
+                         'MLN': mln_str.getvalue(),
+                         'DB' : db_str.getvalue(), 
+                         'action_core' : plan_action_core,
+                         'action_roles': action_roles}
+            
             plan_list_json.append(temp_dict)
             
             db_str.close()

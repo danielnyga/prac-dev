@@ -44,13 +44,37 @@ log = logger(__name__)
 PRAC_HOME = os.environ['PRAC_HOME']
 corpus_path_list = os.path.join(PRAC_HOME, 'corpus')
 
-def transform_to_db(plan_dict):
-    db_str = str(plan_dict['DB'])
+def transform_to_db(complex_db,roles_dict, actioncore, plan_dict):
+    plan_action_core = plan_dict['action_core']
+    plan_action_roles = plan_dict['action_roles']
+    
     mln_str = str(plan_dict['MLN'])
     mln = parse_mln(mln_str,logic='FuzzyLogic')
-    dbs = parse_db(mln,db_str)
-    #There should be only one db
-    return dbs[0]
+    i = 0
+    db = Database(mln=mln)
+    
+    for action_role in plan_action_roles.keys():
+        sense = str(plan_action_roles[action_role])
+        splitted_sense = sense.split('.')
+        word = splitted_sense[0]
+        pos = ""
+        
+        if splitted_sense[1] == 'v':
+            pos = 'VB'
+        else:
+            pos = 'NN'
+        
+        db << ("has_pos({}-{},{})".format(word,str(i),pos))
+        db << ("has_sense({}-{},{})".format(word,str(i),sense))
+        db << ("{}({}-{},{})".format(str(action_role),word,str(i),plan_action_core))
+        if action_role == 'action_verb':
+            db << ("action_core({}-{},{})".format(word,str(i),actioncore))
+        i += 1  
+    
+    
+    db << ("achieved_by({},{})".format(actioncore,plan_action_core))
+    
+    return db
 class ComplexAchievedBy(PRACModule):
     '''
 
@@ -92,7 +116,7 @@ class ComplexAchievedBy(PRACModule):
             documents_vector = numpy.array(documents_vector)
             index = documents_vector.argmax()
             
-            return map(lambda x : transform_to_db(x),cloned_cursor[index]['plan_list'])
+            return map(lambda x : transform_to_db(db,roles_dict,actioncore,x),cloned_cursor[index]['plan_list'])
             
             
         return []
