@@ -41,8 +41,11 @@ from pracmln.mln.util import ifNone, colorize, out, headline
 from pracmln.utils.config import global_config_filename
 from pracmln.utils.project import MLNProject, PRACMLNConfig
 from pracmln.utils.widgets import FileEditBar
-
-
+try:
+    from pymongo import MongoClient
+    from pymongo.errors import ServerSelectionTimeoutError
+except ImportError:
+    print 'Warning: MongoDB modules cannot be used.'
 logger = praclog.logger(__name__)
 
 DEFAULTNAME = 'unknown{}'
@@ -793,6 +796,42 @@ class PRACQueryGUI(object):
         # restore main window
         self.master.deiconify()
 
+def are_requirements_set_to_load_module(module_name):
+    if module_name == 'role_look_up' or module_name == 'complex_achieved_by':
+        if 'pymongo' in sys.modules:
+            client = MongoClient(serverSelectionTimeoutMS=5000)
+            try:
+                database_name_list = client.database_names()
+                
+                if 'PRAC' in database_name_list:
+                    database = client.PRAC
+                    collections = database.collection_names()
+                    
+                    if module_name == 'role_look_up':
+                        if 'Frames' in collections:
+                            return True
+                        else:
+                            print '"Role look up" module needs a "Frames" collection.'
+                            return False
+                    elif module_name == 'complex_achieved_by':
+                        if 'Instructions' in collections:
+                            return True
+                        else:
+                            print '"Complex achieved by module" needs a "Instructions" collection.'
+                            return False
+                    
+                else:
+                    print 'No PRAC database is stored at local MongoDB server instance.'
+                    return False
+                
+            except ServerSelectionTimeoutError:
+                print 'No local MongoDB server instance is running.'
+                return False
+            #IsCollection available
+        else:
+            return False 
+        
+    return True
 
 if __name__ == '__main__':
 
@@ -835,55 +874,64 @@ if __name__ == '__main__':
         root.mainloop()
     else: # regular PRAC pipeline
         
-        while inference.next_module() != None :
+        is_inference_process_aborted = False
+        
+        while inference.next_module() != None and not is_inference_process_aborted:
             modulename = inference.next_module()
-            module = prac.getModuleByName(modulename)
-            prac.run(inference, module)
-
-        print
-        print colorize('+========================+', (None, 'green', True),
-                       True)
-        print colorize('| PRAC INFERENCE RESULTS |', (None, 'green', True),
-                       True)
-        print colorize('+========================+', (None, 'green', True),
-                       True)
-
-        step = inference.inference_steps[-1]
-        wordnet_module = prac.getModuleByName('wn_senses')
-        for db in step.output_dbs:
-            for a in sorted(db.evidence.keys()):
-                v = db.evidence[a]
-                if v > 0.001 and (a.startswith('action_core') or a.startswith(
-                        'has_sense') or a.startswith('achieved_by')):
-                    if a.startswith('has_sense'):
-
-                        group = re.split(',',
-                                         re.split('has_sense\w*\(|\)', a)[1])
-                        word = group[0];
-                        sense = group[1];
-                        if sense != 'null':
-                            print
-                            print colorize('  WORD:', (None, 'white', True),
-                                           True), word,
-                            print colorize('  SENSE:', (None, 'white', True),
-                                           True), sense
-                            wordnet_module.printWordSenses(
-                                wordnet_module.get_possible_meanings_of_word(
-                                    db, word), sense)
-                            print
-                    else:
-                        print '%.3f    %s' % (v, a)
-            RolequeryHandler.queryRolesBasedOnActioncore(db).write(color=True)
-
-    if hasattr(inference.inference_steps[-1], 'executable_plans'):
-        print
-        print colorize('+==========================+', (None, 'green', True),
-                       True)
-        print colorize('| PARAMETERIZED ROBOT PLAN |', (None, 'green', True),
-                       True)
-        print colorize('+==========================+', (None, 'green', True),
-                       True)
-        print
-        for plan in step.executable_plans:
-            print plan
+            
+            if are_requirements_set_to_load_module(modulename):
+                module = prac.getModuleByName(modulename)
+                prac.run(inference, module)
+            else:
+                print 'Cannot infer executable plan.'
+                print 'Aborting process pipeline ...'
+                is_inference_process_aborted = True
+        
+        if not is_inference_process_aborted:
             print
+            print colorize('+========================+', (None, 'green', True),
+                           True)
+            print colorize('| PRAC INFERENCE RESULTS |', (None, 'green', True),
+                           True)
+            print colorize('+========================+', (None, 'green', True),
+                           True)
+    
+            step = inference.inference_steps[-1]
+            wordnet_module = prac.getModuleByName('wn_senses')
+            for db in step.output_dbs:
+                for a in sorted(db.evidence.keys()):
+                    v = db.evidence[a]
+                    if v > 0.001 and (a.startswith('action_core') or a.startswith(
+                            'has_sense') or a.startswith('achieved_by')):
+                        if a.startswith('has_sense'):
+    
+                            group = re.split(',',
+                                             re.split('has_sense\w*\(|\)', a)[1])
+                            word = group[0];
+                            sense = group[1];
+                            if sense != 'null':
+                                print
+                                print colorize('  WORD:', (None, 'white', True),
+                                               True), word,
+                                print colorize('  SENSE:', (None, 'white', True),
+                                               True), sense
+                                wordnet_module.printWordSenses(
+                                    wordnet_module.get_possible_meanings_of_word(
+                                        db, word), sense)
+                                print
+                        else:
+                            print '%.3f    %s' % (v, a)
+                RolequeryHandler.queryRolesBasedOnActioncore(db).write(color=True)
+    
+        if hasattr(inference.inference_steps[-1], 'executable_plans'):
+            print
+            print colorize('+==========================+', (None, 'green', True),
+                           True)
+            print colorize('| PARAMETERIZED ROBOT PLAN |', (None, 'green', True),
+                           True)
+            print colorize('+==========================+', (None, 'green', True),
+                           True)
+            print
+            for plan in step.executable_plans:
+                print plan
+                print
