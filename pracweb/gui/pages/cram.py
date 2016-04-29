@@ -20,6 +20,8 @@ log = logger(__name__)
 log.setLevel(praclog.INFO)
 
 try:
+    # only uncomment this to test RPC calls on a system with ROS installed
+    # raise ImportError
     import rospy
     # imports the service
     from prac2cram.srv import Prac2Cram
@@ -100,7 +102,7 @@ def _execute_plan(pracsession, timeout, method, data):
             
             if resp:
                 pracsession.log.info("ROS Server answered: %s" %resp)
-                if any(resp.status): # if error
+                if resp.status: # if error
                     pracsession.infbuffer.setmsg({'status': -1, 'message': 'The CRAM service request failed! ' + '\n'.join(resp.message)})
                 else:
                     message = 'CRAM service request successful!' 
@@ -133,7 +135,7 @@ def _execute_plan(pracsession, timeout, method, data):
             resp = remote_server.prac2cram_client(rpc_tasks) 
             if resp: # resp is now a dictionary!
                 pracsession.log.info("RPC Server answered: %s" %resp)
-                if any(resp['status']): # if error
+                if resp['status']: # if error
                     message = 'The CRAM service request failed! ' + '\n'.join(resp['message']) 
                     pracsession.infbuffer.setmsg({'status': -1, 'message': message})
                 else:
