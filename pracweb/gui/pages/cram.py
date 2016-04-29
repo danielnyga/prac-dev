@@ -4,6 +4,7 @@ from flask import request, jsonify
 from flask.globals import session
 from threading import Thread
 import json
+from pracmln import praclog
 from pracmln.praclog import logger
 from pracweb.gui.pages.buffer import RequestBuffer
 from pracweb.gui.pages.utils import ensure_prac_session
@@ -13,23 +14,34 @@ from prac.core.wordnet_online import WordNet as AcatWordnet
 
 from requests import ConnectionError
 
+
+
+log = logger(__name__)
+log.setLevel(praclog.INFO)
+
 try:
+    # only uncomment this to test RPC calls on a system with ROS installed
+    # raise ImportError
     import rospy
     # imports the service
     from prac2cram.srv import Prac2Cram
     # ActionCore[] action_cores # each action core has a name and a list of action roles
     # import the ROS messages
-    from prac2cram.msg import ActionCore, ActionRole
+    from prac2cram.msg import Task, ActionCore, ActionRole
     pracApp.app.config['rospy'] = True
 
 except ImportError:
     pracApp.app.config['rospy'] = False
-    from tinyrpc.protocols.jsonrpc import JSONRPCProtocol
-    from tinyrpc.transports.http import HttpPostClientTransport
-    from tinyrpc import RPCClient
+    try:
+        from tinyrpc.protocols.jsonrpc import JSONRPCProtocol
+        from tinyrpc.transports.http import HttpPostClientTransport
+        from tinyrpc import RPCClient
+        from tinyrpc import RPCError
+    except ImportError:
+        log.error('Neither ROS nor tinyrpc could be imported. CRAM connection will NOT work!')
 
 
-log = logger(__name__)
+
 wn = WordNet(concepts=None)
 awn = AcatWordnet(concepts=None)
 
@@ -52,23 +64,32 @@ def execute_plan():
 
 def _execute_plan(pracsession, timeout, method, data):
 
-    if not hasattr(pracsession, 'actioncores'):
+    # tasks is a list of dictionaries each having a key called action_core containing a list 
+    if not hasattr(pracsession, 'tasks'):
+        pracsession.log.error('No PRAC model available!')
         pracsession.infbuffer.setmsg({'status': -1, 'message': 'No PRAC model available. Please repeat the inference.'})        
+        return 
 
-    pracsession.log.info('Sending action cores to CRAM...') 
+    pracsession.log.info('Will now try to send PRAC model to CRAM...') 
 
+    # ROS #
     if pracApp.app.config['rospy']:
+
         pracsession.log.info('ROS is installed. Will try to call ROS Service "Prac2Cram" directly.')
+        ros_tasks = [] # every task is a list of action cores 
+        for task in pracsession.tasks:
+            ros_task = Task()
+            ros_action_cores = []
+            for action_core in task['action_cores']:
+                ros_action_cores.append(ActionCore(action_core['action_core_name'], [ActionRole(**r) for r in action_core['action_roles']]))
+            ros_task.action_cores = ros_action_cores
+            ros_tasks.append(ros_task)
 
-        ros_actioncores = []
-        for ac in pracsession.actioncores:
-            ros_actioncores.append(ActionCore(ac['action_core_name'], [ActionRole(**r) for r in ac['action_roles']]))
-        pracsession.log.info('ActionCores: %s' %ros_actioncores) 
-
-        print ros_actioncores
+        pracsession.log.info('Tasks to sent to ROS: %s' %ros_tasks) 
+        print ros_tasks
 
         try:
-            rospy.wait_for_service('prac2cram', timeout=5)
+            rospy.wait_for_service('prac2cram', timeout=5) # timeout in seconds
         # called when timeout exceeded
         except rospy.ROSException, e:
             pracsession.log.error(e)
@@ -77,32 +98,31 @@ def _execute_plan(pracsession, timeout, method, data):
         try:
             # create a handle to the ROS service
             prac2cram = rospy.ServiceProxy('prac2cram', Prac2Cram)
-            resp = prac2cram(ros_actioncores)
+            resp = prac2cram(ros_tasks) # resp is a ROS Message 
             
             if resp:
-                pracsession.log.info('Response: %s' %resp)
+                pracsession.log.info("ROS Server answered: %s" %resp)
                 if resp.status: # if error
-                    message = 'The CRAM service request failed! ' + resp.message
+                    pracsession.infbuffer.setmsg({'status': -1, 'message': 'The CRAM service request failed! ' + '\n'.join(resp.message)})
                 else:
-                    message = 'CRAM service request successful!' 
-                pracsession.infbuffer.setmsg({'status': resp.status, 'message': message})
+                    message = 'CRAM service request successful!'
+                    if hasattr(resp, 'plan_strings'): 
+                        plan_strings = resp.plan_strings
+                    else:
+                        plan_strings = []
+                    pracsession.infbuffer.setmsg({'status': 0, 'message': message, 'plan_string': '\n'.join(plan_strings)})
             else:
                 pracsession.infbuffer.setmsg({'status': -1, 'message': 'Error: Got no response from Service call.'})
-
 
         except rospy.ServiceException, e:
             message = "Service call failed with the following error: {}".format(e.message)
             log.error(message)
             pracsession.infbuffer.setmsg({'status': -1, 'message': message})
-            return
+    # RPC #
     else:
         pracsession.log.info('No ROS installation found. Will call "Prac2Cram" via RPC.')
 
-        rpc_actioncores = pracsession.actioncores
-
-        pracsession.log.info('ActionCores: %s' %rpc_actioncores) 
-
-        print rpc_actioncores
+        rpc_tasks = pracsession.tasks
 
         RPC_HOST = pracApp.app.config['RPC_HOST'] 
         RPC_PORT = pracApp.app.config['RPC_PORT'] 
@@ -110,31 +130,32 @@ def _execute_plan(pracsession, timeout, method, data):
         pracsession.log.info('Will connect to RPC Server:  %s:%s/' %(RPC_HOST, RPC_PORT)) 
         rpc_client = RPCClient(
             JSONRPCProtocol(),
-            HttpPostClientTransport(RPC_HOST + ':' + RPC_PORT + '/')
+            HttpPostClientTransport('%s:%s/' %(RPC_HOST, RPC_PORT))
         )
         remote_server = rpc_client.get_proxy()
 
         try:
-            resp = remote_server.prac2cram_client(rpc_actioncores)
+            resp = remote_server.prac2cram_client(rpc_tasks) 
             if resp: # resp is now a dictionary!
+                pracsession.log.info("RPC Server answered: %s" %resp)
                 if resp['status']: # if error
-                    message = 'The CRAM service request failed! ' + resp['message']
+                    message = 'The CRAM service request failed! ' + '\n'.join(resp['message']) 
+                    pracsession.infbuffer.setmsg({'status': -1, 'message': message})
                 else:
                     message = 'CRAM service request successful!' 
-                pracsession.infbuffer.setmsg({'status': resp['status'], 'message': message})
+                    if 'plan_strings' in resp:
+                        plan_strings = resp['plan_strings']
+                    else:
+                        plan_strings = []
+                    pracsession.infbuffer.setmsg({'status': 0, 'message': message, 'plan_string': '\n'.join(plan_strings)})
+
+
             else:
                 pracsession.infbuffer.setmsg({'status': -1, 'message': 'Error: Got no response from Service call.'})
 
         except ConnectionError:
             pracsession.infbuffer.setmsg({'status': -1, 'message': 'Connection Error: Please check RPC Service`s error message.'})
-
-        pracsession.log.info("RPC Server answered: %s" %resp)
-
-        
-
-
-### Example input:
-### [{'action_roles': [{'role_name': 'obj_to_be_started', 'role_value': 'centrifuge.n.01'}, {'role_name': 'action_verb', 'role_value': 'begin.v.03'}], 
-### 'action_core_name': 'Starting'}, {'action_roles': [{'role_name': 'action_verb', 'role_value': 'begin.v.03'}], 'action_core_name': 'TurningOnElectricalDevice'}]
+        except RPCError:
+            pracsession.infbuffer.setmsg({'status': -1, 'message': 'RPC Error: Please check RPC Service`s error message.'})
 
 

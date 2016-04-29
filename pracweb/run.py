@@ -26,7 +26,8 @@ init_app(pracApp.app)
 
 
 if __name__ == '__main__':
-    logging.getLogger().setLevel(logging.DEBUG)
+
+    praclog.level(praclog.DEBUG)
 
     parser = argparse.ArgumentParser(description='pracweb')
     parser.add_argument('--gz-acquisition',
