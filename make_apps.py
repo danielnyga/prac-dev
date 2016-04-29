@@ -19,7 +19,7 @@ except ImportError:
 
 
 env_vars = ['JAVA_HOME']
-aptpackages = ['dvipng', 'texlive-full', 'default-jre']
+aptpackages = ['dvipng', 'texlive-full', 'default-jre','mongodb-server']
 
 packages = [('sphinx', 'sphinx sphinxcontrib-bibtex', False),
             ('jpype', 'jpype1', False),
@@ -29,13 +29,16 @@ packages = [('sphinx', 'sphinx sphinxcontrib-bibtex', False),
             ('lxml', 'lxml', False),
             ('yaml', 'pyyaml', False),
             ('matplotlib', 'matplotlib', False),
-            ('apt', 'python-apt', False)]
+            ('apt', 'python-apt', False),
+            ('pymongo','pymongo',False)]
 
 pracwebpackages = [('flask', 'Flask', False),
                    ('werkzeug', 'werkzeug', False),
                    ('PIL', 'Pillow', False),
                    ('jinja2', 'Jinja2', False),
-                   ('geoip', 'python-geoip python-geoip-geolite2', True)]
+                   ('geoip', 'python-geoip python-geoip-geolite2', True),
+                   ('tinyrpc', 'tinyrpc', False),
+                   ('requests', 'requests', False)]
 
 python_apps = [
     {"name": "pracquery", "script": "$PRAC_HOME/prac/pracquery.py"},

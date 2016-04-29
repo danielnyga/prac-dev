@@ -19,7 +19,7 @@ INFMETHODS = InferenceMethods.names()
 
 def ensure_prac_session(cursession):
     log = logging.getLogger(__name__)
-    log.setLevel(logging.ERROR)
+    log.setLevel(logging.DEBUG)
     prac_session = pracApp.session_store[cursession]
     if prac_session is None:
         cursession['id'] = os.urandom(24)

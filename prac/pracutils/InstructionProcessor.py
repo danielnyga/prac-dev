@@ -18,17 +18,37 @@ def store_instruction_in_mongo_db(text_file_name,action_core,roles_dict,plan_lis
     plan_list_json = []
     #Transform
     
-    for plan in plan_list:
-        db_str = StringIO.StringIO()
-        mln_str = StringIO.StringIO()
+    for key in plan_list.keys():
+        for plan in plan_list[key]:
+            db_str = StringIO.StringIO()
+            mln_str = StringIO.StringIO()
+            
+            plan.write(db_str,None,False)
+            plan.mln.write(mln_str,None)
+            action_roles = RolequeryHandler.query_roles_and_senses_based_on_achieved_by(plan)
+            
+            if not action_roles:
+                action_roles = RolequeryHandler.query_roles_and_senses_based_on_action_core(plan)
+            
+            
+            plan_action_core = ""    
+            
+            for q in plan.query("action_core(?w,?ac)"):
+                plan_action_core = q["?ac"]
+            
+            for q in plan.query("achieved_by(?w,?ac)"):
+                plan_action_core = q["?ac"]
         
-        plan.write(db_str,None,False)
-        plan.mln.write(mln_str,None)
-        
-        plan_list_json.append({'MLN': mln_str.getvalue(),'DB' : db_str.getvalue()})
-        
-        db_str.close()
-        mln_str.close()
+            temp_dict = {'Sentence' : key,
+                         'MLN': mln_str.getvalue(),
+                         'DB' : db_str.getvalue(), 
+                         'action_core' : plan_action_core,
+                         'action_roles': action_roles}
+            
+            plan_list_json.append(temp_dict)
+            
+            db_str.close()
+            mln_str.close()
             
     try:
         json_dict = {"_id" : text_file_name, "action_core" : action_core, "action_roles" : roles_dict, "plan_list" : plan_list_json}
@@ -72,17 +92,17 @@ if __name__ == '__main__':
         
         #There will be only one db
         db = inference.inference_steps[-1].output_dbs[0]
-        roles_dict = RolequeryHandler.queryRolesAndSensesBasedOnActioncore(db)
+        roles_dict = RolequeryHandler.query_roles_and_senses_based_on_action_core(db)
         
         #Process all sentences
-        plan_list = []
+        plan_list = {}
         for s in sentences:
             inference = PRACInference(prac, [s])
             while inference.next_module() != 'plan_generation' :
                 modulename = inference.next_module()
                 module = prac.getModuleByName(modulename)
                 prac.run(inference, module)
-            plan_list.extend(inference.inference_steps[-1].output_dbs)
+            plan_list[s]=inference.inference_steps[-1].output_dbs
             
         actioncore = ""
         #It will be assumed that there is only one true action_core predicate per database 

@@ -44,33 +44,62 @@ log = logger(__name__)
 PRAC_HOME = os.environ['PRAC_HOME']
 corpus_path_list = os.path.join(PRAC_HOME, 'corpus')
 
-def transform_to_db(plan_dict):
-    db_str = str(plan_dict['DB'])
+def transform_to_db(complex_db,roles_dict,document_action_roles,actioncore, plan_dict): 
+    plan_action_core = plan_dict['action_core']
+    plan_action_roles = plan_dict['action_roles']
+    
     mln_str = str(plan_dict['MLN'])
     mln = parse_mln(mln_str,logic='FuzzyLogic')
-    dbs = parse_db(mln,db_str)
-    #There should be only one db
-    return dbs[0]
+    i = 0
+    db = Database(mln=mln)
+    
+    for action_role in plan_action_roles.keys():
+        sense = ""
+        word = ""
+        pos = ""
+        
+        updated_role = False
+        if plan_action_core == 'Pipetting' and actioncore == 'Evaluating'  and action_role == 'content':
+            for q in complex_db.query('obj_to_be_evaluated(?w,?ac) ^ has_sense(?w,?s) ^ has_pos(?w,?p) '):
+                sense = q["?s"]
+                word = q["?w"]
+                pos = q["?p"]
+                updated_role = True
+        
+        elif plan_action_core == 'Pressing' and actioncore == 'Starting'  and action_role == 'location':
+            for q in complex_db.query('obj_to_be_started(?w,?ac) ^ has_sense(?w,?s) ^ has_pos(?w,?p) '):
+                sense = q["?s"]
+                word = q["?w"]
+                pos = q["?p"]
+                updated_role = True
+        
+        elif not updated_role:
+            sense = str(plan_action_roles[action_role])
+            splitted_sense = sense.split('.')
+            if splitted_sense[1] == 'v':
+                pos = 'VB'
+            else:
+                pos = 'NN'
+            
+            word = "{}-{}mongo".format(splitted_sense[0],str(i))
+            
+        db << ("has_pos({},{})".format(word,pos))
+        db << ("has_sense({},{})".format(word,sense))
+        db << ("{}({},{})".format(str(action_role),word,plan_action_core))
+        if action_role == 'action_verb':
+            db << ("action_core({},{})".format(word,actioncore))
+        i += 1  
+    
+    
+    db << ("achieved_by({},{})".format(actioncore,plan_action_core))
+    
+    return db
 class ComplexAchievedBy(PRACModule):
     '''
 
     '''
     
-    def get_senses_and_roles(self,actioncore,db):
-        roles_db = RolequeryHandler.queryRoles(actioncore,db)
-        
-        inferred_roles_set = set()
-        roles_dict = {}
-        
-        #Get inferred roles and the corresponding senses
-        for atom, truth in sorted(roles_db.evidence.iteritems()):
-            _ , predname, args = roles_db.mln.logic.parse_literal(atom)
-            if truth == 1.0:
-                inferred_roles_set.add(predname)
-                for sense_query in db.query('has_sense({},?s)'.format(args[0])):
-                    roles_dict[predname] = sense_query['?s']
-        
-        return roles_dict
+   
                 
     def get_instructions_based_on_action_core(self,db):
         wordnet = WordNet(concepts=None)
@@ -83,14 +112,13 @@ class ComplexAchievedBy(PRACModule):
             
             print "Sending query to MONGO DB ..."
             cursor = instructions_collection.find({'action_core' : '{}'.format(actioncore)})
-            roles_dict =  self.get_senses_and_roles(actioncore, db)
+            roles_dict =  RolequeryHandler.query_roles_and_senses_based_on_achieved_by(db)
             documents_vector = []
             
             #After the 'for loop' it is impossible to retrieve document by index
             cloned_cursor = cursor.clone()
 
             for document in cursor:
-                print 'Found suitable instruction'
                 wup_vector = []
                 document_action_roles = document['action_roles']
                 
@@ -103,10 +131,12 @@ class ComplexAchievedBy(PRACModule):
                 else:
                     documents_vector.append(0)
             
-            documents_vector = numpy.array(documents_vector)
-            index = documents_vector.argmax()
+            if documents_vector:
+                print 'Found suitable instruction'
+                documents_vector = numpy.array(documents_vector)
+                index = documents_vector.argmax()
             
-            return map(lambda x : transform_to_db(x),cloned_cursor[index]['plan_list'])
+                return map(lambda x : transform_to_db(db,roles_dict,document_action_roles,actioncore,x),cloned_cursor[index]['plan_list'])
             
             
         return []
@@ -128,7 +158,11 @@ class ComplexAchievedBy(PRACModule):
         
         
         for olddb in dbs:
-            inf_step.output_dbs.extend(self.get_instructions_based_on_action_core(olddb))
+            result = self.get_instructions_based_on_action_core(olddb)
+            if result:
+                inf_step.output_dbs.extend(result)
+            else:
+                inf_step.output_dbs.append(olddb)
             
         return inf_step
     

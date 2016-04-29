@@ -82,19 +82,28 @@ class AchievedBy(PRACModule):
         for olddb in dbs:
             #To handle multiple acs in one task, we have to check if the single dbs contain achieved_bys which representing already plans
             skip_db = False
+            mod = self.prac.getModuleByName('roles_transformation')
+            plans = mod.getPlanList()
             for q in olddb.query('achieved_by(?w,?ac)'):
                 actioncore = q['?ac']
-                mod = self.prac.getModuleByName('roles_transformation')
-                plans = mod.getPlanList()
+                
                 if actioncore in plans:
                     skip_db = True 
             
+            for q in olddb.query('action_core(?w,?ac)'):
+                actioncore = q['?ac']
+                
+                if actioncore in plans:
+                    skip_db = True
+             
             if skip_db:
                 inf_step.output_dbs.append(olddb)
                 continue
                 
             for q in olddb.query('action_core(?w,?ac)'):
                 actioncore = q['?ac']
+                
+                
                 # This list is used to avoid an infinite loop during the
                 # achieved by inference.
                 # To avoid this infinite loop, the list contains the pracmlns

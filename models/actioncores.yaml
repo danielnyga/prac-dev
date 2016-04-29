@@ -60,18 +60,19 @@ action_roles: ['obj_to_be_started','action_verb']
 action_core: Pouring
 
 action_roles: ['stuff','goal','action_verb','unit','amount']
+required_action_roles: ['stuff','goal','action_verb']
 cram_plan: "(pour-from-container \t!(from (an object \t!(type container.n.01)\n\t\t(contains (some stuff (type {stuff}))))\n\t(amount ({amount} {unit}))\n\t(to (an object \t!(type {goal})\n\n"
 
 ---
 
 action_core: Adding
 action_roles: ['theme','goal','action_verb','unit','amount']
-
+required_action_roles: ['theme','goal','action_verb']
 ---
 
 action_core: Preheating
 action_roles: ['obj_to_be_heated','temperature_unit','temperature_setting','action_verb']
-
+required_action_roles: ['obj_to_be_heated','action_verb']
 ---
 
 action_core: OperatingATap
@@ -133,7 +134,7 @@ cram_plan: "(lift-object (type {obj_to_be_lifted}))"
 
 action_core: Putting
 action_roles: ['obj_to_be_put','action_verb','location']
-cram_plan: "(put-object (type {obj_to_be_put}) underneath (type {location}))"
+cram_plan: "(put-object (type {obj_to_be_put}) onto (type {location}))"
 ---
 
 action_core: Turning
@@ -147,6 +148,10 @@ action_roles: ['obj_to_be_taken','action_verb']
 
 ---
 
+action_core: Evaluating
+action_roles: ['obj_to_be_evaluated','attribute','action_verb']
+
+---
 action_core: Grabbing 
 action_roles: ['obj_to_be_grabbed','action_verb']
 cram_plan: "(grab (type {obj_to_be_grabbed}))"
@@ -162,3 +167,9 @@ cram_plan: "(shake (type {obj_to_be_shaken}) for ({amount} {unit}))"
 action_core: Waiting
 action_roles: ['unit','action_verb','amount']
 cram_plan: "(wait-for (type {amount}) (type {unit}))"
+
+---
+
+action_core: Pressing
+action_roles: ['obj_to_be_pressed','action_verb','location']
+cram_plan: "(press (type {obj_to_be_pressed}) on (type {location}))"

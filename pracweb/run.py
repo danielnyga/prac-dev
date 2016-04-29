@@ -35,6 +35,11 @@ if __name__ == '__main__':
     parser.add_argument('--gz-simulation',
                         help='add option to simulate instruction execution in browser',
                         action="store_true")
+    parser.add_argument('--rpc_host', help='set host for RPC connection, only used with option gz_simulation', 
+                        type=str)
+    parser.add_argument('--rpc_port', help='set port for RPC connection, only used with option gz_simulation', 
+                        type=str)
+
     parser.add_argument('--instruction',
                         help='initialize browser with this instruction',
                         type=str)
@@ -44,6 +49,20 @@ if __name__ == '__main__':
     pracApp.app.config['gz_acquisition'] = args.gz_acquisition
     pracApp.app.config['gz_simulation'] = args.gz_simulation
     pracApp.app.config['instruction'] = args.instruction 
+
+    if args.gz_simulation:
+        if args.rpc_host:
+            if not args.rpc_host.startswith('http://'):
+                pracApp.app.config['RPC_HOST'] = 'http://' + args.rpc_host
+            else:
+                pracApp.app.config['RPC_HOST'] = args.rpc_host
+        else:
+            pracApp.app.config['RPC_HOST'] = 'http://127.0.0.1' 
+        if args.rpc_port:
+            pracApp.app.config['RPC_PORT'] = args.rpc_port
+        else:
+            pracApp.app.config['RPC_PORT'] = '5050' 
+        log.debug('RPC connection configuration: host: %s, port: %s' %(pracApp.app.config['RPC_HOST'], pracApp.app.config['RPC_PORT']))
 
     if 'PRAC_SERVER' in os.environ and os.environ['PRAC_SERVER'] == 'deploy':
         log.debug('Running PRACWEB in server mode')

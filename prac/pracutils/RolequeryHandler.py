@@ -100,6 +100,28 @@ class RolequeryHandler(object):
         #It will be assumed that there is only one true action_core predicate per database 
         for q in db.query("action_core(?w,?ac)"):
             actioncore = q["?ac"]
+            if actioncore == 'Complex':continue
+            roles_db = RolequeryHandler.queryRoles(actioncore,db)
+            
+            for atom, truth in sorted(roles_db.evidence.iteritems()):
+                _ , predname, args = roles_db.mln.logic.parse_literal(atom)
+                if truth == 1.0:
+                    for sense_query in db.query('has_sense({},?s)'.format(args[0])):
+                        roles_dict[predname] =  sense_query['?s']
+        return roles_dict
+    
+    
+    '''
+    Returns a dict with the roles as key and senses as values
+    '''
+    @staticmethod
+    def query_roles_and_senses_based_on_achieved_by(db):
+        roles_dict = {}
+        #It will be assumed that there is only one true action_core predicate per database
+                 
+        for q in db.query("achieved_by(?w,?ac)"):
+            actioncore = q["?ac"]
+            if actioncore == 'Complex':continue
             roles_db = RolequeryHandler.queryRoles(actioncore,db)
             
             for atom, truth in sorted(roles_db.evidence.iteritems()):
