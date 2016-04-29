@@ -105,8 +105,11 @@ def _execute_plan(pracsession, timeout, method, data):
                 if resp.status: # if error
                     pracsession.infbuffer.setmsg({'status': -1, 'message': 'The CRAM service request failed! ' + '\n'.join(resp.message)})
                 else:
-                    message = 'CRAM service request successful!' 
-                    plan_strings = resp.plan_string
+                    message = 'CRAM service request successful!'
+                    if hasattr(resp, 'plan_strings'): 
+                        plan_strings = resp.plan_strings
+                    else:
+                        plan_strings = []
                     pracsession.infbuffer.setmsg({'status': 0, 'message': message, 'plan_string': '\n'.join(plan_strings)})
             else:
                 pracsession.infbuffer.setmsg({'status': -1, 'message': 'Error: Got no response from Service call.'})
@@ -140,7 +143,10 @@ def _execute_plan(pracsession, timeout, method, data):
                     pracsession.infbuffer.setmsg({'status': -1, 'message': message})
                 else:
                     message = 'CRAM service request successful!' 
-                    plan_strings = resp['plan_string']
+                    if 'plan_strings' in resp:
+                        plan_strings = resp['plan_strings']
+                    else:
+                        plan_strings = []
                     pracsession.infbuffer.setmsg({'status': 0, 'message': message, 'plan_string': '\n'.join(plan_strings)})
 
 
