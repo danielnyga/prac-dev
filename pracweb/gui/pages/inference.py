@@ -131,6 +131,8 @@ def _pracinfer(pracsession, timeout, method, data):
             finish = True
 
             result = generate_final_links(pracsession)
+            # TODO: access config and only call this function when gz_simulation is True
+            save_prac_model(pracsession)
 
             # store current inference step if an executable plan exists
             if hasattr(step, 'executable_plans'):
@@ -192,7 +194,7 @@ def _pracinfer_get_next_module():
 @pracApp.app.route('/prac/_get_cram_plan', methods=['GET'])
 def _get_cram_plan():
     pracsession = ensure_prac_session(session)
-    if pracsession.old_infer is not None:
+    if hasattr(pracsession, 'old_infer') and pracsession.old_infer:
         cramplans = pracsession.old_infer.inference_steps[-1].executable_plans
     else:
         cramplans = []
@@ -318,8 +320,8 @@ def generate_graph_links(pracsession, evidence):
                      'value': a_tuple[1], 'arcStyle': 'strokegreen'})
     return result
 
-# side effect: fill in actioncores list to pass to CRAM
 def generate_final_links(pracsession):
+
     result = []
 
     finaldb = Database(pracsession.prac.mln)
@@ -334,17 +336,6 @@ def generate_final_links(pracsession):
                         ['has_sense', 'action_core', 'achieved_by']):
                     finaldb << (atom, truth)
 
-    # want something nice like this in action_cores:
-    # action_cores:
-    #   - action_core_name: 'Starting'
-    #     action_roles:
-    #       - role_name: obj_to_be_started
-    #         role_value: centrifuge.n.01
-    #   - action_core_name: 'TurningOnElectricalDevice'
-    #     action_roles:
-    #       - role_name: device
-    #         role_value: centrifuge.n.01
-    actioncores = []
     # add all roles and word sense (is_a) links
     for res in finaldb.query(
             'action_core(?w, ?a) ^ has_sense(?w, ?s)'):
@@ -355,10 +346,6 @@ def generate_final_links(pracsession):
                        'target': {'name': sense,
                                   'text': wn.synset(sense).definition},
                        'value': 'is_a', 'arcStyle': 'strokegreen'})
-
-        actioncore_dict = {}
-        actioncore_dict['action_core_name'] = actioncore
-        actioncore_dict['action_roles'] = []
 
         roles = ActioncoreDescriptionHandler.getRolesBasedOnActioncore(
             actioncore)
@@ -375,12 +362,6 @@ def generate_final_links(pracsession):
                      'value': role,
                      'arcStyle': 'strokegreen'})
 
-            actioncore_dict['action_roles'].append({'role_name': role, 'role_value': sense})
-
-        actioncores.append(actioncore_dict)
-
-
-
     for finaldbres in finaldb.query('achieved_by(?a1, ?a2)'):
         a1 = finaldbres['?a1']
         actioncore = finaldbres['?a2']
@@ -388,10 +369,6 @@ def generate_final_links(pracsession):
                        'target': {'name': actioncore, 'text': ''},
                        'value': 'achieved_by',
                        'arcStyle': 'strokegreen'})
-
-        actioncore_dict = {}
-        actioncore_dict['action_core_name'] = actioncore
-        actioncore_dict['action_roles'] = []
 
         roles = ActioncoreDescriptionHandler.getRolesBasedOnActioncore(
             actioncore)
@@ -407,10 +384,58 @@ def generate_final_links(pracsession):
                      'value': role,
                      'arcStyle': 'strokegreen'})
 
-        actioncore_dict['action_roles'].append({'role_name': role, 'role_value': sense})
-        actioncores.append(actioncore_dict)
-
-
-
-    pracsession.actioncores = actioncores
     return result
+
+# fill in tasks with actioncore to pass to CRAM
+def save_prac_model(pracsession):
+
+    tasks = [] 
+    for step in pracsession.infer.inference_steps:
+        if hasattr(step, 'executable_plans'):
+            for db in step.output_dbs:
+                action_cores = []
+                for res in db.query(
+                        'action_core(?w, ?a) ^ has_sense(?w, ?s)'):
+                    action_core = res['?a']
+                    # wordnet sense, will be action role value 
+                    sense = res['?s']
+                    action_core_dict = {}
+                    action_core_dict['action_core_name'] = action_core
+                    action_core_dict['action_roles'] = []
+
+                    roles = ActioncoreDescriptionHandler.getRolesBasedOnActioncore(
+                        action_core)
+                    for role in roles:
+                        # we want to know whats missing, too, so default role value is None
+                        sense = None
+                        for dbres in db.query('{}(?w, {}) ^ has_sense(?w, ?s)'.format(
+                                role, action_core)):
+                            sense = dbres['?s']
+
+
+                        action_core_dict['action_roles'].append({'role_name': role, 'role_value': sense})
+
+                    action_cores.append(action_core_dict)
+
+                for finaldbres in db.query('achieved_by(?a1, ?a2)'):
+                    action_core = finaldbres['?a2']
+                    action_core_dict = {}
+                    action_core_dict['action_core_name'] = action_core
+                    action_core_dict['action_roles'] = []
+
+                    roles = ActioncoreDescriptionHandler.getRolesBasedOnActioncore(
+                        action_core)
+                    for role in roles:
+                        sense = None
+                        for dbr in db.query('{}(?w, {}) ^ has_sense(?w, ?s)'.format(
+                                role, action_core)):
+                            sense = dbr['?s']
+                    action_core_dict['action_roles'].append({'role_name': role, 'role_value': sense})
+                    action_cores.append(action_core_dict)
+                if action_cores:
+                    tasks.append({'action_cores': action_cores})
+
+    print 'tasks: %s' %tasks
+    print 'got %d tasks' %len(tasks)
+    pracsession.log.info('Got these tasks: %s' %tasks)
+    pracsession.tasks = tasks
