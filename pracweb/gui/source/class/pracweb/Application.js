@@ -485,6 +485,7 @@ members : {
         this._win_cramplans = win_cramplans;
 
         this._html_cramplans = new qx.ui.embed.Html("");
+        this._html_cramplans.setOverflowY("auto"); // automatically insert vertical scroll bars 
 
         var btn_gzsimulation = new qx.ui.form.Button("Execute Simulation");
         this._btn_gzsimulation = btn_gzsimulation;
@@ -691,6 +692,7 @@ members : {
             if (this.__var_infer_stepwise) {
                 this._btn_run_inference.setEnabled(false);
             }
+            this._btn_gzsimulation.setEnabled(true);  
             btn_get_roledists.setEnabled(false);
             this.loadGraph();
             this.clear_flow_chart();
@@ -1693,11 +1695,17 @@ members : {
                 that.__tabview.setSelection([this._page_gzweb]); //  must be given as a list with one element
                 // make the CRAM plan window smaller
                 that._win_cramplans.setWidth(400);
+                that._win_cramplans.setHeight(500);
+
                 // and move it where it  won  disturb
                 var h = document.getElementById("page", true, true).offsetHeight;
                 that._win_cramplans.moveTo(50, (h-500));
                 // disable the Execute-button
                 this._btn_gzsimulation.setEnabled(false);
+                if ('plan_string' in response) {
+                    var new_content = this._html_cramplans.getHtml() + '\n<p class="cramPlan">' + response.plan_string + '</p>';
+                    this._html_cramplans.setHtml(new_content);
+                }
             }
         }, this);
         req.send();
