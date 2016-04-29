@@ -148,11 +148,19 @@ class CorefResolution(PRACModule):
                 infer = MLNQuery(config=conf,
                                  db=newdatabase,
                                  mln=mln).run()
-                result_db = infer.resultdb
 
-                result_db.write()
+                # merge initial db with results
+                for res in infer.results:
+                    if infer.results[res] != 1.0: continue
+                    db << res
+                    w = res.split('(')[1].split(',')[0]
+                    for q in newdatabase.query('has_sense({},?s)'.format(w)):
+                            db << 'has_sense({},{})'.format(w, q['?s'])
+                            db << 'is_a({0},{0})'.format(q['?s'])
 
-                inf_step.output_dbs.append(result_db)
+                db.write()
+
+                inf_step.output_dbs.append(db)
 
                 png, ratio = get_cond_prob_png(
                     project.queryconf.get('queries', ''),
