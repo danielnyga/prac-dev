@@ -25,6 +25,7 @@ import re
 import yaml
 import os
 
+
 class ActioncoreDescriptionHandler(object):
     PRAC_HOME = os.environ['PRAC_HOME']
     actioncoreDescriptionFilePath = os.path.join(PRAC_HOME, 'models', 'actioncores.yaml')
@@ -43,7 +44,10 @@ class ActioncoreDescriptionHandler(object):
         ADHandler = ActioncoreDescriptionHandler
         if ADHandler.actioncoreDescription == {}:
             ADHandler.loadActioncoreDescription()
-        return ADHandler.actioncoreDescription[actioncore]['action_roles']
+        if actioncore in ADHandler.actioncoreDescription:
+            return ADHandler.actioncoreDescription[actioncore]['action_roles']
+        else:
+            return []
     
     @staticmethod
     def get_required_roles_based_on_actioncore(actioncore):
