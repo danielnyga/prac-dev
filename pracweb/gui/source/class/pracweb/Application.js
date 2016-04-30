@@ -487,10 +487,10 @@ members : {
         this._html_cramplans = new qx.ui.embed.Html("");
         this._html_cramplans.setOverflowY("auto"); // automatically insert vertical scroll bars 
 
-        var btn_gzsimulation = new qx.ui.form.Button("Execute Simulation");
+        var btn_gzsimulation = new qx.ui.form.Button("Execute ADT");
         this._btn_gzsimulation = btn_gzsimulation;
 
-        var btn_gzacquisition = new qx.ui.form.Button("Acquire Data");
+        var btn_gzacquisition = new qx.ui.form.Button("Generate ADT");
         this._btn_gzacquisition = btn_gzacquisition;
 
         var iframe_gzweb = new qx.ui.embed.Iframe("/gzweb");
@@ -611,7 +611,13 @@ members : {
         combo_descr.add(new qx.ui.form.ListItem("Add 1 liter of water to the chlorous_acid."));
         combo_descr.add(new qx.ui.form.ListItem("Neutralize the methacrylic_acid with 100 milliliters of cyanuramide."));
         combo_descr.add(new qx.ui.form.ListItem("start with neutralizing the pyridine with 4 drops of hydrofluoric_acid."));
-        combo_descr.add(new qx.ui.form.ListItem("Open the drawer."));
+
+        combo_descr.add(new qx.ui.form.ListItem("neutralize 5 drops of hydrochloric_acid."));
+        combo_descr.add(new qx.ui.form.ListItem("neutralize 100 ml of hydrochloric_acid."));
+        combo_descr.add(new qx.ui.form.ListItem("Neutralize 150 ml of acid."));
+        combo_descr.add(new qx.ui.form.ListItem("Put the solution onto the mixer and start it."));
+        combo_descr.add(new qx.ui.form.ListItem("Press the start button."));
+
         combo_descr.add(new qx.ui.form.ListItem("Open the fridge."));
         combo_descr.add(new qx.ui.form.ListItem("Open the test_tube."));
         combo_descr.add(new qx.ui.form.ListItem("Open the cupboard."));
