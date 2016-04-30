@@ -167,11 +167,14 @@ class CorefResolution(PRACModule):
                         continue
                     db << '{}'.format(res)
                     w = res.split('(')[1].split(',')[0]
-                    for q in newdatabase.query('has_sense({},?s)'.format(w)):
+                    for q in newdatabase.query('has_sense({0},?s) ^ has_pos({0},?pos)'.format(w)):
                             db << 'has_sense({},{})'.format(w, q['?s'])
                             db << 'is_a({0},{0})'.format(q['?s'])
+                            db << 'has_pos({},{})'.format(w, q['?pos'])
 
-                inf_step.output_dbs.append(db)
+                newdb = wordnet_module.add_sims(db, mln)
+
+                inf_step.output_dbs.append(newdb)
 
                 png, ratio = get_cond_prob_png(
                     project.queryconf.get('queries', ''),

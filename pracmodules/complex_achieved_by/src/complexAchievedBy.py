@@ -44,35 +44,39 @@ log = logger(__name__)
 PRAC_HOME = os.environ['PRAC_HOME']
 corpus_path_list = os.path.join(PRAC_HOME, 'corpus')
 
-def transform_to_db(complex_db,roles_dict,document_action_roles,actioncore, plan_dict): 
+
+def transform_to_db(complex_db, roles_dict, document_action_roles, actioncore,
+                    plan_dict):
     plan_action_core = plan_dict['action_core']
     plan_action_roles = plan_dict['action_roles']
-    
+
     mln_str = str(plan_dict['MLN'])
-    mln = parse_mln(mln_str,logic='FuzzyLogic')
+    mln = parse_mln(mln_str, logic='FuzzyLogic')
     i = 0
     db = Database(mln=mln)
-    
+
     for action_role in plan_action_roles.keys():
         sense = ""
         word = ""
         pos = ""
-        
+
         updated_role = False
-        if plan_action_core == 'Pipetting' and actioncore == 'Evaluating'  and action_role == 'content':
-            for q in complex_db.query('obj_to_be_evaluated(?w,?ac) ^ has_sense(?w,?s) ^ has_pos(?w,?p) '):
+        if plan_action_core == 'Pipetting' and actioncore == 'Evaluating' and action_role == 'content':
+            for q in complex_db.query(
+                    'obj_to_be_evaluated(?w,?ac) ^ has_sense(?w,?s) ^ has_pos(?w,?p) '):
                 sense = q["?s"]
                 word = q["?w"]
                 pos = q["?p"]
                 updated_role = True
-        
-        elif plan_action_core == 'Pressing' and actioncore == 'Starting'  and action_role == 'location':
-            for q in complex_db.query('obj_to_be_started(?w,?ac) ^ has_sense(?w,?s) ^ has_pos(?w,?p) '):
+
+        elif plan_action_core == 'Pressing' and actioncore == 'Starting' and action_role == 'location':
+            for q in complex_db.query(
+                    'obj_to_be_started(?w,?ac) ^ has_sense(?w,?s) ^ has_pos(?w,?p) '):
                 sense = q["?s"]
                 word = q["?w"]
                 pos = q["?p"]
                 updated_role = True
-        
+
         elif not updated_role:
             sense = str(plan_action_roles[action_role])
             splitted_sense = sense.split('.')
@@ -80,89 +84,99 @@ def transform_to_db(complex_db,roles_dict,document_action_roles,actioncore, plan
                 pos = 'VB'
             else:
                 pos = 'NN'
-            
-            word = "{}-{}mongo".format(splitted_sense[0],str(i))
-            
-        db << ("has_pos({},{})".format(word,pos))
-        db << ("has_sense({},{})".format(word,sense))
-        db << ("{}({},{})".format(str(action_role),word,plan_action_core))
+
+            word = "{}-{}mongo".format(splitted_sense[0], str(i))
+
+        db << ("has_pos({},{})".format(word, pos))
+        db << ("has_sense({},{})".format(word, sense))
+        db << ("{}({},{})".format(str(action_role), word, plan_action_core))
         if action_role == 'action_verb':
-            db << ("action_core({},{})".format(word,actioncore))
-        i += 1  
-    
-    
-    db << ("achieved_by({},{})".format(actioncore,plan_action_core))
-    
+            db << ("action_core({},{})".format(word, actioncore))
+        i += 1
+
+    db << ("achieved_by({},{})".format(actioncore, plan_action_core))
+
     return db
+
+
 class ComplexAchievedBy(PRACModule):
     '''
 
     '''
-    
-   
-                
-    def get_instructions_based_on_action_core(self,db):
+
+
+    def get_instructions_based_on_action_core(self, db):
         wordnet = WordNet(concepts=None)
-        #Assuming there is only one action core
+        # Assuming there is only one action core
         for q in db.query('action_core(?w,?ac)'):
             actioncore = q['?ac']
             mongo_client = MongoClient()
             ies_mongo_db = mongo_client.PRAC
             instructions_collection = ies_mongo_db.Instructions
-            
-            print "Sending query to MONGO DB ..."
-            cursor = instructions_collection.find({'action_core' : '{}'.format(actioncore)})
-            roles_dict =  RolequeryHandler.query_roles_and_senses_based_on_achieved_by(db)
+
+            out("Sending query to MONGO DB ...")
+            cursor = instructions_collection.find(
+                {'action_core': '{}'.format(actioncore)})
+            roles_dict = RolequeryHandler.query_roles_and_senses_based_on_achieved_by(
+                db)
             documents_vector = []
-            
-            #After the 'for loop' it is impossible to retrieve document by index
+
+            # After the 'for loop' it is impossible to retrieve document by index
             cloned_cursor = cursor.clone()
 
             for document in cursor:
                 wup_vector = []
                 document_action_roles = document['action_roles']
-                
+
                 for role in roles_dict.keys():
                     if role in document['action_roles'].keys():
-                        wup_vector.append(wordnet.wup_similarity(str(document_action_roles[role]),roles_dict[role]))
-                
-                if len(wup_vector) > 0 :
+                        wup_vector.append(wordnet.wup_similarity(
+                            str(document_action_roles[role]),
+                            roles_dict[role]))
+
+                if len(wup_vector) > 0:
                     documents_vector.append(stats.hmean(wup_vector))
                 else:
                     documents_vector.append(0)
-            
+
             if documents_vector:
-                print 'Found suitable instruction'
+                out('Found suitable instruction')
                 documents_vector = numpy.array(documents_vector)
                 index = documents_vector.argmax()
-            
-                return map(lambda x : transform_to_db(db,roles_dict,document_action_roles,actioncore,x),cloned_cursor[index]['plan_list'])
-            
-            
+
+                return map(lambda x: transform_to_db(db, roles_dict,
+                                                     document_action_roles,
+                                                     actioncore, x),
+                           cloned_cursor[index]['plan_list'])
+
         return []
-            
+
+
     def initialize(self):
         pass
+
 
     def shutdown(self):
         pass
 
+
     @PRACPIPE
     def __call__(self, pracinference, **params):
-        print colorize('+================================================+', (None, 'green', True), True)
-        print colorize('| PRAC INFERENCE: PROCESSING COMPLEX ACHIEVED BY |  ' , (None, 'green', True), True)
-        print colorize('+================================================+', (None, 'green', True), True)
+        print colorize('+================================================+',
+                       (None, 'green', True), True)
+        print colorize('| PRAC INFERENCE: PROCESSING COMPLEX ACHIEVED BY |  ',
+                       (None, 'green', True), True)
+        print colorize('+================================================+',
+                       (None, 'green', True), True)
 
         inf_step = PRACInferenceStep(pracinference, self)
         dbs = pracinference.inference_steps[-1].output_dbs
-        
-        
+
         for olddb in dbs:
             result = self.get_instructions_based_on_action_core(olddb)
             if result:
                 inf_step.output_dbs.extend(result)
             else:
                 inf_step.output_dbs.append(olddb)
-            
+
         return inf_step
-    

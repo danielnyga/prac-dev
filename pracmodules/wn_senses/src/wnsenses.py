@@ -169,7 +169,7 @@ class WNSenses(PRACModule):
         return db
 
 
-    def add_sims(self, db, mln):
+    def add_sims(self, db_, mln):
         """
         Adds for each sense s_db in the database the similarities to each
         concept in the mln c_mln, i.e. the atom 'is_a(s_db,c_mln)'
@@ -186,13 +186,18 @@ class WNSenses(PRACModule):
           1.000  is_a(pot.n.01, spatula.n.01)``
         """
 
-        mlndomains = mln.domains.get('concept', []) + db.domains.get('concept', [])
-        for c in db.domains['sense']:
-            synset = self.prac.wordnet.synset(c)
-            for c2 in mlndomains:
-                synset2 = self.prac.wordnet.synset(c2)
-                db << ('is_a(%s, %s)' % (synset.name, synset2.name),
-                       self.prac.wordnet.similarity(synset, synset2))
+        db = db_.copy(self.prac.mln)
+        mlndomains = mln.domains.get('concept', []) + db_.domains.get('concept', [])
+        for s in db_.domains['sense']:
+            sense = self.prac.wordnet.synset(s)
+            for c in mlndomains:
+                syn = self.prac.wordnet.synset(c)
+                # this is a workaround! use sense.name and syn.name instead of
+                # s and c, once misleading data is removed from mlns and dbs
+                # example:
+                # self.prac.wordnet.synset('make.v.39').name == 'cook.v.02'!
+                db << ('is_a(%s, %s)' % (s, c),
+                       self.prac.wordnet.similarity(sense, syn))
         return db
 
 
