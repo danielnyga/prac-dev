@@ -799,7 +799,7 @@ class PRACQueryGUI(object):
 def are_requirements_set_to_load_module(module_name):
     if module_name == 'role_look_up' or module_name == 'complex_achieved_by':
         if 'pymongo' in sys.modules:
-            client = MongoClient(serverSelectionTimeoutMS=5000)
+            client = MongoClient()
             try:
                 database_name_list = client.database_names()
                 
