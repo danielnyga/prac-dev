@@ -26,7 +26,7 @@ from prac.core.base import PRACModule, PRACPIPE
 from prac.core.inference import PRACInferenceStep
 from pracmln import Database, MLNQuery
 from pracmln.mln.base import parse_mln
-from pracmln.mln.util import colorize
+from pracmln.mln.util import colorize, out
 from pracmln.praclog import logger
 from pracmln.utils.project import MLNProject
 from pracmln.utils.visualization import get_cond_prob_png
@@ -130,8 +130,8 @@ class AchievedBy(PRACModule):
                         project = MLNProject.open(projectpath)
                     else:
                         inf_step.output_dbs.append(olddb)
-                        print actioncore
-                        logger.error(actioncore + ".pracmln does not exist.")
+                        out(actioncore)
+                        log.error(actioncore + ".pracmln does not exist.")
                         return inf_step
                 else:
                     log.info(colorize('Loading Project from params',
@@ -155,10 +155,12 @@ class AchievedBy(PRACModule):
                 db = wordnet_module.get_senses_and_similarities(db_,
                                                                 known_concepts)
 
+
                 unified_db = db.union(db_)
+                dbnew = wordnet_module.add_sims(unified_db, unified_db)
 
                 # Inference achieved_by predicate
-                db_ = self.extendDBWithAchievedByEvidence(unified_db, mln)
+                db_ = self.extendDBWithAchievedByEvidence(dbnew, mln)
 
                 infer = MLNQuery(config=project.queryconf,
                                  db=db_, mln=mln).run()
