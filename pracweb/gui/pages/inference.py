@@ -48,31 +48,64 @@ def getinfstatus():
 
 
 def _pracinfer(pracsession, timeout, method, data):
-    prac = pracsession.prac
-    prac.log.setLevel(logging.ERROR)
-    #prac.mln.verbose = False # does nothing
-    logmsg = ''
-    result = []
-    settings = {}
-    finish = False
-    msg = ''
-    pracsession.log.info('STARTING INFERENCE STEP')
-    pracsession.infbuffer.setmsg({'message': '', 'status': False})
-    try:
-        if method == 'POST' or (hasattr(pracsession, 'infer') and pracsession.infer.next_module() is not None):
-            # any step except first and last
-            if hasattr(pracsession, 'infer') \
-                    and pracsession.infer.next_module() is not None:
-                # no executable plan has been found so far
-                if pracsession.infer.next_module() is not None:
-                    module = prac.getModuleByName(
-                        pracsession.infer.next_module())
-                    pracsession.log.info('Running Module {}'.format(module.name))
+    with pracsession.lock:
+        prac = pracsession.prac
+        prac.log.setLevel(logging.ERROR)
+        logmsg = ''
+        result = []
+        settings = {}
+        finish = False
+        msg = ''
+        pracsession.log.info('STARTING INFERENCE STEP')
+        pracsession.infbuffer.setmsg({'message': '', 'status': False})
+        try:
+            if method == 'POST' or (hasattr(pracsession, 'infer') and pracsession.infer.next_module() is not None):
+                # any step except first and last
+                if hasattr(pracsession, 'infer') \
+                        and pracsession.infer.next_module() is not None:
+                    # no executable plan has been found so far
+                    if pracsession.infer.next_module() is not None:
+                        module = prac.getModuleByName(
+                            pracsession.infer.next_module())
+                        pracsession.log.info('Running Module {}'.format(module.name))
 
-                    t = Thread(target=prac.run, args=(pracsession.infer, module))
+                        t = Thread(target=prac.run, args=(pracsession.infer, module))
+                        t.start()
+                        threadid = t.ident
+                        t.join(timeout)  # wait until either thread is done or time is up
+
+                        if t.isAlive():
+                            # stop inference and raise TimeoutError locally
+                            ctypes.pythonapi.PyThreadState_SetAsyncExc(
+                                ctypes.c_long(threadid),
+                                ctypes.py_object(SystemExit))
+                            raise mp.TimeoutError
+
+                        if module.name == 'senses_and_roles':
+                            pracsession.sar_step = \
+                                pracsession.infer.inference_steps[-1]
+
+                # first inference step (nl parsing)
+                else:
+                    if hasattr(pracsession, 'infer'):
+                        delattr(pracsession, 'infer')
+
+                    if data['acatontology']:
+                        prac.wordnet = awn
+                    else:
+                        prac.wordnet = wn
+
+                    pracsession.log.info('starting new PRAC inference on "{}"'.format(
+                        data['sentence']))
+                    pracsession.prac = prac
+                    infer = PRACInference(prac, [data['sentence']])
+                    parser = pracsession.parser
+
+                    t = Thread(target=prac.run, args=(infer, parser))
                     t.start()
                     threadid = t.ident
-                    t.join(timeout)  # wait until either thread is done or time is up
+                    # wait until either thread is done or time is up
+                    t.join(timeout)
 
                     if t.isAlive():
                         # stop inference and raise TimeoutError locally
@@ -81,114 +114,86 @@ def _pracinfer(pracsession, timeout, method, data):
                             ctypes.py_object(SystemExit))
                         raise mp.TimeoutError
 
-                    if module.name == 'senses_and_roles':
-                        pracsession.sar_step = \
-                            pracsession.infer.inference_steps[-1]
+                    pracsession.infer = infer
+                    pracsession.synPreds = parser.mln.predicates
+                    pracsession.leaveSynPreds = True
 
-            # first inference step (nl parsing)
+                step = pracsession.infer.inference_steps[-1]
+                evidence = step.output_dbs
+                # generate graph links
+                result = generate_graph_links(pracsession, evidence)
+                pracsession.leaveSynPreds = False
+            # final step used to generate final graph structure
             else:
-                if hasattr(pracsession, 'infer'):
-                    delattr(pracsession, 'infer')
+                pracsession.log.info('Finalizing result...')
+                step = pracsession.infer.inference_steps[-1]
+                evidence = step.output_dbs
+                finish = True
 
-                if data['acatontology']:
-                    prac.wordnet = awn
-                else:
-                    prac.wordnet = wn
+                result = generate_final_links(pracsession)
+                # TODO: access config and only call this function when gz_simulation is True
+                save_prac_model(pracsession)
 
-                pracsession.log.info('starting new PRAC inference on "{}"'.format(
-                    data['sentence']))
-                pracsession.prac = prac
-                infer = PRACInference(prac, [data['sentence']])
-                parser = pracsession.parser
+                # store current inference step if an executable plan exists
+                if hasattr(step, 'executable_plans'):
+                    pracsession.old_infer = pracsession.infer
 
-                t = Thread(target=prac.run, args=(infer, parser))
-                t.start()
-                threadid = t.ident
-                # wait until either thread is done or time is up
-                t.join(timeout)
+                # finally delete inference object
+                delattr(pracsession, 'infer')
 
-                if t.isAlive():
-                    # stop inference and raise TimeoutError locally
-                    ctypes.pythonapi.PyThreadState_SetAsyncExc(
-                        ctypes.c_long(threadid),
-                        ctypes.py_object(SystemExit))
-                    raise mp.TimeoutError
-
-                pracsession.infer = infer
-                pracsession.synPreds = parser.mln.predicates
-                pracsession.leaveSynPreds = True
-
-            step = pracsession.infer.inference_steps[-1]
-            evidence = step.output_dbs
-            # generate graph links
-            result = generate_graph_links(pracsession, evidence)
-            pracsession.leaveSynPreds = False
-        # final step used to generate final graph structure
-        else:
-            pracsession.log.info('Finalizing result...')
-            step = pracsession.infer.inference_steps[-1]
-            evidence = step.output_dbs
-            finish = True
-
-            result = generate_final_links(pracsession)
-            # TODO: access config and only call this function when gz_simulation is True
-            save_prac_model(pracsession)
-
-            # store current inference step if an executable plan exists
-            if hasattr(step, 'executable_plans'):
-                pracsession.old_infer = pracsession.infer
-
-            # finally delete inference object
-            delattr(pracsession, 'infer')
-
-        # retrieve settings for executed pracmodule
-        if hasattr(step, 'applied_settings'):
-            settings = _get_settings(step.module,
-                                     step.applied_settings,
-                                     evidence)
-        else:
-            settings = _get_settings(step.module, None, evidence)
-    except SystemExit:
-        pracsession.log.error('Cancelled...')
-        msg = 'Cancelled!\nCheck log for more information.'
-    except mp.TimeoutError:
-        pracsession.log.error('Timeouterror! '
-                        'Inference took more than {} seconds. '
-                        'Increase the timeout and try again.'.format(timeout))
-        msg = 'Timeout!'
-    except:
-        traceback.print_exc()
-        traceback.print_exc(file=pracsession.stream)
-        msg = 'Failed!\nCheck log for more information.'
-    finally:
-        pracsession.loghandler.flush()
-        pracsession.log.info('\n')
-        value = pracsession.stream.getvalue()
-        if finish:
-            pracsession.stream.truncate(0)
-            msg = 'Success!'
-        try:
-            logmsg += u'\n%s' % unicode(value, 'utf-8')
-        except UnicodeError:
+            # retrieve settings for executed pracmodule
+            if hasattr(step, 'applied_settings'):
+                settings = _get_settings(step.module,
+                                         step.applied_settings,
+                                         evidence)
+            else:
+                settings = _get_settings(step.module, None, evidence)
+        except SystemExit:
+            pracsession.log.error('Cancelled...')
+            msg = 'Cancelled!\nCheck log for more information.'
+        except mp.TimeoutError:
+            pracsession.log.error('Timeouterror! '
+                            'Inference took more than {} seconds. '
+                            'Increase the timeout and try again.'.format(timeout))
+            msg = 'Timeout!'
+        except:
             traceback.print_exc()
-            logmsg += u'\n%s' % repr(value)
+            traceback.print_exc(file=pracsession.stream)
+            msg = 'Failed!\nCheck log for more information.'
+        finally:
+            pracsession.loghandler.flush()
+            pracsession.log.info('\n')
+            value = pracsession.stream.getvalue()
+            if finish:
+                pracsession.stream.truncate(0)
+                msg = 'Success!'
+            try:
+                logmsg += u'\n%s' % unicode(value, 'utf-8')
+            except UnicodeError:
+                traceback.print_exc()
+                logmsg += u'\n%s' % repr(value)
 
-        pracsession.infbuffer.setmsg({'result': result,
-                                      'finish': finish,
-                                      'status': True,
-                                      'settings': settings,
-                                      'log': logmsg,
-                                      'message': msg})
+            pracsession.infbuffer.setmsg({'result': result,
+                                          'finish': finish,
+                                          'status': True,
+                                          'settings': settings,
+                                          'log': logmsg,
+                                          'message': msg})
 
 
 @pracApp.app.route('/prac/_pracinfer_get_next_module', methods=['GET'])
 def _pracinfer_get_next_module():
     pracsession = ensure_prac_session(session)
-    if hasattr(pracsession, 'infer'):
-        modulename = pracsession.infer.next_module()
-        return 'None' if modulename is None else modulename
-    else:
-        return 'nl_parsing'
+    # TODO: the pracsession.lock is a workaround to prevent concurrency issues.
+    # _pracinfer should be called once instead and call the modules in a loop
+    # until there is no more next module. the information for the gui will then
+    # be sent in an infbuffer msg instead
+    with pracsession.lock:
+        if hasattr(pracsession, 'infer'):
+            modulename = pracsession.infer.next_module()
+            return 'None' if modulename is None else modulename
+        else:
+            return 'nl_parsing'
 
 
 @pracApp.app.route('/prac/_get_cram_plan', methods=['GET'])

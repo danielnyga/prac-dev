@@ -816,28 +816,94 @@ members : {
         this.show_wait_animation('inf', true);
         this._btn_next_infstep.setEnabled(false);
         this._win_cramplans.close();
+        var that = this;
+        // because following timeout will cause _next_module to be
+        // overwritten too quickly:
 
+        console.log('updating flowchart:', this._last_module, '->', this._next_module);
         // update flowchart
-        if (this._next_module === 'achieved_by' ||
-           (this._next_module === 'plan_generation') &&
-           (this._last_module != 'plan_generation')) {
-            var that = this;
-            // because following timeout will cause _next_module to be
-            // overwritten too quickly:
-            var tmpNM = that._next_module;
+        if (this._last_module === 'coref_resolution' &&
+            this._next_module === 'role_look_up' ) {
+            console.log('case1');
             this.clear_flow_chart();
-            document.getElementById('executable').nextElementSibling
-                                                 .style.fill = "#bee280";
+            document.getElementById('missingroles').nextElementSibling
+                                                     .style.fill = "#bee280";
+            setTimeout( function() {
+                that.clear_flow_chart();
+                document.getElementById('role_look_up').nextElementSibling
+                                             .style.fill = "#bee280";
+                document.getElementById('library').style.fill = "#bee280";
+            }, 1000);
+        } else if (this._last_module === 'coref_resolution' &&
+                  (this._next_module === 'achieved_by' ||
+                   this._next_module === 'complex_achieved_by')) {
+            console.log('case2');
+            this.clear_flow_chart();
+            document.getElementById('missingroles').nextElementSibling
+                                                     .style.fill = "#bee280";
+            setTimeout( function() {
+                that.clear_flow_chart();
+                document.getElementById('executable').nextElementSibling
+                                             .style.fill = "#bee280";
+
+                setTimeout( function() {
+                    that.clear_flow_chart();
+                    document.getElementById('achieved_by').nextElementSibling
+                                             .style.fill = "#bee280";
+                    document.getElementById('library').style.fill = "#bee280";
+                }, 300);
+            }, 700);
+        } else if (this._last_module === 'complex_achieved_by' &&
+                   this._next_module === 'plan_generation') {
+            console.log('case3');
+            var tmpNM = this._next_module;
+            this.clear_flow_chart();
+            document.getElementById('roles_transformation').nextElementSibling
+                                         .style.fill = "#bee280";
+            setTimeout( function() {
+                that.clear_flow_chart();
+                document.getElementById('executable').nextElementSibling
+                                         .style.fill = "#bee280";
+            }, 300);
             setTimeout( function() {
                 that.clear_flow_chart();
                 document.getElementById(tmpNM).nextElementSibling
-                                              .style.fill = "#bee280";
+                                         .style.fill = "#bee280";
+            }, 700);
+        } else if (this._last_module != 'plan_generation' &&
+                   this._next_module === 'plan_generation' ) {
+            console.log('case4');
+            this.clear_flow_chart();
+            document.getElementById('executable').nextElementSibling
+                                         .style.fill = "#bee280";
+
+            setTimeout( function() {
+                that.clear_flow_chart();
+                document.getElementById('plan_generation').nextElementSibling
+                                         .style.fill = "#bee280";
             }, 1000);
         } else {
+            console.log('case general');
             this.clear_flow_chart();
-            document.getElementById(this._next_module).nextElementSibling
+            var tmpNM = this._next_module;
+            if (this._next_module === 'achieved_by' || this._next_module === 'complex_achieved_by') {
+                document.getElementById('library').style.fill = "#bee280";
+                tmpNM = 'achieved_by';
+                console.log('fill library ', tmpNM);
+            }
+            if (this._next_module === 'plan_generation') {
+                setTimeout( function() {
+                    that.clear_flow_chart();
+                    document.getElementById('plan_generation').nextElementSibling
+                                             .style.fill = "#bee280";
+                }, 1000);
+            } else {
+                console.log('setting ', tmpNM);
+                document.getElementById(tmpNM).nextElementSibling
                                                       .style.fill = "#bee280";
+            }
         }
+
 
         var req = new qx.io.request.Xhr("/prac/_get_status", "POST");
         req.setRequestHeader("Content-Type", "application/json");
@@ -866,38 +932,38 @@ members : {
                                 (updateLinks[0].length +
                                 updateLinks[1].length) *
                                 that._graph.WAITMSEC;
-                that._oldRes = responseResult;
-                that._oldEvidence = responseSettings == null ?
+                this._oldRes = responseResult;
+                this._oldEvidence = responseSettings == null ?
                                                         '' :
                                                         responseSettings['evidence'];
 
-                that.show_wait_animation('inf', false);
+                this.show_wait_animation('inf', false);
 
                 if (response.finish) {
                     console.log(" I am DONE! ");
-                    that.show_wait_animation('inf', true);
-                    that.updateGraph(updateLinks[0], updateLinks[1]);
+                    this.show_wait_animation('inf', true);
+                    this.updateGraph(updateLinks[0], updateLinks[1]);
 
                     // wait 3 seconds, then clear flowchart
                     setTimeout( function() {
                         that.get_cram_plan();
                     }, idle_time);
 
-                    that._btn_next_infstep.setEnabled(false);
-                    that._btn_run_inference.setEnabled(true);
-                    that._last_module = '';
-                    that.show_wait_animation('inf', false);
-                } else if (that._next_module === 'plan_generation') {
+                    this._btn_next_infstep.setEnabled(false);
+                    this._btn_run_inference.setEnabled(true);
+                    this._last_module = '';
+                    this.show_wait_animation('inf', false);
+                } else if (this._next_module === 'plan_generation') {
                     // do not redraw graph because plan_generation does
                     // not update output_dbs
-                    that._last_module = 'plan_generation';
+                    this._last_module = 'plan_generation';
                     var req = that.start_inference("GET");
                     req.send();
                 } else {
-                    that._last_module = that._next_module;
-                    that._next_module = that.get_next_module();
-                    that.get_cond_prob();
-                    that.updateGraph(updateLinks[0], updateLinks[1]);
+                    this._last_module = this._next_module;
+                    this._next_module = this.get_next_module();
+                    this.get_cond_prob();
+                    this.updateGraph(updateLinks[0], updateLinks[1]);
                     setTimeout( function() {
                         that._btn_next_infstep.setEnabled(true);
                         // set enabled when senses_and_roles has finished
@@ -906,7 +972,7 @@ members : {
                         }
                     }, idle_time);
 
-                    if (!that.__var_infer_stepwise) {
+                    if (!this.__var_infer_stepwise) {
                         console.log('bumming around for',
                                     idle_time,
                                     ' mseconds before sending new request...');
@@ -938,7 +1004,9 @@ members : {
             var that = this;
             var tar = e.getTarget();
             var response = tar.getResponse();
-            that._next_module = response;
+//            this._next_module = response === 'complex_achieved_by' ? 'achieved_by' : response;
+            this._next_module = response;
+            console.log('next module:', this._next_module);
             return;
         }, this);
         moduleReq.send();
@@ -1350,11 +1418,14 @@ members : {
      * clear flow chart
      */
     clear_flow_chart : function(e) {
-        var nodes = ['init','nl_parsing','ac_recognition','senses_and_roles','executable','plan_generation','achieved_by','roles_transformation'];
+        var nodes = ['init','missingroles','role_look_up','nl_parsing',
+        'ac_recognition','senses_and_roles','executable','plan_generation',
+        'achieved_by','roles_transformation','coref_resolution'];
 
         for (var x = 0; x < nodes.length; x++) {
             document.getElementById(nodes[x]).nextElementSibling.style.fill = "white";
         }
+        document.getElementById('library').style.fill = "white";
     },
 
 

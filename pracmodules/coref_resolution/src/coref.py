@@ -52,16 +52,29 @@ class CorefResolution(PRACModule):
 
         # merge output dbs from senses and roles step, containing
         # roles inferred from multiple sentences.
-        dbs = pracinference.inference_steps[-1].output_dbs
+        inf_step = PRACInferenceStep(pracinference, self)
+        prev_step = pracinference.inference_steps[-1]
+        dbs = prev_step.output_dbs
         corefdb = Database(self.prac.mln)
         ac = None
         sentences = []
 
-        # unify current db with the 3 preceding ones
+        if len(dbs) < 2:
+            # no coreferencing required - forward dbs and settings
+            # from previous module
+            inf_step.output_dbs = [db.copy(self.prac.mln) for db in dbs]
+            inf_step.png = prev_step.png
+            inf_step.applied_settings = prev_step.applied_settings
+            log.error('nothing to do here. forwarding dbs and settings from previous module')
+            return inf_step
+
         for i, db in enumerate(dbs):
             if i == 0:
+                # no coreference resolution required for first database
                 continue
             else:
+                # unify current db with the 3 preceding ones
+
                 # query action core and action verb for later use
                 for q in dbs[i].query('action_core(?w,?ac)'):
                     ac = q['?ac']
@@ -108,7 +121,6 @@ class CorefResolution(PRACModule):
                                                             'FuzzyLogic'),
                                 grammar=project.queryconf.get('grammar',
                                                               'PRACGrammar'))
-                inf_step = PRACInferenceStep(pracinference, self)
 
                 # adding similarities
                 wordnet_module = self.prac.getModuleByName('wn_senses')
@@ -150,15 +162,14 @@ class CorefResolution(PRACModule):
                                  mln=mln).run()
 
                 # merge initial db with results
-                for res in infer.results:
-                    if infer.results[res] != 1.0: continue
-                    db << res
+                for res in infer.results.keys():
+                    if infer.results[res] != 1.0:
+                        continue
+                    db << '{}'.format(res)
                     w = res.split('(')[1].split(',')[0]
                     for q in newdatabase.query('has_sense({},?s)'.format(w)):
                             db << 'has_sense({},{})'.format(w, q['?s'])
                             db << 'is_a({0},{0})'.format(q['?s'])
-
-                db.write()
 
                 inf_step.output_dbs.append(db)
 
@@ -166,7 +177,8 @@ class CorefResolution(PRACModule):
                     project.queryconf.get('queries', ''),
                     dbs, filename=self.name)
                 inf_step.png = (png, ratio)
-        inf_step.applied_settings = project.queryconf.config
+                inf_step.applied_settings = project.queryconf.config
+        log.error('finishing coref')
         return inf_step
 
 

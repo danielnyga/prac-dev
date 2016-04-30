@@ -1,4 +1,5 @@
 from flask import Flask
+from threading import Lock
 
 
 class PRACFlask(object):
@@ -16,6 +17,7 @@ class PRACSession():
     def __init__(self, http_session):
         self.id = http_session['id']
         self.http_session = http_session
+        self.lock = Lock()
 
 
 class SessionStore():
