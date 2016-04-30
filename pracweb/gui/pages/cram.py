@@ -21,7 +21,7 @@ log.setLevel(praclog.INFO)
 
 try:
     # only uncomment this to test RPC calls on a system with ROS installed
-    # raise ImportError
+    raise ImportError
     import rospy
     # imports the service
     from prac2cram.srv import Prac2Cram

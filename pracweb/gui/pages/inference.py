@@ -396,7 +396,7 @@ def save_prac_model(pracsession):
 
     tasks = [] 
     for step in pracsession.infer.inference_steps:
-        if hasattr(step, 'executable_plans'):
+        if hasattr(step, 'executable_plans') and step.executable_plans:
             for db in step.output_dbs:
                 action_cores = []
                 for res in db.query(
