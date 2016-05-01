@@ -61,7 +61,7 @@ action_core: Pouring
 
 action_roles: ['stuff','goal','action_verb','unit','amount']
 required_action_roles: ['stuff','goal','action_verb']
-cram_plan: "(pour-from-container \t!(from (an object \t!(type container.n.01)\n\t\t(contains (some stuff (type {stuff}))))\n\t(amount ({amount} {unit}))\n\t(to (an object \t!(type {goal})\n\n"
+cram_plan: "(pour-from-container (from (an object (type container.n.01) (contains (some stuff (type {stuff}))))(amount ({amount} {unit}))(to (an object (type {goal})"
 
 ---
 

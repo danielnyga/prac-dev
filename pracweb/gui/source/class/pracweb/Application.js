@@ -614,7 +614,7 @@ members : {
 
         combo_descr.add(new qx.ui.form.ListItem("neutralize 5 drops of hydrochloric_acid."));
         combo_descr.add(new qx.ui.form.ListItem("neutralize 100 ml of hydrochloric_acid."));
-        combo_descr.add(new qx.ui.form.ListItem("Neutralize 150 ml of acid."));
+        combo_descr.add(new qx.ui.form.ListItem("Neutralize 100 ml of acid."));
         combo_descr.add(new qx.ui.form.ListItem("Put the solution onto the mixer and start it."));
         combo_descr.add(new qx.ui.form.ListItem("Press the start button."));
 
@@ -889,6 +889,32 @@ members : {
                 that.clear_flow_chart();
                 document.getElementById('plan_generation').nextElementSibling
                                          .style.fill = "#bee280";
+            }, 1000);
+        } else if (this._last_module === 'roles_transformation' &&
+                   this._next_module === 'achieved_by' ||
+                   this._next_module === 'complex_achieved_by') {
+           this.clear_flow_chart();
+           document.getElementById('executable').nextElementSibling
+                                         .style.fill = "#bee280";
+
+            setTimeout( function() {
+                that.clear_flow_chart();
+                document.getElementById('achieved_by').nextElementSibling
+                                         .style.fill = "#bee280";
+                document.getElementById('library').style.fill = "#bee280";
+            }, 1000);
+        } else if (this._last_module === 'role_look_up' &&
+                   this._next_module === 'achieved_by' ||
+                   this._next_module === 'complex_achieved_by') {
+           this.clear_flow_chart();
+           document.getElementById('executable').nextElementSibling
+                                         .style.fill = "#bee280";
+
+            setTimeout( function() {
+                that.clear_flow_chart();
+                document.getElementById('achieved_by').nextElementSibling
+                                         .style.fill = "#bee280";
+                document.getElementById('library').style.fill = "#bee280";
             }, 1000);
         } else {
             console.log('case general');

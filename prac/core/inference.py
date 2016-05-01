@@ -92,7 +92,6 @@ class PRACInference(object):
         elif previous_module == 'senses_and_roles':
             return 'coref_resolution'
         elif previous_module == 'coref_resolution':
-            print 'numdbs', len(self.inference_steps[-1].output_dbs)
             for outdb in self.inference_steps[-1].output_dbs:
 
                 if self.is_task_missing_roles(outdb):
