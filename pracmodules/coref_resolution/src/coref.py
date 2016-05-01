@@ -71,6 +71,7 @@ class CorefResolution(PRACModule):
         for i, db in enumerate(dbs):
             if i == 0:
                 # no coreference resolution required for first database
+                inf_step.output_dbs.append(dbs[i])
                 continue
             else:
                 # unify current db with the 3 preceding ones
