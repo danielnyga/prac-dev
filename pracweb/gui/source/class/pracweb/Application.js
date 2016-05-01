@@ -623,7 +623,7 @@ members : {
         combo_descr.add(new qx.ui.form.ListItem("Open the cupboard."));
         combo_descr.add(new qx.ui.form.ListItem("Flavour the tomato_sauce with the oregano."));
         combo_descr.add(new qx.ui.form.ListItem("Fill a cup with water."));
-        combo_descr.add(new qx.ui.form.ListItem("Preheat the oven to 100 degree_fahrenheit."));
+        combo_descr.add(new qx.ui.form.ListItem("Preheat the oven."));
         combo_descr.add(new qx.ui.form.ListItem("Fill a blender with apples."));
         combo_descr.add(new qx.ui.form.ListItem("Fill a mixer with pineapples."));
         combo_descr.add(new qx.ui.form.ListItem("Fill a glass with wine."));
@@ -995,7 +995,7 @@ members : {
                     req.send();
                 } else {
                     this._last_module = this._next_module;
-                    this._next_module = this.get_next_module();
+                    this.get_next_module();
                     this.get_cond_prob();
                     this.updateGraph(updateLinks[0], updateLinks[1]);
                     setTimeout( function() {

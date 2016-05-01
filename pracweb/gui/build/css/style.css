@@ -79,6 +79,12 @@ circle {
   stroke-width: 1.5px;
 }
 
+circle.flowcircle {
+  fill: none;
+  stroke: black;
+  stroke-width: 1.5px;
+}
+
 /*rect {
   fill: #bee280;
   stroke: #89a35c;

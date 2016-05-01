@@ -82,7 +82,7 @@
       <text x="724.182" y="265.7143" clip-path="url(#clipPath2)" fill="black" font-family="sans-serif" stroke="none" xml:space="preserve">Roles missing?</text>
     </g>
     <g stroke-linecap="butt" transform="matrix(1,0,0,1,-573,88)" stroke-miterlimit="1.45">
-      <circle fill="none" r="5.5" clip-path="url(#clipPath2)" cx="768.64" cy="406.64"/>
+      <circle class="flowcircle" fill="none" r="5.5" clip-path="url(#clipPath2)" cx="768.64" cy="406.64"/>
     </g>
     <g stroke-linecap="butt" transform="matrix(1,0,0,1,-573,88)" stroke-miterlimit="1.45">
       <path fill="none" d="M768.32 -32.5916 L768.32 -24.9855" clip-path="url(#clipPath2)"/>
