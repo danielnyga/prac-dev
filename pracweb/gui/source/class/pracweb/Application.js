@@ -1806,7 +1806,11 @@ members : {
                 // disable the Execute-button
                 this._btn_gzsimulation.setEnabled(false);
                 if ('plan_string' in response) {
-                    var new_content = this._html_cramplans.getHtml() + '\n<p class="cramPlan">' + response.plan_string + '</p>';
+                    var new_content = this._html_cramplans.getHtml()
+                    var plan_strings = response.plan_string.split('\n');
+                    for (var i = 0; i < plan_strings.length; i++) {
+                        new_content += '<p class="cramPlan">' + plan_strings[i] + '</p>';
+                    }
                     this._html_cramplans.setHtml(new_content);
                 }
             }

@@ -64,6 +64,8 @@ def execute_plan():
 
 def _execute_plan(pracsession, timeout, method, data):
 
+    pracsession.log.setLevel(praclog.DEBUG)
+
     # tasks is a list of dictionaries each having a key called action_core containing a list 
     if not hasattr(pracsession, 'tasks'):
         pracsession.log.error('No PRAC model available!')
@@ -103,13 +105,23 @@ def _execute_plan(pracsession, timeout, method, data):
             if resp:
                 pracsession.log.info("ROS Server answered: %s" %resp)
                 if resp.status: # if error
-                    pracsession.infbuffer.setmsg({'status': -1, 'message': 'The CRAM service request failed! ' + '\n'.join(resp.message)})
+                    pracsession.infbuffer.setmsg({'status': -1, 'message': 'The CRAM service request failed! ' + '\n'.join(resp.messages)})
                 else:
-                    message = 'CRAM service request successful!'
+                    # check individual status of each task (0: success, -1: failure)
+                    if hasattr(resp, 'individual_status'):
+                        if any(resp.individual_status):
+                            message = 'One or more plans could not be generated! \n'
+                            pracsession.infbuffer.setmsg({'status': -1, 'message': message + '\n'.join(resp.messages)}) 
+                            return
+                        else:
+                            message = 'CRAM service request successful!'
+                    else:
+                        message = 'CRAM service request successful!'
                     if hasattr(resp, 'plan_strings'): 
                         plan_strings = resp.plan_strings
                     else:
                         plan_strings = []
+                        pracsession.log.warn('Received no generated plan strings from ROS Service!')
                     pracsession.infbuffer.setmsg({'status': 0, 'message': message, 'plan_string': '\n'.join(plan_strings)})
             else:
                 pracsession.infbuffer.setmsg({'status': -1, 'message': 'Error: Got no response from Service call.'})
@@ -139,9 +151,15 @@ def _execute_plan(pracsession, timeout, method, data):
             if resp: # resp is now a dictionary!
                 pracsession.log.info("RPC Server answered: %s" %resp)
                 if resp['status']: # if error
-                    message = 'The CRAM service request failed! ' + '\n'.join(resp['message']) 
+                    message = 'The CRAM service request failed! ' + '\n'.join(resp['messages']) 
                     pracsession.infbuffer.setmsg({'status': -1, 'message': message})
                 else:
+                    # check individual status of each task
+                    if 'individual_status' in resp:
+                        if any(resp['individual_status']):
+                            message = 'One or more plans could not be generated! '
+                            pracsession.infbuffer.setmsg({'status': -1, 'message': message + '\n'.join(resp.messages)}) 
+                            return                            
                     message = 'CRAM service request successful!' 
                     if 'plan_strings' in resp:
                         plan_strings = resp['plan_strings']
