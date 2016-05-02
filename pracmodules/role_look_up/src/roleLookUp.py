@@ -140,7 +140,7 @@ class RoleLookUp(PRACModule):
                 else:
                     print "No suitable frames are available."
                         
-        return db_
+        return db_, missing_role_set
     
     def initialize(self):
         pass
@@ -157,8 +157,16 @@ class RoleLookUp(PRACModule):
         inf_step = PRACInferenceStep(pracinference, self)
         dbs = pracinference.inference_steps[-1].output_dbs
         inf_step.executable_plans = []
-        
+
         for db in dbs:
-            inf_step.output_dbs.append(self.determine_missing_roles(db))
-            
+            db_, missingroles = self.determine_missing_roles(db)
+            inf_step.output_dbs.append(db_)
+
+            for q in db.query('action_core(?w, ?ac)'):
+                w = q['?w']
+
+            png, ratio = get_cond_prob_png(list(missingroles), dbs, filename=self.name, mongo=True, mongoword=w)
+            inf_step.png = (png, ratio)
+            inf_step.applied_settings = {'module': 'missing_roles',
+                                         'method': 'DB lookup'}
         return inf_step

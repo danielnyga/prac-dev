@@ -237,9 +237,14 @@ def _get_settings(module, appliedsettings, evidence):
     # if settings base exists, read settings
     if appliedsettings is not None:
         mlnstr = StringIO()
-        appliedsettings.get('mln').write(mlnstr, color=False)
+        mln = appliedsettings.get('mln', None)
+        if mln is not None:
+            mln.write(mlnstr, color=False)
+        else:
+            mlnstr.write('')
         settings.update(appliedsettings)
-        del settings['db']
+        if 'db' in settings:
+            del settings['db']
         settings['mln'] = mlnstr.getvalue()
 
     # evidence is either text or list of dbs

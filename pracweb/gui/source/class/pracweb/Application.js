@@ -445,6 +445,7 @@ members : {
         var html_distr = new qx.ui.embed.Html();
         html_distr.getContentElement().setAttribute("id","html_distr");
         this.__html_distr = html_distr;
+        this.__wn_taxonomy = '';
 
 
         /* ********************** LISTENERS **********************************/
@@ -556,6 +557,7 @@ members : {
         this.__var_use_chkbx_acatontology = false;
         this.change_visibility();
         this.send_user_stats();
+
     },
 
 
@@ -721,17 +723,10 @@ members : {
         }, this);
 
         btn_show_taxonomy.addListener("execute", function() {
-            var req = new qx.io.request.Xhr();
-            req.setUrl("/prac/_get_wordnet_taxonomy");
-            req.setMethod("GET");
+            this.get_wn_taxonomy();
 
-            req.addListener("success", function(e) {
-                var tar = e.getTarget();
-                var response = tar.getResponse();
-                taxCanvas.setHtml(response);
-                win_taxonomy.open();
-            });
-            req.send();
+            taxCanvas.setHtml(this.__wn_taxonomy);
+            win_taxonomy.open();
         }, this);
 
         btn_get_roledists.addListener('execute', this.get_role_distributions, this);
@@ -832,7 +827,6 @@ members : {
         // update flowchart
         if (this._last_module === 'coref_resolution' &&
             this._next_module === 'role_look_up' ) {
-            console.log('case1');
             this.clear_flow_chart();
             document.getElementById('missingroles').nextElementSibling
                                                      .style.fill = "#bee280";
@@ -845,7 +839,6 @@ members : {
         } else if (this._last_module === 'coref_resolution' &&
                   (this._next_module === 'achieved_by' ||
                    this._next_module === 'complex_achieved_by')) {
-            console.log('case2');
             this.clear_flow_chart();
             document.getElementById('missingroles').nextElementSibling
                                                      .style.fill = "#bee280";
@@ -863,7 +856,6 @@ members : {
             }, 700);
         } else if (this._last_module === 'complex_achieved_by' &&
                    this._next_module === 'plan_generation') {
-            console.log('case3');
             var tmpNM = this._next_module;
             this.clear_flow_chart();
             document.getElementById('roles_transformation').nextElementSibling
@@ -880,7 +872,6 @@ members : {
             }, 700);
         } else if (this._last_module != 'plan_generation' &&
                    this._next_module === 'plan_generation' ) {
-            console.log('case4');
             this.clear_flow_chart();
             document.getElementById('executable').nextElementSibling
                                          .style.fill = "#bee280";
@@ -917,13 +908,11 @@ members : {
                 document.getElementById('library').style.fill = "#bee280";
             }, 1000);
         } else {
-            console.log('case general');
             this.clear_flow_chart();
             var tmpNM = this._next_module;
             if (this._next_module === 'achieved_by' || this._next_module === 'complex_achieved_by') {
                 document.getElementById('library').style.fill = "#bee280";
                 tmpNM = 'achieved_by';
-                console.log('fill library ', tmpNM);
             }
             if (this._next_module === 'plan_generation') {
                 setTimeout( function() {
@@ -932,7 +921,6 @@ members : {
                                              .style.fill = "#bee280";
                 }, 1000);
             } else {
-                console.log('setting ', tmpNM);
                 document.getElementById(tmpNM).nextElementSibling
                                                       .style.fill = "#bee280";
             }
@@ -1038,9 +1026,7 @@ members : {
             var that = this;
             var tar = e.getTarget();
             var response = tar.getResponse();
-//            this._next_module = response === 'complex_achieved_by' ? 'achieved_by' : response;
             this._next_module = response;
-            console.log('next module:', this._next_module);
             return;
         }, this);
         moduleReq.send();
@@ -1616,6 +1602,12 @@ members : {
             var tar = e.getTarget();
             var response = tar.getResponse();
 
+            // set examples for inference and learning
+            for (var i = 0; i < response.actioncores.length; i++) {
+                 this._sel_ac.add(new qx.ui.form
+                                              .ListItem(response.actioncores[i]));
+            }
+
             this.__wordnetconcepts = response.data;
             this.__rospy = response.rospy;
 
@@ -1633,12 +1625,6 @@ members : {
                                          {right:"0%", bottom:"1%", width:"20%"});
                 this.__tabview.add(this._page_gzweb,
                                    {width: "100%", height: "100%"});
-            }
-
-            // set examples for inference and learning
-            for (var i = 0; i < response.actioncores.length; i++) {
-                 this._sel_ac.add(new qx.ui.form
-                                              .ListItem(response.actioncores[i]));
             }
         }, this);
         req.send();
@@ -1685,6 +1671,7 @@ members : {
                                          response.roles[role]], {row: role,
                                                                  column: 1});
             }
+            this.get_wn_taxonomy();
         }, this);
         req.send();
     },
@@ -1740,7 +1727,7 @@ members : {
         var selected_role = this._sel_role.getSelection();
         var parentwidth = this._scrollctr_html_distr.getWidth();
         if (selected_role.length == 0) {
-            this.__html_distr.setHtml('');
+            this.__html_distr.setHtml(this.__wn_taxonomy);
         } else {
             this.__html_distr.setHtml(this.__distributions[selected_role[0]
                                                             .getLabel()]);
@@ -1816,6 +1803,26 @@ members : {
             }
         }, this);
         req.send();
+    },
+
+
+    /**
+    * get wordnet taxonomy and save it in a variable
+    */
+    get_wn_taxonomy : function (e) {
+        if (this.__wn_taxonomy === '') {
+            var req = new qx.io.request.Xhr();
+                req.setUrl("/prac/_get_wordnet_taxonomy");
+                req.setMethod("GET");
+
+                req.addListener("success", function(e) {
+                    var tar = e.getTarget();
+                    var response = tar.getResponse();
+                    this.__wn_taxonomy = response;
+                    this.change_distr();
+            }, this);
+            req.send();
+        }
     },
 
 
