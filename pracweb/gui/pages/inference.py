@@ -439,8 +439,12 @@ def save_prac_model(pracsession):
                     action_cores.append(action_core_dict)
                 if action_cores:
                     tasks.append({'action_cores': action_cores})
+                    
 
     print 'tasks: %s' %tasks
     print 'got %d tasks' %len(tasks)
     pracsession.log.info('Got these tasks: %s' %tasks)
-    pracsession.tasks = tasks
+    if tasks:
+        pracsession.tasks = tasks
+    else:
+        pracsession.log.error('No tasks could be extracted from the inference databases!')
