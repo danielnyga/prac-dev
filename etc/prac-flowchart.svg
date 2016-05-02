@@ -60,9 +60,10 @@
       <text x="593.7348" y="565.1387" clip-path="url(#clipPath2)" fill="black" font-family="sans-serif" stroke="none" xml:space="preserve">Refinement</text>
     </g>
     <g stroke-linecap="butt" transform="matrix(1,0,0,1,-573,88)" stroke-miterlimit="1.45">
-      <path id="library" fill="none" d="M588.56 333.7179 C590.96 322.1032 666.16 322.1032 668.56 333.7179 L668.56 368.5621 C666.16 380.1768 590.96 380.1768 588.56 368.5621 Z" clip-path="url(#clipPath2)"/>
+      <path id="library" fill="white" d="M588.56 333.7179 C590.96 322.1032 666.16 322.1032 668.56 333.7179 L668.56 368.5621 C666.16 380.1768 590.96 380.1768 588.56 368.5621 Z" clip-path="url(#clipPath2)"/>
       <path fill="none" d="M668.56 333.7179 C666.16 345.3326 590.96 345.3326 588.56 333.7179" clip-path="url(#clipPath2)"/>
-      <text x="607.5805" xml:space="preserve" y="355.2943" clip-path="url(#clipPath2)" font-family="sans-serif" stroke="none">Library</text>
+      <text x="609.5805" xml:space="preserve" y="355.2943" clip-path="url(#clipPath2)" font-family="sans-serif" stroke="none">ADT</text>
+      <text x="603.5805" xml:space="preserve" y="369.2943" clip-path="url(#clipPath2)" font-family="sans-serif" stroke="none">Library</text>
     </g>
     <g fill="white" stroke-miterlimit="1.45" transform="matrix(1,0,0,1,-573,88)" stroke-linecap="butt" stroke="white">
       <path id="role_look_up" d="M728.64 331.14 L808.64 331.14 L808.64 371.14 L728.64 371.14 Z" stroke="none" clip-path="url(#clipPath2)"/>
@@ -82,7 +83,7 @@
       <text x="724.182" y="265.7143" clip-path="url(#clipPath2)" fill="black" font-family="sans-serif" stroke="none" xml:space="preserve">Roles missing?</text>
     </g>
     <g stroke-linecap="butt" transform="matrix(1,0,0,1,-573,88)" stroke-miterlimit="1.45">
-      <circle class="flowcircle" fill="none" r="5.5" clip-path="url(#clipPath2)" cx="768.64" cy="406.64"/>
+      <circle class="flowcircle" fill="white" r="5.5" clip-path="url(#clipPath2)" cx="768.64" cy="406.64"/>
     </g>
     <g stroke-linecap="butt" transform="matrix(1,0,0,1,-573,88)" stroke-miterlimit="1.45">
       <path fill="none" d="M768.32 -32.5916 L768.32 -24.9855" clip-path="url(#clipPath2)"/>
