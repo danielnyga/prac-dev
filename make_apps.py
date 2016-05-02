@@ -19,8 +19,9 @@ except ImportError:
 
 
 env_vars = ['JAVA_HOME']
-aptpackages = ['dvipng', 'texlive-full', 'default-jre','mongodb-server']
+aptpackages = ['dvipng', 'texlive-full', 'default-jre', 'mongodb-server']
 
+# terminology: (nametobechecked, pip-packagename, optionalpackage?)
 packages = [('sphinx', 'sphinx sphinxcontrib-bibtex', False),
             ('jpype', 'jpype1', False),
             ('nltk', 'nltk', False),
@@ -30,7 +31,7 @@ packages = [('sphinx', 'sphinx sphinxcontrib-bibtex', False),
             ('yaml', 'pyyaml', False),
             ('matplotlib', 'matplotlib', False),
             ('apt', 'python-apt', False),
-            ('pymongo','pymongo',False)]
+            ('pymongo', 'pymongo', False)]
 
 pracwebpackages = [('flask', 'Flask', False),
                    ('werkzeug', 'werkzeug', False),
@@ -121,6 +122,19 @@ def build_pracweb():
                         "script": "$PRAC_HOME/pracweb/run.py"})
 
 
+def initialize_mongodb():
+    print colorize('Initializing Mongo DB...', (None, 'green', True), True)
+
+    # download files and initialize db
+    os.system('wget http://ai.uni-bremen.de/public/prac/chemical-plans.bson . && mongorestore --db PRAC --collection Instructions chemical-plans.bson')
+    os.system('wget http://ai.uni-bremen.de/public/prac/chemical-frames.bson . && mongorestore --db PRAC --collection Frames chemical-frames.bson')
+    #
+    # cleanup
+    os.remove('chemical-plans.bson')
+    os.remove('chemical-frames.bson')
+
+
+
 if __name__ == '__main__':
 
     archs = ["win32", "linux_amd64", "linux_i386", "macosx", "macosx64"]
@@ -158,6 +172,8 @@ if __name__ == '__main__':
 
     if '--pracweb' in args:
         build_pracweb()
+
+    initialize_mongodb()
 
     print 'Removing old app folder...'
     shutil.rmtree('apps', ignore_errors=True)
