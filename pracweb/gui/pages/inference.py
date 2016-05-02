@@ -59,7 +59,8 @@ def _pracinfer(pracsession, timeout, method, data):
         pracsession.log.info('STARTING INFERENCE STEP')
         pracsession.infbuffer.setmsg({'message': '', 'status': False})
         try:
-            if method == 'POST' or (hasattr(pracsession, 'infer') and pracsession.infer.next_module() is not None):
+            if method == 'POST' or (hasattr(pracsession,
+                                            'infer') and pracsession.infer.next_module() is not None):
                 # any step except first and last
                 if hasattr(pracsession, 'infer') \
                         and pracsession.infer.next_module() is not None:
@@ -67,12 +68,15 @@ def _pracinfer(pracsession, timeout, method, data):
                     if pracsession.infer.next_module() is not None:
                         module = prac.getModuleByName(
                             pracsession.infer.next_module())
-                        pracsession.log.info('Running Module {}'.format(module.name))
+                        pracsession.log.info(
+                            'Running Module {}'.format(module.name))
 
-                        t = Thread(target=prac.run, args=(pracsession.infer, module))
+                        t = Thread(target=prac.run,
+                                   args=(pracsession.infer, module))
                         t.start()
                         threadid = t.ident
-                        t.join(timeout)  # wait until either thread is done or time is up
+                        t.join(
+                            timeout)  # wait until either thread is done or time is up
 
                         if t.isAlive():
                             # stop inference and raise TimeoutError locally
@@ -95,8 +99,9 @@ def _pracinfer(pracsession, timeout, method, data):
                     else:
                         prac.wordnet = wn
 
-                    pracsession.log.info('starting new PRAC inference on "{}"'.format(
-                        data['sentence']))
+                    pracsession.log.info(
+                        'starting new PRAC inference on "{}"'.format(
+                            data['sentence']))
                     pracsession.prac = prac
                     infer = PRACInference(prac, [data['sentence']])
                     parser = pracsession.parser
@@ -153,8 +158,9 @@ def _pracinfer(pracsession, timeout, method, data):
             msg = 'Cancelled!\nCheck log for more information.'
         except mp.TimeoutError:
             pracsession.log.error('Timeouterror! '
-                            'Inference took more than {} seconds. '
-                            'Increase the timeout and try again.'.format(timeout))
+                                  'Inference took more than {} seconds. '
+                                  'Increase the timeout and try again.'.format(
+                timeout))
             msg = 'Timeout!'
         except:
             traceback.print_exc()
@@ -204,7 +210,7 @@ def _get_cram_plan():
     else:
         cramplans = []
 
-    #return jsonify({'plans': [format_cram_string(cp) for cp in cramplans]})
+    # return jsonify({'plans': [format_cram_string(cp) for cp in cramplans]})
     return jsonify({'plans': cramplans})
 
 
@@ -330,8 +336,8 @@ def generate_graph_links(pracsession, evidence):
                      'value': a_tuple[1], 'arcStyle': 'strokegreen'})
     return result
 
-def generate_final_links(pracsession):
 
+def generate_final_links(pracsession):
     result = []
 
     finaldb = Database(pracsession.prac.mln)
@@ -396,60 +402,47 @@ def generate_final_links(pracsession):
 
     return result
 
+
 # fill in tasks with actioncore to pass to CRAM
 def save_prac_model(pracsession):
+    tasks = []
+    step = pracsession.infer.inference_steps[-1]
+    if hasattr(step, 'executable_plans') and step.executable_plans:
+        for db in step.output_dbs:
+            action_cores = []
+            query_pred = "achieved_by"
+            db.write()
 
-    tasks = [] 
-    for step in pracsession.infer.inference_steps:
-        if hasattr(step, 'executable_plans') and step.executable_plans:
-            for db in step.output_dbs:
-                action_cores = []
-                for res in db.query(
-                        'action_core(?w, ?a) ^ has_sense(?w, ?s)'):
-                    action_core = res['?a']
-                    # wordnet sense, will be action role value 
-                    sense = res['?s']
-                    action_core_dict = {}
-                    action_core_dict['action_core_name'] = action_core
-                    action_core_dict['action_roles'] = []
+            if not list(db.query('achieved_by(?w, ?a)')):
+                query_pred = "action_core"
+            for res in db.query('{}(?w, ?a)'.format(query_pred)):
+                action_core = res['?a']
+                # wordnet sense, will be action role value
+                action_core_dict = {'action_core_name': action_core,
+                                    'action_roles': []}
 
-                    roles = ActioncoreDescriptionHandler.getRolesBasedOnActioncore(
-                        action_core)
-                    for role in roles:
-                        # we want to know whats missing, too, so default role value is None
-                        sense = None
-                        for dbres in db.query('{}(?w, {}) ^ has_sense(?w, ?s)'.format(
-                                role, action_core)):
-                            sense = dbres['?s']
+                roles = ActioncoreDescriptionHandler.getRolesBasedOnActioncore(
+                    action_core)
+                for role in roles:
+                    # we want to know whats missing, too, so default role value is None
+                    sense = None
+                    for dbres in db.query(
+                            '{}(?w, {}) ^ has_sense(?w, ?s)'.format(
+                                    role, action_core)):
+                        sense = dbres['?s']
 
+                    action_core_dict['action_roles'].append({'role_name': role,
+                                                             'role_value': sense})
 
-                        action_core_dict['action_roles'].append({'role_name': role, 'role_value': sense})
+                action_cores.append(action_core_dict)
+            if action_cores:
+                tasks.append({'action_cores': action_cores})
 
-                    action_cores.append(action_core_dict)
-
-                for finaldbres in db.query('achieved_by(?a1, ?a2)'):
-                    action_core = finaldbres['?a2']
-                    action_core_dict = {}
-                    action_core_dict['action_core_name'] = action_core
-                    action_core_dict['action_roles'] = []
-
-                    roles = ActioncoreDescriptionHandler.getRolesBasedOnActioncore(
-                        action_core)
-                    for role in roles:
-                        sense = None
-                        for dbr in db.query('{}(?w, {}) ^ has_sense(?w, ?s)'.format(
-                                role, action_core)):
-                            sense = dbr['?s']
-                    action_core_dict['action_roles'].append({'role_name': role, 'role_value': sense})
-                    action_cores.append(action_core_dict)
-                if action_cores:
-                    tasks.append({'action_cores': action_cores})
-                    
-
-    print 'tasks: %s' %tasks
-    print 'got %d tasks' %len(tasks)
-    pracsession.log.info('Got these tasks: %s' %tasks)
+    print 'tasks: %s' % tasks
+    print 'got %d tasks' % len(tasks)
+    pracsession.log.info('Got these tasks: %s' % tasks)
     if tasks:
         pracsession.tasks = tasks
     else:
-        pracsession.log.error('No tasks could be extracted from the inference databases!')
+        pracsession.log.error(
+            'No tasks could be extracted from the inference databases!')
