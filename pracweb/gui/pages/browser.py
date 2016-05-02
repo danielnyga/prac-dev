@@ -3,7 +3,7 @@ import os
 import traceback
 from prac.core.base import ActionCore
 from prac.core.inference import PRACInferenceStep, PRACInference
-from prac.core.wordnet import known_concepts
+from prac.core.wordnet import known_concepts, WordNet
 from prac.pracutils.pracgraphviz import render_gv
 from prac.sense_distribution import get_prob_color
 from pracmln import Database, MLNQuery
@@ -86,6 +86,10 @@ def change_distr():
                 concept = atom.args[1]
                 g.node(concept, fillcolor=get_prob_color(res))
                 distrs[mr] = render_gv(g)
+
+
+        success = True
+        missingroles = [x for x in roles.keys() if roles[x] is None]
     except IOError:
         traceback.print_exc()
         msg = 'An MLN for the action core "{}" does not exist!'.format(ac)
