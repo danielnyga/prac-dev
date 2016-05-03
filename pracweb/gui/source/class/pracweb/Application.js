@@ -497,7 +497,11 @@ members : {
         var btn_playvideo = new qx.ui.form.Button("Play video");
         this._btn_playvideo = btn_playvideo;
 
+        var btn_reload_gzweb = new qx.ui.form.Button("Reload Gzweb");
+        this._btn_reload_gzweb = btn_reload_gzweb;
+
         var iframe_gzweb = new qx.ui.embed.Iframe("/gzweb");
+        this._iframe_gzweb = iframe_gzweb;
         var ctr_gzweb = new qx.ui.container.Composite(new qx.ui.layout.Grow());
 
         /* ********************** LISTENERS **********************************/
@@ -505,12 +509,13 @@ members : {
         btn_gzsimulation.addListener('execute', this.sim_rospy, this);
         btn_gzacquisition.addListener('execute', this.gz_acquire, this);
         btn_playvideo.addListener('execute', this.play_video, this);
+        btn_reload_gzweb.addListener('execute', this.reload_gzweb_listener, this);
 
         /* ********************** SET UP LAYOUT ******************************/
 
         win_cramplans.add(this._html_cramplans,
                           {left:"0%", top:"0%", right:"0%", bottom:" 15%"});
-        ctr_gzweb.add(iframe_gzweb);
+        ctr_gzweb.add(this._iframe_gzweb);
 
         /* ********************** SET UP MAIN LAYOUT *************************/
 
@@ -1633,6 +1638,8 @@ members : {
                                          {right:"20%", bottom:"1%", width:"20%"});
                 this.__tabview.add(this._page_gzweb,
                                    {width: "100%", height: "100%"});
+                this._win_cramplans.add(this._btn_reload_gzweb, {left:"0%", bottom:"1%", width:"30%"});
+                this._btn_reload_gzweb.setVisibility('hidden');
             }
         }, this);
         req.send();
@@ -1800,17 +1807,30 @@ members : {
                 that._win_cramplans.moveTo(50, (h-500));
                 // disable the Execute-button
                 this._btn_gzsimulation.setEnabled(false);
+                // in case gzweb gets stuck
+                this._btn_reload_gzweb.setVisibility('visible');
+                this._btn_reload_gzweb.setEnabled(true);
+
+
+
+
+
                 if ('plan_string' in response) {
                     var new_content = this._html_cramplans.getHtml()
                     var plan_strings = response.plan_string.split('\n');
-                    for (var i = 0; i < plan_strings.length; i++) {
-                        new_content += '<p class="cramPlan">' + plan_strings[i] + '</p>';
-                    }
-                    this._html_cramplans.setHtml(new_content);
+                    // for (var i = 0; i < plan_strings.length; i++) {
+                    //     new_content += '<p class="cramPlan">' + plan_strings[i] + '</p>';
+                    // }
+                    // this._html_cramplans.setHtml(new_content);
                 }
             }
         }, this);
         req.send();
+    },
+
+    reload_gzweb_listener : function (e) {
+        
+        this._iframe_gzweb.reload();
     },
 
 
