@@ -494,6 +494,9 @@ members : {
         var btn_gzacquisition = new qx.ui.form.Button("Generate ADT");
         this._btn_gzacquisition = btn_gzacquisition;
 
+        var btn_playvideo = new qx.ui.form.Button("Play video");
+        this._btn_playvideo = btn_playvideo;
+
         var iframe_gzweb = new qx.ui.embed.Iframe("/gzweb");
         var ctr_gzweb = new qx.ui.container.Composite(new qx.ui.layout.Grow());
 
@@ -501,6 +504,7 @@ members : {
 
         btn_gzsimulation.addListener('execute', this.sim_rospy, this);
         btn_gzacquisition.addListener('execute', this.gz_acquire, this);
+        btn_playvideo.addListener('execute', this.play_video, this);
 
         /* ********************** SET UP LAYOUT ******************************/
 
@@ -668,6 +672,7 @@ members : {
         this._chkbx_showlog = chkbx_showlog;
 
         var chkbx_acatontology = new qx.ui.form.CheckBox("Use ACAT ontology");
+        chkbx_acatontology.setValue(true);
 
         /* ********************** LISTENERS **********************************/
 
@@ -755,7 +760,8 @@ members : {
 
         chkbx_acatontology.addListener("changeValue", function(e) {
             var that = this;
-            that.__var_use_chkbx_acatontology = e.getData();
+//            that.__var_use_chkbx_acatontology = e.getData();
+              that.__var_use_chkbx_acatontology = false;
         }, this);
 
         /* ********************** SET UP LAYOUT ******************************/
@@ -1615,7 +1621,7 @@ members : {
             // button for acquisition
             if (response.gz_acquisition) {
                 this._win_cramplans.add(this._btn_gzacquisition,
-                                         {right:"20%", bottom:"1%", width:"20%"});
+                                         {right:"40%", bottom:"1%", width:"20%"});
             }
 
             // depending on command line options of pracweb, add
@@ -1623,6 +1629,8 @@ members : {
             if (response.gz_simulation) {
                 this._win_cramplans.add(this._btn_gzsimulation,
                                          {right:"0%", bottom:"1%", width:"20%"});
+                this._win_cramplans.add(this._btn_playvideo,
+                                         {right:"20%", bottom:"1%", width:"20%"});
                 this.__tabview.add(this._page_gzweb,
                                    {width: "100%", height: "100%"});
             }
@@ -1836,6 +1844,20 @@ members : {
             this.notify('Gazebo Simulator will be started...', 300);
         }, this);
         req.send();
-    }    
+    },
+
+
+    /**
+    * play video file for plan execution
+    */
+    play_video : function (e) {
+        var req = new qx.io.request.Xhr('/prac/_play_video', 'GET');
+        req.setRequestHeader("Content-Type", "text/plain");
+        req.addListener("success", function(e) {
+            this.notify('Starting video...', 300);
+        }, this);
+        req.send();
+    }
+
   }
 });

@@ -301,3 +301,22 @@ def gz_acquire():
         return str(rs == 0)
     return 'False'
 
+
+@pracApp.app.route('/prac/_play_video', methods=['GET'])
+def play_video():
+    pracsession = ensure_prac_session(session)
+    step = pracsession.old_infer.inference_steps[-1]
+    if hasattr(step, 'inferred_roles'):
+        # this is generated in plan_generation, dictionary mapping
+        # ac name to dictionary of roles {rolename:rolevalue}
+        plans = step.inferred_roles
+
+        for ac in plans:
+            # start video file named after action_core with totem player in
+            # fullscreen mode
+            cmd = 'totem --fullscreen {}.mp4'.format(os.path.join(PRAC_HOME,
+                                                                  'videos',
+                                                                  ac))
+            rs = os.system(cmd)
+            return str(rs == 0)
+    return 'False'
