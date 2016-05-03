@@ -18,7 +18,7 @@ from pracmln import Database
 from pracweb.gui.app import pracApp
 from prac.core.wordnet import WordNet
 from prac.core.wordnet_online import WordNet as AcatWordnet
-
+from pprint import pprint
 
 log = logger(__name__)
 wn = WordNet(concepts=None)
@@ -437,9 +437,8 @@ def save_prac_model(pracsession):
             if action_cores:
                 tasks.append({'action_cores': action_cores})
 
-    print 'tasks: %s' % tasks
-    print 'got %d tasks' % len(tasks)
-    pracsession.log.info('Got these tasks: %s' % tasks)
+    pracsession.log.info('Got %d tasks.' %len(tasks))
+    pracsession.log.info('Got these tasks: %s' %pprint(tasks))
     if tasks:
         pracsession.tasks = tasks
     else:
