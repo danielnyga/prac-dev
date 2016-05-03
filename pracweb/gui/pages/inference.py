@@ -411,7 +411,6 @@ def save_prac_model(pracsession):
         for db in step.output_dbs:
             action_cores = []
             query_pred = "achieved_by"
-            db.write()
 
             if not list(db.query('achieved_by(?w, ?a)')):
                 query_pred = "action_core"
