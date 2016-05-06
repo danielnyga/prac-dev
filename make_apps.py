@@ -33,14 +33,6 @@ packages = [('sphinx', 'sphinx sphinxcontrib-bibtex', False),
             ('apt', 'python-apt', False),
             ('pymongo', 'pymongo', False)]
 
-pracwebpackages = [('flask', 'Flask', False),
-                   ('werkzeug', 'werkzeug', False),
-                   ('PIL', 'Pillow', False),
-                   ('jinja2', 'Jinja2', False),
-                   ('geoip', 'python-geoip python-geoip-geolite2', True),
-                   ('tinyrpc', 'tinyrpc', False),
-                   ('requests', 'requests', False)]
-
 python_apps = [
     {"name": "pracquery", "script": "$PRAC_HOME/prac/pracquery.py"},
     {"name": "praclearn", "script": "$PRAC_HOME/prac/praclearn.py"},
@@ -109,19 +101,6 @@ def adapt(name, arch):
                .replace("/", os.path.sep)
 
 
-def build_pracweb():
-    # build qooxdoo
-    generate = adapt("$PRAC_HOME/pracweb/gui/generate.py -q", arch)
-    os.system(generate + ' build')
-
-    print
-    for pkg in pracwebpackages:
-        check_package(pkg)
-
-    python_apps.append({"name": "pracweb",
-                        "script": "$PRAC_HOME/pracweb/run.py"})
-
-
 def initialize_mongodb():
     print colorize('Initializing Mongo DB...', (None, 'green', True), True)
 
@@ -143,7 +122,7 @@ if __name__ == '__main__':
 
     if '--help' in args:
         print "PRAC Apps Generator\n\n"
-        print "  usage: make_apps [--arch=%s] [--pracweb]\n" % "|".join(archs)
+        print "  usage: make_apps [--arch=%s]\n" % "|".join(archs)
         print
         print
         exit(0)
@@ -169,9 +148,6 @@ if __name__ == '__main__':
         sys.exit(1)
 
     check_dependencies()
-
-    if '--pracweb' in args:
-        build_pracweb()
 
     initialize_mongodb()
 
