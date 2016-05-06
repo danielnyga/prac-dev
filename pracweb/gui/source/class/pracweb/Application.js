@@ -494,9 +494,6 @@ members : {
         var btn_gzacquisition = new qx.ui.form.Button("Generate ADT");
         this._btn_gzacquisition = btn_gzacquisition;
 
-        var btn_playvideo = new qx.ui.form.Button("Play video");
-        this._btn_playvideo = btn_playvideo;
-
         var btn_reload_gzweb = new qx.ui.form.Button("Reload Gzweb");
         this._btn_reload_gzweb = btn_reload_gzweb;
 
@@ -508,7 +505,6 @@ members : {
 
         btn_gzsimulation.addListener('execute', this.sim_rospy, this);
         btn_gzacquisition.addListener('execute', this.gz_acquire, this);
-        btn_playvideo.addListener('execute', this.play_video, this);
         btn_reload_gzweb.addListener('execute', this.reload_gzweb_listener, this);
 
         /* ********************** SET UP LAYOUT ******************************/
@@ -1614,7 +1610,7 @@ members : {
             // button for acquisition
             if (response.gz_acquisition) {
                 this._win_cramplans.add(this._btn_gzacquisition,
-                                         {right:"40%", bottom:"1%", width:"20%"});
+                                         {right:"20%", bottom:"1%", width:"20%"});
             }
 
             // depending on command line options of pracweb, add
@@ -1622,8 +1618,6 @@ members : {
             if (response.gz_simulation) {
                 this._win_cramplans.add(this._btn_gzsimulation,
                                          {right:"0%", bottom:"1%", width:"20%"});
-                this._win_cramplans.add(this._btn_playvideo,
-                                         {right:"20%", bottom:"1%", width:"20%"});
                 this.__tabview.add(this._page_gzweb,
                                    {width: "100%", height: "100%"});
                 this._win_cramplans.add(this._btn_reload_gzweb, {left:"0%", bottom:"1%", width:"30%"});
@@ -1852,20 +1846,6 @@ members : {
             this.notify('Gazebo Simulator will be started...', 300);
         }, this);
         req.send();
-    },
-
-
-    /**
-    * play video file for plan execution
-    */
-    play_video : function (e) {
-        var req = new qx.io.request.Xhr('/prac/_play_video', 'GET');
-        req.setRequestHeader("Content-Type", "text/plain");
-        req.addListener("success", function(e) {
-            this.notify('Starting video...', 300);
-        }, this);
-        req.send();
     }
-
   }
 });
