@@ -563,7 +563,6 @@ members : {
         this.getRoot().add(win_cramplans, {left:10, top:10});
         this.__var_show_ctr_infsettings = false;
         this.__var_infer_stepwise = false;
-        this.__var_use_chkbx_acatontology = false;
         this.change_visibility();
         this.send_user_stats();
 
@@ -676,9 +675,6 @@ members : {
         var chkbx_showlog = new qx.ui.form.CheckBox("Show/hide Log");
         this._chkbx_showlog = chkbx_showlog;
 
-        var chkbx_acatontology = new qx.ui.form.CheckBox("Use ACAT ontology");
-        chkbx_acatontology.setValue(true);
-
         /* ********************** LISTENERS **********************************/
 
         combo_descr.addListener("keydown", function(e) {
@@ -720,8 +716,7 @@ members : {
             this._oldEvidence = combo_descr.getValue();
             var req = this.start_inference("POST");
             req.setRequestHeader("Content-Type", "application/json");
-            req.setRequestData({ 'sentence': combo_descr.getValue(),
-                                 'acatontology': this.__var_use_chkbx_acatontology });
+            req.setRequestData({ 'sentence': combo_descr.getValue() });
             req.send();
         }, this);
 
@@ -763,12 +758,6 @@ members : {
             this._win_logging.hide();
         }, this);
 
-        chkbx_acatontology.addListener("changeValue", function(e) {
-            var that = this;
-//            that.__var_use_chkbx_acatontology = e.getData();
-              that.__var_use_chkbx_acatontology = false;
-        }, this);
-
         /* ********************** SET UP LAYOUT ******************************/
 
         var ctr_instruction = new qx.ui.container
@@ -793,7 +782,6 @@ members : {
         slide_options.add(chkbx_infer_stepwise);
         slide_options.add(chkbx_show_flowchart);
         slide_options.add(chkbx_show_condprob);
-        slide_options.add(chkbx_acatontology);
         slide_options.add(chkbx_showlog);
 
         grp_main.add(ctr_instruction, {flex: 2});

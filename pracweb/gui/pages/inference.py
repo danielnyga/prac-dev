@@ -17,12 +17,10 @@ from pracweb.gui.pages.utils import ensure_prac_session
 from pracmln import Database
 from pracweb.gui.app import pracApp
 from prac.core.wordnet import WordNet
-from prac.core.wordnet_online import WordNet as AcatWordnet
 from pprint import pprint
 
 log = logger(__name__)
 wn = WordNet(concepts=None)
-awn = AcatWordnet(concepts=None)
 
 
 @pracApp.app.route('/prac/_start_inference', methods=['POST', 'GET'])
@@ -94,10 +92,7 @@ def _pracinfer(pracsession, timeout, method, data):
                     if hasattr(pracsession, 'infer'):
                         delattr(pracsession, 'infer')
 
-                    if data['acatontology']:
-                        prac.wordnet = awn
-                    else:
-                        prac.wordnet = wn
+                    prac.wordnet = wn
 
                     pracsession.log.info(
                         'starting new PRAC inference on "{}"'.format(
