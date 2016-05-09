@@ -685,10 +685,12 @@ class WordNet(object):
             raise Exception('Need a collapsed taxonomy')
         tax = self.core_taxonomy
         g = gv.Digraph(format='svg')
-        g.attr('graph', nodesep='.5', splines='true', rankdir='BT', ratio='fill', bgcolor='transparent')
+        g.attr('graph', nodesep='.5', splines='true', rankdir='BT',
+               ratio='fill', bgcolor='transparent')
         processed = {}
         for c in tax.traverse(algo='BFS'):
-            g.node(c.data, fillcolor='#dddddd', style='filled', shape='box', fontname='Helvetica, Arial, sans-serif', size='2,2')
+            g.node(c.data, fillcolor='#dddddd', style='filled', shape='box',
+                   fontname='Helvetica, Arial, sans-serif', size='2,2')
             processed[c.data] = c.data
         for p in tax.traverse(algo='BFS'):
             p_node = processed[p.data]
@@ -699,8 +701,8 @@ class WordNet(object):
     
     @synchronized(wordnetlock)
     def to_svg(self):
-        g  = self.to_dot()
-        return render_gv(g, 'wordnet.svg')
+        g = self.to_dot()
+        return render_gv(g)
 
 
     @synchronized(wordnetlock)

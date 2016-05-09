@@ -26,9 +26,13 @@ import subprocess
 from subprocess import PIPE
 from tempfile import NamedTemporaryFile
 from graphviz._compat import text_type
-import time
 import xml.etree.ElementTree as ET
 from xml.etree.ElementTree import ElementTree
+from pracmln import praclog
+
+
+logger = praclog.logger(__name__)
+
 
 def render_gv(graph, filename=None, directory='/tmp'):
     """
@@ -51,6 +55,10 @@ def render_gv(graph, filename=None, directory='/tmp'):
             if not l: break
             rendered += l
         p.wait()
+        try:
+            os.remove(tmpfile.name)
+        except OSError:
+            logger.warning('could not remove temporary file {}'.format(tmpfile.name))
     except OSError as e:
         if e.errno == errno.ENOENT:
             raise RuntimeError('failed to execute %r, '
