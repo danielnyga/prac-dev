@@ -263,6 +263,6 @@ class SensesAndRoles(PRACModule):
                                 if concept in concepts:
                                     g.node(concept,
                                            fillcolor=get_prob_color(truth / maxprob))
-                        render_gv(g, 'prac-%s-%s.svg' % (actioncore, role))
+                        # render_gv(g, 'prac-%s-%s.svg' % (actioncore, role))
                         distrs[role] = render_gv(g)
         return distrs
