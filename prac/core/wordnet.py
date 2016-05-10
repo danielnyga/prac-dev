@@ -21,21 +21,24 @@
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-from prac_nltk.corpus import wordnet
-from threading import RLock
-from prac.pracutils.graph import DAG , Node
-import prac_nltk
-import logging 
-from itertools import chain
-from prac_nltk.corpus.reader.wordnet import Synset
-from pracmln.mln.util import out
-from pracmln.utils.graphml import Graph, Node as GMLNode, Edge
-import itertools
 import os
-from scipy import spatial
+import itertools
+import prac_nltk
+# contains similarity dictionaries for colors, shapes, sizes, consistencies
+# and dimensions
+import properties
 import graphviz as gv
-import properties # contains similarity dictionaries for colors, shapes, sizes, consistencies and dimensions
+from threading import RLock
+from itertools import chain
+from scipy import spatial
+from prac_nltk.corpus import wordnet
+from prac_nltk.corpus.reader.wordnet import Synset
+from prac.pracutils.graph import DAG, Node
 from prac.pracutils.pracgraphviz import render_gv
+from pracmln.praclog import logger
+from pracmln.utils.graphml import Graph, Node as GMLNode, Edge
+
+log = logger(__name__)
 
 PRAC_HOME = os.environ['PRAC_HOME']
 prac_nltk.data.path = [os.path.join(PRAC_HOME, 'data', 'nltk_data')]
@@ -45,8 +48,6 @@ NLTK_POS = ['n', 'v', 'a', 'r']
 colorsims = {}
 shapesims = {}
 sizesims = {}
-consistencysims = {}
-dimensionsims = {}
 
 known_concepts = ['hydrochloric_acid.n.01',
                   'drop.n.02',
@@ -77,47 +78,50 @@ known_concepts = ['hydrochloric_acid.n.01',
                   # 'pot.n.01',
                   # 'cinnamon.n.01',
                   # 'marjoram.n.02',
-                # 'soup.n.01',
-                # 'milk.n.01',
-                # 'water.n.06',
-                # 'cup.n.01',
-                # 'cup.n.02',
-                # 'glass.n.02',
-                # 'bowl.n.03',
-                # 'coffee.n.01',
-                # 'bowl.n.04',
-                # 'spoon.n.01',
-                # 'spoon.n.02',
-                # 'sauce.n.01',
-                # 'salt.n.02',
-                # 'pepper.n.03',
-                # 'marjoram.n.01',
-                # 'rosemary.n.01',
-                # 'tomato_sauce.n.01',
-                # 'carbonara.n.01',
-                # 'batter.n.02',
-                # 'baking_tray.n.01',
-                # 'cheese.n.01',
-                # 'mozzarella.n.01',
-                # 'water_faucet.n.01',
-                # 'oven.n.01',
-                # 'degree_celsius.n.01',
-                # 'refrigerator.n.01',
-                # 'stove.n.01'
-                # 'one.n.01',
-                # 'two.n.01',
-                # 'three.n.01',
-                # 'four.n.01',
-                # 'five.n.01',
-                # 'six.n.01',
-                # 'seven.n.01',
-                # 'eight.n.01',
-                # 'nine.n.01'
+                  # 'soup.n.01',
+                  # 'milk.n.01',
+                  # 'water.n.06',
+                  # 'cup.n.01',
+                  # 'cup.n.02',
+                  # 'glass.n.02',
+                  # 'bowl.n.03',
+                  # 'coffee.n.01',
+                  # 'bowl.n.04',
+                  # 'spoon.n.01',
+                  # 'spoon.n.02',
+                  # 'sauce.n.01',
+                  # 'salt.n.02',
+                  # 'pepper.n.03',
+                  # 'marjoram.n.01',
+                  # 'rosemary.n.01',
+                  # 'tomato_sauce.n.01',
+                  # 'carbonara.n.01',
+                  # 'batter.n.02',
+                  # 'baking_tray.n.01',
+                  # 'cheese.n.01',
+                  # 'mozzarella.n.01',
+                  # 'water_faucet.n.01',
+                  # 'oven.n.01',
+                  # 'degree_celsius.n.01',
+                  # 'refrigerator.n.01',
+                  # 'stove.n.01'
+                  # 'one.n.01',
+                  # 'two.n.01',
+                  # 'three.n.01',
+                  # 'four.n.01',
+                  # 'five.n.01',
+                  # 'six.n.01',
+                  # 'seven.n.01',
+                  # 'eight.n.01',
+                  # 'nine.n.01'
                   ]
+
+
 def synchronized(lock):
     """
     Synchronization decorator.
     """
+
 
     def wrap(f):
         def func(*args, **kw):
@@ -126,7 +130,11 @@ def synchronized(lock):
                 return f(*args, **kw)
             finally:
                 lock.release()
+
+
         return func
+
+
     return wrap
 
 
@@ -138,68 +146,73 @@ class WordNet(object):
     """
 
     wordnetlock = RLock()
-    
+
+
     @synchronized(wordnetlock)
     def __init__(self, concepts=known_concepts):
         self.core_taxonomy = None
         if concepts is not None:
             self.initialize_taxonomy(concepts)
-            self.initialize_csimilarities(colorsims, properties.chrcolorspecs, properties.achrcolorspecs)
+            self.initialize_csimilarities(properties.chrcolorspecs,
+                                          properties.achrcolorspecs)
             self.initialize_similarities(shapesims, properties.shapespecs)
             self.initialize_similarities(sizesims, properties.sizespecs)
-            # self.initialize_similarities(consistencysims, properties.consistencyspecs)
-            # self.initialize_similarities(dimensionsims, properties.dimensionspecs)
 
 
     @synchronized(wordnetlock)
     def initialize_similarities(self, simdct, specs):
         # calculate euclidean distance between HSV values
-        maxDist = 0.
+        maxdist = 0.
         for k in specs.keys():
             simdct[k] = {}
             for c in specs.keys():
-                simdct[k][c] = spatial.distance.euclidean(specs[k],specs[c])
-                maxDist = max(maxDist,simdct[k][c])
+                simdct[k][c] = spatial.distance.euclidean(specs[k], specs[c])
+                maxdist = max(maxdist, simdct[k][c])
 
         # normalize
         for x in simdct:
             for y in simdct:
-                simdct[x][y] = 1-(simdct[x][y]/maxDist)
+                simdct[x][y] = 1 - (simdct[x][y] / maxdist)
 
 
     @synchronized(wordnetlock)
-    def initialize_csimilarities(self, colorsims, specs, achrspecs):
-        maxDist = 0.
-        tempDict = dict(specs.items() + achrspecs.items())
-        for k in tempDict.keys():
+    def initialize_csimilarities(self, specs, achrspecs):
+        maxdist = 0.
+        tempdict = dict(specs.items() + achrspecs.items())
+        for k in tempdict.keys():
             colorsims[k] = {}
-            for c in tempDict.keys():
-                if k == c: # same color
+            for c in tempdict.keys():
+                if k == c:  # same color
                     colorsims[k][c] = 0.0
-                elif not (k in specs and c in specs) and not (k in achrspecs and c in achrspecs): # one chromatic, one achromatic
+                # one chromatic, one achromatic
+                elif not (k in specs and c in specs) and not (
+                        k in achrspecs and c in achrspecs):
                     colorsims[k][c] = 130.
-                elif abs(tempDict[k][0] - tempDict[c][0]) > 180: # colors on different halves of the hue-circle
-                    a = [(tempDict[k][0]+180)%360,tempDict[k][1],tempDict[k][2]]
-                    b = [(tempDict[c][0]+180)%360,tempDict[c][1],tempDict[c][2]]
-                    colorsims[k][c] = spatial.distance.euclidean(a,b)
+                # colors on different halves of the hue-circle
+                elif abs(tempdict[k][0] - tempdict[c][0]) > 180:
+                    a = [(tempdict[k][0] + 180) % 360, tempdict[k][1],
+                         tempdict[k][2]]
+                    b = [(tempdict[c][0] + 180) % 360, tempdict[c][1],
+                         tempdict[c][2]]
+                    colorsims[k][c] = spatial.distance.euclidean(a, b)
                 else:
-                    colorsims[k][c] = spatial.distance.euclidean(tempDict[k],tempDict[c])
-                maxDist = max(maxDist,colorsims[k][c])
+                    colorsims[k][c] = spatial.distance.euclidean(tempdict[k],
+                                                                 tempdict[c])
+                maxdist = max(maxdist, colorsims[k][c])
 
         # normalize
         for x in colorsims:
             for y in colorsims:
-                temp = 1-(colorsims[x][y]/maxDist)
+                temp = 1 - (colorsims[x][y] / maxdist)
                 colorsims[x][y] = temp
 
-            
+
     @synchronized(wordnetlock)
     def initialize_taxonomy(self, concepts=None, collapse=True):
         """
         Creates a new taxonomy given a set of concepts. If collapse is True,
         all subpaths with only one child and parent are collapsed.
         """
-        log = logging.getLogger('WordNet')
         entity_name = 'entity.n.01'
         self.core_taxonomy = DAG(root=Node(entity_name, entity_name))
         self.known_concepts = {entity_name: self.core_taxonomy.root}
@@ -214,20 +227,24 @@ class WordNet(object):
                     for path in paths:
                         if not path[0].name in self.known_concepts:
                             if direction == 'up':
-                                self.known_concepts[path[-1].name] = Node(path[-1].name, path[-1].name)
+                                self.known_concepts[path[-1].name] = Node(
+                                    path[-1].name, path[-1].name)
                             continue
                         if direction == 'up':
                             path = list(reversed(path))
                         first = self.known_concepts[path[0].name]
-                        self.__extend_taxonomy_graph(first, path[1:], direction=direction)
+                        self.__extend_taxonomy_graph(first, path[1:],
+                                                     direction=direction)
             # collapse the taxonomy
             if not collapse: return
             queue = list(self.core_taxonomy.root.children)
             while len(queue) > 0:
                 node = queue.pop()
                 if collapse:
-                    # we keep the current node if it is a leaf or a fork (zero or more than one children)
-                    keepThisNode = not (len(node.children) == 1 and len(node.parents) == 1)
+                    # we keep the current node if it is a leaf or a fork
+                    # (zero or more than one children)
+                    keepThisNode = not (
+                        len(node.children) == 1 and len(node.parents) == 1)
                     for c in node.children:
                         keepThisNode |= len(c.parents) > 1
                     if not keepThisNode:
@@ -246,10 +263,11 @@ class WordNet(object):
         """
         Takes a node of the taxonomy graph and a hypernymy path
         of a concept and extends the graph with the given path.
-        - concept:     (Node) concept node to be extended (the root in most cases)
-        - synset_path: a path as it is return by Synset.hypernym_paths(), for instance.
+        - concept:     (Node) concept node to be extended (the root in most
+                       cases)
+        - synset_path: a path as it is return by Synset.hypernym_paths(), for
+                       instance.
         """
-        log = logging.getLogger(__name__)
         if len(synset_path) == 0:
             return
         synset = synset_path[0]
@@ -274,12 +292,11 @@ class WordNet(object):
         - word:     (string) the word to be queried.
         - pos:      (string) the NLTK POS tag.
         """
-        if not pos in NLTK_POS:
-            logging.getLogger('WordNet').exception('Unknown POS tag: %s' % pos)
+        if pos not in NLTK_POS:
+            log.exception('Unknown POS tag: %s' % pos)
         synsets = wordnet.synsets(word, pos)
         if self.core_taxonomy is not None:
             synsets = filter(lambda s: s.name in self.known_concepts, synsets)
-#         logging.getLogger().warning(synsets)
         return synsets
 
 
@@ -290,11 +307,11 @@ class WordNet(object):
         """
         if synset_id == 'null':
             return None
-        try: 
+        try:
             synset = wordnet.synset(synset_id)
             return synset
         except Exception, e:
-            logging.getLogger('WordNet').error('Could not obtain synset with ID "%s"' % synset_id)
+            log.error('Could not obtain synset with ID "%s"' % synset_id)
             raise e
 
 
@@ -302,7 +319,8 @@ class WordNet(object):
     def wup_similarity(self, synset1, synset2):
         """
         Returns the WUP similariy of the two given synsets, which
-        may be given as strings of the synset id or the respective Synset objects themselves.
+        may be given as strings of the synset id or the respective Synset
+        objects themselves.
         """
         if type(synset1) is str:
             synset1 = self.synset(synset1)
@@ -311,15 +329,15 @@ class WordNet(object):
         if synset1 is None or synset2 is None:
             return 0.
         similarity = synset1.wup_similarity(synset2)
-#         similarity = synset1.path_similarity(synset2)
         return max(0.000, 0. if similarity is None else similarity)
-    
+
 
     @synchronized(wordnetlock)
     def path_similarity(self, synset1, synset2):
         """
         Returns the WUP similariy of the two given synsets, which
-        may be given as strings of the synset id or the respective Synset objects themselves.
+        may be given as strings of the synset id or the respective Synset
+        objects themselves.
         """
         if type(synset1) is str:
             synset1 = self.synset(synset1)
@@ -328,29 +346,31 @@ class WordNet(object):
         if synset1 is None or synset2 is None:
             return 0.
         similarity = synset1.path_similarity(synset2)
-#         similarity = synset1.path_similarity(synset2)
         return max(0.000, 0. if similarity is None else similarity)
-    
+
 
     @synchronized(wordnetlock)
-    def lowest_common_hypernyms(self, synset, other, simulate_root=False, use_min_depth=False):
+    def lowest_common_hypernyms(self, synset, other, simulate_root=False,
+                                use_min_depth=False):
         """
         -- NOTE: THIS CODE IS COPIED FROM NLTK3 --
         Get a list of lowest synset(s) that both synsets have as a hypernym.
-        When `use_min_depth == False` this means that the synset which appears as a
-        hypernym of both `self` and `other` with the lowest maximum depth is returned
-        or if there are multiple such synsets at the same depth they are all returned
+        When `use_min_depth == False` this means that the synset which
+        appears as a hypernym of both `self` and `other` with the lowest
+        maximum depth is returned or if there are multiple such synsets at
+        the same depth they are all returned
 
-        However, if `use_min_depth == True` then the synset(s) which has/have the lowest
-        minimum depth and appear(s) in both paths is/are returned.
+        However, if `use_min_depth == True` then the synset(s) which has/have
+        the lowest minimum depth and appear(s) in both paths is/are returned.
 
-        By setting the use_min_depth flag to True, the behavior of NLTK2 can be preserved.
-        This was changed in NLTK3 to give more accurate results in a small set of cases,
-        generally with synsets concerning people. (eg: 'chef.n.01', 'fireman.n.01', etc.)
+        By setting the use_min_depth flag to True, the behavior of NLTK2 can
+        be preserved. This was changed in NLTK3 to give more accurate results
+        in a small set of cases, generally with synsets concerning people.
+        (eg: 'chef.n.01', 'fireman.n.01', etc.)
 
-        This method is an implementation of Ted Pedersen's "Lowest Common Subsumer" method
-        from the Perl Wordnet module. It can return either "self" or "other" if they are a
-        hypernym of the other.
+        This method is an implementation of Ted Pedersen's "Lowest Common
+        Subsumer" method from the Perl Wordnet module. It can return either
+        "self" or "other" if they are a hypernym of the other.
 
         :type other: Synset
         :param other: other input synset
@@ -364,11 +384,13 @@ class WordNet(object):
             If you are using wordnet 1.6, a fake root will need to be added
             for nouns as well.
         :type use_min_depth: bool
-        :param use_min_depth: This setting mimics older (v2) behavior of NLTK wordnet
-            If True, will use the min_depth function to calculate the lowest common
-            hypernyms. This is known to give strange results for some synset pairs
-            (eg: 'chef.n.01', 'fireman.n.01') but is retained for backwards compatibility
-        :return: The synsets that are the lowest common hypernyms of both synsets
+        :param use_min_depth: This setting mimics older (v2) behavior of NLTK
+            wordnet. If True, will use the min_depth function to calculate
+            the lowest common hypernyms. This is known to give strange
+            results for some synset pairs (eg: 'chef.n.01', 'fireman.n.01')
+            but is retained for backwards compatibility
+        :return: The synsets that are the lowest common hypernyms of both
+            synsets
         """
 
         fake_synset = Synset(None)
@@ -377,8 +399,10 @@ class WordNet(object):
         fake_synset.instance_hypernyms = lambda: []
 
         if simulate_root:
-            self_hypernyms = chain(synset._iter_hypernym_lists(), [[fake_synset]])
-            other_hypernyms = chain(other._iter_hypernym_lists(), [[fake_synset]])
+            self_hypernyms = chain(synset._iter_hypernym_lists(),
+                                    [[fake_synset]])
+            other_hypernyms = chain(other._iter_hypernym_lists(),
+                                    [[fake_synset]])
         else:
             self_hypernyms = synset._iter_hypernym_lists()
             other_hypernyms = other._iter_hypernym_lists()
@@ -386,21 +410,24 @@ class WordNet(object):
         synsets = set(s for synsets in self_hypernyms for s in synsets)
         others = set(s for synsets in other_hypernyms for s in synsets)
         if self.core_taxonomy is not None:
-            synsets.intersection_update(map(lambda syn: wordnet.synset(syn), self.known_concepts))
-            others.intersection_update(map(lambda syn: wordnet.synset(syn), self.known_concepts))
+            synsets.intersection_update(
+                map(lambda syn: wordnet.synset(syn), self.known_concepts))
+            others.intersection_update(
+                map(lambda syn: wordnet.synset(syn), self.known_concepts))
         synsets.intersection_update(others)
 
         try:
             if use_min_depth:
                 max_depth = max(s.min_depth() for s in synsets)
-                unsorted_lch = [s for s in synsets if s.min_depth() == max_depth]
+                unsorted_lch = [s for s in synsets if
+                                s.min_depth() == max_depth]
             else:
                 max_depth = max(s.max_depth() for s in synsets)
-                unsorted_lch = [s for s in synsets if s.max_depth() == max_depth]
+                unsorted_lch = [s for s in synsets if
+                                s.max_depth() == max_depth]
             return sorted(unsorted_lch)
         except ValueError:
             return []
-    
 
     # returns generator of 1-dimensional list
     @synchronized(wordnetlock)
@@ -419,15 +446,18 @@ class WordNet(object):
             except:
                 yield item
 
-    # gets the synsets of the derivationally related forms of adjSynsets' Lemmas
-    # flattens the list to get one-dimensional list without duplicates as result
+    # gets the synsets of the derivationally related forms of adjSynsets'
+    # Lemmas flattens the list to get one-dimensional list without duplicates
+    # as result
     @synchronized(wordnetlock)
-    def unpackNoun(self, adjSynset):
-        return list(set(self.flatten([drf.synset for drf in self.flatten([lemma.derivationally_related_forms() for lemma in adjSynset.lemmas])])))
+    def unpacknoun(self, adjSynset):
+        return list(set(self.flatten([drf.synset for drf in self.flatten(
+            [lemma.derivationally_related_forms() for lemma in
+             adjSynset.lemmas])])))
 
 
     @synchronized(wordnetlock)
-    def similarity(self, synset1, synset2):
+    def similarity(self, synset1, synset2, simtype='path'):
         """
         Returns a custom semantic similarity for adjectives
 
@@ -441,10 +471,9 @@ class WordNet(object):
         similarity, which adds a penalizing factor for inferring
         another synset from adjectives.
         """
-        log = logging.getLogger(__name__)
 
-        ADJ_POS = ['s','a']
-        posDiff = 0.
+        ADJ_POS = ['s', 'a']
+        posdiff = 0.
 
         if type(synset1) is str:
             synset1 = self.synset(synset1)
@@ -458,112 +487,127 @@ class WordNet(object):
         # separate check for color similarity
         if synset1.name in colorsims and synset2.name in colorsims:
             return colorsims[synset1.name][synset2.name]
-        elif synset1.name in colorsims or synset2.name in colorsims: # colors are maximially dissimilar to everything else
+        elif synset1.name in colorsims or synset2.name in colorsims:
+            # colors are maximially dissimilar to everything else
             return 0.
 
         # separate check for shape similarity
         if synset1.name in shapesims and synset2.name in shapesims:
             return shapesims[synset1.name][synset2.name]
-        elif synset1.name in shapesims or synset2.name in shapesims: # shapes are maximially dissimilar to everything else
+        elif synset1.name in shapesims or synset2.name in shapesims:
+            # shapes are maximially dissimilar to everything else
             return 0.
 
         # separate check for size similarity
         if synset1.name in sizesims and synset2.name in sizesims:
             return sizesims[synset1.name][synset2.name]
-        elif synset1.name in sizesims or synset2.name in sizesims: # sizes are maximially dissimilar to everything else
+        elif synset1.name in sizesims or synset2.name in sizesims:
+            # sizes are maximially dissimilar to everything else
             return 0.
 
-        # separate check for consistency similarity
-        if synset1.name in consistencysims and synset2.name in consistencysims:
-            return consistencysims[synset1.name][synset2.name]
-        elif synset1.name in consistencysims or synset2.name in consistencysims: # consistencies are maximially dissimilar to everything else
-            return 0.
-
-        # separate check for dimension similarity
-        if synset1.name in dimensionsims and synset2.name in dimensionsims:
-            return dimensionsims[synset1.name][synset2.name]
-        elif synset1.name in dimensionsims or synset2.name in dimensionsims: # dimensions are maximially dissimilar to everything else
-            return 0.
-
+        # # separate check for consistency similarity
+        # if synset1.name in consistencysims and synset2.name in consistencysims:
+        #     return consistencysims[synset1.name][synset2.name]
+        # elif synset1.name in consistencysims or synset2.name in consistencysims:
+        #     consistencies are maximially dissimilar to everything else
+        #     return 0.
+        #
+        # # separate check for dimension similarity
+        # if synset1.name in dimensionsims and synset2.name in dimensionsims:
+        #     return dimensionsims[synset1.name][synset2.name]
+        # elif synset1.name in dimensionsims or synset2.name in dimensionsims:
+        #     dimensions are maximially dissimilar to everything else
+        #     return 0.
 
         if synset1.pos in ADJ_POS:
-            syns1 = self.unpackNoun(synset1)
+            syns1 = self.unpacknoun(synset1)
             if len(syns1) == 0: return 0.
             synset1 = syns1[0]
-            posDiff += .5
+            posdiff += .5
         if synset2.pos in ADJ_POS:
-            syns2 = self.unpackNoun(synset2)
+            syns2 = self.unpacknoun(synset2)
             if len(syns2) == 0: return 0.
             synset2 = syns2[0]
-            posDiff += .5
+            posdiff += .5
         if synset1 is None or synset2 is None:
             return 0.
         if synset1 == synset2:
             return 1.0
 
-        # additional knowledge: if one synset is in the hypernym path of the other, they are considered
-        # closely related
-        if self.synsHypRelation(synset1, synset2) > 0.: #return self.synsHypRelation(synset1, synset2)
-            return self.synsHypRelation(synset1,synset2)
-            # return self.synsHypRelation(synset1,synset2)
+        # additional knowledge: if one synset is in the hypernym path of the
+        # other, they are considered closely related
+        if self.syns_hyp_relation(synset1, synset2) > 0.:
+            return self.syns_hyp_relation(synset1, synset2)
 
-        # add additional knowledge: decrease similarity of synsets from different taxonomy branches
-        # if not synsInPreDefTaxonomyBranch(synset1, synset2): posDiff += .5
-        posDiff += 1 - self.synsTaxonomyBranchRelation(synset1, synset2)
-        return self.wup(synset1,synset2,posDiff)
+        # add additional knowledge: decrease similarity of synsets from
+        # different taxonomy branches if not
+        # synsInPreDefTaxonomyBranch(synset1, synset2): posdiff += .5
+        posdiff += 1 - self.syns_taxonomy_branch_relation(synset1, synset2)
+
+        if simtype == 'path':
+            return self.path_similarity(synset1, synset2)
+        else:
+            return self.wup(synset1, synset2, posdiff)
 
 
     @synchronized(wordnetlock)
-    def wup(self, synset1, synset2, posDiff=0.):
-        # equates WUP Similarity: 2 * depth(lowestCommonHypernym) / depth(synset1) + depth(synset2) because:
+    def wup(self, synset1, synset2, posdiff=0.):
+        # equates WUP Similarity:
+        # 2 * depth(lowestCommonHypernym) / depth(synset1) + depth(synset2)
+        # because:
         # depth(X) == X.max_depth() + 1
-        # posDiff is used to decrease the similarity if one of the synsets is an adjective, to punish
-        # inferring another synset which is used for similarity check
+        # posdiff is used to decrease the similarity if one of the synsets is
+        # an adjective, to punish inferring another synset which is used for
+        # similarity check
         lcss = synset1.lowest_common_hypernyms(synset2)
         if len(lcss) == 0: return 0.
         lcs = lcss[0]
         dlcs = lcs.max_depth() + 1
         ds1 = synset1.shortest_path_distance(lcs)
         ds2 = synset2.shortest_path_distance(lcs)
-        if ds1 == None or ds2 == None: return 0.
+        if ds1 is None or ds2 is None: return 0.
         ds1 += dlcs
         ds2 += dlcs
 
-        return 2. * dlcs / (ds1 + ds2 + posDiff)
+        return 2. * dlcs / (ds1 + ds2 + posdiff)
 
 
     @synchronized(wordnetlock)
-    def synsTaxonomyBranchRelation(self, synset1, synset2):
+    def syns_taxonomy_branch_relation(self, synset1, synset2):
         if not synset1.lowest_common_hypernyms(synset2): return 0
-        return min([x.min_depth() for x in synset1.lowest_common_hypernyms(synset2)]) / max(synset1.min_depth(), synset2.min_depth())
+        return min([x.min_depth() for x in
+                    synset1.lowest_common_hypernyms(synset2)]) / max(
+            synset1.min_depth(), synset2.min_depth())
 
 
     @synchronized(wordnetlock)
-    def synsHypRelation(self, syn1, syn2):
-        lch = syn1.lowest_common_hypernyms(syn2)    
-        if not syn1 in lch and not syn2 in lch: return 0.
+    def syns_hyp_relation(self, syn1, syn2):
+        lch = syn1.lowest_common_hypernyms(syn2)
+        if syn1 not in lch and syn2 not in lch: return 0.
         if not any(syn2 in path for path in syn1.hypernym_paths()):
-            syn1Len = min([float(len(x)) for x in syn1.hypernym_paths()])
+            syn1len = min([float(len(x)) for x in syn1.hypernym_paths()])
         else:
             for path in syn1.hypernym_paths():
-                if not syn2 in path: continue
+                if syn2 not in path:
+                    continue
                 else:
-                    syn1Len = float(len(path))
+                    syn1len = float(len(path))
         if not any(syn1 in path for path in syn2.hypernym_paths()):
-            syn2Len = min([float(len(x)) for x in syn2.hypernym_paths()])
+            syn2len = min([float(len(x)) for x in syn2.hypernym_paths()])
         else:
             for path in syn2.hypernym_paths():
-                if not syn1 in path: continue
+                if not syn1 in path:
+                    continue
                 else:
-                    syn2Len = float(len(path))
+                    syn2len = float(len(path))
 
-        return 1. - (abs(syn1Len - syn2Len) / max(syn1Len, syn2Len))
+        return 1. - (abs(syn1len - syn2len) / max(syn1len, syn2len))
 
 
     @synchronized(wordnetlock)
     def semilarity(self, synset1, synset2):
         """
-        Returns the our custom semantic similarity by Daniel Nyga and Dominik
+        Returns our custom semantic similarity by Daniel Nyga and Dominik
         Jain of the two concepts.
         """
         if type(synset1) is str:
@@ -577,7 +621,8 @@ class WordNet(object):
         h_r = self.get_subtree_height('entity.n.01')
         h_a = self.get_subtree_height(synset1)
         h_b = self.get_subtree_height(synset2)
-        s = self.lowest_common_hypernyms(synset1, synset2, use_min_depth=True, simulate_root=True)
+        s = self.lowest_common_hypernyms(synset1, synset2, use_min_depth=True,
+                                         simulate_root=True)
         if len(s) == 0:
             return 0.
         else:
@@ -585,7 +630,7 @@ class WordNet(object):
         if s.name is None: return 0.
         h_s = self.get_subtree_height(s)
         return (h_r - h_s) / (h_r - .5 * (h_a + h_b))
-    
+
 
     @synchronized(wordnetlock)
     def get_subtree_height(self, synset):
@@ -597,31 +642,27 @@ class WordNet(object):
         if synset is None:
             return 0
         assert type(synset) == Synset
-#         if synset.name in self.subtree_cache:
-#             return self.subtree_cache[synset.name]
-        
+
         height = self.__get_subtree_height(synset)
-#             self.subtree_cache[synset.name] = height
-#             f = open(self.subtree_cache_path, 'w+')
-#             pickle.dump(self.subtree_cache, f)
-#             f.close()
         return height
-        
-        
+
+
     @synchronized(wordnetlock)
     def __get_subtree_height(self, synset, current_height=0):
         hypos = synset.hyponyms()
         if self.core_taxonomy is not None:
-            hypos = set(map(lambda s: s.name, hypos)).intersection(self.known_concepts)
+            hypos = set(map(lambda s: s.name, hypos)).intersection(
+                self.known_concepts)
             hypos = [self.synset(s) for s in hypos]
-        if len(hypos) == 0: # we have a leaf node
+        if len(hypos) == 0:  # we have a leaf node
             return current_height
         children_heights = []
         for child in hypos:
-            children_heights.append(self.__get_subtree_height(child, current_height+1))
+            children_heights.append(
+                self.__get_subtree_height(child, current_height + 1))
         return max(children_heights)
-        
-        
+
+
     @synchronized(wordnetlock)
     def hypernym_paths(self, synset):
         """
@@ -644,23 +685,25 @@ class WordNet(object):
             if not new_path in paths:
                 paths.append(new_path)
         return paths
-    
-    
-    
+
+
     @synchronized(wordnetlock)
-    def get_mln_similarity_and_sense_assertions(self, known_concepts, unknown_concepts):
+    def get_mln_similarity_and_sense_assertions(self, known_concepts,
+                                                unknown_concepts):
         for i, unkwn in enumerate(unknown_concepts):
             for kwn in known_concepts:
-                print '%.4f is_a(sense_%s, %s)' % (self.semilarity(unkwn, kwn), self.synset(unkwn).lemmas[0].name, kwn)
+                print '%.4f is_a(sense_%s, %s)' % (
+                    self.semilarity(unkwn, kwn),
+                    self.synset(unkwn).lemmas[0].name,
+                    kwn)
             print
-    
+
 
     @synchronized(wordnetlock)
     def asGraphML(self):
-        '''
+        """
         Prints a GraphML string to the specified stream.
-        '''
-        log = logging.getLogger(self.__class__.__name__)
+        """
         if self.core_taxonomy is None:
             raise Exception('Need a collapsed taxonomy')
         tax = self.core_taxonomy
@@ -668,17 +711,15 @@ class WordNet(object):
         processed = {}
         for c in tax.traverse(algo='BFS'):
             node = GMLNode(g, label=c.data, color='#dddddd', model='rgb')
-#             log.info('adding node: %s' % node)
             processed[c.data] = node
         for p in tax.traverse(algo='BFS'):
             p_node = processed[p.data]
             for c in p.children:
                 c_node = processed[c.data]
                 Edge(g, c_node, p_node)
-#                 log.info('adding edge %s ---> %s' % (c_node, p_node))
         return g
-    
-    
+
+
     @synchronized(wordnetlock)
     def to_dot(self):
         if self.core_taxonomy is None:
@@ -698,7 +739,8 @@ class WordNet(object):
                 c_node = processed[c.data]
                 g.edge(c_node, p_node, weight='1')
         return g
-    
+
+
     @synchronized(wordnetlock)
     def to_svg(self):
         g = self.to_dot()
@@ -707,11 +749,11 @@ class WordNet(object):
 
     @synchronized(wordnetlock)
     def get_all_synsets(self):
-        return [[str(i), v.name] for i, v in enumerate(sorted(list(wordnet.all_synsets()), key=lambda x: x.name))]
+        return [[str(i), v.name] for i, v in enumerate(
+            sorted(list(wordnet.all_synsets()), key=lambda x: x.name))]
 
 
 if __name__ == '__main__':
-
     wn = WordNet()
     syns = wn.get_all_synsets()
     print syns[:20], len(syns)

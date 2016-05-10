@@ -103,18 +103,11 @@ class WNSenses(PRACModule):
             # extract everything except the number (e.g. compound words like
             # heart-shaped from heart-shaped-4)
             word = '-'.join(word_const.split('-')[:-1])
-            # if len(wordnet.synsets(word, pos)) == 0:
-            #     similarcols = sorted([x for x in [(word_const.find(col), col) for col in basecols] if x[0] >= 0])
-            #     word2senses[word_const].append(sense_id)
-            #     for concept in concepts:
-            #         sim = wordnet.path_similarity(synset, concept)
-            #         db_ << ('is_a({},{})'.format(sense_id, concept), sim)
-            # else:
             for i, synset in enumerate(wordnet.synsets(word, pos)):
                 sense_id = synset.name
                 word2senses[word_const].append(sense_id)
                 for concept in concepts:
-                    sim = wordnet.path_similarity(synset, concept)
+                    sim = wordnet.similarity(synset, concept, 'path')
                     db_ << ('is_a({},{})'.format(sense_id, concept), sim)
 
         for word in word2senses:
@@ -136,37 +129,6 @@ class WNSenses(PRACModule):
                 for s in db_.domain('sense'):
                     db_ << '!has_sense({},{})'.format(word_const, s)
         return db_
-
-
-    #     @DB_TRANSFORM
-    def add_senses_and_similiarities_for_concepts(self, db, concepts):
-        """
-        Adds for each concept in concepts a constant to the 'sense' domain
-        and asserts all similarities to the other concepts for the 'is_a'
-        predicate.
-        Example:
-
-        ``concepts = [pancake.n.01, spatula.n.01]``
-
-        will be transformed into
-
-        ``1.000  is_a(pancake-s-1, pancake.n.01)
-          0.300  is_a(pancake-s-1, spatula.n.01)
-          0.300  is_a(spatula-s-1, pancake.n.01)
-          1.000  is_a(spatula-s-1, spatula.n.01)``
-        """
-        db = db.copy()
-        concepts = list(concepts)
-        if 'null' in concepts:
-            concepts.remove('null')
-        for c in concepts:
-            synset = self.prac.wordnet.synset(c)
-            sense_id = synset.name.lower().rsplit('.', 2)[0]
-            for c2 in concepts:
-                synset2 = self.prac.wordnet.synset(c2)
-                db << ('is_a(%s, %s)' % (synset.name, synset2.name),
-                       self.prac.wordnet.similarity(synset, synset2))
-        return db
 
 
     def add_sims(self, db_, mln):
@@ -201,13 +163,15 @@ class WNSenses(PRACModule):
         return db
 
 
-    def add_similarities(self, db, domains, propsFound):
+    def add_similarities(self, db, mln):
         """
-        For each property found in the evidence, we add one atom for each
-        property of the same domain that can be found in the model. The degree
-        of truth of the new atom is the similarity between the two properties
-        (= wordnet concepts). This enables us to use previously unknown
-        concepts.
+        For each cluster add the similarities for each value of each property
+        in the db domains to each value of the respective property in the
+        mln domains. The degree of truth of the new atom is the similarity
+        between the two properties (= wordnet concepts). This enables us to
+        use previously unknown concepts.
+
+        only used in module obj_recognition
 
         Example:
         If the evidence contains
@@ -219,35 +183,25 @@ class WNSenses(PRACModule):
         ``0.9 color(c, yellow.s.01)''
         ``0.95 color(c, red.s.01)''
 
-        are added if yellow.s.01 and red.s.01 are in the color domain.
+        are added if yellow.s.01 and red.s.01 are in the color domain of the
+        mln.
 
         """
-        db = db.copy()
-        cluster = propsFound.pop('cluster', 'cluster')
-        for prop in propsFound:
-            for propFoundVal in propsFound[prop]:
-                if prop in domains:
-                    for domVal in domains[prop]:
-                        if domVal not in propsFound[prop]:
-                            if domVal not in [item for sublist in
-                                              propsFound.values() for item in
-                                              sublist]:
-                                synset1 = self.prac.wordnet.synset(
-                                    propFoundVal)
-                                synset2 = self.prac.wordnet.synset(domVal)
-                                sim = self.prac.wordnet.similarity(synset1,
-                                                                   synset2)
-                                if prop == 'hasa' or prop == 'hypernym':
-                                    if sim < .85: continue
-                                    db << ('{}({}, {})'.format(prop,
-                                                               cluster,
-                                                               domVal), sim)
-                                else:
-                                    if sim < .6: continue
-                                    db << ('{}({}, {})'.format(prop,
-                                                               cluster,
-                                                               domVal), sim)
-        return db
+        db_ = db.copy()
+        dbdomains = db.domains
+        for cl in dbdomains.pop('cluster'):
+            for propkey in dbdomains:
+                if propkey not in mln.domains: continue
+                for propval in dbdomains[propkey]:
+                    for propval2 in mln.domains[propkey]:
+                        synset1 = self.prac.wordnet.synset(propval)
+                        synset2 = self.prac.wordnet.synset(propval2)
+                        sim = self.prac.wordnet.similarity(synset1, synset2,
+                                                           'wup')
+                        db_ << ('{}({}, {})'.format(propkey, cl, propval2),
+                                sim)
+        return db_
+
 
 
     def printWordSenses(self, synsets, tick):
@@ -305,7 +259,6 @@ class WNSenses(PRACModule):
                 sense = q['?s']
                 concept = q['?c']
                 for c in full_domain['concept']:
-                    # sim = wordnet.wup_similarity(c, concept)
                     sim = wordnet.similarity(c, concept)
                     db_ << ('is_a({},{})'.format(sense, c), sim)
             yield db_
@@ -346,7 +299,6 @@ class WNSenses(PRACModule):
                 pos = posMap.get(res['?pos'], None)
                 if pos is None:
                     continue
-                    # raise Exception('Invalid POS tag: {}'.format(res['?pos'])
                 word = word_const.split('-')[0]
                 for i, synset in enumerate(wordnet.synsets(word, pos)):
                     sense_id = '%s-%.2d' % (word_const, i + 1)
@@ -393,20 +345,3 @@ class WNSenses(PRACModule):
                 db = Database(self.mln, dbfile=dbfile,
                               ignoreUnknownPredicates=True)
                 training_dbs.append(db)
-
-
-# mt = WordSensesMT(self, 'word_senses')
-#         mt.train(training_dbs)
-#         self.save_prac_kb(mt)
-#
-#
-# class WordSensesMT(PRACKnowledgeBase):
-#     '''
-#     Wrapper Knowledge Base around WordNet for pickling and unpickling.
-#     '''
-#
-#     def train(self, training_dbs):
-#         self.mln = self.module.mln.duplicate()
-#         full_domains = mergedom(*[db.domains for db in training_dbs])
-#         self.mln.domains['concept'] = full_domains['concept']
-#
