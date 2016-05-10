@@ -21,13 +21,13 @@
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 import os
+import sys
 from prac.core.base import PRACModule, PRACPIPE, PRAC
 from prac.core.inference import PRACInferenceStep, PRACInference
 from prac.core.wordnet import WordNet
-from pracmln import MLN, Database, MLNQuery
+from pracmln import MLNQuery
 from pracmln.mln.base import parse_mln
-from pracmln.mln.methods import LearningMethods
-from pracmln.mln.util import colorize, out
+from pracmln.mln.util import colorize
 from pracmln.praclog import logger
 from pracmln.utils.project import MLNProject
 from pracmln.utils.visualization import get_cond_prob_png
@@ -53,7 +53,8 @@ class PropExtraction(PRACModule):
                        (None, 'green', True), True)
         print
         print colorize(
-            'Inferring most probable ANNOTATION + simultaneous WORD SENSE DISMABIGUATION...',
+            'Inferring most probable ANNOTATION + simultaneous WORD SENSE '
+            'DISMABIGUATION...',
             (None, 'white', True), True)
 
         if params.get('project', None) is None:
@@ -102,7 +103,6 @@ class PropExtraction(PRACModule):
 
 
 if __name__ == '__main__':
-    import sys
 
     if len(sys.argv) < 2:
         sys.exit(-1)
