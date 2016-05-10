@@ -326,6 +326,10 @@ class PRACModule(object):
     def __init__(self, prac):
         self.prac = prac
         self._initialized = False
+        self._name = None
+        self._project_path = None
+        self._module_path = None
+
     
     def initialize(self):
         '''
@@ -342,7 +346,38 @@ class PRACModule(object):
         The default does nothing.
         '''
         pass
-    
+
+
+    @property
+    def name(self):
+        return self._name
+
+
+    @name.setter
+    def name(self, rs):
+        self._name = rs
+
+
+    @property
+    def project_path(self):
+        return self._project_path
+
+
+    @project_path.setter
+    def project_path(self, rs):
+        self._project_path = rs
+
+
+    @property
+    def module_path(self):
+        return os.path.join(prac_module_path, self.name)
+
+
+    @module_path.setter
+    def module_path(self, rs):
+        self._module_path = rs
+
+
     @staticmethod
     def fromManifest(manifest, prac):
         '''
