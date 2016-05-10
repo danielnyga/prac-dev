@@ -28,7 +28,6 @@ Contents:
    :maxdepth: 2
 
    setup
-   pracviz
    intro
    apidoc
 
