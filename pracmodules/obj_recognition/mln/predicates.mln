@@ -23,16 +23,16 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ******************************************************************************/
 
-#fuzzy
-hypernym(cluster,hypernym)
-#fuzzy
-color(cluster,color)
-#fuzzy
-hasa(cluster,hasa)
-#fuzzy
-shape(cluster,shape)
-#fuzzy
-size(cluster,size)
+//#fuzzy
+//hypernym(cluster,hypernym)
+//#fuzzy
+//color(cluster,color)
+//#fuzzy
+//hasa(cluster,hasa)
+//#fuzzy
+//shape(cluster,shape)
+//#fuzzy
+//size(cluster,size)
 
 //dimension(cluster, dimension)
 //consistency(cluster, consistency)

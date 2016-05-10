@@ -22,8 +22,14 @@
  * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ******************************************************************************/
-property(word, prop)
 
-// TODO: remove
-concept = {null}
-prop = {null}
+//property(word, prop?)
+
+hypernym(word, word)
+color(word, word)
+hasa(word, word)
+shape(word, word)
+size(word, word)
+dimension(word, word)
+consistency(word, word)
+material(word, word)

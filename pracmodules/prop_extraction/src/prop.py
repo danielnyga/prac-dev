@@ -21,15 +21,16 @@
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 import os
-from prac.core.base import PRACModule, PRACPIPE
-from prac.core.inference import PRACInferenceStep
+from prac.core.base import PRACModule, PRACPIPE, PRAC
+from prac.core.inference import PRACInferenceStep, PRACInference
+from prac.core.wordnet import WordNet
 from pracmln import MLN, Database, MLNQuery
 from pracmln.mln.base import parse_mln
 from pracmln.mln.methods import LearningMethods
 from pracmln.mln.util import colorize, out
 from pracmln.praclog import logger
 from pracmln.utils.project import MLNProject
-from webmln.gui.pages.utils import get_cond_prob_png
+from pracmln.utils.visualization import get_cond_prob_png
 
 
 log = logger(__name__)
@@ -77,18 +78,13 @@ class PropExtraction(PRACModule):
                         logic=project.queryconf.get('logic', 'FuzzyLogic'),
                         grammar=project.queryconf.get('grammar',
                                                       'PRACGrammar'))
-        known_concepts = mln.domains.get('concept', [])
         wordnet_module = self.prac.getModuleByName('wn_senses')
 
         # process databases
         for db in dbs:
-            db = wordnet_module.get_senses_and_similarities(db, known_concepts)
-            # add cluster to domains
-            if 'cluster' in db.domains:
-                domains = db.domains['cluster']
-                domains.append('cluster')
-            else:
-                db.domains['cluster'] = ['cluster']
+            db = wordnet_module.add_sims(db, mln)
+
+            db.write(bars=False)
 
             # infer and update output
             infer = MLNQuery(config=project.queryconf, db=db, mln=mln).run()
@@ -96,10 +92,7 @@ class PropExtraction(PRACModule):
 
             unified_db = db.union(result_db)
 
-            res_db = self.printResults(unified_db, pracinference.instructions,
-                                       wordnet_module)
-
-            inf_step.output_dbs.append(res_db)
+            inf_step.output_dbs.append(unified_db)
 
         png, ratio = get_cond_prob_png(project.queryconf.get('queries', ''),
                                        dbs, filename=self.name)
@@ -108,87 +101,22 @@ class PropExtraction(PRACModule):
         return inf_step
 
 
-    def train(self, praclearning):
-        print colorize('+===============================================+',
-                       (None, 'green', True), True)
-        print colorize('| PRAC LEARNING PROPERTIES FROM NL DESCRIPTIONS |',
-                       (None, 'green', True), True)
-        print colorize('+===============================================+',
-                       (None, 'green', True), True)
+if __name__ == '__main__':
+    import sys
 
-        mlnName = praclearning.otherParams.get('mln', None)
-        mlnLogic = praclearning.otherParams.get('logic', None)
+    if len(sys.argv) < 2:
+        sys.exit(-1)
+    sentences = [sys.argv[1]]
+    prac = PRAC()
+    prac.wordnet = WordNet(concepts=None)
 
-        mln = MLN(mlnfile=mlnName, logic=mlnLogic)
-        pracTrainingDBS = praclearning.training_dbs
+    inference = PRACInference(prac, sentences)
 
-        if len(pracTrainingDBS) > 1 and type(
-                pracTrainingDBS[0]) is str:  # db from file:
-            log.info('Learning from db files...')
-            inputdbs = Database(mln, dbfile=pracTrainingDBS,
-                                ignore_unknown_preds=True)
-        elif len(pracTrainingDBS) > 1:
-            log.info('Learning from db files (xfold)...')
-            inputdbs = pracTrainingDBS
-        else:
-            log.info('Learning from default db file...')
-            dbFile = os.path.join(self.module_path, 'db/ts_stanford_wn_man.db')
-            inputdbs = Database(mln, dbfile=dbFile, ignore_unknown_preds=True)
+    if len(inference.instructions) > 0:
+        parser = prac.getModuleByName('nl_parsing')
+        prac.run(inference, parser)
 
-        evidencePreds = ['cop', 'prep_without', 'pobj', 'nsubj', 'is_a',
-                         'amod', 'prep_with', 'root', 'has_pos', 'conj_and',
-                         'conj_or', 'dobj']
-        # trainedMLN = mln.learnWeights(inputdbs, LearningMethods.DCLL, evidencePreds=evidencePreds, gaussianPriorSigma=10, partSize=1, useMultiCPU=1, optimizer='bfgs')
-        outputfile = '{}_trained.mln'.format(mlnName.split('.')[0])
-        trainedMLN = mln.learnWeights(inputdbs, LearningMethods.DCLL,
-                                      evidencePreds=evidencePreds, partSize=1,
-                                      gaussianPriorSigma=10, useMultiCPU=0,
-                                      optimizer='cg', learningRate=.9)
-
-        print colorize('+=============================================+',
-                       (None, 'green', True), True)
-        print colorize('| LEARNT FORMULAS:                            |',
-                       (None, 'green', True), True)
-        print colorize('+=============================================+',
-                       (None, 'green', True), True)
-
-        trainedMLN.printFormulas()
-        trainedMLN.write(file(outputfile, "w"))
-        log.info('Trained MLN saved to {}'.format(outputfile))
-
-        return trainedMLN
-
-
-    def printResults(self, result_db, instructions, wordnet_module):
-        # rewrite result representation from property(...) to color(..), size(..) etc. and print results
-        output_db = Database(self.prac.mln, ignore_unknown_preds=True)
-        # print annotations found in result db
-        for instr in instructions:
-            print colorize('Inferred properties for instruction:',
-                           (None, 'white', True), True), instr
-            print
-        for q in result_db.query(
-                'property(?word, ?prop) ^ has_sense(?word, ?sense)'):
-            if q['?sense'] == 'null': continue
-            if q['?prop'] == 'null': continue
-            prop = q['?prop']
-            word = q['?sense']
-
-            output_db << '{}({}, {})'.format(prop.lower(), 'cluster', word)
-
-            print '{}({}, {})'.format(
-                colorize(prop.lower(), (None, 'white', True), True),
-                colorize('cluster', (None, 'magenta', True), True),
-                colorize(word, (None, 'green', True), True))
-        print
-
-        print 'Inferred most probable word senses:'
-        for q in result_db.query('has_sense(?w, ?s)'):
-            if q['?s'] == 'null': continue
-            print '{}:'.format(q['?w'])
-            print 'get meanings of word', q['?w'], q['?s']
-
-            wordnet_module.printWordSenses(
-                wordnet_module.get_possible_meanings_of_word(result_db,
-                                                             q['?w']), q['?s'])
-        return output_db
+    modules = ['ac_recognition', 'senses_and_roles', 'prop_extraction']
+    for mname in modules:
+        module = prac.getModuleByName(mname)
+        prac.run(inference, module)
