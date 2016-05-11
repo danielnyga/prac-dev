@@ -154,7 +154,7 @@ class WordNet(object):
                 colorsims[x][y] = temp
 
             
-    def initialize_taxonomy(self, concepts=None, collapse=True):
+    def initialize_taxonomy(self, concepts=None, collapse=False):
         '''
         Creates a new taxonomy given a set of concepts. If collapse is True,
         all subpaths with only one child and parent are collapsed. 

@@ -141,7 +141,7 @@ class SensesAndRoles(PRACModule):
             store_list = ['oven.n.01','fridge.n.01','jar.n.01','coffee_maker.n.01','fork.n.01','blender.n.01','bowl.n.01']
             flip_list = ['tongs.n.01','spatula.n.01','fork.n.01','bowl.n.01','plate.n.04','coffee_maker.n.01']
             flavour_list = ['honey.n.01','sugar.n.01','sirup.n.01','pepper.n.03','salt.n.02','chili_powder.n.01']
-            self.create_prob_distribution(missing_role_set.pop(), frame_result_list, roles_senses_dict, flavour_list)
+            self.create_prob_distribution(missing_role_set.pop(), frame_result_list, roles_senses_dict, store_list)
             score_frame_matrix = numpy.array(map(lambda x: x.transform_to_frame_vector(roles_senses_dict,missing_role_set),frame_result_list))
             confidence_level = 0.7
             
