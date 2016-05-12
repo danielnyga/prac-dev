@@ -141,9 +141,9 @@ class SensesAndRoles(PRACModule):
             store_list = ['oven.n.01','fridge.n.01','jar.n.01','coffee_maker.n.01','fork.n.01','blender.n.01','bowl.n.01']
             flip_list = ['tongs.n.01','spatula.n.01','fork.n.01','bowl.n.01','plate.n.04','coffee_maker.n.01']
             flavour_list = ['honey.n.01','sugar.n.01','sirup.n.01','pepper.n.03','salt.n.02','chili_powder.n.01']
-            self.create_prob_distribution(missing_role_set.pop(), frame_result_list, roles_senses_dict, store_list)
+            self.create_prob_distribution(missing_role_set.pop(), frame_result_list, roles_senses_dict, flip_list)
             score_frame_matrix = numpy.array(map(lambda x: x.transform_to_frame_vector(roles_senses_dict,missing_role_set),frame_result_list))
-            confidence_level = 0.7
+            confidence_level = 0.4
             
             while frame_result_list and missing_role_set:
                 argmax_index = score_frame_matrix.argmax()
@@ -162,6 +162,7 @@ class SensesAndRoles(PRACModule):
                 for missing_role in missing_roles_contained_in_frame:
                     missing_role_sense = frame.actioncore_roles[missing_role]
                     print 'Found missing role "{}": {} Confidence: {}%'.format(missing_role,missing_role_sense.nltk_wordnet_sense,str(100*current_max_score))
+                    print "Sentence: {}".format(frame.sentence)
                     raw_input("prompt")
                     atom_role = "{}({},{})".format(missing_role,missing_role_sense.word+"_mongo",actioncore)
                     db_.addGroundAtom(atom_role,1.0)
