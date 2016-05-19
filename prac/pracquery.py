@@ -43,7 +43,6 @@ from pracmln.utils.project import MLNProject, PRACMLNConfig
 from pracmln.utils.widgets import FileEditBar
 try:
     from pymongo import MongoClient
-    from pymongo.errors import ServerSelectionTimeoutError
 except ImportError:
     print 'Warning: MongoDB modules cannot be used.'
 logger = praclog.logger(__name__)
@@ -823,8 +822,8 @@ def are_requirements_set_to_load_module(module_name):
                 else:
                     print 'No PRAC database is stored at local MongoDB server instance.'
                     return False
-                
-            except ServerSelectionTimeoutError:
+
+            except:
                 print 'No local MongoDB server instance is running.'
                 return False
             #IsCollection available
