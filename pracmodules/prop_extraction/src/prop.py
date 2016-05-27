@@ -26,6 +26,7 @@ from prac.core.base import PRACModule, PRACPIPE, PRAC
 from prac.core.inference import PRACInferenceStep, PRACInference
 from prac.core.wordnet import WordNet
 from pracmln import MLNQuery
+from pracmln.mln import NoConstraintsError
 from pracmln.mln.base import parse_mln
 from pracmln.mln.util import colorize
 from pracmln.praclog import logger
@@ -56,15 +57,16 @@ class PropExtraction(PRACModule):
             'Inferring most probable ANNOTATION + simultaneous WORD SENSE '
             'DISMABIGUATION...',
             (None, 'white', True), True)
+        print
 
         if params.get('project', None) is None:
             # load default project
             projectpath = self.project_path
             project = MLNProject.open(projectpath)
         else:
-            log.info(
-                colorize('Loading Project from params', (None, 'cyan', True),
-                         True))
+            # load project from params
+            log.info(colorize('Loading Project from params',
+                              (None, 'cyan', True), True))
             projectpath = os.path.join(
                 params.get('projectpath', None) or self.module_path,
                 params.get('project').name)
@@ -81,20 +83,29 @@ class PropExtraction(PRACModule):
                                                       'PRACGrammar'))
         wordnet_module = self.prac.getModuleByName('wn_senses')
 
-        # process databases
         for db in dbs:
-            db = wordnet_module.add_sims(db, mln)
+            db_ = wordnet_module.add_sims(db, mln)
 
-            db.write(bars=False)
+            try:
+                infer = MLNQuery(config=project.queryconf, db=db_,
+                                 mln=mln).run()
+                result_db = infer.resultdb
 
-            # infer and update output
-            infer = MLNQuery(config=project.queryconf, db=db, mln=mln).run()
-            result_db = infer.resultdb
+                unified_db = db.copy(self.prac.mln)
+                props = [p for p in
+                         project.queryconf.get('queries', '').split(',') if
+                         p != 'has_sense']
+                for p in props:
+                    for q in result_db.query(
+                            '{}(?w1,?w2) ^ has_sense(?w2,?s2)'.format(p)):
+                        unified_db << '{}({},{})'.format(p, q['?w1'], q['?w2'])
+                        unified_db << 'has_sense({},{})'.format(q['?w2'],
+                                                                q['?s2'])
 
-            unified_db = db.union(result_db)
-
-            inf_step.output_dbs.append(unified_db)
-
+                inf_step.output_dbs.append(unified_db)
+            except NoConstraintsError:
+                log.info('No properties found. Passing db...')
+                inf_step.output_dbs.append(db)
         png, ratio = get_cond_prob_png(project.queryconf.get('queries', ''),
                                        dbs, filename=self.name)
         inf_step.png = (png, ratio)
@@ -116,7 +127,7 @@ if __name__ == '__main__':
         parser = prac.getModuleByName('nl_parsing')
         prac.run(inference, parser)
 
-    modules = ['ac_recognition', 'senses_and_roles', 'prop_extraction']
+    modules = ['ac_recognition', 'prop_extraction']
     for mname in modules:
         module = prac.getModuleByName(mname)
         prac.run(inference, module)

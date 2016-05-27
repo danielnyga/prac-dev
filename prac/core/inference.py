@@ -88,6 +88,8 @@ class PRACInference(object):
         if previous_module == 'nl_parsing':
             return 'ac_recognition'
         elif previous_module == 'ac_recognition':
+            return 'prop_extraction'
+        elif previous_module == 'prop_extraction':
             return 'senses_and_roles'
         elif previous_module == 'senses_and_roles':
             return 'coref_resolution'
