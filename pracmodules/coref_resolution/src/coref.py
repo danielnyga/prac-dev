@@ -65,7 +65,7 @@ class CorefResolution(PRACModule):
             inf_step.output_dbs = [db.copy(self.prac.mln) for db in dbs]
             inf_step.png = prev_step.png
             inf_step.applied_settings = prev_step.applied_settings
-            log.error('nothing to do here. forwarding dbs and settings from previous module')
+            log.info('Got single database. Nothing to do here. Passing db...')
             return inf_step
 
         for i, db in enumerate(dbs):
