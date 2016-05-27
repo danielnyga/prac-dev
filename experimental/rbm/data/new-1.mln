@@ -1,7 +1,0 @@
-// predicate declarations
-hasSense(word, sense, sentence)
-hasRole(word, role, sentence)
-
-// constraints
-0 hasSense(word1,+sense1,s) ^ hasSense(word2,+sense2,s) ^ hasRole(word1,+role1,s) ^ hasRole(word2,+role2,s)
-

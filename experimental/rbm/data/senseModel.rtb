@@ -1,8 +1,0 @@
-// predicate declarations
-hasSense(:Word, Sense, :Sentence)
-hasRole(:Word, Role, :Sentence)
-
-// constraints
-0 hasSense(word, sense, sentence) ^ hasRole(word, role, sentence)
-0 hasSense(word1, sense1, sentence) ^ hasRole(word1, role1, sentence) ^ hasSense(word2, sense1, sentence) ^ hasRole(word2, role2, sentence) ^ !(word1=word2)
-//0 hasSense(word,sense,sentence) => hasRole(word,role,sentence)

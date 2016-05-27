@@ -1,7 +1,0 @@
-// predicates
-hasSense(:word,Sense,:sentence)
-hasRole(:word,Role,:sentence)
-
-// attributes
-Sense = {Water, Cup, Milk, Bowl, Pot}
-Role = {Theme, Goal}
