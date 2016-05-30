@@ -82,7 +82,7 @@ class Frame(object):
         
         infer_step = PRACInferenceStep(infer, ac_recognition_module)
         infer.inference_steps.append(infer_step)
-        infer.inference_steps[0].output_dbs.append(self.slot_values_to_prac_db())
+        infer.inference_steps[0].output_dbs.append(self.slot_values_to_prac_db(False))
         prac.run(infer,ac_recognition_module,kb=None)
         result_db = infer.inference_steps[-1].output_dbs[0]
         
@@ -106,7 +106,7 @@ class Frame(object):
         
         #store roles in dict
         for atom, truth in sorted(roles_db.evidence.iteritems()):
-            _, predname, args = roles_db.mln.logic.parseLiteral(atom)
+            _, predname, args = roles_db.mln.logic.parse_literal(atom)
             if truth == 1.0:
                 roles_dict[args[0]] = predname
         
@@ -154,7 +154,7 @@ class Frame(object):
         
         try:
             self.prac_mln.write(prac_mln_stream)
-            self.prac_db.write(prac_db_stream)
+            self.prac_db.write(prac_db_stream,bars=False)
             prac_mln_stream.seek(0)
             prac_db_stream.seek(0)
             prac_mln_str = prac_mln_stream.read().encode('string-escape')
@@ -178,7 +178,7 @@ class Frame(object):
         # "'" cannot be escaped in json file.
         return sense_as_json_str.replace("\\'","'").replace("\\-","-")
     
-    def slot_values_to_prac_db(self):
+    def slot_values_to_prac_db(self,add_senses=True):
         db = Database(self.prac_mln)
         
         atom_list = []
@@ -196,7 +196,7 @@ class Frame(object):
                     atom_list.append("{}({},{})".format(key,sv_predicate.word,value.word))
                 atom_list.append(Constants.HAS_POS_MLN_PREDICATE.format(value.word,value.penn_treebank_pos))
                 #Create sense related predicates
-                if value.nltk_wordnet_sense:
+                if value.nltk_wordnet_sense and add_senses:
                     atom_list.append(Constants.HAS_SENSE_MLN_PREDICATE.format(value.word,value.nltk_wordnet_sense))
                     atom_list.append(Constants.IS_A_MLN_PREDICATE.format(value.nltk_wordnet_sense,value.nltk_wordnet_sense))
                 
