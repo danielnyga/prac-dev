@@ -129,36 +129,15 @@ def store_results_into_database(data_list,collection,log_file):
             log_file.write("###########")
     
 if __name__ == '__main__':
-    #FRAME EXTRACTION PROCESS
-    result = extract_frames_of_corpus('chemical_corpus_v2',False) 
+    args = sys.argv[1:]
+    if args:
+        print args
+        raw_input("Enter")
+        result = extract_frames_of_corpus('chemical_corpus_v2',False) 
     #logs = result.process_text_file_result_list
     #frames = result.frame_list
 
     #store_frames_into_database(frames)
     #store_logs_into_database(logs)
     
-    '''
-    ac_list = ['bring'
-               ,'barbecue'
-               ,'bake'
-               ,'clean'
-               ,'combine'
-               ,'mix'
-               ,'flip'
-               ,'grab'
-               ,'pull'
-               ,'remove'
-               ,'sprinkle'
-               ,'store'
-               ,'extract'
-               ,'cook']
-        
-    
-    ac_list = ['flip','store']
-    
-    for ac in ac_list:
-        #PracDatabaseHandler.generate_ac_train_optimazed_prac_db({'slot_values.predicate.lemma' : '{0}'.format(ac)}, "prac_db/{}".format(ac))
-        PracDatabaseHandler.generate_prac_db_based_on_query({'slot_values.predicate.lemma' : '{0}'.format(ac)}, "prac_db/{}.db".format(ac))
-    #print MongoDatabaseHandler.get_frames_based_on_query({'action_core' :'Filling'})[0].slot_values.values()[4].misc
-    '''
     print 'FINISHED'

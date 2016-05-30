@@ -5,16 +5,17 @@ Created on Sep 2, 2015
 '''
 import re
 import traceback
-from prac.core import PRAC
-from prac.wordnet import WordNet
+from prac.core.base import PRAC
+from prac.core.inference import PRACInference
+from prac.core.wordnet import WordNet
 import sys
 from ies_models.Frame import Frame
 
 from pymongo import MongoClient
 import pymongo
 import json
-from mln.errors import NoSuchPredicateError
-from mln.mln import Predicate
+from pracmln.mln.errors import NoSuchPredicateError
+from pracmln.mln.base import Predicate
 from ies_utils import PracDatabaseHandler
 import os
 from ies_models.FrameExtractorResult import FrameExtractorResult

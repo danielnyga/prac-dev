@@ -7,7 +7,7 @@ from ies_models import Constants
 from ies_models.Sense import Sense
 from ies_models.Frame import Frame
 from ies_models.SenseResult import SenseResult
-from mln.database import Database
+from pracmln.mln.database import Database
 import cStringIO
 import re
 from ies_utils import MongoDatabaseHandler

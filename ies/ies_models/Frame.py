@@ -9,14 +9,14 @@ Created on Sep 2, 2015
 
 from ies_models import Constants
 import cStringIO
-from mln.database import Database
+from pracmln.mln.database import Database
 import sys
 import re
-from prac.inference import PRACInference,PRACInferenceStep
-from pracutils.RolequeryHandler import RolequeryHandler
+from prac.core.inference import PRACInference,PRACInferenceStep
+from prac.pracutils.RolequeryHandler import RolequeryHandler
 import numpy
 from scipy import stats
-from prac.wordnet import WordNet
+from prac.core.wordnet import WordNet
 import traceback
 
 

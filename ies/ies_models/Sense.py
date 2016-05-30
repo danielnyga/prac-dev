@@ -10,7 +10,7 @@ Created on Sep 2, 2015
 '''
 import json
 from nltk.stem import WordNetLemmatizer
-from prac.wordnet import WordNet
+from prac.core.wordnet import WordNet
 from ies_models import Constants
 
 wordnet = WordNet(concepts=None)
