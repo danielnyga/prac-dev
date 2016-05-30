@@ -247,9 +247,9 @@ class NLParsing(PRACModule):
             deps = map(str, deps)
             words = set()
             for d in deps:
-                db.addGroundAtom(d)
-                f = self.mln.logic.parseFormula(str(d))
-                words.update(f.params)
+                db << d
+                f = self.mln.logic.parse_literal(str(d))
+                words.update(f[2])
                 log.info(f)
             posTags = self.stanford_parser.getPOS()
             pos = []
@@ -258,7 +258,7 @@ class NLParsing(PRACModule):
                     continue
                 posTagAtom = 'has_pos(%s,%s)' % (pos[0], pos[1])
                 pos.append(posTagAtom)
-                db.addGroundAtom(posTagAtom)
+                db << posTagAtom
                 posTags[pos[0]] = pos[1]
             yield db
     

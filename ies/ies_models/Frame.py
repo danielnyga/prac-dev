@@ -202,7 +202,7 @@ class Frame(object):
                 
                 #TODO add action_roles as predicates
         for atom in atom_list:
-            db.addGroundAtom(atom)
+            db << atom
         
         return db
         

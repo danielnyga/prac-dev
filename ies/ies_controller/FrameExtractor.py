@@ -74,9 +74,9 @@ class FrameExtractor(object):
         self.prac.wordnet = WordNet(concepts=None)
         self.parser = self.prac.getModuleByName('nl_parsing')
         self.parser.initialize()
-        self.parser.mln.declarePredicate(Predicate('prepobj',['word','word']))
-        self.parser.mln.declarePredicate(Predicate('has_sense',['word','sense!']))
-        self.parser.mln.declarePredicate(Predicate('is_a',['sense','concept']))
+        self.parser.mln.declare_predicate(Predicate('prepobj',['word','word']))
+        self.parser.mln.declare_predicate(Predicate('has_sense',['word','sense!']))
+        self.parser.mln.declare_predicate(Predicate('is_a',['sense','concept']))
         self.result = FrameExtractorResult()
         
     def extract_frames(self):
@@ -195,8 +195,9 @@ class FrameExtractor(object):
                 #TODO add except no_frame and no_predicate
                 except NoSuchPredicateError:
                     _, exc_value , _ = sys.exc_info()
-                    predicate_name = str(exc_value).split('No such predicate:')[1].strip()
-                    self.parser.mln.declarePredicate(Predicate(predicate_name,['word','word']))
+                    predicate_name = str(exc_value).split(' ')[1].strip()
+                    self.parser.mln.declare_predicate(Predicate(predicate_name,['word','word']))
+                    
                 except NoPredicateExtracted:
                     _, exc_value , _ = sys.exc_info()
                     result.no_predicate_sentences_list.append(LogFileSentenceRepresentation(sentence,db.mln,db))
@@ -210,7 +211,8 @@ class FrameExtractor(object):
                     is_sentence_parsed = True
                 except Exception:
                     #TODO add logger
-                    #traceback.print_exc()
+                    traceback.print_exc()
+                    raw_input("prompt")
                     result.parsing_error_sentences_list.append(LogFileSentenceRepresentation(sentence,None,None))
                     result.num_parsing_errors_sentences += 1
                     result.num_errors += 1

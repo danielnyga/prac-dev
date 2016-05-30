@@ -114,6 +114,7 @@ def store_logs_into_database(logs):
     store_results_into_database(logs, logs_collection,log_file)
     log_file.close()
     mongo_client.close()
+
 def store_results_into_database(data_list,collection,log_file):
     
     for data in data_list:
@@ -131,13 +132,8 @@ def store_results_into_database(data_list,collection,log_file):
 if __name__ == '__main__':
     args = sys.argv[1:]
     if args:
-        print args
-        raw_input("Enter")
-        result = extract_frames_of_corpus('chemical_corpus_v2',False) 
-    #logs = result.process_text_file_result_list
-    #frames = result.frame_list
-
-    #store_frames_into_database(frames)
-    #store_logs_into_database(logs)
-    
+        result = extract_frames_of_corpus(args[0],False)
+    else:
+        print "Please provide a path to a corpus." 
+        
     print 'FINISHED'
