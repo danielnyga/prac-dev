@@ -76,14 +76,14 @@ def readFromFile(filename):
             sentence = ' '.join(sentence).strip()
             print '//', sentence
             log.info('parsing sentence: "%s"' % sentence)
-            deps = parser.getDependencies(sentence, True)
+            deps = parser.get_dependencies(sentence, True)
             log.info(deps)
             parsed_constants = set(itertools.chain(*map(lambda d: [str(d.dep().label()), str(d.gov().label())], deps)))
             log.info(parsed_constants)
             for d in map(str, deps):
                 gndAtoms.append(d)
             parsed_constants = set([d for d in parsed_constants if d.find('ROOT') == -1])
-            posTags = parser.getPOS()
+            posTags = parser.get_pos()
             for pos in posTags.values():
                 if pos[0] not in parsed_constants: continue
                 gndAtoms.append('has_pos(%s,%s)' % (pos[0], pos[1]))
