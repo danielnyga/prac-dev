@@ -1,0 +1,6 @@
+prepobj(word,word)
+dobj(word,word)
+iobj(word,word)
+has_pos(word,pos)
+has_sense(word,sense!)
+is_a(sense,concept)

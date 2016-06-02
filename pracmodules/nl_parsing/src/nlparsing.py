@@ -273,7 +273,7 @@ class NLParsing(PRACModule):
                        True), ' '.join(pracinference.instructions)
 
         cmd = "python {} '{}'".format(os.path.join(self.module_path, 'src',
-                                                  'caller.py'),
+                                                   'caller.py'),
                                       "' '".join(pracinference.instructions))
 
         print cmd
