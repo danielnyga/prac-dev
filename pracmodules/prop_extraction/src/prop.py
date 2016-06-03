@@ -83,7 +83,8 @@ class PropExtraction(PRACModule):
                                                       'PRACGrammar'))
         wordnet_module = self.prac.getModuleByName('wn_senses')
 
-        for db in dbs:
+        pngs = {}
+        for i, db in enumerate(dbs):
             db_ = wordnet_module.add_sims(db, mln)
 
             try:
@@ -106,9 +107,11 @@ class PropExtraction(PRACModule):
             except NoConstraintsError:
                 log.info('No properties found. Passing db...')
                 inf_step.output_dbs.append(db)
-        png, ratio = get_cond_prob_png(project.queryconf.get('queries', ''),
-                                       dbs, filename=self.name)
-        inf_step.png = (png, ratio)
+
+            pngs['PropExtraction - ' + str(i)] = get_cond_prob_png(
+                project.queryconf.get('queries', ''), dbs, filename=self.name)
+            inf_step.png = pngs
+
         inf_step.applied_settings = project.queryconf.config
         return inf_step
 

@@ -99,7 +99,8 @@ class AchievedBy(PRACModule):
             if skip_db:
                 inf_step.output_dbs.append(olddb)
                 continue
-                
+
+            pngs = {}
             for q in olddb.query('action_core(?w,?ac)'):
                 actioncore = q['?ac']
                 
@@ -169,14 +170,13 @@ class AchievedBy(PRACModule):
                 # unified_db = result_db.union(kb.query_mln, db_)
                 # only add inferred achieved_by atoms, leave out
                 # 0-evidence atoms
-                for q in result_db.query('achieved_by(?ac1,?ac2)'):
-                    unified_db << 'achieved_by({},{})'.format(q['?ac1'],
-                                                              q['?ac2'])
-                inf_step.output_dbs.append(unified_db)
+                for qa in result_db.query('achieved_by(?ac1,?ac2)'):
+                    unified_db << 'achieved_by({},{})'.format(qa['?ac1'],
+                                                              qa['?ac2'])
+                    pngs[qa['?ac2']] = get_cond_prob_png(project.queryconf.get('queries', ''), dbs, filename=self.name)
 
-            png, ratio = get_cond_prob_png(project.queryconf.get('queries',
-                                                                 ''),
-                                           dbs, filename=self.name)
-            inf_step.png = (png, ratio)
-            inf_step.applied_settings = project.queryconf.config
+                inf_step.output_dbs.append(unified_db)
+                inf_step.png = pngs
+
+                inf_step.applied_settings = project.queryconf.config
         return inf_step

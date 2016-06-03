@@ -172,6 +172,7 @@ class ComplexAchievedBy(PRACModule):
         inf_step = PRACInferenceStep(pracinference, self)
         dbs = pracinference.inference_steps[-1].output_dbs
 
+        pngs = {}
         for olddb in dbs:
             result = self.get_instructions_based_on_action_core(olddb)
             if result:
@@ -182,8 +183,9 @@ class ComplexAchievedBy(PRACModule):
             for q in olddb.query('action_core(?w, ?ac)'):
                 w = q['?w']
 
-            png, ratio = get_cond_prob_png('instruction_sheet', dbs, filename=self.name, mongo=True, mongoword=w)
-            inf_step.png = (png, ratio)
+                pngs[q['?ac']] = get_cond_prob_png('instruction_sheet', dbs, filename=self.name, mongo=True, mongoword=w)
+                inf_step.png = pngs
+
             inf_step.applied_settings = {'module': 'achieved_by',
                                          'method': 'DB lookup'}
         return inf_step

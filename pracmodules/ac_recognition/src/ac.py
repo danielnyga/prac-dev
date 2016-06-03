@@ -38,7 +38,6 @@ log = logger(__name__)
 
 class ActionCoreIdentification(PRACModule):
     
-
     def initialize(self):
         pass
 
@@ -69,6 +68,7 @@ class ActionCoreIdentification(PRACModule):
         inf_step = PRACInferenceStep(pracinference, self)
         wordnet_module = self.prac.getModuleByName('wn_senses')
 
+        pngs = {}
         for db_ in dbs:
             db = wordnet_module.get_senses_and_similarities(db_, known_concepts)
             tmp_union_db = db.union(db_, mln=self.prac.mln)
@@ -85,10 +85,9 @@ class ActionCoreIdentification(PRACModule):
             #     unified_db << 'action_core({},{})'.format(q['?w'],q['?ac'])
 
             inf_step.output_dbs.append(unified_db)
-
-        png, ratio = get_cond_prob_png(ac_project.queryconf.get('queries', ''), dbs, filename=self.name)
-        inf_step.png = (png, ratio)
-        inf_step.applied_settings = ac_project.queryconf.config
+            pngs[unified_db.domains.get('actioncore', [None])[0]] = get_cond_prob_png(ac_project.queryconf.get('queries', ''), dbs, filename=self.name)
+            inf_step.png = pngs
+            inf_step.applied_settings = ac_project.queryconf.config
         return inf_step
     
     

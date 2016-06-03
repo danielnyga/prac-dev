@@ -33,6 +33,7 @@ from prac import java
 from pracmln import Database, MLN
 from pracmln.mln.util import colorize
 from pracmln.praclog import logger
+from pracmln.utils.visualization import get_cond_prob_png
 
 
 log_ = logger(__name__)
@@ -285,7 +286,8 @@ class NLParsing(PRACModule):
             dbs.remove('')
 
         # read db entries
-        for db_ in dbs:
+        pngs = {}
+        for i, db_ in enumerate(dbs):
             db = Database(self.mln)
             sp = db_.split('\n')
             if '' in sp:
@@ -301,4 +303,11 @@ class NLParsing(PRACModule):
             print colorize('Syntactic evidence:', (None, 'white', True),
                            True)
             db.write(sys.stdout, True)
+
+            print ','.join(pracinference.instructions)
+
+            pngs['NL Parsing - ' + str(i)] = get_cond_prob_png(
+                ','.join([x.name for x in self.mln.predicates[:10]]) + ',...',
+                str(','.join(pracinference.instructions)), filename=self.name)
+            step.png = pngs
         return step
