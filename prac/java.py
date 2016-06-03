@@ -24,7 +24,7 @@ def startJvm():
     java_home += '/jre/lib/{}/libjava.so'.format(arch[machine_arch])
     log.debug(jpype.getDefaultJVMPath())
     log.info('starting JVM...')
-    jpype.startJVM(jpype.getDefaultJVMPath(), '-Xmx512m', '-Xms512m',
+    jpype.startJVM(jpype.getDefaultJVMPath(), '-Xmx1024m', '-Xms1024m',
                    '-verbose:gc', '-ea',
                    '-Djava.class.path={}'.format(':'.join(classpath)))
     log.info('JVM running')
