@@ -26,13 +26,24 @@ from ies_models.FrameBuilderResult import FrameBuilderResult
 from ies_models.Exceptions import NoPredicateExtracted,NoValidFrame
 from ies_models.Sense import convert_word_to_lemma,get_synset, nounTags
 
-def store_frames_into_database(frames):
+def store_frames_into_database(text_file_name,frames):
     mongo_client = MongoClient()
     ies_mongo_db = mongo_client.IES
+    
     frames_collection = ies_mongo_db.Frames
-    log_file = open("frames.log","w")
-    store_results_into_database(frames, frames_collection,log_file)
-    log_file.close()
+    plan_list = []
+     
+    try:
+        for frame in frames:
+            plan_list.append(json.loads(frame.to_json_str()))
+        document = {'_id' : text_file_name, 'plan_list' : plan_list}    
+        frames_collection.insert_one(document)
+    except pymongo.errors.DuplicateKeyError:
+        frames_collection.delete_many({"_id" : document['_id']})
+        frames_collection.insert_one(document)
+    except:
+        traceback.print_exc()
+        
     mongo_client.close()
 
 def store_logs_into_database(logs):
@@ -86,7 +97,9 @@ class FrameExtractor(object):
             print "{} file of {} files: {}".format(str(i),str(len(self.corpus)),path_to_text_file)
             
             #self.result.frame_list.extend(self.process_text_file(path_to_text_file))
-            store_frames_into_database(self.process_text_file(path_to_text_file))
+            extracted_frame_list = self.process_text_file(path_to_text_file)
+            if extracted_frame_list:
+                store_frames_into_database(extracted_frame_list[0].text_source_file,extracted_frame_list)
         print "DONE FRAME EXTRACTION"
         return self.result
     
