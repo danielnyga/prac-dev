@@ -256,7 +256,6 @@ class NLParsing(PRACModule):
             dbs.append(db_)
         return dbs
 
-
     @PRACPIPE
     def __call__(self, pracinference):
 

@@ -10,6 +10,7 @@ from prac.core.inference import PRACInference
 from prac.core.wordnet import WordNet
 import sys
 from ies_models.Frame import Frame
+from prac.pracutils.RolequeryHandler import RolequeryHandler
 
 from pymongo import MongoClient
 import pymongo
@@ -32,7 +33,24 @@ def store_frames_into_database(text_file_name,frames):
     
     frames_collection = ies_mongo_db.Frames
     plan_list = []
-     
+    prac = PRAC()
+    prac.wordnet = WordNet(concepts=None)
+    print text_file_name
+    raw_input("prompt")
+    #Parse text file name to annotate it in the mongo db
+    inference = PRACInference(prac, ["{}.".format(text_file_name)])
+    while inference.next_module() != 'role_look_up'  and inference.next_module() != 'achieved_by'  and inference.next_module() != 'plan_generation':
+        
+        modulename = inference.next_module()
+        module = prac.getModuleByName(modulename)
+        prac.run(inference, module)
+    
+    db = inference.inference_steps[-1].output_dbs[0]
+    roles_dict = RolequeryHandler.query_roles_and_senses_based_on_action_core(db)
+    
+    print roles_dict
+    raw_input("roles_dict")
+    
     try:
         for frame in frames:
             plan_list.append(json.loads(frame.to_json_str()))
