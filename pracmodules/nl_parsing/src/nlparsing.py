@@ -34,6 +34,7 @@ from pracmln import Database, MLN
 from pracmln.mln.util import colorize
 from pracmln.praclog import logger
 from pracmln.utils.visualization import get_cond_prob_png
+from prac.core.wordnet import WordNet
 
 
 log_ = logger(__name__)
@@ -255,7 +256,100 @@ class NLParsing(PRACModule):
                 processed_word_set.add(processed_word)
             dbs.append(db_)
         return dbs
+    
+    def create_compound_nouns(self,sentence):
+        # print "Before cn process {}".format(sentence)
+        isNNPredicate = True
+        result = sentence
+        db = []
+        
+        #Connect proper nouns together to one proper compound noun
+        while isNNPredicate:
+            isNNPredicate = False
+            #Assuming there is only one given instruction
+            db = list(self.parse_instructions(result))[0]
+            
+            for q1 in db.query('nn(?w1,?w2)'):
+                n1 = q1['?w1']
+                n2 = q1['?w2']
+                n1Word = '-'.join(n1.split('-')[:-1])
+                n2Word = '-'.join(n2.split('-')[:-1])
+                
+                #Check if all nouns are proper nouns
+                for _ in db.query('has_pos({},NNP)'.format(n1)):
+                    for _ in db.query('has_pos({},NNP)'.format(n2)):
+                        temp_result = re.sub('{}\s+{}'.format(n2Word,n1Word),'{}_{}'.format(n2Word,n1Word),result)
+                        if not result == temp_result:
+                            result = temp_result 
+                            isNNPredicate = True
+            
+        #Some compound nouns will be correct recognized by the Stanford parser e.g swimming pool or sugar bowl.
+        db = list(self.parse_instructions(result))[0]
+        for q1 in db.query('nn(?w1,?w2)'):
+            n1 = q1['?w1']
+            n2 = q1['?w2']
+            n1Word = '-'.join(n1.split('-')[:-1])
+            n2Word = '-'.join(n2.split('-')[:-1])
+            
+            temp_lemma = '{}_{}'.format(n2Word,n1Word)
+            syns = self.get_synset(temp_lemma, 'n')
+            #If synset is available add to result
+            if len(syns) > 0:
+                result = re.sub('{}\s+{}'.format(n2Word,n1Word),temp_lemma,result)
+                
+        result = self.check_amod_nouns(result)
+        #print "After cn process {}".format(result)
+        
+        return result 
+    
+    def get_synset(self,word,wordnet_pos):
+        wordnet = WordNet(concepts=None)
+        if wordnet_pos == 'unk':
+            return []
+        return wordnet.synsets(word,wordnet_pos)
+    
+    def check_amod_nouns(self,sentence):
+        result = sentence
+        db = list(self.parse_instructions(result))[0]
+        #Check if recognized adj gives possibility to be part of compound nouns e.g baking sheet or washing machine.
+        for q1 in db.query('amod(?w1,?w2)'):
+            noun = '-'.join(q1['?w1'].split('-')[:-1])
+            adj = '-'.join(q1['?w2'].split('-')[:-1])
+            syns = self.get_synset('{}_{}'.format(adj,noun), 'n')
+            #As check to handle cases like sugar bowl versus metal bowl
+            if len(syns) > 0:
+                result = re.sub('{}\s+{}'.format(adj,noun),'{}_{}'.format(adj,noun),result)
+                
+        return result
+    
+    def parse_instructions(self,instructions):
+        cmd = "python {} '{}'".format(os.path.join(self.module_path, 'src',
+                                                   'caller.py'),
+                                      "' '".join(instructions))
 
+        print cmd
+        res = subprocess.check_output(cmd, shell=True)
+
+        # separate dbs
+        dbs = res.split('---\n')
+        if '' in dbs:
+            dbs.remove('')
+        
+        prac_dbs = []
+        
+        for db_ in dbs:
+            db = Database(self.mln)
+            sp = db_.split('\n')
+            if '' in sp:
+                sp.remove('')
+
+            for r in sp:
+                db << r
+        
+            prac_dbs.append(db)
+        
+        return prac_dbs
+    
     @PRACPIPE
     def __call__(self, pracinference):
 
@@ -272,29 +366,11 @@ class NLParsing(PRACModule):
         print colorize('Parsing NL instructions:', (None, 'white', True),
                        True), ' '.join(pracinference.instructions)
 
-        cmd = "python {} '{}'".format(os.path.join(self.module_path, 'src',
-                                                   'caller.py'),
-                                      "' '".join(pracinference.instructions))
-
-        print cmd
-        res = subprocess.check_output(cmd, shell=True)
-
-        # separate dbs
-        dbs = res.split('---\n')
-        if '' in dbs:
-            dbs.remove('')
-
-        # read db entries
+        dbs =  self.parse_instructions(pracinference.instructions)
         pngs = {}
-        for i, db_ in enumerate(dbs):
-            db = Database(self.mln)
-            sp = db_.split('\n')
-            if '' in sp:
-                sp.remove('')
-
-            for r in sp:
-                db << r
-
+        
+        for i, db in enumerate(dbs):
+            
             step.output_dbs.extend(
                 self.extract_multiple_action_cores(db))
 
