@@ -33,6 +33,8 @@ def store_frames_into_database(text_file_name,frames):
     
     frames_collection = ies_mongo_db.Frames
     plan_list = []
+    
+    '''
     prac = PRAC()
     prac.wordnet = WordNet(concepts=None)
     print text_file_name
@@ -50,6 +52,7 @@ def store_frames_into_database(text_file_name,frames):
     
     print roles_dict
     raw_input("roles_dict")
+    '''
     
     try:
         for frame in frames:
@@ -107,7 +110,17 @@ class FrameExtractor(object):
         self.parser.mln.declare_predicate(Predicate('has_sense',['word','sense!']))
         self.parser.mln.declare_predicate(Predicate('is_a',['sense','concept']))
         self.result = FrameExtractorResult()
+    
+    def parse_sentence(self,sentence):
+        prac = PRAC()
+        prac.wordnet = WordNet(concepts=None)
+
+        inference = PRACInference(prac, [sentence])
+        parser = prac.getModuleByName('nl_parsing')
+        prac.run(inference, parser)
         
+        return inference.inference_steps[-1].output_dbs
+         
     def extract_frames(self):
         i = 0
         for path_to_text_file in self.corpus:
@@ -205,25 +218,26 @@ class FrameExtractor(object):
         for s in sentences:
             sentence = s.strip().replace('"','')
             sentence = sentence.strip().replace("'",'')
-            #TODO ADD PREPROCESSING
+            
             sentence = self.process_imperative_sentence(sentence)
             is_sentence_parsed = False
             sentence_number += 1
-            db = []
+            dbs = None
 
             while not is_sentence_parsed:  
                 try:
-                    #TODO ADD PREPROCESSING
-                    sentence = self.create_compound_nouns(sentence)
-                    db = list(self.parser.parse_without_prac(sentence))[0]
+                    dbs = self.parse_sentence(sentence)
+                    frame_builder_results = []
                     
-                    frame_builder_result = self.build_frames(text_source_file, sentence_number, sentence, db)
-                    result.add_frame_builder_result(frame_builder_result)
-                    frame_list.extend(frame_builder_result.frame_list)
+                    for db in dbs:
+                        frame_builder_results.append(self.build_frames(text_source_file, sentence_number, sentence, db))
+                    
+                    for frame_builder_result in frame_builder_results:    
+                        result.add_frame_builder_result(frame_builder_result)
+                        frame_list.extend(frame_builder_result.frame_list)
                     
                     is_sentence_parsed = True
                    
-                #TODO add except no_frame and no_predicate
                 except NoSuchPredicateError:
                     _, exc_value , _ = sys.exc_info()
                     predicate_name = str(exc_value).split(' ')[1].strip()
@@ -243,7 +257,7 @@ class FrameExtractor(object):
                 except Exception:
                     #TODO add logger
                     traceback.print_exc()
-                    raw_input("prompt")
+                    
                     result.parsing_error_sentences_list.append(LogFileSentenceRepresentation(sentence,None,None))
                     result.num_parsing_errors_sentences += 1
                     result.num_errors += 1
@@ -270,63 +284,6 @@ class FrameExtractor(object):
             
         return result
     
-    def check_amod_nouns(self,sentence):
-        result = sentence
-        db = list(self.parser.parse_without_prac(result))[0]
-        #Check if recongized adj gives possibility to be part of compound nouns e.g baking sheet or washing machine.
-        for q1 in db.query('amod(?w1,?w2)'):
-            noun = '-'.join(q1['?w1'].split('-')[:-1])
-            adj = '-'.join(q1['?w2'].split('-')[:-1])
-            syns = get_synset('{}_{}'.format(adj,noun), 'n')
-            #As check to handle cases like sugar bowl versus metal bowl
-            if len(syns) > 0:
-                result = re.sub('{}\s+{}'.format(adj,noun),'{}_{}'.format(adj,noun),result)
-                
-        return result
-        
-    def create_compound_nouns(self,sentence):
-        # print "Before cn process {}".format(sentence)
-        isNNPredicate = True
-        result = sentence
-        db = []
-        
-        #Connect proper nouns together to one proper compound noun
-        while isNNPredicate:
-            isNNPredicate = False
-            db = list(self.parser.parse_without_prac(result))[0]
-            
-            for q1 in db.query('compound(?w1,?w2)'):
-                n1 = q1['?w1']
-                n2 = q1['?w2']
-                n1Word = '-'.join(n1.split('-')[:-1])
-                n2Word = '-'.join(n2.split('-')[:-1])
-                
-                #Check if all nouns are proper nouns
-                for _ in db.query('has_pos({},NNP)'.format(n1)):
-                    for _ in db.query('has_pos({},NNP)'.format(n2)):
-                        temp_result = re.sub('{}\s+{}'.format(n2Word,n1Word),'{}_{}'.format(n2Word,n1Word),result)
-                        if not result == temp_result:
-                            result = temp_result 
-                            isNNPredicate = True
-            
-        #Some compound nouns will be correct recognized by the Stanford parser e.g swimming pool or sugar bowl.
-        db = list(self.parser.parse_without_prac(result))[0]
-        for q1 in db.query('compound(?w1,?w2)'):
-            n1 = q1['?w1']
-            n2 = q1['?w2']
-            n1Word = '-'.join(n1.split('-')[:-1])
-            n2Word = '-'.join(n2.split('-')[:-1])
-            
-            temp_lemma = '{}_{}'.format(n2Word,n1Word)
-            syns = get_synset(temp_lemma, 'n')
-            #If synset is available add to result
-            if len(syns) > 0:
-                result = re.sub('{}\s+{}'.format(n2Word,n1Word),temp_lemma,result)
-                
-        result = self.check_amod_nouns(result)
-        #print "After cn process {}".format(result)
-        
-        return result 
                 
     def process_imperative_sentence(self,sentence):
         return '"{}"'.format(sentence)       
