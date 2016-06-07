@@ -44,6 +44,7 @@ java.classpath.append(
 grammarPath = os.path.join(PRAC_HOME, '3rdparty', 'stanford-parser-2012-02-03',
                            'grammar', 'englishPCFG.ser.gz')
 
+wordnet = WordNet(concepts=None)
 
 class ParserError(Exception):
     def __init__(self, *args, **margs):
@@ -267,7 +268,7 @@ class NLParsing(PRACModule):
         while isNNPredicate:
             isNNPredicate = False
             #Assuming there is only one given instruction
-            db = list(self.parse_instructions(result))[0]
+            db = list(self.parse_instructions([result]))[0]
             
             for q1 in db.query('nn(?w1,?w2)'):
                 n1 = q1['?w1']
@@ -284,7 +285,7 @@ class NLParsing(PRACModule):
                             isNNPredicate = True
             
         #Some compound nouns will be correct recognized by the Stanford parser e.g swimming pool or sugar bowl.
-        db = list(self.parse_instructions(result))[0]
+        db = list(self.parse_instructions([result]))[0]
         for q1 in db.query('nn(?w1,?w2)'):
             n1 = q1['?w1']
             n2 = q1['?w2']
@@ -303,14 +304,11 @@ class NLParsing(PRACModule):
         return result 
     
     def get_synset(self,word,wordnet_pos):
-        wordnet = WordNet(concepts=None)
-        if wordnet_pos == 'unk':
-            return []
         return wordnet.synsets(word,wordnet_pos)
     
     def check_amod_nouns(self,sentence):
         result = sentence
-        db = list(self.parse_instructions(result))[0]
+        db = list(self.parse_instructions([result]))[0]
         #Check if recognized adj gives possibility to be part of compound nouns e.g baking sheet or washing machine.
         for q1 in db.query('amod(?w1,?w2)'):
             noun = '-'.join(q1['?w1'].split('-')[:-1])
@@ -365,7 +363,16 @@ class NLParsing(PRACModule):
         print
         print colorize('Parsing NL instructions:', (None, 'white', True),
                        True), ' '.join(pracinference.instructions)
-
+        
+        
+        processed_instructions = []
+        
+        
+        for instruction in pracinference.instructions:
+            processed_instructions.append(self.create_compound_nouns(instruction))
+        
+        pracinference.instructions = processed_instructions
+        
         dbs =  self.parse_instructions(pracinference.instructions)
         pngs = {}
         
