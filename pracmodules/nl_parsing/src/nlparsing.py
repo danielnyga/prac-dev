@@ -29,12 +29,15 @@ import jpype
 
 from prac.core.base import PRACModule, PRACPIPE, PRAC_HOME
 from prac.core.inference import PRACInferenceStep
+from prac.core.wordnet import WordNet
 from prac import java
-from pracmln import Database, MLN
+from pracmln import Database, MLN, MLNQuery
+from pracmln.mln.base import parse_mln
 from pracmln.mln.util import colorize
+from pracmln.utils.project import MLNProject
 from pracmln.praclog import logger
 from pracmln.utils.visualization import get_cond_prob_png
-from prac.core.wordnet import WordNet
+
 
 
 log_ = logger(__name__)
@@ -348,6 +351,35 @@ class NLParsing(PRACModule):
         
         return prac_dbs
     
+    def identify_control_structures(self,dbs,log,**params):
+        if params.get('project', None) is None:
+            # load default project
+            projectpath = self.project_path
+            ac_project = MLNProject.open(projectpath)
+        else:
+            log.info(colorize('Loading Project from params', (None, 'cyan', True), True))
+            projectpath = os.path.join(params.get('projectpath', None) or self.module_path, params.get('project').name)
+            ac_project = params.get('project')
+
+        mlntext = ac_project.mlns.get(ac_project.queryconf['mln'], None)
+        mln = parse_mln(mlntext, searchpaths=[self.module_path], projectpath=projectpath, logic=ac_project.queryconf.get('logic', 'FirstOrderLogic'), grammar=ac_project.queryconf.get('grammar', 'PRACGrammar'))
+                
+        result_dbs = []
+        
+        for db in dbs:
+            db_ = db.copy()
+            # result_db = list(kb.infer(tmp_union_db))[0]
+            infer = MLNQuery(config=ac_project.queryconf, db=db, mln=mln).run()
+            result_db = infer.resultdb
+            for q in result_db.query('event(?w,?ac)'):
+                db_ << 'event({},{})'.format(q['?w'],q['?ac'])
+            for q in result_db.query('condition(?w)'):
+                db_ << 'condition({})'.format(q['?w'])
+                
+            result_dbs.append(db_)
+
+        return result_dbs    
+    
     @PRACPIPE
     def __call__(self, pracinference):
 
@@ -369,15 +401,17 @@ class NLParsing(PRACModule):
         
         
         for instruction in pracinference.instructions:
-            processed_instructions.append(self.create_compound_nouns(instruction))
+            processed_instructions.append(
+                self.create_compound_nouns(instruction))
         
         pracinference.instructions = processed_instructions
         
         dbs =  self.parse_instructions(pracinference.instructions)
+        dbs =  self.identify_control_structures(dbs, log_)
+        
         pngs = {}
         
         for i, db in enumerate(dbs):
-            
             step.output_dbs.extend(
                 self.extract_multiple_action_cores(db))
 
