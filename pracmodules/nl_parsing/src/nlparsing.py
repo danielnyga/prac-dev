@@ -368,14 +368,17 @@ class NLParsing(PRACModule):
         
         for db in dbs:
             db_ = db.copy()
+            db_ << "cs_name(CS-1)"
             # result_db = list(kb.infer(tmp_union_db))[0]
-            infer = MLNQuery(config=ac_project.queryconf, db=db, mln=mln).run()
+            infer = MLNQuery(config=ac_project.queryconf, db=db_, mln=mln).run()
             result_db = infer.resultdb
-            for q in result_db.query('event(?w,?ac)'):
-                db_ << 'event({},{})'.format(q['?w'],q['?ac'])
-            for q in result_db.query('condition(?w)'):
-                db_ << 'condition({})'.format(q['?w'])
+            
+            for q in result_db.query('event(?w,?n)'):
+                db_ << 'event({},{})'.format(q['?w'],q['?n'])
                 
+            for q in result_db.query('condition(?w,?n)'):
+                db_ << 'condition({},{})'.format(q['?w'],q['?n'])
+                                
             result_dbs.append(db_)
 
         return result_dbs    
@@ -407,7 +410,10 @@ class NLParsing(PRACModule):
         pracinference.instructions = processed_instructions
         
         dbs =  self.parse_instructions(pracinference.instructions)
-        dbs =  self.identify_control_structures(dbs, log_)
+        try:
+            dbs =  self.identify_control_structures(dbs, log_)
+        except:
+            print "Cannot perform control structure recognition"
         
         pngs = {}
         
