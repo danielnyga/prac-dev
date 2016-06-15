@@ -410,16 +410,18 @@ class NLParsing(PRACModule):
         pracinference.instructions = processed_instructions
         
         dbs =  self.parse_instructions(pracinference.instructions)
+        '''
         try:
             dbs =  self.identify_control_structures(dbs, log_)
         except:
-            print "Cannot perform control structure recognition"
-        
+            print "Cannot perform control structure recognition."
+        '''
         pngs = {}
         
         for i, db in enumerate(dbs):
-            step.output_dbs.extend(
-                self.extract_multiple_action_cores(db))
+            step.output_dbs.append(db)
+            #step.output_dbs.extend(
+            #    self.extract_multiple_action_cores(db))
 
             print
             print colorize('Syntactic evidence:', (None, 'white', True),

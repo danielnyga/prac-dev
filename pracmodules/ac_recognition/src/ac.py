@@ -31,6 +31,7 @@ from pracmln.mln.util import colorize, out, stop
 from pracmln.praclog import logger
 from pracmln.utils.project import MLNProject
 from pracmln.utils.visualization import get_cond_prob_png
+from wx import PreDatePickerCtrl
 
 
 log = logger(__name__)
@@ -83,13 +84,91 @@ class ActionCoreIdentification(PRACModule):
             # for q in result_db.query('action_core(?w,?ac)'):
             #     log.info('Identified Action Core(s): {}'.format(colorize(q['?ac'], (None, 'white', True), True)))
             #     unified_db << 'action_core({},{})'.format(q['?w'],q['?ac'])
-
-            inf_step.output_dbs.append(unified_db)
+            
+            #inf_step.output_dbs.append(unified_db)
+            inf_step.output_dbs.extend(self.extract_multiple_action_cores(unified_db,wordnet_module,known_concepts))
             pngs[unified_db.domains.get('actioncore', [None])[0]] = get_cond_prob_png(ac_project.queryconf.get('queries', ''), dbs, filename=self.name)
             inf_step.png = pngs
             inf_step.applied_settings = ac_project.queryconf.config
         return inf_step
     
+    def extract_multiple_action_cores(self, db,wordnet_module,known_concepts):
+        dbs = []
+        verb_list = []
+        
+        for q in db.query('action_core(?w,?ac)'):
+            verb_list.append(q['?w'])
+            
+        if len(verb_list) < 2:
+            return [db]
+
+        # TODO improve the handling
+        # Handle sentence with start with .....
+        '''
+        if len(verb_list) == 2:
+            db.write()
+            for word in ['start', 'Start']:
+                for _ in db.query('prepc_with({}-1,?p)'.format(word)):
+                    return [db]
+        '''
+        
+        for verb in verb_list:
+            db_ = Database(db.mln)
+            processed_word_set = set()
+            remaining_word_set = set()
+            remaining_word_set.add(verb)
+
+            while remaining_word_set:
+                processed_word = remaining_word_set.pop()
+                is_condition = False
+
+                for atom, truth in sorted(db.evidence.iteritems()):
+                    
+                    _, pred, args = db.mln.logic.parse_literal(atom)
+                    
+                    if pred == "is_a" or pred == "has_sense":
+                        continue
+                    if pred == "action_core" and args[0] == processed_word:
+                        db_ << (atom,truth)
+                    elif len(args) == 1 and args[0] == processed_word:
+                        db_ << (atom,truth)
+                        is_condition = True
+                    elif len(args) > 1:
+                        word1 = args[0]
+                        word2 = args[1]
+
+                        dependency_word = ""
+                        if word1 == processed_word:
+                            dependency_word = word2
+                        elif word2 == processed_word:
+                            dependency_word = word1
+
+                        if dependency_word and (
+                                        dependency_word not in verb_list or
+                                        pred == "event") and (
+                                    dependency_word not in processed_word_set):
+                            if pred != 'event' or not is_condition:
+                                db_ << (atom,truth)
+                            if pred != 'has_pos' and pred != 'event':
+                                remaining_word_set.add(dependency_word)
+                processed_word_set.add(processed_word)
+            
+        
+            #Add valid senses and is_a concepts
+            temp_sense_db = wordnet_module.get_senses_and_similarities(db_, known_concepts)
+            valid_sense_list = temp_sense_db.domain('sense')
+            valid_word_list = temp_sense_db.domain('word')
+            
+            for atom, truth in sorted(db.evidence.iteritems()):
+                _, pred, args = db.mln.logic.parse_literal(atom)
+                if pred != "is_a" and pred != "has_sense": continue
+                
+                if pred == "is_a" and args[0] in valid_sense_list:
+                    db_ << (atom,truth)
+                elif pred == "has_sense" and args[0] in valid_word_list and args[1] in valid_sense_list:
+                    db_ << (atom,truth)
+            dbs.append(db_)
+        return dbs
     
     def train(self, praclearning):
         log = logger('prac')
