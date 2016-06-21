@@ -2,14 +2,14 @@
 PRAC Query-Tool
 ===============
 
-Start the tool from the command line with ``pracquery``.
+Start the tool from the command line with ``pracquery -i <instruction>``.
 
 .. figure:: _static/pracquerytool.png
 
-   The PRAC Query-Tool GUI.
+   The *PRAC* Query-Tool GUI.
 
 
-The PRAC query tool is an interface to make inferences  *here be dragons*
+The *PRAC* query tool is an interface to make inferences  *here be dragons*
 
 
 * a ground atom, e.g. ``foobar(X,Y)``
@@ -36,7 +36,6 @@ The additional parameters include:
     This setting will have no effect on functional predicates and will  print a warning for soft-functional predicates.
 
 
-* the option to show additional debug outputs during the execution when using the internal system (additional parameter: ``debug='INFO'``). This field can also be used to pass additional, method-specific parameters to the algorithm, which are documented in :doc:`inferencemethods`.
-
+* the option to show additional debug outputs during the execution when using the internal system (additional parameter: ``debug='INFO'``). This field can also be used to pass additional, method-specific parameters to the algorithm, which are documented in `inferencemethods <http://pracmln.org/inferencemethods.html>`_.
 
 *  ``debug='<level>'`` This will temporarily set the debug level to the one specified. Admissible values are (with decreasing level of verbosity): ``DEBUG``, ``INFO``, ``WARNING``, ``ERROR``, ``CRITICAL``.

@@ -12,21 +12,33 @@ important. Executing such instructions in the way they are intended
 often requires robots to infer missing, and disambiguate given
 information using lots of common and commonsense knowledge.
 During my research work, I proposed the concept of *Probabilistic Action Cores*
-(**PRAC**) -- an activity-centric probabilistic knowledge base for interpretation,
+(*PRAC*) -- an activity-centric probabilistic knowledge base for interpretation,
 disambiguation and completion of underspecified and vaguely stated
 instructions in natural language.
 
 This package consists of an implementation of probabilistic knowledge
 services for natural-language instruction interpretation
 as a Python module (`prac`) that you can use to work with these services in
-your own Python scripts. For an introduction into using `prac` in
+your own Python scripts. For an introduction into using *PRAC* in
 your own scripts, see :doc:`apidoc`.
 
+
+Release notes
+^^^^^^^^^^^^^
+
+  * Release |release| (XX.06.2016)
+
+
+    * *Initial Release*
+
+
 Contents:
+^^^^^^^^^
  
 .. toctree::
    :maxdepth: 2
 
+   features
    setup
    intro
    apidoc

@@ -155,7 +155,7 @@ class PRAC(object):
 
 
     def run(self, pracinfer, inference, *args, **kwargs):
-        """
+        '''
         Runs module with the given module name on the given PRACInference
         object.
         - pracinfer:    the PRACInference object.
@@ -163,7 +163,8 @@ class PRAC(object):
                         instance.
         - *args:        the arguments passed to the inference callable.
         - **kwargs:     the keyword arguments passed to the inference callable.
-        """
+        '''
+
         inferenceStep = inference(pracinfer, *args, **kwargs)
         if inferenceStep is None or type(inferenceStep) != PRACInferenceStep:
             PRAC.log.exception('{}.__call__() must return a PRACInferenceStep '
