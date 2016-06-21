@@ -99,36 +99,13 @@ run the *PRAC* pipeline.
 API Reference
 ^^^^^^^^^^^^^
 
-:class:`prac.core.base.PRAC`
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 .. automodule:: prac.core.base
-    :members: PRAC
+    :members: PRAC, PRACModule
 
-
-:class:`prac.core.base.PRACModule`
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. automodule:: prac.core.base
-    :members: PRACModule
-
-
-:class:`prac.core.wordnet.WordNet`
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. automodule:: prac.core.wordnet
     :members: WordNet
 
 
-:class:`prac.core.inference.PRACInference`
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 .. automodule:: prac.core.inference
-    :members: PRACInference
-
-
-:class:`prac.core.inference.PRACInferenceStep`
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. automodule:: prac.core.inference
-    :members: PRACInferenceStep
+    :members: PRACInference, PRACInferenceStep
