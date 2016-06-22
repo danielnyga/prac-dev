@@ -126,7 +126,7 @@ class WNSenses(PRACModule):
             pos = posMap.get(res['?pos'], None)
             # if no possible sense can be determined by WordNet, assert false
             # for all possible senses
-            if pos is None:
+            if pos is None or not wordnet.synsets('-'.join(word_const.split('-')[:-1]),pos):
                 for s in db_.domain('sense'):
                     db_ << '!has_sense({},{})'.format(word_const, s)
         return db_
