@@ -82,10 +82,9 @@ class PRACInference(object):
             return 'prop_extraction'
         elif previous_module == 'prop_extraction':
             return 'senses_and_roles'
-        #elif previous_module == 'senses_and_roles':
-        #    return 'coref_resolution'
-        #elif previous_module == 'coref_resolution':
         elif previous_module == 'senses_and_roles':
+            return 'coref_resolution'
+        elif previous_module == 'coref_resolution':
             for outdb in self.inference_steps[-1].output_dbs:
 
                 if self.is_task_missing_roles(outdb):
