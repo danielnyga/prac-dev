@@ -30,36 +30,38 @@ from ies_models.Sense import convert_word_to_lemma,get_synset, nounTags
 def store_frames_into_database(text_file_name,frames):
     mongo_client = MongoClient()
     ies_mongo_db = mongo_client.IES
-    
     frames_collection = ies_mongo_db.Frames
     plan_list = []
     
-    
-    prac = PRAC()
-    prac.wordnet = WordNet(concepts=None)
-    
-    #Parse text file name to annotate it in the mongo db
-    inference = PRACInference(prac, ["{}.".format(os.path.basename(text_file_name))])
-    while inference.next_module() != 'role_look_up'  and inference.next_module() != 'achieved_by'  and inference.next_module() != 'plan_generation':
-        
-        modulename = inference.next_module()
-        module = prac.getModuleByName(modulename)
-        prac.run(inference, module)
-    
-    db = inference.inference_steps[-1].output_dbs[0]
-    roles_dict = RolequeryHandler.query_roles_and_senses_based_on_action_core(db)
-    
-    actioncore = ""
-    #It will be assumed that there is only one true action_core predicate per database 
-    for q in db.query("action_core(?w,?ac)"):
-        actioncore = q["?ac"]
-    
-    if not actioncore:
-        actioncore = "Unknown" 
-        
+    actioncore = "UNKNOWN"
+    roles_dict = {}
+
     try:
-        for frame in frames:
-            plan_list.append(json.loads(frame.to_json_str()))
+        prac = PRAC()
+        prac.wordnet = WordNet(concepts=None)
+    
+        #Parse text file name to annotate it in the mongo db
+        inference = PRACInference(prac, ["{}.".format(os.path.basename(text_file_name))])
+        while inference.next_module() != 'role_look_up'  and inference.next_module() != 'achieved_by'  and inference.next_module() != 'plan_generation':
+        
+            modulename = inference.next_module()
+            module = prac.getModuleByName(modulename)
+            prac.run(inference, module)
+    
+        db = inference.inference_steps[-1].output_dbs[0]
+        roles_dict = RolequeryHandler.query_roles_and_senses_based_on_action_core(db)
+    
+        #It will be assumed that there is only one true action_core predicate per database 
+        for q in db.query("action_core(?w,?ac)"):
+            actioncore = q["?ac"]
+    
+    except:
+        actioncore = "UNKNOWN" 
+
+    for frame in frames:
+        plan_list.append(json.loads(frame.to_json_str()))
+
+    try:
         document = {'_id' : text_file_name,"action_core" : actioncore, "action_roles" : roles_dict,'plan_list' : plan_list}    
         frames_collection.insert_one(document)
     except pymongo.errors.DuplicateKeyError:
