@@ -3,7 +3,8 @@ Created on Sep 2, 2015
 
 @author: Sebastian Koralewski (seba@informatik.uni-bremen.de)
 '''
-from multiprocessing import Pool, cpu_count
+from concurrent.futures import ProcessPoolExecutor as Pool
+from multiprocessing import cpu_count
 import json
 
 from pymongo import MongoClient
@@ -35,10 +36,10 @@ def extract_frames_of_corpus(corpus,use_multicore=False):
     if use_multicore:
         result = FrameExtractorResult()
         corpus_sub_lists = MultiprocessingMethods.split_list_in_n_equal_sub_lists(corpus_, cpu_count())
-        workerPool = Pool(processes=cpu_count())
-        temp_result_list = workerPool.map_async(run_frame_extraction_process, corpus_sub_lists).get()
-        workerPool.close()
-        workerPool.join()
+        workerPool = Pool(max_workers=cpu_count())
+        temp_result_list = list(workerPool.map(run_frame_extraction_process, corpus_sub_lists))
+        workerPool.shutdown()
+        #workerPool.join()
         
         for temp_result in temp_result_list:
             #TODO update to frame_extractor_result
@@ -132,7 +133,7 @@ def store_results_into_database(data_list,collection,log_file):
 if __name__ == '__main__':
     args = sys.argv[1:]
     if args:
-        result = extract_frames_of_corpus(args[0],False)
+        result = extract_frames_of_corpus(args[0],True)
     else:
         print "Please provide a path to a corpus." 
         
