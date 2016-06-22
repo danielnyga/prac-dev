@@ -109,14 +109,15 @@ class WNSenses(PRACModule):
                 for concept in concepts:
                     sim = wordnet.similarity(synset, concept, 'path')
                     db_ << ('is_a({},{})'.format(sense_id, concept), sim)
-
+        
         for word in word2senses:
             for word2, senses in word2senses.iteritems():
                 if word2 == word:
                     continue
                 else:
                     for s in senses:
-                        db_ << '!has_sense({},{})'.format(word, s)
+                        if not s in word2senses[word]:
+                            db_ << '!has_sense({},{})'.format(word, s)
 
         # assert false for combinations of possible senses and
         # words without POS tag
