@@ -101,19 +101,35 @@ class RoleLookUp(PRACModule):
             # Build query, return only frames where all roles are defined
 
             if missing_role_set:
-                roles_query = [{"action_core": "{}".format(actioncore)}]
-                roles_query.extend(map(lambda x: {
-                    "actioncore_roles.{}".format(x): {'$exists': 'true'}},
-                                       actioncore_roles_list))
-
+                and_conditions = [{'$eq' : ["$$plan.action_core", "{}".format(actioncore)]}]
+                and_conditions.extend(map(lambda x: {
+                    "$ifNull" : ["$$plan.actioncore_roles.{}".format(x),'false']},
+                        actioncore_roles_list))
+                
+                roles_query ={"$and" : and_conditions}                
                 # build query based on inferred senses and roles
+                
+                stage_1 = {'$project' : {
+                            'plan_list' : {
+                                '$filter' :{
+                                    'input':"$plan_list",
+                                    'as':"plan",
+                                    'cond': roles_query
+                                }
+                            },'_id':0
+                            }
+                           }
+                
+                stage_2 = {"$unwind": "$plan_list"}
                 print "Sending query to MONGO DB ..."
-                cursor = frames_collection.find({'$and': roles_query})
-
+                cursor_agg = frames_collection.aggregate([stage_1,stage_2])
+                cursor = []
                 # After the processing it is impossible to retrieve document
                 # by index
-                cloned_cursor = cursor.clone()
-                if cursor.count() > 0:
+                for document in cursor_agg:
+                    cursor.append(document['plan_list'])
+                
+                if len(cursor) > 0:
                     print "Found suitable frames"
                     frame_result_list = transform_documents_to_action_role_map(
                         cursor)
@@ -128,7 +144,7 @@ class RoleLookUp(PRACModule):
 
                     if current_max_score >= confidence_level:
                         frame = frame_result_list[argmax_index]
-                        document = cloned_cursor[argmax_index]
+                        document = cursor[argmax_index]
                         i = 0
                         for missing_role in missing_role_set:
                             word = "{}mongo{}".format(str(

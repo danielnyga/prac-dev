@@ -29,7 +29,7 @@ from ies_models.Sense import convert_word_to_lemma,get_synset, nounTags
 
 def store_frames_into_database(text_file_name,frames):
     mongo_client = MongoClient()
-    ies_mongo_db = mongo_client.IES
+    ies_mongo_db = mongo_client.PRAC
     frames_collection = ies_mongo_db.Frames
     plan_list = []
     
@@ -74,13 +74,14 @@ def store_frames_into_database(text_file_name,frames):
 
 def store_logs_into_database(logs):
     mongo_client = MongoClient()
-    ies_mongo_db = mongo_client.IES
+    ies_mongo_db = mongo_client.PRAC
     logs_collection = ies_mongo_db.Logs
     
     log_file = open("logs.log","w")
     store_results_into_database(logs, logs_collection,log_file)
     log_file.close()
     mongo_client.close()
+
 def store_results_into_database(data_list,collection,log_file):
     
     for data in data_list:
