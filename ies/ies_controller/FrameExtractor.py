@@ -268,7 +268,7 @@ class FrameExtractor(object):
                     result.num_parsing_errors_sentences += 1
                     result.num_errors += 1
                     is_sentence_parsed = True
-        #self.result.add_process_text_file_result(result)
+        self.result.add_process_text_file_result(result)
         return frame_list
     
     def create_permutation_of_slot_values(self,list_of_current_slot_value_dicts,list_of_new_slot_values,new_slot_value_key):
