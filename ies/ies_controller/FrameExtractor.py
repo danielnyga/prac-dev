@@ -10,6 +10,7 @@ from prac.core.inference import PRACInference
 from prac.core.wordnet import WordNet
 import sys
 from ies_models.Frame import Frame
+from prac.pracutils.RolequeryHandler import RolequeryHandler
 
 from pymongo import MongoClient
 import pymongo
@@ -28,15 +29,40 @@ from ies_models.Sense import convert_word_to_lemma,get_synset, nounTags
 
 def store_frames_into_database(text_file_name,frames):
     mongo_client = MongoClient()
-    ies_mongo_db = mongo_client.IES
-    
+    ies_mongo_db = mongo_client.PRAC
     frames_collection = ies_mongo_db.Frames
     plan_list = []
-     
+    
+    actioncore = "UNKNOWN"
+    roles_dict = {}
+
     try:
-        for frame in frames:
-            plan_list.append(json.loads(frame.to_json_str()))
-        document = {'_id' : text_file_name, 'plan_list' : plan_list}    
+        prac = PRAC()
+        prac.wordnet = WordNet(concepts=None)
+    
+        #Parse text file name to annotate it in the mongo db
+        inference = PRACInference(prac, ["{}.".format(os.path.basename(text_file_name))])
+        while inference.next_module() != 'role_look_up'  and inference.next_module() != 'achieved_by'  and inference.next_module() != 'plan_generation':
+        
+            modulename = inference.next_module()
+            module = prac.getModuleByName(modulename)
+            prac.run(inference, module)
+    
+        db = inference.inference_steps[-1].output_dbs[0]
+        roles_dict = RolequeryHandler.query_roles_and_senses_based_on_action_core(db)
+    
+        #It will be assumed that there is only one true action_core predicate per database 
+        for q in db.query("action_core(?w,?ac)"):
+            actioncore = q["?ac"]
+    
+    except:
+        actioncore = "UNKNOWN" 
+
+    for frame in frames:
+        plan_list.append(json.loads(frame.to_json_str()))
+
+    try:
+        document = {'_id' : text_file_name,"action_core" : actioncore, "action_roles" : roles_dict,'plan_list' : plan_list}    
         frames_collection.insert_one(document)
     except pymongo.errors.DuplicateKeyError:
         frames_collection.delete_many({"_id" : document['_id']})
@@ -48,13 +74,14 @@ def store_frames_into_database(text_file_name,frames):
 
 def store_logs_into_database(logs):
     mongo_client = MongoClient()
-    ies_mongo_db = mongo_client.IES
+    ies_mongo_db = mongo_client.PRAC
     logs_collection = ies_mongo_db.Logs
     
     log_file = open("logs.log","w")
     store_results_into_database(logs, logs_collection,log_file)
     log_file.close()
     mongo_client.close()
+
 def store_results_into_database(data_list,collection,log_file):
     
     for data in data_list:
@@ -89,7 +116,17 @@ class FrameExtractor(object):
         self.parser.mln.declare_predicate(Predicate('has_sense',['word','sense!']))
         self.parser.mln.declare_predicate(Predicate('is_a',['sense','concept']))
         self.result = FrameExtractorResult()
+    
+    def parse_sentence(self,sentence):
+        prac = PRAC()
+        prac.wordnet = WordNet(concepts=None)
+
+        inference = PRACInference(prac, [sentence])
+        parser = prac.getModuleByName('nl_parsing')
+        prac.run(inference, parser)
         
+        return inference.inference_steps[-1].output_dbs
+         
     def extract_frames(self):
         i = 0
         for path_to_text_file in self.corpus:
@@ -187,25 +224,26 @@ class FrameExtractor(object):
         for s in sentences:
             sentence = s.strip().replace('"','')
             sentence = sentence.strip().replace("'",'')
-            #TODO ADD PREPROCESSING
+            
             sentence = self.process_imperative_sentence(sentence)
             is_sentence_parsed = False
             sentence_number += 1
-            db = []
+            dbs = None
 
             while not is_sentence_parsed:  
                 try:
-                    #TODO ADD PREPROCESSING
-                    sentence = self.create_compound_nouns(sentence)
-                    db = list(self.parser.parse_without_prac(sentence))[0]
+                    dbs = self.parse_sentence(sentence)
+                    frame_builder_results = []
                     
-                    frame_builder_result = self.build_frames(text_source_file, sentence_number, sentence, db)
-                    result.add_frame_builder_result(frame_builder_result)
-                    frame_list.extend(frame_builder_result.frame_list)
+                    for db in dbs:
+                        frame_builder_results.append(self.build_frames(text_source_file, sentence_number, sentence, db))
+                    
+                    for frame_builder_result in frame_builder_results:    
+                        result.add_frame_builder_result(frame_builder_result)
+                        frame_list.extend(frame_builder_result.frame_list)
                     
                     is_sentence_parsed = True
                    
-                #TODO add except no_frame and no_predicate
                 except NoSuchPredicateError:
                     _, exc_value , _ = sys.exc_info()
                     predicate_name = str(exc_value).split(' ')[1].strip()
@@ -225,12 +263,12 @@ class FrameExtractor(object):
                 except Exception:
                     #TODO add logger
                     traceback.print_exc()
-                    raw_input("prompt")
+                    
                     result.parsing_error_sentences_list.append(LogFileSentenceRepresentation(sentence,None,None))
                     result.num_parsing_errors_sentences += 1
                     result.num_errors += 1
                     is_sentence_parsed = True
-        #self.result.add_process_text_file_result(result)
+        self.result.add_process_text_file_result(result)
         return frame_list
     
     def create_permutation_of_slot_values(self,list_of_current_slot_value_dicts,list_of_new_slot_values,new_slot_value_key):
@@ -252,63 +290,6 @@ class FrameExtractor(object):
             
         return result
     
-    def check_amod_nouns(self,sentence):
-        result = sentence
-        db = list(self.parser.parse_without_prac(result))[0]
-        #Check if recongized adj gives possibility to be part of compound nouns e.g baking sheet or washing machine.
-        for q1 in db.query('amod(?w1,?w2)'):
-            noun = '-'.join(q1['?w1'].split('-')[:-1])
-            adj = '-'.join(q1['?w2'].split('-')[:-1])
-            syns = get_synset('{}_{}'.format(adj,noun), 'n')
-            #As check to handle cases like sugar bowl versus metal bowl
-            if len(syns) > 0:
-                result = re.sub('{}\s+{}'.format(adj,noun),'{}_{}'.format(adj,noun),result)
-                
-        return result
-        
-    def create_compound_nouns(self,sentence):
-        # print "Before cn process {}".format(sentence)
-        isNNPredicate = True
-        result = sentence
-        db = []
-        
-        #Connect proper nouns together to one proper compound noun
-        while isNNPredicate:
-            isNNPredicate = False
-            db = list(self.parser.parse_without_prac(result))[0]
-            
-            for q1 in db.query('compound(?w1,?w2)'):
-                n1 = q1['?w1']
-                n2 = q1['?w2']
-                n1Word = '-'.join(n1.split('-')[:-1])
-                n2Word = '-'.join(n2.split('-')[:-1])
-                
-                #Check if all nouns are proper nouns
-                for _ in db.query('has_pos({},NNP)'.format(n1)):
-                    for _ in db.query('has_pos({},NNP)'.format(n2)):
-                        temp_result = re.sub('{}\s+{}'.format(n2Word,n1Word),'{}_{}'.format(n2Word,n1Word),result)
-                        if not result == temp_result:
-                            result = temp_result 
-                            isNNPredicate = True
-            
-        #Some compound nouns will be correct recognized by the Stanford parser e.g swimming pool or sugar bowl.
-        db = list(self.parser.parse_without_prac(result))[0]
-        for q1 in db.query('compound(?w1,?w2)'):
-            n1 = q1['?w1']
-            n2 = q1['?w2']
-            n1Word = '-'.join(n1.split('-')[:-1])
-            n2Word = '-'.join(n2.split('-')[:-1])
-            
-            temp_lemma = '{}_{}'.format(n2Word,n1Word)
-            syns = get_synset(temp_lemma, 'n')
-            #If synset is available add to result
-            if len(syns) > 0:
-                result = re.sub('{}\s+{}'.format(n2Word,n1Word),temp_lemma,result)
-                
-        result = self.check_amod_nouns(result)
-        #print "After cn process {}".format(result)
-        
-        return result 
                 
     def process_imperative_sentence(self,sentence):
         return '"{}"'.format(sentence)       

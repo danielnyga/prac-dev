@@ -29,11 +29,15 @@ import jpype
 
 from prac.core.base import PRACModule, PRACPIPE, PRAC_HOME
 from prac.core.inference import PRACInferenceStep
+from prac.core.wordnet import WordNet
 from prac import java
-from pracmln import Database, MLN
+from pracmln import Database, MLN, MLNQuery
+from pracmln.mln.base import parse_mln
 from pracmln.mln.util import colorize
+from pracmln.utils.project import MLNProject
 from pracmln.praclog import logger
 from pracmln.utils.visualization import get_cond_prob_png
+
 
 
 log_ = logger(__name__)
@@ -43,6 +47,7 @@ java.classpath.append(
 grammarPath = os.path.join(PRAC_HOME, '3rdparty', 'stanford-parser-2012-02-03',
                            'grammar', 'englishPCFG.ser.gz')
 
+wordnet = WordNet(concepts=None)
 
 class ParserError(Exception):
     def __init__(self, *args, **margs):
@@ -255,8 +260,129 @@ class NLParsing(PRACModule):
                 processed_word_set.add(processed_word)
             dbs.append(db_)
         return dbs
+    
+    def create_compound_nouns(self,sentence):
+        # print "Before cn process {}".format(sentence)
+        isNNPredicate = True
+        result = sentence
+        db = []
+        
+        #Connect proper nouns together to one proper compound noun
+        while isNNPredicate:
+            isNNPredicate = False
+            #Assuming there is only one given instruction
+            db = list(self.parse_instructions([result]))[0]
+            
+            for q1 in db.query('nn(?w1,?w2)'):
+                n1 = q1['?w1']
+                n2 = q1['?w2']
+                n1Word = '-'.join(n1.split('-')[:-1])
+                n2Word = '-'.join(n2.split('-')[:-1])
+                
+                #Check if all nouns are proper nouns
+                for _ in db.query('has_pos({},NNP)'.format(n1)):
+                    for _ in db.query('has_pos({},NNP)'.format(n2)):
+                        temp_result = re.sub('{}\s+{}'.format(n2Word,n1Word),'{}_{}'.format(n2Word,n1Word),result)
+                        if not result == temp_result:
+                            result = temp_result 
+                            isNNPredicate = True
+            
+        #Some compound nouns will be correct recognized by the Stanford parser e.g swimming pool or sugar bowl.
+        db = list(self.parse_instructions([result]))[0]
+        for q1 in db.query('nn(?w1,?w2)'):
+            n1 = q1['?w1']
+            n2 = q1['?w2']
+            n1Word = '-'.join(n1.split('-')[:-1])
+            n2Word = '-'.join(n2.split('-')[:-1])
+            
+            temp_lemma = '{}_{}'.format(n2Word,n1Word)
+            syns = self.get_synset(temp_lemma, 'n')
+            #If synset is available add to result
+            if len(syns) > 0:
+                result = re.sub('{}\s+{}'.format(n2Word,n1Word),temp_lemma,result)
+                
+        result = self.check_amod_nouns(result)
+        #print "After cn process {}".format(result)
+        
+        return result 
+    
+    def get_synset(self,word,wordnet_pos):
+        return wordnet.synsets(word,wordnet_pos)
+    
+    def check_amod_nouns(self,sentence):
+        result = sentence
+        db = list(self.parse_instructions([result]))[0]
+        #Check if recognized adj gives possibility to be part of compound nouns e.g baking sheet or washing machine.
+        for q1 in db.query('amod(?w1,?w2)'):
+            noun = '-'.join(q1['?w1'].split('-')[:-1])
+            adj = '-'.join(q1['?w2'].split('-')[:-1])
+            syns = self.get_synset('{}_{}'.format(adj,noun), 'n')
+            #As check to handle cases like sugar bowl versus metal bowl
+            if len(syns) > 0:
+                result = re.sub('{}\s+{}'.format(adj,noun),'{}_{}'.format(adj,noun),result)
+                
+        return result
+    
+    def parse_instructions(self,instructions):
+        cmd = "python {} '{}'".format(os.path.join(self.module_path, 'src',
+                                                   'caller.py'),
+                                      "' '".join(instructions))
 
+        print cmd
+        res = subprocess.check_output(cmd, shell=True)
 
+        # separate dbs
+        dbs = res.split('---\n')
+        if '' in dbs:
+            dbs.remove('')
+        
+        prac_dbs = []
+        
+        for db_ in dbs:
+            db = Database(self.mln)
+            sp = db_.split('\n')
+            if '' in sp:
+                sp.remove('')
+
+            for r in sp:
+                db << r
+        
+            prac_dbs.append(db)
+        
+        return prac_dbs
+    
+    def identify_control_structures(self,dbs,log,**params):
+        if params.get('project', None) is None:
+            # load default project
+            projectpath = self.project_path
+            ac_project = MLNProject.open(projectpath)
+        else:
+            log.info(colorize('Loading Project from params', (None, 'cyan', True), True))
+            projectpath = os.path.join(params.get('projectpath', None) or self.module_path, params.get('project').name)
+            ac_project = params.get('project')
+
+        mlntext = ac_project.mlns.get(ac_project.queryconf['mln'], None)
+        mln = parse_mln(mlntext, searchpaths=[self.module_path], projectpath=projectpath, logic=ac_project.queryconf.get('logic', 'FirstOrderLogic'), grammar=ac_project.queryconf.get('grammar', 'PRACGrammar'))
+                
+        result_dbs = []
+        
+        for db in dbs:
+            db_ = db.copy()
+            db_ << "cs_name(CS-1)"
+            # result_db = list(kb.infer(tmp_union_db))[0]
+            infer = MLNQuery(config=ac_project.queryconf, db=db_, mln=mln).run()
+            result_db = infer.resultdb
+            
+            for q in result_db.query('event(?w,?n)'):
+                db_ << 'event({},{})'.format(q['?w'],q['?n'])
+                
+            for q in result_db.query('condition(?w,?n)'):
+                db_ << 'condition({},{})'.format(q['?w'],q['?n'])
+                                
+            result_dbs.append(db_)
+
+        return result_dbs    
+    
     @PRACPIPE
     def __call__(self, pracinference):
 
@@ -272,32 +398,30 @@ class NLParsing(PRACModule):
         print
         print colorize('Parsing NL instructions:', (None, 'white', True),
                        True), ' '.join(pracinference.instructions)
-
-        cmd = "python {} '{}'".format(os.path.join(self.module_path, 'src',
-                                                   'caller.py'),
-                                      "' '".join(pracinference.instructions))
-
-        print cmd
-        res = subprocess.check_output(cmd, shell=True)
-
-        # separate dbs
-        dbs = res.split('---\n')
-        if '' in dbs:
-            dbs.remove('')
-
-        # read db entries
+        
+        
+        processed_instructions = []
+        
+        
+        for instruction in pracinference.instructions:
+            processed_instructions.append(
+                self.create_compound_nouns(instruction))
+        
+        pracinference.instructions = processed_instructions
+        
+        dbs =  self.parse_instructions(pracinference.instructions)
+        '''
+        try:
+            dbs =  self.identify_control_structures(dbs, log_)
+        except:
+            print "Cannot perform control structure recognition."
+        '''
         pngs = {}
-        for i, db_ in enumerate(dbs):
-            db = Database(self.mln)
-            sp = db_.split('\n')
-            if '' in sp:
-                sp.remove('')
-
-            for r in sp:
-                db << r
-
-            step.output_dbs.extend(
-                self.extract_multiple_action_cores(db))
+        
+        for i, db in enumerate(dbs):
+            step.output_dbs.append(db)
+            #step.output_dbs.extend(
+            #    self.extract_multiple_action_cores(db))
 
             print
             print colorize('Syntactic evidence:', (None, 'white', True),
