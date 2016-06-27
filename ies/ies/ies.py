@@ -51,7 +51,6 @@ if __name__ == '__main__':
     args = sys.argv[1:]
     if args:
         result = extract_frames_of_corpus(args[0],True)
-        print result.num_sentences
     else:
         print "Please provide a path to a corpus." 
         
