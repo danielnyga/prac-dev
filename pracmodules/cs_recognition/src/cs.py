@@ -31,7 +31,7 @@ from pracmln.mln.util import colorize, out, stop
 from pracmln.praclog import logger
 from pracmln.utils.project import MLNProject
 from pracmln.utils.visualization import get_cond_prob_png
-
+from pracmln.mln.errors import NoConstraintsError
 
 log = logger(__name__)
 
@@ -68,13 +68,22 @@ class ControlStructureIdentification(PRACModule):
         inf_step = PRACInferenceStep(pracinference, self)
 
         pngs = {}
+        num_of_control_structures = 1
+        
         for i, db in enumerate(dbs):
             db_ = db.copy()
-            db_  << "cs_name(CS-1)"
+            db_  << "cs_name(CS-{})".format(str(num_of_control_structures))
             # result_db = list(kb.infer(tmp_union_db))[0]
-            infer = MLNQuery(config=ac_project.queryconf, db=db_, mln=mln).run()
-            inf_step.output_dbs.append(infer.resultdb)
-
+            
+            try:
+                infer = MLNQuery(config=ac_project.queryconf, db=db_, mln=mln).run()
+                inf_step.output_dbs.append(infer.resultdb)
+                #Database contains control structure since the MLN can be grounded
+                num_of_control_structures += 1
+            except NoConstraintsError:
+                #Database does not contain control structure since the MLN cannot be grounded
+                inf_step.output_dbs.append(db)
+                
             pngs['CS' + str(i)] = get_cond_prob_png(ac_project.queryconf.get('queries', ''), dbs, filename=self.name)
             inf_step.png = pngs
 
