@@ -70,15 +70,10 @@ class ControlStructureIdentification(PRACModule):
         pngs = {}
         for i, db in enumerate(dbs):
             db_ = db.copy()
+            db_  << "cs_name(CS-1)"
             # result_db = list(kb.infer(tmp_union_db))[0]
-            infer = MLNQuery(config=ac_project.queryconf, db=db, mln=mln).run()
-            result_db = infer.resultdb
-            for q in result_db.query('event(?w,?ac)'):
-                db_ << 'event({},{})'.format(q['?w'],q['?ac'])
-            for q in result_db.query('condition(?w)'):
-                db_ << 'condition({})'.format(q['?w'])
-                
-            inf_step.output_dbs.append(db_)
+            infer = MLNQuery(config=ac_project.queryconf, db=db_, mln=mln).run()
+            inf_step.output_dbs.append(infer.resultdb)
 
             pngs['CS' + str(i)] = get_cond_prob_png(ac_project.queryconf.get('queries', ''), dbs, filename=self.name)
             inf_step.png = pngs

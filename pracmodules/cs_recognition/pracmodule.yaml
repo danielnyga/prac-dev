@@ -22,7 +22,7 @@
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 module_name: 'cs_recognition'
-description: 'Tries to detect control structures in natural language sturctures.'
+description: 'Tries to detect control structures in natural language sentences.'
 dependencies: ['nl_parsing']
 class_name: 'cs.ControlStructureIdentification'
 declarations: ['predicates.mln']

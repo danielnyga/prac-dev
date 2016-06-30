@@ -73,7 +73,6 @@ class ActionCoreIdentification(PRACModule):
         for db_ in dbs:
             db = wordnet_module.get_senses_and_similarities(db_, known_concepts)
             tmp_union_db = db.union(db_, mln=self.prac.mln)
-
             # result_db = list(kb.infer(tmp_union_db))[0]
             infer = MLNQuery(config=ac_project.queryconf, db=tmp_union_db, mln=mln).run()
             result_db = infer.resultdb
@@ -85,8 +84,8 @@ class ActionCoreIdentification(PRACModule):
             #     log.info('Identified Action Core(s): {}'.format(colorize(q['?ac'], (None, 'white', True), True)))
             #     unified_db << 'action_core({},{})'.format(q['?w'],q['?ac'])
             
-            #inf_step.output_dbs.append(unified_db)
-            inf_step.output_dbs.extend(self.extract_multiple_action_cores(unified_db,wordnet_module,known_concepts))
+            inf_step.output_dbs.append(unified_db)
+            #inf_step.output_dbs.extend(self.extract_multiple_action_cores(unified_db,wordnet_module,known_concepts))
             pngs[unified_db.domains.get('actioncore', [None])[0]] = get_cond_prob_png(ac_project.queryconf.get('queries', ''), dbs, filename=self.name)
             inf_step.png = pngs
             inf_step.applied_settings = ac_project.queryconf.config
@@ -102,16 +101,6 @@ class ActionCoreIdentification(PRACModule):
         if len(verb_list) < 2:
             return [db]
 
-        # TODO improve the handling
-        # Handle sentence with start with .....
-        '''
-        if len(verb_list) == 2:
-            db.write()
-            for word in ['start', 'Start']:
-                for _ in db.query('prepc_with({}-1,?p)'.format(word)):
-                    return [db]
-        '''
-        
         for verb in verb_list:
             db_ = Database(db.mln)
             processed_word_set = set()
