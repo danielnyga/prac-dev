@@ -24,6 +24,7 @@ import subprocess
 import re
 import os
 import sys
+import itertools
 
 import jpype
 
@@ -37,7 +38,7 @@ from pracmln.mln.util import colorize
 from pracmln.utils.project import MLNProject
 from pracmln.praclog import logger
 from pracmln.utils.visualization import get_cond_prob_png
-
+from prac_nltk.corpus import wordnet as wn
 
 
 log_ = logger(__name__)
@@ -48,6 +49,7 @@ grammarPath = os.path.join(PRAC_HOME, '3rdparty', 'stanford-parser-2012-02-03',
                            'grammar', 'englishPCFG.ser.gz')
 
 wordnet = WordNet(concepts=None)
+
 
 class ParserError(Exception):
     def __init__(self, *args, **margs):
@@ -260,51 +262,95 @@ class NLParsing(PRACModule):
                 processed_word_set.add(processed_word)
             dbs.append(db_)
         return dbs
-    
-    def create_compound_nouns(self,sentence):
-        # print "Before cn process {}".format(sentence)
-        isNNPredicate = True
-        result = sentence
-        db = []
-        
-        #Connect proper nouns together to one proper compound noun
-        while isNNPredicate:
-            isNNPredicate = False
-            #Assuming there is only one given instruction
-            db = list(self.parse_instructions([result]))[0]
-            
-            for q1 in db.query('nn(?w1,?w2)'):
-                n1 = q1['?w1']
-                n2 = q1['?w2']
-                n1Word = '-'.join(n1.split('-')[:-1])
-                n2Word = '-'.join(n2.split('-')[:-1])
-                
-                #Check if all nouns are proper nouns
-                for _ in db.query('has_pos({},NNP)'.format(n1)):
-                    for _ in db.query('has_pos({},NNP)'.format(n2)):
-                        temp_result = re.sub('{}\s+{}'.format(n2Word,n1Word),'{}_{}'.format(n2Word,n1Word),result)
-                        if not result == temp_result:
-                            result = temp_result 
-                            isNNPredicate = True
-            
-        #Some compound nouns will be correct recognized by the Stanford parser e.g swimming pool or sugar bowl.
-        db = list(self.parse_instructions([result]))[0]
-        for q1 in db.query('nn(?w1,?w2)'):
-            n1 = q1['?w1']
-            n2 = q1['?w2']
-            n1Word = '-'.join(n1.split('-')[:-1])
-            n2Word = '-'.join(n2.split('-')[:-1])
-            
-            temp_lemma = '{}_{}'.format(n2Word,n1Word)
-            syns = self.get_synset(temp_lemma, 'n')
-            #If synset is available add to result
-            if len(syns) > 0:
-                result = re.sub('{}\s+{}'.format(n2Word,n1Word),temp_lemma,result)
-                
-        result = self.check_amod_nouns(result)
-        #print "After cn process {}".format(result)
-        
-        return result 
+
+
+    @staticmethod
+    def find_compounds(sentence):
+        '''
+        Simple check for compound words in the input sentence (forward-check
+        if 3-word or 2-word pairs exist in ontology) No check for POS tag
+        included.
+        Examples:
+            * 'unload the washing machine and switch off the hair dryer'
+                will be replaced by 'unload the washing_machine and switch
+                off the hair_dryer'
+            * 'start the external combustion engine' will be replaced by
+                'start the external-combustion_engine'
+        '''
+        instr = sentence.split()
+        newinstr = []
+
+        i = 0
+        for _ in instr:
+            found = False
+            if i < len(instr):
+                for x in itertools.product('_-', repeat=2):
+                    tmpword = '{}{}{}{}{}'.format(instr[i], x[0], instr[min(len(instr)-1, i+1)], x[1], instr[min(len(instr)-1, i+2)])
+                    if len(wn.synsets(tmpword)) > 0:
+                        newinstr.append(tmpword)
+                        found = True
+                        i += 3
+                        break
+                if not found:
+                    for y in ['_', '-']:
+                        tmpword = '{}{}{}'.format(instr[i], y, instr[min(len(instr)-1, i+1)])
+                        if len(wn.synsets(tmpword)) > 0:
+                            newinstr.append(tmpword)
+                            found = True
+                            i += 2
+                            break
+                if not found:
+                    newinstr.append(instr[i])
+                    i += 1
+            else:
+                i+=1
+        return ' '.join(newinstr)
+
+
+    # def create_compound_nouns(self,sentence):
+    #     # print "Before cn process {}".format(sentence)
+    #     isNNPredicate = True
+    #     result = sentence
+    #     db = []
+    #
+    #     #Connect proper nouns together to one proper compound noun
+    #     while isNNPredicate:
+    #         isNNPredicate = False
+    #         #Assuming there is only one given instruction
+    #         db = list(self.parse_instructions([result]))[0]
+    #
+    #         for q1 in db.query('nn(?w1,?w2)'):
+    #             n1 = q1['?w1']
+    #             n2 = q1['?w2']
+    #             n1Word = '-'.join(n1.split('-')[:-1])
+    #             n2Word = '-'.join(n2.split('-')[:-1])
+    #
+    #             #Check if all nouns are proper nouns
+    #             for _ in db.query('has_pos({},NNP)'.format(n1)):
+    #                 for _ in db.query('has_pos({},NNP)'.format(n2)):
+    #                     temp_result = re.sub('{}\s+{}'.format(n2Word,n1Word),'{}_{}'.format(n2Word,n1Word),result)
+    #                     if not result == temp_result:
+    #                         result = temp_result
+    #                         isNNPredicate = True
+    #
+    #     #Some compound nouns will be correct recognized by the Stanford parser e.g swimming pool or sugar bowl.
+    #     db = list(self.parse_instructions([result]))[0]
+    #     for q1 in db.query('nn(?w1,?w2)'):
+    #         n1 = q1['?w1']
+    #         n2 = q1['?w2']
+    #         n1Word = '-'.join(n1.split('-')[:-1])
+    #         n2Word = '-'.join(n2.split('-')[:-1])
+    #
+    #         temp_lemma = '{}_{}'.format(n2Word,n1Word)
+    #         syns = self.get_synset(temp_lemma, 'n')
+    #         #If synset is available add to result
+    #         if len(syns) > 0:
+    #             result = re.sub('{}\s+{}'.format(n2Word,n1Word),temp_lemma,result)
+    #
+    #     result = self.check_amod_nouns(result)
+    #     #print "After cn process {}".format(result)
+    #
+    #     return result
     
     def get_synset(self,word,wordnet_pos):
         return wordnet.synsets(word,wordnet_pos)
@@ -403,7 +449,7 @@ class NLParsing(PRACModule):
         
         for instruction in pracinference.instructions:
             processed_instructions.append(
-                self.create_compound_nouns(instruction))
+                self.find_compounds(instruction))
 
         pracinference.instructions = processed_instructions
 
@@ -433,3 +479,8 @@ class NLParsing(PRACModule):
                 str(','.join(pracinference.instructions)), filename=self.name)
             step.png = pngs
         return step
+
+
+if __name__ == '__main__':
+    print NLParsing.find_compounds('unload the washing machine and switch off the hair dryer')
+    print NLParsing.find_compounds('start the external combustion engine')
