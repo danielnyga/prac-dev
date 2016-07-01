@@ -37,7 +37,8 @@ from pracmln.praclog import logger
 log = logger(__name__)
 
 basecols = ['green', 'yellow', 'brown', 'red', 'blue', 'orange']
-nounTags = ['NN', 'NNS', 'NNP', 'CD']
+nounTags = ['NN', 'NNS', 'NNP']
+numberTags = ['CD', 'PDT']
 verbTags = ['VB', 'VBG', 'VBZ', 'VBD', 'VBN', 'VBP', 'MD']
 adjTags = ['JJ', 'JJR', 'JJS']
 posMap = {}
@@ -47,6 +48,8 @@ for v in verbTags:
     posMap[v] = 'v'
 for a in adjTags:
     posMap[a] = 'a'
+for c in numberTags:
+    posMap[c] = 'c'
 
 
 class WNSenses(PRACModule):
@@ -109,7 +112,7 @@ class WNSenses(PRACModule):
                 for concept in concepts:
                     sim = wordnet.similarity(synset, concept, 'path')
                     db_ << ('is_a({},{})'.format(sense_id, concept), sim)
-        
+
         for word in word2senses:
             for word2, senses in word2senses.iteritems():
                 if word2 == word:

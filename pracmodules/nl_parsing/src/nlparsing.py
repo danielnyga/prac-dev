@@ -328,7 +328,7 @@ class NLParsing(PRACModule):
                                                    'caller.py'),
                                       "' '".join(instructions))
 
-        print cmd
+        log_.debug('Calling Stanford Parser: '.format(cmd))
         res = subprocess.check_output(cmd, shell=True)
 
         # separate dbs
@@ -357,7 +357,7 @@ class NLParsing(PRACModule):
             projectpath = self.project_path
             ac_project = MLNProject.open(projectpath)
         else:
-            log.info(colorize('Loading Project from params', (None, 'cyan', True), True))
+            log_.info(colorize('Loading Project from params', (None, 'cyan', True), True))
             projectpath = os.path.join(params.get('projectpath', None) or self.module_path, params.get('project').name)
             ac_project = params.get('project')
 
@@ -399,16 +399,14 @@ class NLParsing(PRACModule):
         print colorize('Parsing NL instructions:', (None, 'white', True),
                        True), ' '.join(pracinference.instructions)
         
-        
         processed_instructions = []
-        
         
         for instruction in pracinference.instructions:
             processed_instructions.append(
                 self.create_compound_nouns(instruction))
-        
+
         pracinference.instructions = processed_instructions
-        
+
         dbs =  self.parse_instructions(pracinference.instructions)
         '''
         try:

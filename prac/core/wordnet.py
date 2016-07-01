@@ -20,12 +20,19 @@
 # CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+from collections import deque
+from nltk.corpus import WordNetCorpusReader
 
 import os
 import itertools
 import prac_nltk
 # contains similarity dictionaries for colors, shapes, sizes, consistencies
-# and dimensions
+# and dimensions, as well as numbers and their related hypernym_paths
+import math
+from num2words import num2words
+from word2number import w2n
+import re
+from prac.core.errors import ConceptAlreadyExistsError, NoRationalNumber
 import properties
 import graphviz as gv
 from threading import RLock
@@ -38,12 +45,14 @@ from prac.pracutils.pracgraphviz import render_gv
 from pracmln.praclog import logger
 from pracmln.utils.graphml import Graph, Node as GMLNode, Edge
 
+
 log = logger(__name__)
 
 PRAC_HOME = os.environ['PRAC_HOME']
 prac_nltk.data.path = [os.path.join(PRAC_HOME, 'data', 'nltk_data')]
 
-NLTK_POS = ['n', 'v', 'a', 'r']
+NLTK_POS = ['n', 'v', 'a', 'r', 'c']
+ADJ_POS = ['s', 'a']
 
 colorsims = {}
 shapesims = {}
@@ -122,7 +131,6 @@ def synchronized(lock):
     Synchronization decorator.
     """
 
-
     def wrap(f):
         def func(*args, **kw):
             lock.acquire()
@@ -130,12 +138,134 @@ def synchronized(lock):
                 return f(*args, **kw)
             finally:
                 lock.release()
-
-
         return func
-
-
     return wrap
+
+
+class RationalNumberSynset(Synset):
+    def __init__(self, numstr, number=None, numtype=None, parent=None):
+        wordnet_corpus_reader = WordNetCorpusReader(os.path.join(PRAC_HOME,
+                                                                 'data',
+                                                                 'nltk_data',
+                                                                 'corpora',
+                                                                 'wordnet'))
+        super(RationalNumberSynset, self).__init__(wordnet_corpus_reader)
+        self.number = number
+        self.numtype = numtype
+        self.parent = parent
+        self.name = '{}.c.01'.format('_'.join(numstr.split())).replace('\\','')
+        self.pos = 'c'
+        self.origstr = numstr
+        self.lexname = 'noun.quantity'
+        self.definition = None
+        self.examples = []
+        self.setup_synset(numstr)
+
+
+    def setup_synset(self, numstr):
+
+        if self.number is None or self.numtype is None:
+            # numstr is either a word or a number
+            try:
+                self.number = float(numstr)
+
+                # is number real?
+                if '.' in numstr:
+                    self.numtype = float
+                # number is an integer
+                else:
+                    self.numtype = int
+            except:
+                # number is either a word or a fraction
+                number = w2n.word_to_num(numstr)
+                if isinstance(number, int):
+                    self.number = number
+                    self.numtype = int
+                # is number fraction?
+                elif '/' in numstr:
+                    num, denom = numstr.split('/')
+                    print num, denom, numstr
+                    self.number = float(float(num) / float(denom))
+                    self.numtype = float
+                else:
+                    raise NoRationalNumber('{} is not a valid rational number!'.format(numstr))
+
+        # find parent number with lowest difference to self.number
+        if self.parent is None:
+            diff = float('inf')
+            for c in properties.numbrs:
+                d = abs(self.number - properties.numbrs[c])
+                if d == 0.0:
+                    raise ConceptAlreadyExistsError(self.number)
+                if d < diff:
+                    diff = d
+                    self.parent = wordnet.synset(c)
+
+        # generate synset from number
+        self.definition = "Newly created concept of the number '{}' which " \
+                          "is represented by the rational " \
+                          "number {} ({}).".format(self.origstr, self.number,
+                                               str(num2words(self.number)))
+        self.examples = ['The number {} ({}).'.format(self.number,
+                                                      str(num2words(self.number)))]
+
+
+    def hypernyms(self):
+        return [self.parent]
+
+
+    def _hypernyms(self):
+        return [self.parent]
+
+
+def number_synsets(word):
+    word = word.replace('\\','')
+    if len(wordnet.synsets(word)) > 0:
+        synsets = wordnet.synsets(word)
+    else:
+        syn = number_synset(word)
+        synsets = [syn]
+    return synsets
+
+
+def number_synset(numstr):
+    # numstr is either a word or a number
+    try:
+        number = float(numstr)
+
+        # is number real?
+        if '.' in numstr:
+            numtype = float
+        # number is an integer
+        else:
+            numtype = int
+    except:
+        # number is either a word or a fraction
+        number = w2n.word_to_num(numstr)
+
+        if isinstance(number, int):
+            number = number
+            numtype = int
+        # is number fraction?
+        elif '/' in numstr:
+            num, denom = numstr.split('/')
+            number = float(float(num) / float(denom))
+            numtype = float
+        else:
+            raise NoRationalNumber('{} is not a valid rational number!'.format(numstr))
+
+    # find parent number with lowest difference to self.number
+    diff = float('inf')
+    syn = None
+
+    for c in properties.numbrs:
+        d = abs(number - properties.numbrs[c])
+        if d == 0.0:
+            return wordnet.synset(c)
+        if d < diff:
+            diff = d
+            syn = RationalNumberSynset(numstr, number, numtype, wordnet.synset(c))
+    return syn
 
 
 class WordNet(object):
@@ -186,7 +316,7 @@ class WordNet(object):
                     colorsims[k][c] = 0.0
                 # one chromatic, one achromatic
                 elif not (k in specs and c in specs) and not (
-                        k in achrspecs and c in achrspecs):
+                                k in achrspecs and c in achrspecs):
                     colorsims[k][c] = 130.
                 # colors on different halves of the hue-circle
                 elif abs(tempdict[k][0] - tempdict[c][0]) > 180:
@@ -294,25 +424,35 @@ class WordNet(object):
         """
         if pos not in NLTK_POS:
             log.exception('Unknown POS tag: %s' % pos)
-        synsets = wordnet.synsets(word, pos)
-        if self.core_taxonomy is not None:
-            synsets = filter(lambda s: s.name in self.known_concepts, synsets)
+
+        # special treatment for numbers
+        if pos == 'c':
+            synsets = number_synsets(word)
+        else:
+            synsets = wordnet.synsets(word, pos)
+            if self.core_taxonomy is not None:
+                synsets = filter(lambda s: s.name in self.known_concepts,
+                                 synsets)
         return synsets
 
 
     @synchronized(wordnetlock)
     def synset(self, synset_id):
         """
-        Returns the NLTK synset for the given id.
+        Returns either the RationalNumberSynset or the NLTK synset for the
+        given id.
         """
-        if synset_id == 'null':
-            return None
-        try:
-            synset = wordnet.synset(synset_id)
-            return synset
-        except Exception, e:
-            log.error('Could not obtain synset with ID "%s"' % synset_id)
-            raise e
+
+        if re.match(r'(.+)\.c\.(\w+)', synset_id) is not None:
+            s = synset_id.strip('.c.01')
+            return number_synset(s)
+        else:
+            try:
+                syn = wordnet.synset(synset_id)
+                return syn
+            except Exception, e:
+                log.error('Could not obtain synset with ID "{}"'.format(synset_id))
+                raise e
 
 
     @synchronized(wordnetlock)
@@ -345,6 +485,7 @@ class WordNet(object):
             synset2 = self.synset(synset2)
         if synset1 is None or synset2 is None:
             return 0.
+
         similarity = synset1.path_similarity(synset2)
         return max(0.000, 0. if similarity is None else similarity)
 
@@ -400,7 +541,7 @@ class WordNet(object):
 
         if simulate_root:
             self_hypernyms = chain(synset._iter_hypernym_lists(),
-                                    [[fake_synset]])
+                                   [[fake_synset]])
             other_hypernyms = chain(other._iter_hypernym_lists(),
                                     [[fake_synset]])
         else:
@@ -429,6 +570,7 @@ class WordNet(object):
         except ValueError:
             return []
 
+
     # returns generator of 1-dimensional list
     @synchronized(wordnetlock)
     def flatten(self, iterable):
@@ -445,6 +587,7 @@ class WordNet(object):
                 iterable = itertools.chain(data, iterable)
             except:
                 yield item
+
 
     # gets the synsets of the derivationally related forms of adjSynsets'
     # Lemmas flattens the list to get one-dimensional list without duplicates
@@ -472,7 +615,6 @@ class WordNet(object):
         another synset from adjectives.
         """
 
-        ADJ_POS = ['s', 'a']
         posdiff = 0.
 
         if type(synset1) is str:
@@ -534,6 +676,13 @@ class WordNet(object):
         if synset1 == synset2:
             return 1.0
 
+        # separate check for numbers
+        if hasattr(synset1, '__prac_syn') or hasattr(synset2, '__prac_syn'):
+            if simtype == 'path':
+                return self.path_similarity(synset1, synset2)
+            else:
+                return self.wup(synset1, synset2, posdiff)
+
         # additional knowledge: if one synset is in the hypernym path of the
         # other, they are considered closely related
         if self.syns_hyp_relation(synset1, synset2) > 0.:
@@ -583,7 +732,8 @@ class WordNet(object):
     @synchronized(wordnetlock)
     def syns_hyp_relation(self, syn1, syn2):
         lch = syn1.lowest_common_hypernyms(syn2)
-        if syn1 not in lch and syn2 not in lch: return 0.
+        if syn1 not in lch and syn2 not in lch:
+            return 0.
         if not any(syn2 in path for path in syn1.hypernym_paths()):
             syn1len = min([float(len(x)) for x in syn1.hypernym_paths()])
         else:
@@ -596,7 +746,7 @@ class WordNet(object):
             syn2len = min([float(len(x)) for x in syn2.hypernym_paths()])
         else:
             for path in syn2.hypernym_paths():
-                if not syn1 in path:
+                if syn1 not in path:
                     continue
                 else:
                     syn2len = float(len(path))
@@ -641,7 +791,7 @@ class WordNet(object):
             synset = self.synset(synset)
         if synset is None:
             return 0
-        assert type(synset) == Synset
+        assert type(synset) == Synset or type(synset) == origSynset
 
         height = self.__get_subtree_height(synset)
         return height
@@ -673,7 +823,8 @@ class WordNet(object):
         """
         if type(synset) is str:
             synset = self.synset(synset)
-            if synset is None: return None
+            if synset is None:
+                return None
         if self.core_taxonomy is None:
             return synset.hypernym_paths()
         paths = []
@@ -682,7 +833,7 @@ class WordNet(object):
             for concept in path:
                 if concept.name in self.known_concepts:
                     new_path.append(concept)
-            if not new_path in paths:
+            if new_path not in paths:
                 paths.append(new_path)
         return paths
 
@@ -755,5 +906,29 @@ class WordNet(object):
 
 if __name__ == '__main__':
     wn = WordNet()
-    syns = wn.get_all_synsets()
-    print syns[:20], len(syns)
+
+    s1 = wn.synsets('150', 'c')[0]
+    s2 = wn.synsets('155.6', 'c')[0]
+
+
+
+    # s1 = wn.synset('24.c.01')
+    # s2 = wn.synset('25.c.01')
+
+    print 's1', s1, type(s1)
+    # print 'parent', s1.parent
+    print 'definition', s1.definition
+    print 'lexname', s1.lexname
+    print 'examples', s1.examples
+    print 'parents', s1.hypernyms()
+
+    print
+    print 's2', s2, type(s2)
+    # print 'parent', s2.parent
+    print 'definition', s2.definition
+    print 'lexname', s2.lexname
+    print 'examples', s2.examples
+    print 'parents', s2.hypernyms()
+
+    print wn.similarity(s1, s2)
+
