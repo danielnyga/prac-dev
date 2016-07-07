@@ -20,10 +20,18 @@
 # CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-import logging
-
+# add 3rd party components to pythonpath, if necessary
+import locations
 import os
 import sys
+
+modules = ['nltk_2.0b9']
+for module in modules:
+    path = os.path.join(locations.thirdparty, module)
+    if path not in sys.path:
+        sys.path.append(path)
+
+import logging
 from prac.core.inference import PRACInferenceStep
 from prac.core.wordnet import WordNet
 from pracmln import Database, MLN
@@ -32,26 +40,53 @@ from pracmln import Database, MLN
 import pracmln
 from pracmln.mln.base import parse_mln
 from pracmln.mln.database import parse_db
-from pracmln.mln.util import mergedom, out, stop
+from pracmln.mln.util import mergedom, out, stop, ifNone
 from pracmln.mlnquery import MLNQuery
 from pracmln.utils.config import query_config_pattern
 from pracmln.utils.project import PRACMLNConfig
+from ConfigParser import ConfigParser
 
 PRAC_HOME = os.environ['PRAC_HOME']
 prac_module_path = os.path.join(PRAC_HOME, 'pracmodules')
 
-# add 3rd party components to pythonpath, if necessary
-dill_path = os.path.join(PRAC_HOME, '3rdparty', 'dill-0.2b1')
-if dill_path not in sys.path:
-    sys.path.append(dill_path)
 
 from string import whitespace, strip
-import pickle
 import fnmatch
 import yaml
-from pracmln.utils.latexmath2png import math2png
 
 log = pracmln.praclog.logger(__name__)
+
+
+class PRACConfig(ConfigParser):
+    '''
+    Global configuration data structure for PRAC.
+    
+    Wraps around a ConfigParser
+    '''
+    DEFAULTS = {
+        'mongodb': {
+            'host': 'localhost',
+            'port': 27017,
+            'user': '',
+            'password': ''
+        }
+    }
+    
+    def __init__(self, filename=None):
+        ConfigParser.__init__(self, allow_no_value=True)
+        for section, values in self.DEFAULTS.iteritems():
+            self.add_section(section)
+            for key, value in values.iteritems():
+                self.set(section, key, value)
+        if filename is not None:
+            self.read(filename)
+    
+    def write(self, filename=None):
+        filename = ifNone(filename, 'pracconf')
+        filepath = os.path.join(locations.home, filename)
+        with open(filepath, 'w+') as f:
+            ConfigParser.write(self, f)
+
 
 class PRAC(object):
     '''
@@ -60,8 +95,9 @@ class PRAC(object):
     
     log = logging.getLogger('PRAC')
     
-    def __init__(self):
+    def __init__(self, configfile=None):
         # read all the manifest files.
+        self.config = PRACConfig(configfile)
         self.actioncores = ActionCore.readFromFile(os.path.join(PRAC_HOME, 'models', 'actioncores.yaml'))
         self.moduleManifests = []
         self.moduleManifestByName = {}
@@ -453,24 +489,10 @@ if __name__ == '__main__':
     '''
     main routine for testing and debugging purposes only!.
     '''
-    log = logging.getLogger('PRAC')
-#     ac = ActionCore.readFromFile('/home/nyga/code/prac/models/Flipping/actioncore.yaml')
-    prac = PRAC()
-    infer = PRACInference(prac, ['Flip the pancake around.', 'Put on a plate.'])
-    prac.infer('nl_parsing', infer)
-    prac.infer('wn_senses', infer)
-    for i, db in enumerate(infer.inference_steps[-1].output_dbs):
-        log.debug('\nInstruction #%d\n' % (i+1))
-        for lit in db.iterGroundLiteralStrings():
-            log.debug(lit)
-#     mod = PRACModule.fromDefinition(open('/home/nyga/code/prac/pracmodules/nl_parsing/pracmodule.yaml', 'r'))
-    #     print mod.name
-#     print mod.description
-#     mod.default_mln.write(sys.stdout)
-    
-    
-    
-    
+    conf = PRACConfig()
+    print conf.get('mongodb', 'host')
+    conf.set('mongodb', 'host', '127.0.0.1')
+    conf.write()
     
 
 
