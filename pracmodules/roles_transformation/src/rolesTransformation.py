@@ -25,8 +25,6 @@ import yaml
 
 from prac.core.base import PRACModule, PRACPIPE
 from prac.core.inference import PRACInferenceStep
-from prac.pracutils.ActioncoreDescriptionHandler import \
-    ActioncoreDescriptionHandler
 from pracmln import Database, MLNQuery
 from pracmln.mln.base import parse_mln
 from pracmln.mln.util import colorize, out
@@ -131,8 +129,7 @@ class RolesTransformation(PRACModule):
                     result_db = db
 
                 r_db = Database(self.prac.mln)
-                roles = ActioncoreDescriptionHandler.getRolesBasedOnActioncore(
-                    actioncore)
+                roles = self.prac.actioncores[actioncore].roles
                 for atom, truth in sorted(result_db.evidence.iteritems()):
                     if any(r in atom for r in roles):
                         (

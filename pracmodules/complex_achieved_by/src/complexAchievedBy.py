@@ -117,8 +117,7 @@ class ComplexAchievedBy(PRACModule):
             out("Sending query to MONGO DB ...")
             cursor = instructions_collection.find(
                 {'action_core': '{}'.format(actioncore)})
-            roles_dict = RolequeryHandler.query_roles_and_senses_based_on_achieved_by(
-                db)
+            roles_dict = RolequeryHandler(self.prac).query_roles_and_senses_based_on_achieved_by(db)
             documents_vector = []
 
             # After the 'for loop' it is impossible to retrieve document by index

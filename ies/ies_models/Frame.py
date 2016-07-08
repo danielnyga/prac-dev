@@ -90,12 +90,12 @@ class Frame(object):
                 self.actioncore = q['?ac']
         
     
-    def try_to_determine_action_roles(self,prac,infer):
+    def try_to_determine_action_roles(self, prac, infer):
         senses_and_roles_module = prac.getModuleByName('senses_and_roles')
         senses_and_roles_module.initialize()
         prac.run(infer,senses_and_roles_module,kb=None)
         result_db = infer.inference_steps[-1].output_dbs[0]
-        roles_db = RolequeryHandler.queryRoles(self.actioncore,result_db)
+        roles_db = RolequeryHandler(prac).queryRoles(self.actioncore, result_db)
         
         senses_dict = {}
         roles_dict = {}

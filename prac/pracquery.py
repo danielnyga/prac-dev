@@ -920,7 +920,7 @@ if __name__ == '__main__':
                                 print
                         else:
                             print '%.3f    %s' % (v, a)
-                RolequeryHandler.queryRolesBasedOnActioncore(db).write(color=True)
+                RolequeryHandler(prac).queryRolesBasedOnActioncore(db).write(color=True)
     
         if hasattr(inference.inference_steps[-1], 'executable_plans'):
             print

@@ -31,7 +31,6 @@ from pracmln.mln.util import colorize, out, stop
 from pracmln.praclog import logger
 from pracmln.utils.project import MLNProject
 from pracmln.utils.visualization import get_cond_prob_png
-from wx import PreDatePickerCtrl
 
 
 log = logger(__name__)
