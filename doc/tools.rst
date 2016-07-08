@@ -96,12 +96,12 @@ which has the following members:
 Integrated Editors
 ------------------
 
-For every learning/inference task, you must specify which MLN syntax
-and logic calculus is to be used:
+For every learning/inference task, you must specify which logic calculus is
+to be used:
 
 .. figure:: _static/logic-grammar-selection.png
 
-   Selection of the MLN syntax (grammar) and logic calculus.
+   Selection of the MLN logic calculus.
 
 The dropdown menus in the `MLN` and `DB` sections of the GUIs display
 all MLN or DB files in the project. In order to inspect or edit
@@ -174,6 +174,6 @@ tool have in common, which can be set with the respective checkboxes:
   internal log level to ``DEBUG``. 
   
 For a more detailed overview of the parameters, see 
-:doc:`inferencemethods` and :doc:`learningmethods`.
+`inferencemethods <http://pracmln.org/inferencemethods.html>`_ and `learningmethods <http://pracmln.org/learningmethods.html>`_.
     
     

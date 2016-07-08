@@ -37,7 +37,8 @@ from pracmln.praclog import logger
 log = logger(__name__)
 
 basecols = ['green', 'yellow', 'brown', 'red', 'blue', 'orange']
-nounTags = ['NN', 'NNS', 'NNP', 'CD']
+nounTags = ['NN', 'NNS', 'NNP']
+numberTags = ['CD', 'PDT']
 verbTags = ['VB', 'VBG', 'VBZ', 'VBD', 'VBN', 'VBP', 'MD']
 adjTags = ['JJ', 'JJR', 'JJS']
 posMap = {}
@@ -47,6 +48,8 @@ for v in verbTags:
     posMap[v] = 'v'
 for a in adjTags:
     posMap[a] = 'a'
+for c in numberTags:
+    posMap[c] = 'c'
 
 
 class WNSenses(PRACModule):
@@ -116,7 +119,8 @@ class WNSenses(PRACModule):
                     continue
                 else:
                     for s in senses:
-                        db_ << '!has_sense({},{})'.format(word, s)
+                        if not s in word2senses[word]:
+                            db_ << '!has_sense({},{})'.format(word, s)
 
         # assert false for combinations of possible senses and
         # words without POS tag
@@ -125,7 +129,7 @@ class WNSenses(PRACModule):
             pos = posMap.get(res['?pos'], None)
             # if no possible sense can be determined by WordNet, assert false
             # for all possible senses
-            if pos is None:
+            if pos is None or not wordnet.synsets('-'.join(word_const.split('-')[:-1]),pos):
                 for s in db_.domain('sense'):
                     db_ << '!has_sense({},{})'.format(word_const, s)
         return db_

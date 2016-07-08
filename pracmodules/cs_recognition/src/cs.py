@@ -67,7 +67,8 @@ class ControlStructureIdentification(PRACModule):
         mln = parse_mln(mlntext, searchpaths=[self.module_path], projectpath=projectpath, logic=ac_project.queryconf.get('logic', 'FirstOrderLogic'), grammar=ac_project.queryconf.get('grammar', 'PRACGrammar'))
         inf_step = PRACInferenceStep(pracinference, self)
 
-        for db in dbs:
+        pngs = {}
+        for i, db in enumerate(dbs):
             db_ = db.copy()
             # result_db = list(kb.infer(tmp_union_db))[0]
             infer = MLNQuery(config=ac_project.queryconf, db=db, mln=mln).run()
@@ -79,8 +80,9 @@ class ControlStructureIdentification(PRACModule):
                 
             inf_step.output_dbs.append(db_)
 
-        png, ratio = get_cond_prob_png(ac_project.queryconf.get('queries', ''), dbs, filename=self.name)
-        inf_step.png = (png, ratio)
+            pngs['CS' + str(i)] = get_cond_prob_png(ac_project.queryconf.get('queries', ''), dbs, filename=self.name)
+            inf_step.png = pngs
+
         inf_step.applied_settings = ac_project.queryconf.config
     
         return inf_step

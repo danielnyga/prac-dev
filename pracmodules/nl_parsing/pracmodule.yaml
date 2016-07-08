@@ -26,4 +26,4 @@ description: "Takes an empty pracinference object and adds to it a database with
 dependencies: []
 class_name: "nlparsing.NLParsing" 
 declarations: ["predicates.mln"]
-
+project: 'cs_recognition.pracmln'

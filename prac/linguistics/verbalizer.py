@@ -137,7 +137,7 @@ class PRACVerbalizer(PRACReasoner):
                  self.drs[-1] = self._solve_dependencies(dep, query.param, self.drs[-1])
 
     def searchCtrlTemplate(self,role):
-        ctrl_deps = self.synParser.getDependencies(self.pracinference.ctrlStatement, True)
+        ctrl_deps = self.synParser.get_dependencies(self.pracinference.ctrlStatement, True)
 
         self.ctrltags = NLISentence()
         cldeps = map(str, ctrl_deps)
@@ -183,7 +183,7 @@ class PRACVerbalizer(PRACReasoner):
         print  
 
     def _pull_ctrl_syn_features(self):
-        ctrl_deps = self.synParser.getDependencies(self.pracinference.ctrlStatement, True)
+        ctrl_deps = self.synParser.get_dependencies(self.pracinference.ctrlStatement, True)
         cldeps = map(str, ctrl_deps)
         self.nlitags.add(cldeps)        
 

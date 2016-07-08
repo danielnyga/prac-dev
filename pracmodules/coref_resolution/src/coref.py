@@ -68,6 +68,7 @@ class CorefResolution(PRACModule):
             log.info('Got single database. Nothing to do here. Passing db...')
             return inf_step
 
+        pngs = {}
         for i, db in enumerate(dbs):
             if i == 0:
                 # no coreference resolution required for first database
@@ -177,12 +178,10 @@ class CorefResolution(PRACModule):
 
                 inf_step.output_dbs.append(newdb)
 
-                png, ratio = get_cond_prob_png(
-                    project.queryconf.get('queries', ''),
-                    dbs, filename=self.name)
-                inf_step.png = (png, ratio)
+                pngs['CoRef - ' + str(i)] = get_cond_prob_png(project.queryconf.get('queries', ''), dbs, filename=self.name)
+                inf_step.png = pngs
+
                 inf_step.applied_settings = project.queryconf.config
-        log.error('finishing coref')
         return inf_step
 
 

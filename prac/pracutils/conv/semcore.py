@@ -49,7 +49,7 @@ def readSemcor3File(filename):
             print '//', s
             for a in atoms:
                 print a
-            deps = parser.getDependencies(s)
+            deps = parser.get_dependencies(s)
             depstr = map(str, deps)
             # do some sanity check
             
