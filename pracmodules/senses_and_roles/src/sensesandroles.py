@@ -24,8 +24,6 @@ import os
 from prac.core.base import PRACModule, PRACPIPE
 from prac.core.inference import PRACInferenceStep
 from prac.core.wordnet import known_concepts, WordNet
-from prac.pracutils.ActioncoreDescriptionHandler import \
-    ActioncoreDescriptionHandler
 from prac.pracutils.pracgraphviz import render_gv
 from prac.sense_distribution import add_all_wordnet_similarities, \
     get_prob_color
@@ -141,8 +139,7 @@ class SensesAndRoles(PRACModule):
 
                 # ignore roles of false ac's
                 new_tmp_union_db = tmp_union_db.copy(mln=self.prac.mln)
-                roles = ActioncoreDescriptionHandler.getRolesBasedOnActioncore(
-                    actioncore)
+                roles = self.prac.actioncores[actioncore].roles
                 for q in tmp_union_db.query('action_core(?w, ?ac)', thr=0):
                     ac = q['?ac']
                     w = q['?w']
@@ -167,8 +164,7 @@ class SensesAndRoles(PRACModule):
                                                     mln=self.prac.mln)
 
                 # argdoms = kb.query_mln.predicate(role).argdoms
-                roles = ActioncoreDescriptionHandler.getRolesBasedOnActioncore(
-                    actioncore)
+                roles = self.prac.actioncores[actioncore].roles
                 new_result = Database(self.prac.mln)
                 for atom, truth in unified_db.evidence.iteritems():
                     if any(r in atom for r in roles):
@@ -249,8 +245,7 @@ class SensesAndRoles(PRACModule):
                     for res in db_.query('has_sense(%s, ?s)' % (word)):
                         sense = res['?s']
                         if sense == 'null': continue
-                        roles = ActioncoreDescriptionHandler.getRolesBasedOnActioncore(
-                            actioncore)
+                        roles = self.prac.actioncores[actioncore].roles
                         role = None
                         for r in roles:
                             vars = ['?v%d' % i for i in range(

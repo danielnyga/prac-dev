@@ -23,8 +23,6 @@
 
 from prac.pracutils import StopWatch
 from graphviz.dot import Digraph
-from prac.pracutils.ActioncoreDescriptionHandler import \
-    ActioncoreDescriptionHandler
 from prac.pracutils.pracgraphviz import render_gv
 from pracmln import Database
 from prac.pracutils.RolequeryHandler import RolequeryHandler
@@ -140,8 +138,7 @@ class PRACInference(object):
                 for atom, truth in db.evidence.iteritems():
                     if truth == 0: continue
                     _, predname, args = self.prac.mln.logic.parseLiteral(atom)
-                    if predname in ActioncoreDescriptionHandler.roles().union(
-                            ['has_sense', 'action_core', 'achieved_by']):
+                    if predname in self.prac.roles.union(['has_sense', 'action_core', 'achieved_by']):
                         finaldb << atom
                     #         finaldb.write(sys.stdout, color=True)
         g = Digraph(format='svg', engine='dot')
@@ -153,8 +150,7 @@ class PRACInference(object):
             g.node(actioncore, fillcolor='#bee280')
             g.node(sense)
             g.edge(actioncore, sense, label='is_a')
-            roles = ActioncoreDescriptionHandler.getRolesBasedOnActioncore(
-                actioncore)
+            roles = self.prac.actioncores[actioncore].roles
             for role in roles:
                 for res in db.query('%s(?w, %s) ^ has_sense(?w, ?s)' % (
                 role, actioncore)):
@@ -168,8 +164,7 @@ class PRACInference(object):
             g.node(a2, fillcolor='#bee280')
             g.edge(a1, a2, label='achieved_by')
             actioncore = a2
-            roles = ActioncoreDescriptionHandler.getRolesBasedOnActioncore(
-                actioncore)
+            roles = self.prac.actionroles[actioncore].roles
             for role in roles:
                 for res in db.query('%s(?w, %s) ^ has_sense(?w, ?s)' % (
                 role, actioncore)):
@@ -184,15 +179,13 @@ class PRACInference(object):
         for q in db.query('action_core(?w,?ac)'):
             actioncore = q['?ac']
 
-            roles_senses_dict = RolequeryHandler.query_roles_and_senses_based_on_action_core(
+            roles_senses_dict = RolequeryHandler(self.prac).query_roles_and_senses_based_on_action_core(
                 db)
             inferred_roles_set = set(roles_senses_dict.keys())
 
             # Determine missing roles: All_Action_Roles\Inferred_Roles
-            actioncore_roles_list = ActioncoreDescriptionHandler.get_required_roles_based_on_actioncore(
-                actioncore)
-            missing_role_set = set(actioncore_roles_list).difference(
-                inferred_roles_set)
+            actioncore_roles_list = self.prac.actioncores[actioncore].required_roles
+            missing_role_set = set(actioncore_roles_list).difference(inferred_roles_set)
 
             if missing_role_set:
                 return True

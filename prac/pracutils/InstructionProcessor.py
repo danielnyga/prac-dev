@@ -8,12 +8,11 @@ import json
 from pymongo import MongoClient,errors
 import StringIO
 
-def store_instruction_in_mongo_db(text_file_name,action_core,roles_dict,plan_list):
+def store_instruction_in_mongo_db(prac, text_file_name, action_core, roles_dict, plan_list):
     
     mongo_client = MongoClient()
     ies_mongo_db = mongo_client.PRAC
     collection = ies_mongo_db.Instructions
-    
     
     plan_list_json = []
     #Transform
@@ -25,10 +24,10 @@ def store_instruction_in_mongo_db(text_file_name,action_core,roles_dict,plan_lis
             
             plan.write(db_str,None,False)
             plan.mln.write(mln_str,None)
-            action_roles = RolequeryHandler.query_roles_and_senses_based_on_achieved_by(plan)
+            action_roles = RolequeryHandler(prac).query_roles_and_senses_based_on_achieved_by(plan)
             
             if not action_roles:
-                action_roles = RolequeryHandler.query_roles_and_senses_based_on_action_core(plan)
+                action_roles = RolequeryHandler(prac).query_roles_and_senses_based_on_action_core(plan)
             
             
             plan_action_core = ""    
@@ -92,7 +91,7 @@ if __name__ == '__main__':
         
         #There will be only one db
         db = inference.inference_steps[-1].output_dbs[0]
-        roles_dict = RolequeryHandler.query_roles_and_senses_based_on_action_core(db)
+        roles_dict = RolequeryHandler(prac).query_roles_and_senses_based_on_action_core(db)
         
         #Process all sentences
         plan_list = {}
@@ -109,4 +108,4 @@ if __name__ == '__main__':
         for q in db.query("action_core(?w,?ac)"):
             actioncore = q["?ac"]
                     
-        store_instruction_in_mongo_db(text_file_name, actioncore, roles_dict, plan_list)
+        store_instruction_in_mongo_db(prac, text_file_name, actioncore, roles_dict, plan_list)

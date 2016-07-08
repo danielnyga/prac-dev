@@ -33,8 +33,6 @@ from pracmln.praclog import logger
 from pracmln.utils.visualization import get_cond_prob_png
 from prac.core.wordnet import WordNet
 from prac.pracutils.RolequeryHandler import RolequeryHandler
-from prac.pracutils.ActioncoreDescriptionHandler import \
-    ActioncoreDescriptionHandler
 
 
 log = logger(__name__)
@@ -93,8 +91,7 @@ class RoleLookUp(PRACModule):
             inferred_roles_set = set(roles_senses_dict.keys())
 
             # Determine missing roles: All_Action_Roles\Inferred_Roles
-            actioncore_roles_list = ActioncoreDescriptionHandler.get_required_roles_based_on_actioncore(
-                actioncore)
+            actioncore_roles_list = self.prac.actioncores[actioncore].required_roles
             missing_role_set = set(actioncore_roles_list).difference(
                 inferred_roles_set)
 

@@ -10,7 +10,6 @@ from prac.wordnet import WordNet
 import sys
 from ies_models import Sense,Constants
 import os
-from pracutils.ActioncoreDescriptionHandler import ActioncoreDescriptionHandler
 
 prac = PRAC()
 prac.wordnet = WordNet(concepts=None)
@@ -22,6 +21,7 @@ parser.mln.declarePredicate(Predicate('action_core',['word','actioncore?']))
 action_core = ""
 
 def process_sentence(sentence):
+    prac = PRAC()
     db = list(parser.parse_without_prac(sentence))[0]
     for q in db.query(Constants.HAS_POS_MLN_PREDICATE.format('?w','?p')):
         pos = Sense.convert_penn_treebank_pos_to_wordnet_pos(q['?p'])
@@ -42,7 +42,7 @@ def process_sentence(sentence):
             
             print "Assert role"
             i = 0
-            roles = ActioncoreDescriptionHandler.getRolesBasedOnActioncore(action_core)
+            roles = prac.actioncores[action_core].roles
             for role in roles:
                 i += 1
                 print "{}. {}".format(str(i),role)

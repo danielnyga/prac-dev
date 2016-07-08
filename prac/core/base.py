@@ -20,48 +20,79 @@
 # CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-import logging
+# add 3rd party components to pythonpath, if necessary
+import locations
 import os
 import sys
+from pracmln.praclog import logger
 
-from prac.core.inference import PRACInferenceStep, PRACInference
+modules = ['nltk_2.0b9']
+for module in modules:
+    path = os.path.join(locations.thirdparty, module)
+    if path not in sys.path:
+        sys.path.append(path)
+
+from prac.core.inference import PRACInferenceStep
 from prac.core.wordnet import WordNet
 from pracmln import Database, MLN
 
 # adapt PYTHONPATH where necessary
 from pracmln.mln.database import parse_db
-from pracmln.mln.util import mergedom
-from pracmln.praclog import logger
-
+from pracmln.mln.util import mergedom, out, stop, ifNone
+from ConfigParser import ConfigParser
 
 PRAC_HOME = os.environ['PRAC_HOME']
 prac_module_path = os.path.join(PRAC_HOME, 'pracmodules')
 
-# add 3rd party components to pythonpath, if necessary
-dill_path = os.path.join(PRAC_HOME, '3rdparty', 'dill-0.2b1')
-if dill_path not in sys.path:
-    sys.path.append(dill_path)
 
 from string import whitespace, strip
 import fnmatch
 import yaml
 
 
-log = logger(__name__)
+
+class PRACConfig(ConfigParser):
+    '''
+    Global configuration data structure for PRAC.
+    
+    Wraps around a ConfigParser
+    '''
+    DEFAULTS = {
+        'mongodb': {
+            'host': 'localhost',
+            'port': 27017,
+            'user': '',
+            'password': ''
+        }
+    }
+    
+    def __init__(self, filename=None):
+        ConfigParser.__init__(self, allow_no_value=True)
+        for section, values in self.DEFAULTS.iteritems():
+            self.add_section(section)
+            for key, value in values.iteritems():
+                self.set(section, key, value)
+        if filename is not None:
+            self.read(filename)
+    
+    def write(self, filename=None):
+        filename = ifNone(filename, 'pracconf')
+        filepath = os.path.join(locations.home, filename)
+        with open(filepath, 'w+') as f:
+            ConfigParser.write(self, f)
 
 
 class PRAC(object):
     """
     The PRAC reasoning system.
     """
-
-    log = logging.getLogger('PRAC')
-
-
-    def __init__(self):
+    
+    logger = logger('PRAC')
+    
+    def __init__(self, configfile=None):
         # read all the manifest files.
-        self.actioncores = ActionCore.readFromFile(
-            os.path.join(PRAC_HOME, 'models', 'actioncores.yaml'))
+        self.config = PRACConfig(configfile)
+        self.actioncores = ActionCore.readFromFile(os.path.join(PRAC_HOME, 'models', 'actioncores.yaml'))
         self.moduleManifests = []
         self.moduleManifestByName = {}
         for module_path in os.listdir(prac_module_path):
@@ -81,7 +112,7 @@ class PRAC(object):
             module.module_path = os.path.join(prac_module_path, module_path)
             self.moduleManifests.append(module)
             self.moduleManifestByName[module.name] = module
-            PRAC.log.info('Read manifest file for module "%s".' % module.name)
+            PRAC.logger.info('Read manifest file for module "%s".' % module.name)
         self.moduleByName = {}
         self.modules = []
         # TODO: replace this by real action core definitions
@@ -170,6 +201,11 @@ class PRAC(object):
             PRAC.log.exception('{}.__call__() must return a PRACInferenceStep '
                                'object.'.format(inference.name))
         pracinfer.inference_steps.append(inferenceStep)
+        
+    
+    @property
+    def roles(self):
+        return set([r for a in self.actioncores.values() for r in  a.roles])
 
 
 class ActionRole(object):
@@ -184,7 +220,7 @@ class ActionRole(object):
 
 
     def __repr__(self):
-        return str(self.name)
+        return '<ActionRole "%s" at %s>' % (str(self.name), hash(self))
 
 
     def __str__(self):
@@ -202,6 +238,7 @@ class ActionCore(object):
     DEFINITION = 'definition'
     INHERITS_FROM = 'inherits_from'
     ACTION_ROLES = 'action_roles'
+    REQUIRED_ROLES = 'required_action_roles'
     ACTION_VERBS = 'action_verbs'
     TEMPLATE_MLN = 'template_mln'
     LEARNED_MLN = 'learned_mln'
@@ -211,7 +248,7 @@ class ActionCore(object):
 
     def __init__(self):
         self._roles = []
-        pass
+        self._req_roles = []
 
 
     @property
@@ -222,6 +259,16 @@ class ActionCore(object):
     @roles.setter
     def roles(self, rs):
         self._roles = rs
+
+
+    @property
+    def required_roles(self):
+        return self._req_roles
+    
+    
+    @required_roles.setter
+    def required_roles(self, rr):
+        self._req_roles = rr
 
 
     def isLearned(self):
@@ -249,14 +296,12 @@ class ActionCore(object):
         actioncores = {}
         for content in alldocs:
             action_core = ActionCore()
-            action_core.name = strip(content[ActionCore.NAME],
-                                     whitespace + '"')
+            action_core.name = strip(content[ActionCore.NAME], whitespace + '"')
             action_core.definition = content.get(ActionCore.DEFINITION)
             actionroles = content.get(ActionCore.ACTION_ROLES)
             for role in actionroles:
                 action_core.roles.append(role)
-            log.info('Read action core: %s (roles: %s)' % (
-            action_core.name, ', '.join(action_core.roles)))
+            logger('actioncores').info('Read action core: %s (roles: %s)' % (action_core.name, ', '.join(action_core.roles)))
             action_core.plan = content.get(ActionCore.PLAN)
             actioncores[action_core.name] = action_core
         return actioncores
@@ -497,13 +542,17 @@ if __name__ == '__main__':
     '''
     main routine for testing and debugging purposes only!.
     '''
-    log = logging.getLogger('PRAC')
     prac = PRAC()
-    infer = PRACInference(prac, ['Flip the pancake around.',
-                                 'Put on a plate.'])
-    prac.infer('nl_parsing', infer)
-    prac.infer('wn_senses', infer)
-    for i, db in enumerate(infer.inference_steps[-1].output_dbs):
-        log.debug('\nInstruction #%d\n' % (i + 1))
-        for lit in db.iterGroundLiteralStrings():
-            log.debug(lit)
+    print prac.roles
+    print prac.actioncores['Neutralizing'].roles
+    
+#     log = logging.getLogger('PRAC')
+#     prac = PRAC()
+#     infer = PRACInference(prac, ['Flip the pancake around.',
+#                                  'Put on a plate.'])
+#     prac.infer('nl_parsing', infer)
+#     prac.infer('wn_senses', infer)
+#     for i, db in enumerate(infer.inference_steps[-1].output_dbs):
+#         log.debug('\nInstruction #%d\n' % (i + 1))
+#         for lit in db.iterGroundLiteralStrings():
+#             log.debug(lit)

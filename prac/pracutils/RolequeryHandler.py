@@ -22,25 +22,28 @@
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 import os
-from prac.pracutils.ActioncoreDescriptionHandler import \
-    ActioncoreDescriptionHandler
 from pracmln import Database
 from pracmln.praclog import logger
 
 
 class RolequeryHandler(object):
-    PRAC_HOME = os.environ['PRAC_HOME']
-    actioncoreDescriptionFilePath = os.path.join(PRAC_HOME, 'models', 'actioncores.yaml')
-    actioncoreDescription = {}
+    '''
+    This class will be deleted as its functionality should be provided by the basie PRAC class
+    or individual reasoning modules.
+    '''
     
-    @staticmethod
-    def queryRolesAndSensesBasedOnActioncore(db):
+    
+    def __init__(self, prac):
+        self.prac = prac
+    
+    
+    def queryRolesAndSensesBasedOnActioncore(self, db):
         actioncore = ""
         #It will be assumed that there is only one true action_core predicate per database 
         for q in db.query("action_core(?w,?ac)"):
             actioncore = q["?ac"]
         
-        roles_db = RolequeryHandler.queryRoles(actioncore,db)
+        roles_db = self.queryRoles(actioncore,db)
         
         inferred_roles_set = set()
         roles_dict = {}
@@ -55,53 +58,57 @@ class RolequeryHandler(object):
         
         return roles_dict
     
-    @staticmethod
-    def queryRolesBasedOnAchievedBy(db):
+    
+    def queryRolesBasedOnAchievedBy(self, db):
         actioncore = ""
         #It will be assumed that there is only one true achieved_by predicate per database 
         for q in db.query("achieved_by(?w,?ac)"):
             actioncore = q["?ac"]
         
-        return RolequeryHandler.queryRoles(actioncore,db)
+        return self.queryRoles(actioncore,db)
     
-    @staticmethod
-    def queryRolesBasedOnActioncore(db):
+    
+    def queryRolesBasedOnActioncore(self, db):
         actioncore = ""
         #It will be assumed that there is only one true action_core predicate per database 
         for q in db.query("action_core(?w,?ac)"):
             actioncore = q["?ac"]
 
-        return RolequeryHandler.queryRoles(actioncore,db)
+        return self.queryRoles(actioncore,db)
     
-    @staticmethod
-    def queryRoles(actioncore,db):
+    
+    def queryRoles(self, actioncore, db):
+        '''
+        Given an actioncore name and a DB, this function returns a new database
+        with the given roles asserted.
+        '''
         db_ = Database(db.mln)
-        rolePredicates = ActioncoreDescriptionHandler.getRolesBasedOnActioncore(actioncore)
+        rolePredicates = self.prac.actioncores[actioncore].roles
         for p in rolePredicates:
-            query = RolequeryHandler.roleQueryBuilder(actioncore, p, db.mln.predicate(p).argdoms)
+            query = self.roleQueryBuilder(actioncore, p, db.mln.predicate(p).argdoms)
             for q in db.query(query, thr=1):
                 for var, val in q.iteritems():
                     q_ = query.replace(var,val)
                     db_ << q_
         return db_
 
-    @staticmethod
-    def roleQueryBuilder(actioncore,predicate, domainList):
+
+    def roleQueryBuilder(self, actioncore,predicate, domainList):
         # assuming that the role predicates are always of the form
         # predname(?x, actioncore)
         return '{}(?{},{})'.format(predicate,domainList[0],actioncore)
     
-    '''
-    Returns a dict with the roles as key and senses as values
-    '''
-    @staticmethod
-    def query_roles_and_senses_based_on_action_core(db):
+    
+    def query_roles_and_senses_based_on_action_core(self, db):
+        '''
+        Returns a dict with the roles as key and senses as values
+        '''
         roles_dict = {}
         #It will be assumed that there is only one true action_core predicate per database 
         for q in db.query("action_core(?w,?ac)"):
             actioncore = q["?ac"]
             if actioncore == 'Complex':continue
-            roles_db = RolequeryHandler.queryRoles(actioncore,db)
+            roles_db = self.queryRoles(actioncore,db)
             
             for atom, truth in sorted(roles_db.evidence.iteritems()):
                 _ , predname, args = roles_db.mln.logic.parse_literal(atom)
@@ -111,18 +118,17 @@ class RolequeryHandler(object):
         return roles_dict
     
     
-    '''
-    Returns a dict with the roles as key and senses as values
-    '''
-    @staticmethod
-    def query_roles_and_senses_based_on_achieved_by(db):
+    def query_roles_and_senses_based_on_achieved_by(self, db):
+        '''
+        Returns a dict with the roles as key and senses as values
+        '''
         roles_dict = {}
         #It will be assumed that there is only one true action_core predicate per database
                  
         for q in db.query("achieved_by(?w,?ac)"):
             actioncore = q["?ac"]
             if actioncore == 'Complex':continue
-            roles_db = RolequeryHandler.queryRoles(actioncore,db)
+            roles_db = self.queryRoles(actioncore,db)
             
             for atom, truth in sorted(roles_db.evidence.iteritems()):
                 _ , predname, args = roles_db.mln.logic.parse_literal(atom)
