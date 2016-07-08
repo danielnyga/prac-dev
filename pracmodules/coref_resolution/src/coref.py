@@ -43,12 +43,9 @@ class CorefResolution(PRACModule):
 
     @PRACPIPE
     def __call__(self, pracinference, **params):
-        print colorize('+==========================================+',
-                       (None, 'green', True), True)
-        print colorize('| PRAC INFERENCE: RESOLVING COREFERENCES    ',
-                       (None, 'green', True), True)
-        print colorize('+==========================================+',
-                       (None, 'green', True), True)
+        print colorize('+========================+', (None, 'green', True), True)
+        print colorize('| RESOLVING COREFERENCES |', (None, 'green', True), True)
+        print colorize('+========================+', (None, 'green', True), True)
 
         # merge output dbs from senses and roles step, containing
         # roles inferred from multiple sentences.

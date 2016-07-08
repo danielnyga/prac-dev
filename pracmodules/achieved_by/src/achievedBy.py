@@ -69,12 +69,9 @@ class AchievedBy(PRACModule):
 
     @PRACPIPE
     def __call__(self, pracinference, **params):
-        print colorize('+==========================================+',
-                       (None, 'green', True), True)
-        print colorize('| PRAC INFERENCE: RECOGNIZING ACHIEVED BY  ',
-                       (None, 'green', True), True)
-        print colorize('+==========================================+',
-                       (None, 'green', True), True)
+        print colorize('+==========================+',(None, 'green', True), True)
+        print colorize('| RECOGNIZING ACHIEVED BY  |',(None, 'green', True), True)
+        print colorize('+==========================+',(None, 'green', True), True)
 
         inf_step = PRACInferenceStep(pracinference, self)
         dbs = pracinference.inference_steps[-1].output_dbs

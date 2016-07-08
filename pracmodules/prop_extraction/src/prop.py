@@ -22,6 +22,7 @@
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 import os
 import sys
+import traceback
 from prac.core.base import PRACModule, PRACPIPE, PRAC
 from prac.core.inference import PRACInferenceStep, PRACInference
 from prac.core.wordnet import WordNet
@@ -46,13 +47,11 @@ class PropExtraction(PRACModule):
     def __call__(self, pracinference, **params):
         log.info('Running {}'.format(self.name))
 
-        print colorize('+=============================================+',
-                       (None, 'green', True), True)
-        print colorize('| PRAC PROPERTY EXTRACTION                    |',
-                       (None, 'green', True), True)
-        print colorize('+=============================================+',
-                       (None, 'green', True), True)
+        print colorize('+=====================+', (None, 'green', True), True)
+        print colorize('| PROPERTY EXTRACTION |', (None, 'green', True), True)
+        print colorize('+=====================+', (None, 'green', True), True)
         print
+
         print colorize(
             'Inferring most probable ANNOTATION + simultaneous WORD SENSE '
             'DISMABIGUATION...',
@@ -88,7 +87,8 @@ class PropExtraction(PRACModule):
             db_ = wordnet_module.add_sims(db, mln)
 
             try:
-                infer = MLNQuery(config=project.queryconf, db=db_,
+                infer = MLNQuery(config=project.queryconf,
+                                 db=db_,
                                  mln=mln).run()
                 result_db = infer.resultdb
 
@@ -107,6 +107,9 @@ class PropExtraction(PRACModule):
             except NoConstraintsError:
                 log.info('No properties found. Passing db...')
                 inf_step.output_dbs.append(db)
+            except Exception:
+                log.info('Something went wrong')
+                traceback.print_exc()
 
             pngs['PropExtraction - ' + str(i)] = get_cond_prob_png(
                 project.queryconf.get('queries', ''), dbs, filename=self.name)
