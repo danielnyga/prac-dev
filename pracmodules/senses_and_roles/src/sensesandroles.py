@@ -64,16 +64,13 @@ class SensesAndRoles(PRACModule):
     def __call__(self, pracinference, **params):
 
         print
-        print colorize('+==========================================+',
-                       (None, 'green', True), True)
-        print colorize('| PRAC INFERENCE: RECOGNIZING %s ROLES     ' % (
-            {True: 'MISSING', False: 'GIVEN'}[params.get('missing', False)]),
-                       (None, 'green', True), True)
-        print colorize('+==========================================+',
-                       (None, 'green', True), True)
+        print colorize('+==========================================+',(None, 'green', True), True)
+        print colorize('| PRAC INFERENCE: RECOGNIZING {} ROLES     |'.format(({True: 'MISSING', False: 'GIVEN'}[params.get('missing', False)])),(None, 'green', True), True)
+        print colorize('+==========================================+',(None, 'green', True), True)
 
         dbs = pracinference.inference_steps[-1].output_dbs
         inf_step = PRACInferenceStep(pracinference, self)
+        queries = ''
 
         pngs = {}
         for n, olddb in enumerate(dbs):
@@ -98,6 +95,7 @@ class SensesAndRoles(PRACModule):
                                                params.get('project').name)
                     project = params.get('project')
 
+                queries = project.queryconf.get('queries', '')
                 mlntext = project.mlns.get(project.queryconf['mln'], None)
                 mln = parse_mln(mlntext,
                                 searchpaths=[self.module_path],
@@ -206,10 +204,8 @@ class SensesAndRoles(PRACModule):
 
                 inf_step.output_dbs.append(new_result)
 
-            pngs['Recognizing {} roles - {}'.format(
-                'missing' if params.get('missing', False) else 'given',
-                str(n))] = get_cond_prob_png(
-                project.queryconf.get('queries', ''), dbs, filename=self.name)
+            pngs['Recognizing {} roles - {}'.format('missing' if params.get('missing', False) else 'given', str(n))] = get_cond_prob_png(queries,
+                                                                                                                                         dbs, filename=self.name)
             inf_step.png = pngs
             inf_step.applied_settings = project.queryconf.config
         return inf_step
