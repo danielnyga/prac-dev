@@ -20,6 +20,8 @@
 # CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+from nltk import word_tokenize
+import string
 import subprocess
 import re
 import os
@@ -277,34 +279,39 @@ class NLParsing(PRACModule):
             * 'start the external combustion engine' will be replaced by
                 'start the external-combustion_engine'
         '''
-        instr = sentence.split()
+        instr = word_tokenize(sentence)
         newinstr = []
 
         i = 0
         for _ in instr:
             found = False
             if i < len(instr):
+                stop = ''
+                # check three-word compounds
                 for x in itertools.product('_-', repeat=2):
                     tmpword = '{}{}{}{}{}'.format(instr[i], x[0], instr[min(len(instr)-1, i+1)], x[1], instr[min(len(instr)-1, i+2)])
                     if len(wn.synsets(tmpword)) > 0:
-                        newinstr.append(tmpword)
+                        newinstr.append(tmpword+stop)
                         found = True
                         i += 3
                         break
+                # check two-word compounds
                 if not found:
                     for y in ['_', '-']:
                         tmpword = '{}{}{}'.format(instr[i], y, instr[min(len(instr)-1, i+1)])
                         if len(wn.synsets(tmpword)) > 0:
-                            newinstr.append(tmpword)
+                            newinstr.append(tmpword+stop)
                             found = True
                             i += 2
                             break
+                # leave current word as it is
                 if not found:
                     newinstr.append(instr[i])
                     i += 1
             else:
                 i+=1
-        return ' '.join(newinstr)
+        # untokenize sentence before returning.
+        return "".join([" "+i if not i.startswith("'") and i not in string.punctuation else i for i in newinstr]).strip()
 
 
     # def create_compound_nouns(self,sentence):
@@ -435,23 +442,19 @@ class NLParsing(PRACModule):
         log_.info('Running {}'.format(self.name))
         step = PRACInferenceStep(pracinference, self)
 
-        print colorize('+==========================================+',
-                       (None, 'green', True), True)
-        print colorize('| PRAC INFERENCE: PARSING NATURAL LANGUAGE |',
-                       (None, 'green', True), True)
-        print colorize('+==========================================+',
-                       (None, 'green', True), True)
+        print colorize('+==========================+', (None, 'green', True), True)
+        print colorize('| PARSING NATURAL LANGUAGE |', (None, 'green', True), True)
+        print colorize('+==========================+', (None, 'green', True), True)
         print
-        print colorize('Parsing NL instructions:', (None, 'white', True),
-                       True), ' '.join(pracinference.instructions)
-        
+
         processed_instructions = []
-        
         for instruction in pracinference.instructions:
             processed_instructions.append(
                 self.find_compounds(instruction))
 
         pracinference.instructions = processed_instructions
+
+        print colorize('Parsing NL instructions:', (None, 'white', True), True), ' '.join(pracinference.instructions)
 
         dbs =  self.parse_instructions(pracinference.instructions)
         '''
@@ -484,3 +487,4 @@ class NLParsing(PRACModule):
 if __name__ == '__main__':
     print NLParsing.find_compounds('unload the washing machine and switch off the hair dryer')
     print NLParsing.find_compounds('start the external combustion engine')
+    print NLParsing.find_compounds('fill the glass with red wine')
