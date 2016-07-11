@@ -269,24 +269,25 @@ def number_synset(numstr):
 
 
 class WordNet(object):
-    """
+    '''
     Wrapper class for WordNet, which may be initialized with
     some WordNet concepts spanning an initial, collapsed
     concept taxonomy.
-    """
-
+    
+    Also provides a set of customized similarity measures for
+    colors, shapes and sizes as introduced in Mareike's thesis.
+    '''
     wordnetlock = RLock()
 
-
     @synchronized(wordnetlock)
-    def __init__(self, concepts=known_concepts):
+    def __init__(self, concepts=None):
         self.core_taxonomy = None
         if concepts is not None:
             self.initialize_taxonomy(concepts)
-            self.initialize_csimilarities(properties.chrcolorspecs,
-                                          properties.achrcolorspecs)
-            self.initialize_similarities(shapesims, properties.shapespecs)
-            self.initialize_similarities(sizesims, properties.sizespecs)
+        self.initialize_csimilarities(properties.chrcolorspecs,
+                                      properties.achrcolorspecs)
+        self.initialize_similarities(shapesims, properties.shapespecs)
+        self.initialize_similarities(sizesims, properties.sizespecs)
 
 
     @synchronized(wordnetlock)
@@ -340,8 +341,13 @@ class WordNet(object):
     @synchronized(wordnetlock)
     def initialize_taxonomy(self, concepts=None, collapse=True):
         """
-        Creates a new taxonomy given a set of concepts. If collapse is True,
-        all subpaths with only one child and parent are collapsed.
+        Creates a new taxonomy given a set of concepts, which is a subset
+        of the WordNet taxonomy. 
+        
+        :param concepts:     a list of concept names that should be used
+                             for constructing the new taxonomy.
+        :param collapse:     (bool) if True, all subpaths with only one 
+                             child and parent are collapsed.
         """
         entity_name = 'entity.n.01'
         self.core_taxonomy = DAG(root=Node(entity_name, entity_name))
@@ -390,14 +396,15 @@ class WordNet(object):
 
     @synchronized(wordnetlock)
     def __extend_taxonomy_graph(self, concept, synset_path, direction):
-        """
+        '''
         Takes a node of the taxonomy graph and a hypernymy path
         of a concept and extends the graph with the given path.
-        - concept:     (Node) concept node to be extended (the root in most
-                       cases)
-        - synset_path: a path as it is return by Synset.hypernym_paths(), for
-                       instance.
-        """
+        
+        :param concept:     (Node) concept node to be extended (the root in most
+                            cases)
+        :param synset_path: a path as it is return by Synset.hypernym_paths(), for
+                            instance.
+        '''
         if len(synset_path) == 0:
             return
         synset = synset_path[0]
@@ -417,11 +424,12 @@ class WordNet(object):
 
     @synchronized(wordnetlock)
     def synsets(self, word, pos):
-        """
+        '''
         Returns the set of synsets from NLTK.
-        - word:     (string) the word to be queried.
-        - pos:      (string) the NLTK POS tag.
-        """
+        
+        :param word:     (string) the word to be queried.
+        :param pos:      (string) the NLTK POS tag.
+        '''
         if pos not in NLTK_POS:
             log.exception('Unknown POS tag: %s' % pos)
 
@@ -438,10 +446,12 @@ class WordNet(object):
 
     @synchronized(wordnetlock)
     def synset(self, synset_id):
-        """
+        '''
         Returns either the RationalNumberSynset or the NLTK synset for the
         given id.
-        """
+        
+        :param synset_id:     the id of the synset
+        '''
 
         if re.match(r'(.+)\.c\.(\w+)', synset_id) is not None:
             s = synset_id.strip('.c.01')
@@ -457,11 +467,11 @@ class WordNet(object):
 
     @synchronized(wordnetlock)
     def wup_similarity(self, synset1, synset2):
-        """
+        '''
         Returns the WUP similariy of the two given synsets, which
         may be given as strings of the synset id or the respective Synset
         objects themselves.
-        """
+        '''
         if type(synset1) is str:
             synset1 = self.synset(synset1)
         if type(synset2) is str:
@@ -474,11 +484,11 @@ class WordNet(object):
 
     @synchronized(wordnetlock)
     def path_similarity(self, synset1, synset2):
-        """
+        '''
         Returns the WUP similariy of the two given synsets, which
         may be given as strings of the synset id or the respective Synset
         objects themselves.
-        """
+        '''
         if type(synset1) is str:
             synset1 = self.synset(synset1)
         if type(synset2) is str:
@@ -493,7 +503,7 @@ class WordNet(object):
     @synchronized(wordnetlock)
     def lowest_common_hypernyms(self, synset, other, simulate_root=False,
                                 use_min_depth=False):
-        """
+        '''
         -- NOTE: THIS CODE IS COPIED FROM NLTK3 --
         Get a list of lowest synset(s) that both synsets have as a hypernym.
         When `use_min_depth == False` this means that the synset which
@@ -532,7 +542,7 @@ class WordNet(object):
             but is retained for backwards compatibility
         :return: The synsets that are the lowest common hypernyms of both
             synsets
-        """
+        '''
 
         fake_synset = Synset(None)
         fake_synset._name = '*ROOT*'
