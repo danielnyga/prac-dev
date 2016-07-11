@@ -21,7 +21,6 @@
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 import os
-import itertools
 from prac.core.base import PRACModule, PRACPIPE, PRAC
 from prac.core.inference import PRACInferenceStep, PRACInference
 from prac.core.wordnet import WordNet
@@ -47,14 +46,15 @@ class CorefResolution(PRACModule):
         print colorize('| RESOLVING COREFERENCES |', (None, 'green', True), True)
         print colorize('+========================+', (None, 'green', True), True)
 
-        # merge output dbs from senses and roles step, containing
+        # merge output dbs from senses_and_roles step, containing
         # roles inferred from multiple sentences.
         inf_step = PRACInferenceStep(pracinference, self)
         prev_step = pracinference.inference_steps[-1]
         dbs = prev_step.output_dbs
-        corefdb = Database(self.prac.mln)
-        ac = None
+        projectpath = self.module_path
         sentences = []
+        ac = None
+        pngs = {}
 
         if len(dbs) < 2:
             # no coreferencing required - forward dbs and settings
@@ -65,32 +65,28 @@ class CorefResolution(PRACModule):
             log.info('Got single database. Nothing to do here. Passing db...')
             return inf_step
 
-        pngs = {}
+        # retrieve all words from the dbs to calculate distances.
+        # Do not use pracinference.instructions as they are not
+        # annotated by the Stanford parser.
+        for s in range(0, len(dbs)):
+            sen = [x['?w'] for x in list(dbs[s].query('has_pos(?w,?pos)'))]
+            sentences.append(sen)
+
         for i, db in enumerate(dbs):
             if i == 0:
                 # no coreference resolution required for first database
                 inf_step.output_dbs.append(dbs[i])
-                continue
             else:
-                # unify current db with the 3 preceding ones
-
-                # query action core and action verb for later use
+                # query action core to load corresponding project
                 for q in dbs[i].query('action_core(?w,?ac)'):
                     ac = q['?ac']
-                for q in dbs[i].query('action_verb(?av,{})'.format(ac)):
-                    av = q['?av']
+
                 print colorize('Loading Project {}'.format(ac), (None, 'cyan', True), True)
-                log.info(colorize('Loading Project {}'.format(ac), (None, 'cyan', True), True))
-                projectpath = self.module_path
                 project = MLNProject.open(os.path.join(projectpath, '{}.pracmln'.format(ac)))
 
-                # retrieve all words from the dbs to calculate distances
-                # do not use pracinference.instructions as they are not
-                # modified by the Stanford parser.
-                for s in range(max(0, i - 2), i + 1):
-                    sen = [x['?w'] for x in
-                           list(dbs[s].query('has_pos(?w,?pos)'))]
-                    sentences.append(sen)
+                # clear corefdb and unify current db with the two preceding ones
+                corefdb = Database(self.prac.mln)
+                for s in range(max(0, i - 2), i+1):
                     corefdb = corefdb.union(dbs[s], self.prac.mln)
 
                 # remove all senses from the databases' domain, that are not
@@ -99,8 +95,9 @@ class CorefResolution(PRACModule):
                     corefdb.rmval('sense', q['?sense'])
 
                 # preprocessing: adding distance information for each
-                # word-word pair in the instructions
-                snts = list(enumerate(sentences))
+                # word in the instructions
+                s = sentences[max(0, i - 2):i+1]
+                snts = list(enumerate(s))
                 idx = len(snts) - 1  # idx of current sentence
                 for s in snts[:-1]:
                     idx2 = s[0]
@@ -121,9 +118,8 @@ class CorefResolution(PRACModule):
                 newdatabase = wordnet_module.add_sims(corefdb, mln)
 
                 # update queries depending on missing roles
-                acroles = filter(lambda r: r != 'action_verb',
-                                 self.prac.actioncores[ac].roles)
-                missingroles = [x for x in acroles if len(list(newdatabase.query('{}(?w,Adding)'.format(x)))) == 0]
+                acroles = filter(lambda role: role != 'action_verb', self.prac.actioncores[ac].roles)
+                missingroles = [ar for ar in acroles if len(list(newdatabase.query('{}(?w,Adding)'.format(ar)))) == 0]
                 conf = project.queryconf
                 conf.update({'queries': ','.join(missingroles)})
                 print colorize('querying for {}'.format(conf['queries']), (None, 'green', True), True)
@@ -143,8 +139,7 @@ class CorefResolution(PRACModule):
                                 newdatabase << '!{}({},{})'.format(r, w, ac)
                             # leave previously inferred information roles
                             # untouched
-                            if list(newdatabase.query('{}({},{})'.format(r, w,
-                                                                         ac1))):
+                            if list(newdatabase.query('{}({},{})'.format(r, w, ac1))):
                                 continue
                             else:
                                 newdatabase << '!{}({},{})'.format(r, w, ac1)
@@ -165,12 +160,9 @@ class CorefResolution(PRACModule):
                             db << 'has_pos({},{})'.format(w, q['?pos'])
 
                 newdb = wordnet_module.add_sims(db, mln)
-
                 inf_step.output_dbs.append(newdb)
-
                 pngs['CoRef - ' + str(i)] = get_cond_prob_png(project.queryconf.get('queries', ''), dbs, filename=self.name)
                 inf_step.png = pngs
-
                 inf_step.applied_settings = project.queryconf.config
         return inf_step
 
