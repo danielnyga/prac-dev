@@ -81,8 +81,15 @@ class CorefResolution(PRACModule):
                 for q in dbs[i].query('action_core(?w,?ac)'):
                     ac = q['?ac']
 
-                print colorize('Loading Project {}'.format(ac), (None, 'cyan', True), True)
-                project = MLNProject.open(os.path.join(projectpath, '{}.pracmln'.format(ac)))
+                try:
+                    print colorize('Loading Project {}'.format(ac), (None, 'cyan', True), True)
+                    project = MLNProject.open(os.path.join(projectpath, '{}.pracmln'.format(ac)))
+                except Exception:
+                    inf_step.output_dbs = [db.copy(self.prac.mln) for db in dbs]
+                    inf_step.png = prev_step.png
+                    inf_step.applied_settings = prev_step.applied_settings
+                    log.warning('Could not load project "{}". Passing dbs to next module...'.format(ac))
+                    return inf_step
 
                 # clear corefdb and unify current db with the two preceding ones
                 corefdb = Database(self.prac.mln)
