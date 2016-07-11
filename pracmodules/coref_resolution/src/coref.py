@@ -79,15 +79,10 @@ class CorefResolution(PRACModule):
                     ac = q['?ac']
                 for q in dbs[i].query('action_verb(?av,{})'.format(ac)):
                     av = q['?av']
-                print colorize('Loading Project {}'.format(ac),
-                               (None, 'cyan', True),
-                               True)
-                log.info(colorize('Loading Project {}'.format(ac),
-                                  (None, 'cyan', True),
-                                  True))
+                print colorize('Loading Project {}'.format(ac), (None, 'cyan', True), True)
+                log.info(colorize('Loading Project {}'.format(ac), (None, 'cyan', True), True))
                 projectpath = self.module_path
-                project = MLNProject.open(
-                    os.path.join(projectpath, '{}.pracmln'.format(ac)))
+                project = MLNProject.open(os.path.join(projectpath, '{}.pracmln'.format(ac)))
 
                 # retrieve all words from the dbs to calculate distances
                 # do not use pracinference.instructions as they are not
@@ -128,12 +123,10 @@ class CorefResolution(PRACModule):
                 # update queries depending on missing roles
                 acroles = filter(lambda r: r != 'action_verb',
                                  self.prac.actioncores[ac].roles)
-                missingroles = [x for x in acroles if len(
-                    list(newdatabase.query('{}(?w,Adding)'.format(x)))) == 0]
+                missingroles = [x for x in acroles if len(list(newdatabase.query('{}(?w,Adding)'.format(x)))) == 0]
                 conf = project.queryconf
                 conf.update({'queries': ','.join(missingroles)})
-                print colorize('querying for {}'.format(conf['queries']),
-                               (None, 'green', True), True)
+                print colorize('querying for {}'.format(conf['queries']), (None, 'green', True), True)
 
                 # asserting impossible role-ac combinations, leaving previously
                 # inferred roles untouched
