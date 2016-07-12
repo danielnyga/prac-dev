@@ -30,7 +30,6 @@ from prac.pracutils.utils import prac_heading
 from pracmln import MLNQuery
 from pracmln.mln import NoConstraintsError
 from pracmln.mln.base import parse_mln
-from pracmln.mln.util import colorize
 from pracmln.praclog import logger
 from pracmln.utils.project import MLNProject
 from pracmln.utils.visualization import get_cond_prob_png
@@ -40,6 +39,10 @@ log = logger(__name__)
 
 
 class PropExtraction(PRACModule):
+    '''
+    PRACModule used extract properties of objects referenced in the NL instruction and perform
+    simultaneous word sense disambiguation for these properties and objects.
+    '''
 
     def initialize(self):
         pass
@@ -64,8 +67,7 @@ class PropExtraction(PRACModule):
         dbs = pracinference.inference_steps[-1].output_dbs
 
         mlntext = project.mlns.get(project.queryconf['mln'], None)
-        mln = parse_mln(mlntext, searchpaths=[self.module_path],
-                        projectpath=projectpath,
+        mln = parse_mln(mlntext, searchpaths=[self.module_path], projectpath=projectpath,
                         logic=project.queryconf.get('logic', 'FuzzyLogic'),
                         grammar=project.queryconf.get('grammar', 'PRACGrammar'))
         wordnet_module = self.prac.getModuleByName('wn_senses')
@@ -98,23 +100,3 @@ class PropExtraction(PRACModule):
 
         inf_step.applied_settings = project.queryconf.config
         return inf_step
-
-
-if __name__ == '__main__':
-
-    if len(sys.argv) < 2:
-        sys.exit(-1)
-    sentences = [sys.argv[1]]
-    prac = PRAC()
-    prac.wordnet = WordNet(concepts=None)
-
-    inference = PRACInference(prac, sentences)
-
-    if len(inference.instructions) > 0:
-        parser = prac.getModuleByName('nl_parsing')
-        prac.run(inference, parser)
-
-    modules = ['ac_recognition', 'prop_extraction']
-    for mname in modules:
-        module = prac.getModuleByName(mname)
-        prac.run(inference, module)
