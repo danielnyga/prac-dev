@@ -25,6 +25,7 @@ from prac.core.base import PRACModule, PRACPIPE
 from prac.core.inference import PRACInferenceStep
 from prac.core.wordnet import known_concepts, WordNet
 from prac.pracutils.pracgraphviz import render_gv
+from prac.pracutils.utils import prac_heading
 from prac.sense_distribution import add_all_wordnet_similarities, \
     get_prob_color
 from pracmln import MLNQuery, Database
@@ -60,11 +61,7 @@ class SensesAndRoles(PRACModule):
 
     @PRACPIPE
     def __call__(self, pracinference, **params):
-
-        print
-        print colorize('+==========================================+',(None, 'green', True), True)
-        print colorize('| PRAC INFERENCE: RECOGNIZING {} ROLES     |'.format(({True: 'MISSING', False: 'GIVEN'}[params.get('missing', False)])),(None, 'green', True), True)
-        print colorize('+==========================================+',(None, 'green', True), True)
+        print prac_heading('Recognizing {} Roles'.format({True: 'MISSING', False: 'GIVEN'}[params.get('missing', False)]))
 
         dbs = pracinference.inference_steps[-1].output_dbs
         inf_step = PRACInferenceStep(pracinference, self)

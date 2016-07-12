@@ -24,6 +24,7 @@ import os
 from prac.core.base import PRACModule, PRACPIPE, PRAC
 from prac.core.inference import PRACInferenceStep, PRACInference
 from prac.core.wordnet import WordNet
+from prac.pracutils.utils import prac_heading
 from pracmln import praclog, MLNQuery, Database
 from pracmln.mln.base import parse_mln
 from pracmln.mln.util import colorize, stop, out, mergedom
@@ -35,16 +36,14 @@ log = praclog.logger(__name__)
 
 
 class CorefResolution(PRACModule):
-    """
+    '''
     PRACmodule used to perform coreference resolution and simultaneous missing
     role inference.
-    """
+    '''
 
     @PRACPIPE
     def __call__(self, pracinference, **params):
-        print colorize('+========================+', (None, 'green', True), True)
-        print colorize('| RESOLVING COREFERENCES |', (None, 'green', True), True)
-        print colorize('+========================+', (None, 'green', True), True)
+        print prac_heading('Resolving Coreferences')
 
         # merge output dbs from senses_and_roles step, containing
         # roles inferred from multiple sentences.
@@ -112,13 +111,10 @@ class CorefResolution(PRACModule):
                         corefdb << 'distance({},DIST{})'.format(w, idx - idx2)
 
                 mlntext = project.mlns.get(project.queryconf['mln'], None)
-                mln = parse_mln(mlntext,
-                                searchpaths=[self.module_path],
+                mln = parse_mln(mlntext, searchpaths=[self.module_path],
                                 projectpath=projectpath,
-                                logic=project.queryconf.get('logic',
-                                                            'FuzzyLogic'),
-                                grammar=project.queryconf.get('grammar',
-                                                              'PRACGrammar'))
+                                logic=project.queryconf.get('logic', 'FuzzyLogic'),
+                                grammar=project.queryconf.get('grammar', 'PRACGrammar'))
 
                 # adding similarities
                 wordnet_module = self.prac.getModuleByName('wn_senses')
@@ -151,9 +147,7 @@ class CorefResolution(PRACModule):
                             else:
                                 newdatabase << '!{}({},{})'.format(r, w, ac1)
 
-                infer = MLNQuery(config=conf,
-                                 db=newdatabase,
-                                 mln=mln).run()
+                infer = MLNQuery(config=conf, db=newdatabase, mln=mln).run()
 
                 # merge initial db with results
                 for res in infer.results.keys():

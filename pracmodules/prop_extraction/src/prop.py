@@ -26,6 +26,7 @@ import traceback
 from prac.core.base import PRACModule, PRACPIPE, PRAC
 from prac.core.inference import PRACInferenceStep, PRACInference
 from prac.core.wordnet import WordNet
+from prac.pracutils.utils import prac_heading
 from pracmln import MLNQuery
 from pracmln.mln import NoConstraintsError
 from pracmln.mln.base import parse_mln
@@ -39,6 +40,7 @@ log = logger(__name__)
 
 
 class PropExtraction(PRACModule):
+
     def initialize(self):
         pass
 
@@ -47,16 +49,7 @@ class PropExtraction(PRACModule):
     def __call__(self, pracinference, **params):
         log.info('Running {}'.format(self.name))
 
-        print colorize('+=====================+', (None, 'green', True), True)
-        print colorize('| PROPERTY EXTRACTION |', (None, 'green', True), True)
-        print colorize('+=====================+', (None, 'green', True), True)
-        print
-
-        print colorize(
-            'Inferring most probable ANNOTATION + simultaneous WORD SENSE '
-            'DISMABIGUATION...',
-            (None, 'white', True), True)
-        print
+        print prac_heading('Property Extraction')
 
         if params.get('project', None) is None:
             # load default project
@@ -64,11 +57,7 @@ class PropExtraction(PRACModule):
             project = MLNProject.open(projectpath)
         else:
             # load project from params
-            log.info(colorize('Loading Project from params',
-                              (None, 'cyan', True), True))
-            projectpath = os.path.join(
-                params.get('projectpath', None) or self.module_path,
-                params.get('project').name)
+            projectpath = os.path.join(params.get('projectpath', None) or self.module_path, params.get('project').name)
             project = params.get('project')
 
         inf_step = PRACInferenceStep(pracinference, self)
@@ -78,8 +67,7 @@ class PropExtraction(PRACModule):
         mln = parse_mln(mlntext, searchpaths=[self.module_path],
                         projectpath=projectpath,
                         logic=project.queryconf.get('logic', 'FuzzyLogic'),
-                        grammar=project.queryconf.get('grammar',
-                                                      'PRACGrammar'))
+                        grammar=project.queryconf.get('grammar', 'PRACGrammar'))
         wordnet_module = self.prac.getModuleByName('wn_senses')
 
         pngs = {}
@@ -87,21 +75,15 @@ class PropExtraction(PRACModule):
             db_ = wordnet_module.add_sims(db, mln)
 
             try:
-                infer = MLNQuery(config=project.queryconf,
-                                 db=db_,
-                                 mln=mln).run()
+                infer = MLNQuery(config=project.queryconf, db=db_, mln=mln).run()
                 result_db = infer.resultdb
 
                 unified_db = db.copy(self.prac.mln)
-                props = [p for p in
-                         project.queryconf.get('queries', '').split(',') if
-                         p != 'has_sense']
+                props = [p for p in project.queryconf.get('queries', '').split(',') if p != 'has_sense']
                 for p in props:
-                    for q in result_db.query(
-                            '{}(?w1,?w2) ^ has_sense(?w2,?s2)'.format(p)):
+                    for q in result_db.query('{}(?w1,?w2) ^ has_sense(?w2,?s2)'.format(p)):
                         unified_db << '{}({},{})'.format(p, q['?w1'], q['?w2'])
-                        unified_db << 'has_sense({},{})'.format(q['?w2'],
-                                                                q['?s2'])
+                        unified_db << 'has_sense({},{})'.format(q['?w2'], q['?s2'])
 
                 inf_step.output_dbs.append(unified_db)
             except NoConstraintsError:
@@ -111,8 +93,7 @@ class PropExtraction(PRACModule):
                 log.info('Something went wrong')
                 traceback.print_exc()
 
-            pngs['PropExtraction - ' + str(i)] = get_cond_prob_png(
-                project.queryconf.get('queries', ''), dbs, filename=self.name)
+            pngs['PropExtraction - ' + str(i)] = get_cond_prob_png(project.queryconf.get('queries', ''), dbs, filename=self.name)
             inf_step.png = pngs
 
         inf_step.applied_settings = project.queryconf.config

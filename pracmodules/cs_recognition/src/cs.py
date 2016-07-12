@@ -22,6 +22,7 @@
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 import os
 from prac.core.base import PRACModule, PRACPIPE
+from prac.pracutils.utils import prac_heading
 from pracmln.mln.base import parse_mln
 from pracmln.mln.methods import LearningMethods
 from prac.core.inference import PRACInferenceStep
@@ -45,12 +46,8 @@ class ControlStructureIdentification(PRACModule):
     @PRACPIPE
     def __call__(self, pracinference, **params):
         log.debug('inference on %s' % self.name)
-        
-        print colorize('+==============================================================+', (None, 'green', True), True)
-        print colorize('| PRAC INFERENCE: RECOGNIZING CONTROL STRUCTURE IDENTIFICATION |', (None, 'green', True), True)
-        print colorize('+==============================================================+', (None, 'green', True), True)
-        print
-        #print colorize('Inferring most probable ACTION CORE', (None, 'white', True), True)
+
+        print prac_heading('Recognizing Control Structures')
 
         if params.get('project', None) is None:
             # load default project

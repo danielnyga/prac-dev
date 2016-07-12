@@ -34,6 +34,7 @@ from prac.core.base import PRACModule, PRACPIPE, PRAC_HOME
 from prac.core.inference import PRACInferenceStep
 from prac.core.wordnet import WordNet
 from prac import java
+from prac.pracutils.utils import prac_heading
 from pracmln import Database, MLN, MLNQuery
 from pracmln.mln.base import parse_mln
 from pracmln.mln.util import colorize
@@ -438,14 +439,10 @@ class NLParsing(PRACModule):
     
     @PRACPIPE
     def __call__(self, pracinference):
+        print prac_heading('Parsing Natural Language')
 
         log_.info('Running {}'.format(self.name))
         step = PRACInferenceStep(pracinference, self)
-
-        print colorize('+==========================+', (None, 'green', True), True)
-        print colorize('| PARSING NATURAL LANGUAGE |', (None, 'green', True), True)
-        print colorize('+==========================+', (None, 'green', True), True)
-        print
 
         processed_instructions = []
         for instruction in pracinference.instructions:
@@ -454,7 +451,7 @@ class NLParsing(PRACModule):
 
         pracinference.instructions = processed_instructions
 
-        print colorize('Parsing NL instructions:', (None, 'white', True), True), ' '.join(pracinference.instructions)
+        print colorize('Parsing instructions:', (None, 'white', True), True), ' '.join(pracinference.instructions)
 
         dbs =  self.parse_instructions(pracinference.instructions)
         '''
