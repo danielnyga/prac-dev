@@ -21,11 +21,10 @@
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 import os
-import sys
 import traceback
-from prac.core.base import PRACModule, PRACPIPE, PRAC
-from prac.core.inference import PRACInferenceStep, PRACInference
-from prac.core.wordnet import WordNet
+
+from prac.core.base import PRACModule, PRACPIPE
+from prac.core.inference import PRACInferenceStep
 from prac.pracutils.utils import prac_heading
 from pracmln import MLNQuery
 from pracmln.mln import NoConstraintsError
