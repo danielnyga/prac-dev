@@ -24,6 +24,7 @@
 import os
 from prac.core.base import PRACModule, PRACPIPE
 from prac.core.inference import PRACInferenceStep
+from prac.pracutils.utils import prac_heading
 from pracmln import Database, MLNQuery
 from pracmln.mln.base import parse_mln
 from pracmln.mln.util import colorize, out
@@ -69,9 +70,8 @@ class AchievedBy(PRACModule):
 
     @PRACPIPE
     def __call__(self, pracinference, **params):
-        print colorize('+==========================+',(None, 'green', True), True)
-        print colorize('| RECOGNIZING ACHIEVED BY  |',(None, 'green', True), True)
-        print colorize('+==========================+',(None, 'green', True), True)
+
+        print prac_heading('Refining Action Cores')
 
         inf_step = PRACInferenceStep(pracinference, self)
         dbs = pracinference.inference_steps[-1].output_dbs

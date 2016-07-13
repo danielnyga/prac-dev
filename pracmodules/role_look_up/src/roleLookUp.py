@@ -28,6 +28,7 @@ import numpy
 
 from prac.core.base import PRACModule, PRACPIPE
 from prac.core.inference import PRACInferenceStep
+from prac.pracutils.utils import prac_heading
 from pracmln.mln.util import colorize
 from pracmln.praclog import logger
 from pracmln.utils.visualization import get_cond_prob_png
@@ -196,12 +197,7 @@ class RoleLookUp(PRACModule):
 
     @PRACPIPE
     def __call__(self, pracinference, **params):
-        print colorize('+==============================+',
-                       (None, 'green', True), True)
-        print colorize('| PRAC INFERENCE: ROLE LOOK UP |  ',
-                       (None, 'green', True), True)
-        print colorize('+==============================+',
-                       (None, 'green', True), True)
+        print prac_heading('Role Look-up')
 
         inf_step = PRACInferenceStep(pracinference, self)
         dbs = pracinference.inference_steps[-1].output_dbs

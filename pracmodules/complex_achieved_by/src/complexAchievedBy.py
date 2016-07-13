@@ -24,6 +24,7 @@
 import os
 from prac.core.base import PRACModule, PRACPIPE, DB_TRANSFORM
 from prac.core.inference import PRACInferenceStep
+from prac.pracutils.utils import prac_heading
 from pracmln import Database, MLNQuery
 from pracmln.mln.database import parse_db
 from pracmln.mln.base import parse_mln
@@ -161,12 +162,7 @@ class ComplexAchievedBy(PRACModule):
 
     @PRACPIPE
     def __call__(self, pracinference, **params):
-        print colorize('+================================================+',
-                       (None, 'green', True), True)
-        print colorize('| PRAC INFERENCE: PROCESSING COMPLEX ACHIEVED BY |  ',
-                       (None, 'green', True), True)
-        print colorize('+================================================+',
-                       (None, 'green', True), True)
+        print prac_heading('Processing complex Action Core refinement')
 
         inf_step = PRACInferenceStep(pracinference, self)
         dbs = pracinference.inference_steps[-1].output_dbs

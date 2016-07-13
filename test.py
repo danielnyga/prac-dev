@@ -8,6 +8,7 @@ from prac.core.base import PRAC
 from prac.core.inference import PRACInference
 from prac.core.wordnet import WordNet
 from prac.pracutils.RolequeryHandler import RolequeryHandler
+from prac.pracutils.utils import prac_heading
 from pracmln.mln import NoConstraintsError
 from pracmln.mln.util import colorize
 import time
@@ -17,10 +18,7 @@ prac = None
 
 
 def test_prac_pipeline_simple(sentences):
-    print
-    print colorize('+========================+', (None, 'yellow', True), True)
-    print colorize('|     INFERENCE TEST     |', (None, 'yellow', True), True)
-    print colorize('+========================+', (None, 'yellow', True), True)
+    print prac_heading('Inference Test', color='yellow')
     print colorize(', '.join(sentences), (None, 'white', True), True)
     print
 
@@ -36,10 +34,7 @@ def test_prac_pipeline_simple(sentences):
 
 
 def print_results(inference):
-    print
-    print colorize('+========================+', (None, 'green', True), True)
-    print colorize('| PRAC INFERENCE RESULTS |', (None, 'green', True), True)
-    print colorize('+========================+', (None, 'green', True), True)
+    print prac_heading('PRAC Inference Results')
 
     step = inference.inference_steps[-1]
     wordnet_module = prac.getModuleByName('wn_senses')
@@ -55,12 +50,8 @@ def print_results(inference):
                     sense = group[1]
                     if sense != 'null':
                         print
-                        print colorize('  WORD:',
-                                       (None, 'white', True),
-                                       True), word,
-                        print colorize('  SENSE:',
-                                       (None, 'white', True),
-                                       True), sense
+                        print colorize('  WORD:', (None, 'white', True), True), word,
+                        print colorize('  SENSE:', (None, 'white', True), True), sense
                         wordnet_module.printWordSenses(
                             wordnet_module.get_possible_meanings_of_word(db,
                                                                          word),
@@ -71,14 +62,7 @@ def print_results(inference):
         RolequeryHandler(prac).queryRolesBasedOnActioncore(db).write(color=True)
 
     if hasattr(inference.inference_steps[-1], 'executable_plans'):
-        print
-        print colorize('+==========================+',
-                       (None, 'green', True), True)
-        print colorize('| PARAMETERIZED ROBOT PLAN |',
-                       (None, 'green', True), True)
-        print colorize('+==========================+',
-                       (None, 'green', True), True)
-        print
+        print prac_heading('Parameterized Robot Plan')
         for plan in step.executable_plans:
             print plan
 

@@ -24,8 +24,8 @@ import os
 import itertools
 from prac.core.base import PRACModule
 from prac.core.inference import PRACInferenceStep
+from prac.pracutils.utils import prac_heading
 from pracmln import MLN
-from pracmln.mln.util import colorize, out
 from pracmln.praclog import logger
 
 log_ = logger(__name__)
@@ -37,10 +37,7 @@ class PlanGenerator(PRACModule):
 
         log_.info('Running {}'.format(self.name))
 
-        print colorize('+=========================+', (None, 'green', True), True)
-        print colorize('| GENERATING CRAM PLAN(S) |', (None, 'green', True), True)
-        print colorize('+=========================+', (None, 'green', True), True)
-        print
+        print prac_heading('Generating CRAM Plan(s)')
 
         infstep = PRACInferenceStep(pracinference, self)
         dbs = pracinference.inference_steps[-1].output_dbs
@@ -109,5 +106,4 @@ class PlanGenerator(PRACModule):
                         infstep.inferred_roles[ac.name] = assignment
                         infstep.executable_plans.append(ac.parameterize_plan(**assignment))
                     break
-        print infstep.executable_plans
         return infstep

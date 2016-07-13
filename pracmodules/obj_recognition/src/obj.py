@@ -24,6 +24,7 @@ import os
 import sys
 from prac.core.base import PRACModule, PRACPIPE
 from prac.core.inference import PRACInferenceStep
+from prac.pracutils.utils import prac_heading
 from pracmln import MLNQuery, MLN, Database
 from pracmln.praclog import logger
 from pracmln.mln.base import parse_mln
@@ -46,16 +47,7 @@ class NLObjectRecognition(PRACModule):
     def __call__(self, pracinference, **params):
         log.info('Running {}'.format(self.name))
 
-        print colorize('+=============================================+',
-                       (None, 'green', True), True)
-        print colorize('| PRAC OBJECT RECOGNITION: RECOGNIZING OBJECTS|',
-                       (None, 'green', True), True)
-        print colorize('+=============================================+',
-                       (None, 'green', True), True)
-        print
-        print colorize(
-            'Inferring most probable object based on nl description properties...',
-            (None, 'white', True), True)
+        print prac_heading('Recognizing Objects')
 
         # load default project
         projectpath = self.project_path

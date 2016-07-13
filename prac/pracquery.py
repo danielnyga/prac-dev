@@ -34,6 +34,7 @@ from prac.core.base import PRAC
 from prac.core.inference import PRACInference
 from prac.core.wordnet import WordNet
 from prac.pracutils.RolequeryHandler import RolequeryHandler
+from prac.pracutils.utils import prac_heading
 from pracmln import praclog
 from pracmln.mln.database import parse_db
 from pracmln.mln.methods import InferenceMethods
@@ -887,14 +888,8 @@ if __name__ == '__main__':
                 is_inference_process_aborted = True
         
         if not is_inference_process_aborted:
-            print
-            print colorize('+========================+', (None, 'green', True),
-                           True)
-            print colorize('| PRAC INFERENCE RESULTS |', (None, 'green', True),
-                           True)
-            print colorize('+========================+', (None, 'green', True),
-                           True)
-    
+            print prac_heading('PRAC Inference Results')
+
             step = inference.inference_steps[-1]
             wordnet_module = prac.getModuleByName('wn_senses')
             for db in step.output_dbs:
@@ -910,10 +905,8 @@ if __name__ == '__main__':
                             sense = group[1];
                             if sense != 'null':
                                 print
-                                print colorize('  WORD:', (None, 'white', True),
-                                               True), word,
-                                print colorize('  SENSE:', (None, 'white', True),
-                                               True), sense
+                                print colorize('  WORD:', (None, 'white', True), True), word,
+                                print colorize('  SENSE:', (None, 'white', True), True), sense
                                 wordnet_module.printWordSenses(
                                     wordnet_module.get_possible_meanings_of_word(
                                         db, word), sense)
@@ -923,14 +916,7 @@ if __name__ == '__main__':
                 RolequeryHandler(prac).queryRolesBasedOnActioncore(db).write(color=True)
     
         if hasattr(inference.inference_steps[-1], 'executable_plans'):
-            print
-            print colorize('+==========================+', (None, 'green', True),
-                           True)
-            print colorize('| PARAMETERIZED ROBOT PLAN |', (None, 'green', True),
-                           True)
-            print colorize('+==========================+', (None, 'green', True),
-                           True)
-            print
+            print prac_heading('Parameterized Robot Plan')
             for plan in step.executable_plans:
                 print plan
                 print

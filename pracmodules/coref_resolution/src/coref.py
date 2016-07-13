@@ -21,12 +21,13 @@
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 import os
-from prac.core.base import PRACModule, PRACPIPE, PRAC
-from prac.core.inference import PRACInferenceStep, PRACInference
-from prac.core.wordnet import WordNet
+
+from prac.core.base import PRACModule, PRACPIPE
+from prac.core.inference import PRACInferenceStep
+from prac.pracutils.utils import prac_heading
 from pracmln import praclog, MLNQuery, Database
 from pracmln.mln.base import parse_mln
-from pracmln.mln.util import colorize, stop, out, mergedom
+from pracmln.mln.util import colorize, mergedom
 from pracmln.utils.project import MLNProject
 from pracmln.utils.visualization import get_cond_prob_png
 
@@ -35,16 +36,14 @@ log = praclog.logger(__name__)
 
 
 class CorefResolution(PRACModule):
-    """
-    PRACmodule used to perform coreference resolution and simultaneous missing
+    '''
+    PRACModule used to perform coreference resolution and simultaneous missing
     role inference.
-    """
+    '''
 
     @PRACPIPE
     def __call__(self, pracinference, **params):
-        print colorize('+========================+', (None, 'green', True), True)
-        print colorize('| RESOLVING COREFERENCES |', (None, 'green', True), True)
-        print colorize('+========================+', (None, 'green', True), True)
+        print prac_heading('Resolving Coreferences')
 
         # merge output dbs from senses_and_roles step, containing
         # roles inferred from multiple sentences.
@@ -112,13 +111,10 @@ class CorefResolution(PRACModule):
                         corefdb << 'distance({},DIST{})'.format(w, idx - idx2)
 
                 mlntext = project.mlns.get(project.queryconf['mln'], None)
-                mln = parse_mln(mlntext,
-                                searchpaths=[self.module_path],
+                mln = parse_mln(mlntext, searchpaths=[self.module_path],
                                 projectpath=projectpath,
-                                logic=project.queryconf.get('logic',
-                                                            'FuzzyLogic'),
-                                grammar=project.queryconf.get('grammar',
-                                                              'PRACGrammar'))
+                                logic=project.queryconf.get('logic', 'FuzzyLogic'),
+                                grammar=project.queryconf.get('grammar', 'PRACGrammar'))
 
                 # adding similarities
                 wordnet_module = self.prac.getModuleByName('wn_senses')
@@ -151,9 +147,7 @@ class CorefResolution(PRACModule):
                             else:
                                 newdatabase << '!{}({},{})'.format(r, w, ac1)
 
-                infer = MLNQuery(config=conf,
-                                 db=newdatabase,
-                                 mln=mln).run()
+                infer = MLNQuery(config=conf, db=newdatabase, mln=mln).run()
 
                 # merge initial db with results
                 for res in infer.results.keys():
@@ -162,9 +156,9 @@ class CorefResolution(PRACModule):
                     db << '{}'.format(res)
                     w = res.split('(')[1].split(',')[0]
                     for q in newdatabase.query('has_sense({0},?s) ^ has_pos({0},?pos)'.format(w)):
-                            db << 'has_sense({},{})'.format(w, q['?s'])
-                            db << 'is_a({0},{0})'.format(q['?s'])
-                            db << 'has_pos({},{})'.format(w, q['?pos'])
+                        db << 'has_sense({},{})'.format(w, q['?s'])
+                        db << 'is_a({0},{0})'.format(q['?s'])
+                        db << 'has_pos({},{})'.format(w, q['?pos'])
 
                 newdb = wordnet_module.add_sims(db, mln)
                 inf_step.output_dbs.append(newdb)
@@ -172,29 +166,3 @@ class CorefResolution(PRACModule):
                 inf_step.png = pngs
                 inf_step.applied_settings = project.queryconf.config
         return inf_step
-
-
-if __name__ == '__main__':
-
-    from optparse import OptionParser
-
-    parser = OptionParser()
-    parser.add_option("-i", "--interactive", dest="interactive", default=False,
-                      action='store_true',
-                      help="Starts PRAC inference with an interactive GUI tool.")
-    (options, args) = parser.parse_args()
-
-    sentences = args
-    prac = PRAC()
-    prac.wordnet = WordNet(concepts=None)
-
-    inference = PRACInference(prac, sentences)
-
-    if len(inference.instructions) > 0:
-        parser = prac.getModuleByName('nl_parsing')
-        prac.run(inference, parser)
-
-    modules = ['ac_recognition', 'senses_and_roles', 'coref_resolution']
-    for mname in modules:
-        module = prac.getModuleByName(mname)
-        prac.run(inference, module)

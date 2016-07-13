@@ -25,6 +25,7 @@ import yaml
 
 from prac.core.base import PRACModule, PRACPIPE
 from prac.core.inference import PRACInferenceStep
+from prac.pracutils.utils import prac_heading
 from pracmln import Database, MLNQuery
 from pracmln.mln.base import parse_mln
 from pracmln.mln.util import colorize, out
@@ -66,12 +67,7 @@ class RolesTransformation(PRACModule):
 
     @PRACPIPE
     def __call__(self, pracinference, **params):
-        print colorize('+===================================================+',
-                       (None, 'green', True), True)
-        print colorize('| PRAC INFERENCE: Update roles based on achieved_by |',
-                       (None, 'green', True), True)
-        print colorize('+===================================================+',
-                       (None, 'green', True), True)
+        print prac_heading('Update roles based on Action Core Refinement')
 
         inf_step = PRACInferenceStep(pracinference, self)
         planlist = self.getPlanList()
