@@ -20,7 +20,7 @@
 # CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-from nltk import word_tokenize
+from prac_nltk import word_tokenize
 import string
 import subprocess
 import re
@@ -36,7 +36,7 @@ from prac.core.wordnet import WordNet
 from prac import java
 from pracmln import Database, MLN, MLNQuery
 from pracmln.mln.base import parse_mln
-from pracmln.mln.util import colorize
+from pracmln.mln.util import colorize, out
 from pracmln.utils.project import MLNProject
 from pracmln.praclog import logger
 from pracmln.utils.visualization import get_cond_prob_png
@@ -398,6 +398,7 @@ class NLParsing(PRACModule):
                 sp.remove('')
 
             for r in sp:
+                out(r)
                 db << r
         
             prac_dbs.append(db)
