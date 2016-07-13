@@ -108,15 +108,15 @@ class ComplexAchievedBy(PRACModule):
     def get_instructions_based_on_action_core(self, db):
         wordnet = WordNet(concepts=None)
         # Assuming there is only one action core
+        mongo_client = MongoClient()
         for q in db.query('action_core(?w,?ac)'):
             actioncore = q['?ac']
-            mongo_client = MongoClient()
             ies_mongo_db = mongo_client.PRAC
             instructions_collection = ies_mongo_db.Instructions
 
             out("Sending query to MONGO DB ...")
-            cursor = instructions_collection.find(
-                {'action_core': '{}'.format(actioncore)})
+            cursor = instructions_collection.find({'action_core': str(actioncore)})
+            
             roles_dict = RolequeryHandler(self.prac).query_roles_and_senses_based_on_achieved_by(db)
             documents_vector = []
 
