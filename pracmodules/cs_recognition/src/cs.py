@@ -93,10 +93,11 @@ class ControlStructureIdentification(PRACModule):
                     for q in result.query('{}(?w,?cs)'.format(query_predicate)):
                         updated_predicate = "{}_{}".format(condition_type,query_predicate)
                         updated_atom = "{}({},{})".format(updated_predicate,q['?w'],q['?cs'])
-                        final_result.mln.declare_predicate(Predicate(updated_predicate,['word','cs_name']))
+                        final_result.mln.declare_predicate(Predicate(updated_predicate,['actioncore','cs_name']))
                         final_result << updated_atom
+                
                         
-                inf_step.output_dbs.append(infer.resultdb)
+                inf_step.output_dbs.append(final_result)
                 
                 #Database contains control structure since the MLN can be grounded
                 num_of_control_structures += 1

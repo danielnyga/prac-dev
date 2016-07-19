@@ -81,6 +81,8 @@ class PRACInference(object):
         elif previous_module == 'ac_recognition':
             return 'cs_recognition'
         elif previous_module == 'cs_recognition':
+            return 'acs_separator'
+        elif previous_module == 'acs_separator':
             return 'prop_extraction'
         elif previous_module == 'prop_extraction':
             return 'senses_and_roles'
