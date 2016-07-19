@@ -170,6 +170,6 @@ attr(word, word)
 /*
  * Control Structure
  */
-cs_name(name)
-condition(word,name)
-event(word,name)
+//cs_name(name)
+//condition(word,name)
+//event(word,name)

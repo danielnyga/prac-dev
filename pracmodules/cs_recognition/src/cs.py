@@ -32,6 +32,7 @@ from pracmln.praclog import logger
 from pracmln.utils.project import MLNProject
 from pracmln.utils.visualization import get_cond_prob_png
 from pracmln.mln.errors import NoConstraintsError
+from pracmln.mln.base import Predicate
 
 log = logger(__name__)
 
@@ -72,12 +73,31 @@ class ControlStructureIdentification(PRACModule):
         
         for i, db in enumerate(dbs):
             db_ = db.copy()
+            final_result = db.copy()
             db_  << "cs_name(CS-{})".format(str(num_of_control_structures))
             # result_db = list(kb.infer(tmp_union_db))[0]
             
             try:
                 infer = MLNQuery(config=ac_project.queryconf, db=db_, mln=mln).run()
+                result = infer.resultdb
+                
+                #Determine if control structure is "if" or "while"
+                #Assuming there is only one cs in database
+                condition_type = ""
+                for q in result.query('condition_type(?w)'):
+                    word_const = q['?w']
+                    condition_type = ('-'.join(word_const.split('-')[:-1])).lower().strip()
+                
+                
+                for query_predicate in ['condition','event']:
+                    for q in result.query('{}(?w,?cs)'.format(query_predicate)):
+                        updated_predicate = "{}_{}".format(condition_type,query_predicate)
+                        updated_atom = "{}({},{})".format(updated_predicate,q['?w'],q['?cs'])
+                        final_result.mln.declare_predicate(Predicate(updated_predicate,['word','cs_name']))
+                        final_result << updated_atom
+                        
                 inf_step.output_dbs.append(infer.resultdb)
+                
                 #Database contains control structure since the MLN can be grounded
                 num_of_control_structures += 1
             except NoConstraintsError:
