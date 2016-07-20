@@ -399,7 +399,6 @@ class NLParsing(PRACModule):
                 sp.remove('')
 
             for r in sp:
-                out(r)
                 db << r
         
             prac_dbs.append(db)
