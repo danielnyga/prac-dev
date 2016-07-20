@@ -837,11 +837,8 @@ if __name__ == '__main__':
 
     from optparse import OptionParser
 
-
     parser = OptionParser()
-    parser.add_option("-i", "--interactive", dest="interactive", default=False,
-                      action='store_true',
-                      help="Starts PRAC inference with an interactive GUI tool.")
+    parser.add_option("-i", "--interactive", dest="interactive", default=False, action='store_true', help="Starts PRAC inference with an interactive GUI tool.")
     (options, args) = parser.parse_args()
 
     sentences = args

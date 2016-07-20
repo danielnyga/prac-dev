@@ -179,8 +179,7 @@ class PRACInference(object):
         for q in db.query('action_core(?w,?ac)'):
             actioncore = q['?ac']
 
-            roles_senses_dict = RolequeryHandler(self.prac).query_roles_and_senses_based_on_action_core(
-                db)
+            roles_senses_dict = RolequeryHandler(self.prac).query_roles_and_senses_based_on_action_core(db)
             inferred_roles_set = set(roles_senses_dict.keys())
 
             # Determine missing roles: All_Action_Roles\Inferred_Roles
@@ -189,7 +188,5 @@ class PRACInference(object):
 
             if missing_role_set:
                 return True
-
             return False
-
         return False
