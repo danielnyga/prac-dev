@@ -70,12 +70,12 @@ class PRACConfig(ConfigParser):
             'password': ''
         },
         'wordnet': {
-            'concepts': ['''water.n.06 
+            'concepts': '''water.n.06 
                          cup.n.01
                          cup.n.02
                          bowl.n.01
                          bowl.n.02
-                         milk.n.01''']
+                         milk.n.01'''
         }      
     }
     
@@ -111,7 +111,7 @@ class PRAC(object):
     """
     
 
-    def __init__(self, configfile=None):
+    def __init__(self, configfile='pracconf'):
         # read all the manifest files.
         self.config = PRACConfig(configfile)
         self.actioncores = ActionCore.readFromFile(os.path.join(PRAC_HOME, 'models', 'actioncores.yaml'))
