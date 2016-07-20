@@ -733,7 +733,7 @@ class WordNet(object):
             synset = self.synset(synset)
         if synset is None:
             return 0
-        assert type(synset) == Synset or type(synset) == origSynset
+        assert type(synset) == Synset
 
         height = self.__get_subtree_height(synset)
         return height

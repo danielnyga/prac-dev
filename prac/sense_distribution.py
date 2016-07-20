@@ -25,7 +25,7 @@ import os
 from collections import defaultdict
 import jpype
 import java
-from core.wordnet import WordNet, known_concepts
+from core.wordnet import WordNet
 from core.base import PRAC
 from prac.pracutils import posMap
 from prac.pracutils.conv.semcore import grammarPath
@@ -104,7 +104,7 @@ def add_similarities(db, concept, wn):
 if __name__ == '__main__':
 
     prac = PRAC()
-    prac.wordnet = WordNet(known_concepts)
+    prac.wordnet = WordNet(prac.config.getlist('wordnet', 'concepts'))
     parser = prac.getModuleByName('nl_parsing')
     senses = prac.getModuleByName('wn_senses')
     wsd = prac.getModuleByName('wsd')

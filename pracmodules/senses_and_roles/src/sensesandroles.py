@@ -23,7 +23,7 @@
 import os
 from prac.core.base import PRACModule, PRACPIPE
 from prac.core.inference import PRACInferenceStep
-from prac.core.wordnet import known_concepts, WordNet
+from prac.core.wordnet import WordNet
 from prac.pracutils.pracgraphviz import render_gv
 from prac.pracutils.utils import prac_heading
 from prac.sense_distribution import add_all_wordnet_similarities, \
@@ -226,7 +226,7 @@ class SensesAndRoles(PRACModule):
                     # add inferred concepts to known_concepts to display
                     # them in the graph. Ignore verbs and adjectives,
                     # as they do not have hypernym relations to nouns
-                    concepts = known_concepts
+                    concepts = self.prac.config.getlist('wordnet', 'concepts')
                     for con in db_.query('has_sense(?w,?s)'):
                         if con['?s'].split('.')[1] in ['a', 's', 'v']:
                             continue
