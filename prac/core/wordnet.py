@@ -26,13 +26,13 @@ from nltk.corpus import WordNetCorpusReader
 import os
 import itertools
 import prac_nltk
-# contains similarity dictionaries for colors, shapes, sizes, consistencies
-# and dimensions, as well as numbers and their related hypernym_paths
 import math
 from num2words import num2words
 from word2number import w2n
 import re
 from prac.core.errors import ConceptAlreadyExistsError, NoRationalNumber
+# contains similarity dictionaries for colors, shapes, sizes, consistencies
+# and dimensions, as well as numbers and their related hypernym_paths
 import properties
 import graphviz as gv
 from threading import RLock
@@ -49,7 +49,6 @@ from pracmln.utils.graphml import Graph, Node as GMLNode, Edge
 log = logger(__name__)
 
 PRAC_HOME = os.environ['PRAC_HOME']
-prac_nltk.data.path = [os.path.join(PRAC_HOME, 'data', 'nltk_data')]
 
 NLTK_POS = ['n', 'v', 'a', 'r', 'c']
 ADJ_POS = ['s', 'a']
@@ -57,73 +56,6 @@ ADJ_POS = ['s', 'a']
 colorsims = {}
 shapesims = {}
 sizesims = {}
-
-known_concepts = ['hydrochloric_acid.n.01',
-                  'drop.n.02',
-                  'sodium_hydroxide.n.01',
-                  'water.n.06',
-                  'liter.n.01',
-                  'milliliter.n.01',
-                  'morsel.n.01',
-                  'test_tube.n.01',
-                  'arsenic_acid.n.01',
-                  'titanic_acid.n.01',
-                  'purine.n.02',
-                  'petri_dish.n.01',
-                  'silver_nitrate.n.01',
-                  'phenolphthalein.n.01',
-                  'centrifuge.n.01',
-                  'mixer.n.04',
-                  'erlenmeyer_flask.n.01',
-                  'ph.n.01',
-                  'imidazole.n.01',
-                  'melamine.n.01'
-                  # 'bottle.n.01',
-                  # 'cup.n.01',
-                  # 'glass.n.02',
-                  # 'salt.n.02',
-                  # 'pepper.n.03',
-                  # 'sugar.n.01',
-                  # 'pot.n.01',
-                  # 'cinnamon.n.01',
-                  # 'marjoram.n.02',
-                  # 'soup.n.01',
-                  # 'milk.n.01',
-                  # 'water.n.06',
-                  # 'cup.n.01',
-                  # 'cup.n.02',
-                  # 'glass.n.02',
-                  # 'bowl.n.03',
-                  # 'coffee.n.01',
-                  # 'bowl.n.04',
-                  # 'spoon.n.01',
-                  # 'spoon.n.02',
-                  # 'sauce.n.01',
-                  # 'salt.n.02',
-                  # 'pepper.n.03',
-                  # 'marjoram.n.01',
-                  # 'rosemary.n.01',
-                  # 'tomato_sauce.n.01',
-                  # 'carbonara.n.01',
-                  # 'batter.n.02',
-                  # 'baking_tray.n.01',
-                  # 'cheese.n.01',
-                  # 'mozzarella.n.01',
-                  # 'water_faucet.n.01',
-                  # 'oven.n.01',
-                  # 'degree_celsius.n.01',
-                  # 'refrigerator.n.01',
-                  # 'stove.n.01'
-                  # 'one.n.01',
-                  # 'two.n.01',
-                  # 'three.n.01',
-                  # 'four.n.01',
-                  # 'five.n.01',
-                  # 'six.n.01',
-                  # 'seven.n.01',
-                  # 'eight.n.01',
-                  # 'nine.n.01'
-                  ]
 
 
 def synchronized(lock):
@@ -542,7 +474,7 @@ class WordNet(object):
             but is retained for backwards compatibility
         :return: The synsets that are the lowest common hypernyms of both
             synsets
-        '''
+        ''' 
 
         fake_synset = Synset(None)
         fake_synset._name = '*ROOT*'

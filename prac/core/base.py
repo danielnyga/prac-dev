@@ -25,12 +25,17 @@ import locations
 import os
 import sys
 from pracmln.praclog import logger
-
+import prac_nltk
 modules = ['nltk_2.0b9']
+
+prac_nltk.data.path = [os.path.join(locations.home, 'data', 'nltk_data')]
+
 for module in modules:
     path = os.path.join(locations.thirdparty, module)
     if path not in sys.path:
         sys.path.append(path)
+
+
 
 from prac.core.inference import PRACInferenceStep
 from prac.core.wordnet import WordNet
@@ -63,7 +68,15 @@ class PRACConfig(ConfigParser):
             'port': 27017,
             'user': '',
             'password': ''
-        }
+        },
+        'wordnet': {
+            'concepts': ['''water.n.06 
+                         cup.n.01
+                         cup.n.02
+                         bowl.n.01
+                         bowl.n.02
+                         milk.n.01''']
+        }      
     }
     
     def __init__(self, filename=None):
@@ -73,14 +86,24 @@ class PRACConfig(ConfigParser):
             for key, value in values.iteritems():
                 self.set(section, key, value)
         if filename is not None:
-            self.read(filename)
+            self.read(os.path.join(locations.home, filename))
+    
     
     def write(self, filename=None):
+        '''
+        Saves this configuration file to disk.
+        
+        :param filename:    the name of the config file.
+        '''
         filename = ifNone(filename, 'pracconf')
         filepath = os.path.join(locations.home, filename)
         with open(filepath, 'w+') as f:
             ConfigParser.write(self, f)
 
+
+    def getlist(self, section, key, separator='\n'):
+        return filter(bool, [s.strip() for s in self.get(section, key).split(separator)])
+    
 
 class PRAC(object):
     """
@@ -89,7 +112,7 @@ class PRAC(object):
     
     logger = logger('PRAC')
     
-    def __init__(self, configfile=None):
+    def __init__(self, configfile='pracconf'):
         # read all the manifest files.
         self.config = PRACConfig(configfile)
         self.actioncores = ActionCore.readFromFile(os.path.join(PRAC_HOME, 'models', 'actioncores.yaml'))
@@ -543,9 +566,11 @@ if __name__ == '__main__':
     main routine for testing and debugging purposes only!.
     '''
     prac = PRAC()
-    print prac.roles
-    print prac.actioncores['Neutralizing'].roles
+    print prac.config.getlist('wordnet', 'concepts')
     
+#     print prac.roles
+#     print prac.actioncores['Neutralizing'].roles
+#     
 #     log = logging.getLogger('PRAC')
 #     prac = PRAC()
 #     infer = PRACInference(prac, ['Flip the pancake around.',

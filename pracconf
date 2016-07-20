@@ -1,0 +1,27 @@
+[mongodb]
+host = 127.0.0.1
+password = 
+port = 27017
+user = 
+
+[wordnet]
+concepts = hydrochloric_acid.n.01
+	drop.n.02
+	sodium_hydroxide.n.01
+	water.n.06
+	liter.n.01
+	milliliter.n.01
+	morsel.n.01
+	test_tube.n.01
+	arsenic_acid.n.01
+	titanic_acid.n.01
+	purine.n.02
+	petri_dish.n.01
+	silver_nitrate.n.01
+	phenolphthalein.n.01
+	centrifuge.n.01
+	mixer.n.04
+	erlenmeyer_flask.n.01
+	ph.n.01
+	imidazole.n.01
+	melamine.n.01  
