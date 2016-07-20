@@ -87,21 +87,21 @@ class PRAC(object):
     The PRAC reasoning system.
     """
     
-    logger = logger('PRAC')
-    
+
     def __init__(self, configfile=None):
         # read all the manifest files.
         self.config = PRACConfig(configfile)
         self.actioncores = ActionCore.readFromFile(os.path.join(PRAC_HOME, 'models', 'actioncores.yaml'))
         self.moduleManifests = []
         self.moduleManifestByName = {}
+        self.logger = logger('PRAC')
         for module_path in os.listdir(prac_module_path):
             if not os.path.isdir(os.path.join(prac_module_path, module_path)):
                 continue
             manifest_file_name = os.path.join(prac_module_path, module_path,
                                               'pracmodule.yaml')
             if not os.path.exists(manifest_file_name):
-                PRAC.log.warning(
+                self.logger.warning(
                     'No module manifest file in path "%s".' % module_path)
                 continue
             manifest_file = open(manifest_file_name, 'r')
@@ -112,7 +112,7 @@ class PRAC(object):
             module.module_path = os.path.join(prac_module_path, module_path)
             self.moduleManifests.append(module)
             self.moduleManifestByName[module.name] = module
-            PRAC.logger.info('Read manifest file for module "%s".' % module.name)
+            self.logger.info('Read manifest file for module "%s".' % module.name)
         self.moduleByName = {}
         self.modules = []
         # TODO: replace this by real action core definitions
