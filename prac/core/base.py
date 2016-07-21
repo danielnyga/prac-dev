@@ -325,6 +325,10 @@ class ActionCore(object):
             for role in actionroles:
                 action_core.roles.append(role)
             logger('actioncores').info('Read action core: %s (roles: %s)' % (action_core.name, ', '.join(action_core.roles)))
+            requiredroles = content.get(ActionCore.REQUIRED_ROLES)
+            if requiredroles:
+                for rc in requiredroles:
+                    action_core.required_roles.append(rc)
             action_core.plan = content.get(ActionCore.PLAN)
             actioncores[action_core.name] = action_core
         return actioncores
