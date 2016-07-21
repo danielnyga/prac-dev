@@ -21,157 +21,110 @@
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-action_core: Neutralizing
-action_roles: ['neutralizee','neutralizer','action_verb','amount','unit']
-required_action_roles: ['neutralizee','neutralizer','action_verb']
----
-
-action_core: Filling
-action_roles: ['stuff','goal','action_verb']
-
----
-
-action_core: Opening
-action_roles: ['obj_to_be_opened','action_verb']
-
----
-
-action_core: Unscrewing
-action_roles: ['obj_to_be_unscrewed','action_verb']
-cram_plan: "(unscrew (an object (type {obj_to_be_unscrewed}){obj_to_be_unscrewed_props}))"
----
-
-action_core: Pulling
-action_roles: ['obj_to_be_pulled','action_verb']
-cram_plan: "(pull-object (an object (type {obj_to_be_pulled}){obj_to_be_pulled_props}))"
----
-
-action_core: OpeningADoor
-action_roles: ['obj_to_be_opened','action_verb']
-cram_plan: "(open-door (of (an object (type {obj_to_be_opened}){obj_to_be_opened_props})))"
-
----
-
-action_core: Starting
-action_roles: ['obj_to_be_started','action_verb']
-
----
-
-action_core: Pouring
-
-action_roles: ['stuff','goal','action_verb','unit','amount']
-required_action_roles: ['stuff','goal','action_verb']
-cram_plan: "(pour-from-container (from (an object  (type container.n.01) (contains (some stuff (type {stuff}){stuff_props})))) (amount ({amount} {unit})) (to (an object  (type {goal}){goal_props})))"
-
----
-
 action_core: Adding
 action_roles: ['theme','goal','action_verb','unit','amount']
 required_action_roles: ['theme','goal','action_verb']
 ---
-
+action_core: Cooking
+action_roles: ['obj_to_be_cooked','action_verb']
+---
+action_core: Evaluating
+action_roles: ['obj_to_be_evaluated','attribute','action_verb']
+---
+action_core: Filling
+action_roles: ['stuff','goal','action_verb']
+---
+action_core: Flavouring
+action_roles: ['spice','goal','action_verb']
+---
+action_core: Flipping
+action_roles: ['obj_to_be_flipped','action_verb','utensil']
+---
+action_core: Grabbing
+action_roles: ['obj_to_be_grabbed','action_verb']
+cram_plan: "(grab (an object (type {obj_to_be_grabbed}){obj_to_be_grabbed_props}))"
+---
+action_core: Lifting
+action_roles: ['obj_to_be_lifted','action_verb']
+cram_plan: "(lift-object (type {obj_to_be_lifted}){obj_to_be_lifted_props})"
+---
+action_core: Neutralizing
+action_roles: ['neutralizee','neutralizer','action_verb','amount','unit']
+required_action_roles: ['neutralizee','neutralizer','action_verb']
+---
+action_core: Opening
+action_roles: ['obj_to_be_opened','action_verb']
+---
+action_core: OpeningADoor
+action_roles: ['obj_to_be_opened','action_verb']
+cram_plan: "(open-door (of (an object (type {obj_to_be_opened}){obj_to_be_opened_props})))"
+---
+action_core: OperatingATap
+action_roles: ['liquid','goal','action_verb','amount','unit']
+cram_plan: "(operate-tap (from (an object (type faucet.n.01) (contains (some liquid (type {liquid}){liquid_props})))) (amount ({amount} {unit})) (to (an object  (type {goal}){goal_props})))"
+---
+action_core: Pipetting
+action_roles: ['content','goal','action_verb','amount','unit']
+cram_plan: "(use-pipette (from (an object (type container.n.01)(contains (some stuff (type {content}){content_props})))(to (an object (type container.n.01)(contains (some stuff (type {goal}){goal_props}))(amount (a quantity (type {unit})(number {amount}))))"
+---
+action_core: Pouring
+action_roles: ['stuff','goal','action_verb','unit','amount']
+required_action_roles: ['stuff','goal','action_verb']
+cram_plan: "(pour-from-container (from (an object  (type container.n.01) (contains (some stuff (type {stuff}){stuff_props})))) (amount ({amount} {unit})) (to (an object  (type {goal}){goal_props})))"
+---
 action_core: Preheating
 action_roles: ['obj_to_be_heated','temperature_unit','temperature_setting','action_verb']
 required_action_roles: ['obj_to_be_heated','action_verb']
 ---
-
-action_core: OperatingATap
-action_roles: ['liquid','goal','action_verb','amount','unit']
-cram_plan: "(operate-tap (from (an object (type faucet.n.01) (contains (some liquid (type {liquid}){liquid_props})))) (amount ({amount} {unit})) (to (an object  (type {goal}){goal_props})))"
-
+action_core: Pressing
+action_roles: ['obj_to_be_pressed','action_verb','location']
+cram_plan: "(press (an object (type {obj_to_be_pressed}){obj_to_be_pressed_props}) on (a location (type {location}){location_props}))"
 ---
-
-action_core: UsingSpiceJar
-action_roles: ['content','goal','action_verb']
-cram_plan: "(pour-from-spice-jar (from (an object (type container.n.01)(contains (some stuff (type {content}){content_props})))(to (an object (type {goal}){goal_props}))))"
+action_core: Pulling
+action_roles: ['obj_to_be_pulled','action_verb']
+cram_plan: "(pull-object (an object (type {obj_to_be_pulled}){obj_to_be_pulled_props}))"
 ---
-
+action_core: Putting
+action_roles: ['obj_to_be_put','action_verb','location']
+cram_plan: "(put-object (an object (type {obj_to_be_put}){obj_to_be_put_props}) to (a location (type {location}){location_props})"
+---
+action_core: Shaking
+action_roles: ['obj_to_be_shaken','action_verb','unit','amount']
+cram_plan: "(shake (an object (type {obj_to_be_shaken}){obj_to_be_shaken_props}) for ({amount} {unit}))"
+---
 action_core: Spooning
 action_roles: ['substance','goal','action_verb']
 cram_plan: "(use-spoon (from (an object (type container.n.01)(contains (some stuff (type {substance}){substance_props})))(to (an object (type {goal}){goal_props}))))"
 ---
-
-action_core: Flavouring
-action_roles: ['spice','goal','action_verb']
-
----
-
-action_core: TurningOnElectricalDevice
-action_roles: ['device','action_verb']
-cram_plan: "(turn-on-device (an object (type {device}){device_props}))"
-
----
-
-action_core: UsingMeasuringCup
-action_roles: ['content','goal','action_verb','amount','unit']
-cram_plan: "(use-measuring-cup (from (an object (type container.n.01)(contains (some stuff (type {content}){content_props})))(amount ({amount} {unit}))(to (an object (type container.n.01)(contains (some stuff (type {goal}){goal_props}))"
-
----
-
-action_core: Pipetting
-action_roles: ['content','goal','action_verb','amount','unit']
-cram_plan: "(use-pipette (from (an object (type container.n.01)(contains (some stuff (type {content}){content_props})))(to (an object (type container.n.01)(contains (some stuff (type {goal}){goal_props}))(amount (a quantity (type {unit})(number {amount}))))"
-
+action_core: Starting
+action_roles: ['obj_to_be_started','action_verb']
 ---
 action_core: Storing
 action_roles: ['obj_to_be_stored','action_verb','location']
-
 ---
-action_core: Flipping
-action_roles: ['obj_to_be_flipped','action_verb','utensil']
-
+action_core: Taking
+action_roles: ['obj_to_be_taken','action_verb']
 ---
-
-action_core: Cooking
-action_roles: ['obj_to_be_cooked','action_verb']
-
----
-
-action_core: Lifting
-action_roles: ['obj_to_be_lifted','action_verb']
-cram_plan: "(lift-object (type {obj_to_be_lifted}){obj_to_be_lifted_props})"
-
----
-
-action_core: Putting
-action_roles: ['obj_to_be_put','action_verb','location']
-cram_plan: "(put-object (an object (type {obj_to_be_put}){obj_to_be_put_props}) to (a location (type {location}){location_props})"
-
----
-
 action_core: Turning
 action_roles: ['obj_to_be_turned','action_verb']
 cram_plan: "(rotate-joint (an object (type {obj_to_be_turned}) {obj_to_be_turned_props}))"
-
 ---
-
-action_core: Taking
-action_roles: ['obj_to_be_taken','action_verb']
-
+action_core: TurningOnElectricalDevice
+action_roles: ['device','action_verb']
+cram_plan: "(turn-on-device (an object (type {device}){device_props}))"
 ---
-
-action_core: Evaluating
-action_roles: ['obj_to_be_evaluated','attribute','action_verb']
-
+action_core: Unscrewing
+action_roles: ['obj_to_be_unscrewed','action_verb']
+cram_plan: "(unscrew (an object (type {obj_to_be_unscrewed}){obj_to_be_unscrewed_props}))"
 ---
-action_core: Grabbing 
-action_roles: ['obj_to_be_grabbed','action_verb']
-cram_plan: "(grab (an object (type {obj_to_be_grabbed}){obj_to_be_grabbed_props}))"
-
+action_core: UsingMeasuringCup
+action_roles: ['content','goal','action_verb','amount','unit']
+cram_plan: "(use-measuring-cup (from (an object (type container.n.01)(contains (some stuff (type {content}){content_props})))(amount ({amount} {unit}))(to (an object (type container.n.01)(contains (some stuff (type {goal}){goal_props}))"
 ---
-
-action_core: Shaking
-action_roles: ['obj_to_be_shaken','action_verb','unit','amount']
-cram_plan: "(shake (an object (type {obj_to_be_shaken}){obj_to_be_shaken_props}) for ({amount} {unit}))"
-
+action_core: UsingSpiceJar
+action_roles: ['content','goal','action_verb']
+cram_plan: "(pour-from-spice-jar (from (an object (type container.n.01)(contains (some stuff (type {content}){content_props})))(to (an object (type {goal}){goal_props}))))"
 ---
-
 action_core: Waiting
 action_roles: ['unit','action_verb','amount']
 cram_plan: "(wait-for (type {amount}) (type {unit}))"
-
----
-
-action_core: Pressing
-action_roles: ['obj_to_be_pressed','action_verb','location']
-cram_plan: "(press (an object (type {obj_to_be_pressed}){obj_to_be_pressed_props}) on (a location (type {location}){location_props}))"
