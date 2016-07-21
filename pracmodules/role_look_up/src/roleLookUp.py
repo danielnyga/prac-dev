@@ -29,7 +29,6 @@ import numpy
 from prac.core.base import PRACModule, PRACPIPE
 from prac.core.inference import PRACInferenceStep
 from prac.pracutils.utils import prac_heading
-from pracmln.mln.util import colorize
 from pracmln.praclog import logger
 from pracmln.utils.visualization import get_cond_prob_png
 from prac.core.wordnet import WordNet
@@ -47,8 +46,7 @@ def transform_to_frame_vector(inferred_roles, frame_action_role_dict):
 
     for role, sense in inferred_roles.iteritems():
         if role in frame_action_role_dict.keys():
-            frame_vector.append(
-                wordnet.wup_similarity(frame_action_role_dict[role], sense))
+            frame_vector.append(wordnet.wup_similarity(frame_action_role_dict[role], sense))
 
     return stats.hmean(frame_vector)
 
@@ -62,9 +60,7 @@ def transform_documents_to_action_role_map(cursor):
         key_list = action_role.keys()
 
         for key_element in key_list:
-            document_map[str(key_element)] = str(
-                document['actioncore_roles'][key_element][
-                    'nltk_wordnet_sense'])
+            document_map[str(key_element)] = str(document['actioncore_roles'][key_element]['nltk_wordnet_sense'])
 
         result.append(document_map)
 
@@ -72,10 +68,9 @@ def transform_documents_to_action_role_map(cursor):
 
 
 class RoleLookUp(PRACModule):
-    """
+    '''
 
-    """
-
+    '''
 
     def determine_missing_roles(self, db):
         mongo_client = MongoClient()
@@ -87,22 +82,19 @@ class RoleLookUp(PRACModule):
         for q in db.query('action_core(?w,?ac)'):
 
             actioncore = q['?ac']
-            roles_senses_dict = RolequeryHandler.query_roles_and_senses_based_on_action_core(
-                db_)
+            roles_senses_dict = RolequeryHandler(self.prac).query_roles_and_senses_based_on_action_core(db_)
             inferred_roles_set = set(roles_senses_dict.keys())
 
             # Determine missing roles: All_Action_Roles\Inferred_Roles
             actioncore_roles_list = self.prac.actioncores[actioncore].required_roles
-            missing_role_set = set(actioncore_roles_list).difference(
-                inferred_roles_set)
+            missing_role_set = set(actioncore_roles_list).difference(inferred_roles_set)
 
             # Build query, return only frames where all roles are defined
 
             if missing_role_set:
                 and_conditions = [{'$eq' : ["$$plan.action_core", "{}".format(actioncore)]}]
-                and_conditions.extend(map(lambda x: {
-                    "$ifNull" : ["$$plan.actioncore_roles.{}".format(x),'false']},
-                        actioncore_roles_list))
+                and_conditions.extend(map(lambda x: {"$ifNull" : ["$$plan.actioncore_roles.{}".format(x),'false']},
+                                          actioncore_roles_list))
                 
                 roles_query ={"$and" : and_conditions}                
                 # build query based on inferred senses and roles
@@ -120,7 +112,8 @@ class RoleLookUp(PRACModule):
                 
                 stage_2 = {"$unwind": "$plan_list"}
                 print "Sending query to MONGO DB ..."
-                cursor_agg = frames_collection.aggregate([stage_1,stage_2])
+
+                cursor_agg = frames_collection.aggregate([stage_1, stage_2])
                 cursor = []
                 # After the processing it is impossible to retrieve document
                 # by index
@@ -129,12 +122,8 @@ class RoleLookUp(PRACModule):
                 
                 if len(cursor) > 0:
                     print "Found suitable frames"
-                    frame_result_list = transform_documents_to_action_role_map(
-                        cursor)
-                    score_frame_matrix = numpy.array(map(
-                        lambda x: transform_to_frame_vector(roles_senses_dict,
-                                                            x),
-                        frame_result_list))
+                    frame_result_list = transform_documents_to_action_role_map(cursor)
+                    score_frame_matrix = numpy.array(map(lambda x: transform_to_frame_vector(roles_senses_dict, x), frame_result_list))
                     confidence_level = 0.7
 
                     argmax_index = score_frame_matrix.argmax()
@@ -145,21 +134,11 @@ class RoleLookUp(PRACModule):
                         document = cursor[argmax_index]
                         i = 0
                         for missing_role in missing_role_set:
-                            word = "{}mongo{}".format(str(
-                                document['actioncore_roles'][missing_role][
-                                    'word']), str(i))
-                            print "Found {} as {}".format(frame[missing_role],
-                                                          missing_role)
-                            atom_role = "{}({},{})".format(missing_role, word,
-                                                           actioncore)
-                            atom_sense = "{}({},{})".format('has_sense', word,
-                                                            frame[
-                                                                missing_role])
-                            atom_has_pos = "{}({},{})".format('has_pos', word,
-                                                              str(document[
-                                                                      'actioncore_roles'][
-                                                                      missing_role][
-                                                                      'penn_treebank_pos']))
+                            word = "{}mongo{}".format(str(document['actioncore_roles'][missing_role]['word']), str(i))
+                            print "Found {} as {}".format(frame[missing_role], missing_role)
+                            atom_role = "{}({}, {})".format(missing_role, word, actioncore)
+                            atom_sense = "{}({}, {})".format('has_sense', word, frame[missing_role])
+                            atom_has_pos = "{}({}, {})".format('has_pos', word, str(document['actioncore_roles'][missing_role]['penn_treebank_pos']))
 
                             db_ << (atom_role, 1.0)
                             db_ << (atom_sense, 1.0)
@@ -167,23 +146,16 @@ class RoleLookUp(PRACModule):
 
                             # Need to define that the retrieve role cannot be
                             # asserted to other roles
-                            no_roles_set = set(
-                                ActioncoreDescriptionHandler.getRolesBasedOnActioncore(
-                                    actioncore))
+                            no_roles_set = set(self.prac.actioncores[actioncore].roles)
                             no_roles_set.remove(missing_role)
                             for no_role in no_roles_set:
-                                atom_role = "{}({},{})".format(no_role,
-                                                               word,
-                                                               actioncore)
+                                atom_role = "{}({},{})".format(no_role, word, actioncore)
                                 db_ << (atom_role, 0)
-
                             i += 1
                     else:
                         print "Confidence is too low."
-
                 else:
                     print "No suitable frames are available."
-
         return db_, missing_role_set
 
 
@@ -211,13 +183,9 @@ class RoleLookUp(PRACModule):
             for q in db.query('action_core(?w, ?ac)'):
                 w = q['?w']
 
-                pngs['LookUp - ' + str(i)] = get_cond_prob_png(
-                    list(missingroles),
-                    dbs,
-                    filename=self.name,
-                    mongo=True,
-                    mongoword=w)
+                pngs['LookUp - ' + str(i)] = get_cond_prob_png(list(missingroles),
+                                                               dbs, filename=self.name,
+                                                               mongo=True, mongoword=w)
             inf_step.png = pngs
-            inf_step.applied_settings = {'module': 'missing_roles',
-                                         'method': 'DB lookup'}
+            inf_step.applied_settings = {'module': 'missing_roles', 'method': 'DB lookup'}
         return inf_step
