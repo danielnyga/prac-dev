@@ -39,8 +39,15 @@ log = logger(__name__)
 PRAC_HOME = os.environ['PRAC_HOME']
 corpus_path_list = os.path.join(PRAC_HOME, 'corpus')
 
-def apply_action_verb_similarity_constraint(inferred_roles,frame_list,min_sim):
-    return
+def apply_action_verb_similarity_constraint(inferred_roles,frame_list_dict,min_sim):
+    wordnet = WordNet(concepts=None)
+    filtered_frame_list_dict = []
+    
+    for frame_dict in frame_list_dict:
+        if wordnet.wup_similarity(frame_dict['action_verb'],inferred_roles['action_verb']) >= min_sim:
+            filtered_frame_list_dict.append(frame_dict)
+    
+    return filtered_frame_list_dict
     
 
 def transform_to_frame_vector(inferred_roles, frame_action_role_dict):
@@ -50,11 +57,13 @@ def transform_to_frame_vector(inferred_roles, frame_action_role_dict):
     for role, sense in inferred_roles.iteritems():
         if role in frame_action_role_dict.keys():
             frame_vector.append(wordnet.wup_similarity(frame_action_role_dict[role], sense))
+    '''
     print inferred_roles
     print frame_action_role_dict
     print frame_vector
     print
     raw_input("prompt")
+    '''
     return stats.hmean(frame_vector)
 
 
@@ -131,39 +140,44 @@ class RoleLookUp(PRACModule):
                     cursor.append(document['plan_list'])
                 
                 if len(cursor) > 0:
-                    print "Found suitable frames"
                     frame_result_list = transform_documents_to_action_role_map(cursor)
-                    score_frame_matrix = numpy.array(map(lambda x: transform_to_frame_vector(roles_senses_dict, x), frame_result_list))
-                    confidence_level = 0.7
-
-                    argmax_index = score_frame_matrix.argmax()
-                    current_max_score = score_frame_matrix[argmax_index]
-
-                    if current_max_score >= confidence_level:
-                        frame = frame_result_list[argmax_index]
-                        document = cursor[argmax_index]
-                        i = 0
-                        for missing_role in missing_role_set:
-                            word = "{}mongo{}".format(str(document['actioncore_roles'][missing_role]['word']), str(i))
-                            print "Found {} as {}".format(frame[missing_role], missing_role)
-                            atom_role = "{}({}, {})".format(missing_role, word, actioncore)
-                            atom_sense = "{}({}, {})".format('has_sense', word, frame[missing_role])
-                            atom_has_pos = "{}({}, {})".format('has_pos', word, str(document['actioncore_roles'][missing_role]['penn_treebank_pos']))
-
-                            db_ << (atom_role, 1.0)
-                            db_ << (atom_sense, 1.0)
-                            db_ << (atom_has_pos, 1.0)
-
-                            # Need to define that the retrieve role cannot be
-                            # asserted to other roles
-                            no_roles_set = set(self.prac.actioncores[actioncore].roles)
-                            no_roles_set.remove(missing_role)
-                            for no_role in no_roles_set:
-                                atom_role = "{}({},{})".format(no_role, word, actioncore)
-                                db_ << (atom_role, 0)
-                            i += 1
+                    frame_result_list = apply_action_verb_similarity_constraint(roles_senses_dict, frame_result_list, 0.85)
+                    
+                    if len(frame_result_list) > 0:
+                        print "Found suitable frames"
+                        score_frame_matrix = numpy.array(map(lambda x: transform_to_frame_vector(roles_senses_dict, x), frame_result_list))
+                        confidence_level = 0.7
+    
+                        argmax_index = score_frame_matrix.argmax()
+                        current_max_score = score_frame_matrix[argmax_index]
+    
+                        if current_max_score >= confidence_level:
+                            frame = frame_result_list[argmax_index]
+                            document = cursor[argmax_index]
+                            i = 0
+                            for missing_role in missing_role_set:
+                                word = "{}mongo{}".format(str(document['actioncore_roles'][missing_role]['word']), str(i))
+                                print "Found {} as {}".format(frame[missing_role], missing_role)
+                                atom_role = "{}({}, {})".format(missing_role, word, actioncore)
+                                atom_sense = "{}({}, {})".format('has_sense', word, frame[missing_role])
+                                atom_has_pos = "{}({}, {})".format('has_pos', word, str(document['actioncore_roles'][missing_role]['penn_treebank_pos']))
+    
+                                db_ << (atom_role, 1.0)
+                                db_ << (atom_sense, 1.0)
+                                db_ << (atom_has_pos, 1.0)
+    
+                                # Need to define that the retrieve role cannot be
+                                # asserted to other roles
+                                no_roles_set = set(self.prac.actioncores[actioncore].roles)
+                                no_roles_set.remove(missing_role)
+                                for no_role in no_roles_set:
+                                    atom_role = "{}({},{})".format(no_role, word, actioncore)
+                                    db_ << (atom_role, 0)
+                                i += 1
+                        else:
+                            print "Confidence is too low."
                     else:
-                        print "Confidence is too low."
+                        print "No suitable frames are available."
                 else:
                     print "No suitable frames are available."
         
