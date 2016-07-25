@@ -57,6 +57,7 @@ def transform_to_frame_vector(inferred_roles, frame_action_role_dict):
     for role, sense in inferred_roles.iteritems():
         if role in frame_action_role_dict.keys():
             frame_vector.append(wordnet.wup_similarity(frame_action_role_dict[role], sense))
+    
     '''
     print inferred_roles
     print frame_action_role_dict
@@ -64,6 +65,7 @@ def transform_to_frame_vector(inferred_roles, frame_action_role_dict):
     print
     raw_input("prompt")
     '''
+            
     return stats.hmean(frame_vector)
 
 
