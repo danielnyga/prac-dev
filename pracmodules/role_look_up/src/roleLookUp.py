@@ -35,20 +35,33 @@ from prac.core.wordnet import WordNet
 from prac.pracutils.RolequeryHandler import RolequeryHandler
 
 
+
 log = logger(__name__)
 PRAC_HOME = os.environ['PRAC_HOME']
 corpus_path_list = os.path.join(PRAC_HOME, 'corpus')
 
-def transform_to_frame_vector(inferred_roles, frame_action_role_dict):
+def frame_similarity(inferred_roles, frame_action_role_dict):
     wordnet = WordNet(concepts=None)
     frame_vector = []
     
     if wordnet.wup_similarity(frame_action_role_dict['action_verb'],inferred_roles['action_verb']) < 0.85:
             return 0
-            
+    
+    
+    is_frame_inconsistent = False 
     for role, sense in inferred_roles.iteritems():
         if role in frame_action_role_dict.keys():
-            frame_vector.append(wordnet.wup_similarity(frame_action_role_dict[role], sense))
+            sim = wordnet.wup_similarity(frame_action_role_dict[role], sense)
+            #Sometimes Stanford Parser parses some objects as adjectives
+            #due to the fact that nouns and adjectives cannot be compared
+            #we define the the similarity between the instruction and the frame as zero
+            if sim == 0:
+                is_frame_inconsistent = True
+            else:
+                frame_vector.append(wordnet.wup_similarity(frame_action_role_dict[role], sense))
+    
+    if is_frame_inconsistent:
+        return 0
     
     return stats.hmean(frame_vector)
 
@@ -130,7 +143,7 @@ class RoleLookUp(PRACModule):
                     
                     if len(frame_result_list) > 0:
                         print "Found suitable frames"
-                        score_frame_matrix = numpy.array(map(lambda x: transform_to_frame_vector(roles_senses_dict, x), frame_result_list))
+                        score_frame_matrix = numpy.array(map(lambda x: frame_similarity(roles_senses_dict, x), frame_result_list))
                         confidence_level = 0.7
     
                         argmax_index = score_frame_matrix.argmax()
