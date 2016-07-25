@@ -39,6 +39,9 @@ log = logger(__name__)
 PRAC_HOME = os.environ['PRAC_HOME']
 corpus_path_list = os.path.join(PRAC_HOME, 'corpus')
 
+def apply_action_verb_similarity_constraint(inferred_roles,frame_list,min_sim):
+    return
+    
 
 def transform_to_frame_vector(inferred_roles, frame_action_role_dict):
     wordnet = WordNet(concepts=None)
@@ -47,7 +50,11 @@ def transform_to_frame_vector(inferred_roles, frame_action_role_dict):
     for role, sense in inferred_roles.iteritems():
         if role in frame_action_role_dict.keys():
             frame_vector.append(wordnet.wup_similarity(frame_action_role_dict[role], sense))
-
+    print inferred_roles
+    print frame_action_role_dict
+    print frame_vector
+    print
+    raw_input("prompt")
     return stats.hmean(frame_vector)
 
 
@@ -95,7 +102,7 @@ class RoleLookUp(PRACModule):
             
             if missing_role_set:
                 and_conditions = [{'$eq' : ["$$plan.action_core", "{}".format(actioncore)]}]
-                and_conditions.extend(map(lambda x: {"$ifNull" : ["$$plan.actioncore_roles.{}".format(x),'false']},
+                and_conditions.extend(map(lambda x: {"$ifNull" : ["$$plan.actioncore_roles.{}".format(x),False]},
                                           actioncore_roles_list))
                 
                 roles_query ={"$and" : and_conditions}                
@@ -113,6 +120,7 @@ class RoleLookUp(PRACModule):
                            }
                 
                 stage_2 = {"$unwind": "$plan_list"}
+                
                 print "Sending query to MONGO DB ..."
 
                 cursor_agg = frames_collection.aggregate([stage_1, stage_2])
