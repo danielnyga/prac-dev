@@ -43,6 +43,7 @@ agent(word, word)
 nsubj(word, word)
 nsubjpass(word, word)
 csubj(word, word)
+csubjpass(word, word)
 
 /*
  * DETERMINERS AND CONJUNCTIONS
@@ -56,6 +57,7 @@ cc(word, word)
 complm(word, word)
 predet(word, word)
 conj_but(word, word)
+conj_negcc(word, word)
 
 /* 
  * PREPOSITIONS
@@ -117,6 +119,7 @@ prepc_around(word, word)
 prep_at(word,word)
 prep_by(word, word)
 prep_until(word, word)
+prep_off(word, word)
 
 /*
  * MODIFIERS

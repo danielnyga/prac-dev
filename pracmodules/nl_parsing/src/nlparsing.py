@@ -42,6 +42,9 @@ from pracmln.utils.project import MLNProject
 from pracmln.praclog import logger
 from pracmln.utils.visualization import get_cond_prob_png
 from prac_nltk.corpus import wordnet as wn
+import json
+from tempfile import NamedTemporaryFile
+from pracmln.mln.database import parse_db
 
 
 log_ = logger(__name__)
@@ -377,33 +380,28 @@ class NLParsing(PRACModule):
                 
         return result
     
-    def parse_instructions(self,instructions):
-        cmd = "python {} '{}'".format(os.path.join(self.module_path, 'src',
-                                                   'caller.py'),
-                                      "' '".join(instructions))
+    def parse_instructions(self, sentences):
+        '''
+        Accepts as arguments a sentence or a list of sentences. Returns the syntactic
+        structure of the sentences in form of MLN databases containing the respective atoms.
+        '''
+        #=======================================================================
+        # Create a temporary file in which nlparse will write its result
+        #=======================================================================
+        filepath = None
+        with NamedTemporaryFile(suffix='.db', delete=False) as f:
+            filepath = f.name
+        print filepath
+        cmd = ['python', os.path.join(self.module_path, 'src', 'nlparse.py'), '--out-file', filepath]
+        cmd.extend([json.dumps(s) for s in sentences])
 
         log_.debug('Calling Stanford Parser: '.format(cmd))
-        res = subprocess.check_output(cmd, shell=True)
+        subprocess.call(cmd)
+        with open(filepath, 'r') as f:
+            c = f.read()
+            print c
+            return parse_db(self.mln, c)
 
-        # separate dbs
-        dbs = res.split('---\n')
-        if '' in dbs:
-            dbs.remove('')
-        
-        prac_dbs = []
-        
-        for db_ in dbs:
-            db = Database(self.mln)
-            sp = db_.split('\n')
-            if '' in sp:
-                sp.remove('')
-
-            for r in sp:
-                db << r
-        
-            prac_dbs.append(db)
-        
-        return prac_dbs
     
     def identify_control_structures(self,dbs,log,**params):
         if params.get('project', None) is None:
