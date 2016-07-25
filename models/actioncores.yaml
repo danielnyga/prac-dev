@@ -88,6 +88,9 @@ action_core: Putting
 action_roles: ['obj_to_be_put','action_verb','location']
 cram_plan: "(put-object (an object (type {obj_to_be_put}){obj_to_be_put_props}) to (a location (type {location}){location_props})"
 ---
+action_core: Serving
+action_roles: ['theme','action_verb']
+---
 action_core: Shaking
 action_roles: ['obj_to_be_shaken','action_verb','unit','amount']
 cram_plan: "(shake (an object (type {obj_to_be_shaken}){obj_to_be_shaken_props}) for ({amount} {unit}))"
