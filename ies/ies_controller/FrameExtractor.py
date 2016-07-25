@@ -292,11 +292,18 @@ class FrameExtractor(object):
     
                 
     def process_imperative_sentence(self,sentence):
-        return '"{}"'.format(sentence)       
+        return sentence
+        '''
+        #Currently  fixes for imperative sentence are deactivated
+        
+        #Setting sentences in quotation marks can fix the parsing process
+        return '"{}"'.format(sentence)
+        
+        #Writing the verb in a imperative sentence with lower case can improve the parsing results        
         first_word = re.split("\s+", sentence.strip())[0]
         syns = get_synset(first_word, 'v')
         
         if len(syns) > 0:
             return sentence.replace(first_word,first_word.lower(),1)
-        
+        '''
         return sentence
