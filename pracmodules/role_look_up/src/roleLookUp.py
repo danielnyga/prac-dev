@@ -87,10 +87,12 @@ class RoleLookUp(PRACModule):
 
             # Determine missing roles: All_Action_Roles\Inferred_Roles
             actioncore_roles_list = self.prac.actioncores[actioncore].required_roles
+            if not actioncore_roles_list:
+                actioncore_roles_list = self.prac.actioncores[actioncore].roles
             missing_role_set = set(actioncore_roles_list).difference(inferred_roles_set)
 
             # Build query, return only frames where all roles are defined
-
+            
             if missing_role_set:
                 and_conditions = [{'$eq' : ["$$plan.action_core", "{}".format(actioncore)]}]
                 and_conditions.extend(map(lambda x: {"$ifNull" : ["$$plan.actioncore_roles.{}".format(x),'false']},
@@ -156,6 +158,7 @@ class RoleLookUp(PRACModule):
                         print "Confidence is too low."
                 else:
                     print "No suitable frames are available."
+        
         return db_, missing_role_set
 
 

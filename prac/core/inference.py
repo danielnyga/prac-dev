@@ -84,10 +84,10 @@ class PRACInference(object):
             return 'coref_resolution'
         elif previous_module == 'coref_resolution':
             for outdb in self.inference_steps[-1].output_dbs:
-
+                
                 if self.is_task_missing_roles(outdb):
                     return 'role_look_up'
-
+                
                 for r in outdb.query('action_core(?w, ?a)'):
                     actioncore = r['?a']
                     mod = self.prac.getModuleByName('roles_transformation')
@@ -184,6 +184,10 @@ class PRACInference(object):
 
             # Determine missing roles: All_Action_Roles\Inferred_Roles
             actioncore_roles_list = self.prac.actioncores[actioncore].required_roles
+            
+            if not actioncore_roles_list:
+                actioncore_roles_list = self.prac.actioncores[actioncore].roles
+                
             missing_role_set = set(actioncore_roles_list).difference(inferred_roles_set)
 
             if missing_role_set:
