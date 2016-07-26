@@ -12,18 +12,22 @@ from optparse import OptionParser
 #===============================================================================
 java.classpath.append(os.path.join(prac.locations.home, 
                                    '3rdparty',
-                                   'stanford-parser-2012-02-03',
+                                   'stanford-parser-2015-12-09',
                                    'stanford-parser.jar'))
+java.classpath.append(os.path.join(prac.locations.home, 
+                                   '3rdparty',
+                                   'stanford-parser-2015-12-09',
+                                   'slf4j-api.jar'))
 
 #===============================================================================
 # path to the grammar
 #===============================================================================
+
 grammar_path = os.path.join(prac.locations.home, 
                            '3rdparty', 
-                           'stanford-parser-2012-02-03',
+                           'stanford-parser-2015-12-09',
                            'grammar', 
                            'englishPCFG.ser.gz')
-
 
 def main(args, options):
     #===========================================================================

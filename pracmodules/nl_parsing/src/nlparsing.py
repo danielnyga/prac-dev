@@ -48,12 +48,6 @@ from pracmln.mln.database import parse_db
 
 
 log_ = logger(__name__)
-java.classpath.append(
-    os.path.join(PRAC_HOME, '3rdparty', 'stanford-parser-2012-02-03',
-                 'stanford-parser.jar'))
-grammarPath = os.path.join(PRAC_HOME, '3rdparty', 'stanford-parser-2012-02-03',
-                           'grammar', 'englishPCFG.ser.gz')
-
 wordnet = WordNet(concepts=None)
 
 
@@ -87,13 +81,10 @@ class StanfordParser(object):
 
     def __init__(self, pcfg_model_fname=None):
         self.pcfg_model_fname = pcfg_model_fname
-        self.package_lexparser = jpype.JPackage(
-            "edu.stanford.nlp.parser.lexparser")
+        self.package_lexparser = jpype.JPackage("edu.stanford.nlp.parser.lexparser")
         self.package_trees = jpype.JPackage('edu.stanford.nlp.trees')
         self.package = jpype.JPackage("edu.stanford.nlp")
-        self.parser = self.package_lexparser.LexicalizedParser(
-            self.pcfg_model_fname,
-            ['-retainTmpSubcategories', '-maxLength', '160'])
+        self.parser = self.package_lexparser.LexicalizedParser.loadModel(self.pcfg_model_fname, ['-retainTmpSubcategories', '-maxLength', '160'])
         self.parse = None
 
 
@@ -103,7 +94,7 @@ class StanfordParser(object):
         applied to the given sentence.
         """
         if sentence is not None:
-            self.parse = self.parser.apply(sentence)
+            self.parse = self.parser.parse(sentence)
         tlp = self.package_trees.PennTreebankLanguagePack()
         puncwordfilter = tlp.punctuationWordRejectFilter()
         gsf = tlp.grammaticalStructureFactory(puncwordfilter)
