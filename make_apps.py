@@ -36,9 +36,11 @@ packages = [('sphinx', 'sphinx sphinxcontrib-bibtex', False),
 python_apps = [
     {"name": "pracquery", "script": "$PRAC_HOME/prac/pracquery.py"},
     {"name": "praclearn", "script": "$PRAC_HOME/prac/praclearn.py"},
+    {"name": "practell", "script": "$PRAC_HOME/prac/practell.py"},
     {"name": "senses", "script": "$PRAC_HOME/prac/senses.py"},
     {"name": "pracobjrec", "script": "$PRAC_HOME/prac/pracobjrec.py"},
     {"name": "pracxfold", "script": "$PRAC_HOME/prac/pracxfold.py"},
+    {"name": "pracparse", "script": "$PRAC_HOME/prac/pracparse.py"},
 ]
 
 

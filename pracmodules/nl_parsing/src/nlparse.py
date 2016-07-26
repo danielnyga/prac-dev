@@ -1,4 +1,3 @@
-import sys
 import os
 import jpype
 from pracmln import MLN
@@ -8,26 +7,28 @@ import prac
 import json
 from optparse import OptionParser
 
+#===============================================================================
+# set up JVM classpath
+#===============================================================================
 java.classpath.append(os.path.join(prac.locations.home, 
                                    '3rdparty',
                                    'stanford-parser-2012-02-03',
                                    'stanford-parser.jar'))
-grammarPath = os.path.join(prac.locations.home, 
+
+#===============================================================================
+# path to the grammar
+#===============================================================================
+grammar_path = os.path.join(prac.locations.home, 
                            '3rdparty', 
                            'stanford-parser-2012-02-03',
                            'grammar', 
                            'englishPCFG.ser.gz')
 
 
-if __name__ == '__main__':
-    
-    #===============================================================================
-    # Parse the command line arguments 
-    #===============================================================================
-    parser = OptionParser(description='Parse natural-language sentences and return the MLN databases (uses the Stanford Parser).')
-    parser.add_option('-o', '--out-file', dest='outfile', default=None, help='the file to write the results in.')
-    options, args = parser.parse_args()
-    
+def main(args, options):
+    #===========================================================================
+    # Load the NL parsing MLN
+    #===========================================================================
     mln = MLN(mlnfile=os.path.join(prac.locations.modules, 'nl_parsing', 'mln', 'predicates.mln'),
               grammar='PRACGrammar', logic='FuzzyLogic')
 
@@ -38,16 +39,19 @@ if __name__ == '__main__':
         java.startJvm()
     if not jpype.isThreadAttachedToJVM():
         jpype.attachThreadToJVM()
-
+    
+    #===========================================================================
+    # # suppress the stderr outputs from the parser
+    #===========================================================================
+    jpype.java.lang.System.setErr(jpype.java.io.PrintStream(os.devnull))
+    
     #===========================================================================
     # Initialize the parser
     #===========================================================================
-    stanford_parser = StanfordParser(grammarPath)
-    
+    stanford_parser = StanfordParser(grammar_path)
     dbs = []
     sentences = args
     for s in sentences:
-        print json.loads(s)
         db = ''
         deps = stanford_parser.get_dependencies(json.loads(s), True)
         deps = map(str, deps)
@@ -72,3 +76,17 @@ if __name__ == '__main__':
             f.write(result)
     else:
         print result
+
+#===============================================================================
+# command line arguments declaration
+#===============================================================================
+parser = OptionParser(description='Parse natural-language sentences and return the MLN databases (uses the Stanford Parser).')
+parser.add_option('-o', '--out-file', dest='outfile', default=None, help='the file to write the results to.')
+
+
+if __name__ == '__main__':
+    options, args = parser.parse_args()
+    main(args, options)
+    
+
+    

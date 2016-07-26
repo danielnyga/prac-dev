@@ -391,7 +391,6 @@ class NLParsing(PRACModule):
         filepath = None
         with NamedTemporaryFile(suffix='.db', delete=False) as f:
             filepath = f.name
-        print filepath
         cmd = ['python', os.path.join(self.module_path, 'src', 'nlparse.py'), '--out-file', filepath]
         cmd.extend([json.dumps(s) for s in sentences])
 
