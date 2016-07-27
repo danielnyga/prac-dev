@@ -48,6 +48,9 @@ action_core: Lifting
 action_roles: ['obj_to_be_lifted','action_verb']
 cram_plan: "(lift-object (type {obj_to_be_lifted}){obj_to_be_lifted_props})"
 ---
+action_core: Mixing
+action_roles: ['content','action_verb']
+---
 action_core: Neutralizing
 action_roles: ['neutralizee','neutralizer','action_verb','amount','unit']
 required_action_roles: ['neutralizee','neutralizer','action_verb']
