@@ -803,18 +803,18 @@ def are_requirements_set_to_load_module(module_name):
             try:
                 database_name_list = client.database_names()
                 
-                if 'PRAC' in database_name_list:
-                    database = client.PRAC
+                if 'prac' in database_name_list:
+                    database = client.prac
                     collections = database.collection_names()
                     
                     if module_name == 'role_look_up':
-                        if 'Frames' in collections:
+                        if 'howtos' in collections:
                             return True
                         else:
                             print '"Role look up" module needs a "Frames" collection.'
                             return False
                     elif module_name == 'complex_achieved_by':
-                        if 'Instructions' in collections:
+                        if 'howtos' in collections:
                             return True
                         else:
                             print '"Complex achieved by module" needs a "Instructions" collection.'
