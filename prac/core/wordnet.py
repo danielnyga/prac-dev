@@ -48,8 +48,6 @@ from pracmln.utils.graphml import Graph, Node as GMLNode, Edge
 
 log = logger(__name__)
 
-PRAC_HOME = os.environ['PRAC_HOME']
-
 NLTK_POS = ['n', 'v', 'a', 'r', 'c']
 ADJ_POS = ['s', 'a']
 
@@ -76,12 +74,7 @@ def synchronized(lock):
 
 class RationalNumberSynset(Synset):
     def __init__(self, numstr, number=None, numtype=None, parent=None):
-        wordnet_corpus_reader = WordNetCorpusReader(os.path.join(PRAC_HOME,
-                                                                 'data',
-                                                                 'nltk_data',
-                                                                 'corpora',
-                                                                 'wordnet'))
-        super(RationalNumberSynset, self).__init__(wordnet_corpus_reader)
+        super(RationalNumberSynset, self).__init__(wordnet)
         self.number = number
         self.numtype = numtype
         self.parent = parent

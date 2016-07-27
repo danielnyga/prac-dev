@@ -84,7 +84,7 @@ def main(args, options):
         with open(options.outfile, 'w+') as f:
             f.write(result)
     else:
-        print result
+        print result,
 
 #===============================================================================
 # command line arguments declaration

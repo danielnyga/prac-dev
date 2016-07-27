@@ -5,12 +5,13 @@ Created on Jul 26, 2016
 '''
 import json
 import importlib
-
+from prac.core.base import PRAC
 
 if __name__ == '__main__':
     #===========================================================================
     # Import the NL parsing module and get its CL parameter parser
     #===========================================================================
+    PRAC()
     nlmod = importlib.import_module('nlparse')
     parser = nlmod.parser
     options, args = parser.parse_args()
