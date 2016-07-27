@@ -76,7 +76,7 @@ def main(args, options):
                 continue
             postagatom = 'has_pos({},{})'.format(pos[0], pos[1])
             pos.append(postagatom)
-            db += '%s\n' % postagatom
+            db += '{}\n'.format(postagatom)
             postags[pos[0]] = pos[1]
         dbs.append(db)
     result = '---\n'.join(dbs)
@@ -84,7 +84,7 @@ def main(args, options):
         with open(options.outfile, 'w+') as f:
             f.write(result)
     else:
-        print result,
+        print result
 
 #===============================================================================
 # command line arguments declaration
