@@ -1,10 +1,11 @@
 import os
+import re
+import json
 import jpype
+import prac
+from prac import java
 from pracmln import MLN
 from pracmodules import StanfordParser
-from prac import java
-import prac
-import json
 from optparse import OptionParser
 
 #===============================================================================
@@ -61,9 +62,13 @@ def main(args, options):
         deps = map(str, deps)
         words = set()
         for d in deps:
-            db += '%s\n' % d
-            f = mln.logic.parse_formula(str(d))
-            words.update(f.args)
+            # replace : by _ in stanford predicates
+            res = re.match('(!?)(.+)\((.+)\)$', d)
+            if res:
+                d = '{}{}({})'.format(res.group(1), res.group(2).replace(':', '_'), res.group(3))
+            _, pred, args = mln.logic.parse_literal(str(d))
+            words.update(args)
+            db += '{}({})\n'.format(pred, ', '.join(args))
         postags = stanford_parser.get_pos()
         pos = []
         for pos in postags.values():

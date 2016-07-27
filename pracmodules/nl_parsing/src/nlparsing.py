@@ -308,52 +308,6 @@ class NLParsing(PRACModule):
         # untokenize sentence before returning.
         return "".join([" "+i if not i.startswith("'") and i not in string.punctuation else i for i in newinstr]).strip()
 
-
-    # def create_compound_nouns(self,sentence):
-    #     # print "Before cn process {}".format(sentence)
-    #     isNNPredicate = True
-    #     result = sentence
-    #     db = []
-    #
-    #     #Connect proper nouns together to one proper compound noun
-    #     while isNNPredicate:
-    #         isNNPredicate = False
-    #         #Assuming there is only one given instruction
-    #         db = list(self.parse_instructions([result]))[0]
-    #
-    #         for q1 in db.query('nn(?w1,?w2)'):
-    #             n1 = q1['?w1']
-    #             n2 = q1['?w2']
-    #             n1Word = '-'.join(n1.split('-')[:-1])
-    #             n2Word = '-'.join(n2.split('-')[:-1])
-    #
-    #             #Check if all nouns are proper nouns
-    #             for _ in db.query('has_pos({},NNP)'.format(n1)):
-    #                 for _ in db.query('has_pos({},NNP)'.format(n2)):
-    #                     temp_result = re.sub('{}\s+{}'.format(n2Word,n1Word),'{}_{}'.format(n2Word,n1Word),result)
-    #                     if not result == temp_result:
-    #                         result = temp_result
-    #                         isNNPredicate = True
-    #
-    #     #Some compound nouns will be correct recognized by the Stanford parser e.g swimming pool or sugar bowl.
-    #     db = list(self.parse_instructions([result]))[0]
-    #     for q1 in db.query('nn(?w1,?w2)'):
-    #         n1 = q1['?w1']
-    #         n2 = q1['?w2']
-    #         n1Word = '-'.join(n1.split('-')[:-1])
-    #         n2Word = '-'.join(n2.split('-')[:-1])
-    #
-    #         temp_lemma = '{}_{}'.format(n2Word,n1Word)
-    #         syns = self.get_synset(temp_lemma, 'n')
-    #         #If synset is available add to result
-    #         if len(syns) > 0:
-    #             result = re.sub('{}\s+{}'.format(n2Word,n1Word),temp_lemma,result)
-    #
-    #     result = self.check_amod_nouns(result)
-    #     #print "After cn process {}".format(result)
-    #
-    #     return result
-    
     def get_synset(self,word,wordnet_pos):
         return wordnet.synsets(word,wordnet_pos)
     
@@ -389,7 +343,6 @@ class NLParsing(PRACModule):
         subprocess.call(cmd)
         with open(filepath, 'r') as f:
             c = f.read()
-            print c
             return parse_db(self.mln, c)
 
     
