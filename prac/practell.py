@@ -23,13 +23,13 @@ if __name__ == '__main__':
                       help='Import a list of howtos in batch processing whose filenames are given the respective howto title, e.g. "Make a pancake." The file content must then be given by the single instruction steps, one by line.')
     parser.add_option('-r', '--recursive', dest='recursive', default=False, 
                       help='Apply the import of instructions recursively to subdirectories.')
-    parser.add_option('-v', '--verbose', dest='verbose', default=False,
-                      help='Print detailed information about the status.')
+    parser.add_option("-v", "--verbose", dest="verbose", default=1, type='int', action="store",
+                      help="Set verbosity level {0..3}. Default is 1.")
     parser.add_option('-q', '--quiet', dest='quiet', action='store_true', default=False,
                       help='Do not print any status messages.')
     
     (options, args) = parser.parse_args()
-    if options.quiet: options.verbose = False
+    if options.quiet: options.verbose = 0
     
     #===========================================================================
     # If the 'steps' flag is set, take all arguments as the list of instructions 
@@ -54,7 +54,8 @@ if __name__ == '__main__':
             with open(filename) as f:
                 howtos.append({' '.join(filename.split('-')): f.read().splitlines()})
     prac = PRAC()
+    prac.verbose = options.verbose
     for howto, steps in [(howto, steps) for d in howtos for howto, steps in d.items()]:
-        result = analyze_howto(prac, howto, steps, verbose=not options.quiet)
+        result = analyze_howto(prac, howto, steps, verbose=options.quiet > 0)
         store_howto(prac, result)
     

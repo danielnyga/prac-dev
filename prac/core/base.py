@@ -118,6 +118,7 @@ class PRAC(object):
         self.moduleManifests = []
         self.moduleManifestByName = {}
         self.logger = logger('PRAC')
+        self._verbose = 1
         for module_path in os.listdir(prac_module_path):
             if not os.path.isdir(os.path.join(prac_module_path, module_path)):
                 continue
@@ -229,6 +230,16 @@ class PRAC(object):
     @property
     def roles(self):
         return set([r for a in self.actioncores.values() for r in  a.roles])
+
+
+    @property
+    def verbose(self):
+        return self._verbose
+
+
+    @verbose.setter
+    def verbose(self, v):
+        self._verbose = v
 
 
 class ActionRole(object):

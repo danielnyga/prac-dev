@@ -30,6 +30,7 @@ import tkMessageBox
 import traceback
 import StringIO
 from Tkconstants import BOTH, W, E
+import prac
 from prac.core.base import PRAC
 from prac.core.inference import PRACInference
 from prac.core.wordnet import WordNet
@@ -42,15 +43,18 @@ from pracmln.mln.util import ifNone, colorize, out, headline
 from pracmln.utils.config import global_config_filename
 from pracmln.utils.project import MLNProject, PRACMLNConfig
 from pracmln.utils.widgets import FileEditBar
+
+
+logger = praclog.logger(__name__)
+
 try:
     from pymongo import MongoClient
 except ImportError:
-    print 'Warning: MongoDB modules cannot be used.'
-logger = praclog.logger(__name__)
+    print logger.warning('MongoDB modules cannot be used.')
+
 
 DEFAULTNAME = 'unknown{}'
-PRAC_HOME = os.getenv('PRAC_HOME', os.getcwd())
-DEFAULT_CONFIG = os.path.join(PRAC_HOME, global_config_filename)
+DEFAULT_CONFIG = os.path.join(prac.locations.home, global_config_filename)
 WINDOWTITLE = 'PRAC Query Tool - {}' + os.path.sep + '{}'
 WINDOWTITLEEDITED = 'PRAC Query Tool - {}' + os.path.sep + '*{}'
 
@@ -72,8 +76,7 @@ class PRACQueryGUI(object):
         self.prac_inference = pracinference
         self.infStep = None
 
-        self.module_dir = os.path.join(os.environ['PRAC_HOME'], 'pracmodules',
-                                       'wnsenses')
+        self.module_dir = os.path.join(prac.locations.modules, 'wnsenses')
 
         self.frame = Frame(master)
         self.frame.pack(fill=BOTH, expand=1)
@@ -783,10 +786,8 @@ class PRACQueryGUI(object):
 
             module = self.prac.getModuleByName(self.selected_module.get())
 
-            self.infStep = module(self.prac_inference,
-                                  project=self.project,
-                                  projectpath=os.path.join(self.module_dir,
-                                                           self.project.name))
+            self.infStep = module(self.prac_inference, project=self.project,
+                                  projectpath=os.path.join(self.module_dir, self.project.name))
 
         except:
             cls, e, tb = sys.exc_info()
@@ -838,11 +839,15 @@ if __name__ == '__main__':
     from optparse import OptionParser
 
     parser = OptionParser()
-    parser.add_option("-i", "--interactive", dest="interactive", default=False, action='store_true', help="Starts PRAC inference with an interactive GUI tool.")
+    parser.add_option("-i", "--interactive", dest="interactive", default=False,
+                      action='store_true', help="Starts PRAC inference with an interactive GUI tool.")
+    parser.add_option("-v", "--verbose", dest="verbose", default=1, type='int',
+                      action="store", help="Set verbosity level {0..3}. Default is 1.")
     (options, args) = parser.parse_args()
 
     sentences = args
     prac = PRAC()
+    prac.verbose = options.verbose
     prac.wordnet = WordNet(concepts=None)
 
     root = Tk()
@@ -880,12 +885,14 @@ if __name__ == '__main__':
                 module = prac.getModuleByName(modulename)
                 prac.run(inference, module)
             else:
-                print 'Cannot infer executable plan.'
-                print 'Aborting process pipeline ...'
+                if prac.verbose > 0:
+                    print 'Cannot infer executable plan.'
+                    print 'Aborting process pipeline ...'
                 is_inference_process_aborted = True
         
         if not is_inference_process_aborted:
-            print prac_heading('PRAC Inference Results')
+            if prac.verbose > 0:
+                print prac_heading('PRAC Inference Results')
 
             step = inference.inference_steps[-1]
             wordnet_module = prac.getModuleByName('wn_senses')
@@ -901,19 +908,20 @@ if __name__ == '__main__':
                             word = group[0];
                             sense = group[1];
                             if sense != 'null':
-                                print
-                                print colorize('  WORD:', (None, 'white', True), True), word,
-                                print colorize('  SENSE:', (None, 'white', True), True), sense
-                                wordnet_module.printWordSenses(
-                                    wordnet_module.get_possible_meanings_of_word(
-                                        db, word), sense)
-                                print
+                                if prac.verbose > 1:
+                                    print
+                                    print colorize('  WORD:', (None, 'white', True), True), word,
+                                    print colorize('  SENSE:', (None, 'white', True), True), sense
+                                    wordnet_module.printWordSenses(wordnet_module.get_possible_meanings_of_word(db, word), sense)
+                                    print
                         else:
-                            print '%.3f    %s' % (v, a)
+                            if prac.verbose > 1:
+                                print '%.3f    %s' % (v, a)
                 RolequeryHandler(prac).queryRolesBasedOnActioncore(db).write(color=True)
     
         if hasattr(inference.inference_steps[-1], 'executable_plans'):
-            print prac_heading('Parameterized Robot Plan')
-            for plan in step.executable_plans:
-                print plan
-                print
+            if prac.verbose > 0:
+                print prac_heading('Parameterized Robot Plan')
+                for plan in step.executable_plans:
+                    print plan
+                    print
