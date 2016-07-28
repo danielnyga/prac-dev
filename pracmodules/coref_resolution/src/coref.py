@@ -27,7 +27,7 @@ from prac.core.base import PRACModule, PRACPIPE
 from prac.core.inference import PRACInferenceStep
 from prac.pracutils.utils import prac_heading
 from pracmln import praclog, MLNQuery, Database
-from pracmln.mln import NoConstraintsError
+from pracmln.mln import NoConstraintsError, MLNParsingError
 from pracmln.mln.base import parse_mln
 from pracmln.mln.util import colorize, mergedom
 from pracmln.utils.project import MLNProject
@@ -95,40 +95,46 @@ class CorefResolution(PRACModule):
                     ac = q['?ac']
 
                 try:
-                    print colorize('Loading Project {}'.format(ac), (None, 'cyan', True), True)
+                    logger.info('Loading Project: {}'.format(colorize(ac, (None, 'cyan', True), True)))
                     project = MLNProject.open(os.path.join(projectpath, '{}.pracmln'.format(ac)))
+
+                    # clear corefdb and unify current db with the two preceding ones
+                    corefdb = Database(self.prac.mln)
+                    for s in range(max(0, i - 2), i+1):
+                        corefdb = corefdb.union(dbs[s], self.prac.mln)
+
+                    # remove all senses from the databases' domain, that are not
+                    # assigned to any word.
+                    for q in corefdb.query('!(EXIST ?w (has_sense(?w,?sense)))'):
+                        corefdb.rmval('sense', q['?sense'])
+
+                    # preprocessing: adding distance information for each
+                    # word in the instructions
+                    s = sentences[max(0, i - 2):i+1]
+                    snts = list(enumerate(s))
+                    idx = len(snts) - 1  # idx of current sentence
+                    for s in snts[:-1]:
+                        idx2 = s[0]
+                        for w in s[1]:
+                            corefdb << 'distance({},DIST{})'.format(w, idx - idx2)
+
+                    mlntext = project.mlns.get(project.queryconf['mln'], None)
+                    mln = parse_mln(mlntext, searchpaths=[self.module_path],
+                                    projectpath=projectpath,
+                                    logic=project.queryconf.get('logic', 'FuzzyLogic'),
+                                    grammar=project.queryconf.get('grammar', 'PRACGrammar'))
+                except MLNParsingError:
+                    logger.info('Could not use MLN in project {} for coreference resolution'.format(colorize(ac, (None, 'cyan', True), True)))
+                    inf_step.output_dbs = [db.copy(self.prac.mln) for db in dbs]
+                    inf_step.png = prev_step.png
+                    inf_step.applied_settings = prev_step.applied_settings
+                    return inf_step
                 except Exception:
                     inf_step.output_dbs = [db.copy(self.prac.mln) for db in dbs]
                     inf_step.png = prev_step.png
                     inf_step.applied_settings = prev_step.applied_settings
                     logger.warning('Could not load project "{}". Passing dbs to next module...'.format(ac))
                     return inf_step
-
-                # clear corefdb and unify current db with the two preceding ones
-                corefdb = Database(self.prac.mln)
-                for s in range(max(0, i - 2), i+1):
-                    corefdb = corefdb.union(dbs[s], self.prac.mln)
-
-                # remove all senses from the databases' domain, that are not
-                # assigned to any word.
-                for q in corefdb.query('!(EXIST ?w (has_sense(?w,?sense)))'):
-                    corefdb.rmval('sense', q['?sense'])
-
-                # preprocessing: adding distance information for each
-                # word in the instructions
-                s = sentences[max(0, i - 2):i+1]
-                snts = list(enumerate(s))
-                idx = len(snts) - 1  # idx of current sentence
-                for s in snts[:-1]:
-                    idx2 = s[0]
-                    for w in s[1]:
-                        corefdb << 'distance({},DIST{})'.format(w, idx - idx2)
-
-                mlntext = project.mlns.get(project.queryconf['mln'], None)
-                mln = parse_mln(mlntext, searchpaths=[self.module_path],
-                                projectpath=projectpath,
-                                logic=project.queryconf.get('logic', 'FuzzyLogic'),
-                                grammar=project.queryconf.get('grammar', 'PRACGrammar'))
 
                 # adding similarities
                 wordnet_module = self.prac.getModuleByName('wn_senses')
@@ -172,7 +178,6 @@ class CorefResolution(PRACModule):
                     if self.prac.verbose == 2:
                         print
                         print prac_heading('INFERENCE RESULTS')
-                        print
                         infer.write()
 
                     # ==========================================================
