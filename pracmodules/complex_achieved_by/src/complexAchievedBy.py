@@ -21,102 +21,50 @@
 # CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-import os
-from prac.core.base import PRACModule, PRACPIPE, DB_TRANSFORM
-from prac.core.inference import PRACInferenceStep
-from prac.pracutils.utils import prac_heading
-from pracmln import Database, MLNQuery
-from pracmln.mln.database import parse_db
-from pracmln.mln.base import parse_mln
-from pracmln.mln.util import colorize, out
-from pracmln.praclog import logger
-from pracmln.utils.project import MLNProject
-from pracmln.utils.visualization import get_cond_prob_png
-from prac.core.base import PRAC
-from prac.core.inference import PRACInference
-from prac.core.wordnet import WordNet
-from pymongo import MongoClient
-from prac.pracutils.RolequeryHandler import RolequeryHandler
-from scipy import stats
 import numpy
+import os
+from scipy import stats
+
+from pymongo import MongoClient
+
+import prac
+from prac.core.base import PRACModule, PRACPIPE
+from prac.core.inference import PRACInferenceStep
+from prac.core.wordnet import WordNet
+from prac.pracutils.RolequeryHandler import RolequeryHandler
+from prac.pracutils.utils import prac_heading
+from pracmln import Database
+from pracmln import praclog
+from pracmln.utils.visualization import get_cond_prob_png
 
 
-log = logger(__name__)
-PRAC_HOME = os.environ['PRAC_HOME']
-corpus_path_list = os.path.join(PRAC_HOME, 'corpus')
-
-
-def transform_to_db(complex_db, roles_dict, document_action_roles, actioncore,
-                    plan_dict):
-    plan_action_core = plan_dict['action_core']
-    plan_action_roles = plan_dict['action_roles']
-
-    mln_str = str(plan_dict['MLN'])
-    mln = parse_mln(mln_str, logic='FuzzyLogic')
-    i = 0
-    db = Database(mln=mln)
-
-    for action_role in plan_action_roles.keys():
-        sense = ""
-        word = ""
-        pos = ""
-
-        updated_role = False
-        if plan_action_core == 'Pipetting' and actioncore == 'Evaluating' and action_role == 'content':
-            for q in complex_db.query(
-                    'obj_to_be_evaluated(?w,?ac) ^ has_sense(?w,?s) ^ has_pos(?w,?p) '):
-                sense = q["?s"]
-                word = q["?w"]
-                pos = q["?p"]
-                updated_role = True
-
-        elif plan_action_core == 'Pressing' and actioncore == 'Starting' and action_role == 'location':
-            for q in complex_db.query(
-                    'obj_to_be_started(?w,?ac) ^ has_sense(?w,?s) ^ has_pos(?w,?p) '):
-                sense = q["?s"]
-                word = q["?w"]
-                pos = q["?p"]
-                updated_role = True
-
-        elif not updated_role:
-            sense = str(plan_action_roles[action_role])
-            splitted_sense = sense.split('.')
-            if splitted_sense[1] == 'v':
-                pos = 'VB'
-            else:
-                pos = 'NN'
-
-            word = "{}-{}mongo".format(splitted_sense[0], str(i))
-
-        db << ("has_pos({},{})".format(word, pos))
-        db << ("has_sense({},{})".format(word, sense))
-        db << ("{}({},{})".format(str(action_role), word, plan_action_core))
-        if action_role == 'action_verb':
-            db << ("action_core({},{})".format(word, actioncore))
-        i += 1
-
-    db << ("achieved_by({},{})".format(actioncore, plan_action_core))
-
-    return db
+logger = praclog.logger(__name__, praclog.INFO)
+corpus_path_list = os.path.join(prac.locations.home, 'corpus')
 
 
 class ComplexAchievedBy(PRACModule):
     '''
-
+    PRACModule used to perform action core refinement with a mongo database
+    lookup.
     '''
 
-
     def get_instructions_based_on_action_core(self, db):
+
         wordnet = WordNet(concepts=None)
         # Assuming there is only one action core
         mongo_client = MongoClient()
+
         for q in db.query('action_core(?w,?ac)'):
             actioncore = q['?ac']
-            ies_mongo_db = mongo_client.PRAC
-            instructions_collection = ies_mongo_db.Instructions
+            ies_mongo_db = mongo_client.prac
+            instructions_collection = ies_mongo_db.howtos
 
-            out("Sending query to MONGO DB ...")
-            cursor = instructions_collection.find({'action_core': str(actioncore)})
+            # ==================================================================
+            # Mongo Lookup
+            # ==================================================================
+
+            logger.info("Sending query to MONGO DB ...")
+            cursor = instructions_collection.find({'actioncore': str(actioncore)})
             
             roles_dict = RolequeryHandler(self.prac).query_roles_and_senses_based_on_achieved_by(db)
             documents_vector = []
@@ -126,13 +74,11 @@ class ComplexAchievedBy(PRACModule):
 
             for document in cursor:
                 wup_vector = []
-                document_action_roles = document['action_roles']
+                document_action_roles = document['actionroles']
 
                 for role in roles_dict.keys():
-                    if role in document['action_roles'].keys():
-                        wup_vector.append(wordnet.wup_similarity(
-                            str(document_action_roles[role]),
-                            roles_dict[role]))
+                    if role in document['actionroles'].keys():
+                        wup_vector.append(wordnet.wup_similarity(str(document_action_roles[role]), roles_dict[role]))
 
                 if len(wup_vector) > 0:
                     documents_vector.append(stats.hmean(wup_vector))
@@ -140,14 +86,18 @@ class ComplexAchievedBy(PRACModule):
                     documents_vector.append(0)
 
             if documents_vector:
-                out('Found suitable instruction')
+                logger.info('Found suitable instruction')
                 documents_vector = numpy.array(documents_vector)
                 index = documents_vector.argmax()
 
-                return map(lambda x: transform_to_db(db, roles_dict,
-                                                     document_action_roles,
-                                                     actioncore, x),
-                           cloned_cursor[index]['plan_list'])
+                if self.prac.verbose > 1:
+                    print
+                    print prac_heading('LOOKUP RESULTS')
+                    print
+                    print cloned_cursor[index]['howto']
+
+                return map(lambda x: self.transform_to_db(db, roles_dict, document_action_roles,
+                                                     actioncore, x), cloned_cursor[index]['steps'])
 
         return []
 
@@ -162,7 +112,15 @@ class ComplexAchievedBy(PRACModule):
 
     @PRACPIPE
     def __call__(self, pracinference, **params):
-        print prac_heading('Processing complex Action Core refinement')
+
+        # ======================================================================
+        # Initialization
+        # ======================================================================
+
+        logger.debug('inference on {}'.format(self.name))
+
+        if self.prac.verbose > 0:
+            print prac_heading('Processing complex Action Core refinement')
 
         inf_step = PRACInferenceStep(pracinference, self)
         dbs = pracinference.inference_steps[-1].output_dbs
@@ -170,6 +128,11 @@ class ComplexAchievedBy(PRACModule):
         pngs = {}
         for olddb in dbs:
             result = self.get_instructions_based_on_action_core(olddb)
+
+            # ==================================================================
+            # Postprocessing
+            # ==================================================================
+
             if result:
                 inf_step.output_dbs.extend(result)
             else:
@@ -181,6 +144,54 @@ class ComplexAchievedBy(PRACModule):
                 pngs[q['?ac']] = get_cond_prob_png('instruction_sheet', dbs, filename=self.name, mongo=True, mongoword=w)
                 inf_step.png = pngs
 
-            inf_step.applied_settings = {'module': 'achieved_by',
-                                         'method': 'DB lookup'}
+            inf_step.applied_settings = {'module': 'achieved_by', 'method': 'DB lookup'}
         return inf_step
+
+
+    def transform_to_db(self, complex_db, roles_dict, document_action_roles, actioncore, plan_dict):
+        plan_action_core = plan_dict['actioncore']
+        plan_action_roles = plan_dict['actionroles']
+
+        i = 0
+        db = Database(mln=self.prac.mln)
+
+        for action_role in plan_action_roles.keys():
+            sense = ""
+            word = ""
+            pos = ""
+
+            updated_role = False
+            if plan_action_core == 'Pipetting' and actioncore == 'Evaluating' and action_role == 'content':
+                for q in complex_db.query('obj_to_be_evaluated(?w,?ac) ^ has_sense(?w,?s) ^ has_pos(?w,?p) '):
+                    sense = q["?s"]
+                    word = q["?w"]
+                    pos = q["?p"]
+                    updated_role = True
+
+            elif plan_action_core == 'Pressing' and actioncore == 'Starting' and action_role == 'location':
+                for q in complex_db.query('obj_to_be_started(?w,?ac) ^ has_sense(?w,?s) ^ has_pos(?w,?p) '):
+                    sense = q["?s"]
+                    word = q["?w"]
+                    pos = q["?p"]
+                    updated_role = True
+
+            elif not updated_role:
+                sense = str(plan_action_roles[action_role])
+                splitted_sense = sense.split('.')
+                if splitted_sense[1] == 'v':
+                    pos = 'VB'
+                else:
+                    pos = 'NN'
+
+                word = "{}-{}mongo".format(splitted_sense[0], str(i))
+
+            db << ("has_pos({},{})".format(word, pos))
+            db << ("has_sense({},{})".format(word, sense))
+            db << ("{}({},{})".format(str(action_role), word, plan_action_core))
+            if action_role == 'action_verb':
+                db << ("action_core({},{})".format(word, actioncore))
+            i += 1
+
+        db << ("achieved_by({},{})".format(actioncore, plan_action_core))
+
+        return db

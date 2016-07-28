@@ -26,24 +26,23 @@ from prac.core.inference import PRACInferenceStep
 from prac.core.wordnet import WordNet
 from prac.pracutils.pracgraphviz import render_gv
 from prac.pracutils.utils import prac_heading
-from prac.sense_distribution import add_all_wordnet_similarities, \
-    get_prob_color
+from prac.sense_distribution import add_all_wordnet_similarities, get_prob_color
 from pracmln import MLNQuery, Database
 from pracmln.mln.base import parse_mln
-from pracmln.mln.util import colorize, out, stop
-from pracmln.praclog import logger
+from pracmln.mln.util import colorize
+from pracmln import praclog
 from pracmln.utils.project import MLNProject
 from pracmln.utils.visualization import get_cond_prob_png
 
 
-log = logger(__name__)
+logger = praclog.logger(__name__, praclog.INFO)
 
 
 class SensesAndRoles(PRACModule):
     '''
-
+    PRACModule used identify the roles for the given action core and perform
+    a simultaneous word sense disambiguation.
     '''
-
 
     def initialize(self):
         pass
@@ -61,7 +60,15 @@ class SensesAndRoles(PRACModule):
 
     @PRACPIPE
     def __call__(self, pracinference, **params):
-        print prac_heading('Recognizing {} Roles'.format({True: 'MISSING', False: 'GIVEN'}[params.get('missing', False)]))
+
+        # ======================================================================
+        # Initialization
+        # ======================================================================
+
+        logger.debug('inference on {}'.format(self.name))
+
+        if self.prac.verbose > 0:
+            print prac_heading('Recognizing {} Roles'.format({True: 'MISSING', False: 'GIVEN'}[params.get('missing', False)]))
 
         dbs = pracinference.inference_steps[-1].output_dbs
         inf_step = PRACInferenceStep(pracinference, self)
@@ -69,24 +76,19 @@ class SensesAndRoles(PRACModule):
 
         pngs = {}
         for n, olddb in enumerate(dbs):
+
             db_copy = olddb.copy(mln=self.prac.mln)
             for q in olddb.query('action_core(?w,?ac)'):
                 actioncore = q['?ac']
                 if actioncore == 'null': continue
 
                 if params.get('project', None) is None:
-                    log.info(
-                        'Loading Project: %s.pracmln' % colorize(actioncore, (
-                            None, 'cyan', True), True))
-                    projectpath = os.path.join(self.module_path,
-                                               '{}.pracmln'.format(actioncore))
+                    logger.info('Loading Project: {}.pracmln'.format(colorize(actioncore, (None, 'cyan', True), True)))
+                    projectpath = os.path.join(self.module_path, '{}.pracmln'.format(actioncore))
                     project = MLNProject.open(projectpath)
                 else:
-                    log.info(colorize('Loading Project from params',
-                                      (None, 'cyan', True),
-                                      True))
-                    projectpath = os.path.join(params.get('projectpath',
-                                                          None) or self.module_path,
+                    logger.info(colorize('Loading Project from params', (None, 'cyan', True), True))
+                    projectpath = os.path.join(params.get('projectpath', None) or self.module_path,
                                                params.get('project').name)
                     project = params.get('project')
 
@@ -95,41 +97,42 @@ class SensesAndRoles(PRACModule):
                 mln = parse_mln(mlntext,
                                 searchpaths=[self.module_path],
                                 projectpath=projectpath,
-                                logic=project.queryconf.get('logic',
-                                                            'FirstOrderLogic'),
-                                grammar=project.queryconf.get('grammar',
-                                                              'PRACGrammar'))
+                                logic=project.queryconf.get('logic', 'FirstOrderLogic'),
+                                grammar=project.queryconf.get('grammar', 'PRACGrammar'))
                 known_concepts = mln.domains.get('concept', [])
                 wordnet_module = self.prac.getModuleByName('wn_senses')
+
+                # ==============================================================
+                # Preprocessing
+                # ==============================================================
 
                 unknown_roles = set()
                 if 'missing' in params:
                     roles = mln.domains.get('role', [])
-                    log.info('roles: %s' % roles)
+                    logger.info('roles: {}'.format(roles))
                     specified_roles = []
+
                     for q in olddb.query('action_role(?w, ?r)'):
                         specified_roles.append(q['?r'])
+
                     unknown_roles = set(roles).difference(set(specified_roles))
-                    log.info('unknown roles: %s' % unknown_roles)
+                    logger.info('unknown roles: {}'.format(unknown_roles))
+
                     if len(unknown_roles) > 0:
-                        log.info(colorize('DETECTED MISSING ACTION ROLES:',
-                                          (None, 'red', True), True))
+                        logger.info(colorize('DETECTED MISSING ACTION ROLES:', (None, 'red', True), True))
+
                     for i, role in enumerate(unknown_roles):
                         if role == 'null': continue
-                        log.info(
-                            colorize('  %s' % role, (None, 'red', True), True))
-                        log.info('adding %s' % (
-                            'action_role(Skolem-%s, %s)' % (role, role)))
-                        db_copy << (
-                            'action_role(Skolem-%s, %s)' % (role, role))
+                        logger.info(colorize('  {}'.format(role), (None, 'red', True), True))
+                        logger.info('adding {}'.format('action_role(Skolem-{}, {})'.format(role, role)))
+                        db_copy << ('action_role(Skolem-{}, {})'.format(role, role))
                 else:
-                    log.info('Inferring given roles...')
+                    logger.info('Inferring given roles...')
 
                 # adding senses and similarities. might be obsolete as it has
                 # already been performed in ac recognition
-                log.info('adding senses. concepts=%s' % known_concepts)
-                db = wordnet_module.get_senses_and_similarities(db_copy,
-                                                                known_concepts)
+                logger.info('adding senses. concepts={}'.format(known_concepts))
+                db = wordnet_module.get_senses_and_similarities(db_copy, known_concepts)
 
                 # we need senses and similarities as well as original evidence
                 tmp_union_db = db.union(db_copy, mln=self.prac.mln)
@@ -143,17 +146,29 @@ class SensesAndRoles(PRACModule):
                     if ac == actioncore:
                         for r1 in roles:
                             # words with sense null can be discarded as they can not have a role
-                            for q2 in tmp_union_db.query('has_sense(?w, null)',
-                                                         thr=1):
-                                new_tmp_union_db << (
-                                    '{}({},{})'.format(r1, q2['?w'], ac), 0)
+                            for q2 in tmp_union_db.query('has_sense(?w, null)', thr=1):
+                                new_tmp_union_db << ('{}({},{})'.format(r1, q2['?w'], ac), 0)
                         continue
                     for r in roles:
                         new_tmp_union_db << ('{}({},{})'.format(r, w, ac), 0)
 
-                infer = MLNQuery(config=project.queryconf, db=new_tmp_union_db,
-                                 mln=mln).run()
+                # ==============================================================
+                # Inference
+                # ==============================================================
+
+                infer = MLNQuery(config=project.queryconf, verbose=self.prac.verbose > 2,
+                                 db=new_tmp_union_db, mln=mln).run()
                 result_db = infer.resultdb
+
+                if self.prac.verbose == 2:
+                    print
+                    print prac_heading('INFERENCE RESULTS')
+                    print
+                    infer.write()
+
+                # ==============================================================
+                # Postprocessing
+                # ==============================================================
 
                 # get query roles for given actioncore and add inference results
                 # for them to final output db. ignore 0-truth results.
@@ -165,10 +180,7 @@ class SensesAndRoles(PRACModule):
                 new_result = Database(self.prac.mln)
                 for atom, truth in unified_db.evidence.iteritems():
                     if any(r in atom for r in roles):
-                        (
-                            _, predname,
-                            args) = self.prac.mln.logic.parse_literal(
-                            atom)
+                        (_, predname, args) = self.prac.mln.logic.parse_literal(atom)
                         if not args[-1] == actioncore:
                             continue
                     new_result << (atom, truth)
@@ -177,23 +189,19 @@ class SensesAndRoles(PRACModule):
                     for q in unified_db.query('has_sense(?w, ?s)', thr=1):
                         # TODO Add additional formulas to avoid the using of null values
                         if q['?s'] == 'null': continue
-                        print colorize('  WORD:', (None, 'white', True), True), \
-                            q['?w']
-                        print colorize('  SENSE:', (None, 'white', True),
-                                       True), q['?s']
-                        wordnet_module.printWordSenses(
-                            wordnet_module.get_possible_meanings_of_word(
-                                unified_db, q['?w']), q['?s'])
-                        print
+                        if self.prac.verbose > 1:
+                            print colorize('  WORD:', (None, 'white', True), True), q['?w']
+                            print colorize('  SENSE:', (None, 'white', True), True), q['?s']
+                            wordnet_module.printWordSenses(wordnet_module.get_possible_meanings_of_word(
+                                    unified_db, q['?w']), q['?s'])
+                            print
 
                 for ur in unknown_roles:
-                    print '%s:' % colorize(ur, (None, 'red', True), True)
-                    for q in unified_db.query(
-                                    'action_role(?w, %s) ^ has_sense(?w, ?s)' % ur,
-                            thr=1):
-                        self.prac.getModuleByName('wn_senses').printWordSenses(
-                            known_concepts, q['?s'])
-                    print
+                    if self.prac.verbose > 0:
+                        print '{}:'.format(colorize(ur, (None, 'red', True), True))
+                        for q in unified_db.query('action_role(?w, {}) ^ has_sense(?w, ?s)'.format(ur), thr=1):
+                            self.prac.getModuleByName('wn_senses').printWordSenses(known_concepts, q['?s'])
+                        print
 
                 inf_step.output_dbs.append(new_result)
 
@@ -209,19 +217,24 @@ class SensesAndRoles(PRACModule):
         for db_ in step.output_dbs:
             for word in db_.domains['word']:
                 for q in db_.query('action_core(?w,?ac)'):
-                    #
+
+                    # ==========================================================
+                    # Initializaton
+                    # ==========================================================
+
                     actioncore = q['?ac']
-                    projectpath = os.path.join(self.module_path,
-                                               '{}.pracmln'.format(actioncore))
+                    projectpath = os.path.join(self.module_path, '{}.pracmln'.format(actioncore))
                     project = MLNProject.open(projectpath)
                     mlntext = project.mlns.get(project.queryconf['mln'], None)
                     mln = parse_mln(mlntext,
                                     searchpaths=[self.module_path],
                                     projectpath=projectpath,
-                                    logic=project.queryconf.get('logic',
-                                                                'FuzzyLogic'),
-                                    grammar=project.queryconf.get('grammar',
-                                                                  'PRACGrammar'))
+                                    logic=project.queryconf.get('logic', 'FuzzyLogic'),
+                                    grammar=project.queryconf.get('grammar', 'PRACGrammar'))
+
+                    # ==========================================================
+                    # Preprocessing
+                    # ==========================================================
 
                     # add inferred concepts to known_concepts to display
                     # them in the graph. Ignore verbs and adjectives,
@@ -239,17 +252,15 @@ class SensesAndRoles(PRACModule):
                     for concept in db_.domains['concept']:
                         if concept not in mln.domains['concept']:
                             db.rmval('concept', concept)
-                    for res in db_.query('has_sense(%s, ?s)' % (word)):
+                    for res in db_.query('has_sense({}, ?s)'.format(word)):
                         sense = res['?s']
                         if sense == 'null': continue
                         roles = self.prac.actioncores[actioncore].roles
                         role = None
                         for r in roles:
-                            vars = ['?v%d' % i for i in range(
-                                len(db_.mln.predicate(r).argdoms) - 1)]
+                            vars = ['?v{}'.format(i) for i in range(len(db_.mln.predicate(r).argdoms) - 1)]
                             br = False
-                            for qr in db_.query('%s(%s,%s)' % (
-                                    r, ','.join(vars), actioncore)):
+                            for qr in db_.query('{}({},{})'.format(r, ','.join(vars), actioncore)):
                                 for v in vars:
                                     if qr[v] == word:
                                         role = r
@@ -258,8 +269,12 @@ class SensesAndRoles(PRACModule):
                                 if br: break
                             if br: break
                         if role is None: continue
-                        db.retract('has_sense(%s, %s)' % (word, sense))
+                        db.retract('has_sense({},{})'.format(word, sense))
                         add_all_wordnet_similarities(db, wn)
+
+                        # ======================================================
+                        # Inference
+                        # ======================================================
 
                         infer = MLNQuery(method='EnumerationAsk',
                                          mln=mln,
@@ -267,31 +282,32 @@ class SensesAndRoles(PRACModule):
                                          queries='has_sense',
                                          cw=True,
                                          multicore=True,
-                                         verbose=True)
-                        result = infer.run()
+                                         verbose=self.prac.verbose > 2).run()
+                        result = infer.resultdb
+
+                        if self.prac.verbose == 2:
+                            print
+                            print prac_heading('INFERENCE RESULTS')
+                            print
+                            infer.write()
+
+                        # ======================================================
+                        # Graph generation
+                        # ======================================================
 
                         g = wn.to_dot()
                         maxprob = 0.
-                        for atom, truth in result.resultdb.gndatoms():
-                            _, predname, args = db.mln.logic.parse_literal(
-                                atom)
+                        for atom, truth in result.gndatoms():
+                            _, predname, args = db.mln.logic.parse_literal(atom)
                             concept = args[1]
-                            if predname == 'has_sense' \
-                                    and args[0] == word \
-                                    and concept != 'null':
+                            if predname == 'has_sense' and args[0] == word and concept != 'null':
                                 maxprob = max(maxprob, truth)
 
-                        for atom, truth in result.resultdb.gndatoms():
-                            _, predname, args = db.mln.logic.parse_literal(
-                                atom)
+                        for atom, truth in result.gndatoms():
+                            _, predname, args = db.mln.logic.parse_literal(atom)
                             concept = args[1]
-                            if predname == 'has_sense' \
-                                    and args[0] == word \
-                                    and concept != 'null':
+                            if predname == 'has_sense' and args[0] == word and concept != 'null':
                                 if concept in concepts:
-                                    g.node(concept,
-                                           fillcolor=get_prob_color(
-                                               truth / maxprob))
-                        # render_gv(g, 'prac-%s-%s.svg' % (actioncore, role))
+                                    g.node(concept, fillcolor=get_prob_color(truth / maxprob))
                         distrs[role] = render_gv(g)
         return distrs

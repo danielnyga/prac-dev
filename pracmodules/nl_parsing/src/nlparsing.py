@@ -20,63 +20,40 @@
 # CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-from prac_nltk import word_tokenize
+import itertools
+import json
+import os
+import re
 import string
 import subprocess
-import re
-import os
 import sys
-import itertools
-
 import jpype
+from tempfile import NamedTemporaryFile
 
-from prac.core.base import PRACModule, PRACPIPE, PRAC_HOME
+from prac_nltk import word_tokenize
+from prac_nltk.corpus import wordnet as wn
+
+from prac.core.base import PRACModule, PRACPIPE
+from prac.core.errors import ParserError
 from prac.core.inference import PRACInferenceStep
 from prac.core.wordnet import WordNet
-from prac import java
 from prac.pracutils.utils import prac_heading
-from pracmln import Database, MLN, MLNQuery
-from pracmln.mln.base import parse_mln
-from pracmln.mln.util import colorize, out
-from pracmln.utils.project import MLNProject
-from pracmln.praclog import logger
-from pracmln.utils.visualization import get_cond_prob_png
-from prac_nltk.corpus import wordnet as wn
-import json
-from tempfile import NamedTemporaryFile
+from pracmln import MLN
 from pracmln.mln.database import parse_db
+from pracmln.mln.util import colorize
+from pracmln import praclog
+from pracmln.utils.visualization import get_cond_prob_png
 
 
-log_ = logger(__name__)
+logger = praclog.logger(__name__, praclog.INFO)
 wordnet = WordNet(concepts=None)
 
 
-class ParserError(Exception):
-    def __init__(self, *args, **margs):
-        Exception.__init__(self, *args, **margs)
-
-
-class Dependency(object):
-    """
-    This class represents one single Stanford dependency.
-    """
-
-
-    def __init__(self, depname, dep, gov):
-        self.depName = depname
-        self.dep = dep
-        self.gov
-
-
-    def __str__(self):
-        return '{}({},{})'.format(self.depName, self.dep, self.gov)
-
-
 class StanfordParser(object):
-    """
+    '''
     Python Wrapper for the Java implementation of the Stanford
     natural-language parser.
-    """
+    '''
 
 
     def __init__(self, pcfg_model_fname=None):
@@ -89,10 +66,10 @@ class StanfordParser(object):
 
 
     def get_dependencies(self, sentence=None, collapsed=False):
-        """
+        '''
         Returns the syntactic dependencies from the parse
         applied to the given sentence.
-        """
+        '''
         if sentence is not None:
             self.parse = self.parser.parse(sentence)
         tlp = self.package_trees.PennTreebankLanguagePack()
@@ -140,10 +117,10 @@ class StanfordParser(object):
 
 
     def parse(self, sentence):
-        """
+        '''
         Parses the sentence string, returning the tokens, and the parse tree
         as a tuple. tokens, tree = parser.parse(sentence)
-        """
+        '''
         tokens = self.documentPreprocessor.getWordsFromString(sentence)
         for token in tokens:
             if token.word() in ["down"]:
@@ -161,10 +138,10 @@ class StanfordParser(object):
 
 
 class NLParsing(PRACModule):
-    """
+    '''
     Extracts syntactic features that are obtained from the parser, such as
     'has_pos' and the stanford dependencies.
-    """
+    '''
 
 
     def __init__(self, prac):
@@ -173,10 +150,9 @@ class NLParsing(PRACModule):
 
 
     def initialize(self):
-        log_.info('initializing nl_parsing')
+        logger.info('initializing nl_parsing')
 
-        self.mln = MLN(mlnfile=os.path.join(self.module_path, 'mln',
-                                            'predicates.mln'),
+        self.mln = MLN(mlnfile=os.path.join(self.module_path, 'mln', 'predicates.mln'),
                        grammar='PRACGrammar', logic='FuzzyLogic')
 
 
@@ -208,59 +184,6 @@ class NLParsing(PRACModule):
         return sorted(verb_list, key=lambda verb: int(verb.split('-')[-1]))
 
 
-    def extract_multiple_action_cores(self, db):
-        dbs = []
-        verb_list = self.get_all_verbs(db)
-        if len(verb_list) < 2:
-            return [db]
-
-        # TODO improve the handling
-        # Handle sentence with start with .....
-        if len(verb_list) == 2:
-            db.write()
-            for word in ['start', 'Start']:
-                for _ in db.query('prepc_with({}-1,?p)'.format(word)):
-                    return [db]
-
-        for verb in verb_list:
-            db_ = Database(self.mln)
-            processed_word_set = set()
-            remaining_word_set = set()
-            remaining_word_set.add(verb)
-
-            while remaining_word_set:
-                processed_word = remaining_word_set.pop()
-                is_condition = False
-
-                for atom, _ in sorted(db.evidence.iteritems()):
-                    _, pred, args = db.mln.logic.parse_literal(atom)
-
-                    if len(args) == 1 and args[0] == processed_word:
-                        db_ << atom
-                        is_condition = True
-                    elif len(args) > 1:
-                        word1 = args[0]
-                        word2 = args[1]
-
-                        dependency_word = ""
-                        if word1 == processed_word:
-                            dependency_word = word2
-                        elif word2 == processed_word:
-                            dependency_word = word1
-
-                        if dependency_word and (
-                                        dependency_word not in verb_list or
-                                        pred == "event") and (
-                                    dependency_word not in processed_word_set):
-                            if pred != 'event' or not is_condition:
-                                db_ << atom
-                            if pred != 'has_pos' and pred != 'event':
-                                remaining_word_set.add(dependency_word)
-                processed_word_set.add(processed_word)
-            dbs.append(db_)
-        return dbs
-
-
     @staticmethod
     def find_compounds(sentence):
         '''
@@ -284,7 +207,8 @@ class NLParsing(PRACModule):
                 stop = ''
                 # check three-word compounds
                 for x in itertools.product('_-', repeat=2):
-                    tmpword = '{}{}{}{}{}'.format(instr[i], x[0], instr[min(len(instr)-1, i+1)], x[1], instr[min(len(instr)-1, i+2)])
+                    tmpword = '{}{}{}{}{}'.format(instr[i], x[0], instr[min(len(instr)-1, i+1)],
+                                                  x[1], instr[min(len(instr)-1, i+2)])
                     if len(wn.synsets(tmpword)) > 0:
                         newinstr.append(tmpword+stop)
                         found = True
@@ -308,27 +232,12 @@ class NLParsing(PRACModule):
         # untokenize sentence before returning.
         return "".join([" "+i if not i.startswith("'") and i not in string.punctuation else i for i in newinstr]).strip()
 
-    def get_synset(self,word,wordnet_pos):
-        return wordnet.synsets(word,wordnet_pos)
-    
-    def check_amod_nouns(self,sentence):
-        result = sentence
-        db = list(self.parse_instructions([result]))[0]
-        #Check if recognized adj gives possibility to be part of compound nouns e.g baking sheet or washing machine.
-        for q1 in db.query('amod(?w1,?w2)'):
-            noun = '-'.join(q1['?w1'].split('-')[:-1])
-            adj = '-'.join(q1['?w2'].split('-')[:-1])
-            syns = self.get_synset('{}_{}'.format(adj,noun), 'n')
-            #As check to handle cases like sugar bowl versus metal bowl
-            if len(syns) > 0:
-                result = re.sub('{}\s+{}'.format(adj,noun),'{}_{}'.format(adj,noun),result)
-                
-        return result
     
     def parse_instructions(self, sentences):
         '''
-        Accepts as arguments a sentence or a list of sentences. Returns the syntactic
-        structure of the sentences in form of MLN databases containing the respective atoms.
+        Accepts as arguments a sentence or a list of sentences. Returns the
+        syntactic structure of the sentences in form of MLN databases
+        containing the respective atoms.
         '''
         #=======================================================================
         # Create a temporary file in which nlparse will write its result
@@ -339,51 +248,32 @@ class NLParsing(PRACModule):
         cmd = ['python', os.path.join(self.module_path, 'src', 'nlparse.py'), '--out-file', filepath]
         cmd.extend([json.dumps(s) for s in sentences])
 
-        log_.debug('Calling Stanford Parser: '.format(cmd))
+        logger.debug('Calling Stanford Parser: '.format(cmd))
         subprocess.call(cmd)
         with open(filepath, 'r') as f:
             c = f.read()
             return parse_db(self.mln, c)
 
-    
-    def identify_control_structures(self,dbs,log,**params):
-        if params.get('project', None) is None:
-            # load default project
-            projectpath = self.project_path
-            ac_project = MLNProject.open(projectpath)
-        else:
-            log_.info(colorize('Loading Project from params', (None, 'cyan', True), True))
-            projectpath = os.path.join(params.get('projectpath', None) or self.module_path, params.get('project').name)
-            ac_project = params.get('project')
 
-        mlntext = ac_project.mlns.get(ac_project.queryconf['mln'], None)
-        mln = parse_mln(mlntext, searchpaths=[self.module_path], projectpath=projectpath, logic=ac_project.queryconf.get('logic', 'FirstOrderLogic'), grammar=ac_project.queryconf.get('grammar', 'PRACGrammar'))
-                
-        result_dbs = []
-        
-        for db in dbs:
-            db_ = db.copy()
-            db_ << "cs_name(CS-1)"
-            # result_db = list(kb.infer(tmp_union_db))[0]
-            infer = MLNQuery(config=ac_project.queryconf, db=db_, mln=mln).run()
-            result_db = infer.resultdb
-            
-            for q in result_db.query('event(?w,?n)'):
-                db_ << 'event({},{})'.format(q['?w'],q['?n'])
-                
-            for q in result_db.query('condition(?w,?n)'):
-                db_ << 'condition({},{})'.format(q['?w'],q['?n'])
-                                
-            result_dbs.append(db_)
-
-        return result_dbs    
     
     @PRACPIPE
     def __call__(self, pracinference):
-        print prac_heading('Parsing Natural Language')
 
-        log_.info('Running {}'.format(self.name))
+        # ======================================================================
+        # Initialization
+        # ======================================================================
+
+        logger.debug('inference on {}'.format(self.name))
+
+        if self.prac.verbose > 0:
+            print prac_heading('Parsing Natural Language')
+
+        logger.info('Running {}'.format(self.name))
         step = PRACInferenceStep(pracinference, self)
+
+        # ======================================================================
+        # Preprocessing
+        # ======================================================================
 
         processed_instructions = []
         for instruction in pracinference.instructions:
@@ -392,37 +282,26 @@ class NLParsing(PRACModule):
 
         pracinference.instructions = processed_instructions
 
-        print colorize('Parsing instructions:', (None, 'white', True), True), ' '.join(pracinference.instructions)
+        # ======================================================================
+        # Parsing Instructions
+        # ======================================================================
+
+        if self.prac.verbose > 0:
+            print colorize('Parsing instructions:', (None, 'white', True), True), ' '.join(pracinference.instructions)
 
         dbs =  self.parse_instructions(pracinference.instructions)
-        '''
-        try:
-            dbs =  self.identify_control_structures(dbs, log_)
-        except:
-            print "Cannot perform control structure recognition."
-        '''
         pngs = {}
         
         for i, db in enumerate(dbs):
             step.output_dbs.append(db)
-            #step.output_dbs.extend(
-            #    self.extract_multiple_action_cores(db))
 
-            print
-            print colorize('Syntactic evidence:', (None, 'white', True),
-                           True)
-            db.write(sys.stdout, True)
+            if self.prac.verbose > 1:
+                print
+                print colorize('Syntactic evidence:', (None, 'white', True), True)
+                db.write(sys.stdout, True)
+                print
 
-            print ','.join(pracinference.instructions)
-
-            pngs['NL Parsing - ' + str(i)] = get_cond_prob_png(
-                ','.join([x.name for x in self.mln.predicates[:10]]) + ',...',
-                str(','.join(pracinference.instructions)), filename=self.name)
+            pngs['NL Parsing - ' + str(i)] = get_cond_prob_png(','.join([x.name for x in self.mln.predicates[:10]]) + ',...',
+                                                               str(','.join(pracinference.instructions)), filename=self.name)
             step.png = pngs
         return step
-
-
-if __name__ == '__main__':
-    print NLParsing.find_compounds('unload the washing machine and switch off the hair dryer')
-    print NLParsing.find_compounds('start the external combustion engine')
-    print NLParsing.find_compounds('fill the glass with red wine')

@@ -29,18 +29,19 @@ from prac.pracutils.utils import prac_heading
 from pracmln import MLNQuery
 from pracmln.mln import NoConstraintsError
 from pracmln.mln.base import parse_mln
-from pracmln.praclog import logger
+from pracmln import praclog
 from pracmln.utils.project import MLNProject
 from pracmln.utils.visualization import get_cond_prob_png
 
 
-log = logger(__name__)
+logger = praclog.logger(__name__, praclog.INFO)
 
 
 class PropExtraction(PRACModule):
     '''
-    PRACModule used extract properties of objects referenced in the NL instruction and perform
-    simultaneous word sense disambiguation for these properties and objects.
+    PRACModule used extract properties of objects referenced in the NL
+    instruction and perform simultaneous word sense disambiguation for these
+    properties and objects.
     '''
 
     def initialize(self):
@@ -49,9 +50,15 @@ class PropExtraction(PRACModule):
 
     @PRACPIPE
     def __call__(self, pracinference, **params):
-        log.info('Running {}'.format(self.name))
 
-        print prac_heading('Property Extraction')
+        # ======================================================================
+        # Initialization
+        # ======================================================================
+
+        logger.debug('inference on {}'.format(self.name))
+
+        if self.prac.verbose > 0:
+            print prac_heading('Property Extraction')
 
         if params.get('project', None) is None:
             # load default project
@@ -73,11 +80,32 @@ class PropExtraction(PRACModule):
 
         pngs = {}
         for i, db in enumerate(dbs):
+
+            # ==================================================================
+            # Preprocessing
+            # ==================================================================
+
             db_ = wordnet_module.add_sims(db, mln)
 
             try:
-                infer = MLNQuery(config=project.queryconf, db=db_, mln=mln).run()
+
+                # ==============================================================
+                # Inference
+                # ==============================================================
+
+                infer = MLNQuery(config=project.queryconf,
+                                 verbose=self.prac.verbose > 2, db=db_, mln=mln).run()
                 result_db = infer.resultdb
+
+                if self.prac.verbose == 2:
+                    print
+                    print prac_heading('INFERENCE RESULTS')
+                    print
+                    infer.write()
+
+                # ==============================================================
+                # Postprocessing
+                # ==============================================================
 
                 unified_db = db.copy(self.prac.mln)
                 props = [p for p in project.queryconf.get('queries', '').split(',') if p != 'has_sense']
@@ -88,10 +116,10 @@ class PropExtraction(PRACModule):
 
                 inf_step.output_dbs.append(unified_db)
             except NoConstraintsError:
-                log.info('No properties found. Passing db...')
+                logger.info('No properties found. Passing db...')
                 inf_step.output_dbs.append(db)
             except Exception:
-                log.info('Something went wrong')
+                logger.warning('Something went wrong')
                 traceback.print_exc()
 
             pngs['PropExtraction - ' + str(i)] = get_cond_prob_png(project.queryconf.get('queries', ''), dbs, filename=self.name)

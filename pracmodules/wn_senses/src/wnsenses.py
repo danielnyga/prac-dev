@@ -4,7 +4,7 @@
 #
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
-# "Software"), to deal in the Software without restriction, including
+# 'Software'), to deal in the Software without restriction, including
 # without limitation the rights to use, copy, modify, merge, publish,
 # distribute, sublicense, and/or sell copies of the Software, and to
 # permit persons to whom the Software is furnished to do so, subject to
@@ -13,7 +13,7 @@
 # The above copyright notice and this permission notice shall be
 # included in all copies or substantial portions of the Software.
 #
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+# THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND,
 # EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 # MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
 # IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
@@ -21,21 +21,20 @@
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+import os
+from collections import defaultdict
 from prac.core.base import PRACModule, PRACPIPE, DB_TRANSFORM
 from prac.core.inference import PRACInferenceStep
-import os
 from prac.core.wordnet import WordNet
-from collections import defaultdict
 from prac_nltk.corpus.reader.wordnet import Synset
 
 # mapping from PennTreebank POS tags to NLTK POS Tags
+from pracmln import praclog
 from pracmln import MLN, Database
-from pracmln.mln.util import colorize, mergedom, out
-from pracmln.praclog import logger
+from pracmln.mln.util import colorize, mergedom
 
 
-log = logger(__name__)
-
+logger = praclog.logger(__name__, praclog.INFO)
 basecols = ['green', 'yellow', 'brown', 'red', 'blue', 'orange']
 nounTags = ['NN', 'NNS', 'NNP']
 numberTags = ['CD', 'PDT']
@@ -53,16 +52,13 @@ for c in numberTags:
 
 
 class WNSenses(PRACModule):
-    """
+    '''
     Extracts possible word senses from WordNet given the part of speech
     of a word. Depends on the 'syntax' feature extractor.
-    """
-
+    '''
 
     def initialize(self):
-        self.mln = MLN(mlnfile=os.path.join(self.module_path,
-                                            'mln',
-                                            'predicates.mln'),
+        self.mln = MLN(mlnfile=os.path.join(self.module_path, 'mln', 'predicates.mln'),
                        logic='FuzzyLogic',
                        grammar='PRACGrammar')
         self.wordnetKBs = {}
@@ -70,15 +66,15 @@ class WNSenses(PRACModule):
 
     @DB_TRANSFORM
     def get_senses_and_similarities(self, db, concepts):
-        """
+        '''
         Returns a new database with possible senses and the pairwise
         semantic similarities asserted. Assumes the part-of-speeches
-        "has_pos" and the syntactic predicates from the parsing module
+        'has_pos' and the syntactic predicates from the parsing module
         to be given. Also asserts all negative evidences which cannot
         be true given the word senses from WordNet (eg, 'pancake' cannot
         have any meaning of milk).
 
-        Example: "Flip the pancake."
+        Example: 'Flip the pancake.'
 
         has_pos(pancake-3,NN) ---> 0.0  has_sense(pancake-3, Flip-1-sense-1)
                                    ....
@@ -91,7 +87,7 @@ class WNSenses(PRACModule):
         NB: The existing databases are _not_ modified. Instead, copies
         of them are created and returned.
 
-        """
+        '''
         wordnet = self.prac.wordnet
         word2senses = defaultdict(list)
         db_ = db.copy(self.prac.mln)
@@ -136,7 +132,7 @@ class WNSenses(PRACModule):
 
 
     def add_sims(self, db_, mln):
-        """
+        '''
         Adds for each sense s_db in the database the similarities to each
         concept in the mln c_mln, i.e. the atom 'is_a(s_db,c_mln)'
         Example:
@@ -150,7 +146,7 @@ class WNSenses(PRACModule):
           0.300  is_a(milk.n.01, spatula.n.01)
           0.300  is_a(pot.n.01, pancake.n.01)
           1.000  is_a(pot.n.01, spatula.n.01)``
-        """
+        '''
 
         db = db_.copy(self.prac.mln)
         mlndomains = mln.domains.get('concept', []) + db_.domains.get('concept', [])
@@ -162,13 +158,12 @@ class WNSenses(PRACModule):
                 # s and c, once misleading data is removed from mlns and dbs
                 # example:
                 # self.prac.wordnet.synset('make.v.39').name == 'cook.v.02'!
-                db << ('is_a(%s, %s)' % (s, c),
-                       self.prac.wordnet.similarity(sense, syn))
+                db << ('is_a(%s, %s)' % (s, c), self.prac.wordnet.similarity(sense, syn))
         return db
 
 
     def add_similarities(self, db, mln):
-        """
+        '''
         For each cluster add the similarities for each value of each property
         in the db domains to each value of the respective property in the
         mln domains. The degree of truth of the new atom is the similarity
@@ -190,7 +185,7 @@ class WNSenses(PRACModule):
         are added if yellow.s.01 and red.s.01 are in the color domain of the
         mln.
 
-        """
+        '''
         db_ = db.copy()
         dbdomains = db.domains
         for cl in dbdomains.pop('cluster'):
@@ -209,12 +204,12 @@ class WNSenses(PRACModule):
 
 
     def printWordSenses(self, synsets, tick):
-        """
+        '''
         Prints the list of synsets or synset ids and ticks the one specified
         by the given index.
         tick may be either the index or the sense id itself or the synset
         instance.
-        """
+        '''
         if type(tick) is str:
             tick = self.prac.wordnet.synset(tick)
         synsets_ = []
@@ -227,21 +222,16 @@ class WNSenses(PRACModule):
         for idx, sense in enumerate(synsets_):
             print '    [{}] {}: {} ({})'.format('X' if tick == idx else ' ',
                                                 colorize(sense.name,
-                                                         (None,
-                                                          {True: 'yellow',
-                                                           False: 'white'}
-                                                          [tick == idx],
-                                                          True),
+                                                         (None, {True: 'yellow', False: 'white'} [tick == idx], True),
                                                          True),
-                                                sense.definition,
-                                                ';'.join(sense.examples))
+                                                sense.definition, ';'.join(sense.examples))
 
 
     def get_possible_meanings_of_word(self, db, word):
-        """
+        '''
         Returns a list of synsets for the given word (the constant with index)
         in the given database. Assumes that parts-of-speech are known.
-        """
+        '''
         for q in db.query('has_sense({}, ?s) ^ has_pos({}, ?pos)'.format(word,
                                                                          word)):
             pos = q['?pos']
@@ -269,11 +259,11 @@ class WNSenses(PRACModule):
 
 
     def addFuzzyEvidenceToDBs(self, *dbs):
-        """
+        '''
         Adds to the databases dbs all fuzzy 'is_a' relationships
         for all senses contained in the DB and in the MLN.
         (has side effects on the original one)
-        """
+        '''
         mln_domains = dbs[0].domains
         domains_full = mergedom(mln_domains, *[db.domains for db in dbs])
         concepts = domains_full['concept']
@@ -284,20 +274,20 @@ class WNSenses(PRACModule):
                 concept = res['?concept']
                 for c in concepts:
                     similarity = wordnet.semilarity(concept, c)
-                    log.info('{} ~ {} = {:.2f}'.format(concept, c, similarity))
+                    logger.info('{} ~ {} = {:.2f}'.format(concept, c, similarity))
                     db << ('is_a({},{})'.format(sense, c), similarity)
         return dbs
 
 
     def addPossibleWordSensesToDBs(self, *dbs):
-        """
+        '''
         Adds to the databases dbs all possible word senses (and fuzzy meanings)
         based on their part of speech.
-        """
+        '''
         wordnet = WordNet()
         for db in dbs:
             word2senses = defaultdict(list)
-            log.info(db.mln.domains['concept'])
+            logger.info(db.mln.domains['concept'])
             for res in db.query('has_pos(?word,?pos)'):
                 word_const = res['?word']
                 pos = posMap.get(res['?pos'], None)
@@ -328,8 +318,8 @@ class WNSenses(PRACModule):
             database = Database(self.prac.mln)
             for truth, gndLit in db.iterGroundLiteralStrings():
                 database << (gndLit, truth)
-                log.info(gndLit)
-            log.info('Adding all similarities...')
+                logger.info(gndLit)
+            logger.info('Adding all similarities...')
             self.addPossibleWordSensesToDBs(database)
             inf_step.output_dbs.append(database)
         return inf_step
@@ -342,10 +332,8 @@ class WNSenses(PRACModule):
         if hasattr(prac_learning,
                    'training_dbs') and prac_learning.training_dbs is not None:
             for dbfile in prac_learning.training_dbs:
-                training_dbs.extend(Database(self.mln, dbfile=dbfile,
-                                             ignoreUnknownPredicates=True))
+                training_dbs.extend(Database(self.mln, dbfile=dbfile, ignore_unknown_preds=True))
         else:
             for dbfile in self.prac.getActionCoreTrainingDBs():
-                db = Database(self.mln, dbfile=dbfile,
-                              ignoreUnknownPredicates=True)
+                db = Database(self.mln, dbfile=dbfile, ignore_unknown_preds=True)
                 training_dbs.append(db)

@@ -21,20 +21,19 @@
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 import os
+
 from prac.core.base import PRACModule, PRACPIPE
-from prac.pracutils.utils import prac_heading
-from pracmln.mln.base import parse_mln
-from pracmln.mln.methods import LearningMethods
 from prac.core.inference import PRACInferenceStep
-# mapping from PennTreebank POS tags to NLTK POS Tags
-from pracmln import Database, MLN, MLNQuery
-from pracmln.mln.util import colorize, out, stop
-from pracmln.praclog import logger
+from prac.pracutils.utils import prac_heading
+from pracmln import MLNQuery
+from pracmln import praclog
+from pracmln.mln.base import parse_mln
+from pracmln.mln.util import colorize
 from pracmln.utils.project import MLNProject
 from pracmln.utils.visualization import get_cond_prob_png
 
 
-log = logger(__name__)
+logger = praclog.logger(__name__, praclog.INFO)
 
 
 class ControlStructureIdentification(PRACModule):
@@ -45,16 +44,22 @@ class ControlStructureIdentification(PRACModule):
 
     @PRACPIPE
     def __call__(self, pracinference, **params):
-        log.debug('inference on %s' % self.name)
 
-        print prac_heading('Recognizing Control Structures')
+        # ======================================================================
+        # Initialization
+        # ======================================================================
+
+        logger.debug('inference on {}'.format(self.name))
+
+        if self.prac.verbose > 0:
+            print prac_heading('Recognizing Control Structures')
 
         if params.get('project', None) is None:
             # load default project
             projectpath = self.project_path
             ac_project = MLNProject.open(projectpath)
         else:
-            log.info(colorize('Loading Project from params', (None, 'cyan', True), True))
+            logger.info(colorize('Loading Project from params', (None, 'cyan', True), True))
             projectpath = os.path.join(params.get('projectpath', None) or self.module_path, params.get('project').name)
             ac_project = params.get('project')
 
@@ -67,16 +72,30 @@ class ControlStructureIdentification(PRACModule):
         pngs = {}
         for i, db in enumerate(dbs):
             db_ = db.copy()
-            # result_db = list(kb.infer(tmp_union_db))[0]
+
+            # ======================================================================
+            # Inference
+            # ======================================================================
+
             infer = MLNQuery(config=ac_project.queryconf, db=db, mln=mln).run()
             result_db = infer.resultdb
+
+            if self.prac.verbose == 2:
+                print
+                print prac_heading('INFERENCE RESULTS')
+                print
+                infer.write()
+
+            # ==========================================================
+            # Postprocessing
+            # ==========================================================
+
             for q in result_db.query('event(?w,?ac)'):
                 db_ << 'event({},{})'.format(q['?w'],q['?ac'])
             for q in result_db.query('condition(?w)'):
                 db_ << 'condition({})'.format(q['?w'])
                 
             inf_step.output_dbs.append(db_)
-
             pngs['CS' + str(i)] = get_cond_prob_png(ac_project.queryconf.get('queries', ''), dbs, filename=self.name)
             inf_step.png = pngs
 

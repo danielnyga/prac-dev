@@ -26,19 +26,19 @@ from pymongo import MongoClient
 from scipy import stats
 import numpy
 
+import prac
 from prac.core.base import PRACModule, PRACPIPE
 from prac.core.inference import PRACInferenceStep
 from prac.pracutils.utils import prac_heading
-from pracmln.praclog import logger
+from pracmln import praclog
 from pracmln.utils.visualization import get_cond_prob_png
 from prac.core.wordnet import WordNet
 from prac.pracutils.RolequeryHandler import RolequeryHandler
 
 
+logger = praclog.logger(__name__, praclog.INFO)
+corpus_path_list = os.path.join(prac.locations.home, 'corpus')
 
-log = logger(__name__)
-PRAC_HOME = os.environ['PRAC_HOME']
-corpus_path_list = os.path.join(PRAC_HOME, 'corpus')
 
 def frame_similarity(inferred_roles, frame_action_role_dict):
     wordnet = WordNet(concepts=None)
@@ -78,13 +78,14 @@ def transform_documents_to_action_role_map(cursor):
             document_map[str(key_element)] = str(document['actioncore_roles'][key_element]['nltk_wordnet_sense'])
 
         result.append(document_map)
-
     return result
 
 
 class RoleLookUp(PRACModule):
     '''
-
+    PRACModule used determine missing roles by performing a mongo database
+    look up. Will return most probable roles from previously stored
+    instructions.
     '''
 
     def determine_missing_roles(self, db):
@@ -95,6 +96,10 @@ class RoleLookUp(PRACModule):
         db_ = db.copy()
         # Assuming there is only one action core
         for q in db.query('action_core(?w,?ac)'):
+
+            # ==================================================================
+            # Preprocessing & Lookup
+            # ==================================================================
 
             actioncore = q['?ac']
             roles_senses_dict = RolequeryHandler(self.prac).query_roles_and_senses_based_on_action_core(db_)
@@ -128,8 +133,9 @@ class RoleLookUp(PRACModule):
                            }
                 
                 stage_2 = {"$unwind": "$plan_list"}
-                
-                print "Sending query to MONGO DB ..."
+
+                if self.prac.verbose > 0:
+                    print "Sending query to MONGO DB ..."
 
                 cursor_agg = frames_collection.aggregate([stage_1, stage_2])
                 cursor = []
@@ -142,7 +148,7 @@ class RoleLookUp(PRACModule):
                     frame_result_list = transform_documents_to_action_role_map(cursor)
                     
                     if len(frame_result_list) > 0:
-                        print "Found suitable frames"
+                        logger.info("Found suitable frames")
                         score_frame_matrix = numpy.array(map(lambda x: frame_similarity(roles_senses_dict, x), frame_result_list))
                         confidence_level = 0.7
     
@@ -173,11 +179,14 @@ class RoleLookUp(PRACModule):
                                     db_ << (atom_role, 0)
                                 i += 1
                         else:
-                            print "Confidence is too low."
+                            if self.prac.verbose > 0:
+                                print "Confidence is too low."
                     else:
-                        print "No suitable frames are available."
+                        if self.prac.verbose > 0:
+                            print "No suitable frames are available."
                 else:
-                    print "No suitable frames are available."
+                    if self.prac.verbose > 0:
+                        print "No suitable frames are available."
         
         return db_, missing_role_set
 
@@ -192,7 +201,15 @@ class RoleLookUp(PRACModule):
 
     @PRACPIPE
     def __call__(self, pracinference, **params):
-        print prac_heading('Role Look-up')
+
+        # ======================================================================
+        # Initialization
+        # ======================================================================
+
+        logger.debug('inference on {}'.format(self.name))
+
+        if self.prac.verbose > 0:
+            print prac_heading('Role Look-up')
 
         inf_step = PRACInferenceStep(pracinference, self)
         dbs = pracinference.inference_steps[-1].output_dbs
@@ -200,7 +217,23 @@ class RoleLookUp(PRACModule):
 
         pngs = {}
         for i, db in enumerate(dbs):
+
+            # ==================================================================
+            # Mongo Lookup
+            # ==================================================================
+
             db_, missingroles = self.determine_missing_roles(db)
+
+            if self.prac.verbose > 1:
+                print
+                print prac_heading('LOOKUP RESULTS')
+                print
+                print missingroles
+
+            # ==================================================================
+            # Postprocessing
+            # ==================================================================
+
             inf_step.output_dbs.append(db_)
 
             for q in db.query('action_core(?w, ?ac)'):

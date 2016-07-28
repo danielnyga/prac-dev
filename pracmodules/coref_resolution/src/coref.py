@@ -21,18 +21,20 @@
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 import os
+import traceback
 
 from prac.core.base import PRACModule, PRACPIPE
 from prac.core.inference import PRACInferenceStep
 from prac.pracutils.utils import prac_heading
 from pracmln import praclog, MLNQuery, Database
+from pracmln.mln import NoConstraintsError
 from pracmln.mln.base import parse_mln
 from pracmln.mln.util import colorize, mergedom
 from pracmln.utils.project import MLNProject
 from pracmln.utils.visualization import get_cond_prob_png
 
 
-log = praclog.logger(__name__)
+logger = praclog.logger(__name__, praclog.INFO)
 
 
 class CorefResolution(PRACModule):
@@ -43,10 +45,16 @@ class CorefResolution(PRACModule):
 
     @PRACPIPE
     def __call__(self, pracinference, **params):
-        print prac_heading('Resolving Coreferences')
 
-        # merge output dbs from senses_and_roles step, containing
-        # roles inferred from multiple sentences.
+        # ======================================================================
+        # Initialization
+        # ======================================================================
+
+        logger.debug('inference on {}'.format(self.name))
+
+        if self.prac.verbose > 0:
+            print prac_heading('Resolving Coreferences')
+
         inf_step = PRACInferenceStep(pracinference, self)
         prev_step = pracinference.inference_steps[-1]
         dbs = prev_step.output_dbs
@@ -55,13 +63,19 @@ class CorefResolution(PRACModule):
         ac = None
         pngs = {}
 
+        # ======================================================================
+        # Preprocessing
+        # ======================================================================
+
+        # merge output dbs from senses_and_roles step, containing
+        # roles inferred from multiple sentences.
         if len(dbs) < 2:
             # no coreferencing required - forward dbs and settings
             # from previous module
             inf_step.output_dbs = [db.copy(self.prac.mln) for db in dbs]
             inf_step.png = prev_step.png
             inf_step.applied_settings = prev_step.applied_settings
-            log.info('Got single database. Nothing to do here. Passing db...')
+            logger.info('Got single database. Nothing to do here. Passing db...')
             return inf_step
 
         # retrieve all words from the dbs to calculate distances.
@@ -87,7 +101,7 @@ class CorefResolution(PRACModule):
                     inf_step.output_dbs = [db.copy(self.prac.mln) for db in dbs]
                     inf_step.png = prev_step.png
                     inf_step.applied_settings = prev_step.applied_settings
-                    log.warning('Could not load project "{}". Passing dbs to next module...'.format(ac))
+                    logger.warning('Could not load project "{}". Passing dbs to next module...'.format(ac))
                     return inf_step
 
                 # clear corefdb and unify current db with the two preceding ones
@@ -147,22 +161,45 @@ class CorefResolution(PRACModule):
                             else:
                                 newdatabase << '!{}({},{})'.format(r, w, ac1)
 
-                infer = MLNQuery(config=conf, db=newdatabase, mln=mln).run()
+                try:
+                    # ==========================================================
+                    # Inference
+                    # ==========================================================
 
-                # merge initial db with results
-                for res in infer.results.keys():
-                    if infer.results[res] != 1.0:
-                        continue
-                    db << '{}'.format(res)
-                    w = res.split('(')[1].split(',')[0]
-                    for q in newdatabase.query('has_sense({0},?s) ^ has_pos({0},?pos)'.format(w)):
-                        db << 'has_sense({},{})'.format(w, q['?s'])
-                        db << 'is_a({0},{0})'.format(q['?s'])
-                        db << 'has_pos({},{})'.format(w, q['?pos'])
+                    infer = MLNQuery(config=conf, verbose=self.prac.verbose > 2,
+                                     db=newdatabase, mln=mln).run()
 
-                newdb = wordnet_module.add_sims(db, mln)
-                inf_step.output_dbs.append(newdb)
-                pngs['CoRef - ' + str(i)] = get_cond_prob_png(project.queryconf.get('queries', ''), dbs, filename=self.name)
+                    if self.prac.verbose == 2:
+                        print
+                        print prac_heading('INFERENCE RESULTS')
+                        print
+                        infer.write()
+
+                    # ==========================================================
+                    # Postprocessing
+                    # ==========================================================
+
+                    # merge initial db with results
+                    for res in infer.results.keys():
+                        if infer.results[res] != 1.0:
+                            continue
+                        db << '{}'.format(res)
+                        w = res.split('(')[1].split(',')[0]
+                        for q in newdatabase.query('has_sense({0},?s) ^ has_pos({0},?pos)'.format(w)):
+                            db << 'has_sense({},{})'.format(w, q['?s'])
+                            db << 'is_a({0},{0})'.format(q['?s'])
+                            db << 'has_pos({},{})'.format(w, q['?pos'])
+
+                    newdb = wordnet_module.add_sims(db, mln)
+                    inf_step.output_dbs.append(newdb)
+                except NoConstraintsError:
+                    logger.info('No coreferences found. Passing db...')
+                    inf_step.output_dbs.append(db)
+                except Exception:
+                    logger.error('Something went wrong')
+                    traceback.print_exc()
+
+                pngs['Coref - ' + str(i)] = get_cond_prob_png(project.queryconf.get('queries', ''), dbs, filename=self.name)
                 inf_step.png = pngs
                 inf_step.applied_settings = project.queryconf.config
         return inf_step

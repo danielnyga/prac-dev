@@ -21,73 +21,98 @@
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 import os
+
 from prac.core.base import PRACModule, PRACPIPE
-from prac.pracutils.utils import prac_heading
-from pracmln.mln.base import parse_mln
-from pracmln.mln.methods import LearningMethods
 from prac.core.inference import PRACInferenceStep
-# mapping from PennTreebank POS tags to NLTK POS Tags
-from pracmln import Database, MLN, MLNQuery
-from pracmln.mln.util import colorize, out, stop
-from pracmln.praclog import logger
+from prac.pracutils.utils import prac_heading
+from pracmln import Database, MLNQuery
+from pracmln.mln.base import parse_mln
+from pracmln.mln.util import colorize
+from pracmln import praclog
 from pracmln.utils.project import MLNProject
 from pracmln.utils.visualization import get_cond_prob_png
 
 
-log = logger(__name__)
+logger = praclog.logger(__name__, praclog.INFO)
 
 
 class ActionCoreIdentification(PRACModule):
-    
+    '''
+    PRACModule used to identify action cores in natural-language instructions
+    '''
+
     def initialize(self):
         pass
 
     @PRACPIPE
     def __call__(self, pracinference, **params):
-        log.debug('inference on %s' % self.name)
 
-        print prac_heading('Recognizing Action Cores')
+        # ======================================================================
+        # Initialization
+        # ======================================================================
+
+        logger.debug('inference on {}'.format(self.name))
+
+        if self.prac.verbose > 0:
+            print prac_heading('Recognizing Action Cores')
 
         if params.get('project', None) is None:
             # load default project
             projectpath = self.project_path
             ac_project = MLNProject.open(projectpath)
         else:
-            log.info(colorize('Loading Project from params', (None, 'cyan', True), True))
+            logger.info(colorize('Loading Project from params', (None, 'cyan', True), True))
             projectpath = os.path.join(params.get('projectpath', None) or self.module_path, params.get('project').name)
             ac_project = params.get('project')
 
         dbs = pracinference.inference_steps[-1].output_dbs
 
         mlntext = ac_project.mlns.get(ac_project.queryconf['mln'], None)
-        mln = parse_mln(mlntext, searchpaths=[self.module_path], projectpath=projectpath, logic=ac_project.queryconf.get('logic', 'FirstOrderLogic'), grammar=ac_project.queryconf.get('grammar', 'PRACGrammar'))
+        mln = parse_mln(mlntext, searchpaths=[self.module_path], projectpath=projectpath,
+                        logic=ac_project.queryconf.get('logic', 'FirstOrderLogic'),
+                        grammar=ac_project.queryconf.get('grammar', 'PRACGrammar'))
         known_concepts = mln.domains.get('concept', [])
         inf_step = PRACInferenceStep(pracinference, self)
         wordnet_module = self.prac.getModuleByName('wn_senses')
 
+
         pngs = {}
         for db_ in dbs:
+
+            # ==================================================================
+            # Preprocessing
+            # ==================================================================
+
             db = wordnet_module.get_senses_and_similarities(db_, known_concepts)
             tmp_union_db = db.union(db_, mln=self.prac.mln)
 
-            # result_db = list(kb.infer(tmp_union_db))[0]
-            infer = MLNQuery(config=ac_project.queryconf, db=tmp_union_db, mln=mln).run()
+            # ==================================================================
+            # Inference
+            # ==================================================================
+
+            infer = MLNQuery(config=ac_project.queryconf,
+                             verbose=self.prac.verbose > 2,
+                             db=tmp_union_db, mln=mln).run()
             result_db = infer.resultdb
 
-            unified_db = result_db.union(tmp_union_db, mln=self.prac.mln) # alternative to query below
-            # only add inferred action_core atoms, leave out 0-evidence atoms
-            # unified_db = tmp_union_db.copy(mln, mln=self.prac.mln)
-            # for q in result_db.query('action_core(?w,?ac)'):
-            #     log.info('Identified Action Core(s): {}'.format(colorize(q['?ac'], (None, 'white', True), True)))
-            #     unified_db << 'action_core({},{})'.format(q['?w'],q['?ac'])
-            
-            #inf_step.output_dbs.append(unified_db)
+            if self.prac.verbose == 2:
+                print
+                print prac_heading('INFERENCE RESULTS')
+                print
+                infer.write()
+
+            # ==================================================================
+            # Postprocessing
+            # ==================================================================
+
+            unified_db = result_db.union(tmp_union_db, mln=self.prac.mln)
             inf_step.output_dbs.extend(self.extract_multiple_action_cores(unified_db,wordnet_module,known_concepts))
             pngs[unified_db.domains.get('actioncore', [None])[0]] = get_cond_prob_png(ac_project.queryconf.get('queries', ''), dbs, filename=self.name)
             inf_step.png = pngs
             inf_step.applied_settings = ac_project.queryconf.config
         return inf_step
-    
+
+
     def extract_multiple_action_cores(self, db,wordnet_module,known_concepts):
         dbs = []
         verb_list = []

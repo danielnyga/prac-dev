@@ -26,31 +26,51 @@ from prac.core.base import PRACModule
 from prac.core.inference import PRACInferenceStep
 from prac.pracutils.utils import prac_heading
 from pracmln import MLN
-from pracmln.praclog import logger
+from pracmln import praclog
 
-log_ = logger(__name__)
+
+logger = praclog.logger(__name__, praclog.INFO)
 
 
 class PlanGenerator(PRACModule):
+    '''
+    PRACModule used to generate a parameterized plan from information inferred
+    by previous modules.
+    '''
 
     def __call__(self, pracinference, **params):
 
-        log_.info('Running {}'.format(self.name))
+        # ======================================================================
+        # Initialization
+        # ======================================================================
 
-        print prac_heading('Generating CRAM Plan(s)')
+        logger.debug('Running {}'.format(self.name))
+
+        if self.prac.verbose > 0:
+            print prac_heading('Generating CRAM Plan(s)')
 
         infstep = PRACInferenceStep(pracinference, self)
         dbs = pracinference.inference_steps[-1].output_dbs
         infstep.output_dbs = dbs
         infstep.inferred_roles = {}
         infstep.executable_plans = []
-        properties = [p.name for p in MLN.load(os.path.join(self.module_path, '..', 'prop_extraction', 'mln', 'predicates.mln')).predicates]
+        properties = [p.name for p in MLN.load(os.path.join(self.module_path, '..',
+                                                            'prop_extraction', 'mln',
+                                                            'predicates.mln')).predicates]
 
         for db in dbs:
+
+            # ==================================================================
+            # Preprocessing
+            # ==================================================================
+
             for query in ['achieved_by(?ac1, ?ac)', 'action_core(?w, ?ac)']:
+                print 'query', query, list(db.query(query))
                 for q in db.query(query):
+
                     actioncore = q['?ac']
                     ac = self.prac.actioncores.get(actioncore)
+                    print 'ac', ac.plan, actioncore
                     if not ac.plan:
                         continue
 
@@ -102,8 +122,18 @@ class PlanGenerator(PRACModule):
 
                         role_assignments.append(ass)
 
+                    # ==========================================================
+                    # Plan Parameterization
+                    # ==========================================================
+
                     for assignment in role_assignments:
                         infstep.inferred_roles[ac.name] = assignment
                         infstep.executable_plans.append(ac.parameterize_plan(**assignment))
+
+                    if self.prac.verbose > 1:
+                        print
+                        print prac_heading('PLAN GENERATION RESULTS')
+                        for p in infstep.executable_plans:
+                            print p
                     break
         return infstep
