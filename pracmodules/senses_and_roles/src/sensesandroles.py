@@ -131,7 +131,7 @@ class SensesAndRoles(PRACModule):
 
                 # adding senses and similarities. might be obsolete as it has
                 # already been performed in ac recognition
-                logger.info('adding senses. concepts={}'.format(known_concepts))
+                logger.debug('adding senses. concepts={}'.format(known_concepts))
                 db = wordnet_module.get_senses_and_similarities(db_copy, known_concepts)
 
                 # we need senses and similarities as well as original evidence
@@ -163,7 +163,6 @@ class SensesAndRoles(PRACModule):
                 if self.prac.verbose == 2:
                     print
                     print prac_heading('INFERENCE RESULTS')
-                    print
                     infer.write()
 
                 # ==============================================================
