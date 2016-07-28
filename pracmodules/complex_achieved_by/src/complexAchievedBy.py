@@ -93,7 +93,6 @@ class ComplexAchievedBy(PRACModule):
                 if self.prac.verbose > 1:
                     print
                     print prac_heading('LOOKUP RESULTS')
-                    print
                     print cloned_cursor[index]['howto']
 
                 return map(lambda x: self.transform_to_db(db, roles_dict, document_action_roles,

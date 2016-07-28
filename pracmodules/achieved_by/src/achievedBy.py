@@ -180,7 +180,6 @@ class AchievedBy(PRACModule):
                 if self.prac.verbose == 2:
                     print
                     print prac_heading('INFERENCE RESULTS')
-                    print
                     infer.write()
 
                 # ==============================================================

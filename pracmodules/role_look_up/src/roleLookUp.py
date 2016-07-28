@@ -227,8 +227,8 @@ class RoleLookUp(PRACModule):
             if self.prac.verbose > 1:
                 print
                 print prac_heading('LOOKUP RESULTS')
-                print
-                print missingroles
+                for m in missingroles:
+                    print m
 
             # ==================================================================
             # Postprocessing
