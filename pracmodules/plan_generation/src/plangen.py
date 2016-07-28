@@ -27,6 +27,7 @@ from prac.core.inference import PRACInferenceStep
 from prac.pracutils.utils import prac_heading
 from pracmln import MLN
 from pracmln import praclog
+from pracmln.mln.util import colorize
 
 
 logger = praclog.logger(__name__, praclog.INFO)
@@ -65,12 +66,10 @@ class PlanGenerator(PRACModule):
             # ==================================================================
 
             for query in ['achieved_by(?ac1, ?ac)', 'action_core(?w, ?ac)']:
-                print 'query', query, list(db.query(query))
                 for q in db.query(query):
 
                     actioncore = q['?ac']
                     ac = self.prac.actioncores.get(actioncore)
-                    print 'ac', ac.plan, actioncore
                     if not ac.plan:
                         continue
 
@@ -133,7 +132,10 @@ class PlanGenerator(PRACModule):
                     if self.prac.verbose > 1:
                         print
                         print prac_heading('PLAN GENERATION RESULTS')
-                        for p in infstep.executable_plans:
-                            print p
+                        print colorize('actioncore:', (None, 'white', True), True), colorize(ac.name, (None, 'cyan', True), True)
+                        print colorize('assignments:', (None, 'white', True), True)
+                        for assignment in role_assignments:
+                            for x in assignment:
+                                print '\t{}: {}'.format(colorize(x, (None, 'white', True), True), colorize(assignment[x], (None, 'cyan', True), True))
                     break
         return infstep
