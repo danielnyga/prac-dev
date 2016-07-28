@@ -64,7 +64,7 @@ cram_plan: "(open-door (of (an object (type {obj_to_be_opened}){obj_to_be_opened
 ---
 action_core: OperatingATap
 action_roles: ['liquid','goal','action_verb','amount','unit']
-cram_plan: "(operate-tap (from (an object (type faucet.n.01) (contains (some liquid (type {liquid}){liquid_props})))) (amount ({amount} {unit})) (to (an object  (type {goal}){goal_props})))"
+cram_plan: "(operate-tap (from (an object (type faucet.n.01) (contains (some liquid (type {liquid}){liquid_props})))) (amount (a quantity (type {unit})(number {amount})) (to (an object  (type {goal}){goal_props})))"
 ---
 action_core: Pipetting
 action_roles: ['content','goal','action_verb','amount','unit']
@@ -73,7 +73,7 @@ cram_plan: "(use-pipette (from (an object (type container.n.01)(contains (some s
 action_core: Pouring
 action_roles: ['stuff','goal','action_verb','unit','amount']
 required_action_roles: ['stuff','goal','action_verb']
-cram_plan: "(pour-from-container (from (an object  (type container.n.01) (contains (some stuff (type {stuff}){stuff_props})))) (amount ({amount} {unit})) (to (an object  (type {goal}){goal_props})))"
+cram_plan: "(pour-from-container (from (an object  (type container.n.01) (contains (some stuff (type {stuff}){stuff_props})))) (a quantity (type {unit})(number {amount})) (to (an object  (type {goal}){goal_props})))"
 ---
 action_core: Preheating
 action_roles: ['obj_to_be_heated','temperature_unit','temperature_setting','action_verb']
@@ -96,7 +96,7 @@ action_roles: ['theme','action_verb']
 ---
 action_core: Shaking
 action_roles: ['obj_to_be_shaken','action_verb','unit','amount']
-cram_plan: "(shake (an object (type {obj_to_be_shaken}){obj_to_be_shaken_props}) for ({amount} {unit}))"
+cram_plan: "(shake (an object (type {obj_to_be_shaken}){obj_to_be_shaken_props}) for (a duration (type {unit})(number {amount})))"
 ---
 action_core: Spooning
 action_roles: ['substance','goal','action_verb']
@@ -125,7 +125,7 @@ cram_plan: "(unscrew (an object (type {obj_to_be_unscrewed}){obj_to_be_unscrewed
 ---
 action_core: UsingMeasuringCup
 action_roles: ['content','goal','action_verb','amount','unit']
-cram_plan: "(use-measuring-cup (from (an object (type container.n.01)(contains (some stuff (type {content}){content_props})))(amount ({amount} {unit}))(to (an object (type container.n.01)(contains (some stuff (type {goal}){goal_props}))"
+cram_plan: "(use-measuring-cup (from (an object (type container.n.01)(contains (some stuff (type {content}){content_props})))(amount (a quantity (type {unit})(number {amount})))(to (an object (type container.n.01)(contains (some stuff (type {goal}){goal_props}))"
 ---
 action_core: UsingSpiceJar
 action_roles: ['content','goal','action_verb']
@@ -133,4 +133,4 @@ cram_plan: "(pour-from-spice-jar (from (an object (type container.n.01)(contains
 ---
 action_core: Waiting
 action_roles: ['unit','action_verb','amount']
-cram_plan: "(wait-for (type {amount}) (type {unit}))"
+cram_plan: "(wait-for (a duration (type {unit})(number {amount})))"
