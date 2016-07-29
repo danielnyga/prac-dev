@@ -83,11 +83,11 @@ class SensesAndRoles(PRACModule):
                 if actioncore == 'null': continue
 
                 if params.get('project', None) is None:
-                    logger.info('Loading Project: {}.pracmln'.format(colorize(actioncore, (None, 'cyan', True), True)))
+                    logger.debug('Loading Project: {}.pracmln'.format(colorize(actioncore, (None, 'cyan', True), True)))
                     projectpath = os.path.join(self.module_path, '{}.pracmln'.format(actioncore))
                     project = MLNProject.open(projectpath)
                 else:
-                    logger.info(colorize('Loading Project from params', (None, 'cyan', True), True))
+                    logger.debug(colorize('Loading Project from params', (None, 'cyan', True), True))
                     projectpath = os.path.join(params.get('projectpath', None) or self.module_path,
                                                params.get('project').name)
                     project = params.get('project')
@@ -109,14 +109,14 @@ class SensesAndRoles(PRACModule):
                 unknown_roles = set()
                 if 'missing' in params:
                     roles = mln.domains.get('role', [])
-                    logger.info('roles: {}'.format(roles))
+                    logger.debug('roles: {}'.format(roles))
                     specified_roles = []
 
                     for q in olddb.query('action_role(?w, ?r)'):
                         specified_roles.append(q['?r'])
 
                     unknown_roles = set(roles).difference(set(specified_roles))
-                    logger.info('unknown roles: {}'.format(unknown_roles))
+                    logger.debug('unknown roles: {}'.format(unknown_roles))
 
                     if len(unknown_roles) > 0:
                         logger.info(colorize('DETECTED MISSING ACTION ROLES:', (None, 'red', True), True))
@@ -124,10 +124,8 @@ class SensesAndRoles(PRACModule):
                     for i, role in enumerate(unknown_roles):
                         if role == 'null': continue
                         logger.info(colorize('  {}'.format(role), (None, 'red', True), True))
-                        logger.info('adding {}'.format('action_role(Skolem-{}, {})'.format(role, role)))
+                        logger.debug('adding {}'.format('action_role(Skolem-{}, {})'.format(role, role)))
                         db_copy << ('action_role(Skolem-{}, {})'.format(role, role))
-                else:
-                    logger.info('Inferring given roles...')
 
                 # adding senses and similarities. might be obsolete as it has
                 # already been performed in ac recognition

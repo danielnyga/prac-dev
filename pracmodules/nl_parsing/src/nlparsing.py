@@ -150,7 +150,7 @@ class NLParsing(PRACModule):
 
 
     def initialize(self):
-        logger.info('initializing nl_parsing')
+        logger.debug('initializing nl_parsing')
 
         self.mln = MLN(mlnfile=os.path.join(self.module_path, 'mln', 'predicates.mln'),
                        grammar='PRACGrammar', logic='FuzzyLogic')
@@ -268,7 +268,7 @@ class NLParsing(PRACModule):
         if self.prac.verbose > 0:
             print prac_heading('Parsing Natural Language')
 
-        logger.info('Running {}'.format(self.name))
+        logger.debug('Running {}'.format(self.name))
         step = PRACInferenceStep(pracinference, self)
 
         # ======================================================================

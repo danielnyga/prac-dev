@@ -75,7 +75,7 @@ class CorefResolution(PRACModule):
             inf_step.output_dbs = [db.copy(self.prac.mln) for db in dbs]
             inf_step.png = prev_step.png
             inf_step.applied_settings = prev_step.applied_settings
-            logger.info('Got single database. Nothing to do here. Passing db...')
+            logger.debug('Got single database. Nothing to do here. Passing db...')
             return inf_step
 
         # retrieve all words from the dbs to calculate distances.
@@ -95,7 +95,7 @@ class CorefResolution(PRACModule):
                     ac = q['?ac']
 
                 try:
-                    logger.info('Loading Project: {}'.format(colorize(ac, (None, 'cyan', True), True)))
+                    logger.debug('Loading Project: {}'.format(colorize(ac, (None, 'cyan', True), True)))
                     project = MLNProject.open(os.path.join(projectpath, '{}.pracmln'.format(ac)))
 
                     # clear corefdb and unify current db with the two preceding ones
@@ -198,7 +198,7 @@ class CorefResolution(PRACModule):
                     newdb = wordnet_module.add_sims(db, mln)
                     inf_step.output_dbs.append(newdb)
                 except NoConstraintsError:
-                    logger.info('No coreferences found. Passing db...')
+                    logger.debug('No coreferences found. Passing db...')
                     inf_step.output_dbs.append(db)
                 except Exception:
                     logger.error('Something went wrong')

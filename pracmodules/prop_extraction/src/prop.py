@@ -116,10 +116,10 @@ class PropExtraction(PRACModule):
 
                 inf_step.output_dbs.append(unified_db)
             except NoConstraintsError:
-                logger.info('No properties found. Passing db...')
+                logger.debug('No properties found. Passing db...')
                 inf_step.output_dbs.append(db)
             except Exception:
-                logger.warning('Something went wrong')
+                logger.error('Something went wrong')
                 traceback.print_exc()
 
             pngs['PropExtraction - ' + str(i)] = get_cond_prob_png(project.queryconf.get('queries', ''), dbs, filename=self.name)

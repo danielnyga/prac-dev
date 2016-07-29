@@ -98,14 +98,14 @@ class RolesTransformation(PRACModule):
 
             for q in db.query('achieved_by(?w,?ac)'):
                 actioncore = q['?ac']
-                logger.info('Action core: {}'.format(actioncore))
+                logger.debug('Action core: {}'.format(actioncore))
 
                 if params.get('project', None) is None:
-                    logger.info('Loading Project: {}.pracmln'.format(colorize(actioncore, (None, 'cyan', True), True)))
+                    logger.debug('Loading Project: {}.pracmln'.format(colorize(actioncore, (None, 'cyan', True), True)))
                     projectpath = os.path.join(self.module_path, '{}Transformation.pracmln'.format(actioncore))
                     project = MLNProject.open(projectpath)
                 else:
-                    logger.info(colorize('Loading Project from params', (None, 'cyan', True), True))
+                    logger.debug(colorize('Loading Project from params', (None, 'cyan', True), True))
                     projectpath = os.path.join(params.get('projectpath', None) or self.module_path,
                                                params.get('project').name)
                     project = params.get('project')

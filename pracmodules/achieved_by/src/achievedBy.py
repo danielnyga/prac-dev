@@ -135,7 +135,7 @@ class AchievedBy(PRACModule):
                     db_ << (atom,truth)
 
                 if params.get('project', None) is None:
-                    logger.info('Loading Project: {}.pracmln'.format(colorize(actioncore, (None, 'cyan', True), True)))
+                    logger.debug('Loading Project: {}.pracmln'.format(colorize(actioncore, (None, 'cyan', True), True)))
                     projectpath = os.path.join(self.module_path, '{}.pracmln'.format(actioncore))
                     if os.path.exists(projectpath):
                         project = MLNProject.open(projectpath)
@@ -145,7 +145,7 @@ class AchievedBy(PRACModule):
                         logger.error(actioncore + ".pracmln does not exist.")
                         return inf_step
                 else:
-                    logger.info(colorize('Loading Project from params', (None, 'cyan', True), True))
+                    logger.debug(colorize('Loading Project from params', (None, 'cyan', True), True))
                     projectpath = os.path.join(params.get('projectpath', None) or self.module_path, params.get('project').name)
                     project = params.get('project')
 
