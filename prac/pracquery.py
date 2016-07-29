@@ -894,30 +894,30 @@ if __name__ == '__main__':
             if prac.verbose > 0:
                 print prac_heading('PRAC Inference Results')
 
-            step = inference.inference_steps[-1]
-            wordnet_module = prac.getModuleByName('wn_senses')
-            for db in step.output_dbs:
-                for a in sorted(db.evidence.keys()):
-                    v = db.evidence[a]
-                    if v > 0.001 and (a.startswith('action_core') or a.startswith(
-                            'has_sense') or a.startswith('achieved_by')):
-                        if a.startswith('has_sense'):
-    
-                            group = re.split(',',
-                                             re.split('has_sense\w*\(|\)', a)[1])
-                            word = group[0];
-                            sense = group[1];
-                            if sense != 'null':
+                step = inference.inference_steps[-1]
+                wordnet_module = prac.getModuleByName('wn_senses')
+                for db in step.output_dbs:
+                    for a in sorted(db.evidence.keys()):
+                        v = db.evidence[a]
+                        if v > 0.001 and (a.startswith('action_core') or a.startswith(
+                                'has_sense') or a.startswith('achieved_by')):
+                            if a.startswith('has_sense'):
+
+                                group = re.split(',',
+                                                 re.split('has_sense\w*\(|\)', a)[1])
+                                word = group[0];
+                                sense = group[1];
+                                if sense != 'null':
+                                    if prac.verbose > 1:
+                                        print
+                                        print colorize('  WORD:', (None, 'white', True), True), word,
+                                        print colorize('  SENSE:', (None, 'white', True), True), sense
+                                        wordnet_module.printWordSenses(wordnet_module.get_possible_meanings_of_word(db, word), sense)
+                                        print
+                            else:
                                 if prac.verbose > 1:
-                                    print
-                                    print colorize('  WORD:', (None, 'white', True), True), word,
-                                    print colorize('  SENSE:', (None, 'white', True), True), sense
-                                    wordnet_module.printWordSenses(wordnet_module.get_possible_meanings_of_word(db, word), sense)
-                                    print
-                        else:
-                            if prac.verbose > 1:
-                                print '%.3f    %s' % (v, a)
-                RolequeryHandler(prac).queryRolesBasedOnActioncore(db).write(color=True)
+                                    print '%.3f    %s' % (v, a)
+                    RolequeryHandler(prac).queryRolesBasedOnActioncore(db).write(color=True)
     
         if hasattr(inference.inference_steps[-1], 'executable_plans'):
             if prac.verbose > 0:
