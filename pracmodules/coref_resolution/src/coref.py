@@ -124,7 +124,7 @@ class CorefResolution(PRACModule):
                                     logic=project.queryconf.get('logic', 'FuzzyLogic'),
                                     grammar=project.queryconf.get('grammar', 'PRACGrammar'))
                 except MLNParsingError:
-                    logger.info('Could not use MLN in project {} for coreference resolution'.format(colorize(ac, (None, 'cyan', True), True)))
+                    logger.warning('Could not use MLN in project {} for coreference resolution'.format(colorize(ac, (None, 'cyan', True), True)))
                     inf_step.output_dbs = [db.copy(self.prac.mln) for db in dbs]
                     inf_step.png = prev_step.png
                     inf_step.applied_settings = prev_step.applied_settings
