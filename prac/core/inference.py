@@ -132,8 +132,10 @@ class PRACInference(object):
         elif previous_module == 'complex_achieved_by':
             return 'plan_generation'
         elif previous_module == 'plan_generation':
+            return 'cs_merger'
+        elif previous_module == 'cs_merger':
             return None
-
+        
         return None
 
 
