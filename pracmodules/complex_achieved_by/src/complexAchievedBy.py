@@ -63,7 +63,7 @@ class ComplexAchievedBy(PRACModule):
             # Mongo Lookup
             # ==================================================================
 
-            logger.info("Sending query to MONGO DB ...")
+            logger.debug("Sending query to MONGO DB ...")
             cursor = instructions_collection.find({'actioncore': str(actioncore)})
             
             roles_dict = RolequeryHandler(self.prac).query_roles_and_senses_based_on_achieved_by(db)
@@ -86,7 +86,7 @@ class ComplexAchievedBy(PRACModule):
                     documents_vector.append(0)
 
             if documents_vector:
-                logger.info('Found suitable instruction')
+                logger.debug('Found suitable instruction')
                 documents_vector = numpy.array(documents_vector)
                 index = documents_vector.argmax()
 
