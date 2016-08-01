@@ -32,10 +32,9 @@ from prac.core.base import PRACModule, PRACPIPE
 from prac.core.inference import PRACInferenceStep
 from prac.core.wordnet import WordNet
 from prac.pracutils.RolequeryHandler import RolequeryHandler
-from prac.pracutils.utils import prac_heading
+from prac.pracutils.utils import prac_heading, get_query_png
 from pracmln import Database
 from pracmln import praclog
-from pracmln.utils.visualization import get_cond_prob_png
 
 
 logger = praclog.logger(__name__, praclog.INFO)
@@ -140,7 +139,7 @@ class ComplexAchievedBy(PRACModule):
             for q in olddb.query('action_core(?w, ?ac)'):
                 w = q['?w']
 
-                pngs[q['?ac']] = get_cond_prob_png('instruction_sheet', dbs, filename=self.name, mongo=True, mongoword=w)
+                pngs[q['?ac']] = get_query_png('instruction_sheet', dbs, filename=self.name, skolemword=w)
                 inf_step.png = pngs
 
             inf_step.applied_settings = {'module': 'achieved_by', 'method': 'DB lookup'}

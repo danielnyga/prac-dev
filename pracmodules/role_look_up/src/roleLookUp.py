@@ -29,9 +29,8 @@ import numpy
 import prac
 from prac.core.base import PRACModule, PRACPIPE
 from prac.core.inference import PRACInferenceStep
-from prac.pracutils.utils import prac_heading
+from prac.pracutils.utils import prac_heading, get_query_png
 from pracmln import praclog
-from pracmln.utils.visualization import get_cond_prob_png
 from prac.core.wordnet import WordNet
 from prac.pracutils.RolequeryHandler import RolequeryHandler
 
@@ -239,9 +238,9 @@ class RoleLookUp(PRACModule):
             for q in db.query('action_core(?w, ?ac)'):
                 w = q['?w']
 
-                pngs['LookUp - ' + str(i)] = get_cond_prob_png(list(missingroles),
+                pngs['LookUp - ' + str(i)] = get_query_png(list(missingroles),
                                                                dbs, filename=self.name,
-                                                               mongo=True, mongoword=w)
+                                                               skolemword=w)
             inf_step.png = pngs
             inf_step.applied_settings = {'module': 'missing_roles', 'method': 'DB lookup'}
         return inf_step
