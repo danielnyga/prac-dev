@@ -65,7 +65,7 @@ class ComplexAchievedBy(PRACModule):
 
             roles_dict = {}
             for ac2 in db.achieved_by(actioncore=actioncore):
-                roles_dict = {(k, v) for (k, v) in db.roles(ac2.values().pop())}
+                roles_dict = {k: v for r in db.roles(ac2.values().pop()) for k, v in r.items()}
 
             documents_vector = []
 
