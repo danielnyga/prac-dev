@@ -21,11 +21,10 @@
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 import os
-import sys
 from prac.core.base import PRACModule, PRACPIPE
 from prac.core.inference import PRACInferenceStep
 from prac.pracutils.utils import prac_heading
-from pracmln import MLNQuery, MLN, Database
+from pracmln import MLN, Database
 from pracmln.praclog import logger
 from pracmln.mln.base import parse_mln
 from pracmln.mln.methods import LearningMethods
@@ -75,9 +74,8 @@ class NLObjectRecognition(PRACModule):
             output_db.write()
 
             # infer and update output dbs
-            infer = MLNQuery(config=project.queryconf,
-                             db=output_db,
-                             mln=mln).run()
+            infer = self.mlnquery(config=project.queryconf,
+                                  db=output_db, mln=mln)
             result_db = infer.resultdb
 
             inf_step.output_dbs.append(result_db)

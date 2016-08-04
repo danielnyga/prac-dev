@@ -25,7 +25,6 @@ import os
 from prac.core.base import PRACModule, PRACPIPE
 from prac.core.inference import PRACInferenceStep
 from prac.pracutils.utils import prac_heading
-from pracmln import MLNQuery
 from pracmln import praclog
 from pracmln.mln.base import parse_mln
 from pracmln.mln.util import colorize
@@ -77,7 +76,7 @@ class ControlStructureIdentification(PRACModule):
             # Inference
             # ======================================================================
 
-            infer = MLNQuery(config=ac_project.queryconf, db=db, mln=mln).run()
+            infer = self.mlnquery(config=ac_project.queryconf, db=db, mln=mln)
             result_db = infer.resultdb
 
             if self.prac.verbose == 2:

@@ -32,7 +32,6 @@ from prac.core.inference import PRACInferenceStep
 from prac.pracutils.utils import prac_heading, get_query_png
 from pracmln import praclog
 from prac.core.wordnet import WordNet
-from prac.pracutils.RolequeryHandler import RolequeryHandler
 
 
 logger = praclog.logger(__name__, praclog.INFO)
@@ -101,7 +100,10 @@ class RoleLookUp(PRACModule):
             # ==================================================================
 
             actioncore = q['?ac']
-            roles_senses_dict = RolequeryHandler(self.prac).query_roles_and_senses_based_on_action_core(db_)
+            # roles_senses_dict = RolequeryHandler(self.prac).query_roles_and_senses_based_on_action_core(db_)
+            roles_senses_dict = {(k, v) for (k, v) in db.roles(actioncore)}
+
+
             inferred_roles_set = set(roles_senses_dict.keys())
 
             # Determine missing roles: All_Action_Roles\Inferred_Roles

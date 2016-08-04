@@ -21,13 +21,12 @@
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 import os
-from prac.core.base import PRACModule, PRACPIPE
+from prac.core.base import PRACModule, PRACPIPE, PRACDatabase
 from prac.core.inference import PRACInferenceStep
 from prac.core.wordnet import WordNet
 from prac.pracutils.pracgraphviz import render_gv
 from prac.pracutils.utils import prac_heading
 from prac.sense_distribution import add_all_wordnet_similarities, get_prob_color
-from pracmln import MLNQuery, Database
 from pracmln.mln.base import parse_mln
 from pracmln.mln.util import colorize
 from pracmln import praclog
@@ -50,12 +49,6 @@ class SensesAndRoles(PRACModule):
 
     def shutdown(self):
         pass
-
-
-    def roleQueryBuilder(self, actioncore, predicate, domainList):
-        # assuming that the role predicates are always of the form
-        # predname(?x, actioncore)
-        return '{}(?{},{})'.format(predicate, domainList[0], actioncore)
 
 
     @PRACPIPE
@@ -154,8 +147,9 @@ class SensesAndRoles(PRACModule):
                 # Inference
                 # ==============================================================
 
-                infer = MLNQuery(config=project.queryconf, verbose=self.prac.verbose > 2,
-                                 db=new_tmp_union_db, mln=mln).run()
+                infer = self.mlnquery(config=project.queryconf,
+                                      verbose=self.prac.verbose > 2,
+                                      db=new_tmp_union_db, mln=mln)
                 result_db = infer.resultdb
 
                 if self.prac.verbose == 2:
@@ -174,7 +168,7 @@ class SensesAndRoles(PRACModule):
 
                 # argdoms = kb.query_mln.predicate(role).argdoms
                 roles = self.prac.actioncores[actioncore].roles
-                new_result = Database(self.prac.mln)
+                new_result = PRACDatabase(self.prac)
                 for atom, truth in unified_db.evidence.iteritems():
                     if any(r in atom for r in roles):
                         (_, predname, args) = self.prac.mln.logic.parse_literal(atom)
@@ -273,13 +267,14 @@ class SensesAndRoles(PRACModule):
                         # Inference
                         # ======================================================
 
-                        infer = MLNQuery(method='EnumerationAsk',
-                                         mln=mln,
-                                         db=db,
-                                         queries='has_sense',
-                                         cw=True,
-                                         multicore=True,
-                                         verbose=self.prac.verbose > 2).run()
+                        infer = self.mlnquery(method='EnumerationAsk',
+                                              mln=mln,
+                                              db=db,
+                                              queries='has_sense',
+                                              cw=True,
+                                              multicore=True,
+                                              verbose=self.prac.verbose > 2)
+
                         result = infer.resultdb
 
                         if self.prac.verbose == 2:

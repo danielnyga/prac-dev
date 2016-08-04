@@ -24,10 +24,9 @@ import os
 import yaml
 
 import prac
-from prac.core.base import PRACModule, PRACPIPE
+from prac.core.base import PRACModule, PRACPIPE, PRACDatabase
 from prac.core.inference import PRACInferenceStep
 from prac.pracutils.utils import prac_heading
-from pracmln import Database, MLNQuery
 from pracmln.mln.base import parse_mln
 from pracmln.mln.util import colorize
 from pracmln import praclog
@@ -124,8 +123,9 @@ class RolesTransformation(PRACModule):
                     # Inference
                     # ==========================================================
 
-                    infer = MLNQuery(config=project.queryconf, db=db,
-                                     verbose=self.prac.verbose > 2, mln=mln).run()
+                    infer = self.mlnquery(config=project.queryconf, db=db,
+                                          verbose=self.prac.verbose > 2,
+                                          mln=mln)
                     result_db = infer.resultdb
 
                     if self.prac.verbose == 2:
@@ -141,7 +141,7 @@ class RolesTransformation(PRACModule):
                 # Postprocessing
                 # ==============================================================
 
-                r_db = Database(self.prac.mln)
+                r_db = PRACDatabase(self.prac)
                 roles = self.prac.actioncores[actioncore].roles
                 for atom, truth in sorted(result_db.evidence.iteritems()):
                     if any(r in atom for r in roles):
@@ -152,7 +152,7 @@ class RolesTransformation(PRACModule):
                 unified_db = db.union(r_db, mln=self.prac.mln)
 
                 if actioncore not in planlist:
-                    r_db_ = Database(self.prac.mln)
+                    r_db_ = PRACDatabase(self.prac)
                     actionverb = ''
 
                     # It will be assumed that there is only one true action_

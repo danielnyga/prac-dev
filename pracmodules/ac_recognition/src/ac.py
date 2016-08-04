@@ -22,10 +22,9 @@
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 import os
 
-from prac.core.base import PRACModule, PRACPIPE
+from prac.core.base import PRACModule, PRACPIPE, PRACDatabase
 from prac.core.inference import PRACInferenceStep
 from prac.pracutils.utils import prac_heading
-from pracmln import Database, MLNQuery
 from pracmln.mln.base import parse_mln
 from pracmln.mln.util import colorize
 from pracmln import praclog
@@ -90,9 +89,9 @@ class ActionCoreIdentification(PRACModule):
             # Inference
             # ==================================================================
 
-            infer = MLNQuery(config=ac_project.queryconf,
-                             verbose=self.prac.verbose > 2,
-                             db=tmp_union_db, mln=mln).run()
+            infer = self.mlnquery(config=ac_project.queryconf,
+                                  verbose=self.prac.verbose > 2,
+                                  db=tmp_union_db, mln=mln)
             result_db = infer.resultdb
 
             if self.prac.verbose == 2:
@@ -105,14 +104,14 @@ class ActionCoreIdentification(PRACModule):
             # ==================================================================
 
             unified_db = result_db.union(tmp_union_db, mln=self.prac.mln)
-            inf_step.output_dbs.extend(self.extract_multiple_action_cores(unified_db,wordnet_module,known_concepts))
+            inf_step.output_dbs.extend(self.extract_multiple_action_cores(self.prac, unified_db, wordnet_module, known_concepts))
             pngs[unified_db.domains.get('actioncore', [None])[0]] = get_cond_prob_png(ac_project.queryconf.get('queries', ''), dbs, filename=self.name)
             inf_step.png = pngs
             inf_step.applied_settings = ac_project.queryconf.config
         return inf_step
 
 
-    def extract_multiple_action_cores(self, db,wordnet_module,known_concepts):
+    def extract_multiple_action_cores(self, prac, db,wordnet_module,known_concepts):
         dbs = []
         verb_list = []
         
@@ -133,7 +132,7 @@ class ActionCoreIdentification(PRACModule):
         '''
         
         for verb in verb_list:
-            db_ = Database(db.mln)
+            db_ = PRACDatabase(prac)
             processed_word_set = set()
             remaining_word_set = set()
             remaining_word_set.add(verb)

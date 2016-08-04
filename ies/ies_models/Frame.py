@@ -13,7 +13,6 @@ from pracmln.mln.database import Database
 import sys
 import re
 from prac.core.inference import PRACInference,PRACInferenceStep
-from prac.pracutils.RolequeryHandler import RolequeryHandler
 import numpy
 from scipy import stats
 from prac.core.wordnet import WordNet

@@ -10,7 +10,6 @@ from prac.core.inference import PRACInference
 from prac.core.wordnet import WordNet
 import sys
 from ies_models.Frame import Frame
-from prac.pracutils.RolequeryHandler import RolequeryHandler
 
 from pymongo import MongoClient
 import pymongo
@@ -49,8 +48,10 @@ def store_frames_into_database(text_file_name,frames):
             prac.run(inference, module)
     
         db = inference.inference_steps[-1].output_dbs[0]
-        roles_dict = RolequeryHandler.query_roles_and_senses_based_on_action_core(db)
-    
+
+        for _, ac in db.actioncores().values():
+            roles_dict = {(k,v) for (k,v) in db.roles(ac)}
+
         #It will be assumed that there is only one true action_core predicate per database 
         for q in db.query("action_core(?w,?ac)"):
             actioncore = q["?ac"]

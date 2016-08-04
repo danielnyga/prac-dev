@@ -23,10 +23,10 @@
 import os
 import traceback
 
-from prac.core.base import PRACModule, PRACPIPE
+from prac.core.base import PRACModule, PRACPIPE, PRACDatabase
 from prac.core.inference import PRACInferenceStep
 from prac.pracutils.utils import prac_heading
-from pracmln import praclog, MLNQuery, Database
+from pracmln import praclog
 from pracmln.mln import NoConstraintsError, MLNParsingError
 from pracmln.mln.base import parse_mln
 from pracmln.mln.util import colorize, mergedom
@@ -99,7 +99,7 @@ class CorefResolution(PRACModule):
                     project = MLNProject.open(os.path.join(projectpath, '{}.pracmln'.format(ac)))
 
                     # clear corefdb and unify current db with the two preceding ones
-                    corefdb = Database(self.prac.mln)
+                    corefdb = PRACDatabase(self.prac)
                     for s in range(max(0, i - 2), i+1):
                         corefdb = corefdb.union(dbs[s], self.prac.mln)
 
@@ -172,8 +172,9 @@ class CorefResolution(PRACModule):
                     # Inference
                     # ==========================================================
 
-                    infer = MLNQuery(config=conf, verbose=self.prac.verbose > 2,
-                                     db=newdatabase, mln=mln).run()
+                    infer = self.mlnquery(config=conf,
+                                          verbose=self.prac.verbose > 2,
+                                          db=newdatabase, mln=mln)
 
                     if self.prac.verbose == 2:
                         print

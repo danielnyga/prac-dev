@@ -26,7 +26,6 @@ import traceback
 from prac.core.base import PRACModule, PRACPIPE
 from prac.core.inference import PRACInferenceStep
 from prac.pracutils.utils import prac_heading
-from pracmln import MLNQuery
 from pracmln.mln import NoConstraintsError
 from pracmln.mln.base import parse_mln
 from pracmln import praclog
@@ -93,8 +92,9 @@ class PropExtraction(PRACModule):
                 # Inference
                 # ==============================================================
 
-                infer = MLNQuery(config=project.queryconf,
-                                 verbose=self.prac.verbose > 2, db=db_, mln=mln).run()
+                infer = self.mlnquery(config=project.queryconf,
+                                      verbose=self.prac.verbose > 2,
+                                      db=db_, mln=mln)
                 result_db = infer.resultdb
 
                 if self.prac.verbose == 2:

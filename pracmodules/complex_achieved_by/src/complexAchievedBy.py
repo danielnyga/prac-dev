@@ -28,12 +28,10 @@ from scipy import stats
 from pymongo import MongoClient
 
 import prac
-from prac.core.base import PRACModule, PRACPIPE
+from prac.core.base import PRACModule, PRACPIPE, PRACDatabase
 from prac.core.inference import PRACInferenceStep
 from prac.core.wordnet import WordNet
-from prac.pracutils.RolequeryHandler import RolequeryHandler
 from prac.pracutils.utils import prac_heading, get_query_png
-from pracmln import Database
 from pracmln import praclog
 
 
@@ -64,8 +62,11 @@ class ComplexAchievedBy(PRACModule):
 
             logger.debug("Sending query to MONGO DB ...")
             cursor = instructions_collection.find({'actioncore': str(actioncore)})
-            
-            roles_dict = RolequeryHandler(self.prac).query_roles_and_senses_based_on_achieved_by(db)
+
+            roles_dict = {}
+            for ac2 in db.achieved_by(actioncore=actioncore):
+                roles_dict = {(k, v) for (k, v) in db.roles(ac2.values().pop())}
+
             documents_vector = []
 
             # After the 'for loop' it is impossible to retrieve document by index
@@ -75,7 +76,7 @@ class ComplexAchievedBy(PRACModule):
                 wup_vector = []
                 document_action_roles = document['actionroles']
 
-                for role in roles_dict.keys():
+                for role, _ in roles_dict:
                     if role in document['actionroles'].keys():
                         wup_vector.append(wordnet.wup_similarity(str(document_action_roles[role]), roles_dict[role]))
 
@@ -125,7 +126,8 @@ class ComplexAchievedBy(PRACModule):
 
         pngs = {}
         for olddb in dbs:
-            result = self.get_instructions_based_on_action_core(olddb)
+            pracdb = PRACDatabase(self.prac, db=olddb)
+            result = self.get_instructions_based_on_action_core(pracdb)
 
             # ==================================================================
             # Postprocessing
@@ -151,7 +153,7 @@ class ComplexAchievedBy(PRACModule):
         plan_action_roles = plan_dict['actionroles']
 
         i = 0
-        db = Database(mln=self.prac.mln)
+        db = PRACDatabase(self.prac)
 
         for action_role in plan_action_roles.keys():
             sense = ""

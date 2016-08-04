@@ -25,7 +25,6 @@ from prac.pracutils import StopWatch
 from graphviz.dot import Digraph
 from prac.pracutils.pracgraphviz import render_gv
 from pracmln import Database
-from prac.pracutils.RolequeryHandler import RolequeryHandler
 
 
 class PRACInferenceStep(object):
@@ -179,12 +178,13 @@ class PRACInference(object):
         for q in db.query('action_core(?w,?ac)'):
             actioncore = q['?ac']
 
-            roles_senses_dict = RolequeryHandler(self.prac).query_roles_and_senses_based_on_action_core(db)
+            roles_senses_dict = {k: v for r in db.roles(actioncore) for k, v in r.items()}
+
             inferred_roles_set = set(roles_senses_dict.keys())
 
             # Determine missing roles: All_Action_Roles\Inferred_Roles
             actioncore_roles_list = self.prac.actioncores[actioncore].required_roles
-            
+
             if not actioncore_roles_list:
                 actioncore_roles_list = self.prac.actioncores[actioncore].roles
                 

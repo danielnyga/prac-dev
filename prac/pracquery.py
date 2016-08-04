@@ -34,7 +34,6 @@ import prac
 from prac.core.base import PRAC
 from prac.core.inference import PRACInference
 from prac.core.wordnet import WordNet
-from prac.pracutils.RolequeryHandler import RolequeryHandler
 from prac.pracutils.utils import prac_heading
 from pracmln import praclog
 from pracmln.mln.database import parse_db
@@ -186,9 +185,7 @@ class PRACQueryGUI(object):
                                                   sticky='NE')
         self.db_container = FileEditBar(self.frame, dir=self.module_dir,
                                         filesettings={'extension': '.db',
-                                                      'ftypes': [(
-                                                                 'Database files',
-                                                                 '.db')]},
+                                                      'ftypes': [('Database files', '.db')]},
                                         defaultname='*unknown{}',
                                         importhook=self.import_db,
                                         deletehook=self.delete_db,
@@ -899,12 +896,10 @@ if __name__ == '__main__':
                 for db in step.output_dbs:
                     for a in sorted(db.evidence.keys()):
                         v = db.evidence[a]
-                        if v > 0.001 and (a.startswith('action_core') or a.startswith(
-                                'has_sense') or a.startswith('achieved_by')):
+                        if v > 0.001 and (a.startswith('action_core') or a.startswith('has_sense') or a.startswith('achieved_by')):
                             if a.startswith('has_sense'):
 
-                                group = re.split(',',
-                                                 re.split('has_sense\w*\(|\)', a)[1])
+                                group = re.split(',', re.split('has_sense\w*\(|\)', a)[1])
                                 word = group[0];
                                 sense = group[1];
                                 if sense != 'null':
@@ -917,8 +912,11 @@ if __name__ == '__main__':
                             else:
                                 if prac.verbose > 1:
                                     print '%.3f    %s' % (v, a)
-                    RolequeryHandler(prac).queryRolesBasedOnActioncore(db).write(color=True)
-    
+                    for ac in db.actioncores():
+                        actioncore = ac.values().pop()
+                        for d in db.roles(actioncore):
+                            print '{}({},{})'.format(colorize(d.keys().pop(), (None, 'white', True), True), d.values().pop(), actioncore)
+
         if hasattr(inference.inference_steps[-1], 'executable_plans'):
             if prac.verbose > 0:
                 print prac_heading('Parameterized Robot Plan')

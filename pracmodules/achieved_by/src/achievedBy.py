@@ -22,10 +22,9 @@
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 import os
-from prac.core.base import PRACModule, PRACPIPE
+from prac.core.base import PRACModule, PRACPIPE, PRACDatabase
 from prac.core.inference import PRACInferenceStep
 from prac.pracutils.utils import prac_heading
-from pracmln import Database, MLNQuery
 from pracmln.mln.base import parse_mln
 from pracmln.mln.util import colorize, out
 from pracmln import praclog
@@ -58,7 +57,7 @@ class AchievedBy(PRACModule):
         acdomain = querymln.domains.get("actioncore")
         acdomain.extend(db.domains.get("actioncore"))
         acdomain = set(acdomain)
-        db_ = Database(self.prac.mln)
+        db_ = PRACDatabase(self.prac)
 
         for ac1 in acdomain:
             for ac2 in acdomain:
@@ -128,7 +127,7 @@ class AchievedBy(PRACModule):
 
                 # Need to remove possible achieved_by predicates from
                 # previous achieved_by inferences
-                db_ = Database(self.prac.mln)
+                db_ = PRACDatabase(self.prac)
                 for atom, truth in sorted(olddb.evidence.iteritems()):
                     if 'achieved_by' in atom:
                         continue
@@ -172,9 +171,9 @@ class AchievedBy(PRACModule):
                 # Inference
                 # ==============================================================
 
-                infer = MLNQuery(config=project.queryconf,
-                                 verbose=self.prac.verbose > 2,
-                                 db=db_, mln=mln).run()
+                infer = self.mlnquery(config=project.queryconf,
+                                      verbose=self.prac.verbose > 2,
+                                      db=db_, mln=mln)
                 result_db = infer.resultdb
 
                 if self.prac.verbose == 2:
