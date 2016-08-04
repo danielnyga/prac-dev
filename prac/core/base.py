@@ -24,6 +24,9 @@
 import locations
 import os
 import sys
+
+from pracmln import MLNQuery
+from pracmln.mln import NoSuchPredicateError
 from pracmln.praclog import logger
 import prac_nltk
 modules = ['nltk_2.0b9']
@@ -59,7 +62,7 @@ import yaml
 class PRACConfig(ConfigParser):
     '''
     Global configuration data structure for PRAC.
-    
+
     Wraps around a ConfigParser
     '''
     DEFAULTS = {
@@ -70,15 +73,15 @@ class PRACConfig(ConfigParser):
             'password': ''
         },
         'wordnet': {
-            'concepts': '''water.n.06 
+            'concepts': '''water.n.06
                          cup.n.01
                          cup.n.02
                          bowl.n.01
                          bowl.n.02
                          milk.n.01'''
-        }      
+        }
     }
-    
+
     def __init__(self, filename=None):
         ConfigParser.__init__(self, allow_no_value=True)
         for section, values in self.DEFAULTS.iteritems():
@@ -87,12 +90,12 @@ class PRACConfig(ConfigParser):
                 self.set(section, key, value)
         if filename is not None:
             self.read(os.path.join(locations.home, filename))
-    
-    
+
+
     def write(self, filename=None):
         '''
         Saves this configuration file to disk.
-        
+
         :param filename:    the name of the config file.
         '''
         filename = ifNone(filename, 'pracconf')
@@ -103,13 +106,13 @@ class PRACConfig(ConfigParser):
 
     def getlist(self, section, key, separator='\n'):
         return filter(bool, [s.strip() for s in self.get(section, key).split(separator)])
-    
+
 
 class PRAC(object):
-    """
+    '''
     The PRAC reasoning system.
-    """
-    
+    '''
+
 
     def __init__(self, configfile='pracconf'):
         # read all the manifest files.
@@ -145,10 +148,10 @@ class PRAC(object):
 
 
     def readAllMLNDeclarations(self):
-        """
+        '''
         Reads all predicte declaration MLNs of all modules and returns an MLN
         with all predicates declared.
-        """
+        '''
         mln = MLN(logic='FuzzyLogic', grammar='PRACGrammar')
         for name, manifest in self.moduleManifestByName.iteritems():
             module_path = manifest.module_path
@@ -171,9 +174,9 @@ class PRAC(object):
 
 
     def getModuleByName(self, modulename):
-        """
+        '''
         Returns a loaded and initialized module given by the module name.
-        """
+        '''
         if not modulename in self.moduleManifestByName:
             raise Exception('No such module: %s' % modulename)
         # lazily load the module
@@ -191,11 +194,11 @@ class PRAC(object):
 
 
     def getActionCoreTrainingDBs(self, actioncore_name=None):
-        """
+        '''
         Returns the list of training database file names associated to the
         given action core. Returns all training databases if actioncore_name
         is None.
-        """
+        '''
         if actioncore_name is None:
             dbfiles = []
             for root, folder, files in os.walk('models'):
@@ -225,8 +228,8 @@ class PRAC(object):
             PRAC.log.exception('{}.__call__() must return a PRACInferenceStep '
                                'object.'.format(inference.name))
         pracinfer.inference_steps.append(inferenceStep)
-        
-    
+
+
     @property
     def roles(self):
         return set([r for a in self.actioncores.values() for r in  a.roles])
@@ -243,9 +246,9 @@ class PRAC(object):
 
 
 class ActionRole(object):
-    """
+    '''
     Represents a deserialized action role.
-    """
+    '''
 
     __props__ = []
 
@@ -262,12 +265,12 @@ class ActionRole(object):
 
 
 class ActionCore(object):
-    """
+    '''
     Represents a deserialized action core object with the action core's
     definitions.
-    """
+    '''
 
-    # action core properties in the yaml file    
+    # action core properties in the yaml file
     NAME = 'action_core'
     DEFINITION = 'definition'
     INHERITS_FROM = 'inherits_from'
@@ -298,18 +301,18 @@ class ActionCore(object):
     @property
     def required_roles(self):
         return self._req_roles
-    
-    
+
+
     @required_roles.setter
     def required_roles(self, rr):
         self._req_roles = rr
 
 
     def isLearned(self):
-        """
+        '''
         Returns True if there is a learned MLN available for this action action
         core, or False, otherwise.
-        """
+        '''
         return self.learned_mln_file is not None and self.learned_mln is not None
 
 
@@ -321,10 +324,10 @@ class ActionCore(object):
 
     @staticmethod
     def readFromFile(filepath):
-        """
+        '''
         Deserializes an action core definition from the given file. The file
         must be given in YAML format. Returns an ActionCore object.
-        """
+        '''
         path = os.path.dirname(filepath)
         alldocs = yaml.load_all(open(filepath))
         actioncores = {}
@@ -346,16 +349,16 @@ class ActionCore(object):
 
 
     def writeToFile(self):
-        """
+        '''
         Write this action core into files.
-        """
+        '''
 
 
 def DB_TRANSFORM(method):
-    """
+    '''
     DB_TRANSFORM is a decorator which automates Database duplication with
     adaptation to a new MLN.
-    """
+    '''
 
     def wrapper(self, *args, **kwargs):
         db = args[0]
@@ -388,7 +391,7 @@ def PRACPIPE(method):
 
 
 class PRACModuleManifest(object):
-    """
+    '''
     Represents a PRAC module manifest description usually
     stored in a pracmodule.yaml file.
     Members:
@@ -399,7 +402,7 @@ class PRACModuleManifest(object):
     - is_universal: (bool) if this module is universal of if there is an
                            individual module for each action core.
     - depends_on: (list) a list of PRAC module names this module depends on.
-    """
+    '''
 
     # YAML tags
     NAME = 'module_name'
@@ -412,10 +415,10 @@ class PRACModuleManifest(object):
 
     @staticmethod
     def read(stream, prac):
-        """
+        '''
         Read a PRAC module manifest (yaml) file and return
         a respective PRACModuleDefinition object.
-        """
+        '''
         yamlData = yaml.load(stream)
         manifest = PRACModuleManifest()
         (manifest.modulename, manifest.classname) = yamlData[
@@ -437,11 +440,11 @@ class PRACModuleManifest(object):
 
 
 class PRACModule(object):
-    """
+    '''
     Base class for all PRAC reasoning modules. Provides
     some basic functionality for serializing, deserializing
     and running PRAC modules. Every PRAC module must subclass this.
-    """
+    '''
 
 
     def __init__(self, prac):
@@ -453,21 +456,37 @@ class PRACModule(object):
 
 
     def initialize(self):
-        """
+        '''
         Called after the PRAC module has been loaded.
         Every PRAC module can do some initialization stuff in here.
         The default implementation does nothing.
-        """
+        '''
         pass
 
 
     def shutdown(self):
-        """
+        '''
         Called when the PRAC reasoning system is to be
         shut down. Here modules can do some cleaning up.
         The default does nothing.
-        """
+        '''
         pass
+
+
+    def mlnquery(self, config=None, verbose=None, **params):
+        '''
+        Wrapper for MLNQuery to replace the resultdb of the inference object
+        with an MLN Database casted to a PRACDatabase
+        :param config:  the configuration file for the inference
+        :param verbose: boolean value whether verbosity logs will be
+                        printed or not
+        :param params:  dictionary of additional settings
+        :return:        the inference object
+        '''
+        infer = MLNQuery(config=config, verbose=verbose, **params).run()
+        pracdb = PRACDatabase(self.prac, db=infer.resultdb)
+        infer._resultdb = pracdb
+        return infer
 
 
     @property
@@ -502,10 +521,10 @@ class PRACModule(object):
 
     @staticmethod
     def fromManifest(manifest, prac):
-        """
+        '''
         Loads a Module from a given manifest.
         - manifest:    a PRACModuleManifest instance
-        """
+        '''
         modulename = manifest.modulename
         classname = manifest.classname
         pymod = __import__(modulename)
@@ -529,29 +548,29 @@ class PRACModule(object):
 
     @PRACPIPE
     def infer(self, pracinference):
-        """
+        '''
         Run this module. Facts collected so far are stored
         in the self.pracinference attribute.
-        """
+        '''
         raise NotImplemented()
 
 
     @PRACPIPE
     def train(self, praclearn):
-        """
+        '''
         Run the learning process for this module.
         - microtheories:    specifies the microtheories which are to be
                             (re)learned.
-        """
+        '''
         pass
 
 
     @PRACPIPE
     def dbfromstring(self, pracinference, dbstring):
-        """
+        '''
         Parses a database which is given by a string. Returns a
         PRACInferenceStep instance.
-        """
+        '''
         inf_step = PRACInferenceStep(pracinference, self)
         if len(pracinference.inference_steps) > 0:
             inf_step.input_dbs = list(
@@ -563,10 +582,10 @@ class PRACModule(object):
 
     @PRACPIPE
     def insertdbs(self, pracinference, *dbs):
-        """
+        '''
         Creates a new inference step with the given dbs as output dbs and
         appends it to the pracinference chain.
-        """
+        '''
         inf_step = PRACInferenceStep(pracinference, self)
         if len(pracinference.inference_steps) > 0:
             inf_step.input_dbs = list(
@@ -574,6 +593,94 @@ class PRACModule(object):
         inf_step.output_dbs = dbs
         pracinference.inference_steps.append(inf_step)
         return inf_step
+
+
+
+class PRACDatabase(Database):
+    '''
+    Represents a subclass of the MLN Database and extends it by frequently used
+    convenience query methods.
+    '''
+
+    def __init__(self, prac, evidence=None, db=None, ignore_unknown_preds=False):
+        self.prac = prac
+
+        if evidence: pass
+        elif db:
+            evidence = db.evidence
+        else:
+            evidence = {}
+        Database.__init__(self, prac.mln, evidence=evidence, dbfile=None,
+                          ignore_unknown_preds=ignore_unknown_preds)
+
+
+    def copy(self, mln=None):
+        '''
+        Returns a copy of this Database as a PRACDatabase.
+
+        :param mln:     if `mln` is specified, the new MLN will be associated
+                        with `mln`, if not, it will be associated with
+                        `self.mln`.
+        '''
+
+        return PRACDatabase(self.prac, evidence=self.evidence)
+
+
+    def union(self, dbs, mln=None):
+        '''
+        Returns a new PRACDatabase consisting of the union of all databases
+        given in the arguments.
+        '''
+
+        db_ = PRACDatabase(self.prac)
+        if type(dbs) is list:
+            dbs = [e for d in dbs for e in list(d)] + list(self)
+        if isinstance(dbs, Database):
+            dbs = list(dbs) + list(self)
+
+        for atom, truth in dbs:
+            try:
+                db_ << (atom, truth)
+            except NoSuchPredicateError:
+                pass
+        return db_
+
+
+    def actioncores(self):
+        '''
+        :return: a generator yielding dictionaries mapping words to action cores
+        '''
+
+        for q in self.query('action_core(?w,?ac)'):
+            yield {q['?w']: q['?ac']}
+
+
+    def achieved_by(self, actioncore='?ac1'):
+        '''
+        :return: a generator yielding dictionaries mapping action cores to other
+         action cores which they can be achieved by
+        '''
+
+        for q in self.query('achieved_by({},?ac2)'.format(actioncore)):
+            if q['?ac2'] == 'Complex': continue
+            if actioncore == '?ac1':
+                yield {q['?ac1']: q['?ac2']}
+            else:
+                yield {actioncore: q['?ac2']}
+
+
+    def roles(self, actioncore):
+        '''
+        :param actioncore:  the action core whose roles are to be retrieved
+        :return:            a generator yielding dictionaries mapping roles to
+                            word senses
+        '''
+
+        roles = self.prac.actioncores[actioncore].roles
+
+        for role in roles:
+            for q in self.query('{}(?w,{}) ^ has_sense(?w,?s)'.format(role, actioncore)):
+                yield {role: q['?s']}
 
 
 if __name__ == '__main__':
