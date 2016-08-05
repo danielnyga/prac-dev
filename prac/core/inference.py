@@ -28,18 +28,19 @@ from pracmln import Database
 
 
 class PRACInferenceStep(object):
-    """
+    '''
     Wrapper class encapsulating a single inference step in the PRAC
     pipeline. It consists of n input databases and m output databases.
-    """
+    '''
 
 
     def __init__(self, pracinfer, module, input_dbs=None):
         '''
         Initializes the inference step.
-        - pracinfer:    reference to the PRACInference object.
-        - module:       reference to the PRACModule performing this inference step.
-        - input_dbs:    list of databases taken as inputs.
+        :param pracinfer:   reference to the PRACInference object.
+        :param module:      reference to the PRACModule performing this
+                            inference step.
+        :param input_dbs:   list of databases taken as inputs.
         '''
         if input_dbs is None:
             self.input_dbs = []
@@ -53,14 +54,17 @@ class PRACInferenceStep(object):
 
 
 class PRACInference(object):
-    """
-    Represents an inference chain in PRAC:
-    - prac:            reference to the PRAC instance.
-    - instructions:    list of natural-language sentences subject to inference.
-    """
-
+    '''
+    Represents an inference chain in PRAC
+    '''
 
     def __init__(self, prac, instructions):
+        '''
+        PRAC inference initialization.
+        :param prac:            reference to the PRAC instance.
+        :param instructions:    list of natural-language sentences subject to
+                                inference.
+        '''
         self.prac = prac
         prac.deinit_modules()
         self.instructions = instructions
@@ -69,6 +73,11 @@ class PRACInference(object):
 
 
     def next_module(self):
+        '''
+        Determines which module is to be executed next in the PRAC pipeline.
+        :return:    the next module to be executed according to the search
+                    algorithm as a string
+        '''
         if not self.inference_steps:
             return 'nl_parsing'
         previous_module = self.inference_steps[-1].module.name
@@ -151,8 +160,7 @@ class PRACInference(object):
             g.edge(actioncore, sense, label='is_a')
             roles = self.prac.actioncores[actioncore].roles
             for role in roles:
-                for res in db.query('%s(?w, %s) ^ has_sense(?w, ?s)' % (
-                role, actioncore)):
+                for res in db.query('{}(?w, {}) ^ has_sense(?w, ?s)'.format(role, actioncore)):
                     sense = res['?s']
                     g.node(sense)
                     g.edge(actioncore, sense, label=role)
@@ -165,8 +173,7 @@ class PRACInference(object):
             actioncore = a2
             roles = self.prac.actionroles[actioncore].roles
             for role in roles:
-                for res in db.query('%s(?w, %s) ^ has_sense(?w, ?s)' % (
-                role, actioncore)):
+                for res in db.query('{}(?w, {}) ^ has_sense(?w, ?s)'.format(role, actioncore)):
                     sense = res['?s']
                     g.node(sense)
                     g.edge(actioncore, sense, label=role)
