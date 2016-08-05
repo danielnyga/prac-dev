@@ -19,7 +19,7 @@ if __name__ == '__main__':
         for path in synset.hypernym_paths():
             concepts.update(map(lambda x: x.name, path))
         for c in concepts:
-            print 'is_a(%s, %s)' % (args[1], c)
+            print 'is_a({},{})'.format(args[1], c)
         print 
     if len(args) == 3 and args[0] == 'all':
         synsets = wn.synsets(args[1], args[2])

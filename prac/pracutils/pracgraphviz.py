@@ -35,20 +35,18 @@ logger = praclog.logger(__name__)
 
 
 def render_gv(graph, filename=None, directory='/tmp'):
-    """
+    '''
     A modification of the original graphviz rendering, which 
     Save the source to file and render with the Graphviz engine.
-    Arguments:
-        graph:    an instance of a graphviz graph. 
-    Returns:
-        the rendered content.
-    """
+    :param graph:   an instance of a graphviz graph.
+    :return:        the rendered content.
+    '''
     
     rendered = ''
     try:
         with NamedTemporaryFile(suffix='dot', delete=False) as tmpfile:
             tmpfile.write(text_type(graph.source))
-        cmd = [graph._engine, '-T%s' % graph._format, tmpfile.name]
+        cmd = [graph._engine, '-T{}'.format(graph._format), tmpfile.name]
         p = subprocess.Popen(' '.join(cmd), shell=True, stderr=PIPE, stdout=PIPE)
         while True:
             l = p.stdout.readline()
@@ -61,9 +59,9 @@ def render_gv(graph, filename=None, directory='/tmp'):
             logger.warning('could not remove temporary file {}'.format(tmpfile.name))
     except OSError as e:
         if e.errno == errno.ENOENT:
-            raise RuntimeError('failed to execute %r, '
+            raise RuntimeError('failed to execute {}, '
                 'make sure the Graphviz executables '
-                'are on your systems\' path' % cmd)
+                'are on your systems\' path'.format(cmd))
         else:
             raise e
 

@@ -4,11 +4,11 @@ Created on Jul 11, 2016
 @author: nyga
 '''
 from optparse import OptionParser
-from pracmln.mln.util import headline
 from prac.db.operations import store_howto, analyze_howto
 from prac.core.base import PRAC
 import os
 
+from prac.pracutils.utils import prac_heading
 
 
 if __name__ == '__main__':
@@ -30,9 +30,11 @@ if __name__ == '__main__':
     
     (options, args) = parser.parse_args()
     if options.quiet: options.verbose = 0
-    
+
+    print prac_heading('Telling PRAC, how to {}'.format(options.howto))
+
     #===========================================================================
-    # If the 'steps' flag is set, take all arguments as the list of instructions 
+    # If the 'steps' flag is set, take all arguments as the list of instructions
     #===========================================================================
     howtos = []
     if options.steps:
@@ -55,6 +57,8 @@ if __name__ == '__main__':
                 howtos.append({' '.join(filename.split('-')): f.read().splitlines()})
     prac = PRAC()
     prac.verbose = options.verbose
+
+
     for howto, steps in [(howto, steps) for d in howtos for howto, steps in d.items()]:
         result = analyze_howto(prac, howto, steps, verbose=options.quiet > 0)
         store_howto(prac, result)

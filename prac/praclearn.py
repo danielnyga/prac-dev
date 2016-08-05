@@ -24,25 +24,26 @@
 from core.learning import PRACLearning
 from optparse import OptionParser
 from core.base import PRAC
-import logging
+from pracmln import praclog
 
+
+logger = praclog.logger(__name__, praclog.INFO)
 usage = 'Usage: praclearn [--core <actioncore1>[,<actioncore2>[,...]]] [--module <module1>[,<module2>[,...]]]'
-
-def parse_list(option, opt, value, parser):
-    setattr(parser.values, option.dest, value.split(','))
-
 parser = OptionParser(usage=usage)
 parser.add_option('--mt', action='callback', type='string', callback=parse_list, dest='microtheories')
 parser.add_option('--module', action='callback', type='string', callback=parse_list, dest='modules')
 parser.add_option('--dbs', action='callback', type='string', callback=parse_list, dest='training_dbs')
 parser.add_option('--mln', type='string', nargs=2, dest='mln', default=None)
-parser.add_option('--onthefly', dest='onthefly', default=False, action='store_true', help="Generates MLN on the fly. No learning")    
+parser.add_option('--onthefly', dest='onthefly', default=False, action='store_true', help="Generates MLN on the fly. No learning")
+
+
+def parse_list(option, opt, value, parser):
+    setattr(parser.values, option.dest, value.split(','))
 
 
 if __name__ == '__main__':
     (options, args) = parser.parse_args()
     prac = PRAC()
-    logging.getLogger().setLevel(logging.INFO)
     praclearn = PRACLearning(prac)
     praclearn.microtheories = parser.values.microtheories
     praclearn.modules = parser.values.modules

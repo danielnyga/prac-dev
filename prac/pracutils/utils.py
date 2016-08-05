@@ -8,6 +8,17 @@ from pracmln.utils.latexmath2png import math2png
 
 
 def prac_heading(s, upper=True, color='green'):
+    '''
+    Returns a colorized and formatted string for pretty priting module
+    headings.
+
+    :param s:       the string to be formatted
+    :param upper:   (bool) if string should be converted to uppercase. default
+                    is true
+    :param color:   the color in which the heading should be printed. default
+                    is green
+    :return:        the colorized and formatted string
+    '''
     b = colorize('+{}+'.format(''.ljust(len(s)+2, '=')), (None, color, True), True)
     t = colorize('| {} |'.format(s.upper() if upper else s), (None, color, True), True)
     return '\n{}\n{}\n{}\n'.format(b, t, b)
