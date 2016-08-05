@@ -122,7 +122,7 @@ if __name__ == '__main__':
         sentence = 'fill the water into a bowl.'
 
         wsd.load_mln(learned_mln_path)
-        g = prac.wordnet.asGraphML()
+        g = prac.wordnet.graph()
         for db in parser.parse(sentence):
             evidence = db.union(wsd.mln, db)
 
@@ -227,7 +227,7 @@ if __name__ == '__main__':
     # # # # # # # # # # # # # # # # # # # # # #
     # create a WordNet taxonomy
     wn = WordNet()
-    g = wn.asGraphML()
+    g = wn.graph()
     inf_mln = MLN(mlnfile=os.path.join('/', 'home', 'nyga', 'work',
                                        'nl_corpora', 'wikihow',
                                        'wts.pybpll_cg.Filling-new-1.mln'),

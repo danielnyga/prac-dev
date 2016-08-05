@@ -375,14 +375,14 @@ class PRACModuleManifest(object):
     Represents a PRAC module manifest description usually
     stored in a pracmodule.yaml file.
     Members:
-    - name:         the name of the module
-    - module_path:  the path where the module is located (for loading local
+    :member name:         the name of the module
+    :member module_path:  the path where the module is located (for loading local
                     files)
-    - description:  the natural-language description of what this module does
-    - depends_on:   (list) a list of PRAC module names this module depends on.
-    - pred_decls:   the path of the file containing the predicate declarations
+    :member description:  the natural-language description of what this module does
+    :member depends_on:   (list) a list of PRAC module names this module depends on.
+    :member pred_decls:   the path of the file containing the predicate declarations
                     relevant for this module
-    - project_path: the path of the default project
+    :member project_path: the path of the default project
     '''
 
     # YAML tags

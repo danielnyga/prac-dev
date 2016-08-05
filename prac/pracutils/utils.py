@@ -13,6 +13,22 @@ def prac_heading(s, upper=True, color='green'):
     return '\n{}\n{}\n{}\n'.format(b, t, b)
 
 
+def synchronized(lock):
+    '''
+    Synchronization decorator.
+    '''
+
+    def wrap(f):
+        def func(*args, **kw):
+            lock.acquire()
+            try:
+                return f(*args, **kw)
+            finally:
+                lock.release()
+        return func
+    return wrap
+
+
 def get_query_png(queries, dbs, filename='cond_prob', filedir='/tmp', skolemword=''):
     """
     Preprocessing of png generation: assemble latex code for argmax term
