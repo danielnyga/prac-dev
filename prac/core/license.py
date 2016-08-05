@@ -24,7 +24,7 @@ import datetime
 
 yaml_license_notice = '''# PROBABILISTIC ROBOT ACTION CORES 
 #
-# (C) 2011-%s by Daniel Nyga (nyga@cs.uni-bremen.de)
+# (C) 2011-{} by Daniel Nyga (nyga@cs.uni-bremen.de)
 #
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
@@ -44,12 +44,12 @@ yaml_license_notice = '''# PROBABILISTIC ROBOT ACTION CORES
 # CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-''' % str(datetime.date.today().year)
+'''.format(str(datetime.date.today().year))
 
 mln_license_notice = '''/* **************************************************************************** 
  * PROBABILISTIC ROBOT ACTION CORES
  * 
- * (C) 2011-%s by Daniel Nyga (nyga@cs.uni-bremen.de)
+ * (C) 2011-{} by Daniel Nyga (nyga@cs.uni-bremen.de)
  *
  * Permission is hereby granted, free of charge, to any person obtaining
  * a copy of this software and associated documentation files (the
@@ -70,4 +70,4 @@ mln_license_notice = '''/* *****************************************************
  * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ******************************************************************************/
-''' % str(datetime.date.today().year)
+'''.format(str(datetime.date.today().year))

@@ -20,28 +20,23 @@
 # CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-from collections import deque
-from nltk.corpus import WordNetCorpusReader
 
-import os
 import itertools
-import prac_nltk
-import math
-from num2words import num2words
-from word2number import w2n
 import re
-from prac.core.errors import ConceptAlreadyExistsError, NoRationalNumberError
-# contains similarity dictionaries for colors, shapes, sizes, consistencies
-# and dimensions, as well as numbers and their related hypernym_paths
-import properties
-import graphviz as gv
-from threading import RLock
 from itertools import chain
 from scipy import spatial
-from prac_nltk.corpus import wordnet
-from prac_nltk.corpus.reader.wordnet import Synset
+from threading import RLock
+
+import graphviz as gv
+from num2words import num2words
+from word2number import w2n
+
+from prac.core.errors import ConceptAlreadyExistsError, NoRationalNumberError
+from prac.pracutils import properties
 from prac.pracutils.graph import DAG, Node
 from prac.pracutils.pracgraphviz import render_gv
+from prac_nltk.corpus import wordnet
+from prac_nltk.corpus.reader.wordnet import Synset
 from pracmln.praclog import logger
 from pracmln.utils.graphml import Graph, Node as GMLNode, Edge
 
