@@ -248,24 +248,23 @@ class ConfusionMatrixSim(ConfusionMatrix):
         texFileName = filename + '.tex'
         texFile = open(texFileName, 'w+')
         texFile.write(r'''
-        \documentclass[10pt]{article}
-        \usepackage{color}
-        \usepackage{rotating}
-        \usepackage[table]{xcolor}
-        \definecolor{cfmcolor}{rgb}{0.2,0.4,0.6}
-        \begin{document}
-        \pagenumbering{gobble}
-        \resizebox{\columnwidth}{!}{
-        %s}
-        \end{document}
-        ''' % self.getLatexTable(sim))
+        \documentclass[10pt]{{article}}
+        \usepackage{{color}}
+        \usepackage{{rotating}}
+        \usepackage[table]{{xcolor}}
+        \definecolor{{cfmcolor}}{{rgb}}{{0.2,0.4,0.6}}
+        \begin{{document}}
+        \pagenumbering{{gobble}}
+        \resizebox{{\columnwidth}}{{!}}{{{}}}
+        \end{{document}}
+        '''.format(self.getLatexTable(sim)))
         texFile.close()
-        cmd = 'pdflatex -halt-on-error %s' % texFileName
+        cmd = 'pdflatex -halt-on-error {}'.format(texFileName)
         p = Popen(cmd, shell=True)
         if p.wait() != 0:
             raise Exception('Couldn\'t compile LaTex.')
         else:
-            cmd = 'pdfcrop %s.pdf %s.pdf' % (filename, filename)
+            cmd = 'pdfcrop {}.pdf {}.pdf'.format(filename, filename)
             p = Popen(cmd, shell=True)
             if p.wait() != 0:
                 raise Exception('Couldn\'t crop pdf')

@@ -100,7 +100,6 @@ class RoleLookUp(PRACModule):
             # ==================================================================
 
             actioncore = q['?ac']
-            # roles_senses_dict = RolequeryHandler(self.prac).query_roles_and_senses_based_on_action_core(db_)
             roles_senses_dict = {(k, v) for (k, v) in db.roles(actioncore)}
 
 

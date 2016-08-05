@@ -1,16 +1,14 @@
+import StringIO
+from collections import defaultdict
 from os import path, listdir
+
+import sys
+from pymongo import MongoClient,errors
+
 from prac.core.base import PRAC
 from prac.core.inference import PRACInference
-from prac.core.wordnet import WordNet
-import sys
-from prac.pracutils.RolequeryHandler import RolequeryHandler
-import json
-from pymongo import MongoClient,errors
-import StringIO
-from optparse import OptionParser
-from pprint import pprint
-from pracmln.mln.util import headline
-from collections import defaultdict
+from pracmln.mln.util import headline, out
+
 
 def store_instruction_in_mongo_db(prac, text_file_name, action_core, roles_dict, plan_list):
     
@@ -28,13 +26,11 @@ def store_instruction_in_mongo_db(prac, text_file_name, action_core, roles_dict,
             
             plan.write(db_str,None,False)
             plan.mln.write(mln_str,None)
-            action_roles = RolequeryHandler(prac).query_roles_and_senses_based_on_achieved_by(plan)
-            
-            if not action_roles:
-                action_roles = RolequeryHandler(prac).query_roles_and_senses_based_on_action_core(plan)
-            
-            
-            plan_action_core = ""    
+
+            # retrieve action roles
+            action_roles = {(k, v) for (k, v) in db.roles(actioncore)}
+
+            plan_action_core = ""
             
             for q in plan.query("action_core(?w,?ac)"):
                 plan_action_core = q["?ac"]
@@ -83,10 +79,10 @@ def analyze_howto(prac, howto, steps=None, verbose=1):
     # print a little summary of the instructions handed over
     #===========================================================================
     if verbose:
-        print headline('How to %s:' % howto)
+        print headline('How to {}:'.format(howto))
         if steps:
             for i, inst in enumerate(steps):
-                print '%.2d.' % (i+1), inst
+                print '{:.2f}.'.format(i+1), inst
     #===========================================================================
     # Parse the howto title and analyze it
     #===========================================================================
@@ -101,16 +97,15 @@ def analyze_howto(prac, howto, steps=None, verbose=1):
     # There will be only one DB, if there are more, raise an exception
     #===========================================================================
     if len(inference.inference_steps[-1].output_dbs) != 1: 
-        raise Exception('title of the howto comprises more than one action: %s' % howto)
+        raise Exception('title of the howto comprises more than one action: {}'.format(howto))
     db = inference.inference_steps[-1].output_dbs[0]
     howto_syntax = extract_syntax(inference)
 
     roles_dict = {}
     for ac in db.actioncores():
         actioncore = ac.values().pop()
-        for d in db.roles(actioncore):
-            roles_dict.update({k: v for r in db.roles(d.values().pop()) for k, v in r.items()})
-    
+        roles_dict.update({k: v for r in db.roles(actioncore) for k, v in r.items()})
+
     actioncore = ""
     #===========================================================================
     # It will be assumed that there is only one true action_core predicate per database 
@@ -131,11 +126,9 @@ def analyze_howto(prac, howto, steps=None, verbose=1):
     # Build the data structures from the analysis result
     #===========================================================================
     for db in step_dbs:
-        action_roles = RolequeryHandler(prac).query_roles_and_senses_based_on_achieved_by(db)
-        if not action_roles:
-            action_roles = RolequeryHandler(prac).query_roles_and_senses_based_on_action_core(db)
-            
-        plan_action_core = ""    
+        action_roles = {k: v for r in db.roles(actioncore) for k, v in r.items()}
+
+        plan_action_core = ""
         for q in db.query("action_core(?w,?ac)"):
             plan_action_core = q["?ac"]
         for q in db.query("achieved_by(?w,?ac)"):
@@ -161,7 +154,7 @@ def store_howto(prac, howto):
 
 
 if __name__ == '__main__':
-    
+    args = sys.argv[1:]
     path_to_corpus = args[0]
     corpus = []
     
@@ -191,8 +184,7 @@ if __name__ == '__main__':
         exit(0)
         #There will be only one db
         db = inference.inference_steps[-1].output_dbs[0]
-        roles_dict = RolequeryHandler(prac).query_roles_and_senses_based_on_action_core(db)
-        
+
         #Process all sentences
         plan_list = {}
         for s in sentences:
@@ -202,10 +194,12 @@ if __name__ == '__main__':
                 module = prac.module(modulename)
                 prac.run(inference, module)
             plan_list[s]=inference.inference_steps[-1].output_dbs
-            
+
         actioncore = ""
-        #It will be assumed that there is only one true action_core predicate per database 
+        #It will be assumed that there is only one true action_core predicate per database
         for q in db.query("action_core(?w,?ac)"):
             actioncore = q["?ac"]
-        
+
+        action_roles = {(k, v) for (k, v) in db.roles(actioncore)}
+
         store_instruction_in_mongo_db(prac, text_file_name, actioncore, roles_dict, plan_list)

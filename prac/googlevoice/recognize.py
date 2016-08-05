@@ -14,9 +14,9 @@ import json
     
 class Voice(object):
     '''
-        Implements an interface to the Google Speech Recognition API.
-        Provides methods for recording speech from a microphone
-        and sending it to the Google API.
+    Implements an interface to the Google Speech Recognition API.
+    Provides methods for recording speech from a microphone
+    and sending it to the Google API.
     '''
     
     def __init__(self, name):
@@ -34,7 +34,7 @@ class Voice(object):
         If the duration parameter is set, this method will block until the given 
         time of recording is up.
         '''
-        self.wavName = '/tmp/wavFile_%s.wav' % self.name
+        self.wavName = '/tmp/wavFile_{}.wav'.format(self.name)
         self.wavFile = open(self.wavName, 'w+')
         cmdLine = ['/usr/bin/arecord']
         cmdLine.extend(['-f', 'S16_LE'])

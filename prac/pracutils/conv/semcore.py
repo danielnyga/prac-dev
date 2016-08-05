@@ -66,20 +66,20 @@ def reconstruct(s_element):
             sentence.append(e.text)
         if e.tag == 'wf':
             wf_count += 1
-            word_const = '%s-%d' % (e.text, wf_count)
+            word_const = '{}-{:f}'.format(e.text, wf_count)
             if e.get('pos', None) is not None:
-                gnd_atoms.append('has_pos(%s,%s)' % (word_const, e.get('pos')))
+                gnd_atoms.append('has_pos({},{})'.format(word_const, e.get('pos')))
             if e.get('lemma', None) is not None:
                 lem = e.get('lemma')
                 lexsn = e.get('lexsn')
                 synset = None
                 for l in wordnet.lemmas(lem):
-                    if l.key == '%s%%%s' % (lem, lexsn):
+                    if l.key == '{}%%{}'.format(lem, lexsn):
                         synset = l.synset
                 if synset is not None:
-                    sid = 's-%s' % word_const
-                    gnd_atoms.append('has_sense(%s,%s)' % (word_const, sid))
-                    gnd_atoms.append('is_a(%s,%s)' % (sid, synset.name))
+                    sid = 's-{}'.format(word_const)
+                    gnd_atoms.append('has_sense({},{})'.format(word_const, sid))
+                    gnd_atoms.append('is_a({},{})'.format(sid, synset.name))
     sentence = ' '.join(sentence).strip()
     return sentence, gnd_atoms
     

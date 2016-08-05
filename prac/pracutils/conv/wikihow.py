@@ -42,7 +42,7 @@ def lexkey2synset(key):
         log.debug(l)
         if l.key.lower() == key.lower():
             return l.synset
-    log.error('No synset found for %s' % key)
+    log.error('No synset found for {}'.format(key))
     
 
 def readFromFile(filename):
@@ -75,7 +75,7 @@ def readFromFile(filename):
             # parse the sentence here
             sentence = ' '.join(sentence).strip()
             print '//', sentence
-            log.info('parsing sentence: "%s"' % sentence)
+            log.info('parsing sentence: "{}"'.format(sentence))
             deps = parser.get_dependencies(sentence, True)
             log.info(deps)
             parsed_constants = set(itertools.chain(*map(lambda d: [str(d.dep().label()), str(d.gov().label())], deps)))
@@ -86,12 +86,12 @@ def readFromFile(filename):
             posTags = parser.get_pos()
             for pos in posTags.values():
                 if pos[0] not in parsed_constants: continue
-                gndAtoms.append('has_pos(%s,%s)' % (pos[0], pos[1]))
+                gndAtoms.append('has_pos({},{})'.format(pos[0], pos[1]))
             for nullsense in nullsense_constants:
                 if nullsense in parsed_constants:
-                    gndAtoms.append('has_sense(%s, null)' % nullsense)
+                    gndAtoms.append('has_sense({}, null)'.format(nullsense))
             if not sanity_check(word_constants, parsed_constants):
-                log.error('constants are inconsistent: \n%s\n%s' % (sorted(word_constants), sorted(parsed_constants)))
+                log.error('constants are inconsistent: \n{}\n{}'.format(sorted(word_constants), sorted(parsed_constants)))
                 for d in deps:
                     print str(d)
                 assert sanity_check(word_constants, parsed_constants)
@@ -110,22 +110,22 @@ def readFromFile(filename):
         else: synset = None
         
         widx += 1
-        word_const = '%s-%d' % (word, widx)
+        word_const = '{}-{:f}'.format(word, widx)
         word_constants.add(word_const)
         sentence.append(word)
 
         if len(tokens) > 4:
             lexkey = tokens[4]
             synset = lexkey2synset(lexkey)
-            sense_const = '%s-sense' % word_const
-            gndAtoms.append('has_sense(%s,%s)' % (word_const, sense_const))
-            gndAtoms.append('is_a(%s,%s)' % (sense_const, synset.name))
+            sense_const = '{}-sense'.format(word_const)
+            gndAtoms.append('has_sense({},{})'.format(word_const, sense_const))
+            gndAtoms.append('is_a({},{})'.format(sense_const, synset.name))
         else: 
             nullsense_constants.add(word_const)
         if len(tokens) > 5:
             role = tokens[5].strip()
             if role != '':
-                gndAtoms.append('action_role(%s,%s)' % (word_const, role))
+                gndAtoms.append('action_role({},{})'.format(word_const, role))
             
             
 def sanity_check(constants, deps):

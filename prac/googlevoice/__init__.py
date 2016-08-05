@@ -43,7 +43,7 @@ class VoiceRecorder():
         self.recording = False
         self.counter = 0
         logging.getLogger('REC').debug('Stop recording.')
-        print '"%s"' % self.voices[self.voip].analyze()
+        print '"{}"'.format(self.voices[self.voip].analyze())
         
 
 if __name__ == '__main__':

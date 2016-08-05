@@ -146,7 +146,7 @@ class Node(object):
         return stepChildren
     
     def __str__(self):
-        return '%s' % str(self.id)
+        return '{}'.format(str(self.id))
     
     def __eq__(self, other):
         return self.id == other.id

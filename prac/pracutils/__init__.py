@@ -40,7 +40,7 @@ class StopWatch(object):
         
     def printSteps(self):
         for t in self.tags:
-            print '%s%s%s took %f sec.' % (bash.BOLD, t[1], bash.END, t[0])
+            print '{}{}{} took {:f} sec.'.format(bash.BOLD, t[1], bash.END, t[0])
 
 def powerset(seq):
     '''
@@ -87,7 +87,7 @@ def printListAndTick(l, t):
     if type(t) is str:
         t = l.index(t)
     for idx, item in enumerate(l):
-        print '    [%s] %s' % ('X' if t==idx else ' ', colorize(item, (None, {True: 'yellow', False: 'white'}[t==idx], True), True))  
+        print '    [{}] {}'.format('X' if t==idx else ' ', colorize(item, (None, {True: 'yellow', False: 'white'}[t==idx], True), True))
         
 class bash:
     HEADER = '\033[95m'
