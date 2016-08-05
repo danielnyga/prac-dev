@@ -103,7 +103,7 @@ class StanfordParser(object):
             w, p = t.rsplit('/', 1)
             if not re.match(r'[a-zA-z0-9]+', p):
                 continue
-            pos[i + 1] = (['{}-{:f}'.format(w, i + 1 - commaoffset), p])
+            pos[i + 1] = (['{}-{}'.format(w, i + 1 - commaoffset), p])
         return pos
 
 
