@@ -43,14 +43,6 @@ class SensesAndRoles(PRACModule):
     a simultaneous word sense disambiguation.
     '''
 
-    def initialize(self):
-        pass
-
-
-    def shutdown(self):
-        pass
-
-
     @PRACPIPE
     def __call__(self, pracinference, **params):
 
@@ -204,6 +196,12 @@ class SensesAndRoles(PRACModule):
 
 
     def role_distributions(self, step):
+        '''
+        TODO
+
+        :param step:
+        :return:
+        '''
         distrs = {}
         for db_ in step.output_dbs:
             for word in db_.domains['word']:

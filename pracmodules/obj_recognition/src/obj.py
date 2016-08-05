@@ -38,9 +38,9 @@ possibleProps = ['color', 'size', 'shape', 'hypernym',
 
 
 class NLObjectRecognition(PRACModule):
-    def initialize(self):
-        pass
-
+    '''
+    PRACModule used to infer an objects' identity given its attributes.
+    '''
 
     @PRACPIPE
     def __call__(self, pracinference, **params):
@@ -83,6 +83,7 @@ class NLObjectRecognition(PRACModule):
         return inf_step
 
 
+    @PRACPIPE
     def train(self, praclearning):
 
         print prac_heading('Training knowledgebase')

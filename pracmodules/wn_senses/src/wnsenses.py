@@ -245,6 +245,13 @@ class WNSenses(PRACModule):
 
 
     def get_similarities(self, *dbs):
+        '''
+        Returns a database containing all possible similarities for the senses
+        of the input databases.
+
+        :param dbs: the input databases to be queried
+        :return:    a generator yielding an instance of Database
+        '''
         wordnet = self.prac.wordnet
         full_domain = mergedom(*[db.domains for db in dbs])
         for db in dbs:

@@ -50,10 +50,6 @@ class RolesTransformation(PRACModule):
         self.isLastActionCoreAPlan = False
 
 
-    def shutdown(self):
-        pass
-
-
     def getPlanList(self):
         planListFile = open(planListFilePath, 'r')
         yamlData = yaml.load(planListFile)

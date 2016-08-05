@@ -1,24 +1,19 @@
-#How to call it
-#actionCore = prac.module('ac_recognition')
-#prac.run(infer,actionCore,kb=actionCore.load_prac_kb('robohow'))
 from prac.core.base import PRACModule, PRACPIPE
 from prac.core.inference import PRACInferenceStep
 from prac.pracutils.utils import prac_heading
 from pracmln import praclog
-from pracmln.mln.util import colorize
 
 
-logger = praclog.logger(__name__)
+logger = praclog.logger(__name__, praclog.INFO)
 
 
 class PRACWSD(PRACModule):
-    def initialize(self):
-        pass
-
+    '''
+    PRACModule used to perform word-sense disambiguation
+    '''
 
     @PRACPIPE
     def __call__(self,pracinference, **params):
-        logger.debug('inference on %s' % self.name)
 
         print prac_heading('Word Sense Disambiguation')
 
@@ -33,7 +28,6 @@ class PRACWSD(PRACModule):
             kb.dbs = pracinference.inference_steps[-1].output_dbs
         mln = kb.query_mln
         mln.write()
-        logger.info('=====================================================================================================================')
         logic = kb.query_params['logic']
         fol =  False
         if(logic == 'FirstOrderLogic'):
@@ -48,12 +42,11 @@ class PRACWSD(PRACModule):
             inf_step.output_dbs.extend(result_db)
             print
             for r_db in result_db:
-                print 'Inferred most probable word senses:'
+                print prac_heading('Inferred most probable word senses')
                 for q in r_db.query('has_sense(?w, ?s)'):
                     if q['?s'] == 'null': continue
-                    print '%s:' % q['?w']
+                    print '{}:'.format(q['?w'])
                     wordnet_module.printWordSenses(wordnet_module.get_possible_meanings_of_word(r_db, q['?w']), q['?s'])
                     print
 
         return inf_step
-            

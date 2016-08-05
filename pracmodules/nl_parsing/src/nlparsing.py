@@ -69,6 +69,10 @@ class StanfordParser(object):
         '''
         Returns the syntactic dependencies from the parse
         applied to the given sentence.
+
+        :param sentence:    a sentence or list of sentences in natural language
+        :param collapsed:   (bool) whether the output should be collapsed or not
+        :return:            the (collapsed) dependencies of the sentence
         '''
         if sentence is not None:
             self.parse = self.parser.parse(sentence)
@@ -84,6 +88,12 @@ class StanfordParser(object):
 
 
     def get_pos(self, sentence=None):
+        '''
+        Returns the part-of-speech tags for the sentence.
+
+        :param sentence:    a sentence or list of sentences in natural language
+        :return:            a dictionary mapping token ids to pos tags
+        '''
         if sentence is not None:
             self.parse = self.parser.apply(sentence)
         tokens = [str(x) for x in self.parse.taggedYield()]
@@ -93,11 +103,14 @@ class StanfordParser(object):
             w, p = t.rsplit('/', 1)
             if not re.match(r'[a-zA-z0-9]+', p):
                 continue
-            pos[i + 1] = (['%s-%d' % (w, i + 1 - commaoffset), p])
+            pos[i + 1] = (['{}-{:f}'.format(w, i + 1 - commaoffset), p])
         return pos
 
 
     def print_info(self):
+        '''
+        Convenience function to pretty-print information about the parser.
+        '''
         numberer = self.package.util.Numberer
         print ("Grammar\t" +
                repr(numberer.getGlobalNumberer("states").total()) + '\t' +
@@ -120,6 +133,9 @@ class StanfordParser(object):
         '''
         Parses the sentence string, returning the tokens, and the parse tree
         as a tuple. tokens, tree = parser.parse(sentence)
+
+        :param sentence:    a sentence or list of sentences in natural language
+        :return:            a tuple containing the tokens and the parsing result
         '''
         tokens = self.documentPreprocessor.getWordsFromString(sentence)
         for token in tokens:
@@ -158,6 +174,13 @@ class NLParsing(PRACModule):
 
     @staticmethod
     def is_aux_verb(word, db):
+        '''
+        Checks whether a given word is an auxiliary.
+
+        :param word:    a natural-language word
+        :param db:      the db containing the dependencies
+        :return:        (bool) whether the verb is an auxiliary or not
+        '''
 
         for _ in db.query('aux(?w, {})'.format(word)):
             return True
@@ -169,6 +192,12 @@ class NLParsing(PRACModule):
 
 
     def get_all_verbs(self, db):
+        '''
+        Returns all verbs from the given database.
+
+        :param db:  the database containing the POS tags for the words
+        :return:    a list of words from the database
+        '''
         valid_predicate_tags = ['VB', 'VBG', 'VBZ', 'VBD', 'VBN', 'VBP']
         verb_list = []
 
@@ -190,12 +219,19 @@ class NLParsing(PRACModule):
         Simple check for compound words in the input sentence (forward-check
         if 3-word or 2-word pairs exist in ontology) No check for POS tag
         included.
-        Examples:
+
+        :param sentence:   a sentence in natural language
+        :Example:
+
             * 'unload the washing machine and switch off the hair dryer'
                 will be replaced by 'unload the washing_machine and switch
                 off the hair_dryer'
             * 'start the external combustion engine' will be replaced by
                 'start the external-combustion_engine'
+
+        :return:            a string with the 3-word or 2-word compounds
+                            replaced by a representation that can be found in
+                            the Wordnet ontology
         '''
         instr = word_tokenize(sentence)
         newinstr = []
@@ -238,6 +274,9 @@ class NLParsing(PRACModule):
         Accepts as arguments a sentence or a list of sentences. Returns the
         syntactic structure of the sentences in form of MLN databases
         containing the respective atoms.
+
+        :param sentences:   a sentence or list of sentences in natural language
+        :return:            a list of databases returned by parse_db
         '''
         #=======================================================================
         # Create a temporary file in which nlparse will write its result

@@ -46,6 +46,12 @@ class ComplexAchievedBy(PRACModule):
     '''
 
     def get_instructions_based_on_action_core(self, db):
+        '''
+        TODO
+
+        :param db:
+        :return:
+        '''
 
         wordnet = WordNet(concepts=None)
         # Assuming there is only one action core
@@ -101,14 +107,6 @@ class ComplexAchievedBy(PRACModule):
         return []
 
 
-    def initialize(self):
-        pass
-
-
-    def shutdown(self):
-        pass
-
-
     @PRACPIPE
     def __call__(self, pracinference, **params):
 
@@ -149,6 +147,16 @@ class ComplexAchievedBy(PRACModule):
 
 
     def transform_to_db(self, complex_db, roles_dict, document_action_roles, actioncore, plan_dict):
+        '''
+        TODO
+
+        :param complex_db:
+        :param roles_dict:
+        :param document_action_roles:
+        :param actioncore:
+        :param plan_dict:
+        :return:
+        '''
         plan_action_core = plan_dict['actioncore']
         plan_action_roles = plan_dict['actionroles']
 

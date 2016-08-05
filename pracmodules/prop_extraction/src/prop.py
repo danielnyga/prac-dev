@@ -43,9 +43,6 @@ class PropExtraction(PRACModule):
     properties and objects.
     '''
 
-    def initialize(self):
-        pass
-
 
     @PRACPIPE
     def __call__(self, pracinference, **params):

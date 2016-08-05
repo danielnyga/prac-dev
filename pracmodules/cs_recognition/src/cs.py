@@ -36,10 +36,11 @@ logger = praclog.logger(__name__, praclog.INFO)
 
 
 class ControlStructureIdentification(PRACModule):
-    
+    '''
+    PRACModule used to identify control structures in natural-language
+    instructions
+    '''
 
-    def initialize(self):
-        pass
 
     @PRACPIPE
     def __call__(self, pracinference, **params):

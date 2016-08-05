@@ -39,6 +39,13 @@ corpus_path_list = os.path.join(prac.locations.home, 'corpus')
 
 
 def frame_similarity(inferred_roles, frame_action_role_dict):
+    '''
+    TODO
+
+    :param inferred_roles:
+    :param frame_action_role_dict:
+    :return:
+    '''
     wordnet = WordNet(concepts=None)
     frame_vector = []
     
@@ -65,6 +72,12 @@ def frame_similarity(inferred_roles, frame_action_role_dict):
 
 
 def transform_documents_to_action_role_map(cursor):
+    '''
+    TODO
+
+    :param cursor:
+    :return:
+    '''
     result = []
 
     for document in cursor:
@@ -87,6 +100,12 @@ class RoleLookUp(PRACModule):
     '''
 
     def determine_missing_roles(self, db):
+        '''
+        TODO
+
+        :param db:
+        :return:
+        '''
         mongo_client = MongoClient()
         ies_mongo_db = mongo_client.PRAC
         frames_collection = ies_mongo_db.Frames
@@ -189,14 +208,6 @@ class RoleLookUp(PRACModule):
                         print "No suitable frames are available."
         
         return db_, missing_role_set
-
-
-    def initialize(self):
-        pass
-
-
-    def shutdown(self):
-        pass
 
 
     @PRACPIPE

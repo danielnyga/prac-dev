@@ -20,11 +20,11 @@ def startJvm():
     if machine_arch not in arch.keys():
         raise Exception('Your system architecture is not supported: {}'.format(machine_arch))
     java_home += '/jre/lib/{}/libjava.so'.format(arch[machine_arch])
-    logger.info('starting JVM...')
+    logger.debug('starting JVM...')
     jpype.startJVM(jpype.getDefaultJVMPath(), '-Xmx1024m', '-Xms1024m',
                    '-verbose:gc', '-ea',
                    '-Djava.class.path={}'.format(':'.join(classpath)))
-    logger.info('JVM running')
+    logger.debug('JVM running')
 
 
 def shutdownJvm():

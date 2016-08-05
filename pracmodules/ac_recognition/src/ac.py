@@ -25,6 +25,7 @@ import os
 from prac.core.base import PRACModule, PRACPIPE, PRACDatabase
 from prac.core.inference import PRACInferenceStep
 from prac.pracutils.utils import prac_heading
+from pracmln import Database
 from pracmln.mln.base import parse_mln
 from pracmln.mln.util import colorize
 from pracmln import praclog
@@ -40,8 +41,6 @@ class ActionCoreIdentification(PRACModule):
     PRACModule used to identify action cores in natural-language instructions
     '''
 
-    def initialize(self):
-        pass
 
     @PRACPIPE
     def __call__(self, pracinference, **params):
@@ -111,7 +110,16 @@ class ActionCoreIdentification(PRACModule):
         return inf_step
 
 
-    def extract_multiple_action_cores(self, prac, db,wordnet_module,known_concepts):
+    def extract_multiple_action_cores(self, prac, db, wordnet_module, known_concepts):
+        '''
+        TODO
+
+        :param prac:            the PRAC instance
+        :param db:              an instance of Database
+        :param wordnet_module:  the wordnet PRACModule
+        :param known_concepts:  a list of known concepts
+        :return:                a list of databases
+        '''
         dbs = []
         verb_list = []
         
@@ -188,21 +196,22 @@ class ActionCoreIdentification(PRACModule):
                     db_ << (atom,truth)
             dbs.append(db_)
         return dbs
-    
+
+
+    @PRACPIPE
     def train(self, praclearning):
-        log = logger('prac')
         prac = praclearning.prac
         # get all the relevant training databases
         db_files = prac.training_dbs()
         nl_module = prac.module('nl_parsing')
         syntactic_preds = nl_module.mln.predicates
-        log.debug(db_files)
+        logger.debug(db_files)
         dbs = filter(lambda x: type(x) is Database, map(lambda name: Database(self.mln, dbfile=name, ignore_unknown_preds=True), db_files))
-        log.debug(dbs)
+        logger.debug(dbs)
         new_dbs = []
         training_dbs = []
         known_concepts = []
-        log.debug(self.mln.domains)
+        logger.debug(self.mln.domains)
         for db in dbs:
             if not 'actioncore' in db.domains: continue
             if not 'concept' in db.domains: continue
@@ -224,24 +233,4 @@ class ActionCoreIdentification(PRACModule):
                     new_db << ('is_a(%s,%s)' % (sense, known_concept), sim)
             training_dbs.append(new_db)
 
-        log.info('Starting training with %d databases'.format(len(training_dbs)))
-        # actioncore_KB = ActionCoreKB(self, 'action_cores')
-        # actioncore_KB.wordnet = wordnet
-        # actioncore_KB.train(training_dbs)
-        # self.save_pracmt(actioncore_KB)
-        
-#
-# class ActionCoreKB(PRACKnowledgeBase):
-#     '''
-#     Represents the probabilistic KB for learning and inferring
-#     the correct action core.
-#     '''
-#
-#     def train(self, training_dbs):
-#         mln = self.module.mln
-#         self.training_dbs = training_dbs
-#         self.trained_mln = mln.learnWeights(training_dbs, LearningMethods.BPLL_CG, verbose=True, optimizer='bfgs')
-        
-        
-        
-        
+        logger.info('Starting training with %d databases'.format(len(training_dbs)))

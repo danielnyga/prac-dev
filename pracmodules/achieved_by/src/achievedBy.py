@@ -42,13 +42,14 @@ class AchievedBy(PRACModule):
     action by which this action core can be achieved.
     '''
 
-    def initialize(self):
-        pass
-
-    def shutdown(self):
-        pass
-
     def extendDBWithAchievedByEvidence(self, db, querymln):
+        '''
+        TODO
+
+        :param db:
+        :param querymln:
+        :return:
+        '''
         actioncore = ""
         # It will be assumed that there is only one true action_core
         # predicate per database
