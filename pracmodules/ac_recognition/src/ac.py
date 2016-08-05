@@ -72,7 +72,7 @@ class ActionCoreIdentification(PRACModule):
                         grammar=ac_project.queryconf.get('grammar', 'PRACGrammar'))
         known_concepts = mln.domains.get('concept', [])
         inf_step = PRACInferenceStep(pracinference, self)
-        wordnet_module = self.prac.getModuleByName('wn_senses')
+        wordnet_module = self.prac.module('wn_senses')
 
 
         pngs = {}
@@ -193,8 +193,8 @@ class ActionCoreIdentification(PRACModule):
         log = logger('prac')
         prac = praclearning.prac
         # get all the relevant training databases
-        db_files = prac.getActionCoreTrainingDBs()
-        nl_module = prac.getModuleByName('nl_parsing')
+        db_files = prac.training_dbs()
+        nl_module = prac.module('nl_parsing')
         syntactic_preds = nl_module.mln.predicates
         log.debug(db_files)
         dbs = filter(lambda x: type(x) is Database, map(lambda name: Database(self.mln, dbfile=name, ignore_unknown_preds=True), db_files))

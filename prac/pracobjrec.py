@@ -68,7 +68,7 @@ if __name__ == '__main__':
 
     # in case we have natural-language parameters, parse them
     if len(infer.instructions) > 0:
-        parser = prac.getModuleByName('nl_parsing')
+        parser = prac.module('nl_parsing')
         prac.run(infer, parser)
 
     if interactive:  # use the GUI
@@ -80,10 +80,10 @@ if __name__ == '__main__':
             options.trainMLN))
 
         # property inference from parsed input
-        propExtract = prac.getModuleByName('prop_extraction')
+        propExtract = prac.module('prop_extraction')
         prac.run(infer, propExtract)
 
-        objRecog = prac.getModuleByName('obj_recognition')
+        objRecog = prac.module('obj_recognition')
 
         praclearn = PRACLearning(prac)
         praclearn.otherParams['mln'] = options.mln[0]
@@ -99,10 +99,10 @@ if __name__ == '__main__':
         log.info('Entering regular inference pipeline')
 
         # property inference from parsed input
-        propExtract = prac.getModuleByName('prop_extraction')
+        propExtract = prac.module('prop_extraction')
         prac.run(infer, propExtract)
 
-        objRecog = prac.getModuleByName('obj_recognition')
+        objRecog = prac.module('obj_recognition')
 
         # object inference based on inferred properties
         prac.run(infer, objRecog)

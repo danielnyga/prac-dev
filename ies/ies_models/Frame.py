@@ -76,7 +76,7 @@ class Frame(object):
     def try_to_determine_actioncore(self,prac,infer):
         self.actioncore = "UNKNOWN"
         
-        ac_recognition_module = prac.getModuleByName('ac_recognition')
+        ac_recognition_module = prac.module('ac_recognition')
         ac_recognition_module.initialize()
         
         infer_step = PRACInferenceStep(infer, ac_recognition_module)
@@ -90,7 +90,7 @@ class Frame(object):
         
     
     def try_to_determine_action_roles(self, prac, infer):
-        senses_and_roles_module = prac.getModuleByName('senses_and_roles')
+        senses_and_roles_module = prac.module('senses_and_roles')
         senses_and_roles_module.initialize()
         prac.run(infer,senses_and_roles_module,kb=None)
         result_db = infer.inference_steps[-1].output_dbs[0]

@@ -13,7 +13,7 @@ import os
 
 prac = PRAC()
 prac.wordnet = WordNet(concepts=None)
-parser = prac.getModuleByName('nl_parsing')
+parser = prac.module('nl_parsing')
 parser.initialize()
 parser.mln.declarePredicate(Predicate('has_sense',['word','sense!']))
 parser.mln.declarePredicate(Predicate('is_a',['sense','concept']))

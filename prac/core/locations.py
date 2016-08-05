@@ -27,3 +27,4 @@ _home = __file__.split(os.path.sep)[:-3]
 home = os.path.sep.join(_home)
 thirdparty = os.path.sep.join(_home + ['3rdparty'])
 modules = os.path.sep.join(_home + ['pracmodules'])
+nltk_data = os.path.sep.join(_home + ['data'] + ['nltk_data'])

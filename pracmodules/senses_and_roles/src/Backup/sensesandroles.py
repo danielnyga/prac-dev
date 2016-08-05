@@ -98,7 +98,7 @@ class SensesAndRoles(PRACModule):
                 print 
                 concepts = useKB.query_mln.domains['concept']#mergeDomains(, self.merge_all_domains(pracinference))['concept']
                 log.info('adding senses. concepts=%s' % concepts)
-                wordnet_module = self.prac.getModuleByName('wn_senses')
+                wordnet_module = self.prac.module('wn_senses')
                 db_ = wordnet_module.get_senses_and_similarities(db_, concepts)
                 result_db_temp = list(useKB.infer(db_))
                 result_db = []
@@ -120,7 +120,7 @@ class SensesAndRoles(PRACModule):
                 for ur in unknown_roles:
                     print '%s:' % colorize(ur, (None, 'red', True), True)
                     for q in r_db.query('action_role(?w, %s) ^ has_sense(?w, ?s)' % ur, truthThreshold=1):
-                        self.prac.getModuleByName('wn_senses').printWordSenses(concepts, q['?s'])
+                        self.prac.module('wn_senses').printWordSenses(concepts, q['?s'])
                     print
                 
                 inf_step.output_dbs.extend(result_db)

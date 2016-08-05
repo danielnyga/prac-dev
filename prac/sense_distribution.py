@@ -105,9 +105,9 @@ if __name__ == '__main__':
 
     prac = PRAC()
     prac.wordnet = WordNet(prac.config.getlist('wordnet', 'concepts'))
-    parser = prac.getModuleByName('nl_parsing')
-    senses = prac.getModuleByName('wn_senses')
-    wsd = prac.getModuleByName('wsd')
+    parser = prac.module('nl_parsing')
+    senses = prac.module('wn_senses')
+    wsd = prac.module('wsd')
 
     logging.getLogger().setLevel(logging.DEBUG)
     gaussianPriorSigma = 2

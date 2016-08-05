@@ -45,7 +45,7 @@ executed according to the predefined *PRAC* pipeline. An instance of this
 module can then be created and executed: ::
 
     >>> modulename = inference.next_module()
-    >>> module = prac.getModuleByName(modulename)
+    >>> module = prac.module(modulename)
     >>> prac.run(inference, module)
 
 .. automethod:: prac.core.inference.PRACInference.next_module
@@ -92,7 +92,27 @@ run the *PRAC* pipeline.
     >>> inference = PRACInference(prac, sentences)
     >>> while inference.next_module() != None and not is_inference_process_aborted:
     >>>     modulename = inference.next_module()
-    >>>     module = prac.getModuleByName(modulename)
+    >>>     module = prac.module(modulename)
+    >>>     prac.run(inference, module)
+
+
+
+
+    >>> prac = PRAC()
+    >>> inference = PRACInference(prac, sentences)
+    >>> while inference.next_module() != None and not is_inference_process_aborted:
+    >>>     modulename = inference.next_module()
+    >>>     module = prac.module(modulename)
+    >>>     prac.run(inference, module)
+
+
+
+
+    >>> prac = PRAC()
+    >>> inference = PRACInference(prac, sentences)
+    >>> while inference.next_module() != None and not is_inference_process_aborted:
+    >>>     modulename = inference.next_module()
+    >>>     module = prac.module(modulename)
     >>>     prac.run(inference, module)
 
 

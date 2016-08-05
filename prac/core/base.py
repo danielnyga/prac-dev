@@ -21,42 +21,39 @@
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 # add 3rd party components to pythonpath, if necessary
-import locations
 import os
 import sys
 
-from pracmln import MLNQuery
-from pracmln.mln import NoSuchPredicateError
-from pracmln.praclog import logger
+import locations
 import prac_nltk
+from prac import locations as praclocations
+from pracmln import MLNQuery
+from pracmln import praclog
+from pracmln.mln import NoSuchPredicateError
+from prac.core.inference import PRACInferenceStep
+from prac.core.wordnet import WordNet
+from pracmln import Database, MLN
+
+from pracmln.mln.database import parse_db
+from pracmln.mln.util import mergedom, ifNone
+from ConfigParser import ConfigParser
+
+from string import whitespace, strip
+import fnmatch
+import yaml
+
+prac_nltk.data.path = [praclocations.nltk_data]
+
 modules = ['nltk_2.0b9']
-
-prac_nltk.data.path = [os.path.join(locations.home, 'data', 'nltk_data')]
-
 for module in modules:
     path = os.path.join(locations.thirdparty, module)
     if path not in sys.path:
         sys.path.append(path)
 
 
-
-from prac.core.inference import PRACInferenceStep
-from prac.core.wordnet import WordNet
-from pracmln import Database, MLN
-
-# adapt PYTHONPATH where necessary
-from pracmln.mln.database import parse_db
-from pracmln.mln.util import mergedom, out, stop, ifNone
-from ConfigParser import ConfigParser
-
-PRAC_HOME = os.environ['PRAC_HOME']
-prac_module_path = os.path.join(PRAC_HOME, 'pracmodules')
-
-
-from string import whitespace, strip
-import fnmatch
-import yaml
-
+logger = praclog.logger(__name__, praclog.INFO)
+praclogger = praclog.logger('PRAC', praclog.INFO)
+aclogger = praclog.logger('actioncores', praclog.INFO)
 
 
 class PRACConfig(ConfigParser):
@@ -113,87 +110,80 @@ class PRAC(object):
     The PRAC reasoning system.
     '''
 
-
     def __init__(self, configfile='pracconf'):
         # read all the manifest files.
         self.config = PRACConfig(configfile)
-        self.actioncores = ActionCore.readFromFile(os.path.join(PRAC_HOME, 'models', 'actioncores.yaml'))
-        self.moduleManifests = []
-        self.moduleManifestByName = {}
-        self.logger = logger('PRAC')
+        self.actioncores = ActionCore.load(os.path.join(praclocations.home, 'models', 'actioncores.yaml'))
+        self._manifests = []
+        self._manifests_by_name = {}
+        self.logger = praclogger
         self._verbose = 1
-        for module_path in os.listdir(prac_module_path):
-            if not os.path.isdir(os.path.join(prac_module_path, module_path)):
+        for module_path in os.listdir(praclocations.modules):
+            if not os.path.isdir(os.path.join(praclocations.modules, module_path)):
                 continue
-            manifest_file_name = os.path.join(prac_module_path, module_path,
-                                              'pracmodule.yaml')
+            manifest_file_name = os.path.join(praclocations.modules, module_path, 'pracmodule.yaml')
             if not os.path.exists(manifest_file_name):
-                self.logger.warning(
-                    'No module manifest file in path "%s".' % module_path)
+                self.logger.warning('No module manifest file in path "{}".'.format(module_path))
                 continue
             manifest_file = open(manifest_file_name, 'r')
-            d = os.path.abspath(
-                os.path.join(prac_module_path, module_path, 'src'))
-            sys.path.append(d)
-            module = PRACModuleManifest.read(manifest_file, self)
-            module.module_path = os.path.join(prac_module_path, module_path)
-            self.moduleManifests.append(module)
-            self.moduleManifestByName[module.name] = module
-            self.logger.info('Read manifest file for module "%s".' % module.name)
-        self.moduleByName = {}
-        self.modules = []
+            modulessrc = os.path.abspath(os.path.join(praclocations.modules, module_path, 'src'))
+            sys.path.append(modulessrc)
+            module = PRACModuleManifest.read(manifest_file)
+            module.module_path = os.path.join(praclocations.modules, module_path)
+            self._manifests.append(module)
+            self._manifests_by_name[module.name] = module
+            self.logger.debug('Read manifest file for module "{}".'.format(module.name))
+        self._module_by_name = {}
+        self._modules = []
         # TODO: replace this by real action core definitions
         self.wordnet = WordNet()
-        self.mln = self.readAllMLNDeclarations()
+        self.mln = self.construct_global_mln()
 
 
-    def readAllMLNDeclarations(self):
+    def construct_global_mln(self):
         '''
         Reads all predicte declaration MLNs of all modules and returns an MLN
         with all predicates declared.
         '''
         mln = MLN(logic='FuzzyLogic', grammar='PRACGrammar')
-        for name, manifest in self.moduleManifestByName.iteritems():
+        for name, manifest in self._manifests_by_name.iteritems():
             module_path = manifest.module_path
             decl_mlns = manifest.pred_decls
             for mlnfile in decl_mlns:
-                tmpmln = MLN(
-                    mlnfile=os.path.join(prac_module_path, module_path, 'mln',
-                                         mlnfile), logic='FuzzyLogic',
-                    grammar='PRACGrammar')
+                tmpmln = MLN(mlnfile=os.path.join(praclocations.modules, module_path, 'mln', mlnfile),
+                             logic='FuzzyLogic', grammar='PRACGrammar')
                 mln.update_predicates(tmpmln)
         return mln
 
 
-    def getManifestByName(self, modulename):
-        return self.moduleManifestByName.get(modulename, None)
+    def manifest(self, modulename):
+        return self._manifests_by_name.get(modulename, None)
 
 
-    def setKnownConcepts(self, concepts):
+    def set_known_concepts(self, concepts):
         self.wordnet = WordNet(concepts)
 
 
-    def getModuleByName(self, modulename):
+    def module(self, modulename):
         '''
         Returns a loaded and initialized module given by the module name.
         '''
-        if not modulename in self.moduleManifestByName:
-            raise Exception('No such module: %s' % modulename)
+        if not modulename in self._manifests_by_name:
+            raise Exception('No such module: {}'.format(modulename))
         # lazily load the module
-        if not modulename in self.moduleByName:
-            module = PRACModule.fromManifest(
-                self.moduleManifestByName[modulename], self)
+        if not modulename in self._module_by_name:
+            module = PRACModule.from_manifest(self._manifests_by_name[modulename], self)
             module.initialize()
-            self.moduleByName[modulename] = module
-        return self.moduleByName[modulename]
+            self._module_by_name[modulename] = module
+        return self._module_by_name[modulename]
 
 
-    def uninitAllModules(self):
-        for module in self.moduleByName.values():
+    def deinit_modules(self):
+        for module in self._module_by_name.values():
             module._initialized = False
 
 
-    def getActionCoreTrainingDBs(self, actioncore_name=None):
+    def training_dbs(self, actioncore_name=None):
         '''
         Returns the list of training database file names associated to the
         given action core. Returns all training databases if actioncore_name
@@ -216,17 +206,17 @@ class PRAC(object):
         '''
         Runs module with the given module name on the given PRACInference
         object.
-        - pracinfer:    the PRACInference object.
-        - inference:    any callable object returning a PRACInferenceStep
-                        instance.
-        - *args:        the arguments passed to the inference callable.
-        - **kwargs:     the keyword arguments passed to the inference callable.
+        :param pracinfer:   the PRACInference object.
+        :param inference:   any callable object returning a PRACInferenceStep
+                            instance.
+        :param *args:       the arguments passed to the inference callable.
+        :param **kwargs:    the keyword arguments passed to the inference
+                            callable.
         '''
 
         inferenceStep = inference(pracinfer, *args, **kwargs)
         if inferenceStep is None or type(inferenceStep) != PRACInferenceStep:
-            PRAC.log.exception('{}.__call__() must return a PRACInferenceStep '
-                               'object.'.format(inference.name))
+            praclogger.exception('{}.__call__() must return a PRACInferenceStep object.'.format(inference.name))
         pracinfer.inference_steps.append(inferenceStep)
 
 
@@ -243,25 +233,6 @@ class PRAC(object):
     @verbose.setter
     def verbose(self, v):
         self._verbose = v
-
-
-class ActionRole(object):
-    '''
-    Represents a deserialized action role.
-    '''
-
-    __props__ = []
-
-
-    def __init__(self): pass
-
-
-    def __repr__(self):
-        return '<ActionRole "%s" at %s>' % (str(self.name), hash(self))
-
-
-    def __str__(self):
-        return repr(self)
 
 
 class ActionCore(object):
@@ -308,7 +279,8 @@ class ActionCore(object):
         self._req_roles = rr
 
 
-    def isLearned(self):
+    @property
+    def learned(self):
         '''
         Returns True if there is a learned MLN available for this action action
         core, or False, otherwise.
@@ -318,12 +290,12 @@ class ActionCore(object):
 
     def parameterize_plan(self, **roles):
         if self.plan is None:
-            raise Exception('Actioncore %s does not have a plan' % self.name)
+            raise Exception('Actioncore {} does not have a plan'.format(self.name))
         return self.plan.format(**roles)
 
 
     @staticmethod
-    def readFromFile(filepath):
+    def load(filepath):
         '''
         Deserializes an action core definition from the given file. The file
         must be given in YAML format. Returns an ActionCore object.
@@ -338,7 +310,7 @@ class ActionCore(object):
             actionroles = content.get(ActionCore.ACTION_ROLES)
             for role in actionroles:
                 action_core.roles.append(role)
-            logger('actioncores').info('Read action core: %s (roles: %s)' % (action_core.name, ', '.join(action_core.roles)))
+            aclogger.debug('Read action core: {} (roles: {})'.format(action_core.name, ', '.join(action_core.roles)))
             requiredroles = content.get(ActionCore.REQUIRED_ROLES)
             if requiredroles:
                 for rc in requiredroles:
@@ -348,7 +320,7 @@ class ActionCore(object):
         return actioncores
 
 
-    def writeToFile(self):
+    def tofile(self):
         '''
         Write this action core into files.
         '''
@@ -358,12 +330,14 @@ def DB_TRANSFORM(method):
     '''
     DB_TRANSFORM is a decorator which automates Database duplication with
     adaptation to a new MLN.
+    :param method:  the decorated method to be executed
+    :return:        the result of the executed decorated method
     '''
 
     def wrapper(self, *args, **kwargs):
         db = args[0]
         if not isinstance(db, Database):
-            raise Exception('First argument must be a Database object.')
+            raise Exception('First argument must be a Database object but is {}.'.format(type(db)))
         db_ = db.copy(self.mln)
         args = list(args)
         args[0] = db_
@@ -373,11 +347,17 @@ def DB_TRANSFORM(method):
 
 
 def PRACPIPE(method):
+    '''
+    Decorator to be used for call of the PRACModules. This decorator makes sure
+    that each module is initialized before execution and transforms the output
+    dbs to be bound to the global MLN.
+    :param method:  the PRACModule's __call__ method
+    :return:        the InferenceStep object returned by the PRACModule
+    '''
+
     def wrapper(self, *args, **kwargs):
         if not hasattr(self, '_initialized'):
-            raise Exception(
-                'PRACModule subclasses must call their super constructor of PRACModule (%s)' % type(
-                    self))
+            raise Exception('PRACModule subclasses must call their super constructor of PRACModule ({})'.format(type(self)))
         if not self._initialized:
             self.initialize()
             self._initialized = True
@@ -395,13 +375,14 @@ class PRACModuleManifest(object):
     Represents a PRAC module manifest description usually
     stored in a pracmodule.yaml file.
     Members:
-    - name:    the name of the module
-    - description: the natural-language description of what this module does
-    - module_path: the path where the module is located (for loading local
+    - name:         the name of the module
+    - module_path:  the path where the module is located (for loading local
                     files)
-    - is_universal: (bool) if this module is universal of if there is an
-                           individual module for each action core.
-    - depends_on: (list) a list of PRAC module names this module depends on.
+    - description:  the natural-language description of what this module does
+    - depends_on:   (list) a list of PRAC module names this module depends on.
+    - pred_decls:   the path of the file containing the predicate declarations
+                    relevant for this module
+    - project_path: the path of the default project
     '''
 
     # YAML tags
@@ -414,28 +395,22 @@ class PRACModuleManifest(object):
 
 
     @staticmethod
-    def read(stream, prac):
+    def read(stream):
         '''
-        Read a PRAC module manifest (yaml) file and return
-        a respective PRACModuleDefinition object.
+        Read a PRAC module manifest (yaml) file and return an instance of
+        a respective PRACModuleManifest object.
         '''
         yamlData = yaml.load(stream)
         manifest = PRACModuleManifest()
-        (manifest.modulename, manifest.classname) = yamlData[
-            PRACModuleManifest.MAIN_CLASS].split('.')
+        (manifest.modulename, manifest.classname) = yamlData[PRACModuleManifest.MAIN_CLASS].split('.')
         manifest.name = yamlData[PRACModuleManifest.NAME]
-        manifest.module_path = os.path.join(prac_module_path, manifest.name)
+        manifest.module_path = os.path.join(praclocations.modules, manifest.name)
         manifest.description = yamlData[PRACModuleManifest.DESCRIPTION]
-        # manifest.is_universal = yamlData.get(PRACModuleManifest.UNIVERSAL,
-        #                                      False)
         manifest.depends_on = yamlData.get(PRACModuleManifest.DEPENDENCIES, [])
-        # manifest.is_trainable = yamlData.get(PRACModuleManifest.TRAINABLE,
-        #                                      False)
         manifest.pred_decls = yamlData.get(PRACModuleManifest.PRED_DECLS, [])
-        manifest.project_path = os.path.join(prac_module_path, manifest.name,
-                                             yamlData.get(
-                                                 PRACModuleManifest.DEFAULT_PROJECT,
-                                                 ''))
+        manifest.project_path = os.path.join(praclocations.modules,
+                                             manifest.name,
+                                             yamlData.get(PRACModuleManifest.DEFAULT_PROJECT, ''))
         return manifest
 
 
@@ -495,8 +470,8 @@ class PRACModule(object):
 
 
     @name.setter
-    def name(self, rs):
-        self._name = rs
+    def name(self, mname):
+        self._name = mname
 
 
     @property
@@ -505,25 +480,27 @@ class PRACModule(object):
 
 
     @project_path.setter
-    def project_path(self, rs):
-        self._project_path = rs
+    def project_path(self, ppath):
+        self._project_path = ppath
 
 
     @property
     def module_path(self):
-        return os.path.join(prac_module_path, self.name)
+        return os.path.join(praclocations.modules, self.name)
 
 
     @module_path.setter
-    def module_path(self, rs):
-        self._module_path = rs
+    def module_path(self, mpath):
+        self._module_path = mpath
 
 
     @staticmethod
-    def fromManifest(manifest, prac):
+    def from_manifest(manifest, prac):
         '''
         Loads a Module from a given manifest.
-        - manifest:    a PRACModuleManifest instance
+        :param manifest:    a PRACModuleManifest instance
+        :param prac:        a PRAC instance
+        :return:            an instance of PRACModule
         '''
         modulename = manifest.modulename
         classname = manifest.classname
@@ -537,7 +514,8 @@ class PRACModule(object):
         return module
 
 
-    def merge_all_domains(self, pracinference):
+    @staticmethod
+    def merge_all_domains(pracinference):
         all_dbs = []
         for step in pracinference.inference_steps:
             all_dbs.extend(step.input_dbs)
@@ -551,6 +529,7 @@ class PRACModule(object):
         '''
         Run this module. Facts collected so far are stored
         in the self.pracinference attribute.
+        :param pracinference:   instance of PRACInference to store facts
         '''
         raise NotImplemented()
 
@@ -559,41 +538,10 @@ class PRACModule(object):
     def train(self, praclearn):
         '''
         Run the learning process for this module.
-        - microtheories:    specifies the microtheories which are to be
-                            (re)learned.
+        :param praclearn:   instance of PRACLearning representing a learning
+                            step in PRAC
         '''
         pass
-
-
-    @PRACPIPE
-    def dbfromstring(self, pracinference, dbstring):
-        '''
-        Parses a database which is given by a string. Returns a
-        PRACInferenceStep instance.
-        '''
-        inf_step = PRACInferenceStep(pracinference, self)
-        if len(pracinference.inference_steps) > 0:
-            inf_step.input_dbs = list(
-                pracinference.inference_steps[-1].output_dbs)
-        dbs = parse_db(self.prac.mln, dbstring, ignore_unknown_preds=True)
-        inf_step.output_dbs = dbs
-        return inf_step
-
-
-    @PRACPIPE
-    def insertdbs(self, pracinference, *dbs):
-        '''
-        Creates a new inference step with the given dbs as output dbs and
-        appends it to the pracinference chain.
-        '''
-        inf_step = PRACInferenceStep(pracinference, self)
-        if len(pracinference.inference_steps) > 0:
-            inf_step.input_dbs = list(
-                pracinference.inference_steps[-1].output_dbs)
-        inf_step.output_dbs = dbs
-        pracinference.inference_steps.append(inf_step)
-        return inf_step
-
 
 
 class PRACDatabase(Database):

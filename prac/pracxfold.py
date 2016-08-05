@@ -332,7 +332,7 @@ if __name__ == '__main__':
     
     # load module
     prac = PRAC()
-    module = prac.getModuleByName(moduleName)
+    module = prac.module(moduleName)
 
     # read MLN and dbs
     mln_ = readMLNFromFile(mlnFileName, logic=logic)

@@ -82,7 +82,7 @@ class PRACWSD(PRACModule):
 #                     evidence.addGroundAtom(is_a, input_db.evidence[is_a])
 #                 if has_sense in input_db.evidence:
 #                     evidence.addGroundAtom(has_sense, input_db.evidence[has_sense])
-# #             self.prac.getModuleByName('wn_senses').addPossibleWordSensesToDBs(evidence)
+# #             self.prac.module('wn_senses').addPossibleWordSensesToDBs(evidence)
 #             evidence.printEvidence()
             inf_step.input_dbs.append(evidence)
             mrf = mln.groundMRF(evidence)
@@ -98,7 +98,7 @@ class PRACWSD(PRACModule):
     @PRACPIPE
     def train(self, praclearn):
         dbs = readDBFromFile(self.mln, os.path.join(self.module_path, 'mln', 'training.db'))
-        wn = self.prac.getModuleByName('wn_senses')
+        wn = self.prac.module('wn_senses')
         wn.addFuzzyEvidenceToDBs(*dbs)
         for db in dbs:
             db.printEvidence() 

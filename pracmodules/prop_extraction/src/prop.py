@@ -75,7 +75,7 @@ class PropExtraction(PRACModule):
         mln = parse_mln(mlntext, searchpaths=[self.module_path], projectpath=projectpath,
                         logic=project.queryconf.get('logic', 'FuzzyLogic'),
                         grammar=project.queryconf.get('grammar', 'PRACGrammar'))
-        wordnet_module = self.prac.getModuleByName('wn_senses')
+        wordnet_module = self.prac.module('wn_senses')
 
         pngs = {}
         for i, db in enumerate(dbs):

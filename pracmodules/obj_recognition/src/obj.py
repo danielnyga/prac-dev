@@ -63,7 +63,7 @@ class NLObjectRecognition(PRACModule):
                         grammar=project.queryconf.get('grammar',
                                                       'PRACGrammar'))
 
-        wordnet_module = self.prac.getModuleByName('wn_senses')
+        wordnet_module = self.prac.module('wn_senses')
 
         # adding evidence properties to new query db
         for db in dbs:
@@ -84,12 +84,8 @@ class NLObjectRecognition(PRACModule):
 
 
     def train(self, praclearning):
-        print colorize('+=============================================+',
-                       (None, 'green', True), True)
-        print colorize('| TRAINING KNOWLEDGEBASE...                   |',
-                       (None, 'green', True), True)
-        print colorize('+=============================================+',
-                       (None, 'green', True), True)
+
+        print prac_heading('Training knowledgebase')
 
         mlnName = praclearning.otherParams.get('mln', None)
         mlnLogic = praclearning.otherParams.get('logic', None)
@@ -126,12 +122,7 @@ class NLObjectRecognition(PRACModule):
                                       gaussianPriorSigma=10, useMultiCPU=0,
                                       optimizer='cg', learningRate=0.9)
 
-        print colorize('+=============================================+',
-                       (None, 'green', True), True)
-        print colorize('| LEARNT FORMULAS:                            |',
-                       (None, 'green', True), True)
-        print colorize('+=============================================+',
-                       (None, 'green', True), True)
+        print prac_heading('Learnt Formulas')
 
         trainedMLN.printFormulas()
         trainedMLN.write(file(outputfile, "w"))

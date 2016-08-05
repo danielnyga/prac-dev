@@ -93,7 +93,7 @@ class SensesAndRoles(PRACModule):
                                 logic=project.queryconf.get('logic', 'FirstOrderLogic'),
                                 grammar=project.queryconf.get('grammar', 'PRACGrammar'))
                 known_concepts = mln.domains.get('concept', [])
-                wordnet_module = self.prac.getModuleByName('wn_senses')
+                wordnet_module = self.prac.module('wn_senses')
 
                 # ==============================================================
                 # Preprocessing
@@ -191,7 +191,7 @@ class SensesAndRoles(PRACModule):
                     if self.prac.verbose > 0:
                         print '{}:'.format(colorize(ur, (None, 'red', True), True))
                         for q in unified_db.query('action_role(?w, {}) ^ has_sense(?w, ?s)'.format(ur), thr=1):
-                            self.prac.getModuleByName('wn_senses').printWordSenses(known_concepts, q['?s'])
+                            self.prac.module('wn_senses').printWordSenses(known_concepts, q['?s'])
                         print
 
                 inf_step.output_dbs.append(new_result)

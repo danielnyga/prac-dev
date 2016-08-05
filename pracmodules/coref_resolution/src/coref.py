@@ -137,7 +137,7 @@ class CorefResolution(PRACModule):
                     return inf_step
 
                 # adding similarities
-                wordnet_module = self.prac.getModuleByName('wn_senses')
+                wordnet_module = self.prac.module('wn_senses')
                 newdatabase = wordnet_module.add_sims(corefdb, mln)
 
                 # update queries depending on missing roles

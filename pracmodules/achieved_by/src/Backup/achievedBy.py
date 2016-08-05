@@ -62,7 +62,7 @@ class AchievedBy(PRACModule):
         prac = PRAC()
         prac.wordnet = WordNet(concepts=None)
         infer = PRACInference(prac, 'None')
-        senses = prac.getModuleByName('senses_and_roles')
+        senses = prac.module('senses_and_roles')
         senses.initialize()
         sensesKBFile = senses.load_prac_kb(actioncore)
         

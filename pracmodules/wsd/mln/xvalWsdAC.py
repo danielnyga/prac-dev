@@ -135,10 +135,10 @@ class XValFold(object):
             prac = PRAC()
             prac.mln = mln;
             prac.wordnet = WordNet(concepts=None)
-            senses = prac.getModuleByName('wn_senses')
+            senses = prac.module('wn_senses')
             senses.initialize()
             infer = PRACInference(prac, 'None');
-            wsd = prac.getModuleByName('wsd')
+            wsd = prac.module('wsd')
             kb = PRACKnowledgeBase(prac)
             print "LOGIC INFER: " + logicInfer
             kb.query_params = {'verbose': False, 

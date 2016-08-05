@@ -1,9 +1,10 @@
-from pracutils import StopWatch
+from prac.pracutils import StopWatch
+
 
 class PRACLearning(object):
     '''
     Represents a learning step in PRAC:
-    - prac:            reference to the PRAC instance.
+    :param prac:    reference to the PRAC instance.
     '''
     
     def __init__(self, prac):

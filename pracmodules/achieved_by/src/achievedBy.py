@@ -92,7 +92,7 @@ class AchievedBy(PRACModule):
         for olddb in dbs:
             #To handle multiple acs in one task, we have to check if the single dbs contain achieved_bys which representing already plans
             skip_db = False
-            mod = self.prac.getModuleByName('roles_transformation')
+            mod = self.prac.module('roles_transformation')
             plans = mod.getPlanList()
             for q in olddb.query('achieved_by(?w,?ac)'):
                 actioncore = q['?ac']
@@ -154,7 +154,7 @@ class AchievedBy(PRACModule):
                                 logic=project.queryconf.get('logic', 'FirstOrderLogic'),
                                 grammar=project.queryconf.get('grammar', 'PRACGrammar'))
                 known_concepts = mln.domains.get('concept', [])
-                wordnet_module = self.prac.getModuleByName('wn_senses')
+                wordnet_module = self.prac.module('wn_senses')
                 
                 #Merge domains of db and given mln to avoid errors due to role inference and the resulting missing fuzzy perdicates
                 known_concepts = list(set(known_concepts).union(set(db_.domains.get('concept', []))))

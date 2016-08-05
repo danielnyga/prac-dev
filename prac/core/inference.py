@@ -62,7 +62,7 @@ class PRACInference(object):
 
     def __init__(self, prac, instructions):
         self.prac = prac
-        prac.uninitAllModules()
+        prac.deinit_modules()
         self.instructions = instructions
         self.inference_steps = []
         self.watch = StopWatch()
@@ -89,7 +89,7 @@ class PRACInference(object):
                 
                 for r in outdb.query('action_core(?w, ?a)'):
                     actioncore = r['?a']
-                    mod = self.prac.getModuleByName('roles_transformation')
+                    mod = self.prac.module('roles_transformation')
                     plans = mod.getPlanList()
                     if actioncore not in plans: return 'achieved_by'
 
@@ -98,7 +98,7 @@ class PRACInference(object):
             for outdb in self.inference_steps[-1].output_dbs:
                 for r in outdb.query('action_core(?w, ?a)'):
                     actioncore = r['?a']
-                    mod = self.prac.getModuleByName('roles_transformation')
+                    mod = self.prac.module('roles_transformation')
                     plans = mod.getPlanList()
                     if actioncore not in plans: return 'achieved_by'
 
@@ -117,7 +117,7 @@ class PRACInference(object):
             for outdb in self.inference_steps[-1].output_dbs:
                 for r in outdb.query('achieved_by(?w,?a)'):
                     actioncore = r['?a']
-                    mod = self.prac.getModuleByName('roles_transformation')
+                    mod = self.prac.module('roles_transformation')
                     plans = mod.getPlanList()
                     if actioncore not in plans:
                         return 'achieved_by'

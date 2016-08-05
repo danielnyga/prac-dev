@@ -30,7 +30,7 @@ import math
 from num2words import num2words
 from word2number import w2n
 import re
-from prac.core.errors import ConceptAlreadyExistsError, NoRationalNumber
+from prac.core.errors import ConceptAlreadyExistsError, NoRationalNumberError
 # contains similarity dictionaries for colors, shapes, sizes, consistencies
 # and dimensions, as well as numbers and their related hypernym_paths
 import properties
@@ -113,7 +113,7 @@ class RationalNumberSynset(Synset):
                     self.number = float(float(num) / float(denom))
                     self.numtype = float
                 else:
-                    raise NoRationalNumber('{} is not a valid rational number!'.format(numstr))
+                    raise NoRationalNumberError('{} is not a valid rational number!'.format(numstr))
 
         # find parent number with lowest difference to self.number
         if self.parent is None:
@@ -177,7 +177,7 @@ def number_synset(numstr):
             number = float(float(num) / float(denom))
             numtype = float
         else:
-            raise NoRationalNumber('{} is not a valid rational number!'.format(numstr))
+            raise NoRationalNumberError('{} is not a valid rational number!'.format(numstr))
 
     # find parent number with lowest difference to self.number
     diff = float('inf')

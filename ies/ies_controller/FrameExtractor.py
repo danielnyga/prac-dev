@@ -44,7 +44,7 @@ def store_frames_into_database(text_file_name,frames):
         while inference.next_module() != 'role_look_up'  and inference.next_module() != 'achieved_by'  and inference.next_module() != 'plan_generation':
         
             modulename = inference.next_module()
-            module = prac.getModuleByName(modulename)
+            module = prac.module(modulename)
             prac.run(inference, module)
     
         db = inference.inference_steps[-1].output_dbs[0]
@@ -111,7 +111,7 @@ class FrameExtractor(object):
         self.corpus = corpus
         self.prac = PRAC()
         self.prac.wordnet = WordNet(concepts=None)
-        self.parser = self.prac.getModuleByName('nl_parsing')
+        self.parser = self.prac.module('nl_parsing')
         self.parser.initialize()
         self.parser.mln.declare_predicate(Predicate('prepobj',['word','word']))
         self.parser.mln.declare_predicate(Predicate('has_sense',['word','sense!']))
@@ -123,7 +123,7 @@ class FrameExtractor(object):
         prac.wordnet = WordNet(concepts=None)
 
         inference = PRACInference(prac, [sentence])
-        parser = prac.getModuleByName('nl_parsing')
+        parser = prac.module('nl_parsing')
         prac.run(inference, parser)
         
         return inference.inference_steps[-1].output_dbs

@@ -1,5 +1,5 @@
 #How to call it
-#actionCore = prac.getModuleByName('ac_recognition')
+#actionCore = prac.module('ac_recognition')
 #prac.run(infer,actionCore,kb=actionCore.load_prac_kb('robohow'))
 from prac.core.base import PRACModule, PRACPIPE
 from prac.core.inference import PRACInferenceStep
@@ -40,7 +40,7 @@ class PRACWSD(PRACModule):
             fol = True
         known_concepts = mln.domains.get('concept', [])
         inf_step = PRACInferenceStep(pracinference, self)
-        wordnet_module = self.prac.getModuleByName('wn_senses')
+        wordnet_module = self.prac.module('wn_senses')
 
         for db in kb.dbs:
             db = wordnet_module.get_senses_and_similarities(db, known_concepts)

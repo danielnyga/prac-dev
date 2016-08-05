@@ -47,8 +47,6 @@ if __name__ == '__main__':
     praclearn.microtheories = parser.values.microtheories
     praclearn.modules = parser.values.modules
     
-    if praclearn.microtheories is None:
-        praclearn.microtheories = prac.microtheories
     if praclearn.modules is None:
         praclearn.modules = ['prop_extraction']
     if parser.values.training_dbs is not None:
@@ -60,6 +58,6 @@ if __name__ == '__main__':
         praclearn.otherParams['onthefly'] = options.onthefly
 
     for m in praclearn.modules:
-        module = prac.getModuleByName(m)
+        module = prac.module(m)
         module.train(praclearn)
     

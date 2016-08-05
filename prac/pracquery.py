@@ -781,7 +781,7 @@ class PRACQueryGUI(object):
             print headline('PRAC QUERY TOOL')
             print
 
-            module = self.prac.getModuleByName(self.selected_module.get())
+            module = self.prac.module(self.selected_module.get())
 
             self.infStep = module(self.prac_inference, project=self.project,
                                   projectpath=os.path.join(self.module_dir, self.project.name))
@@ -854,11 +854,11 @@ if __name__ == '__main__':
     if options.interactive:  # use the GUI
         # in case we have natural-language parameters, parse them
         if len(inference.instructions) > 0:
-            parser = prac.getModuleByName('nl_parsing')
+            parser = prac.module('nl_parsing')
             prac.run(inference, parser)
             #Started control structure handling
             '''
-            cs_recognition = prac.getModuleByName('cs_recognition')
+            cs_recognition = prac.module('cs_recognition')
             prac.run(inference, cs_recognition)
             
             
@@ -879,7 +879,7 @@ if __name__ == '__main__':
             modulename = inference.next_module()
             
             if are_requirements_set_to_load_module(modulename):
-                module = prac.getModuleByName(modulename)
+                module = prac.module(modulename)
                 prac.run(inference, module)
             else:
                 if prac.verbose > 0:
@@ -892,7 +892,7 @@ if __name__ == '__main__':
                 print prac_heading('PRAC Inference Results')
 
                 step = inference.inference_steps[-1]
-                wordnet_module = prac.getModuleByName('wn_senses')
+                wordnet_module = prac.module('wn_senses')
                 for db in step.output_dbs:
                     for a in sorted(db.evidence.keys()):
                         v = db.evidence[a]

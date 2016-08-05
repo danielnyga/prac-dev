@@ -95,7 +95,7 @@ def analyze_howto(prac, howto, steps=None, verbose=1):
     inference = PRACInference(prac, ["{}.".format(howto)])
     while inference.next_module() in pipeline:
         modulename = inference.next_module()
-        module = prac.getModuleByName(modulename)
+        module = prac.module(modulename)
         prac.run(inference, module)
     #===========================================================================
     # There will be only one DB, if there are more, raise an exception
@@ -104,7 +104,12 @@ def analyze_howto(prac, howto, steps=None, verbose=1):
         raise Exception('title of the howto comprises more than one action: %s' % howto)
     db = inference.inference_steps[-1].output_dbs[0]
     howto_syntax = extract_syntax(inference)
-    roles_dict = RolequeryHandler(prac).query_roles_and_senses_based_on_action_core(db)
+
+    roles_dict = {}
+    for ac in db.actioncores():
+        actioncore = ac.values().pop()
+        for d in db.roles(actioncore):
+            roles_dict.update({k: v for r in db.roles(d.values().pop()) for k, v in r.items()})
     
     actioncore = ""
     #===========================================================================
@@ -119,7 +124,7 @@ def analyze_howto(prac, howto, steps=None, verbose=1):
     inference = PRACInference(prac, steps)
     while inference.next_module() in pipeline:
         modulename = inference.next_module()
-        module = prac.getModuleByName(modulename)
+        module = prac.module(modulename)
         prac.run(inference, module)
     step_dbs = inference.inference_steps[-1].output_dbs
     #===========================================================================
@@ -181,7 +186,7 @@ if __name__ == '__main__':
         inference = PRACInference(prac, ["{}.".format(text_file_name)])
         while inference.next_module() in modules:
             modulename = inference.next_module()
-            module = prac.getModuleByName(modulename)
+            module = prac.module(modulename)
             prac.run(inference, module)
         exit(0)
         #There will be only one db
@@ -194,7 +199,7 @@ if __name__ == '__main__':
             inference = PRACInference(prac, [s])
             while inference.next_module() != 'plan_generation' :
                 modulename = inference.next_module()
-                module = prac.getModuleByName(modulename)
+                module = prac.module(modulename)
                 prac.run(inference, module)
             plan_list[s]=inference.inference_steps[-1].output_dbs
             

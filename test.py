@@ -27,7 +27,7 @@ def test_prac_pipeline_simple(sentences):
 
     while inference.next_module() is not None:
         modulename = inference.next_module()
-        module = prac.getModuleByName(modulename)
+        module = prac.module(modulename)
         prac.run(inference, module)
 
     print_results(inference)
@@ -37,7 +37,7 @@ def print_results(inference):
     print prac_heading('PRAC Inference Results')
 
     step = inference.inference_steps[-1]
-    wordnet_module = prac.getModuleByName('wn_senses')
+    wordnet_module = prac.module('wn_senses')
     for db in step.output_dbs:
         for a in sorted(db.evidence.keys()):
             v = db.evidence[a]

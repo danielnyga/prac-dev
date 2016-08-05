@@ -20,7 +20,7 @@ def workUpDb(db,concepts,queryPredicate,conceptVariable,prac,fol=True):
 def createIsAEvidence(mln,dbs,queryDomain,queryPredicate,conceptVariable,fol=True):
     prac = PRAC()
     prac.wordnet = WordNet(concepts=None)
-    senses = prac.getModuleByName('wn_senses')
+    senses = prac.module('wn_senses')
     senses.initialize()
     
     domains = map(lambda db: db.domains,dbs)

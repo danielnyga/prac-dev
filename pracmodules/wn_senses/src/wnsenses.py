@@ -334,6 +334,6 @@ class WNSenses(PRACModule):
             for dbfile in prac_learning.training_dbs:
                 training_dbs.extend(Database(self.mln, dbfile=dbfile, ignore_unknown_preds=True))
         else:
-            for dbfile in self.prac.getActionCoreTrainingDBs():
+            for dbfile in self.prac.training_dbs():
                 db = Database(self.mln, dbfile=dbfile, ignore_unknown_preds=True)
                 training_dbs.append(db)
