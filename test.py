@@ -7,9 +7,7 @@ import re
 from prac.core.base import PRAC
 from prac.core.inference import PRACInference
 from prac.core.wordnet import WordNet
-from prac.pracutils.RolequeryHandler import RolequeryHandler
 from prac.pracutils.utils import prac_heading
-from pracmln.mln import NoConstraintsError
 from pracmln.mln.util import colorize
 import time
 
@@ -41,8 +39,7 @@ def print_results(inference):
     for db in step.output_dbs:
         for a in sorted(db.evidence.keys()):
             v = db.evidence[a]
-            if v > 0.001 and (a.startswith('action_core') or a.startswith(
-                    'has_sense') or a.startswith('achieved_by')):
+            if v > 0.001 and (a.startswith('action_core') or a.startswith('has_sense') or a.startswith('achieved_by')):
                 if a.startswith('has_sense'):
 
                     group = re.split(',', re.split('has_sense\w*\(|\)', a)[1])
@@ -52,14 +49,17 @@ def print_results(inference):
                         print
                         print colorize('  WORD:', (None, 'white', True), True), word,
                         print colorize('  SENSE:', (None, 'white', True), True), sense
-                        wordnet_module.printWordSenses(
-                            wordnet_module.get_possible_meanings_of_word(db,
-                                                                         word),
-                            sense)
+                        wordnet_module.printWordSenses(wordnet_module.get_possible_meanings_of_word(db, word), sense)
                         print
                 else:
-                    print '%.3f    %s' % (v, a)
-        RolequeryHandler(prac).queryRolesBasedOnActioncore(db).write(color=True)
+                    print '{:.3f}    {}'.format(v, a)
+
+        for ac in db.actioncores():
+            actioncore = ac.values().pop()
+            for d in db.roles(actioncore):
+                print '{}({},{})'.format(
+                    colorize(d.keys().pop(), (None, 'white', True), True),
+                    d.values().pop(), actioncore)
 
     if hasattr(inference.inference_steps[-1], 'executable_plans'):
         print prac_heading('Parameterized Robot Plan')

@@ -31,7 +31,10 @@ packages = [('sphinx', 'sphinx sphinxcontrib-bibtex', False),
             ('yaml', 'pyyaml', False),
             ('matplotlib', 'matplotlib', False),
             ('apt', 'python-apt', False),
-            ('pymongo', 'pymongo', False)]
+            ('pymongo', 'pymongo', False),
+            ('num2words', 'num2words', False),
+            ('word2number', 'word2number', False)
+            ]
 
 python_apps = [
     {"name": "pracquery", "script": "$PRAC_HOME/prac/pracquery.py"},
@@ -46,15 +49,15 @@ python_apps = [
 
 def check_package(pkg):
     try:
-        sys.stdout.write('checking dependency %s...' % pkg[0])
+        sys.stdout.write('checking dependency {}...'.format(pkg[0]))
         imp.find_module(pkg[0])
         sys.stdout.write(colorize('OK', (None, 'green', True), True))
         print
     except ImportError:
         print
-        print colorize('%s was not found. Please install by '
-                       '"sudo pip install %s" %s' % (pkg[0], pkg[1],
-                                                     '(optional)' if pkg[2] else ''),
+        print colorize('{} was not found. Please install by '
+                       '"sudo pip install {}" {}'.format(pkg[0], pkg[1],
+                                                         '(optional)' if pkg[2] else ''),
                        (None, 'yellow', True), True)
 
 
@@ -72,11 +75,11 @@ def check_dependencies():
                    (None, 'green', True), True)
     cache = apt.Cache()
     for pkg in aptpackages:
-        sys.stdout.write('checking dependency %s...' % pkg)
+        sys.stdout.write('checking dependency {}...'.format(pkg))
         if not cache[pkg].is_installed:
             print
-            print colorize('%s was not found. Please install by '
-                           '"sudo apt-get install %s"' % (pkg, pkg),
+            print colorize('{} was not found. Please install by '
+                           '"sudo apt-get install {}"'.format(pkg, pkg),
                            (None, 'yellow', True), True)
         else:
             sys.stdout.write(colorize('OK', (None, 'green', True), True))
@@ -87,10 +90,9 @@ def check_dependencies():
     print colorize('Checking necessary environment variables...',
                    (None, 'green', True), True)
     for var in env_vars:
-        sys.stdout.write('checking environment variable %s...' % var)
+        sys.stdout.write('checking environment variable {}...'.format(var))
         if var not in os.environ:
-            print colorize('%s was not found in your environment variables.'
-                           % var, (None, 'yellow', True), True)
+            print colorize('{} was not found in your environment variables.'.format(var), (None, 'yellow', True), True)
         else:
             sys.stdout.write(colorize('OK', (None, 'green', True), True))
             print
@@ -124,8 +126,7 @@ if __name__ == '__main__':
 
     if '--help' in args:
         print "PRAC Apps Generator\n\n"
-        print "  usage: make_apps [--arch=%s]\n" % "|".join(archs)
-        print
+        print "  usage: make_apps [--arch={}]\n".format("|".join(archs))
         print
         exit(0)
 
@@ -146,7 +147,7 @@ if __name__ == '__main__':
               " Please supply the --arch argument"
         sys.exit(1)
     if arch not in archs:
-        print "Unknown architecture '%s'" % arch
+        print "Unknown architecture '{}'".format(arch)
         sys.exit(1)
 
     check_dependencies()
@@ -159,7 +160,7 @@ if __name__ == '__main__':
     if not os.path.exists("apps"):
         os.mkdir("apps")
 
-    print "\nCreating application files for %s..." % arch
+    print "\nCreating application files for {}...".format(arch)
     isWindows = "win" in arch
     isMacOSX = "macosx" in arch
     preamble = "@echo off\r\n" if isWindows else "#!/bin/sh\n"
@@ -167,13 +168,11 @@ if __name__ == '__main__':
     pathsep = os.path.pathsep
 
     for app in python_apps:
-        filename = os.path.join("apps", "%s%s" % (app["name"],
-                                                  {True: ".bat",
-                                                   False: ""}[isWindows]))
-        print "  %s" % filename
+        filename = os.path.join("apps", "{}{}".format(app["name"], {True: ".bat", False: ""}[isWindows]))
+        print "  {}".format(filename)
         f = file(filename, "w")
         f.write(preamble)
-        f.write("python \"%s\" %s\n" % (adapt(app["script"], arch), allargs))
+        f.write("python \"{}\" {}\n".format(adapt(app["script"], arch), allargs))
         f.close()
         if not isWindows:
             os.chmod(filename,
@@ -193,24 +192,24 @@ if __name__ == '__main__':
     if "win" not in arch:
         f = file("env.sh", "w")
         f.write('#!/bin/bash\n')
-        f.write("export PATH=$PATH:%s\n" % appsDir)
-        f.write("export PYTHONPATH=$PYTHONPATH:%s\n" % nltkdir)
-        f.write("export PRAC_HOME=%s\n" % adapt("$PRAC_HOME", arch))
+        f.write("export PATH=$PATH:{}\n".format(appsDir))
+        f.write("export PYTHONPATH=$PYTHONPATH:{}\n".format(nltkdir))
+        f.write("export PRAC_HOME={}\n".format(adapt("$PRAC_HOME", arch)))
         f.write("export PYTHONPATH=$PRAC_HOME:$PYTHONPATH\n")
         print 'Now, to set up your environment type:'
         print '    source env.sh'
         print
         print 'To permantly configure your environment, add this line to ' \
               'your shell\'s initialization script (e.g. ~/.bashrc):'
-        print '    source %s' % adapt("$PRAC_HOME/env.sh", arch)
+        print '    source {}'.format(adapt("$PRAC_HOME/env.sh", arch))
         print
     else:
         pypath = ';'.join([adapt("$PRAC_HOME", arch), nltkdir])
         f = file("env.bat", "w")
         f.write("@ECHO OFF\n")
-        f.write('SETX PATH "%%PATH%%;%s"\r\n' % appsDir)
-        f.write('SETX PRAC_HOME "%s"\r\n' % adapt("$PRAC_HOME", arch))
-        f.write('SETX PYTHONPATH "%%PYTHONPATH%%;%s"\r\n' % pypath)
+        f.write('SETX PATH "%%PATH%%;{}"\r\n'.format(appsDir))
+        f.write('SETX PRAC_HOME "{}"\r\n'.format(adapt("$PRAC_HOME", arch)))
+        f.write('SETX PYTHONPATH "%%PYTHONPATH%%;{}"\r\n'.format(pypath))
         f.close()
         print 'To temporarily set up your environment for the current ' \
               'session, type:'
@@ -218,5 +217,5 @@ if __name__ == '__main__':
         print
         print 'To permanently configure your environment, use Windows ' \
               'Control Panel to set the following environment variables:'
-        print '  To the PATH variable add the directory "%s"' % appsDir
+        print '  To the PATH variable add the directory "{}"'.format(appsDir)
         print 'Should any of these variables not exist, simply create them.'
