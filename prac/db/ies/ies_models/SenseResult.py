@@ -3,7 +3,7 @@ Created on Sep 6, 2015
 
 @author: seba
 '''
-from ies_models.ResultBase import ResultBase 
+from prac.db.ies.ies_models.ResultBase import ResultBase 
 
 class SenseResult(ResultBase):
     '''

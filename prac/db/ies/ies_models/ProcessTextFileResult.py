@@ -3,8 +3,8 @@ Created on Sep 5, 2015
 
 @author: seba
 '''
-from ies_models.ProcessResultBase import ProcessResultBase
-from ies_models import Constants
+from prac.db.ies.ies_models.ProcessResultBase import ProcessResultBase
+from prac.db.ies.ies_models import Constants
 
 class ProcessTextFileResult(ProcessResultBase):
     '''

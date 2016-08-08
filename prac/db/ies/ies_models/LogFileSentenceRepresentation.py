@@ -4,7 +4,7 @@ Created on Sep 9, 2015
 @author: seba
 '''
 
-from ies_models import Constants
+from prac.db.ies.ies_models import Constants
 import cStringIO
 
 class LogFileSentenceRepresentation(object):

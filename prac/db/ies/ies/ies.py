@@ -7,12 +7,11 @@ from concurrent.futures import ProcessPoolExecutor as Pool
 from multiprocessing import cpu_count
 
 import sys
-from ies_utils import MultiprocessingMethods, MongoDatabaseHandler,\
-    PracDatabaseHandler
+from prac.db.ies.ies_utils import MultiprocessingMethods
 
-from ies_controller.FrameExtractor import FrameExtractor
-from os import path,listdir,fstat
-from ies_models.FrameExtractorResult import FrameExtractorResult
+from prac.db.ies.ies_controller.FrameExtractor import FrameExtractor
+from os import path,listdir
+from prac.db.ies.ies_models.FrameExtractorResult import FrameExtractorResult
 
 def run_frame_extraction_process(corpus):
     frame_extractor = FrameExtractor(corpus)

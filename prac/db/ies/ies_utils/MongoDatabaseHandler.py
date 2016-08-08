@@ -3,11 +3,11 @@ Created on Oct 28, 2015
 
 @author: seba
 '''
-from ies_models import Constants
+from prac.db.ies.ies_models import Constants
 from pracmln.mln.base import parse_mln
 from pracmln.mln.database import parse_db
-from ies_models.Sense import Sense
-from ies_models.Frame import Frame
+from prac.db.ies.ies_models.Sense import Sense
+from prac.db.ies.ies_models.Frame import Frame
 from pymongo import MongoClient
 
 def get_frames_based_on_query(query):

@@ -3,33 +3,33 @@ Created on Sep 2, 2015
 
 @author: seba
 '''
-import re
+
 import traceback
 from prac.core.base import PRAC
 from prac.core.inference import PRACInference
 from prac.core.wordnet import WordNet
 import sys
-from ies_models.Frame import Frame
+from prac.db.ies.ies_models.Frame import Frame
 
 from pymongo import MongoClient
 import pymongo
 import json
 from pracmln.mln.errors import NoSuchPredicateError
 from pracmln.mln.base import Predicate
-from ies_utils import PracDatabaseHandler
+from prac.db.ies.ies_utils import PracDatabaseHandler
 import os
-from ies_models.FrameExtractorResult import FrameExtractorResult
-from ies_models.ProcessTextFileResult import ProcessTextFileResult
-from ies_models import Constants
-from ies_models.LogFileSentenceRepresentation import LogFileSentenceRepresentation
-from ies_models.FrameBuilderResult import FrameBuilderResult
-from ies_models.Exceptions import NoPredicateExtracted,NoValidFrame
-from ies_models.Sense import convert_word_to_lemma,get_synset, nounTags
+from prac.db.ies.ies_models.FrameExtractorResult import FrameExtractorResult
+from prac.db.ies.ies_models.ProcessTextFileResult import ProcessTextFileResult
+from prac.db.ies.ies_models import Constants
+from prac.db.ies.ies_models.LogFileSentenceRepresentation import LogFileSentenceRepresentation
+from prac.db.ies.ies_models.FrameBuilderResult import FrameBuilderResult
+from prac.db.ies.ies_models.Exceptions import NoPredicateExtracted,NoValidFrame
+from prac.db.ies.ies_models.Sense import convert_word_to_lemma,get_synset, nounTags
 
 def store_frames_into_database(text_file_name,frames):
     mongo_client = MongoClient()
-    ies_mongo_db = mongo_client.PRAC
-    frames_collection = ies_mongo_db.Frames
+    ies_mongo_db = mongo_client.prac
+    frames_collection = ies_mongo_db.howtos
     plan_list = []
     
     actioncore = "UNKNOWN"
@@ -103,7 +103,6 @@ class FrameExtractor(object):
     classdocs
     '''
 
-    #TODO Create an configuration object to handle extraction constraints
     def __init__(self, corpus):
         '''
         Constructor
@@ -148,7 +147,6 @@ class FrameExtractor(object):
         
         predicate_query_result = PracDatabaseHandler.get_all_predicates_as_senses(db)
         predicate_list = predicate_query_result.sense_list
-        
         
         if not predicate_list:
             raise NoPredicateExtracted()
@@ -238,7 +236,7 @@ class FrameExtractor(object):
                     
                     for db in dbs:
                         frame_builder_results.append(self.build_frames(text_source_file, sentence_number, sentence, db))
-                    
+                        
                     for frame_builder_result in frame_builder_results:    
                         result.add_frame_builder_result(frame_builder_result)
                         frame_list.extend(frame_builder_result.frame_list)
@@ -248,6 +246,7 @@ class FrameExtractor(object):
                 except NoSuchPredicateError:
                     _, exc_value , _ = sys.exc_info()
                     predicate_name = str(exc_value).split(' ')[1].strip()
+                    print "Unknown predicate: {}".format(predicate_name)
                     self.parser.mln.declare_predicate(Predicate(predicate_name,['word','word']))
                     
                 except NoPredicateExtracted:

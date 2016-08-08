@@ -3,19 +3,18 @@ Created on Sep 3, 2015
 
 @author: seba
 '''
-from ies_models import Constants
-from ies_models.Sense import Sense
-from ies_models.Frame import Frame
-from ies_models.SenseResult import SenseResult
+from prac.db.ies.ies_models import Constants
+from prac.db.ies.ies_models.Sense import Sense
+from prac.db.ies.ies_models.Frame import Frame
+from prac.db.ies.ies_models.SenseResult import SenseResult
 from pracmln.mln.database import Database
 import cStringIO
 import re
-from ies_utils import MongoDatabaseHandler
+from prac.db.ies.ies_utils import MongoDatabaseHandler
 import traceback
 
 
-#TODO create method to extract real dobjs or even created like with passive to active transformation.
-regex_pobj_str = 'prep_(\w+)\(\s*{}\s*,\s*([^\)\s]+)\s*'
+regex_pobj_str = 'nmod_(\w+)\(\s*{}\s*,\s*([^\)\s]+)\s*'
 def generate_ac_train_optimazed_prac_db(query,db_path,merging=True):
     dobj_bucket = []
     prepobj_bucket = []
@@ -143,7 +142,7 @@ def add_obj_word_to_result_list(obj_word_,db,result,misc=""):
     
     if not is_pronoun(obj_word, db) and not is_wh(obj_word, db):
             #check if dobj+prep combi (we use just prep_of)
-            for q in db.query("prep_of({},?w1)".format(obj_word)):
+            for q in db.query("nmod_of({},?w1)".format(obj_word)):
                 obj_word = q['?w1']
                 break
                     
