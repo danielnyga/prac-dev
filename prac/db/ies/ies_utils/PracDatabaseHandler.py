@@ -3,14 +3,14 @@ Created on Sep 3, 2015
 
 @author: seba
 '''
-from ies_models import Constants
-from ies_models.Sense import Sense
-from ies_models.Frame import Frame
-from ies_models.SenseResult import SenseResult
+from prac.db.ies.ies_models import Constants
+from prac.db.ies.ies_models.Sense import Sense
+from prac.db.ies.ies_models.Frame import Frame
+from prac.db.ies.ies_models.SenseResult import SenseResult
 from pracmln.mln.database import Database
 import cStringIO
 import re
-from ies_utils import MongoDatabaseHandler
+from prac.db.ies.ies_utils import MongoDatabaseHandler
 import traceback
 
 

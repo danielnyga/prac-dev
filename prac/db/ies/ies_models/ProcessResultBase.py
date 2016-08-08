@@ -3,7 +3,7 @@ Created on Sep 5, 2015
 
 @author: seba
 '''
-from ies_models.ResultBase import ResultBase 
+from prac.db.ies.ies_models.ResultBase import ResultBase 
 
 class ProcessResultBase(ResultBase):
     '''

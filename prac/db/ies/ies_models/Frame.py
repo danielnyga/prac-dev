@@ -7,7 +7,7 @@ Created on Sep 2, 2015
 @author: Sebastian Koralewski (seba@informatik.uni-bremen.de)
 '''
 
-from ies_models import Constants
+from prac.db.ies.ies_models import Constants
 import cStringIO
 from pracmln.mln.database import Database
 import sys
