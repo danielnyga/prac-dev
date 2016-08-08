@@ -55,7 +55,7 @@ if __name__ == '__main__':
                     with open(os.path.join(path, filename)) as f:
                         howtos.append({' '.join(filename.split('-')): f.read().splitlines()})
     elif options.corpus:
-        result = extract_frames_of_corpus(args[0],True) 
+        result = extract_frames_of_corpus(args[0],False) 
     else:
         for filename in args:
             with open(filename) as f:

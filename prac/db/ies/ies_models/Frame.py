@@ -94,8 +94,14 @@ class Frame(object):
         senses_and_roles_module.initialize()
         prac.run(infer,senses_and_roles_module,kb=None)
         result_db = infer.inference_steps[-1].output_dbs[0]
-        roles_db = RolequeryHandler(prac).queryRoles(self.actioncore, result_db)
         
+        role_predicate_list = []
+        
+        for result_ac in result_db.actioncores():
+            
+            for e in result_db.roles(result_ac.values().pop()):
+                role_predicate_list.extend(e.keys())
+                
         senses_dict = {}
         roles_dict = {}
         
@@ -104,9 +110,9 @@ class Frame(object):
                 senses_dict[q['?w']] = q['?s']
         
         #store roles in dict
-        for atom, truth in sorted(roles_db.evidence.iteritems()):
-            _, predname, args = roles_db.mln.logic.parse_literal(atom)
-            if truth == 1.0:
+        for atom, truth in sorted(result_db.evidence.iteritems()):
+            _, predname, args = result_db.mln.logic.parse_literal(atom)
+            if (truth == 1.0) and (predname in role_predicate_list):
                 roles_dict[args[0]] = predname
         
         '''
@@ -189,7 +195,7 @@ class Frame(object):
                 #Handle prepobj to extract the correct preposition e.g prep_with
                 
                 if key == Constants.SLOT_VALUE_PREPOBJ:
-                    atom_list.append("prep_{}({},{})".format(value.misc,sv_predicate.word,value.word))  
+                    atom_list.append("nmod_{}({},{})".format(value.misc,sv_predicate.word,value.word))  
                 else:
                     #Create dependencies predicates
                     atom_list.append("{}({},{})".format(key,sv_predicate.word,value.word))
