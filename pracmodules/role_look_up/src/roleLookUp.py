@@ -107,8 +107,8 @@ class RoleLookUp(PRACModule):
         :return:
         '''
         mongo_client = MongoClient()
-        ies_mongo_db = mongo_client.PRAC
-        frames_collection = ies_mongo_db.Frames
+        ies_mongo_db = mongo_client.prac
+        frames_collection = ies_mongo_db.howtos
 
         db_ = db.copy()
         # Assuming there is only one action core
@@ -122,7 +122,7 @@ class RoleLookUp(PRACModule):
             roles_senses_dict = {k: v for r in db.roles(actioncore) for k, v in r.items()}
 
             inferred_roles_set = set(roles_senses_dict.keys())
-
+            
             # Determine missing roles: All_Action_Roles\Inferred_Roles
             actioncore_roles_list = self.prac.actioncores[actioncore].required_roles
             if not actioncore_roles_list:
