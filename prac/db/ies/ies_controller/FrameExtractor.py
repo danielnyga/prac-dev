@@ -24,7 +24,6 @@ from prac.db.ies.ies_models import Constants
 from prac.db.ies.ies_models.LogFileSentenceRepresentation import LogFileSentenceRepresentation
 from prac.db.ies.ies_models.FrameBuilderResult import FrameBuilderResult
 from prac.db.ies.ies_models.Exceptions import NoPredicateExtracted,NoValidFrame
-from prac.db.ies.ies_models.Sense import convert_word_to_lemma,get_synset, nounTags
 
 def store_frames_into_database(text_file_name,frames):
     mongo_client = MongoClient()
@@ -48,15 +47,18 @@ def store_frames_into_database(text_file_name,frames):
             prac.run(inference, module)
     
         db = inference.inference_steps[-1].output_dbs[0]
-
-        for _, ac in db.actioncores().values():
-            roles_dict = {(k,v) for (k,v) in db.roles(ac)}
-
+        
+        for result_ac in db.actioncores():
+            for result_role in db.roles(result_ac.values().pop()):
+                roles_dict[result_role.keys()[0]] = result_role.values()[0]
+        
         #It will be assumed that there is only one true action_core predicate per database 
         for q in db.query("action_core(?w,?ac)"):
             actioncore = q["?ac"]
     
     except:
+        traceback.print_exc()
+        raw_input("prompt")
         actioncore = "UNKNOWN" 
 
     for frame in frames:
