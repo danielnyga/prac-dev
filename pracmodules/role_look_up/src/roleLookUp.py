@@ -119,8 +119,7 @@ class RoleLookUp(PRACModule):
             # ==================================================================
 
             actioncore = q['?ac']
-            roles_senses_dict = {(k, v) for (k, v) in db.roles(actioncore)}
-
+            roles_senses_dict = {k: v for r in db.roles(actioncore) for k, v in r.items()}
 
             inferred_roles_set = set(roles_senses_dict.keys())
 
