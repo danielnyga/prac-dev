@@ -11,9 +11,7 @@ from prac.db.ies.ies_models import Constants
 import cStringIO
 from pracmln.mln.database import Database
 import sys
-import re
 from prac.core.inference import PRACInference,PRACInferenceStep
-import numpy
 from scipy import stats
 from prac.core.wordnet import WordNet
 import traceback
@@ -115,13 +113,6 @@ class Frame(object):
             if (truth == 1.0) and (predname in role_predicate_list):
                 roles_dict[args[0]] = predname
         
-        '''
-        print roles_dict
-        print senses_dict
-        print self.actioncore
-        raw_input("EVAL RESULT")
-        '''
-                
         #Senses Assertion to slot objects and define action_core_roles
         for _, value in self.slot_values.iteritems():
             if value is None: continue
@@ -205,7 +196,6 @@ class Frame(object):
                     atom_list.append(Constants.HAS_SENSE_MLN_PREDICATE.format(value.word,value.nltk_wordnet_sense))
                     atom_list.append(Constants.IS_A_MLN_PREDICATE.format(value.nltk_wordnet_sense,value.nltk_wordnet_sense))
                 
-                #TODO add action_roles as predicates
         for atom in atom_list:
             db << atom
         

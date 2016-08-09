@@ -195,6 +195,7 @@ class ActionCoreIdentification(PRACModule):
                 elif pred == "has_sense" and args[0] in valid_word_list and args[1] in valid_sense_list:
                     db_ << (atom,truth)
             dbs.append(db_)
+            
         return dbs
 
 

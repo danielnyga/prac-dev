@@ -4,8 +4,8 @@ Created on Jul 11, 2016
 @author: nyga
 '''
 from optparse import OptionParser
-from prac.db.operations import store_howto, analyze_howto
-from prac.db.ies.ies.ies import extract_frames_of_corpus
+from prac.db.operations import store_howto
+from prac.db.ies.ies.ies import analyze_howto
 from prac.core.base import PRAC
 import os
 
@@ -20,10 +20,8 @@ if __name__ == '__main__':
     parser.add_option('-H', '--howto', dest='howto', help='Title of the howto, e.g. "Make pancakes"')
     parser.add_option('-s', '--steps', dest='steps', default=False, action='store_true', 
                       help='A list of instruction steps in natural language. If set, his option must be the last in the list of options followed by the list of instructions.')
-    parser.add_option('-b', '--batch', dest='batch', default=False, action='store_false',
+    parser.add_option('-b', '--batch', dest='batch', default=False, action='store_true',
                       help='Import a list of howtos in batch processing whose filenames are given the respective howto title, e.g. "Make a pancake." The file content must then be given by the single instruction steps, one by line.')
-    parser.add_option('-c', '--corpus', dest='corpus', default=False, action='store_true',
-                      help='Import a directory of howtos whose filenames are given the respective howto title, e.g. "Make a pancake." The files content must then be given by the single instruction steps, one by line.')
     parser.add_option('-r', '--recursive', dest='recursive', default=False, 
                       help='Apply the import of instructions recursively to subdirectories.')
     parser.add_option("-v", "--verbose", dest="verbose", default=1, type='int', action="store",
@@ -54,17 +52,14 @@ if __name__ == '__main__':
                     if os.path.isdir(filename): continue
                     with open(os.path.join(path, filename)) as f:
                         howtos.append({' '.join(filename.split('-')): f.read().splitlines()})
-    elif options.corpus:
-        result = extract_frames_of_corpus(args[0],False) 
     else:
         for filename in args:
             with open(filename) as f:
                 howtos.append({' '.join(filename.split('-')): f.read().splitlines()})
-    prac = PRAC()
-    prac.verbose = options.verbose
-
-
-    for howto, steps in [(howto, steps) for d in howtos for howto, steps in d.items()]:
-        result = analyze_howto(prac, howto, steps, verbose=options.quiet > 0)
-        store_howto(prac, result)
+    #prac = PRAC()
+    #prac.verbose = options.verbose
+    result = analyze_howto(howtos, True)
+    #for howto, steps in [(howto, steps) for d in howtos for howto, steps in d.items()]:
+    #    result = analyze_howto(howto, True)
+        #store_howto(prac, result)
     

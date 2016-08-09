@@ -57,8 +57,6 @@ def store_frames_into_database(text_file_name,frames):
             actioncore = q["?ac"]
     
     except:
-        traceback.print_exc()
-        raw_input("prompt")
         actioncore = "UNKNOWN" 
 
     for frame in frames:
@@ -75,41 +73,17 @@ def store_frames_into_database(text_file_name,frames):
         
     mongo_client.close()
 
-def store_logs_into_database(logs):
-    mongo_client = MongoClient()
-    ies_mongo_db = mongo_client.PRAC
-    logs_collection = ies_mongo_db.Logs
-    
-    log_file = open("logs.log","w")
-    store_results_into_database(logs, logs_collection,log_file)
-    log_file.close()
-    mongo_client.close()
-
-def store_results_into_database(data_list,collection,log_file):
-    
-    for data in data_list:
-        try:
-            json_dict = json.loads(data.to_json_str())
-            collection.insert_one(json_dict)
-        except pymongo.errors.DuplicateKeyError:
-            collection.delete_many({"_id" : json_dict['_id']})
-            collection.insert_one(json_dict)
-        except:
-            traceback.print_exc()
-            log_file.write("###########")
-            log_file.write(data.to_json_str())
-            log_file.write("###########")
 
 class FrameExtractor(object):
     '''
     classdocs
     '''
 
-    def __init__(self, corpus):
+    def __init__(self, howtos):
         '''
         Constructor
         '''
-        self.corpus = corpus
+        self.howtos = howtos
         self.prac = PRAC()
         self.prac.wordnet = WordNet(concepts=None)
         self.parser = self.prac.module('nl_parsing')
@@ -131,12 +105,14 @@ class FrameExtractor(object):
          
     def extract_frames(self):
         i = 0
-        for path_to_text_file in self.corpus:
+        for howto in self.howtos:
             i += 1
-            print "{} file of {} files: {}".format(str(i),str(len(self.corpus)),path_to_text_file)
+            print howto
+            howto_name = howto.keys()[0]
+            steps = howto.values()[0]
+            print "{} howto of {} howtos: {}".format(str(i),str(len(self.howtos)),howto_name)
             
-            #self.result.frame_list.extend(self.process_text_file(path_to_text_file))
-            extracted_frame_list = self.process_text_file(path_to_text_file)
+            extracted_frame_list = self.process_howto(howto_name, steps)
             if extracted_frame_list:
                 store_frames_into_database(extracted_frame_list[0].text_source_file,extracted_frame_list)
         print "DONE FRAME EXTRACTION"
@@ -207,22 +183,15 @@ class FrameExtractor(object):
         
         return result
         
-    def process_text_file(self, path_to_text_file):
+    def process_howto(self, howto_name,steps):
         
-        text_file = open(path_to_text_file, 'r')
-        
-        text_file_name = os.path.split(path_to_text_file)[1]
-        text_file_parent_dir  = os.path.split(os.path.split(path_to_text_file)[0])[1]
-        text_source_file = "{}/{}".format(text_file_parent_dir,text_file_name)
-        
-        result = ProcessTextFileResult(text_source_file)
-        sentences = text_file.readlines()
+        result = ProcessTextFileResult(howto_name)
         sentence_number = 0
         frame_list = [] 
         
-        result.num_sentences = len(sentences)
+        result.num_sentences = len(steps)
         
-        for s in sentences:
+        for s in steps:
             sentence = s.strip().replace('"','')
             sentence = sentence.strip().replace("'",'')
             
@@ -237,7 +206,7 @@ class FrameExtractor(object):
                     frame_builder_results = []
                     
                     for db in dbs:
-                        frame_builder_results.append(self.build_frames(text_source_file, sentence_number, sentence, db))
+                        frame_builder_results.append(self.build_frames(howto_name, sentence_number, sentence, db))
                         
                     for frame_builder_result in frame_builder_results:    
                         result.add_frame_builder_result(frame_builder_result)
@@ -248,7 +217,6 @@ class FrameExtractor(object):
                 except NoSuchPredicateError:
                     _, exc_value , _ = sys.exc_info()
                     predicate_name = str(exc_value).split(' ')[1].strip()
-                    print "Unknown predicate: {}".format(predicate_name)
                     self.parser.mln.declare_predicate(Predicate(predicate_name,['word','word']))
                     
                 except NoPredicateExtracted:
@@ -296,7 +264,7 @@ class FrameExtractor(object):
     def process_imperative_sentence(self,sentence):
         return sentence
         '''
-        #Currently  fixes for imperative sentence are deactivated
+        #Currently the fixes for imperative sentence are deactivated.
         
         #Setting sentences in quotation marks can fix the parsing process
         return '"{}"'.format(sentence)
