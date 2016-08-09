@@ -70,9 +70,9 @@ class ComplexAchievedBy(PRACModule):
             cursor = instructions_collection.find({'actioncore': str(actioncore)})
 
             roles_dict = {}
-            for ac2 in db.achieved_by(actioncore=actioncore):
-                roles_dict = {k: v for r in db.roles(ac2.values().pop()) for k, v in r.items()}
-
+            for ac2 in db.roles(actioncore=actioncore):
+                roles_dict[ac2.keys()[0]] = ac2.values()[0]
+            
             documents_vector = []
 
             # After the 'for loop' it is impossible to retrieve document by index
@@ -81,8 +81,13 @@ class ComplexAchievedBy(PRACModule):
             for document in cursor:
                 wup_vector = []
                 document_action_roles = document['actionroles']
-
-                for role, _ in roles_dict:
+                
+                print roles_dict
+                print document['actionroles'].keys()
+                
+                
+                
+                for role, _ in roles_dict.iteritems():
                     if role in document['actionroles'].keys():
                         wup_vector.append(wordnet.wup_similarity(str(document_action_roles[role]), roles_dict[role]))
 
@@ -90,7 +95,7 @@ class ComplexAchievedBy(PRACModule):
                     documents_vector.append(stats.hmean(wup_vector))
                 else:
                     documents_vector.append(0)
-
+                
             if documents_vector:
                 logger.debug('Found suitable instruction')
                 documents_vector = numpy.array(documents_vector)
@@ -99,8 +104,7 @@ class ComplexAchievedBy(PRACModule):
                 if self.prac.verbose > 1:
                     print
                     print prac_heading('LOOKUP RESULTS')
-                    print cloned_cursor[index]['howto']
-
+                    print cloned_cursor[index]['_id']
                 return map(lambda x: self.transform_to_db(db, roles_dict, document_action_roles,
                                                      actioncore, x), cloned_cursor[index]['steps'])
 
@@ -158,41 +162,24 @@ class ComplexAchievedBy(PRACModule):
         :return:
         '''
         plan_action_core = plan_dict['actioncore']
-        plan_action_roles = plan_dict['actionroles']
-
+        plan_action_roles = {}
+        
+        for role in plan_dict['actionroles']:
+            plan_action_roles[role] =  plan_dict['actionroles'][role]['nltk_wordnet_sense']
+        
         i = 0
         db = PRACDatabase(self.prac)
 
         for action_role in plan_action_roles.keys():
-            sense = ""
-            word = ""
-            pos = ""
+            sense = str(plan_action_roles[action_role])
+            splitted_sense = sense.split('.')
+            if splitted_sense[1] == 'v':
+                pos = 'VB'
+            else:
+                pos = 'NN'
 
-            updated_role = False
-            if plan_action_core == 'Pipetting' and actioncore == 'Evaluating' and action_role == 'content':
-                for q in complex_db.query('obj_to_be_evaluated(?w,?ac) ^ has_sense(?w,?s) ^ has_pos(?w,?p) '):
-                    sense = q["?s"]
-                    word = q["?w"]
-                    pos = q["?p"]
-                    updated_role = True
-
-            elif plan_action_core == 'Pressing' and actioncore == 'Starting' and action_role == 'location':
-                for q in complex_db.query('obj_to_be_started(?w,?ac) ^ has_sense(?w,?s) ^ has_pos(?w,?p) '):
-                    sense = q["?s"]
-                    word = q["?w"]
-                    pos = q["?p"]
-                    updated_role = True
-
-            elif not updated_role:
-                sense = str(plan_action_roles[action_role])
-                splitted_sense = sense.split('.')
-                if splitted_sense[1] == 'v':
-                    pos = 'VB'
-                else:
-                    pos = 'NN'
-
-                word = "{}-{}mongo".format(splitted_sense[0], str(i))
-
+            word = "{}-{}mongo".format(splitted_sense[0], str(i))
+            
             db << ("has_pos({},{})".format(word, pos))
             db << ("has_sense({},{})".format(word, sense))
             db << ("{}({},{})".format(str(action_role), word, plan_action_core))
@@ -201,5 +188,5 @@ class ComplexAchievedBy(PRACModule):
             i += 1
 
         db << ("achieved_by({},{})".format(actioncore, plan_action_core))
-
+        
         return db
