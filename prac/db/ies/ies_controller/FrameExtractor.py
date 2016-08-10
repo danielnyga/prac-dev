@@ -63,7 +63,11 @@ def store_frames_into_database(text_file_name,frames):
         plan_list.append(json.loads(frame.to_json_str()))
 
     try:
-        document = {'_id' : text_file_name,"action_core" : actioncore, "action_roles" : roles_dict,'plan_list' : plan_list}    
+        document = {'_id' : text_file_name,
+                    Constants.JSON_HOWTO_ACTIONCORE : actioncore, 
+                    Constants.JSON_HOWTO_ACTIONCORE_ROLES : roles_dict,
+                    Constants.JSON_HOWTO_STEPS : plan_list}
+            
         frames_collection.insert_one(document)
     except pymongo.errors.DuplicateKeyError:
         frames_collection.delete_many({"_id" : document['_id']})

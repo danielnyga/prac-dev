@@ -83,7 +83,7 @@ class Frame(object):
         prac.run(infer,ac_recognition_module,kb=None)
         result_db = infer.inference_steps[-1].output_dbs[0]
         
-        for q in result_db.query('{}(?w,?ac)'.format(Constants.JSON_FRAME_ACTIONCORE)):
+        for q in result_db.query('{}(?w,?ac)'.format("action_core")):
                 self.actioncore = q['?ac']
         
     

@@ -32,6 +32,7 @@ from prac.core.inference import PRACInferenceStep
 from prac.pracutils.utils import prac_heading, get_query_png
 from pracmln import praclog
 from prac.core.wordnet import WordNet
+from prac.db.ies.ies_models import Constants
 
 
 logger = praclog.logger(__name__, praclog.INFO)
@@ -82,11 +83,11 @@ def transform_documents_to_action_role_map(cursor):
 
     for document in cursor:
         document_map = {}
-        action_role = document['actioncore_roles']
+        action_role = document[Constants.JSON_FRAME_ACTIONCORE_ROLES]
         key_list = action_role.keys()
 
         for key_element in key_list:
-            document_map[str(key_element)] = str(document['actioncore_roles'][key_element]['nltk_wordnet_sense'])
+            document_map[str(key_element)] = str(document[Constants.JSON_FRAME_ACTIONCORE_ROLES][key_element][Constants.JSON_SENSE_NLTK_WORDNET_SENSE])
 
         result.append(document_map)
     return result
@@ -132,17 +133,17 @@ class RoleLookUp(PRACModule):
             # Build query, return only frames where all roles are defined
             
             if missing_role_set:
-                and_conditions = [{'$eq' : ["$$plan.action_core", "{}".format(actioncore)]}]
-                and_conditions.extend(map(lambda x: {"$ifNull" : ["$$plan.actioncore_roles.{}".format(x),False]},
+                and_conditions = [{'$eq' : ["$$plan.{}".format(Constants.JSON_FRAME_ACTIONCORE), "{}".format(actioncore)]}]
+                and_conditions.extend(map(lambda x: {"$ifNull" : ["$$plan.{}.{}".format(Constants.JSON_FRAME_ACTIONCORE_ROLES,x),False]},
                                           actioncore_roles_list))
                 
                 roles_query ={"$and" : and_conditions}                
                 # build query based on inferred senses and roles
                 
                 stage_1 = {'$project' : {
-                            'plan_list' : {
+                            '{}'.format(Constants.JSON_HOWTO_STEPS) : {
                                 '$filter' :{
-                                    'input':"$plan_list",
+                                    'input':"${}".format(Constants.JSON_HOWTO_STEPS),
                                     'as':"plan",
                                     'cond': roles_query
                                 }
@@ -150,7 +151,7 @@ class RoleLookUp(PRACModule):
                             }
                            }
                 
-                stage_2 = {"$unwind": "$plan_list"}
+                stage_2 = {"$unwind": "${}".format(Constants.JSON_HOWTO_STEPS)}
 
                 if self.prac.verbose > 0:
                     print "Sending query to MONGO DB ..."
@@ -160,7 +161,7 @@ class RoleLookUp(PRACModule):
                 # After the processing it is impossible to retrieve document
                 # by index
                 for document in cursor_agg:
-                    cursor.append(document['plan_list'])
+                    cursor.append(document[Constants.JSON_HOWTO_STEPS])
                 
                 if len(cursor) > 0:
                     frame_result_list = transform_documents_to_action_role_map(cursor)
@@ -178,11 +179,11 @@ class RoleLookUp(PRACModule):
                             document = cursor[argmax_index]
                             i = 0
                             for missing_role in missing_role_set:
-                                word = "{}mongo{}".format(str(document['actioncore_roles'][missing_role]['word']), str(i))
+                                word = "{}mongo{}".format(str(document[Constants.JSON_FRAME_ACTIONCORE_ROLES][missing_role][Constants.JSON_SENSE_WORD]), str(i))
                                 print "Found {} as {}".format(frame[missing_role], missing_role)
                                 atom_role = "{}({}, {})".format(missing_role, word, actioncore)
                                 atom_sense = "{}({}, {})".format('has_sense', word, frame[missing_role])
-                                atom_has_pos = "{}({}, {})".format('has_pos', word, str(document['actioncore_roles'][missing_role]['penn_treebank_pos']))
+                                atom_has_pos = "{}({}, {})".format('has_pos', word, str(document[Constants.JSON_FRAME_ACTIONCORE_ROLES][missing_role][Constants.JSON_SENSE_PENN_TREEBANK_POS]))
     
                                 db_ << (atom_role, 1.0)
                                 db_ << (atom_sense, 1.0)
