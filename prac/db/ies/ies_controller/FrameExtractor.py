@@ -18,15 +18,13 @@ from pracmln.mln.errors import NoSuchPredicateError
 from pracmln.mln.base import Predicate
 from prac.db.ies.ies_utils import PracDatabaseHandler
 import os
-from prac.db.ies.ies_models.FrameExtractorResult import FrameExtractorResult
-from prac.db.ies.ies_models.ProcessTextFileResult import ProcessTextFileResult
 from prac.db.ies.ies_models import Constants
-from prac.db.ies.ies_models.LogFileSentenceRepresentation import LogFileSentenceRepresentation
-from prac.db.ies.ies_models.FrameBuilderResult import FrameBuilderResult
 from prac.db.ies.ies_models.Exceptions import NoPredicateExtracted,NoValidFrame
 
 def store_frames_into_database(text_file_name,frames):
-    mongo_client = MongoClient()
+    prac = PRAC()
+    mongo_client =  MongoClient(host=prac.config.get('mongodb', 'host'), 
+                                port=prac.config.getint('mongodb', 'port'))
     ies_mongo_db = mongo_client.prac
     frames_collection = ies_mongo_db.howtos
     plan_list = []
@@ -35,7 +33,6 @@ def store_frames_into_database(text_file_name,frames):
     roles_dict = {}
 
     try:
-        prac = PRAC()
         prac.wordnet = WordNet(concepts=None)
     
         #Parse text file name to annotate it in the mongo db
@@ -95,7 +92,6 @@ class FrameExtractor(object):
         self.parser.mln.declare_predicate(Predicate('prepobj',['word','word']))
         self.parser.mln.declare_predicate(Predicate('has_sense',['word','sense!']))
         self.parser.mln.declare_predicate(Predicate('is_a',['sense','concept']))
-        self.result = FrameExtractorResult()
     
     def parse_sentence(self,sentence):
         prac = PRAC()
@@ -120,19 +116,15 @@ class FrameExtractor(object):
             if extracted_frame_list:
                 store_frames_into_database(extracted_frame_list[0].text_source_file,extracted_frame_list)
         print "DONE FRAME EXTRACTION"
-        return self.result
     
     def build_frames(self,text_source_file,sentence_number,sentence,db):
-        result = FrameBuilderResult()
         frame_list = []
         frame_id = 0
         
-        predicate_query_result = PracDatabaseHandler.get_all_predicates_as_senses(db)
-        predicate_list = predicate_query_result.sense_list
+        predicate_list = PracDatabaseHandler.get_all_predicates_as_senses(db)
         
         if not predicate_list:
             raise NoPredicateExtracted()
-        result.add_sense_query_result(predicate_query_result)
         
         for predicate in predicate_list:
             nsubj_query_result = PracDatabaseHandler.get_all_nsubjs_as_sense(db, predicate)
@@ -140,32 +132,26 @@ class FrameExtractor(object):
             prepobj_query_result = PracDatabaseHandler.get_all_prepobjs_as_sense(db, predicate)
             iobjs_query_result = PracDatabaseHandler.get_all_iobjs_as_sense(db, predicate)
                 
-            if nsubj_query_result.sense_list or dobj_query_result.sense_list or prepobj_query_result.sense_list or iobjs_query_result.sense_list:
-                
-            
-                result.add_sense_query_result(nsubj_query_result)
-                result.add_sense_query_result(dobj_query_result)
-                result.add_sense_query_result(prepobj_query_result)
-                result.add_sense_query_result(iobjs_query_result)
+            if nsubj_query_result or dobj_query_result or prepobj_query_result or iobjs_query_result:
                 
                 slot_values_list = [{Constants.SLOT_VALUE_PREDICATE : predicate}]
                 
                 #To handle sentences like Bob and Alice play the violin and piano
                 
                 slot_values_list = self.create_permutation_of_slot_values(slot_values_list,
-                                                                          nsubj_query_result.sense_list,
+                                                                          nsubj_query_result,
                                                                           Constants.SLOT_VALUE_NSUBJ)
                 
                 slot_values_list = self.create_permutation_of_slot_values(slot_values_list,
-                                                                          dobj_query_result.sense_list,
+                                                                          dobj_query_result,
                                                                           Constants.SLOT_VALUE_DOBJ)
                 
                 slot_values_list = self.create_permutation_of_slot_values(slot_values_list,
-                                                                          prepobj_query_result.sense_list,
+                                                                          prepobj_query_result,
                                                                           Constants.SLOT_VALUE_PREPOBJ)
                 
                 slot_values_list = self.create_permutation_of_slot_values(slot_values_list,
-                                                                          iobjs_query_result.sense_list,
+                                                                          iobjs_query_result,
                                                                           Constants.SLOT_VALUE_IOBJ)
                 
               
@@ -183,17 +169,12 @@ class FrameExtractor(object):
         if not frame_list:                 
             raise NoValidFrame()        
 
-        result.frame_list = frame_list 
-        
-        return result
+        return frame_list
         
     def process_howto(self, howto_name,steps):
         
-        result = ProcessTextFileResult(howto_name)
         sentence_number = 0
         frame_list = [] 
-        
-        result.num_sentences = len(steps)
         
         for s in steps:
             sentence = s.strip().replace('"','')
@@ -207,15 +188,9 @@ class FrameExtractor(object):
             while not is_sentence_parsed:  
                 try:
                     dbs = self.parse_sentence(sentence)
-                    frame_builder_results = []
                     
                     for db in dbs:
-                        frame_builder_results.append(self.build_frames(howto_name, sentence_number, sentence, db))
-                        
-                    for frame_builder_result in frame_builder_results:    
-                        result.add_frame_builder_result(frame_builder_result)
-                        frame_list.extend(frame_builder_result.frame_list)
-                    
+                        frame_list.extend(self.build_frames(howto_name, sentence_number, sentence, db))
                     is_sentence_parsed = True
                    
                 except NoSuchPredicateError:
@@ -225,24 +200,13 @@ class FrameExtractor(object):
                     
                 except NoPredicateExtracted:
                     _, exc_value , _ = sys.exc_info()
-                    result.no_predicate_sentences_list.append(LogFileSentenceRepresentation(sentence,db.mln,db))
-                    result.num_no_predicate_sentences += 1
-                    result.num_errors += 1
                     is_sentence_parsed = True
                 except NoValidFrame:
-                    result.no_valid_frame_sentences_list.append(LogFileSentenceRepresentation(sentence,db.mln,db))
-                    result.num_no_frame_sentences += 1
-                    result.num_errors += 1
                     is_sentence_parsed = True
                 except Exception:
-                    #TODO add logger
                     traceback.print_exc()
-                    
-                    result.parsing_error_sentences_list.append(LogFileSentenceRepresentation(sentence,None,None))
-                    result.num_parsing_errors_sentences += 1
-                    result.num_errors += 1
                     is_sentence_parsed = True
-        self.result.add_process_text_file_result(result)
+                    
         return frame_list
     
     def create_permutation_of_slot_values(self,list_of_current_slot_value_dicts,list_of_new_slot_values,new_slot_value_key):

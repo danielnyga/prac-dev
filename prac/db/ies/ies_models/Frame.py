@@ -50,7 +50,6 @@ class Frame(object):
         
         #If documents are convert to frames we do not need an Actioncore inference process
         if process_frame:
-            #Reference does not work like in Java
             self.actioncore_roles = {}
             self.actioncore = "UNKNOWN"
             try:
@@ -184,7 +183,6 @@ class Frame(object):
         for key, value in self.slot_values.iteritems():
             if value is not None and key != Constants.SLOT_VALUE_PREDICATE:
                 #Handle prepobj to extract the correct preposition e.g prep_with
-                
                 if key == Constants.SLOT_VALUE_PREPOBJ:
                     atom_list.append("nmod_{}({},{})".format(value.misc,sv_predicate.word,value.word))  
                 else:
