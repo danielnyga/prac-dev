@@ -1,7 +1,7 @@
 # PROBABILISTIC ROBOT ACTION CORES 
 #
 # (C) 2012-2015 by Daniel Nyga (nyga@cs.tum.edu)
-# (C) 2015 by Sebastian Koralewski (seba@informatik.uni-bremen.de)
+# (C) 2016 by Sebastian Koralewski (seba@informatik.uni-bremen.de)
 #
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
@@ -39,32 +39,39 @@ logger = praclog.logger(__name__, praclog.INFO)
 corpus_path_list = os.path.join(prac.locations.home, 'corpus')
 
 
-def frame_similarity(inferred_roles, frame_action_role_dict):
+def frame_similarity(frame_1_actionroles_dict, frame_2_actionroles_dict):
     '''
-    TODO
+    Determines the frame similarity between two given frames.
+    The frame similarity is calculated by taking the harmonic mean of the actionroles between the given frames.
+    This value can be interpreted as the semantic similarity between the frames.
+      
+    Is is required that the actionroles of the corresponding frames are represented as a dictionary.
+    The dictionary must have the form: role_name : nltk_wordnet_sense
 
-    :param inferred_roles:
-    :param frame_action_role_dict:
-    :return:
+    :param frame_1_actionroles_dict: Represents the actionroles contained in frame 1
+    :param frame_2_actionroles_dict: Represents the actionroles contained in frame 2
+    :return: The frame similarity between frame 1 and frame 2.
     '''
     wordnet = WordNet(concepts=None)
     frame_vector = []
+    is_frame_inconsistent = False
+    action_verb_sim = wordnet.wup_similarity(frame_2_actionroles_dict['action_verb'],
+                                             frame_1_actionroles_dict['action_verb'])
     
-    if wordnet.wup_similarity(frame_action_role_dict['action_verb'],inferred_roles['action_verb']) < 0.85:
-            return 0
-    
-    
-    is_frame_inconsistent = False 
-    for role, sense in inferred_roles.iteritems():
-        if role in frame_action_role_dict.keys():
-            sim = wordnet.wup_similarity(frame_action_role_dict[role], sense)
+    #This is a sanity check to revoke false inferred frames during the information extraction process.
+    if action_verb_sim  < 0.85:
+        return 0
+     
+    for role, sense in frame_1_actionroles_dict.iteritems():
+        if role in frame_2_actionroles_dict.keys():
+            sim = wordnet.wup_similarity(frame_2_actionroles_dict[role], sense)
             #Sometimes Stanford Parser parses some objects as adjectives
             #due to the fact that nouns and adjectives cannot be compared
             #we define the the similarity between the instruction and the frame as zero
             if sim == 0:
                 is_frame_inconsistent = True
             else:
-                frame_vector.append(wordnet.wup_similarity(frame_action_role_dict[role], sense))
+                frame_vector.append(wordnet.wup_similarity(frame_2_actionroles_dict[role], sense))
     
     if is_frame_inconsistent:
         return 0
@@ -72,24 +79,29 @@ def frame_similarity(inferred_roles, frame_action_role_dict):
     return stats.hmean(frame_vector)
 
 
-def transform_documents_to_action_role_map(cursor):
+def transform_documents_to_actionrole_dict(cursor):
     '''
-    TODO
+    Since it is only neccessary to have the actionroles of the retrieved frames to determine the frame similarity, 
+    this function transforms the frames retrieved from the MongoDB 
+    into a list of dictionaries which have the form : role_name : nltk_wordnet_sense.
 
-    :param cursor:
-    :return:
+    :param cursor: Represents the list of frames retrieved from the MongoDB
+    :return: A list of dictionaries which each represents the actionroles of a specific frame.
     '''
     result = []
 
     for document in cursor:
-        document_map = {}
+        document_dict = {}
         action_role = document[Constants.JSON_FRAME_ACTIONCORE_ROLES]
         key_list = action_role.keys()
 
         for key_element in key_list:
-            document_map[str(key_element)] = str(document[Constants.JSON_FRAME_ACTIONCORE_ROLES][key_element][Constants.JSON_SENSE_NLTK_WORDNET_SENSE])
-
-        result.append(document_map)
+            document_dict[str(key_element)] = str(document[Constants.JSON_FRAME_ACTIONCORE_ROLES]
+                                                  [key_element]
+                                                  [Constants.JSON_SENSE_NLTK_WORDNET_SENSE])
+        
+        result.append(document_dict)
+        
     return result
 
 
@@ -102,12 +114,15 @@ class RoleLookUp(PRACModule):
 
     def determine_missing_roles(self, db):
         '''
-        TODO
+        Checks if the given database contains all required actionroles to 
+        execute the representing actioncore successfully. If this is not the case
+        this module look for frames which contain the missing action roles.
 
         :param db:
         :return:
         '''
-        mongo_client = MongoClient()
+        mongo_client = MongoClient(host=self.prac.config.get('mongodb', 'host'), 
+                                   port=self.prac.config.getint('mongodb', 'port'))
         ies_mongo_db = mongo_client.prac
         frames_collection = ies_mongo_db.howtos
 
@@ -120,25 +135,26 @@ class RoleLookUp(PRACModule):
             # ==================================================================
 
             actioncore = q['?ac']
+            #Represent the inferred roles from the instruction as a dictionary 
             roles_senses_dict = {k: v for r in db.roles(actioncore) for k, v in r.items()}
-
-            inferred_roles_set = set(roles_senses_dict.keys())
             
-            # Determine missing roles: All_Action_Roles\Inferred_Roles
+            
             actioncore_roles_list = self.prac.actioncores[actioncore].required_roles
             if not actioncore_roles_list:
                 actioncore_roles_list = self.prac.actioncores[actioncore].roles
-            missing_role_set = set(actioncore_roles_list).difference(inferred_roles_set)
-
-            # Build query, return only frames where all roles are defined
             
+            # Determine missing roles: All_Action_Roles\Inferred_Roles
+            missing_role_set = set(actioncore_roles_list).difference(set(roles_senses_dict.keys()))
+
+            # Build query: Query should return only frames which have the same actioncore as the instruction 
+            # and all required action roles
             if missing_role_set:
-                and_conditions = [{'$eq' : ["$$plan.{}".format(Constants.JSON_FRAME_ACTIONCORE), "{}".format(actioncore)]}]
+                and_conditions = [{'$eq' : ["$$plan.{}".format(Constants.JSON_FRAME_ACTIONCORE), 
+                                            "{}".format(actioncore)]}]
                 and_conditions.extend(map(lambda x: {"$ifNull" : ["$$plan.{}.{}".format(Constants.JSON_FRAME_ACTIONCORE_ROLES,x),False]},
                                           actioncore_roles_list))
                 
                 roles_query ={"$and" : and_conditions}                
-                # build query based on inferred senses and roles
                 
                 stage_1 = {'$project' : {
                             '{}'.format(Constants.JSON_HOWTO_STEPS) : {
@@ -157,18 +173,21 @@ class RoleLookUp(PRACModule):
                     print "Sending query to MONGO DB ..."
 
                 cursor_agg = frames_collection.aggregate([stage_1, stage_2])
+                
+                # After once iterating through the query result 
+                #it is not possible to iterate again through the result.
+                #Therefore we keep the retrieved results in a separate list.
                 cursor = []
-                # After the processing it is impossible to retrieve document
-                # by index
                 for document in cursor_agg:
                     cursor.append(document[Constants.JSON_HOWTO_STEPS])
                 
                 if len(cursor) > 0:
-                    frame_result_list = transform_documents_to_action_role_map(cursor)
+                    frame_result_list = transform_documents_to_actionrole_dict(cursor)
                     
                     if len(frame_result_list) > 0:
                         logger.info("Found suitable frames")
-                        score_frame_matrix = numpy.array(map(lambda x: frame_similarity(roles_senses_dict, x), frame_result_list))
+                        score_frame_matrix = numpy.array(map(lambda x: frame_similarity(roles_senses_dict, x), 
+                                                             frame_result_list))
                         confidence_level = 0.7
     
                         argmax_index = score_frame_matrix.argmax()
@@ -179,11 +198,15 @@ class RoleLookUp(PRACModule):
                             document = cursor[argmax_index]
                             i = 0
                             for missing_role in missing_role_set:
-                                word = "{}mongo{}".format(str(document[Constants.JSON_FRAME_ACTIONCORE_ROLES][missing_role][Constants.JSON_SENSE_WORD]), str(i))
+                                word = "{}mongo{}".format(str(document[Constants.JSON_FRAME_ACTIONCORE_ROLES]
+                                                              [missing_role]
+                                                              [Constants.JSON_SENSE_WORD]), str(i))
                                 print "Found {} as {}".format(frame[missing_role], missing_role)
                                 atom_role = "{}({}, {})".format(missing_role, word, actioncore)
                                 atom_sense = "{}({}, {})".format('has_sense', word, frame[missing_role])
-                                atom_has_pos = "{}({}, {})".format('has_pos', word, str(document[Constants.JSON_FRAME_ACTIONCORE_ROLES][missing_role][Constants.JSON_SENSE_PENN_TREEBANK_POS]))
+                                atom_has_pos = "{}({}, {})".format('has_pos', word, str(document[Constants.JSON_FRAME_ACTIONCORE_ROLES]
+                                                                                        [missing_role]
+                                                                                        [Constants.JSON_SENSE_PENN_TREEBANK_POS]))
     
                                 db_ << (atom_role, 1.0)
                                 db_ << (atom_sense, 1.0)
