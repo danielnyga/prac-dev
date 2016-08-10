@@ -4,11 +4,8 @@ Created on Jul 11, 2016
 @author: nyga
 '''
 from optparse import OptionParser
-from prac.db.operations import store_howto
-from prac.db.ies.ies.ies import analyze_howto
-from prac.core.base import PRAC
+from prac.db.operations import analyze_howto
 import os
-
 from prac.pracutils.utils import prac_heading
 
 
@@ -28,6 +25,8 @@ if __name__ == '__main__':
                       help="Set verbosity level {0..3}. Default is 1.")
     parser.add_option('-q', '--quiet', dest='quiet', action='store_true', default=False,
                       help='Do not print any status messages.')
+    parser.add_option('-m', '--multicore', dest='multicore', action='store_true', default=False,
+                      help='Perform information extraction in multicore modus')
     
     (options, args) = parser.parse_args()
     if options.quiet: options.verbose = 0
@@ -56,10 +55,5 @@ if __name__ == '__main__':
         for filename in args:
             with open(filename) as f:
                 howtos.append({' '.join(filename.split('-')): f.read().splitlines()})
-    #prac = PRAC()
-    #prac.verbose = options.verbose
-    result = analyze_howto(howtos, True)
-    #for howto, steps in [(howto, steps) for d in howtos for howto, steps in d.items()]:
-    #    result = analyze_howto(howto, True)
-        #store_howto(prac, result)
     
+    result = analyze_howto(howtos, options.multicore)
