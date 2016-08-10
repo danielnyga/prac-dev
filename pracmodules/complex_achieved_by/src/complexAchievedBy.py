@@ -82,11 +82,6 @@ class ComplexAchievedBy(PRACModule):
                 wup_vector = []
                 document_action_roles = document['actionroles']
                 
-                print roles_dict
-                print document['actionroles'].keys()
-                
-                
-                
                 for role, _ in roles_dict.iteritems():
                     if role in document['actionroles'].keys():
                         wup_vector.append(wordnet.wup_similarity(str(document_action_roles[role]), roles_dict[role]))
@@ -161,8 +156,16 @@ class ComplexAchievedBy(PRACModule):
         :param plan_dict:
         :return:
         '''
+        
+        sub_dict = {}
         plan_action_core = plan_dict['actioncore']
         plan_action_roles = {}
+        
+        for role, sense in document_action_roles.iteritems():
+            if role == "action_verb":continue
+            
+            if role in roles_dict.keys():
+                sub_dict[sense] = roles_dict[role]
         
         for role in plan_dict['actionroles']:
             plan_action_roles[role] =  plan_dict['actionroles'][role]['nltk_wordnet_sense']
@@ -172,6 +175,8 @@ class ComplexAchievedBy(PRACModule):
 
         for action_role in plan_action_roles.keys():
             sense = str(plan_action_roles[action_role])
+            if sense in sub_dict.keys():
+                sense = sub_dict[sense]
             splitted_sense = sense.split('.')
             if splitted_sense[1] == 'v':
                 pos = 'VB'
@@ -184,9 +189,8 @@ class ComplexAchievedBy(PRACModule):
             db << ("has_sense({},{})".format(word, sense))
             db << ("{}({},{})".format(str(action_role), word, plan_action_core))
             if action_role == 'action_verb':
-                db << ("action_core({},{})".format(word, actioncore))
+                db << ("action_core({},{})".format(word, plan_action_core))
             i += 1
 
-        db << ("achieved_by({},{})".format(actioncore, plan_action_core))
-        
+        #db << ("achieved_by({},{})".format(actioncore, plan_action_core))
         return db

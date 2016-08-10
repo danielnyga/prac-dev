@@ -122,6 +122,7 @@ class PRACInference(object):
                         return 'complex_achieved_by'
                     else:
                         return 'roles_transformation'
+            return 'plan_generation'
         elif previous_module == 'roles_transformation':
             for outdb in self.inference_steps[-1].output_dbs:
                 for r in outdb.query('achieved_by(?w,?a)'):
@@ -132,7 +133,7 @@ class PRACInference(object):
                         return 'achieved_by'
             return 'plan_generation'
         elif previous_module == 'complex_achieved_by':
-            return 'plan_generation'
+            return 'achieved_by'
         elif previous_module == 'plan_generation':
             return None
 
