@@ -23,17 +23,14 @@
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 import numpy
 import os
-from scipy import stats
-
 from pymongo import MongoClient
-
 import prac
 from prac.core.base import PRACModule, PRACPIPE, PRACDatabase
 from prac.core.inference import PRACInferenceStep
-from prac.core.wordnet import WordNet
 from prac.pracutils.utils import prac_heading, get_query_png
 from pracmln import praclog
-
+from prac.db.ies.ies_models import Constants
+from prac.db.ies.ies_utils.FrameSimilarity import frame_similarity
 
 logger = praclog.logger(__name__, praclog.INFO)
 corpus_path_list = os.path.join(prac.locations.home, 'corpus')
@@ -45,17 +42,17 @@ class ComplexAchievedBy(PRACModule):
     lookup.
     '''
 
-    def get_instructions_based_on_action_core(self, db):
+    def get_howto_based_on_action_core(self, db):
         '''
-        TODO
-
-        :param db:
-        :return:
+        Determines the howto which describes how to perform the complex task.
+        
+        :param db: A PRAC database which represents the complex instruction.
+        :return: A list of databases which each represents a step how to perform the complex instruction.
         '''
 
-        wordnet = WordNet(concepts=None)
         # Assuming there is only one action core
-        mongo_client = MongoClient()
+        mongo_client = MongoClient(host=self.prac.config.get('mongodb', 'host'), 
+                                   port=self.prac.config.getint('mongodb', 'port'))
 
         for q in db.query('action_core(?w,?ac)'):
             actioncore = q['?ac']
@@ -67,7 +64,7 @@ class ComplexAchievedBy(PRACModule):
             # ==================================================================
 
             logger.debug("Sending query to MONGO DB ...")
-            cursor = instructions_collection.find({'actioncore': str(actioncore)})
+            cursor = instructions_collection.find({Constants.JSON_HOWTO_ACTIONCORE: str(actioncore)})
 
             roles_dict = {}
             for ac2 in db.roles(actioncore=actioncore):
@@ -77,32 +74,35 @@ class ComplexAchievedBy(PRACModule):
 
             # After the 'for loop' it is impossible to retrieve document by index
             cloned_cursor = cursor.clone()
-
             for document in cursor:
-                wup_vector = []
-                document_action_roles = document['actionroles']
-                
-                for role, _ in roles_dict.iteritems():
-                    if role in document['actionroles'].keys():
-                        wup_vector.append(wordnet.wup_similarity(str(document_action_roles[role]), roles_dict[role]))
-
-                if len(wup_vector) > 0:
-                    documents_vector.append(stats.hmean(wup_vector))
-                else:
-                    documents_vector.append(0)
-                
+                documents_vector.append(frame_similarity(roles_dict,
+                                                         document[Constants.JSON_HOWTO_ACTIONCORE_ROLES]))
             if documents_vector:
-                logger.debug('Found suitable instruction')
+                
                 documents_vector = numpy.array(documents_vector)
                 index = documents_vector.argmax()
-
-                if self.prac.verbose > 1:
-                    print
-                    print prac_heading('LOOKUP RESULTS')
-                    print cloned_cursor[index]['_id']
-                return map(lambda x: self.transform_to_db(db, roles_dict, document_action_roles,
-                                                     actioncore, x), cloned_cursor[index]['steps'])
-
+                if documents_vector[index] > 0.75:
+                    logger.debug('Found suitable howtos')
+                    sub_dict = {}
+                    steps = cloned_cursor[index][Constants.JSON_HOWTO_STEPS]
+                    document_action_roles = cloned_cursor[index][Constants.JSON_HOWTO_ACTIONCORE_ROLES]
+                    
+                    #This module retrieves the howtos based on semantic.
+                    #For instance, the howto "start the centrifuge" can be used to perform the task
+                    #"start the mixer". Therefore it is required to replace the entities in the howto
+                    #with the entities in the instruction.  
+                    for role, sense in document_action_roles.iteritems():
+                        if role == "action_verb":continue
+                        if role in roles_dict.keys():
+                            sub_dict[sense] = roles_dict[role]
+            
+                    if self.prac.verbose > 1:
+                        print
+                        print prac_heading('LOOKUP RESULTS')
+                        print cloned_cursor[index]['_id']
+                    return map(lambda x: self.transform_step_to_db(x,sub_dict), steps)
+                
+                print "No suitable howtos are available."
         return []
 
 
@@ -124,7 +124,7 @@ class ComplexAchievedBy(PRACModule):
         pngs = {}
         for olddb in dbs:
             pracdb = PRACDatabase(self.prac, db=olddb)
-            result = self.get_instructions_based_on_action_core(pracdb)
+            result = self.get_howto_based_on_action_core(pracdb)
 
             # ==================================================================
             # Postprocessing
@@ -145,52 +145,38 @@ class ComplexAchievedBy(PRACModule):
         return inf_step
 
 
-    def transform_to_db(self, complex_db, roles_dict, document_action_roles, actioncore, plan_dict):
+    def transform_step_to_db(self, step, sub_dict):
         '''
-        TODO
-
-        :param complex_db:
-        :param roles_dict:
-        :param document_action_roles:
-        :param actioncore:
-        :param plan_dict:
-        :return:
+        It transforms a step of a retrieved howto into a PRAC database.
+        
+        :param step: A single step of a retrieved howto represented as dictionary.
+        :param sub_dict: Contains the information which synsets in the step should be replaced with which synsets in the instruction.
+        :return: A PRAC database which represents a step to achieve the complex instruction. 
         '''
-        
-        sub_dict = {}
-        plan_action_core = plan_dict['actioncore']
-        plan_action_roles = {}
-        
-        for role, sense in document_action_roles.iteritems():
-            if role == "action_verb":continue
-            
-            if role in roles_dict.keys():
-                sub_dict[sense] = roles_dict[role]
-        
-        for role in plan_dict['actionroles']:
-            plan_action_roles[role] =  plan_dict['actionroles'][role]['nltk_wordnet_sense']
         
         i = 0
         db = PRACDatabase(self.prac)
+        step_action_core = step[Constants.JSON_FRAME_ACTIONCORE]
+        step_action_roles = {}
+        
+        #Transform step action roles into directory
+        for role in step[Constants.JSON_FRAME_ACTIONCORE_ROLES]:
+            step_action_roles[role] =  step[Constants.JSON_FRAME_ACTIONCORE_ROLES][role][Constants.JSON_SENSE_NLTK_WORDNET_SENSE]
 
-        for action_role in plan_action_roles.keys():
-            sense = str(plan_action_roles[action_role])
+        for role in step_action_roles.keys():
+            sense = str(step_action_roles[role])
+            #Substitute information in the step description with the information in the instruction.
             if sense in sub_dict.keys():
                 sense = sub_dict[sense]
-            splitted_sense = sense.split('.')
-            if splitted_sense[1] == 'v':
-                pos = 'VB'
-            else:
-                pos = 'NN'
-
-            word = "{}-{}mongo".format(splitted_sense[0], str(i))
             
-            db << ("has_pos({},{})".format(word, pos))
+            word = "{}-{}mongo".format(sense.split('.')[0], str(i))
+            
+            db << ("has_pos({},{})".format(word, step[Constants.JSON_FRAME_ACTIONCORE_ROLES]
+                                           [role][Constants.JSON_SENSE_PENN_TREEBANK_POS]))
             db << ("has_sense({},{})".format(word, sense))
-            db << ("{}({},{})".format(str(action_role), word, plan_action_core))
-            if action_role == 'action_verb':
-                db << ("action_core({},{})".format(word, plan_action_core))
+            db << ("{}({},{})".format(str(role), word, step_action_core))
+            if role == 'action_verb':
+                db << ("action_core({},{})".format(word, step_action_core))
             i += 1
-
-        #db << ("achieved_by({},{})".format(actioncore, plan_action_core))
+        
         return db
