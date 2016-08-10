@@ -21,71 +21,19 @@ import os
 from prac.db.ies.ies_models import Constants
 from prac.db.ies.ies_models.Exceptions import NoPredicateExtracted,NoValidFrame
 
-def store_frames_into_database(text_file_name,frames):
-    prac = PRAC()
-    mongo_client =  MongoClient(host=prac.config.get('mongodb', 'host'), 
-                                port=prac.config.getint('mongodb', 'port'))
-    ies_mongo_db = mongo_client.prac
-    frames_collection = ies_mongo_db.howtos
-    plan_list = []
-    
-    actioncore = "UNKNOWN"
-    roles_dict = {}
-
-    try:
-        prac.wordnet = WordNet(concepts=None)
-    
-        #Parse text file name to annotate it in the mongo db
-        inference = PRACInference(prac, ["{}.".format(os.path.basename(text_file_name))])
-        while inference.next_module() != 'role_look_up'  and inference.next_module() != 'achieved_by'  and inference.next_module() != 'plan_generation':
-        
-            modulename = inference.next_module()
-            module = prac.module(modulename)
-            prac.run(inference, module)
-    
-        db = inference.inference_steps[-1].output_dbs[0]
-        
-        for result_ac in db.actioncores():
-            for result_role in db.roles(result_ac.values().pop()):
-                roles_dict[result_role.keys()[0]] = result_role.values()[0]
-        
-        #It will be assumed that there is only one true action_core predicate per database 
-        for q in db.query("action_core(?w,?ac)"):
-            actioncore = q["?ac"]
-    
-    except:
-        actioncore = "UNKNOWN" 
-
-    for frame in frames:
-        plan_list.append(json.loads(frame.to_json_str()))
-
-    try:
-        document = {'_id' : text_file_name,
-                    Constants.JSON_HOWTO_ACTIONCORE : actioncore, 
-                    Constants.JSON_HOWTO_ACTIONCORE_ROLES : roles_dict,
-                    Constants.JSON_HOWTO_STEPS : plan_list}
-            
-        frames_collection.insert_one(document)
-    except pymongo.errors.DuplicateKeyError:
-        frames_collection.delete_many({"_id" : document['_id']})
-        frames_collection.insert_one(document)
-    except:
-        traceback.print_exc()
-        
-    mongo_client.close()
-
 
 class FrameExtractor(object):
     '''
     classdocs
     '''
 
-    def __init__(self, howtos):
+    def __init__(self, howtos,verbose=1):
         '''
         Constructor
         '''
         self.howtos = howtos
         self.prac = PRAC()
+        self.prac.verbose = verbose
         self.prac.wordnet = WordNet(concepts=None)
         self.parser = self.prac.module('nl_parsing')
         self.parser.initialize()
@@ -94,12 +42,11 @@ class FrameExtractor(object):
         self.parser.mln.declare_predicate(Predicate('is_a',['sense','concept']))
     
     def parse_sentence(self,sentence):
-        prac = PRAC()
-        prac.wordnet = WordNet(concepts=None)
+        self.prac.wordnet = WordNet(concepts=None)
 
-        inference = PRACInference(prac, [sentence])
-        parser = prac.module('nl_parsing')
-        prac.run(inference, parser)
+        inference = PRACInference(self.prac, [sentence])
+        parser = self.prac.module('nl_parsing')
+        self.prac.run(inference, parser)
         
         return inference.inference_steps[-1].output_dbs
          
@@ -114,7 +61,7 @@ class FrameExtractor(object):
             
             extracted_frame_list = self.process_howto(howto_name, steps)
             if extracted_frame_list:
-                store_frames_into_database(extracted_frame_list[0].text_source_file,extracted_frame_list)
+                self.store_frames_into_database(extracted_frame_list[0].text_source_file,extracted_frame_list)
         print "DONE FRAME EXTRACTION"
     
     def build_frames(self,text_source_file,sentence_number,sentence,db):
@@ -245,3 +192,55 @@ class FrameExtractor(object):
             return sentence.replace(first_word,first_word.lower(),1)
         '''
         return sentence
+    
+    def store_frames_into_database(self,text_file_name,frames):
+        mongo_client =  MongoClient(host=self.prac.config.get('mongodb', 'host'), 
+                                    port=self.prac.config.getint('mongodb', 'port'))
+        ies_mongo_db = mongo_client.prac
+        frames_collection = ies_mongo_db.howtos
+        plan_list = []
+        
+        actioncore = "UNKNOWN"
+        roles_dict = {}
+    
+        try:
+            self.prac.wordnet = WordNet(concepts=None)
+        
+            #Parse text file name to annotate it in the mongo db
+            inference = PRACInference(self.prac, ["{}.".format(os.path.basename(text_file_name))])
+            while inference.next_module() != 'role_look_up'  and inference.next_module() != 'achieved_by'  and inference.next_module() != 'plan_generation':
+            
+                modulename = inference.next_module()
+                module = self.prac.module(modulename)
+                self.prac.run(inference, module)
+        
+            db = inference.inference_steps[-1].output_dbs[0]
+            
+            for result_ac in db.actioncores():
+                for result_role in db.roles(result_ac.values().pop()):
+                    roles_dict[result_role.keys()[0]] = result_role.values()[0]
+            
+            #It will be assumed that there is only one true action_core predicate per database 
+            for q in db.query("action_core(?w,?ac)"):
+                actioncore = q["?ac"]
+        
+        except:
+            actioncore = "UNKNOWN" 
+    
+        for frame in frames:
+            plan_list.append(json.loads(frame.to_json_str()))
+    
+        try:
+            document = {'_id' : text_file_name,
+                        Constants.JSON_HOWTO_ACTIONCORE : actioncore, 
+                        Constants.JSON_HOWTO_ACTIONCORE_ROLES : roles_dict,
+                        Constants.JSON_HOWTO_STEPS : plan_list}
+                
+            frames_collection.insert_one(document)
+        except pymongo.errors.DuplicateKeyError:
+            frames_collection.delete_many({"_id" : document['_id']})
+            frames_collection.insert_one(document)
+        except:
+            traceback.print_exc()
+            
+        mongo_client.close()

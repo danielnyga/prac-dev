@@ -56,4 +56,4 @@ if __name__ == '__main__':
             with open(filename) as f:
                 howtos.append({' '.join(filename.split('-')): f.read().splitlines()})
     
-    result = analyze_howto(howtos, options.multicore)
+    result = analyze_howto(howtos, options.multicore,options.verbose)

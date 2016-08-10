@@ -5,12 +5,18 @@ from prac.db.ies.ies_utils import MultiprocessingMethods
 
 from prac.db.ies.ies_controller.FrameExtractor import FrameExtractor
 
+
+global verbose_
+
+
 def run_frame_extraction_process(howtos):
-    frame_extractor = FrameExtractor(howtos)
+    frame_extractor = FrameExtractor(howtos,verbose_)
     
     frame_extractor.extract_frames()
 
-def analyze_howto(howtos,use_multicore=False):
+def analyze_howto(howtos,use_multicore=False,verbose=1):
+    global verbose_
+    verbose_ = verbose
     
     if use_multicore:
         if len(howtos) >= cpu_count(): 
