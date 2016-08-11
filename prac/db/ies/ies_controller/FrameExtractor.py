@@ -54,15 +54,17 @@ class FrameExtractor(object):
         i = 0
         for howto in self.howtos:
             i += 1
-            print howto
             howto_name = howto.keys()[0]
             steps = howto.values()[0]
-            print "{} howto of {} howtos: {}".format(str(i),str(len(self.howtos)),howto_name)
+            if self.prac.verbose > 0:
+                print "{} howto of {} howtos: {}".format(str(i),str(len(self.howtos)),howto_name)
             
             extracted_frame_list = self.process_howto(howto_name, steps)
             if extracted_frame_list:
                 self.store_frames_into_database(extracted_frame_list[0].text_source_file,extracted_frame_list)
-        print "DONE FRAME EXTRACTION"
+        
+        if self.prac.verbose > 0:        
+            print "Thread is done with processing howtos."
     
     def build_frames(self,text_source_file,sentence_number,sentence,db):
         frame_list = []

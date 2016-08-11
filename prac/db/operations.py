@@ -30,5 +30,8 @@ def analyze_howto(howtos,use_multicore=False,verbose=1):
     
     else:
         run_frame_extraction_process(howtos)
+    
+    if verbose_ > 0:    
+        print "All howtos are processed."
 
 
