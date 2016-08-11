@@ -54,7 +54,7 @@ class ComplexAchievedBy(PRACModule):
         mongo_client = MongoClient(host=self.prac.config.get('mongodb', 'host'), 
                                    port=self.prac.config.getint('mongodb', 'port'))
 
-        for q in db.query('action_core(?w,?ac)'):
+        for q in db.query('achieved_by(?ac,Complex)'):
             actioncore = q['?ac']
             ies_mongo_db = mongo_client.prac
             instructions_collection = ies_mongo_db.howtos
@@ -81,6 +81,7 @@ class ComplexAchievedBy(PRACModule):
                 
                 documents_vector = numpy.array(documents_vector)
                 index = documents_vector.argmax()
+                
                 if documents_vector[index] > 0.75:
                     logger.debug('Found suitable howtos')
                     sub_dict = {}
@@ -100,6 +101,7 @@ class ComplexAchievedBy(PRACModule):
                         print
                         print prac_heading('LOOKUP RESULTS')
                         print cloned_cursor[index]['_id']
+                        
                     return map(lambda x: self.transform_step_to_db(x,sub_dict), steps)
                 
                 print "No suitable howtos are available."
