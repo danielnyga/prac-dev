@@ -176,6 +176,13 @@ class PRAC(object):
             module.initialize()
             self._module_by_name[modulename] = module
         return self._module_by_name[modulename]
+    
+    
+    def modules(self):
+        '''
+        Returns a generator iterating over all module manifests.
+        '''
+        for m in self._manifests: yield m
 
 
     def deinit_modules(self):
