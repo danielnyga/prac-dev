@@ -5,7 +5,7 @@ import jpype
 import prac
 from prac import java
 from pracmln import MLN
-from pracmodules import StanfordParser
+from nlparsing import StanfordParser
 from optparse import OptionParser
 
 #===============================================================================
