@@ -8,7 +8,7 @@ import traceback
 from prac.core.inference import PRACInference
 from prac.core.wordnet import WordNet
 import sys
-from prac.db.ies.models.Frame import Frame
+from prac.db.ies.models.frame import Frame
 
 from pymongo import MongoClient
 import pymongo
@@ -17,8 +17,8 @@ from pracmln.mln.errors import NoSuchPredicateError
 from pracmln.mln.base import Predicate
 from prac.db.ies.ies_utils import PracDatabaseHandler
 import os
-from prac.db.ies.models import Constants
-from prac.db.ies.models.Exceptions import NoPredicateExtracted, NoValidFrame
+from prac.db.ies.models import constants
+from prac.db.ies.models.exceptions import NoPredicateExtracted, NoValidFrame
 
 
 class FrameExtractor(object):
@@ -28,18 +28,14 @@ class FrameExtractor(object):
     def __init__(self, prac, howto, verbose=1):
         self.howtos = [howto]
         self.prac = prac
-        self.prac.verbose = verbose
-        self.prac.wordnet = WordNet(concepts=None)
         self.parser = self.prac.module('nl_parsing')
-        self.parser.initialize()
-        self.parser.mln.declare_predicate(Predicate('prepobj',['word','word']))
-        self.parser.mln.declare_predicate(Predicate('has_sense',['word','sense!']))
-        self.parser.mln.declare_predicate(Predicate('is_a',['sense','concept']))
+#         self.parser.mln.declare_predicate(Predicate('prepobj',['word','word']))
+#         self.parser.mln.declare_predicate(Predicate('has_sense',['word','sense!']))
+#         self.parser.mln.declare_predicate(Predicate('is_a',['sense','concept']))
     
     
     def parse_sentence(self,sentence):
         self.prac.wordnet = WordNet(concepts=None)
-
         inference = PRACInference(self.prac, [sentence])
         parser = self.prac.module('nl_parsing')
         self.prac.run(inference, parser)
@@ -143,7 +139,7 @@ class FrameExtractor(object):
                 except NoSuchPredicateError:
                     _, exc_value , _ = sys.exc_info()
                     predicate_name = str(exc_value).split(' ')[1].strip()
-                    self.parser.mln.declare_predicate(Predicate(predicate_name,['word','word']))
+                    self.prac.mln.declare_predicate(Predicate(predicate_name,['word','word']))
                     
                 except NoPredicateExtracted:
                     _, exc_value , _ = sys.exc_info()

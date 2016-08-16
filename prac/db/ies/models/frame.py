@@ -7,7 +7,7 @@ Created on Sep 2, 2015
 @author: Sebastian Koralewski (seba@informatik.uni-bremen.de)
 '''
 
-from prac.db.ies.ies_models import Constants
+from prac.db.ies.models import constants
 import cStringIO
 from pracmln.mln.database import Database
 import sys
@@ -103,7 +103,7 @@ class Frame(object):
         roles_dict = {}
         
         #store senses in dict
-        for q in result_db.query(Constants.HAS_SENSE_MLN_PREDICATE.format('?w','?s')):
+        for q in result_db.query(constants.HAS_SENSE_MLN_PREDICATE.format('?w','?s')):
                 senses_dict[q['?w']] = q['?s']
         
         #store roles in dict
@@ -132,13 +132,13 @@ class Frame(object):
                             "{}" : {{}},
                             "{}" : {{}}
                     }}}}
-                    """.format(Constants.JSON_FRAME_ID,
-                               Constants.JSON_FRAME_SENTENCE,
-                               Constants.JSON_FRAME_PRAC_MLN,
-                               Constants.JSON_FRAME_PRAC_DB,
-                               Constants.JSON_FRAME_ACTIONCORE,
-                               Constants.JSON_FRAME_SLOT_VALUES,
-                               Constants.JSON_FRAME_ACTIONCORE_ROLES
+                    """.format(constants.JSON_FRAME_ID,
+                               constants.JSON_FRAME_SENTENCE,
+                               constants.JSON_FRAME_PRAC_MLN,
+                               constants.JSON_FRAME_PRAC_DB,
+                               constants.JSON_FRAME_ACTIONCORE,
+                               constants.JSON_FRAME_SLOT_VALUES,
+                               constants.JSON_FRAME_ACTIONCORE_ROLES
                                )
                     
         prac_mln_stream = cStringIO.StringIO()
@@ -177,13 +177,13 @@ class Frame(object):
         db = Database(self.prac_mln)
         
         atom_list = []
-        sv_predicate = self.slot_values[Constants.SLOT_VALUE_PREDICATE]
-        atom_list.append(Constants.HAS_POS_MLN_PREDICATE.format(sv_predicate.word,sv_predicate.penn_treebank_pos))
+        sv_predicate = self.slot_values[constants.SLOT_VALUE_PREDICATE]
+        atom_list.append(constants.HAS_POS_MLN_PREDICATE.format(sv_predicate.word,sv_predicate.penn_treebank_pos))
         
         for key, value in self.slot_values.iteritems():
-            if value is not None and key != Constants.SLOT_VALUE_PREDICATE:
+            if value is not None and key != constants.SLOT_VALUE_PREDICATE:
                 #Handle prepobj to extract the correct preposition e.g prep_with
-                if key == Constants.SLOT_VALUE_PREPOBJ:
+                if key == constants.SLOT_VALUE_PREPOBJ:
                     atom_list.append("nmod_{}({},{})".format(value.misc,sv_predicate.word,value.word))  
                 else:
                     #Create dependencies predicates
