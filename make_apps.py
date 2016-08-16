@@ -109,12 +109,9 @@ def initialize_mongodb():
     print colorize('Initializing Mongo DB...', (None, 'green', True), True)
 
     # download files and initialize db
-    os.system('wget http://ai.uni-bremen.de/public/prac/chemical-plans.bson . && mongorestore --db PRAC --collection Instructions chemical-plans.bson')
-    os.system('wget http://ai.uni-bremen.de/public/prac/chemical-frames.bson . && mongorestore --db PRAC --collection Frames chemical-frames.bson')
-    #
+    os.system('wget http://ai.uni-bremen.de/public/prac/howtos.bson && mongorestore --db prac --collection howtos howtos.bson')
     # cleanup
-    os.remove('chemical-plans.bson')
-    os.remove('chemical-frames.bson')
+    os.remove('howtos.bson')
 
 
 
