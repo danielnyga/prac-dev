@@ -4,9 +4,15 @@ Created on Jul 11, 2016
 @author: nyga
 '''
 from optparse import OptionParser
-from prac.db.operations import analyze_howto
 import os
 from prac.pracutils.utils import prac_heading
+import multiprocessing
+from prac.core.base import PRAC
+import itertools
+from pracmln.utils import multicore
+import traceback
+
+
 
 
 if __name__ == '__main__':
@@ -30,8 +36,9 @@ if __name__ == '__main__':
     
     (options, args) = parser.parse_args()
     if options.quiet: options.verbose = 0
-
-    print prac_heading('Telling PRAC, how to {}'.format(options.howto))
+    
+    if options.verbose:
+        print prac_heading('Telling PRAC, how to {}'.format(options.howto))
 
     #===========================================================================
     # If the 'steps' flag is set, take all arguments as the list of instructions
@@ -55,5 +62,32 @@ if __name__ == '__main__':
         for filename in args:
             with open(filename) as f:
                 howtos.append({' '.join(filename.split('-')): f.read().splitlines()})
+    #===========================================================================
+    # start the import 
+    #===========================================================================
+    def import_howto(args):
+        try:
+            howto_steps, verbose = args
+            prac = PRAC()
+            prac.verbose = verbose
+            for howto, steps in howto_steps.iteritems():
+                prac.tell(howto=howto, steps=steps)
+        except KeyboardInterrupt: return
+    try:
+        cpu_count =  multiprocessing.cpu_count() if options.multicore else 1
+        pool = multicore.NonDaemonicPool(cpu_count)
+        pool.map(import_howto, itertools.izip(howtos, itertools.repeat(options.verbose)))
+    except KeyboardInterrupt:
+        traceback.print_exc()
+        pool.terminate()
+    else:
+        #=======================================================================
+        # finished
+        #=======================================================================
+        if options.verbose: print 'Done. Imported %d howtos' % len(howtos)
+    finally:
+        pool.close()
+        pool.join()
+        
     
-    result = analyze_howto(howtos, options.multicore,options.verbose)
+     

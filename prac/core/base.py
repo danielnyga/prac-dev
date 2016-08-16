@@ -41,6 +41,7 @@ from ConfigParser import ConfigParser
 from string import whitespace, strip
 import fnmatch
 import yaml
+from prac.db.ies.extraction import FrameExtractor
 
 prac_nltk.data.path = [praclocations.nltk_data]
 
@@ -240,6 +241,23 @@ class PRAC(object):
     @verbose.setter
     def verbose(self, v):
         self._verbose = v
+        
+        
+    def tell(self, howto, steps):
+        '''
+        This method tells PRAC how complex high-level tasks are being achieved
+        by executing multiple instruction steps.
+        
+        This method triggers a (partial) PRAC inference pipeline and stores
+        the result in the PRAC MongoDB.
+        
+        :param howto:    (str) a natural-language instruction describing the 
+                         high-level task, e.g. 'Make pancakes'
+        :param steps:    list of natural-language instructions that achieve 
+                         the high-level goal, e.g. ['flip the pancake around.', 'wait for 2 minutes.', ...]
+        ''' 
+        fe = FrameExtractor(self, {howto: steps}, self.verbose)
+        fe.extract_frames()
 
 
 class ActionCore(object):

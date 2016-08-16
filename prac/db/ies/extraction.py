@@ -5,11 +5,10 @@ Created on Sep 2, 2015
 '''
 
 import traceback
-from prac.core.base import PRAC
 from prac.core.inference import PRACInference
 from prac.core.wordnet import WordNet
 import sys
-from prac.db.ies.ies_models.Frame import Frame
+from prac.db.ies.models.Frame import Frame
 
 from pymongo import MongoClient
 import pymongo
@@ -18,21 +17,17 @@ from pracmln.mln.errors import NoSuchPredicateError
 from pracmln.mln.base import Predicate
 from prac.db.ies.ies_utils import PracDatabaseHandler
 import os
-from prac.db.ies.ies_models import Constants
-from prac.db.ies.ies_models.Exceptions import NoPredicateExtracted,NoValidFrame
+from prac.db.ies.models import Constants
+from prac.db.ies.models.Exceptions import NoPredicateExtracted, NoValidFrame
 
 
 class FrameExtractor(object):
     '''
-    classdocs
     '''
 
-    def __init__(self, howtos,verbose=1):
-        '''
-        Constructor
-        '''
-        self.howtos = howtos
-        self.prac = PRAC()
+    def __init__(self, prac, howto, verbose=1):
+        self.howtos = [howto]
+        self.prac = prac
         self.prac.verbose = verbose
         self.prac.wordnet = WordNet(concepts=None)
         self.parser = self.prac.module('nl_parsing')
@@ -40,6 +35,7 @@ class FrameExtractor(object):
         self.parser.mln.declare_predicate(Predicate('prepobj',['word','word']))
         self.parser.mln.declare_predicate(Predicate('has_sense',['word','sense!']))
         self.parser.mln.declare_predicate(Predicate('is_a',['sense','concept']))
+    
     
     def parse_sentence(self,sentence):
         self.prac.wordnet = WordNet(concepts=None)
@@ -49,6 +45,7 @@ class FrameExtractor(object):
         self.prac.run(inference, parser)
         
         return inference.inference_steps[-1].output_dbs
+         
          
     def extract_frames(self):
         i = 0
@@ -65,6 +62,7 @@ class FrameExtractor(object):
         
         if self.prac.verbose > 0:        
             print "Thread is done with processing howtos."
+    
     
     def build_frames(self,text_source_file,sentence_number,sentence,db):
         frame_list = []
