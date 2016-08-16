@@ -3,9 +3,9 @@ Created on Sep 3, 2015
 
 @author: seba
 '''
-from prac.db.ies.ies_models import Constants
-from prac.db.ies.ies_models.Sense import Sense
-from prac.db.ies.ies_models.Frame import Frame
+from prac.db.ies.models import constants
+from prac.db.ies.models.sense import Sense
+from prac.db.ies.models.frame import Frame
 from pracmln.mln.database import Database
 
 import re
@@ -36,6 +36,7 @@ def get_all_objs_as_sense(db,obj_mln_predicate,predicate=None):
                 conj_obj_word = q1['?w']
                 result.extend(add_obj_word_to_result_list(conj_obj_word, db))
     return result
+
 
 def add_obj_word_to_result_list(obj_word_,db,misc=""):
     obj_word =  obj_word_
