@@ -29,7 +29,7 @@ from prac.core.base import PRACModule, PRACPIPE, PRACDatabase
 from prac.core.inference import PRACInferenceStep
 from prac.pracutils.utils import prac_heading, get_query_png
 from pracmln import praclog
-from prac.db.ies.ies_models import Constants
+from prac.db.ies.models import constants
 from prac.db.ies.ies_utils.FrameSimilarity import frame_similarity
 
 logger = praclog.logger(__name__, praclog.INFO)
@@ -64,7 +64,7 @@ class ComplexAchievedBy(PRACModule):
             # ==================================================================
 
             logger.debug("Sending query to MONGO DB ...")
-            cursor = instructions_collection.find({Constants.JSON_HOWTO_ACTIONCORE: str(actioncore)})
+            cursor = instructions_collection.find({constants.JSON_HOWTO_ACTIONCORE: str(actioncore)})
 
             roles_dict = {}
             for ac2 in db.roles(actioncore=actioncore):
@@ -76,7 +76,7 @@ class ComplexAchievedBy(PRACModule):
             cloned_cursor = cursor.clone()
             for document in cursor:
                 documents_vector.append(frame_similarity(roles_dict,
-                                                         document[Constants.JSON_HOWTO_ACTIONCORE_ROLES]))
+                                                         document[constants.JSON_HOWTO_ACTIONCORE_ROLES]))
             if documents_vector:
                 
                 documents_vector = numpy.array(documents_vector)
@@ -85,8 +85,8 @@ class ComplexAchievedBy(PRACModule):
                 if documents_vector[index] > 0.75:
                     logger.debug('Found suitable howtos')
                     sub_dict = {}
-                    steps = cloned_cursor[index][Constants.JSON_HOWTO_STEPS]
-                    document_action_roles = cloned_cursor[index][Constants.JSON_HOWTO_ACTIONCORE_ROLES]
+                    steps = cloned_cursor[index][constants.JSON_HOWTO_STEPS]
+                    document_action_roles = cloned_cursor[index][constants.JSON_HOWTO_ACTIONCORE_ROLES]
                     
                     #This module retrieves the howtos based on semantic.
                     #For instance, the howto "start the centrifuge" can be used to perform the task
@@ -158,12 +158,12 @@ class ComplexAchievedBy(PRACModule):
         
         i = 0
         db = PRACDatabase(self.prac)
-        step_action_core = step[Constants.JSON_FRAME_ACTIONCORE]
+        step_action_core = step[constants.JSON_FRAME_ACTIONCORE]
         step_action_roles = {}
         
         #Transform step action roles into directory
-        for role in step[Constants.JSON_FRAME_ACTIONCORE_ROLES]:
-            step_action_roles[role] =  step[Constants.JSON_FRAME_ACTIONCORE_ROLES][role][Constants.JSON_SENSE_NLTK_WORDNET_SENSE]
+        for role in step[constants.JSON_FRAME_ACTIONCORE_ROLES]:
+            step_action_roles[role] =  step[constants.JSON_FRAME_ACTIONCORE_ROLES][role][constants.JSON_SENSE_NLTK_WORDNET_SENSE]
 
         for role in step_action_roles.keys():
             sense = str(step_action_roles[role])
@@ -173,8 +173,8 @@ class ComplexAchievedBy(PRACModule):
             
             word = "{}-{}mongo".format(sense.split('.')[0], str(i))
             
-            db << ("has_pos({},{})".format(word, step[Constants.JSON_FRAME_ACTIONCORE_ROLES]
-                                           [role][Constants.JSON_SENSE_PENN_TREEBANK_POS]))
+            db << ("has_pos({},{})".format(word, step[constants.JSON_FRAME_ACTIONCORE_ROLES]
+                                           [role][constants.JSON_SENSE_PENN_TREEBANK_POS]))
             db << ("has_sense({},{})".format(word, sense))
             db << ("{}({},{})".format(str(role), word, step_action_core))
             if role == 'action_verb':
