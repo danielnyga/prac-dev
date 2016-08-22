@@ -36,7 +36,7 @@ JSON_FRAME_ID = "_id"
 JSON_FRAME_SENTENCE = "sentence"
 JSON_FRAME_PRAC_MLN = "prac_mln"
 JSON_FRAME_PRAC_DB = "prac_db"
-JSON_FRAME_SLOT_VALUES = "syntax"
+JSON_FRAME_SYNTAX = "syntax"
 JSON_FRAME_ACTIONCORE = "actioncore"
 JSON_FRAME_ACTIONCORE_ROLES = "actionroles"
 

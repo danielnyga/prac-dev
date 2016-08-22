@@ -19,6 +19,7 @@ from prac.db.ies.ies_utils import PracDatabaseHandler
 import os
 from prac.db.ies.models import constants
 from prac.db.ies.models.exceptions import NoPredicateExtracted, NoValidFrame
+from pracmln.mln.util import out
 
 
 class FrameExtractor(object):
@@ -26,46 +27,35 @@ class FrameExtractor(object):
     '''
 
     def __init__(self, prac, howto, verbose=1):
-        self.howtos = [howto]
+        self.howto = howto
         self.prac = prac
         self.parser = self.prac.module('nl_parsing')
 #         self.parser.mln.declare_predicate(Predicate('prepobj',['word','word']))
 #         self.parser.mln.declare_predicate(Predicate('has_sense',['word','sense!']))
 #         self.parser.mln.declare_predicate(Predicate('is_a',['sense','concept']))
-    
-    
+
+
     def parse_sentence(self,sentence):
-        self.prac.wordnet = WordNet(concepts=None)
         inference = PRACInference(self.prac, [sentence])
         parser = self.prac.module('nl_parsing')
         self.prac.run(inference, parser)
-        
         return inference.inference_steps[-1].output_dbs
-         
-         
+
+
     def extract_frames(self):
-        i = 0
-        for howto in self.howtos:
-            i += 1
-            howto_name = howto.keys()[0]
-            steps = howto.values()[0]
-            if self.prac.verbose > 0:
-                print "{} howto of {} howtos: {}".format(str(i),str(len(self.howtos)),howto_name)
-            
-            extracted_frame_list = self.process_howto(howto_name, steps)
-            if extracted_frame_list:
-                self.store_frames_into_database(extracted_frame_list[0].text_source_file,extracted_frame_list)
-        
+        for howto, steps in self.howto.items(): break
+        frames = self.process_howto(howto, steps)
+        if frames:
+            self.store_frames_into_database(frames[0].text_source_file, frames)
         if self.prac.verbose > 0:        
             print "Thread is done with processing howtos."
     
     
-    def build_frames(self,text_source_file,sentence_number,sentence,db):
+    def build_frames(self, text_source_file, sentence_number,sentence,db):
         frame_list = []
         frame_id = 0
         
         predicate_list = PracDatabaseHandler.get_all_predicates_as_senses(db)
-        
         if not predicate_list:
             raise NoPredicateExtracted()
         
@@ -77,25 +67,25 @@ class FrameExtractor(object):
                 
             if nsubj_query_result or dobj_query_result or prepobj_query_result or iobjs_query_result:
                 
-                slot_values_list = [{Constants.SLOT_VALUE_PREDICATE : predicate}]
+                slot_values_list = [{constants.SLOT_VALUE_PREDICATE : predicate}]
                 
                 #To handle sentences like Bob and Alice play the violin and piano
                 
                 slot_values_list = self.create_permutation_of_slot_values(slot_values_list,
                                                                           nsubj_query_result,
-                                                                          Constants.SLOT_VALUE_NSUBJ)
+                                                                          constants.SLOT_VALUE_NSUBJ)
                 
                 slot_values_list = self.create_permutation_of_slot_values(slot_values_list,
                                                                           dobj_query_result,
-                                                                          Constants.SLOT_VALUE_DOBJ)
+                                                                          constants.SLOT_VALUE_DOBJ)
                 
                 slot_values_list = self.create_permutation_of_slot_values(slot_values_list,
                                                                           prepobj_query_result,
-                                                                          Constants.SLOT_VALUE_PREPOBJ)
+                                                                          constants.SLOT_VALUE_PREPOBJ)
                 
                 slot_values_list = self.create_permutation_of_slot_values(slot_values_list,
                                                                           iobjs_query_result,
-                                                                          Constants.SLOT_VALUE_IOBJ)
+                                                                          constants.SLOT_VALUE_IOBJ)
                 
               
                 for slot_values in slot_values_list:
@@ -172,7 +162,7 @@ class FrameExtractor(object):
         return result
     
                 
-    def process_imperative_sentence(self,sentence):
+    def process_imperative_sentence(self, sentence):
         return sentence
         '''
         #Currently the fixes for imperative sentence are deactivated.
@@ -189,23 +179,18 @@ class FrameExtractor(object):
         '''
         return sentence
     
-    def store_frames_into_database(self,text_file_name,frames):
-        mongo_client =  MongoClient(host=self.prac.config.get('mongodb', 'host'), 
-                                    port=self.prac.config.getint('mongodb', 'port'))
-        ies_mongo_db = mongo_client.prac
-        frames_collection = ies_mongo_db.howtos
-        plan_list = []
-        
-        actioncore = "UNKNOWN"
-        roles_dict = {}
     
+    def store_frames_into_database(self, text_file_name, frames):
+        pracdb = self.prac.mongodb.prac
+        howtos = pracdb.howtos
+        steps = []
+        actioncore = None
+        roles = {}
         try:
-            self.prac.wordnet = WordNet(concepts=None)
-        
             #Parse text file name to annotate it in the mongo db
             inference = PRACInference(self.prac, ["{}.".format(os.path.basename(text_file_name))])
-            while inference.next_module() != 'role_look_up'  and inference.next_module() != 'achieved_by'  and inference.next_module() != 'plan_generation':
             
+            while inference.next_module() not in ('role_look_up', 'achieved_by', 'plan_generation'):
                 modulename = inference.next_module()
                 module = self.prac.module(modulename)
                 self.prac.run(inference, module)
@@ -214,29 +199,23 @@ class FrameExtractor(object):
             
             for result_ac in db.actioncores():
                 for result_role in db.roles(result_ac.values().pop()):
-                    roles_dict[result_role.keys()[0]] = result_role.values()[0]
-            
+                    roles[result_role.keys()[0]] = result_role.values()[0]
             #It will be assumed that there is only one true action_core predicate per database 
             for q in db.query("action_core(?w,?ac)"):
                 actioncore = q["?ac"]
-        
         except:
-            actioncore = "UNKNOWN" 
-    
+            actioncore = None
         for frame in frames:
-            plan_list.append(json.loads(frame.to_json_str()))
-    
+            steps.append(frame.json)
         try:
             document = {'_id' : text_file_name,
-                        Constants.JSON_HOWTO_ACTIONCORE : actioncore, 
-                        Constants.JSON_HOWTO_ACTIONCORE_ROLES : roles_dict,
-                        Constants.JSON_HOWTO_STEPS : plan_list}
-                
-            frames_collection.insert_one(document)
+                        constants.JSON_HOWTO_ACTIONCORE : actioncore, 
+                        constants.JSON_HOWTO_ACTIONCORE_ROLES : roles,
+                        constants.JSON_HOWTO_STEPS : steps}
+            howtos.insert_one(document)
         except pymongo.errors.DuplicateKeyError:
-            frames_collection.delete_many({"_id" : document['_id']})
-            frames_collection.insert_one(document)
+            howtos.delete_many({"_id" : document['_id']})
+            howtos.insert_one(document)
         except:
             traceback.print_exc()
             
-        mongo_client.close()

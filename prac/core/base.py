@@ -42,6 +42,7 @@ from string import whitespace, strip
 import fnmatch
 import yaml
 from prac.db.ies.extraction import FrameExtractor
+from pymongo.mongo_client import MongoClient
 
 prac_nltk.data.path = [praclocations.nltk_data]
 
@@ -110,7 +111,6 @@ class PRAC(object):
     '''
     The PRAC reasoning system.
     '''
-
     def __init__(self, configfile='pracconf'):
         # read all the manifest files.
         self.config = PRACConfig(configfile)
@@ -139,6 +139,8 @@ class PRAC(object):
         # TODO: replace this by real action core definitions
         self.wordnet = WordNet()
         self.mln = self.construct_global_mln()
+        self.mongodb =  MongoClient(host=self.config.get('mongodb', 'host'), 
+                                    port=self.config.getint('mongodb', 'port'))
 
 
     def construct_global_mln(self):
@@ -389,7 +391,7 @@ def PRACPIPE(method):
         # transform output databases to be bound to global mln
         step = method(self, *args, **kwargs)
         for i, db in enumerate(step.output_dbs):
-            step.output_dbs[i] = db.copy(self.prac.mln)
+            step.output_dbs[i] = PRACDatabase(self.prac, db.evidence)
         return step
 
     return wrapper
@@ -654,6 +656,64 @@ class PRACDatabase(Database):
         for role in roles:
             for q in self.query('{}(?w,{}) ^ has_sense(?w,?s)'.format(role, actioncore)):
                 yield {role: q['?s']}
+                
+    
+    def postags(self):
+        '''
+        Returns all part-of-speech tags present in the database.
+        
+        :return:    a generator yielding word -> postag tuples
+        '''
+        for q in self.query('has_pos(?w, ?p)'):
+            yield q['?w'], q['?p']
+        
+            
+    def postag(self, word=None, pos=None):
+        '''
+        Returns either all words that have the given POS tag in this database,
+        or return the POS tag of the given word, depending on which of the parameters is set
+        '''
+        if (word, pos) == (None, None): 
+            raise ValueError('Either word or pos must be given')
+        w = ifNone(word, '?w') 
+        p = ifNone(pos, '?p')
+        for q in self.query('has_pos(%s, %s)' % (w, p)):
+            if '?w' in q: yield q['?w']
+            if '?p' in q: yield q['?p']
+            
+    
+    def is_aux_verb(self, word):
+        '''
+        Decides on whether or not ``word`` is an auxiliary verb in this database.
+        
+        :return:    (bool)
+        '''
+        return 
+        for _ in self.query('aux(?w, {})'.format(word)): return True
+        for _ in self.query('auxpass(?w, {})'.format(word)): return True
+        return False
+    
+    
+    def is_pronoun(self, word):
+        '''
+        Decides on whether or not ``word`` is a pronoun in this database or not.
+        
+        :return: (bool)
+        '''
+        for _ in self.query('has_pos({}, PRP)'.format(word)):  return True
+        for _ in self.query('has_pos({}, PRP$)'.format(word)): return True
+        return False
+
+
+    def is_wh(self, word):
+        '''
+        Decides on whether or not ``word`` is a "which" or "what" determiner in this database or not.
+        
+        :return:    (bool)
+        '''
+        for _ in self.query('has_pos({}, WDT)'.format(word)): return True
+        for _ in self.query('has_pos({}, WP)'.format(word)): return True
+        return False
 
 
 if __name__ == '__main__':

@@ -100,7 +100,6 @@ class RoleLookUp(PRACModule):
             #Represent the inferred roles from the instruction as a dictionary 
             roles_senses_dict = {k: v for r in db.roles(actioncore) for k, v in r.items()}
             
-            
             actioncore_roles_list = self.prac.actioncores[actioncore].required_roles
             if not actioncore_roles_list:
                 actioncore_roles_list = self.prac.actioncores[actioncore].roles
@@ -169,7 +168,6 @@ class RoleLookUp(PRACModule):
                                 atom_has_pos = "{}({}, {})".format('has_pos', word, str(document[constants.JSON_FRAME_ACTIONCORE_ROLES]
                                                                                         [missing_role]
                                                                                         [constants.JSON_SENSE_PENN_TREEBANK_POS]))
-    
                                 db_ << (atom_role, 1.0)
                                 db_ << (atom_sense, 1.0)
                                 db_ << (atom_has_pos, 1.0)

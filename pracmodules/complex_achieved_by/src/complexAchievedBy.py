@@ -31,8 +31,9 @@ from prac.pracutils.utils import prac_heading, get_query_png
 from pracmln import praclog
 from prac.db.ies.models import constants
 from prac.db.ies.ies_utils.FrameSimilarity import frame_similarity
+from pprint import pprint
 
-logger = praclog.logger(__name__, praclog.INFO)
+logger = praclog.logger(__name__, praclog.DEBUG)
 corpus_path_list = os.path.join(prac.locations.home, 'corpus')
 
 
@@ -57,26 +58,23 @@ class ComplexAchievedBy(PRACModule):
         for q in db.query('achieved_by(?ac,Complex)'):
             actioncore = q['?ac']
             ies_mongo_db = mongo_client.prac
-            instructions_collection = ies_mongo_db.howtos
+            howtos = ies_mongo_db.howtos
 
             # ==================================================================
             # Mongo Lookup
             # ==================================================================
 
             logger.debug("Sending query to MONGO DB ...")
-            cursor = instructions_collection.find({constants.JSON_HOWTO_ACTIONCORE: str(actioncore)})
+            matches = howtos.find({constants.JSON_HOWTO_ACTIONCORE: str(actioncore)})
 
-            roles_dict = {}
-            for ac2 in db.roles(actioncore=actioncore):
-                roles_dict[ac2.keys()[0]] = ac2.values()[0]
-            
+            roles = {k: v for d in db.roles(actioncore) for k, v in d.iteritems()}
             documents_vector = []
-
+            
             # After the 'for loop' it is impossible to retrieve document by index
-            cloned_cursor = cursor.clone()
-            for document in cursor:
-                documents_vector.append(frame_similarity(roles_dict,
-                                                         document[constants.JSON_HOWTO_ACTIONCORE_ROLES]))
+            cloned_cursor = matches.clone()
+            for howto in matches:
+                documents_vector.append(frame_similarity(roles,
+                                                         howto[constants.JSON_HOWTO_ACTIONCORE_ROLES]))
             if documents_vector:
                 
                 documents_vector = numpy.array(documents_vector)
@@ -94,8 +92,8 @@ class ComplexAchievedBy(PRACModule):
                     #with the entities in the instruction.  
                     for role, sense in document_action_roles.iteritems():
                         if role == "action_verb":continue
-                        if role in roles_dict.keys():
-                            sub_dict[sense] = roles_dict[role]
+                        if role in roles.keys():
+                            sub_dict[sense] = roles[role]
             
                     if self.prac.verbose > 1:
                         print
@@ -161,8 +159,10 @@ class ComplexAchievedBy(PRACModule):
         step_action_core = step[constants.JSON_FRAME_ACTIONCORE]
         step_action_roles = {}
         
+        pprint(step)
         #Transform step action roles into directory
         for role in step[constants.JSON_FRAME_ACTIONCORE_ROLES]:
+            print role
             step_action_roles[role] =  step[constants.JSON_FRAME_ACTIONCORE_ROLES][role][constants.JSON_SENSE_NLTK_WORDNET_SENSE]
 
         for role in step_action_roles.keys():

@@ -1,9 +1,4 @@
 '''
-This class represents a data structure of a word in a sentence.
-Sense objects are used to determine the meaning of a sentence.
-A sense object is always included in a frame, which contains a set of senses.
-WordNet is used to assign the senses.
-
 Created on Sep 2, 2015
 
 @author: Sebastian Koralewski (seba@informatik.uni-bremen.de)
@@ -25,14 +20,18 @@ for v in verbTags:
     posMap[v] = 'v'
 for a in adjTags:
     posMap[a] = 'a'
+    
 
 class Sense(object):
     '''
-    classdocs
+    This class represents a data structure of a word in a sentence.
+    Sense objects are used to determine the meaning of a sentence.
+    A sense object is always included in a frame, which contains a set of senses.
+    WordNet is used to assign the senses.
     '''
 
 
-    def __init__(self,word,penn_treebank_pos,nltk_wordnet_sense="",wordnet_pos="",lemma="",misc="",process_sense=True):
+    def __init__(self, word, penn_treebank_pos, nltk_wordnet_sense="", wordnet_pos="", lemma="", misc="", process_sense=True):
         '''
         Constructor
         '''
@@ -53,30 +52,17 @@ class Sense(object):
             self.nltk_wordnet_sense = nltk_wordnet_sense
             self.wordnet_pos = wordnet_pos
             self.lemma = lemma
-    def to_json_str(self):
-        json_layout = """{{{{
-                            "{}" : "{{}}", 
-                            "{}" : "{{}}",
-                            "{}" : "{{}}", 
-                            "{}" : "{{}}",
-                            "{}" : "{{}}", 
-                            "{}" : "{{}}" 
-                        }}}} 
-                        """.format(Constants.JSON_SENSE_WORD,
-                                       Constants.JSON_SENSE_LEMMA,
-                                       Constants.JSON_SENSE_PENN_TREEBANK_POS,
-                                       Constants.JSON_SENSE_WORDNET_POS,
-                                       Constants.JSON_SENSE_NLTK_WORDNET_SENSE,
-                                       Constants.JSON_SENSE_MISC)
-        
-        sense_as_json_str = json_layout.format(self.word,
-                                           self.lemma,
-                                           self.penn_treebank_pos,
-                                           self.wordnet_pos,
-                                           self.nltk_wordnet_sense,
-                                           self.misc)
-        
-        return sense_as_json_str
+            
+    
+    @property
+    def json(self):
+        return {constants.JSON_SENSE_WORD: self.word,
+                constants.JSON_SENSE_LEMMA: self.lemma,
+                constants.JSON_SENSE_PENN_TREEBANK_POS: self.penn_treebank_pos,
+                constants.JSON_SENSE_WORDNET_POS: self.wordnet_pos,
+                constants.JSON_SENSE_NLTK_WORDNET_SENSE: self.nltk_wordnet_sense,
+                constants.JSON_SENSE_MISC: self.misc}
+    
 
 def convert_word_to_lemma(word,penn_treebank_pos):
     wnl = WordNetLemmatizer()

@@ -76,7 +76,7 @@ if __name__ == '__main__':
     try:
         cpu_count =  multiprocessing.cpu_count() if options.multicore else 1
         pool = multicore.NonDaemonicPool(cpu_count)
-        pool.map(import_howto, itertools.izip(howtos, itertools.repeat(options.verbose)))
+        pool.map(multicore.with_tracing(import_howto), itertools.izip(howtos, itertools.repeat(options.verbose)))
     except KeyboardInterrupt:
         traceback.print_exc()
         pool.terminate()

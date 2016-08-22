@@ -7,6 +7,14 @@ from pracmln.utils.visualization import DECLARATIONS
 from pracmln.utils.latexmath2png import math2png
 
 
+def partition(l, s):
+    '''
+    Partitions the list ``l`` into sublists of size ``s`` and returns a generator
+    iterating over them.
+    '''
+    for i in range(0, len(l), s): yield l[i:i+s]
+
+
 def prac_heading(s, upper=True, color='green'):
     '''
     Returns a colorized and formatted string for pretty priting module
@@ -82,3 +90,12 @@ def get_query_png(queries, dbs, filename='cond_prob', filedir='/tmp', skolemword
     eq = r'''{} {}'''.format(head, bracket_term)
 
     return math2png(eq, filedir, declarations=declarations, filename=safefilename, size=10)
+
+
+#===============================================================================
+# main function for testing only!
+#===============================================================================
+
+if __name__ == '__main__':
+    print list(partition(range(2), 3))
+    
