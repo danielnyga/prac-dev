@@ -84,15 +84,22 @@ class ControlStructureIdentification(PRACModule):
                 #Determine if control structure is "if" or "while"
                 #Assuming there is only one cs in database
                 condition_type = ""
-                for q in result.query('condition_type(?w)'):
-                    word_const = ('-'.join(q['?w'].split('-')[:-1])).lower().strip()
-                    print word_const
-                    raw_input("ENTER")
+                for q1 in result.query('condition_type(?w)'):
+                    word_const = ('-'.join(q1['?w'].split('-')[:-1])).lower().strip()
                     if word_const == "else":
-                        print condition_type
+                        for q2 in db_.query('has_pos({},?p)'.format(q1['?w'])):
+                            if q2['?p'] == 'UH':
+                                condition_type = "else"
+                            else:
+                                condition_type = "else_if"
                     else:
                         condition_type = word_const
                 
+                if "else" in condition_type:
+                    final_result.mln.declare_predicate(Predicate(condition_type,['cs_name','cs_name']))
+                    final_result << "{}(CS-{},CS-{})".format(condition_type,
+                                                            str(num_of_control_structures-1),
+                                                            str(num_of_control_structures))
                 
                 for query_predicate in ['condition','event']:
                     for q in result.query('{}(?w,?cs)'.format(query_predicate)):
@@ -101,7 +108,6 @@ class ControlStructureIdentification(PRACModule):
                         final_result.mln.declare_predicate(Predicate(updated_predicate,['actioncore','cs_name']))
                         final_result << updated_atom
                 
-                        
                 inf_step.output_dbs.append(final_result)
                 
                 #Database contains control structure since the MLN can be grounded
