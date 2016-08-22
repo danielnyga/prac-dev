@@ -95,7 +95,7 @@ class ControlStructureIdentification(PRACModule):
                     else:
                         condition_type = word_const
                 
-                if "else" in condition_type:
+                if condition_type.startswith("else"):
                     final_result.mln.declare_predicate(Predicate(condition_type,['cs_name','cs_name']))
                     final_result << "{}(CS-{},CS-{})".format(condition_type,
                                                             str(num_of_control_structures-1),

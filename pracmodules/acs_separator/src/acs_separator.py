@@ -68,6 +68,7 @@ class ActionCoresSeparator(PRACModule):
     def extract_multiple_action_cores(self, db,wordnet_module,known_concepts):
         dbs = []
         verb_list = []
+        added_else_pred = False
         
         for q in db.query('action_core(?w,?ac)'):
             verb_list.append(q['?w'])
@@ -134,8 +135,12 @@ class ActionCoresSeparator(PRACModule):
             
             #Add control structure predicates
             for atom, truth in sorted(db.evidence.iteritems()):
-                _, _, args = db.mln.logic.parse_literal(atom)
-                 
+                _ ,pred_name, args = db.mln.logic.parse_literal(atom)
+                
+                if pred_name.startswith("else") and (not added_else_pred):
+                    db_ << (atom,truth)
+                    added_else_pred = True
+                    
                 if args[0] == action_core:
                     db_ << (atom,truth)
             
