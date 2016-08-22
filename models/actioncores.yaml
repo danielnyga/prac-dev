@@ -131,7 +131,8 @@ action_core: Storing
 action_roles: ['obj_to_be_stored','action_verb','location']
 ---
 action_core: Taking
-action_roles: ['obj_to_be_taken','action_verb']
+action_roles: ['action_verb','obj_to_be_taken','location']
+cram_plan: "(take-object (an object (type {obj_to_be_taken}){obj_to_be_taken_props}) from (a location (type {location}){location_props})"
 ---
 action_core: Turning
 action_roles: ['obj_to_be_turned','action_verb']
