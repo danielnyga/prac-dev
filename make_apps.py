@@ -121,6 +121,9 @@ def initialize_mongodb():
         print colorize('Both Mongo server version and pymongo version must be >=3.X.', (None, 'red', True), True)
         print 'Your Mongo Server version: \t{}\nYour Pymongo version: \t\t{}'.format('.'.join(str(x) for x in pymongo.MongoClient().server_info()['versionArray']),
                                                                                      '.'.join(str(x) for x in pymongo.version_tuple))
+        print 'To update your installations, run {} and follow the instructions on {}'.format(colorize('sudo pip install -U pymongo', (None, 'white', True), True),
+                                                                                              colorize('https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/', (None, 'white', True), True))
+
 
 
 if __name__ == '__main__':
