@@ -30,7 +30,7 @@ import tkMessageBox
 import traceback
 import StringIO
 from Tkconstants import BOTH, W, E
-import prac
+from prac import locations
 from prac.core.base import PRAC
 from prac.core.inference import PRACInference
 from prac.core.wordnet import WordNet
@@ -53,7 +53,7 @@ except ImportError:
 
 
 DEFAULTNAME = 'unknown{}'
-DEFAULT_CONFIG = os.path.join(prac.locations.home, global_config_filename)
+DEFAULT_CONFIG = os.path.join(locations.home, global_config_filename)
 WINDOWTITLE = 'PRAC Query Tool - {}' + os.path.sep + '{}'
 WINDOWTITLEEDITED = 'PRAC Query Tool - {}' + os.path.sep + '*{}'
 
@@ -75,7 +75,7 @@ class PRACQueryGUI(object):
         self.prac_inference = pracinference
         self.infStep = None
 
-        self.module_dir = os.path.join(prac.locations.modules, 'wnsenses')
+        self.module_dir = os.path.join(locations.modules, 'wnsenses')
 
         self.frame = Frame(master)
         self.frame.pack(fill=BOTH, expand=1)
@@ -84,7 +84,7 @@ class PRACQueryGUI(object):
         # module selection
         row = 0
         Label(self.frame, text="Module: ").grid(row=row, column=0, sticky="E")
-        modules = sorted([module for module in self.prac.moduleManifestByName])
+        modules = sorted([module for module in self.prac._manifests_by_name])
         self.selected_module = StringVar(master)
         self.selected_module.trace("w", self.select_module)
         self.list_modules = apply(OptionMenu,
@@ -352,9 +352,7 @@ class PRACQueryGUI(object):
 
 
     def select_project(self, *args):
-        filename = os.path.join(self.prac.moduleManifestByName[
-                                    self.selected_module.get()].module_path,
-                                self.selected_project.get())
+        filename = os.path.join(self.prac.manifest(self.selected_module.get()).module_path, self.selected_project.get())
         if filename and os.path.exists(filename):
             self.load_project(filename)
         else:
@@ -704,7 +702,7 @@ class PRACQueryGUI(object):
     def select_module(self, *args):
         module = self.selected_module.get()
         out('selected module:', module)
-        module_path = self.prac.moduleManifestByName[module].module_path
+        module_path = self.prac.manifest(module).module_path
         dirpath = os.path.abspath(module_path)
         self.module_dir = dirpath
         self.update_project_choices()
@@ -715,7 +713,7 @@ class PRACQueryGUI(object):
 
     def update_project_choices(self):
         modulename = self.selected_module.get()
-        module_path = self.prac.moduleManifestByName[modulename].module_path
+        module_path = self.prac.manifest(modulename).module_path
 
         # remove all items
         self.list_projects['menu'].delete(0, 'end')

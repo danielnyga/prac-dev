@@ -25,8 +25,18 @@ action_core: Adding
 action_roles: ['theme','goal','action_verb','unit','amount']
 required_action_roles: ['theme','goal','action_verb']
 ---
+action_core: Baking
+action_roles: ['theme','action_verb']
+---
 action_core: Cooking
 action_roles: ['obj_to_be_cooked','action_verb']
+---
+action_core: Cooling
+action_roles: ['action_verb','amount','location','obj_to_be_cooled','unit']
+---
+action_core: Cutting
+action_roles: ['action_verb', 'amount', 'obj_to_be_cut', 'unit', 'utensil']
+cram_plan: "(cut (an object (type {obj_to_be_cut}){obj_to_be_cut_props})(into (amount (a quantity (type {unit})(number {amount}))))(with (an object (type {utensil}){utensil_props})))"
 ---
 action_core: Evaluating
 action_roles: ['obj_to_be_evaluated','attribute','action_verb']
@@ -91,6 +101,10 @@ action_core: Putting
 action_roles: ['obj_to_be_put','action_verb','location']
 cram_plan: "(put-object (an object (type {obj_to_be_put}){obj_to_be_put_props}) to (a location (type {location}){location_props})"
 ---
+action_core: Removing
+action_roles: ['action_verb','location','obj_to_be_removed']
+cram_plan: "(remove-object (an object (type {obj_to_be_removed}){obj_to_be_removed_props}) from (a location (type {location}){location_props})"
+---
 action_core: Serving
 action_roles: ['theme','action_verb']
 ---
@@ -101,6 +115,10 @@ cram_plan: "(shake (an object (type {obj_to_be_shaken}){obj_to_be_shaken_props})
 action_core: Spooning
 action_roles: ['substance','goal','action_verb']
 cram_plan: "(use-spoon (from (an object (type container.n.01)(contains (some stuff (type {substance}){substance_props})))(to (an object (type {goal}){goal_props}))))"
+---
+action_core: Sprinkling
+action_roles: ['substance','goal','action_verb']
+cram_plan: "(sprinkle (from (an object (type container.n.01)(contains (some stuff (type {substance}){substance_props})))(to (an object (type {goal}){goal_props}))))"
 ---
 action_core: Starting
 action_roles: ['obj_to_be_started','action_verb']
@@ -113,7 +131,8 @@ action_core: Storing
 action_roles: ['obj_to_be_stored','action_verb','location']
 ---
 action_core: Taking
-action_roles: ['obj_to_be_taken','action_verb']
+action_roles: ['action_verb','obj_to_be_taken','location']
+cram_plan: "(take-object (an object (type {obj_to_be_taken}){obj_to_be_taken_props}) from (a location (type {location}){location_props})"
 ---
 action_core: Turning
 action_roles: ['obj_to_be_turned','action_verb']

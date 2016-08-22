@@ -8,6 +8,9 @@ import shutil
 import imp
 import apt
 
+import pymongo
+
+
 try:
     from pracmln.mln.util import colorize
 except ImportError:
@@ -31,7 +34,7 @@ packages = [('sphinx', 'sphinx sphinxcontrib-bibtex', False),
             ('yaml', 'pyyaml', False),
             ('matplotlib', 'matplotlib', False),
             ('apt', 'python-apt', False),
-            ('pymongo', 'pymongo', False),
+            ('pymongo', 'pymongo', False), # version check in initialize_mongodb
             ('num2words', 'num2words', False),
             ('word2number', 'word2number', False)
             ]
@@ -107,11 +110,19 @@ def adapt(name, arch):
 
 def initialize_mongodb():
     print colorize('Initializing Mongo DB...', (None, 'green', True), True)
-
-    # download files and initialize db
-    os.system('wget http://ai.uni-bremen.de/public/prac/howtos.bson && mongorestore --db prac --collection howtos howtos.bson')
-    # cleanup
-    os.remove('howtos.bson')
+    try:
+        # check if mongo server version and pymongo version are suitable
+        assert pymongo.MongoClient().server_info()['versionArray'] > [3,0,0,0] and pymongo.version_tuple > (3,0,0)
+        # download files and initialize db
+        os.system('wget http://ai.uni-bremen.de/public/prac/howtos.bson && mongorestore --db prac --collection howtos howtos.bson')
+        # cleanup
+        os.remove('howtos.bson')
+    except AssertionError:
+        print colorize('Both Mongo server version and pymongo version must be >=3.X.', (None, 'red', True), True)
+        print 'Your Mongo Server version: \t{}\nYour Pymongo version: \t\t{}'.format('.'.join(str(x) for x in pymongo.MongoClient().server_info()['versionArray']),
+                                                                                     '.'.join(str(x) for x in pymongo.version_tuple))
+        print 'To update your installations, run {} and follow the instructions on {}'.format(colorize('sudo pip install -U pymongo', (None, 'white', True), True),
+                                                                                              colorize('https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/', (None, 'white', True), True))
 
 
 
