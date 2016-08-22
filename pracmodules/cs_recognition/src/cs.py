@@ -85,8 +85,13 @@ class ControlStructureIdentification(PRACModule):
                 #Assuming there is only one cs in database
                 condition_type = ""
                 for q in result.query('condition_type(?w)'):
-                    word_const = q['?w']
-                    condition_type = ('-'.join(word_const.split('-')[:-1])).lower().strip()
+                    word_const = ('-'.join(q['?w'].split('-')[:-1])).lower().strip()
+                    print word_const
+                    raw_input("ENTER")
+                    if word_const == "else":
+                        print condition_type
+                    else:
+                        condition_type = word_const
                 
                 
                 for query_predicate in ['condition','event']:

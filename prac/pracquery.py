@@ -896,6 +896,7 @@ if __name__ == '__main__':
                            True)
     
             step = inference.inference_steps[-1]
+            
             wordnet_module = prac.getModuleByName('wn_senses')
             for db in step.output_dbs:
                 for a in sorted(db.evidence.keys()):
@@ -922,7 +923,7 @@ if __name__ == '__main__':
                             print '%.3f    %s' % (v, a)
                 RolequeryHandler.queryRolesBasedOnActioncore(db).write(color=True)
     
-        if hasattr(inference.inference_steps[-1], 'executable_plans'):
+        if hasattr(inference.inference_steps[-2], 'executable_plans'):
             print
             print colorize('+==========================+', (None, 'green', True),
                            True)
@@ -931,6 +932,6 @@ if __name__ == '__main__':
             print colorize('+==========================+', (None, 'green', True),
                            True)
             print
-            for plan in step.executable_plans:
+            for plan in inference.inference_steps[-2].executable_plans:
                 print plan
                 print
