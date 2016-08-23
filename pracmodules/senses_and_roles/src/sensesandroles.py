@@ -63,6 +63,7 @@ class SensesAndRoles(PRACModule):
         for n, olddb in enumerate(dbs):
 
             db_copy = olddb.copy(mln=self.prac.mln)
+            
             for q in olddb.query('action_core(?w,?ac)'):
                 actioncore = q['?ac']
                 if actioncore == 'null': continue
