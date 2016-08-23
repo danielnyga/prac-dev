@@ -36,6 +36,7 @@ action_roles: ['action_verb','amount','location','obj_to_be_cooled','unit']
 ---
 action_core: Cutting
 action_roles: ['action_verb', 'amount', 'obj_to_be_cut', 'unit', 'utensil']
+required_action_roles: ['obj_to_be_cut','utensil','action_verb']
 cram_plan: "(cut (an object (type {obj_to_be_cut}){obj_to_be_cut_props})(into (amount (a quantity (type {unit})(number {amount}))))(with (an object (type {utensil}){utensil_props})))"
 ---
 action_core: Evaluating
