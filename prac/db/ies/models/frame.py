@@ -123,7 +123,7 @@ class Frame(object):
 
     
     def syntax_to_prac_db(self,add_senses=True):
-        db = Database(self.prac_mln)
+        db = Database(self.prac.mln)
         atom_list = []
         sv_predicate = self.syntax[constants.SLOT_VALUE_PREDICATE]
         atom_list.append(constants.HAS_POS_MLN_PREDICATE.format(sv_predicate.word, sv_predicate.penn_treebank_pos))
@@ -153,10 +153,10 @@ class Frame(object):
     def syntax_to_json_str(self):
         return self.convert_senses_dict_to_json_str(self.syntax)
         
-        
+
     def convert_senses_dict_to_json_str(self, senses_dict):
         num_of_syntax = len(senses_dict.keys())
-        
+
         syntax_as_json = ""
         
         for i in range(0, num_of_syntax):

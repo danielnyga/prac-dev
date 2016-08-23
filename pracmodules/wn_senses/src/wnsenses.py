@@ -25,30 +25,15 @@ import os
 from collections import defaultdict
 from prac.core.base import PRACModule, PRACPIPE, DB_TRANSFORM
 from prac.core.inference import PRACInferenceStep
-from prac.core.wordnet import WordNet
+from prac.core.wordnet import WordNet, POS_MAP
 from prac_nltk.corpus.reader.wordnet import Synset
 
-# mapping from PennTreebank POS tags to NLTK POS Tags
 from pracmln import praclog
 from pracmln import MLN, Database
 from pracmln.mln.util import colorize, mergedom
 
 
 logger = praclog.logger(__name__, praclog.INFO)
-basecols = ['green', 'yellow', 'brown', 'red', 'blue', 'orange']
-nounTags = ['NN', 'NNS', 'NNP']
-numberTags = ['CD', 'PDT']
-verbTags = ['VB', 'VBG', 'VBZ', 'VBD', 'VBN', 'VBP', 'MD']
-adjTags = ['JJ', 'JJR', 'JJS']
-posMap = {}
-for n in nounTags:
-    posMap[n] = 'n'
-for v in verbTags:
-    posMap[v] = 'v'
-for a in adjTags:
-    posMap[a] = 'a'
-for c in numberTags:
-    posMap[c] = 'c'
 
 
 class WNSenses(PRACModule):
@@ -94,7 +79,7 @@ class WNSenses(PRACModule):
 
         for res in db.query('has_pos(?word,?pos)'):
             word_const = res['?word']
-            pos = posMap.get(res['?pos'], None)
+            pos = POS_MAP.get(res['?pos'], None)
             # if no possible sense can be determined by WordNet, skip word
             # for now. False senses will be asserted later
             if pos is None:
@@ -122,7 +107,7 @@ class WNSenses(PRACModule):
         # words without POS tag
         for res in db.query('has_pos(?word,?pos)'):
             word_const = res['?word']
-            pos = posMap.get(res['?pos'], None)
+            pos = POS_MAP.get(res['?pos'], None)
             # if no possible sense can be determined by WordNet, assert false
             # for all possible senses
             if pos is None or not wordnet.synsets('-'.join(word_const.split('-')[:-1]),pos):
@@ -235,7 +220,7 @@ class WNSenses(PRACModule):
         for q in db.query('has_sense({}, ?s) ^ has_pos({}, ?pos)'.format(word,
                                                                          word)):
             pos = q['?pos']
-            pos = posMap.get(pos, None)
+            pos = POS_MAP.get(pos, None)
             if pos is None: continue
             # make sure that words like bowl-shaped are left untouched
             # bowl-shaped-5 should become bowl-shaped and not bowl
@@ -297,7 +282,7 @@ class WNSenses(PRACModule):
             logger.info(db.mln.domains['concept'])
             for res in db.query('has_pos(?word,?pos)'):
                 word_const = res['?word']
-                pos = posMap.get(res['?pos'], None)
+                pos = POS_MAP.get(res['?pos'], None)
                 if pos is None:
                     continue
                 word = word_const.split('-')[0]

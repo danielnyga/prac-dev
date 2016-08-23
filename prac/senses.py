@@ -3,12 +3,14 @@ Created on Dec 4, 2012
 
 @author: nyga
 '''
-from prac_nltk.corpus import wordnet as wn
 import sys
-import prac_nltk
-import os
 
-prac_nltk.data.path = [os.path.join('.', 'data', 'nltk_data')]
+import prac_nltk
+from prac import locations as praclocations
+from prac_nltk.corpus import wordnet as wn
+
+
+prac_nltk.data.path = praclocations.nltk_data
 
 if __name__ == '__main__':
     args = sys.argv[1:]

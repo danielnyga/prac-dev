@@ -74,7 +74,7 @@ def add_similarities(db, concept, wn):
 #     then it is ignored.
 #     '''
 #     # collect a complete list of concepts
-#     pos = posMap.get(pos, None)
+#     pos = POS_MAP.get(pos, None)
 #     if pos is not None:
 #         if len(wn.synsets(word, pos)) == 0: return
 #     all_concepts = map(lambda c: wn.synset(c), wn.known_concepts)
@@ -241,7 +241,7 @@ def add_similarities(db, concept, wn):
 #     for res in db.query('has_pos(?word,?pos)'):
 #         log.info('preparing query for %s' % str(res))
 #         word_const = res['?word']
-#         pos = posMap.get(res['?pos'], None)
+#         pos = POS_MAP.get(res['?pos'], None)
 #         if pos is None:
 #             continue
 #         word = word_const.split('-')[0]

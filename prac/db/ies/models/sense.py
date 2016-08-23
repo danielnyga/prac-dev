@@ -3,24 +3,13 @@ Created on Sep 2, 2015
 
 @author: Sebastian Koralewski (seba@informatik.uni-bremen.de)
 '''
-import json
-from nltk.stem import WordNetLemmatizer
-from prac.core.wordnet import WordNet
+from prac.core.wordnet import WordNet, POS_MAP
 from prac.db.ies.models import constants
+from prac_nltk import WordNetLemmatizer
+
 
 wordnet = WordNet(concepts=None)
-nounTags = ['NN', 'NNS', 'NNP', 'CD']
-verbTags = ['VB', 'VBG', 'VBZ', 'VBD', 'VBN', 'VBP', 'MD']
-adjTags = ['JJ', 'JJR', 'JJS']
 
-posMap = {}
-for n in nounTags:
-    posMap[n] = 'n'
-for v in verbTags:
-    posMap[v] = 'v'
-for a in adjTags:
-    posMap[a] = 'a'
-    
 
 class Sense(object):
     '''
@@ -86,7 +75,7 @@ def convert_word_to_lemma(word,penn_treebank_pos):
     return str(wnl.lemmatize(word_,wn_pos))
 
 def convert_penn_treebank_pos_to_wordnet_pos(penn_treebank_pos):
-    return posMap.get(penn_treebank_pos, "unk")
+    return POS_MAP.get(penn_treebank_pos, "unk")
     
 #if the word have just one synset, we can assign this sense to the word.
 def try_to_determine_wordnet_sense(lemma,wordnet_pos):

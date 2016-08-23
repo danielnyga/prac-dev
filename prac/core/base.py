@@ -21,28 +21,29 @@
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 # add 3rd party components to pythonpath, if necessary
+import fnmatch
 import os
 import sys
+from ConfigParser import ConfigParser
+from string import whitespace, strip
+
+import yaml
+from pymongo.mongo_client import MongoClient
 
 import locations
 import prac_nltk
 from prac import locations as praclocations
+from prac.core.inference import PRACInferenceStep
+from prac.core.wordnet import WordNet, VERB_TAGS
+from prac.db.ies.extraction import FrameExtractor
+from prac.db.ies.models import constants
+from prac.db.ies.models.sense import Sense
+from pracmln import Database, MLN
 from pracmln import MLNQuery
 from pracmln import praclog
 from pracmln.mln import NoSuchPredicateError
-from prac.core.inference import PRACInferenceStep
-from prac.core.wordnet import WordNet
-from pracmln import Database, MLN
-
-from pracmln.mln.database import parse_db
 from pracmln.mln.util import mergedom, ifNone
-from ConfigParser import ConfigParser
 
-from string import whitespace, strip
-import fnmatch
-import yaml
-from prac.db.ies.extraction import FrameExtractor
-from pymongo.mongo_client import MongoClient
 
 prac_nltk.data.path = [praclocations.nltk_data]
 
@@ -139,7 +140,7 @@ class PRAC(object):
         # TODO: replace this by real action core definitions
         self.wordnet = WordNet()
         self.mln = self.construct_global_mln()
-        self.mongodb =  MongoClient(host=self.config.get('mongodb', 'host'), 
+        self.mongodb =  MongoClient(host=self.config.get('mongodb', 'host'),
                                     port=self.config.getint('mongodb', 'port'))
 
 
@@ -179,8 +180,8 @@ class PRAC(object):
             module.initialize()
             self._module_by_name[modulename] = module
         return self._module_by_name[modulename]
-    
-    
+
+
     def modules(self):
         '''
         Returns a generator iterating over all module manifests.
@@ -243,21 +244,22 @@ class PRAC(object):
     @verbose.setter
     def verbose(self, v):
         self._verbose = v
-        
-        
+
+
     def tell(self, howto, steps):
         '''
         This method tells PRAC how complex high-level tasks are being achieved
         by executing multiple instruction steps.
-        
+
         This method triggers a (partial) PRAC inference pipeline and stores
         the result in the PRAC MongoDB.
-        
-        :param howto:    (str) a natural-language instruction describing the 
+
+        :param howto:    (str) a natural-language instruction describing the
                          high-level task, e.g. 'Make pancakes'
-        :param steps:    list of natural-language instructions that achieve 
-                         the high-level goal, e.g. ['flip the pancake around.', 'wait for 2 minutes.', ...]
-        ''' 
+        :param steps:    list of natural-language instructions that achieve
+                         the high-level goal, e.g. ['flip the pancake around.',
+                         'wait for 2 minutes.', ...]
+        '''
         fe = FrameExtractor(self, {howto: steps}, self.verbose)
         fe.extract_frames()
 
@@ -402,13 +404,15 @@ class PRACModuleManifest(object):
     Represents a PRAC module manifest description usually
     stored in a pracmodule.yaml file.
     Members:
-    :member name:         the name of the module
-    :member module_path:  the path where the module is located (for loading local
-                    files)
-    :member description:  the natural-language description of what this module does
-    :member depends_on:   (list) a list of PRAC module names this module depends on.
-    :member pred_decls:   the path of the file containing the predicate declarations
-                    relevant for this module
+    :member name:           the name of the module
+    :member module_path:    the path where the module is located (for loading
+                            local files)
+    :member description:    the natural-language description of what this module
+                            does
+    :member depends_on:     (list) a list of PRAC module names this module
+                            depends on.
+    :member pred_decls:     the path of the file containing the predicate
+                            declarations relevant for this module
     :member project_path: the path of the default project
     '''
 
@@ -656,48 +660,49 @@ class PRACDatabase(Database):
         for role in roles:
             for q in self.query('{}(?w,{}) ^ has_sense(?w,?s)'.format(role, actioncore)):
                 yield {role: q['?s']}
-                
-    
+
+
     def postags(self):
         '''
         Returns all part-of-speech tags present in the database.
-        
+
         :return:    a generator yielding word -> postag tuples
         '''
         for q in self.query('has_pos(?w, ?p)'):
             yield q['?w'], q['?p']
-        
-            
+
+
     def postag(self, word=None, pos=None):
         '''
         Returns either all words that have the given POS tag in this database,
-        or return the POS tag of the given word, depending on which of the parameters is set
+        or return the POS tag of the given word, depending on which of the
+        parameters is set.
         '''
-        if (word, pos) == (None, None): 
+        if (word, pos) == (None, None):
             raise ValueError('Either word or pos must be given')
-        w = ifNone(word, '?w') 
+        w = ifNone(word, '?w')
         p = ifNone(pos, '?p')
-        for q in self.query('has_pos(%s, %s)' % (w, p)):
+        for q in self.query('has_pos({}, {})'.format(w, p)):
             if '?w' in q: yield q['?w']
             if '?p' in q: yield q['?p']
-            
-    
+
+
     def is_aux_verb(self, word):
         '''
         Decides on whether or not ``word`` is an auxiliary verb in this database.
-        
+
         :return:    (bool)
         '''
-        return 
+
         for _ in self.query('aux(?w, {})'.format(word)): return True
         for _ in self.query('auxpass(?w, {})'.format(word)): return True
         return False
-    
-    
+
+
     def is_pronoun(self, word):
         '''
-        Decides on whether or not ``word`` is a pronoun in this database or not.
-        
+        Decides on whether or not ``word`` is a pronoun in this database.
+
         :return: (bool)
         '''
         for _ in self.query('has_pos({}, PRP)'.format(word)):  return True
@@ -707,13 +712,135 @@ class PRACDatabase(Database):
 
     def is_wh(self, word):
         '''
-        Decides on whether or not ``word`` is a "which" or "what" determiner in this database or not.
-        
+        Decides on whether or not ``word`` is a "which" or "what" determiner
+        in this database.
+
         :return:    (bool)
         '''
         for _ in self.query('has_pos({}, WDT)'.format(word)): return True
         for _ in self.query('has_pos({}, WP)'.format(word)): return True
         return False
+
+
+    def objs(self, mlnpred, predicate=None, conj=False):
+        '''
+        Returns all objects in this database as senses.
+
+        :param mlnpred:     the predicate of which we want to retrieve the word
+                            sense
+        :param predicate:   an Instance of prac.db.ies.models.sense.Sense
+        :param conj:        (Boolean) If this is true, conjunction (and/or) will
+                            be checked for objects as well.
+        :return:            a list of instances of Sense
+        '''
+        if predicate is not None:
+            predicate_word = predicate.word
+        else:
+            predicate_word = '?w1'
+
+        result = []
+
+        for q in self.query(mlnpred.format(predicate_word, '?w')):
+            obj_word = q['?w']
+            sense = self.obj_sense(obj_word)
+            if sense:
+                result.append(sense)
+
+            if conj:
+                for conj_query in ['conj_and', 'conj_or']:
+                    for q1 in self.query('{}({},?w)'.format(conj_query, obj_word)):
+                        conj_obj_word = q1['?w']
+                        consense = self.obj_sense(conj_obj_word)
+                        if consense:
+                            result.append(consense)
+        return result
+
+
+    def obj_sense(self, word, misc=''):
+        '''
+        Returns an instance of Sense, if ``word`` is not a pronoun or which
+        or what determiner.
+        :param word:    The word of which the sense is queried
+        :param misc:    the type of predicate (e.g. preposition type)
+        :return:        An instance of Sense for ``word``
+        '''
+        if not self.is_pronoun(word) and not self.is_wh(word):
+            # check if dobj+prep combi (we use just nmod_of)
+            for q in self.query('nmod_of({},?w1)'.format(word)):
+                word = q['?w1']
+                break
+            for obj_pos in self.postag(word=word): break
+            obj_sense = Sense(word, obj_pos, misc=misc)
+            return obj_sense
+
+
+    def dobjs(self, predicate=None):
+        '''
+        Returns all direct objects in this database.
+        :param predicate:   An instance of Sense
+        :return:            a list of instances of Sense
+        '''
+        return self.objs(constants.DOBJ_MLN_PREDICATE, predicate)
+
+
+    def nsubjs(self, predicate=None):
+        '''
+        Returns all nominal subjects in this database.
+        :param predicate:   An instance of Sense
+        :return:            a list of instances of Sense
+        '''
+        return self.objs(constants.NSUBJ_MLN_PREDICATE, predicate)
+
+
+    def iobjs(self, predicate=None):
+        '''
+        Returns all indirect objects in this database.
+        :param predicate:   An instance of Sense
+        :return:            a list of instances of Sense
+        '''
+        return self.objs(constants.IOBJ_MLN_PREDICATE, predicate)
+
+
+    def verbs(self):
+        '''
+        Returns all verbs in this database.
+        :return:    a list of instances of Sense
+        '''
+        predicate_list = []
+        for word, pos in self.postags():
+            if pos in VERB_TAGS and not self.is_aux_verb(word):
+                predicate_sense = Sense(word, pos)
+                predicate_list.append(predicate_sense)
+        return predicate_list
+
+
+    def prepobjs(self, predicate=None):
+        '''
+        Returns all prepositional objects in the database. If ``predicate`` is
+        given, only return the prepositional object containing the word of this
+        predicate.
+        :param predicate:   An instance of Sense
+        :return:            a list of instances of Sense
+        '''
+        result = []
+
+        for atom, truth in self.evidence.iteritems():
+            predname, args = self.mln.parse_atom(atom)
+            if truth == 1.:
+                if predicate is None or predicate is not None and args[0] == predicate.word:
+                    obj_word = args[1]
+                    sense = self.obj_sense(obj_word, misc=predname)
+                    if sense:
+                        result.append(sense)
+
+                    for conj_query in ['conj_and', 'conj_or']:
+                        for q1 in self.query('{}({},?w)'.format(conj_query, obj_word)):
+                            conj_obj_word = q1['?w']
+                            sense = self.obj_sense(conj_obj_word, misc=predname)
+                            if sense:
+                                result.append(sense)
+        return result
+
 
 
 if __name__ == '__main__':

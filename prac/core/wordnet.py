@@ -45,8 +45,24 @@ from pracmln.utils.graphml import Graph, Node as GMLNode, Edge
 logger = praclog.logger(__name__, praclog.INFO)
 
 
+# mapping from PennTreebank POS tags to NLTK POS Tags
 NLTK_POS = ['n', 'v', 'a', 'r', 'c']
 ADJ_POS = ['s', 'a']
+BASE_COLORS = ['green', 'yellow', 'brown', 'red', 'blue', 'orange']
+NOUN_TAGS = ['NN', 'NNS', 'NNP']
+NUMBER_TAGS = ['CD', 'PDT']
+VERB_TAGS = ['VB', 'VBG', 'VBZ', 'VBD', 'VBN', 'VBP', 'MD']
+ADJ_TAGS = ['JJ', 'JJR', 'JJS']
+POS_MAP = {}
+for n in NOUN_TAGS:
+    POS_MAP[n] = 'n'
+for v in VERB_TAGS:
+    POS_MAP[v] = 'v'
+for a in ADJ_TAGS:
+    POS_MAP[a] = 'a'
+for c in NUMBER_TAGS:
+    POS_MAP[c] = 'c'
+
 
 colorsims = {}
 shapesims = {}
