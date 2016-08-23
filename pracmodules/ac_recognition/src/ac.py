@@ -83,7 +83,7 @@ class ActionCoreIdentification(PRACModule):
 
             db = wordnet_module.get_senses_and_similarities(db_, known_concepts)
             tmp_union_db = db.union(db_, mln=self.prac.mln)
-
+            
             # ==================================================================
             # Inference
             # ==================================================================
@@ -91,7 +91,7 @@ class ActionCoreIdentification(PRACModule):
             infer = self.mlnquery(config=ac_project.queryconf,
                                   verbose=self.prac.verbose > 2,
                                   db=tmp_union_db, mln=mln)
-            result_db = infer.resultdb
+            result_db = PRACDatabase(self.prac,db=infer.resultdb)
 
             if self.prac.verbose == 2:
                 print
@@ -101,8 +101,9 @@ class ActionCoreIdentification(PRACModule):
             # ==================================================================
             # Postprocessing
             # ==================================================================
-
+            
             unified_db = result_db.union(tmp_union_db, mln=self.prac.mln)
+            
             inf_step.output_dbs.extend(self.extract_multiple_action_cores(self.prac, unified_db, wordnet_module, known_concepts))
             pngs[unified_db.domains.get('actioncore', [None])[0]] = get_cond_prob_png(ac_project.queryconf.get('queries', ''), dbs, filename=self.name)
             inf_step.png = pngs
