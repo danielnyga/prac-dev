@@ -52,8 +52,9 @@ action_core: Flipping
 action_roles: ['obj_to_be_flipped','action_verb','utensil']
 ---
 action_core: Grabbing
-action_roles: ['obj_to_be_grabbed','action_verb']
-cram_plan: "(grab (an object (type {obj_to_be_grabbed}){obj_to_be_grabbed_props}))"
+action_roles: ['obj_to_be_grabbed','action_verb','location']
+required_action_roles: ['obj_to_be_grabbed','action_verb']
+cram_plan: "(grab (an object (type {obj_to_be_grabbed}){obj_to_be_grabbed_props}) from (a location (type {location}){location_props})"
 ---
 action_core: Lifting
 action_roles: ['obj_to_be_lifted','action_verb']
@@ -132,8 +133,8 @@ action_core: Storing
 action_roles: ['obj_to_be_stored','action_verb','location']
 ---
 action_core: Taking
+required_action_roles: ['obj_to_be_taken','action_verb']
 action_roles: ['action_verb','obj_to_be_taken','location']
-cram_plan: "(take-object (an object (type {obj_to_be_taken}){obj_to_be_taken_props}) from (a location (type {location}){location_props})"
 ---
 action_core: Turning
 action_roles: ['obj_to_be_turned','action_verb']
