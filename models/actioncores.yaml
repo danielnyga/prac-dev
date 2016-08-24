@@ -101,7 +101,7 @@ cram_plan: "(pull-object (an object (type {obj_to_be_pulled}){obj_to_be_pulled_p
 ---
 action_core: Putting
 action_roles: ['obj_to_be_put','action_verb','location']
-cram_plan: "(put-object (an object (type {obj_to_be_put}){obj_to_be_put_props}) to (a location (type {location}){location_props})"
+cram_plan: "(put-object (an object (type {obj_to_be_put}){obj_to_be_put_props}) on (a location (type {location}){location_props})"
 ---
 action_core: Removing
 action_roles: ['action_verb','location','obj_to_be_removed']
