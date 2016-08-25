@@ -33,16 +33,17 @@ from pymongo.mongo_client import MongoClient
 import locations
 import prac_nltk
 from prac import locations as praclocations
-from prac.core.inference import PRACInferenceStep
+from prac.core.inference import PRACInferenceStep, PRACInference
 from prac.core.wordnet import WordNet, VERB_TAGS
-from prac.db.ies.extraction import FrameExtractor
 from prac.db.ies.models import constants
-from prac.db.ies.models.sense import Sense
+from prac.db.ies.models import Word
 from pracmln import Database, MLN
 from pracmln import MLNQuery
 from pracmln import praclog
 from pracmln.mln import NoSuchPredicateError
+from collections import defaultdict
 from pracmln.mln.util import mergedom, ifNone
+from prac.db.ies.extraction import HowtoImport
 
 
 prac_nltk.data.path = [praclocations.nltk_data]
@@ -260,9 +261,30 @@ class PRAC(object):
                          the high-level goal, e.g. ['flip the pancake around.',
                          'wait for 2 minutes.', ...]
         '''
-        fe = FrameExtractor(self, {howto: steps}, self.verbose)
-        fe.extract_frames()
-
+        fe = HowtoImport(self, {howto: steps})
+        fe.run()
+        
+        
+    def query(self, instr, stopat=None):
+        '''
+        Performs a query on PRAC using the natural-language instruction(s) ``instr``.
+        
+        :param instr:        (str/list) A string or a list of strings representing an
+                             instruction or a list of instuctions.
+        :param stopat:       the name of the reasoning module where the pipeline is
+                             supposed to stop.
+                            
+        '''
+        if isinstance(instr, basestring): instr = [instr]
+        infer = PRACInference(self, instr)
+        if type(stopat) not in (tuple, list):
+            stopat = [stopat]
+        while infer.next_module() not in {None}.union(stopat):
+            modulename = infer.next_module()
+            module = self.module(modulename)
+            self.run(infer, module)
+        return infer
+        
 
 class ActionCore(object):
     '''
@@ -580,7 +602,6 @@ class PRACDatabase(Database):
     Represents a subclass of the MLN Database and extends it by frequently used
     convenience query methods.
     '''
-
     def __init__(self, prac, evidence=None, db=None, ignore_unknown_preds=False):
         self.prac = prac
 
@@ -601,7 +622,6 @@ class PRACDatabase(Database):
                         with `mln`, if not, it will be associated with
                         `self.mln`.
         '''
-
         return PRACDatabase(self.prac, evidence=self.evidence)
 
 
@@ -610,7 +630,6 @@ class PRACDatabase(Database):
         Returns a new PRACDatabase consisting of the union of all databases
         given in the arguments.
         '''
-
         db_ = PRACDatabase(self.prac)
         if type(dbs) is list:
             dbs = [e for d in dbs for e in list(d)] + list(self)
@@ -627,39 +646,33 @@ class PRACDatabase(Database):
 
     def actioncores(self):
         '''
-        :return: a generator yielding dictionaries mapping words to action cores
+        :return: a generator yielding (word, action core) pairs.
         '''
-
         for q in self.query('action_core(?w,?ac)'):
-            yield {q['?w']: q['?ac']}
+            yield q['?w'], q['?ac']
 
 
     def achieved_by(self, actioncore='?ac1'):
         '''
-        :return: a generator yielding dictionaries mapping action cores to other
-         action cores which they can be achieved by
+        :return: a generator yielding pairs of action cores which they can be achieved by
         '''
-
         for q in self.query('achieved_by({},?ac2)'.format(actioncore)):
             if q['?ac2'] == 'Complex': continue
             if actioncore == '?ac1':
-                yield {q['?ac1']: q['?ac2']}
+                yield q['?ac1'], q['?ac2']
             else:
-                yield {actioncore: q['?ac2']}
+                yield actioncore, q['?ac2']
 
 
     def roles(self, actioncore):
         '''
         :param actioncore:  the action core whose roles are to be retrieved
-        :return:            a generator yielding dictionaries mapping roles to
-                            word senses
+        :return:            a generator yielding pairs of roles and word senses
         '''
-
         roles = self.prac.actioncores[actioncore].roles
-
         for role in roles:
             for q in self.query('{}(?w,{}) ^ has_sense(?w,?s)'.format(role, actioncore)):
-                yield {role: q['?s']}
+                yield role, q['?s']
 
 
     def postags(self):
@@ -770,7 +783,7 @@ class PRACDatabase(Database):
                 word = q['?w1']
                 break
             for obj_pos in self.postag(word=word): break
-            obj_sense = Sense(word, obj_pos, misc=misc)
+            obj_sense = Word(word, obj_pos, misc=misc)
             return obj_sense
 
 
@@ -795,7 +808,7 @@ class PRACDatabase(Database):
     def iobjs(self, predicate=None):
         '''
         Returns all indirect objects in this database.
-        :param predicate:   An instance of Sense
+        :param predicate:   An instance of Word
         :return:            a list of instances of Sense
         '''
         return self.objs(constants.IOBJ_MLN_PREDICATE, predicate)
@@ -804,15 +817,23 @@ class PRACDatabase(Database):
     def verbs(self):
         '''
         Returns all verbs in this database.
-        :return:    a list of instances of Sense
+        :return:    a list of instances of Word
         '''
         predicate_list = []
         for word, pos in self.postags():
             if pos in VERB_TAGS and not self.is_aux_verb(word):
-                predicate_sense = Sense(word, pos)
+                predicate_sense = Word(word, pos)
                 predicate_list.append(predicate_sense)
         return predicate_list
 
+
+    def words(self):
+        '''
+        Returns all words in this database.
+        :return:     a list of all words
+        '''
+        return list(self.domains.get('word', []))
+    
 
     def prepobjs(self, predicate=None):
         '''
@@ -842,13 +863,39 @@ class PRACDatabase(Database):
         return result
 
 
+    def syntax(self):
+        '''
+        :return:    Returns a generator yielding all syntactic relations of the form relations- in this database
+        '''
+        preds = [p.name for p in self.prac.module('nl_parsing').mln.predicates] + ['has_pos']
+        relations = defaultdict(list)
+        for atom, _ in self.evidence.iteritems():
+            _, pred, args = self.prac.mln.logic.parse_literal(atom)
+            if pred not in preds: continue 
+            relations[pred].append(args)
+        for pred, args in relations.iteritems():
+            yield pred, args
+            
+    
+    def sense(self, word):
+        '''
+        Returns the word sense of the given word ``word``, if set in database.
+        
+        :param word:    (str) the symbol representing the word in this database
+        :return:        (str) the concept of the sense.
+        '''
+        for q in self.query('has_sense(%s, ?sense)' % word):
+            return q['?sense']
+            
+            
 
 if __name__ == '__main__':
     '''
     main routine for testing and debugging purposes only!.
     '''
     prac = PRAC()
-    print prac.config.getlist('wordnet', 'concepts')
+    prac.query('make pancakes', stopat=('role_look_up', 'achieved_by', 'complex_achieved'))
+    
     
 #     print prac.roles
 #     print prac.actioncores['Neutralizing'].roles

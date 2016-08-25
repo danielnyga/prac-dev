@@ -34,7 +34,7 @@ from pracmln.utils.project import MLNProject
 from pracmln.utils.visualization import get_cond_prob_png
 
 
-logger = praclog.logger(__name__, praclog.INFO)
+logger = praclog.logger(__name__, praclog.DEBUG)
 
 
 class SensesAndRoles(PRACModule):
@@ -63,11 +63,7 @@ class SensesAndRoles(PRACModule):
         for n, olddb in enumerate(dbs):
 
             db_copy = olddb.copy(mln=self.prac.mln)
-            
-            for q in olddb.query('action_core(?w,?ac)'):
-                actioncore = q['?ac']
-                if actioncore == 'null': continue
-
+            for _, actioncore in olddb.actioncores():
                 if params.get('project', None) is None:
                     logger.debug('Loading Project: {}.pracmln'.format(colorize(actioncore, (None, 'cyan', True), True)))
                     projectpath = os.path.join(self.module_path, '{}.pracmln'.format(actioncore))
@@ -192,6 +188,11 @@ class SensesAndRoles(PRACModule):
             pngs['Recognizing {} roles - {}'.format('missing' if params.get('missing', False) else 'given', str(n))] = get_cond_prob_png(queries,
                                                                                                                                          dbs, filename=self.name)
             inf_step.png = pngs
+            
+            if 'project' not in locals():
+#                 olddb.write()
+                raise Exception('no actioncore in database: %s' % olddb)
+            
             inf_step.applied_settings = project.queryconf.config
         return inf_step
 

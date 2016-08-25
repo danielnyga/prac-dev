@@ -910,10 +910,9 @@ if __name__ == '__main__':
                             else:
                                 if prac.verbose > 1:
                                     print '%.3f    %s' % (v, a)
-                    for ac in db.actioncores():
-                        actioncore = ac.values().pop()
-                        for d in db.roles(actioncore):
-                            print '{}({},{})'.format(colorize(d.keys().pop(), (None, 'white', True), True), d.values().pop(), actioncore)
+                    for _, actioncore in db.actioncores():
+                        for role, sense in db.roles(actioncore):
+                            print '{}({},{})'.format(colorize(role, (None, 'white', True), True), sense, actioncore)
 
         if hasattr(inference.inference_steps[-1], 'executable_plans'):
             if prac.verbose > 0:

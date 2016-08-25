@@ -98,7 +98,7 @@ class RoleLookUp(PRACModule):
 
             actioncore = q['?ac']
             #Represent the inferred roles from the instruction as a dictionary 
-            roles_senses_dict = {k: v for r in db.roles(actioncore) for k, v in r.items()}
+            roles_senses_dict = dict(db.roles(actioncore))
             
             actioncore_roles_list = self.prac.actioncores[actioncore].required_roles
             if not actioncore_roles_list:

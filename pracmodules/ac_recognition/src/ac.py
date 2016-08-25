@@ -91,7 +91,7 @@ class ActionCoreIdentification(PRACModule):
             infer = self.mlnquery(config=ac_project.queryconf,
                                   verbose=self.prac.verbose > 2,
                                   db=tmp_union_db, mln=mln)
-            result_db = PRACDatabase(self.prac,db=infer.resultdb)
+            result_db = infer.resultdb
 
             if self.prac.verbose == 2:
                 print
@@ -124,8 +124,8 @@ class ActionCoreIdentification(PRACModule):
         dbs = []
         verb_list = []
         
-        for q in db.query('action_core(?w,?ac)'):
-            verb_list.append(q['?w'])
+        for word, _ in db.actioncores():
+            verb_list.append(word)
             
         if len(verb_list) < 2:
             return [db]

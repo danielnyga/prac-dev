@@ -67,7 +67,7 @@ class ComplexAchievedBy(PRACModule):
             logger.debug("Sending query to MONGO DB ...")
             matches = howtos.find({constants.JSON_HOWTO_ACTIONCORE: str(actioncore)})
 
-            roles = {k: v for d in db.roles(actioncore) for k, v in d.iteritems()}
+            roles = dict(db.roles(actioncore))
             documents_vector = []
             
             # After the 'for loop' it is impossible to retrieve document by index

@@ -40,6 +40,7 @@ from prac_nltk.corpus import wordnet
 from prac_nltk.corpus.reader.wordnet import Synset
 from pracmln import praclog
 from pracmln.utils.graphml import Graph, Node as GMLNode, Edge
+from prac_nltk.stem import WordNetLemmatizer
 
 
 logger = praclog.logger(__name__, praclog.INFO)
@@ -252,6 +253,7 @@ class WordNet(object):
         self.initialize_csimilarities(properties.chrcolorspecs, properties.achrcolorspecs)
         self.initialize_similarities(shapesims, properties.shapespecs)
         self.initialize_similarities(sizesims, properties.sizespecs)
+        self.lemmatizer = WordNetLemmatizer()
 
 
     @synchronized(wordnetlock)
@@ -860,6 +862,23 @@ class WordNet(object):
                                                          kwn)
             print
 
+
+    @synchronized(wordnetlock)
+    def lemmatize(self, word, pos):
+        '''
+        Returns the lemmatized ``word`` given its part of speech ``pos``.
+        
+        :return:    the lemma of ``word``
+        '''
+        return self.lemmatizer.lemmatize(word, pos)
+        
+    
+    def nltkpos(self, penntreepos):
+        '''
+        Converts a Penn Treebank part-of-speech tag into an NLTK POS tag.
+        '''
+        return POS_MAP.get(penntreepos)
+        
 
     @synchronized(wordnetlock)
     def graph(self):

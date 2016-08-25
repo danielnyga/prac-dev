@@ -33,7 +33,7 @@ from pracmln.utils.project import MLNProject
 from pracmln.utils.visualization import get_cond_prob_png
 
 
-logger = praclog.logger(__name__, praclog.INFO)
+logger = praclog.logger(__name__, praclog.DEBUG)
 
 
 class PropExtraction(PRACModule):
@@ -80,7 +80,6 @@ class PropExtraction(PRACModule):
             # ==================================================================
             # Preprocessing
             # ==================================================================
-
             db_ = wordnet_module.add_sims(db, mln)
 
             try:

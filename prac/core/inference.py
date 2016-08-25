@@ -186,7 +186,7 @@ class PRACInference(object):
         for q in db.query('action_core(?w,?ac)'):
             actioncore = q['?ac']
 
-            roles_senses_dict = {k: v for r in db.roles(actioncore) for k, v in r.items()}
+            roles_senses_dict = dict(db.roles(actioncore))
 
             inferred_roles_set = set(roles_senses_dict.keys())
 
