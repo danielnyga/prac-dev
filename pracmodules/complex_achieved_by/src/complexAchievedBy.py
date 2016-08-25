@@ -99,7 +99,7 @@ class ComplexAchievedBy(PRACModule):
                         print
                         print prac_heading('LOOKUP RESULTS')
                         print cloned_cursor[index]['_id']
-                        
+                    
                     return map(lambda x: self.transform_step_to_db(x,sub_dict), steps)
                 
                 print "No suitable howtos are available."
@@ -162,7 +162,6 @@ class ComplexAchievedBy(PRACModule):
         pprint(step)
         #Transform step action roles into directory
         for role in step[constants.JSON_FRAME_ACTIONCORE_ROLES]:
-            print role
             step_action_roles[role] =  step[constants.JSON_FRAME_ACTIONCORE_ROLES][role][constants.JSON_SENSE_NLTK_WORDNET_SENSE]
 
         for role in step_action_roles.keys():
@@ -177,6 +176,11 @@ class ComplexAchievedBy(PRACModule):
                                            [role][constants.JSON_SENSE_PENN_TREEBANK_POS]))
             db << ("has_sense({},{})".format(word, sense))
             db << ("{}({},{})".format(str(role), word, step_action_core))
+            #One word can only have one role, to avoid wrong inference results during the roles transformation
+            #it is required to set the current word to false to the remaining roles
+            for wrong_role in step_action_roles.keys():
+                if wrong_role == role:continue
+                db << ("!{}({},{})".format(str(wrong_role), word, step_action_core))  
             if role == 'action_verb':
                 db << ("action_core({},{})".format(word, step_action_core))
             i += 1
