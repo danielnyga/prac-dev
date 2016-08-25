@@ -118,7 +118,7 @@ class Frame(object):
         return {constants.JSON_FRAME_ID : '%s#%d#%d' % (self.text_source_file, self.sentence_number, self.frame_id),
                 constants.JSON_FRAME_SENTENCE: self.sentence,
                 constants.JSON_FRAME_ACTIONCORE: self.actioncore,
-                constants.JSON_FRAME_SYNTAX: self.syntax_to_json(),
+                constants.JSON_FRAME_SYNTAX: self.syntax_to_json_str(),
                 constants.JSON_FRAME_ACTIONCORE_ROLES: self.actioncore_roles_to_json_str()}
 
     
@@ -157,21 +157,19 @@ class Frame(object):
     def convert_senses_dict_to_json_str(self, senses_dict):
         num_of_syntax = len(senses_dict.keys())
 
-        syntax_as_json = ""
+        syntax_as_json = {}
         
         for i in range(0, num_of_syntax):
             slot = senses_dict.keys()[i]
             value = senses_dict[slot]
-            value_as_str = '{}'
+            value_as_str = {}
             
             if value is not None:
                 value_as_str = value.json
                 
-            syntax_as_json = syntax_as_json + '"{}" : {}'.format(slot,value_as_str)
+            syntax_as_json[slot] = value_as_str
             
-            if i < (num_of_syntax-1):
-                syntax_as_json = syntax_as_json + ","
-        return "{{{}}}".format(syntax_as_json)
+        return syntax_as_json
     
         
     def is_valid(self):

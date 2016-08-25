@@ -93,8 +93,6 @@ class FrameExtractor(object):
                          sentence_number,
                          frame_id,
                          sentence,
-                         db.mln,
-                         db,
                          slot_values,
                          prac=self.prac)
                     frame_list.append(frame)
