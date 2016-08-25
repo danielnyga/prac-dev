@@ -16,3 +16,5 @@ nltk
 graphviz
 beautifulsoup4
 lxml
+num2words
+word2number

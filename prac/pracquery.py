@@ -845,11 +845,11 @@ if __name__ == '__main__':
     prac.verbose = options.verbose
     prac.wordnet = WordNet(concepts=None)
 
-    root = Tk()
     inference = PRACInference(prac, sentences)
     conf = PRACMLNConfig(DEFAULT_CONFIG)
 
     if options.interactive:  # use the GUI
+        root = Tk()
         # in case we have natural-language parameters, parse them
         if len(inference.instructions) > 0:
             parser = prac.module('nl_parsing')
