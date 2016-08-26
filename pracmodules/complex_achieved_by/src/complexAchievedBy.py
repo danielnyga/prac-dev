@@ -74,7 +74,7 @@ class ComplexAchievedBy(PRACModule):
             cloned_cursor = matches.clone()
             for howto in matches:
                 documents_vector.append(frame_similarity(roles,
-                                                         howto[constants.JSON_HOWTO_ACTIONCORE_ROLES]))
+                                                         howto[constants.JSON_HOWTO_ACTIONROLES]))
             if documents_vector:
                 
                 documents_vector = numpy.array(documents_vector)
@@ -84,7 +84,7 @@ class ComplexAchievedBy(PRACModule):
                     logger.debug('Found suitable howtos')
                     sub_dict = {}
                     steps = cloned_cursor[index][constants.JSON_HOWTO_STEPS]
-                    document_action_roles = cloned_cursor[index][constants.JSON_HOWTO_ACTIONCORE_ROLES]
+                    document_action_roles = cloned_cursor[index][constants.JSON_HOWTO_ACTIONROLES]
                     
                     #This module retrieves the howtos based on semantic.
                     #For instance, the howto "start the centrifuge" can be used to perform the task
