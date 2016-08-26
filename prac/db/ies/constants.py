@@ -36,7 +36,7 @@ JSON_SENSE_SENSE = "sense"
 JSON_SENSE_WORD_IDX = 'widx'
 JSON_SENSE_MISC = "misc"
 JSON_SENSE_WORD_ID = 'wid'
-
+#------------------------------------------------------------------------------ 
 JSON_FRAME_ID = "_id"
 JSON_FRAME_SENTENCE_IDX = 'sidx'
 JSON_FRAME_SENTENCE = "sentence"
@@ -46,7 +46,7 @@ JSON_FRAME_SYNTAX = "syntax"
 JSON_FRAME_ACTIONCORE = "actioncore"
 JSON_FRAME_ACTIONCORE_ROLES = "actionroles"
 JSON_FRAME_WORDS = 'words'
-
+#------------------------------------------------------------------------------ 
 JSON_HOWTO_STEPS = "steps"
 JSON_HOWTO_ACTIONROLES = JSON_FRAME_ACTIONCORE_ROLES
 JSON_HOWTO_ACTIONCORE = JSON_FRAME_ACTIONCORE
@@ -54,7 +54,12 @@ JSON_HOWTO_INSTRUCTION = 'howto'
 JSON_HOWTO_STEPS = 'steps'
 JSON_HOWTO_SYNTAX = 'syntax'
 JSON_HOWTO_IMPORT_DATE = 'import_date'
-
+#------------------------------------------------------------------------------ 
+JSON_OBJECT_TYPE = 'type'
+JSON_OBJECT_ID = 'id'
+JSON_OBJECT_PROPERTIES = 'properties'
+JSON_OBJECT_SYNTAX = 'syntax' 
+#------------------------------------------------------------------------------ 
 JSON_PROCESS_TEXT_FILE_RESULT_ID = JSON_FRAME_ID
 JSON_PROCESS_TEXT_FILE_RESULT_NUM_PARSING_ERROR_SENTENCES = "num_parsing_error_sentences"
 JSON_PROCESS_TEXT_FILE_RESULT_NUM_NO_PREDICATE_SENTENCES = "num_no_predicate_sentences"
@@ -70,8 +75,7 @@ JSON_PROCESS_TEXT_FILE_RESULT_NUM_ASSERT_SENSES = "num_assert_senses"
 JSON_PROCESS_TEXT_FILE_RESULT_NO_PREDICATE_SENTENCES = "no_predicate_sentences"
 JSON_PROCESS_TEXT_FILE_RESULT_NO_VALID_FRAME_SENTENCES = "no_valid_frame_sentences"
 JSON_PROCESS_TEXT_FILE_RESULT_PARSING_ERROR_SENTENCES = "parsing_error_sentences"
-
-
+#------------------------------------------------------------------------------ 
 JSON_LOG_FILE_SENTENCE_REPRESENTATION_SENTENCE = JSON_FRAME_SENTENCE
 JSON_LOG_FILE_SENTENCE_REPRESENTATION_PRAC_MLN = JSON_FRAME_PRAC_MLN
 JSON_LOG_FILE_SENTENCE_REPRESENTATION_PRAC_DB = JSON_FRAME_PRAC_DB
