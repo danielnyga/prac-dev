@@ -23,29 +23,71 @@
 
 from prac.db.ies import constants
 import datetime
-from prac.db.ies.constants import JSON_HOWTO_IMPORT_DATE, JSON_HOWTO_STEPS
+from prac.db.ies.constants import JSON_HOWTO_IMPORT_DATE, JSON_HOWTO_STEPS,\
+    JSON_OBJECT_SYNTAX
 from pracmln.mln.util import edict
+from pprint import pprint
+from scipy.stats import stats
 
 
-        
+
+def tojson(obj):
+    '''Recursively generate a JSON representation of the object ``obj``.'''
+    if hasattr(obj, 'tojson'): 
+        return obj.tojson()
+    if type(obj) in (list, tuple):
+        return [tojson(e) for e in obj]
+    elif isinstance(obj, dict):
+        return {str(k): tojson(v) for k, v in obj.iteritems()}
+    return obj
         
 
 class Frame(object):
     '''
     Represents a (partially) instantiated action core that is stored in the MongoDB. 
     '''
-    def __init__(self, sidx, sentence, words, syntax, actioncore, actionroles):
+    def __init__(self, prac, sidx, sentence, words, syntax, actioncore, actionroles):
         self.sidx = sidx
         self.sentence = sentence
         self.actionroles = actionroles
         self.actioncore = actioncore
         self.syntax = syntax
         self.words = words
+        self.prac = prac
 
     
     def __str__(self):
         return '%s [%s]' % (self.actioncore, ', '.join(['%s: %s' % (k, v) for k, v in self.actionroles.items()]))
         
+    
+    def sim(self, f):
+        '''
+        Determines the frame similarity of this frame and another frame f.
+        The frame similarity is calculated by taking the harmonic mean of the actionroles between the given frames.
+        This value can be interpreted as the semantic similarity between the frames.
+          
+        :param f:     The frame this frame shall be compared to.
+        :return:      The frame similarity of this frame and ``f``.
+        '''
+        verbsim = self.prac.wordnet.similarity(str(self.actionroles['action_verb'].type),
+                                        str(f.actionroles['action_verb'].type))
+        #------------------------------------------------------------------------------ 
+        # This is a sanity check to revoke false inferred 
+        # frames during the information extraction process.
+        if verbsim  < 0.85: return 0
+        #------------------------------------------------------------------------------ 
+        sims = []
+        for rolename, rolevalue in self.actionroles.items():
+            if rolename in f.actionroles:
+                sims.append(self.prac.wordnet.similarity(f.actionroles[rolename].type, rolevalue.type))
+                #------------------------------------------------------------------------------ 
+                #Sometimes Stanford Parser parses some objects as adjectives
+                #due to the fact that nouns and adjectives cannot be compared
+                #we define the the similarity between the instruction and the frame as zero
+                #------------------------------------------------------------------------------ 
+                if sims[-1] == 0: return 0
+        return stats.hmean(sims)
+    
     
     def tojson(self):
         return {constants.JSON_FRAME_SENTENCE: self.sentence,
@@ -69,8 +111,8 @@ class Howto(Frame):
     '''
     Wrapper class representing a howto in PRAC.
     '''
-    def __init__(self, instr, steps, import_date=None):
-        Frame.__init__(self, sidx=instr.sidx, sentence=instr.sentence, syntax=instr.syntax,
+    def __init__(self, prac, instr, steps, import_date=None):
+        Frame.__init__(self, prac, sidx=instr.sidx, sentence=instr.sentence, syntax=instr.syntax,
                        words=instr.words, actioncore=instr.actioncore, actionroles=instr.actionroles)
         self.steps = steps
         if import_date is None:
@@ -80,8 +122,8 @@ class Howto(Frame):
         
         
     def tojson(self):
-        return edict({JSON_HOWTO_IMPORT_DATE: self.import_date}) +\
-               edict(Frame.tojson(self)) + edict({JSON_HOWTO_STEPS: [s.tojson() for s in self.steps]})
+        return tojson(edict({JSON_HOWTO_IMPORT_DATE: self.import_date}) +\
+               edict(Frame.tojson(self)) + edict({JSON_HOWTO_STEPS: tojson(self.steps)}))
         
     
     @staticmethod
@@ -89,6 +131,76 @@ class Howto(Frame):
         return Howto(instr=Frame.fromjson(data), 
                      steps=[Frame.fromjson(s) for s in data.get(JSON_HOWTO_STEPS)],
                      import_date=data.get(JSON_HOWTO_IMPORT_DATE))
+
+
+class PropertyStore(object):
+    '''Store for property values of objects'''
+    
+    __props = ['size', 'hypernym', 'color', 'hasa', 'shape', 'dimension', 
+                 'consistency', 'material']
+    
+    def __init__(self, prac):
+        self.size = None
+        self.hypernym = None
+        self.color = None
+        self.hasa = None
+        self.shape = None
+        self.dimension = None
+        self.consistency = None
+        self.material = None
+        self.prac = prac
+
+
+    def tojson(self):
+        return {k: tojson(getattr(self, k)) for k in self.__props if getattr(self, k) is not None}
+
+    
+    @staticmethod
+    def fromjson(data):
+        s = PropertyStore()
+        for k, v in data.items(): setattr(s, k, v)
+        return s
+    
+        
+class Object(object):
+    '''
+    Representation of a generic object that has an id and a type.
+    '''
+    def __init__(self, prac, id_, type_, props=None, syntax=None):
+        self.type = type_
+        self.id = id_
+        if isinstance(props, PropertyStore):
+            self.props = props
+        else:
+            self.props = PropertyStore(prac)
+        if isinstance(props, dict):
+            for k, v in props.iteritems(): setattr(self.props, k, v)
+        self.syntax = syntax
+        self.prac = prac
+    
+    
+    def tojson(self):
+        return tojson({constants.JSON_OBJECT_ID: self.id,
+                constants.JSON_OBJECT_TYPE: self.type,
+                constants.JSON_OBJECT_PROPERTIES: self.props,
+                constants.JSON_OBJECT_SYNTAX: self.syntax})
+        
+        
+    @staticmethod
+    def fromjson(data):
+        return Object(type_=data.get(constants.JSON_OBJECT_TYPE),
+                      id_=data.get(constants.JSON_OBJECT_ID),
+                      props={k: Object.fromjson(v) for k, v in data.get(constants.JSON_OBJECT_PROPERTIES, {}).iteritems()},
+                      syntax=data.get(JSON_OBJECT_SYNTAX))
+        
+    
+    def __repr__(self):
+        return '<Object id=%s type=%s at 0x%x>' % (self.id, self.type, hash(self))
+    
+    
+    def __str__(self):
+        return '%s: %s' % (self.id, self.type)
+    
         
 
 class Word(object):
@@ -98,7 +210,7 @@ class Word(object):
     A sense object is always included in a frame, which contains a set of senses.
     WordNet is used to assign the senses.
     '''
-    def __init__(self, wid, word, widx, sense, pos, lemma, misc=None):
+    def __init__(self, prac, wid, word, widx, sense, pos, lemma, misc=None):
         self.wid = wid
         self.word = word
         self.widx = widx
@@ -106,16 +218,17 @@ class Word(object):
         self.pos = pos
         self.lemma = lemma
         self.misc = misc
+        self.prac = prac
 
         
     def tojson(self):
-        return {constants.JSON_SENSE_WORD_ID: self.wid, 
+        return tojson({constants.JSON_SENSE_WORD_ID: self.wid, 
                 constants.JSON_SENSE_WORD: self.word,
                 constants.JSON_SENSE_LEMMA: self.lemma,
                 constants.JSON_SENSE_POS: self.pos,
                 constants.JSON_SENSE_WORD_IDX: self.widx,
                 constants.JSON_SENSE_SENSE: self.sense,
-                constants.JSON_SENSE_MISC: self.misc}
+                constants.JSON_SENSE_MISC: self.misc})
     
     
     @staticmethod    
@@ -126,5 +239,13 @@ class Word(object):
                     data.get(constants.JSON_SENSE_SENSE),
                     data.get(constants.JSON_SENSE_WORD_IDX),
                     data.get(constants.JSON_SENSE_WORD))
-    
+
+
+if __name__ == '__main__':
+    from prac.core.base import PRAC
+    prac = PRAC()
+    o1 = Object(prac, 'w1', 'cup.n.01', syntax=Word(prac, 'water-1', 'water', 1, 'water.n.06', 'NN', 'water'), props={'color': 'green.n.01'})
+    print o1
+    print repr(o1)
+    pprint(o1.tojson())
 
