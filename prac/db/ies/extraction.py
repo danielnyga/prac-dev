@@ -8,7 +8,7 @@ import traceback
 from prac.core.inference import PRACInference
 from prac.core.wordnet import WordNet
 import sys
-from prac.db.ies.models import Frame, Word, Howto
+from prac.db.ies.models import Frame, Word, Howto, Object
 
 from pymongo import MongoClient
 import pymongo
@@ -51,7 +51,8 @@ class HowtoImport(object):
         howto = self.buildhowto(instr, steps)
         if howto is not None:
             pprint(howto.tojson())
-#             self.prac.mongodb.prac.howtos.insert_one(howto_.tojson())
+            for step in howto.steps:
+                print step.sentence, '~', howto.sentence, step.sim(howto)
     
     
     def buildframes(self, db, sidx, sentence):
@@ -59,36 +60,46 @@ class HowtoImport(object):
             print p, args
         for _, actioncore in db.actioncores():
             roles = defaultdict(list)
-            for role, sense in db.roles(actioncore):
-                roles[role].append(sense)
+            for role, word in db.rolesw(actioncore):
+                sense = db.sense(word)
+                props = db.properties(word)
+                obj = Object(self.prac, id_=word, type_=sense, props=props, syntax=self.buildword(db, word))
+                roles[role].append(obj)
             frames = ddivide(roles)    
             for frame in frames:
-                yield Frame(sidx, sentence, syntax=list(db.syntax()), words=self.buildwords(db), actioncore=actioncore, actionroles=frame)
-            
-            
+                yield Frame(self.prac, sidx, sentence, syntax=list(db.syntax()), words=self.buildwords(db), actioncore=actioncore, actionroles=frame)
+    
+    
+    def buildword(self, db, word):
+        tokens = word.split('-')
+        w = '-'.join(tokens[:-1])
+        idx = int(tokens[-1])
+        pos = set(db.postag(word)).pop()
+        sense = db.sense(word)
+        nltkpos = db.prac.wordnet.nltkpos(pos)
+        lemma = db.prac.wordnet.lemmatize(w, nltkpos) if nltkpos is not None else None
+        return Word(self.prac, word, w, idx, sense, pos, lemma)
+    
+                
     def buildwords(self, db):
         for word in db.words():
-            tokens = word.split('-')
-            w = '-'.join(tokens[:-1])
-            idx = int(tokens[-1])
-            pos = set(db.postag(word)).pop()
-            sense = db.sense(word)
-            nltkpos = db.prac.wordnet.nltkpos(pos)
-            lemma = db.prac.wordnet.lemmatize(w, nltkpos) if nltkpos is not None else None
-            yield Word(word, w, idx, sense, pos, lemma)
+            yield self.buildword(db, word)
             
         
         
-    def buildhowto(self, howto, steps):
+    def buildhowto(self, instr, steps):
+        '''
+        constructs a json representation of the instruction ``instr`` 
+        '''
         stopmodules = ('role_look_up', 'achieved_by', 'complex_achieved')
-        mainresult = self.prac.query(howto, stopat=stopmodules).inference_steps[-1].output_dbs
+        mainresult = self.prac.query(instr, stopat=stopmodules).inference_steps[-1].output_dbs
         stepresults = self.prac.query(steps, stopat=stopmodules).inference_steps[-1]
-        mainframe = self.buildframes(mainresult[0], 0, howto)
+        mainframe = self.buildframes(mainresult[0], 0, instr)
         frames = [] 
         for i, step in enumerate(stepresults.output_dbs):
             frames.extend(self.buildframes(step, i, steps[i]))
         for instr in mainframe: break
-        return Howto(instr=instr, steps=frames)
+        return Howto(self.prac, instr=instr, steps=frames)
     
     
     def store_frames_into_database(self, howto, frames):

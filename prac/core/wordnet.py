@@ -870,7 +870,9 @@ class WordNet(object):
         
         :return:    the lemma of ``word``
         '''
-        return self.lemmatizer.lemmatize(word, pos)
+        if pos in ('n', 'v', 'a', 's'):
+            return self.lemmatizer.lemmatize(word, pos)
+        return word
         
     
     def nltkpos(self, penntreepos):
@@ -952,7 +954,10 @@ class WordNet(object):
 
 if __name__ == '__main__':
     wn = WordNet()
-
+    for synset in  wn.get_all_synsets():
+        print synset
+    
+    
     s1 = wn.synsets('150', 'c')[0]
     s2 = wn.synsets('155.6', 'c')[0]
 

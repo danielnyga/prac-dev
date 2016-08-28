@@ -675,6 +675,26 @@ class PRACDatabase(Database):
                 yield role, q['?s']
 
 
+    def rolesw(self, actioncore):
+        '''
+        :param actioncore:    the actioncore whose roles shall be retrieved
+        :return:              a generator yielding (role, word) pairs 
+        '''
+        for role in self.prac.actioncores[actioncore].roles:
+            for q in self.query('{}(?w,{})'.format(role, actioncore)):
+                yield role, q['?w']
+
+
+    def properties(self, word):
+        '''
+        :param word:    a word
+        :return:        a generator yielding (property, value) pairs
+        '''
+        for prop in [p.name for p in self.prac.module('property_extraction').mln.predicates]:
+            for q in self.query('{prop}({word}, ?value) ^ has_sense(?value, ?sense)'.format(prop=prop, word=word)):
+                yield prop, q['?sense']
+
+
     def postags(self):
         '''
         Returns all part-of-speech tags present in the database.
