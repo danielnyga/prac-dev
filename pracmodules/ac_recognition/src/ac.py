@@ -73,6 +73,9 @@ class ActionCoreIdentification(PRACModule):
         inf_step = PRACInferenceStep(pracinference, self)
         wordnet_module = self.prac.module('wn_senses')
 
+        for db_ in dbs:
+            db_.write(bars=False)
+            print '---'
 
         pngs = {}
         for db_ in dbs:
@@ -108,6 +111,7 @@ class ActionCoreIdentification(PRACModule):
             pngs[unified_db.domains.get('actioncore', [None])[0]] = get_cond_prob_png(ac_project.queryconf.get('queries', ''), dbs, filename=self.name)
             inf_step.png = pngs
             inf_step.applied_settings = ac_project.queryconf.config
+
         return inf_step
 
 
@@ -126,9 +130,13 @@ class ActionCoreIdentification(PRACModule):
         
         for word, _ in db.actioncores():
             verb_list.append(word)
-            
+
         if len(verb_list) < 2:
             return [db]
+
+        # sort list according to word ID to keep order of actions
+        verb_list = sorted(verb_list, cmp=lambda x, y: cmp(x.split('-')[-1], y.split('-')[-1]))
+
 
         # TODO improve the handling
         # Handle sentence with start with .....
