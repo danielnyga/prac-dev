@@ -129,11 +129,16 @@ class CorefResolution(PRACModule):
                     inf_step.png = prev_step.png
                     inf_step.applied_settings = prev_step.applied_settings
                     return inf_step
+                except IOError:
+                    inf_step.output_dbs = [db.copy(self.prac.mln) for db in dbs]
+                    inf_step.png = prev_step.png
+                    inf_step.applied_settings = prev_step.applied_settings
+                    logger.warning('A model for "{}" does not exist. Passing dbs to next module...'.format(ac))
                 except Exception:
                     inf_step.output_dbs = [db.copy(self.prac.mln) for db in dbs]
                     inf_step.png = prev_step.png
                     inf_step.applied_settings = prev_step.applied_settings
-                    logger.warning('Could not load project "{}". Passing dbs to next module...'.format(ac))
+                    logger.warning('Something went wrong. Passing dbs to next module...')
                     return inf_step
 
                 # adding similarities
