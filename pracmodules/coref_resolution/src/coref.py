@@ -24,12 +24,12 @@ import os
 import traceback
 
 from prac.core.base import PRACModule, PRACPIPE, PRACDatabase
-from prac.core.inference import PRACInferenceStep
+from prac.core.inference import PRACInferenceStep, FrameNode
 from prac.pracutils.utils import prac_heading
 from pracmln import praclog
 from pracmln.mln import NoConstraintsError, MLNParsingError
 from pracmln.mln.base import parse_mln
-from pracmln.mln.util import colorize, mergedom
+from pracmln.mln.util import colorize, mergedom, out, stop
 from pracmln.utils.project import MLNProject
 from pracmln.utils.visualization import get_cond_prob_png
 
@@ -43,8 +43,8 @@ class CorefResolution(PRACModule):
     role inference.
     '''
 
-    @PRACPIPE
-    def __call__(self, pracinference, **params):
+#     @PRACPIPE
+    def __call__(self, node, **params):
 
         # ======================================================================
         # Initialization
@@ -54,10 +54,11 @@ class CorefResolution(PRACModule):
 
         if self.prac.verbose > 0:
             print prac_heading('Resolving Coreferences')
-
-        inf_step = PRACInferenceStep(pracinference, self)
-        prev_step = pracinference.inference_steps[-1]
-        dbs = prev_step.output_dbs
+        
+        preds = list(node.rdfs(goaltest=(lambda n: isinstance(n, FrameNode)), all=True))[:3]
+        if not preds: return []
+        laststep = node.laststep
+        infstep = PRACInferenceStep(node, self)
         projectpath = self.module_path
         sentences = []
         ac = None
@@ -69,34 +70,40 @@ class CorefResolution(PRACModule):
 
         # merge output dbs from senses_and_roles step, containing
         # roles inferred from multiple sentences.
-        if len(dbs) < 2:
+        if not preds:
             # no coreferencing required - forward dbs and settings
             # from previous module
-            inf_step.output_dbs = [db.copy(self.prac.mln) for db in dbs]
-            inf_step.png = prev_step.png
-            inf_step.applied_settings = prev_step.applied_settings
+            infstep.outdbs = [db.copy(self.prac.mln) for db in infstep.indbs]
+            infstep.png = laststep.png
+            infstep.applied_settings = laststep.applied_settings
             logger.debug('Got single database. Nothing to do here. Passing db...')
-            return inf_step
-
+            return [node]
+    
         # retrieve all words from the dbs to calculate distances.
         # Do not use pracinference.instructions as they are not
         # annotated by the Stanford parser.
-        for s in range(0, len(dbs)):
-            sen = [x['?w'] for x in list(dbs[s].query('has_pos(?w,?pos)'))]
-            sentences.append(sen)
-
-        for i, db in enumerate(dbs):
+        for pred in preds:
+            print pred
+            for db in pred.outdbs:
+                for w, ac in db.actioncores():
+                    print w, ac
+#             for db in pred.outdbs:
+#                 db.write()
+        words = [db.words() for pred in preds for db in pred.outdbs]
+        out(words)
+#             sen = [x['?w'] for x in .query('has_pos(?w,?pos)'))]
+#             sentences.append(sen)
+        return []
+        for i, db in enumerate(pred.outdbs):
             if i == 0:
                 # no coreference resolution required for first database
-                inf_step.output_dbs.append(dbs[i])
+                infstep.output_dbs.append(dbs[i])
             else:
                 # query action core to load corresponding project
-                for q in dbs[i].query('action_core(?w,?ac)'):
-                    ac = q['?ac']
-
+                for _, actioncore in dbs[i].actioncores(): break
                 try:
                     logger.debug('Loading Project: {}'.format(colorize(ac, (None, 'cyan', True), True)))
-                    project = MLNProject.open(os.path.join(projectpath, '{}.pracmln'.format(ac)))
+                    project = MLNProject.open(os.path.join(projectpath, '{}.pracmln'.format(actioncore)))
 
                     # clear corefdb and unify current db with the two preceding ones
                     corefdb = PRACDatabase(self.prac)
@@ -125,16 +132,16 @@ class CorefResolution(PRACModule):
                                     grammar=project.queryconf.get('grammar', 'PRACGrammar'))
                 except MLNParsingError:
                     logger.warning('Could not use MLN in project {} for coreference resolution'.format(colorize(ac, (None, 'cyan', True), True)))
-                    inf_step.output_dbs = [db.copy(self.prac.mln) for db in dbs]
-                    inf_step.png = prev_step.png
-                    inf_step.applied_settings = prev_step.applied_settings
-                    return inf_step
+                    infstep.output_dbs = [db.copy(self.prac.mln) for db in dbs]
+                    infstep.png = pred.laststep.png
+                    infstep.applied_settings = pred.laststep.applied_settings
+                    return infstep
                 except Exception:
-                    inf_step.output_dbs = [db.copy(self.prac.mln) for db in dbs]
-                    inf_step.png = prev_step.png
-                    inf_step.applied_settings = prev_step.applied_settings
+                    infstep.output_dbs = [db.copy(self.prac.mln) for db in dbs]
+                    infstep.png = pred.laststep.png
+                    infstep.applied_settings = pred.laststep.applied_settings
                     logger.warning('Could not load project "{}". Passing dbs to next module...'.format(ac))
-                    return inf_step
+                    return infstep
 
                 # adding similarities
                 wordnet_module = self.prac.module('wn_senses')

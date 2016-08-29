@@ -23,32 +23,29 @@
 import os
 
 from prac.core.base import PRACModule, PRACPIPE, PRACDatabase
-from prac.core.inference import PRACInferenceStep
+from prac.core.inference import PRACInferenceStep, PRACInferenceNode, FrameNode
 from prac.pracutils.utils import prac_heading
 from pracmln import Database
 from pracmln.mln.base import parse_mln
-from pracmln.mln.util import colorize
+from pracmln.mln.util import colorize, out
 from pracmln import praclog
 from pracmln.utils.project import MLNProject
 from pracmln.utils.visualization import get_cond_prob_png
+from prac.db.ies.models import Frame
 
 
-logger = praclog.logger(__name__, praclog.INFO)
 
+logger = praclog.logger(__name__, praclog.DEBUG)
 
 class ActionCoreIdentification(PRACModule):
     '''
     PRACModule used to identify action cores in natural-language instructions
     '''
-
-
-    @PRACPIPE
-    def __call__(self, pracinference, **params):
-
+#     @PRACPIPE
+    def __call__(self, node, **params):
         # ======================================================================
         # Initialization
         # ======================================================================
-
         logger.debug('inference on {}'.format(self.name))
 
         if self.prac.verbose > 0:
@@ -63,52 +60,62 @@ class ActionCoreIdentification(PRACModule):
             projectpath = os.path.join(params.get('projectpath', None) or self.module_path, params.get('project').name)
             ac_project = params.get('project')
 
-        dbs = pracinference.inference_steps[-1].output_dbs
+        
+        
+        dbs = node.outdbs
 
         mlntext = ac_project.mlns.get(ac_project.queryconf['mln'], None)
         mln = parse_mln(mlntext, searchpaths=[self.module_path], projectpath=projectpath,
                         logic=ac_project.queryconf.get('logic', 'FirstOrderLogic'),
                         grammar=ac_project.queryconf.get('grammar', 'PRACGrammar'))
         known_concepts = mln.domains.get('concept', [])
-        inf_step = PRACInferenceStep(pracinference, self)
-        wordnet_module = self.prac.module('wn_senses')
-
+        infstep = PRACInferenceStep(node, self)
+        wnmod = self.prac.module('wn_senses')
 
         pngs = {}
+        sentence = node.nlinstr()
+        sidx = sentence.idx()
+        
         for db_ in dbs:
-
             # ==================================================================
             # Preprocessing
             # ==================================================================
-
-            db = wordnet_module.get_senses_and_similarities(db_, known_concepts)
+            db = wnmod.get_senses_and_similarities(db_, known_concepts)
             tmp_union_db = db.union(db_, mln=self.prac.mln)
+            infstep.indbs.append(tmp_union_db)
             
             # ==================================================================
             # Inference
             # ==================================================================
-
             infer = self.mlnquery(config=ac_project.queryconf,
                                   verbose=self.prac.verbose > 2,
                                   db=tmp_union_db, mln=mln)
-            result_db = infer.resultdb
-
+            resultdb = infer.resultdb
             if self.prac.verbose == 2:
                 print
                 print prac_heading('INFERENCE RESULTS')
                 infer.write()
-
             # ==================================================================
             # Postprocessing
             # ==================================================================
+            unified_db = resultdb.union(tmp_union_db, mln=self.prac.mln)
             
-            unified_db = result_db.union(tmp_union_db, mln=self.prac.mln)
+#             infstep.outdbs
+            infstep.outdbs.extend(self.extract_multiple_action_cores(self.prac, unified_db, wnmod, known_concepts))
             
-            inf_step.output_dbs.extend(self.extract_multiple_action_cores(self.prac, unified_db, wordnet_module, known_concepts))
             pngs[unified_db.domains.get('actioncore', [None])[0]] = get_cond_prob_png(ac_project.queryconf.get('queries', ''), dbs, filename=self.name)
-            inf_step.png = pngs
-            inf_step.applied_settings = ac_project.queryconf.config
-        return inf_step
+        infstep.png = pngs
+        infstep.applied_settings = ac_project.queryconf.config
+        pred = None    
+        for outdb in infstep.outdbs:
+            out('in ac rec:')
+            for w, ac in outdb.actioncores():
+                out(w, ac)
+            for frame in node.pracinfer.buildframes(outdb, sidx, sentence): break
+            node_ = FrameNode(node.pracinfer, frame, node, pred, indbs=[outdb])
+#             node_.infchain.append(infstep)
+            pred = node_
+            yield node_
 
 
     def extract_multiple_action_cores(self, prac, db, wordnet_module, known_concepts):

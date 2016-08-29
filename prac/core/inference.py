@@ -24,7 +24,25 @@
 from prac.pracutils import StopWatch
 from graphviz.dot import Digraph
 from prac.pracutils.pracgraphviz import render_gv
-from pracmln import Database
+from pracmln import Database, praclog
+from prac.db.ies.models import Object, Frame, Word
+from collections import defaultdict
+from pracmln.mln.util import out, stop
+import sys
+
+
+def __dividedict(d, dnew):
+    if not d: 
+        yield dnew
+        return
+    key, values = d.popitem()
+    for v in values:
+        dnew_ = dict(dnew)
+        dnew_[key] = v
+        for d_ in __dividedict(dict(d), dnew_): yield d_
+
+def ddivide(d):
+    return __dividedict(d, {})
 
 
 class PRACInferenceStep(object):
@@ -32,55 +50,143 @@ class PRACInferenceStep(object):
     Wrapper class encapsulating a single inference step in the PRAC
     pipeline. It consists of n input databases and m output databases.
     '''
-
-
-    def __init__(self, pracinfer, module, input_dbs=None):
+    def __init__(self, node, module):
         '''
         Initializes the inference step.
+        
         :param pracinfer:   reference to the PRACInference object.
         :param module:      reference to the PRACModule performing this
                             inference step.
-        :param input_dbs:   list of databases taken as inputs.
+        :param indbs:   list of databases taken as inputs.
         '''
-        if input_dbs is None:
-            self.input_dbs = []
-        else:
-            self.input_dbs = input_dbs
+#         self.indbs = [db.copy() for db in node.outdbs]
+        self.indbs = []
         self.module = module
-        self.prac = pracinfer.prac
-        self.pracinference = pracinfer
-        self.output_dbs = []
+        self.node = node
+        self.node.infchain.append(self)
+        self.outdbs = []
         self.watch = StopWatch()
 
 
-class PRACInference(object):
+
+class PRACInferenceNode(object):
     '''
-    Represents an inference chain in PRAC
+    Abstract node in the inference tree spanned by the PRAC
+    reasoning pipeline.
     '''
-
-    def __init__(self, prac, instructions):
+    def __init__(self, pracinfer, parent, pred, indbs):
+        self.pracinfer = pracinfer
+        self.parent = parent
+        self.infchain = []
+        self.previous_module = None
+        if parent:
+            parent.children.append(self)
+            self.infchain.append(parent.laststep)
+            self.previous_module = parent.previous_module
+        self.pred = pred
+        self.children = []
+        self.indbs = indbs
+    
+    def idx(self):
         '''
-        PRAC inference initialization.
-        :param prac:            reference to the PRAC instance.
-        :param instructions:    list of natural-language sentences subject to
-                                inference.
+        The index of the inference node 
         '''
-        self.prac = prac
-        prac.deinit_modules()
-        self.instructions = instructions
-        self.inference_steps = []
-        self.watch = StopWatch()
-
-
+        preds = 0
+        pred = self.pred
+        while pred is not None: 
+            preds += 1
+            pred = pred.pred
+        return preds
+    
+    
+    def iterpreds(self):
+        '''
+        Iterates over all predecessors of this node backwards.
+        '''
+        pred = self.pred
+        while pred is not None:
+            yield pred
+            pred = pred.pred
+    
+    
+    def rdfs(self, goaltest, all=False):
+        '''
+        Performs a 'reverse' depth-first search starting from this node.
+        
+        :param goaltest:    callable specifying the goal test
+        :param all:         whether or not all solutions are being returned 
+        '''
+        q = list(reversed(list(self.parentspath()))) + [self] 
+        parents = list(q)
+#         out('parentspath of', self, list(map(str, self.parentspath())))
+#         out('preds of', self, list(map(str, self.iterpreds())))
+#         for n in list(self.parentspath()):
+#             q.extend(n.children[:node.idx()])
+#             node = n
+        
+        processed = set()
+        out(q)
+        while q:
+            n = q.pop()
+            if n in processed: continue
+            processed.add(n)
+#             out(n, list(n.iterpreds()))
+#             out(n.children[:n.idx()])
+            if goaltest(n) and n not in parents:
+                yield n
+                if not all: return
+            q.extend(reversed(list(n.iterpreds())))
+            if n not in parents:
+                q.extend(reversed(list(n.children)))
+    
+    
+    def parentspath(self):
+        parent = self.parent
+        while parent is not None:
+            yield parent 
+            parent = parent.parent
+        
+    
+    def nlinstr(self):
+        if isinstance(self, NLInstruction): return self
+        for par in self.parentspath():
+            if isinstance(par, NLInstruction):
+                return par
+    
+    
+#     @property
+#     def indbs(self):
+#         if self.parent: return self.parent.outdbs
+#         return []
+    
+    
+    @property
+    def outdbs(self):
+        if not self.infchain: return []
+        return self.infchain[-1].outdbs
+    
+    
+    def copy(self, pred=None):
+        return PRACInferenceNode(pracinfer=self.pracinfer, parent=self.parent, pred=pred)
+    
+        
+    @property
+    def laststep(self):
+        return self.infchain[-1]
+        
+    
     def next_module(self):
         '''
         Determines which module is to be executed next in the PRAC pipeline.
         :return:    the next module to be executed according to the search
                     algorithm as a string
         '''
-        if not self.inference_steps:
+#         if not self.infchain:
+#             return 'nl_parsing'
+#         previous_module = self.infchain[-1].module.name
+        previous_module = self.previous_module
+        if previous_module is None:
             return 'nl_parsing'
-        previous_module = self.inference_steps[-1].module.name
 
         if previous_module == 'nl_parsing':
             return 'ac_recognition'
@@ -91,7 +197,7 @@ class PRACInference(object):
         elif previous_module == 'senses_and_roles':
             return 'coref_resolution'
         elif previous_module == 'coref_resolution':
-            for outdb in self.inference_steps[-1].output_dbs:
+            for outdb in self.infchain[-1].outdbs:
                 
                 if self.is_task_missing_roles(outdb):
                     return 'role_look_up'
@@ -139,6 +245,110 @@ class PRACInference(object):
 
         return None
 
+        
+        
+class NLInstruction(PRACInferenceNode):
+    '''Node in the PRAC inference tree that represents an unprocessed
+    natural-language instruction.'''
+    def __init__(self, pracinfer, instr, pred=None):
+        PRACInferenceNode.__init__(self, pracinfer=pracinfer, parent=None, pred=pred, indbs=None)
+        self.instr = instr
+    
+    
+    def __str__(self):
+        return '"%s"' % self.instr
+        
+
+class FrameNode(PRACInferenceNode):
+    '''Node representing a Frame.'''
+    
+    def __init__(self, pracinfer, frame, parent=None, pred=None, indbs=None):
+        PRACInferenceNode.__init__(self, pracinfer=pracinfer, parent=parent, pred=pred, indbs=indbs)
+        self.frame = frame
+        
+
+    def __str__(self):
+        return str(self.frame)
+        
+
+class PRACInference(object):
+    '''
+    Represents an inference chain in PRAC
+    '''
+    def __init__(self, prac, instr):
+        '''
+        PRAC inference initialization.
+        :param prac:     reference to the PRAC instance.
+        :param instr:    (str/iterable) list of natural-language sentences subject to
+                         inference.
+        '''
+        self._logger = praclog.logger(self.__class__.__name__, level=praclog.DEBUG)
+        self.prac = prac
+        prac.deinit_modules()
+        self.watch = StopWatch()
+        if type(instr) in {list, tuple}:
+            instr_ = instr
+        elif isinstance(instr, basestring):
+            instr_ = [instr]
+        self.fringe = []
+        pred = None
+        for i in instr_:
+            self.fringe.append(NLInstruction(self, i, pred=pred))
+            pred = self.fringe[-1]
+        for n in self.fringe:
+            print n, n.pred
+    
+    
+    def run(self):
+        while self.fringe:
+            node = self.fringe.pop(0)
+            modname = node.next_module()
+            if modname:
+                self._logger.debug('running %s' % modname)
+                module = self.prac.module(modname)
+                out(node.indbs)
+                nodes = list(module(node))
+                for n in nodes:
+                    n.previous_module = module.name
+    
+                out(node.outdbs)
+                if nodes:
+                    nodes = list(nodes)
+                    self.fringe.extend(nodes)
+                node.previous_module = modname
+
+
+    def buildframes(self, db, sidx, sentence):
+        for _, actioncore in db.actioncores():
+            roles = defaultdict(list)
+            for role, word in db.rolesw(actioncore):
+                sense = db.sense(word)
+                props = db.properties(word)
+                obj = Object(self.prac, id_=word, type_=sense, props=props, syntax=self.buildword(db, word))
+                roles[role].append(obj)
+            frames = ddivide(roles)    
+            for frame in frames:
+                yield Frame(self.prac, sidx, sentence, syntax=list(db.syntax()), words=self.buildwords(db), actioncore=actioncore, actionroles=frame)
+    
+    
+    def buildword(self, db, word):
+        tokens = word.split('-')
+        w = '-'.join(tokens[:-1])
+        idx = int(tokens[-1])
+        pos = set(db.postag(word)).pop()
+        sense = db.sense(word)
+        nltkpos = db.prac.wordnet.nltkpos(pos)
+        lemma = db.prac.wordnet.lemmatize(w, nltkpos) if nltkpos is not None else None
+        return Word(self.prac, word, w, idx, sense, pos, lemma)
+    
+                
+    def buildwords(self, db):
+        for word in db.words():
+            yield self.buildword(db, word)
+            
+        
+
+    
 
     def finalgraph(self, filename=None):
         finaldb = Database(self.prac.mln)

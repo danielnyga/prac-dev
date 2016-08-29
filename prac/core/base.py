@@ -214,20 +214,20 @@ class PRAC(object):
             return dbfiles
 
 
-    def run(self, pracinfer, inference, *args, **kwargs):
+    def run(self, node, module, *args, **kwargs):
         '''
         Runs module with the given module name on the given PRACInference
         object.
         :param pracinfer:   the PRACInference object.
-        :param inference:   any callable object returning a PRACInferenceStep
+        :param module:   any callable object returning a PRACInferenceStep
                             instance.
         :param *args:       the arguments passed to the inference callable.
         :param **kwargs:    the keyword arguments passed to the inference
                             callable.
         '''
 
-        inferenceStep = inference(pracinfer, *args, **kwargs)
-        if inferenceStep is None or type(inferenceStep) != PRACInferenceStep:
+        infstep = module(node, *args, **kwargs)
+        if infstep is None or type(infstep) != PRACInferenceStep:
             praclogger.exception('{}.__call__() must return a PRACInferenceStep object.'.format(inference.name))
         pracinfer.inference_steps.append(inferenceStep)
 

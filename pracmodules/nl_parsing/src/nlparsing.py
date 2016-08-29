@@ -35,7 +35,7 @@ from prac_nltk.corpus import wordnet as wn
 
 from prac.core.base import PRACModule, PRACPIPE
 from prac.core.errors import ParserError
-from prac.core.inference import PRACInferenceStep
+from prac.core.inference import PRACInferenceStep, NLInstruction
 from prac.core.wordnet import WordNet
 from prac.pracutils.utils import prac_heading
 from pracmln import MLN
@@ -214,7 +214,7 @@ class NLParsing(PRACModule):
 
 
     @staticmethod
-    def find_compounds(sentence):
+    def compounds(sentence):
         '''
         Simple check for compound words in the input sentence (forward-check
         if 3-word or 2-word pairs exist in ontology) No check for POS tag
@@ -269,7 +269,7 @@ class NLParsing(PRACModule):
         return "".join([" "+i if not i.startswith("'") and i not in string.punctuation else i for i in newinstr]).strip()
 
     
-    def parse_instructions(self, sentences):
+    def parse(self, sentences):
         '''
         Accepts as arguments a sentence or a list of sentences. Returns the
         syntactic structure of the sentences in form of MLN databases
@@ -295,44 +295,30 @@ class NLParsing(PRACModule):
 
 
     
-    @PRACPIPE
-    def __call__(self, pracinference):
-
+#     @PRACPIPE
+    def __call__(self, node):
         # ======================================================================
         # Initialization
         # ======================================================================
-
-        logger.debug('inference on {}'.format(self.name))
+        if not isinstance(node, NLInstruction):
+            raise ValueError('Argument must be NLInstruction, got %s' % type(node).__name__)
 
         if self.prac.verbose > 0:
-            print prac_heading('Parsing Natural Language')
-
-        logger.debug('Running {}'.format(self.name))
-        step = PRACInferenceStep(pracinference, self)
-
+            print prac_heading('Parsing %s' % node)
+        infstep = PRACInferenceStep(node, self)
         # ======================================================================
         # Preprocessing
         # ======================================================================
-
-        processed_instructions = []
-        for instruction in pracinference.instructions:
-            processed_instructions.append(
-                self.find_compounds(instruction))
-
-        pracinference.instructions = processed_instructions
-
+        instr = self.compounds(node.instr)
         # ======================================================================
         # Parsing Instructions
         # ======================================================================
-
         if self.prac.verbose > 0:
-            print colorize('Parsing instructions:', (None, 'white', True), True), ' '.join(pracinference.instructions)
-
-        dbs =  self.parse_instructions(pracinference.instructions)
+            print colorize('Parsing instruction: "%s"', (None, 'white', True), True) % instr
+        dbs =  self.parse([instr])
         pngs = {}
-        
         for i, db in enumerate(dbs):
-            step.output_dbs.append(db)
+            infstep.outdbs.append(db)
 
             if self.prac.verbose > 1:
                 print
@@ -341,6 +327,6 @@ class NLParsing(PRACModule):
                 print
 
             pngs['NL Parsing - ' + str(i)] = get_cond_prob_png(','.join([x.name for x in self.mln.predicates[:10]]) + ',...',
-                                                               str(','.join(pracinference.instructions)), filename=self.name)
-            step.png = pngs
-        return step
+                                                               str(','.join(node.instr)), filename=self.name)
+            infstep.png = pngs
+        return [node]

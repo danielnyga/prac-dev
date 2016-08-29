@@ -31,6 +31,7 @@ from pracmln.mln.base import parse_mln
 from pracmln import praclog
 from pracmln.utils.project import MLNProject
 from pracmln.utils.visualization import get_cond_prob_png
+from pracmln.mln.util import out
 
 
 logger = praclog.logger(__name__, praclog.DEBUG)
@@ -44,8 +45,8 @@ class PropExtraction(PRACModule):
     '''
 
 
-    @PRACPIPE
-    def __call__(self, pracinference, **params):
+#     @PRACPIPE
+    def __call__(self, node, **params):
 
         # ======================================================================
         # Initialization
@@ -65,25 +66,25 @@ class PropExtraction(PRACModule):
             projectpath = os.path.join(params.get('projectpath', None) or self.module_path, params.get('project').name)
             project = params.get('project')
 
-        inf_step = PRACInferenceStep(pracinference, self)
-        dbs = pracinference.inference_steps[-1].output_dbs
+        
+        dbs = node.outdbs
+        infstep = PRACInferenceStep(node, self)
+        
 
         mlntext = project.mlns.get(project.queryconf['mln'], None)
         mln = parse_mln(mlntext, searchpaths=[self.module_path], projectpath=projectpath,
                         logic=project.queryconf.get('logic', 'FuzzyLogic'),
                         grammar=project.queryconf.get('grammar', 'PRACGrammar'))
-        wordnet_module = self.prac.module('wn_senses')
+        wnmod = self.prac.module('wn_senses')
 
         pngs = {}
         for i, db in enumerate(dbs):
-
             # ==================================================================
             # Preprocessing
             # ==================================================================
-            db_ = wordnet_module.add_sims(db, mln)
-
+            db_ = wnmod.add_sims(db, mln)
+            infstep.indbs.append(db_)
             try:
-
                 # ==============================================================
                 # Inference
                 # ==============================================================
@@ -102,7 +103,6 @@ class PropExtraction(PRACModule):
                 # ==============================================================
                 # Postprocessing
                 # ==============================================================
-
                 unified_db = db.copy(self.prac.mln)
                 props = [p for p in project.queryconf.get('queries', '').split(',') if p != 'has_sense']
                 for p in props:
@@ -110,16 +110,16 @@ class PropExtraction(PRACModule):
                         unified_db << '{}({},{})'.format(p, q['?w1'], q['?w2'])
                         unified_db << 'has_sense({},{})'.format(q['?w2'], q['?s2'])
 
-                inf_step.output_dbs.append(unified_db)
+                infstep.outdbs.append(unified_db)
             except NoConstraintsError:
                 logger.debug('No properties found. Passing db...')
-                inf_step.output_dbs.append(db)
+                infstep.outdbs.append(db.copy())
             except Exception:
                 logger.error('Something went wrong')
                 traceback.print_exc()
 
-            pngs['PropExtraction - ' + str(i)] = get_cond_prob_png(project.queryconf.get('queries', ''), dbs, filename=self.name)
-            inf_step.png = pngs
+            pngs['PropExtraction - ' + str(i)] = get_cond_prob_png(project.queryconf.get('queries', ''), infstep.indbs, filename=self.name)
+            infstep.png = pngs
 
-        inf_step.applied_settings = project.queryconf.config
-        return inf_step
+        infstep.applied_settings = project.queryconf.config
+        return [node]
