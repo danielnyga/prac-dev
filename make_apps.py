@@ -134,7 +134,7 @@ if __name__ == '__main__':
 
     if '--help' in args:
         print "PRAC Apps Generator\n\n"
-        print "  usage: make_apps [--arch={}]\n".format("|".join(archs))
+        print "  usage: make_apps [--mongo] [--arch={}]\n".format("|".join(archs))
         print
         exit(0)
 
@@ -160,7 +160,8 @@ if __name__ == '__main__':
 
     check_dependencies()
 
-    initialize_mongodb()
+    if '--mongo' in args:
+        initialize_mongodb()
 
     print 'Removing old app folder...'
     shutil.rmtree('apps', ignore_errors=True)
