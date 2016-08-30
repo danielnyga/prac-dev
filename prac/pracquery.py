@@ -127,6 +127,14 @@ if __name__ == '__main__':
     infer = PRACInference(prac, sentences)
     infer.run()
     
+    print headline('inference results')
+    print 'instructions:'
+    for i in infer.root:
+        print i
+    frames = []
+    for step in infer.steps():
+        print step.frame
+    
     exit(0)
     is_inference_process_aborted = False
     
