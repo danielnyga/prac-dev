@@ -289,8 +289,8 @@ class PRACInference(object):
                 for n in nodes:
                     n.previous_module = module.name
                 self.fringe.extend(nodes)
-                out('in:', node.laststep.indbs)
-                out('out:', node.outdbs)
+#                 out('in:', node.laststep.indbs)
+#                 out('out:', node.outdbs)
         return self
 
 
