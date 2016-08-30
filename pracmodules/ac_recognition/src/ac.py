@@ -134,9 +134,13 @@ class ActionCoreIdentification(PRACModule):
         
         for word, _ in db.actioncores():
             verb_list.append(word)
-            
+
         if len(verb_list) < 2:
             return [db]
+
+        # sort list according to word ID to keep order of actions
+        verb_list = sorted(verb_list, cmp=lambda x, y: cmp(x.split('-')[-1], y.split('-')[-1]))
+
 
         # TODO improve the handling
         # Handle sentence with start with .....

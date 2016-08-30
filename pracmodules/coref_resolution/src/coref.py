@@ -218,3 +218,4 @@ class CorefResolution(PRACModule):
         infstep.png = pngs
         infstep.applied_settings = project.queryconf.config
         return [node]
+
