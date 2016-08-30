@@ -108,17 +108,18 @@ class Frame(object):
 
 
     @staticmethod
-    def fromjson(data):
-        return Frame(sidx=data.get(constants.JSON_FRAME_SENTENCE_IDX),
+    def fromjson(prac, data):
+        return Frame(prac, 
+                     sidx=data.get(constants.JSON_FRAME_SENTENCE_IDX),
                      sentence=data.get(constants.JSON_FRAME_SENTENCE),
                      syntax=data.get(constants.JSON_FRAME_SYNTAX),
+                     words=data.get(constants.JSON_FRAME_WORDS),
                      actioncore=data.get(constants.JSON_FRAME_ACTIONCORE),
-                     actionroles=data.get(constants.JSON_FRAME_ACTIONCORE_ROLES))
+                     actionroles={r: Object.fromjson(prac, o) for r, o in data.get(constants.JSON_FRAME_ACTIONCORE_ROLES, {}).iteritems()})
         
     def missingroles(self):
         return [r for r in self.prac.actioncores[self.actioncore].roles if r not in self.actionroles]
         
-
 
 class Howto(Frame):
     '''
@@ -140,8 +141,9 @@ class Howto(Frame):
         
     
     @staticmethod
-    def fromjson(data):
-        return Howto(instr=Frame.fromjson(data), 
+    def fromjson(prac, data):
+        return Howto(prac,
+                     instr=Frame.fromjson(data), 
                      steps=[Frame.fromjson(s) for s in data.get(JSON_HOWTO_STEPS)],
                      import_date=data.get(JSON_HOWTO_IMPORT_DATE))
 
@@ -177,8 +179,8 @@ class PropertyStore(object):
 
     
     @staticmethod
-    def fromjson(data):
-        s = PropertyStore()
+    def fromjson(prac, data):
+        s = PropertyStore(prac)
         for k, v in data.items(): setattr(s, k, v)
         return s
     
@@ -208,8 +210,9 @@ class Object(object):
         
         
     @staticmethod
-    def fromjson(data):
-        return Object(type_=data.get(constants.JSON_OBJECT_TYPE),
+    def fromjson(prac, data):
+        return Object(prac,
+                      type_=data.get(constants.JSON_OBJECT_TYPE),
                       id_=data.get(constants.JSON_OBJECT_ID),
                       props={k: Object.fromjson(v) for k, v in data.get(constants.JSON_OBJECT_PROPERTIES, {}).iteritems()},
                       syntax=data.get(JSON_OBJECT_SYNTAX))
@@ -253,8 +256,9 @@ class Word(object):
     
     
     @staticmethod    
-    def fromjson(data):
-        return Word(data.get(constants.JSON_SENSE_WORD),
+    def fromjson(prac, data):
+        return Word(prac, 
+                    data.get(constants.JSON_SENSE_WORD),
                     data.get(constants.JSON_SENSE_LEMMA),
                     data.get(constants.JSON_SENSE_POS),
                     data.get(constants.JSON_SENSE_SENSE),
