@@ -414,7 +414,7 @@ def PRACPIPE(method):
             self._initialized = True
         # transform output databases to be bound to global mln
         step = method(self, *args, **kwargs)
-        for i, db in enumerate(step.output_dbs):
+        for i, db in enumerate(step.outdbs):
             step.output_dbs[i] = PRACDatabase(self.prac, db.evidence)
         return step
 

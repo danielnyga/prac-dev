@@ -116,6 +116,7 @@ class ActionCoreIdentification(PRACModule):
                 node_ = FrameNode(node.pracinfer, frame, node, pred, indbs=[outdb])
                 pred = node_
                 yield node_
+                break
             else: 
                 logger.error('no actioncore recognized in %s' % node)
 

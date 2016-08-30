@@ -230,6 +230,7 @@ class RoleLookUp(PRACModule):
             # ==================================================================
             # Mongo Lookup
             # ==================================================================
+            infstep.indbs.append(db.copy())
             db_, missingroles = self.determine_missing_roles(node, db)
             if self.prac.verbose > 1:
                 print
@@ -246,4 +247,4 @@ class RoleLookUp(PRACModule):
                                                                skolemword=word)
             infstep.png = pngs
             infstep.applied_settings = {'module': 'missing_roles', 'method': 'DB lookup'}
-        return []
+        return [node]

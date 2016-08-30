@@ -171,7 +171,7 @@ class PRACInferenceNode(object):
         elif previous_module == 'senses_and_roles':
             return 'coref_resolution'
         elif previous_module == 'coref_resolution':
-            for outdb in self.infchain[-1].outdbs:
+            for outdb in self.outdbs:
                 
                 if self.frame.missingroles:
                     return 'role_look_up'
@@ -184,10 +184,10 @@ class PRACInferenceNode(object):
 
             return 'plan_generation'
         elif previous_module == 'role_look_up':
-            for outdb in self.inference_steps[-1].output_dbs:
+            for outdb in self.outdbs:
                 for r in outdb.query('action_core(?w, ?a)'):
                     actioncore = r['?a']
-                    mod = self.prac.module('roles_transformation')
+                    mod = self.pracinfer.prac.module('roles_transformation')
                     plans = mod.getPlanList()
                     if actioncore not in plans: return 'achieved_by'
 
@@ -195,7 +195,7 @@ class PRACInferenceNode(object):
 
         elif previous_module == 'achieved_by':
             # TODO ADD complex achieved by support
-            for outdb in self.inference_steps[-1].output_dbs:
+            for outdb in self.outdbs:
                 for r in outdb.query('achieved_by(?w, ?a)'):
                     actioncore = r['?a']
                     if actioncore == 'Complex':
@@ -204,10 +204,10 @@ class PRACInferenceNode(object):
                         return 'roles_transformation'
             return 'plan_generation'
         elif previous_module == 'roles_transformation':
-            for outdb in self.inference_steps[-1].output_dbs:
+            for outdb in self.outdbs:
                 for r in outdb.query('achieved_by(?w,?a)'):
                     actioncore = r['?a']
-                    mod = self.prac.module('roles_transformation')
+                    mod = self.pracinfer.prac.module('roles_transformation')
                     plans = mod.getPlanList()
                     if actioncore not in plans:
                         return 'achieved_by'

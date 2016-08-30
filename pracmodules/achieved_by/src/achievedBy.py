@@ -23,13 +23,14 @@
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 import os
 from prac.core.base import PRACModule, PRACPIPE, PRACDatabase
-from prac.core.inference import PRACInferenceStep
+from prac.core.inference import PRACInferenceStep, FrameNode
 from prac.pracutils.utils import prac_heading
 from pracmln.mln.base import parse_mln
 from pracmln.mln.util import colorize, out
 from pracmln import praclog
 from pracmln.utils.project import MLNProject
 from pracmln.utils.visualization import get_cond_prob_png
+from prac.db.ies.models import Frame
 
 
 logger = praclog.logger(__name__, praclog.INFO)
@@ -50,11 +51,9 @@ class AchievedBy(PRACModule):
         :param querymln:
         :return:
         '''
-        actioncore = ""
         # It will be assumed that there is only one true action_core
         # predicate per database
-        for q in db.query("action_core(?w,?ac)"):
-            actioncore = q["?ac"]
+        for w, actioncore in db.actioncores(): break
         acdomain = querymln.domains.get("actioncore")
         acdomain.extend(db.domains.get("actioncore"))
         acdomain = set(acdomain)
@@ -64,15 +63,16 @@ class AchievedBy(PRACModule):
             for ac2 in acdomain:
                 if ac1 == actioncore:
                     continue
-                db_ << ("achieved_by({},{})".format(ac1, ac2), 0)
+                db_["achieved_by({},{})".format(ac1, ac2)] = 0
 
         for atom, truth in sorted(db.evidence.iteritems()):
             db_ << (atom, truth)
 
         return db_
 
-    @PRACPIPE
-    def __call__(self, pracinference, **params):
+
+#     @PRACPIPE
+    def __call__(self, node, **params):
 
         # ======================================================================
         # Initialization
@@ -81,23 +81,29 @@ class AchievedBy(PRACModule):
         logger.debug('inference on {}'.format(self.name))
 
         if self.prac.verbose > 0:
-            print prac_heading('Refining Action Cores')
+            print prac_heading('Refining Actioncores')
 
-        inf_step = PRACInferenceStep(pracinference, self)
-        dbs = pracinference.inference_steps[-1].output_dbs
+        dbs = node.outdbs
+        infstep = PRACInferenceStep(node, self)
 
         # ======================================================================
         # Preprocessing
         # ======================================================================
-
+        if node.previous_module in ('achieved_by', 'roles_transformation'):
+            yield node
+            
         for olddb in dbs:
-            #To handle multiple acs in one task, we have to check if the single dbs contain achieved_bys which representing already plans
+            infstep.indbs.append(olddb.copy())
+            #To handle multiple acs in one task, we have to check if the single 
+            # dbs contain achieved_bys which representing already plans
             skip_db = False
             mod = self.prac.module('roles_transformation')
             plans = mod.getPlanList()
+
+            for q in olddb.query('!(EXIST ?ac2)')
+
             for q in olddb.query('achieved_by(?w,?ac)'):
                 actioncore = q['?ac']
-                
                 if actioncore in plans:
                     skip_db = True 
             
@@ -108,14 +114,11 @@ class AchievedBy(PRACModule):
                     skip_db = True
              
             if skip_db:
-                inf_step.output_dbs.append(olddb)
+                infstep.outdbs.append(olddb)
                 continue
 
             pngs = {}
-            for q in olddb.query('action_core(?w,?ac)'):
-                actioncore = q['?ac']
-                
-                
+            for word, actioncore in olddb.actioncores():
                 # This list is used to avoid an infinite loop during the
                 # achieved by inference.
                 # To avoid this infinite loop, the list contains the pracmlns
@@ -130,8 +133,7 @@ class AchievedBy(PRACModule):
                 # previous achieved_by inferences
                 db_ = PRACDatabase(self.prac)
                 for atom, truth in sorted(olddb.evidence.iteritems()):
-                    if 'achieved_by' in atom:
-                        continue
+                    if 'achieved_by' in atom: continue
                     db_ << (atom,truth)
 
                 if params.get('project', None) is None:
@@ -140,10 +142,9 @@ class AchievedBy(PRACModule):
                     if os.path.exists(projectpath):
                         project = MLNProject.open(projectpath)
                     else:
-                        inf_step.output_dbs.append(olddb)
-                        out(actioncore)
+                        infstep.outdbs.append(olddb)
                         logger.error(actioncore + ".pracmln does not exist.")
-                        return inf_step
+                        yield node
                 else:
                     logger.debug(colorize('Loading Project from params', (None, 'cyan', True), True))
                     projectpath = os.path.join(params.get('projectpath', None) or self.module_path, params.get('project').name)
@@ -155,19 +156,17 @@ class AchievedBy(PRACModule):
                                 logic=project.queryconf.get('logic', 'FirstOrderLogic'),
                                 grammar=project.queryconf.get('grammar', 'PRACGrammar'))
                 known_concepts = mln.domains.get('concept', [])
-                wordnet_module = self.prac.module('wn_senses')
+                wnmod = self.prac.module('wn_senses')
                 
                 #Merge domains of db and given mln to avoid errors due to role inference and the resulting missing fuzzy perdicates
                 known_concepts = list(set(known_concepts).union(set(db_.domains.get('concept', []))))
-                db = wordnet_module.get_senses_and_similarities(db_, known_concepts)
-
+                db = wnmod.get_senses_and_similarities(db_, known_concepts)
 
                 unified_db = db.union(db_)
-                dbnew = wordnet_module.add_sims(unified_db, unified_db)
+                dbnew = wnmod.add_sims(unified_db, unified_db)
 
                 # Inference achieved_by predicate
                 db_ = self.extendDBWithAchievedByEvidence(dbnew, mln)
-
                 # ==============================================================
                 # Inference
                 # ==============================================================
@@ -181,19 +180,18 @@ class AchievedBy(PRACModule):
                     print
                     print prac_heading('INFERENCE RESULTS')
                     infer.write()
-
                 # ==============================================================
                 # Postprocessing
                 # ==============================================================
-
                 # unified_db = result_db.union(kb.query_mln, db_)
                 # only add inferred achieved_by atoms, leave out
                 # 0-evidence atoms
                 for qa in result_db.query('achieved_by(?ac1,?ac2)'):
                     unified_db << 'achieved_by({},{})'.format(qa['?ac1'], qa['?ac2'])
                     pngs[qa['?ac2']] = get_cond_prob_png(project.queryconf.get('queries', ''), dbs, filename=self.name)
+                    newframe = Frame(self.prac, node.frame.sidx, '', words=[], syntax=[], actioncore=qa['?ac2'], actionroles={})
+                    yield FrameNode(node.pracinfer, newframe, node, pred=None, indbs=[unified_db])
 
-                inf_step.output_dbs.append(unified_db)
-                inf_step.png = pngs
-                inf_step.applied_settings = project.queryconf.config
-        return inf_step
+                infstep.outdbs.append(unified_db)
+                infstep.png = pngs
+                infstep.applied_settings = project.queryconf.config
