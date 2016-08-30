@@ -109,14 +109,15 @@ class ActionCoreIdentification(PRACModule):
         infstep.applied_settings = ac_project.queryconf.config
         pred = None    
         for outdb in infstep.outdbs:
-            out('in ac rec:')
-            for w, ac in outdb.actioncores():
-                out(w, ac)
-#             out(list(outdb.syntax()))
-            for frame in node.pracinfer.buildframes(outdb, sidx, sentence): break
-            node_ = FrameNode(node.pracinfer, frame, node, pred, indbs=[outdb])
-            pred = node_
-            yield node_
+#             out('in ac rec:')
+#             for w, ac in outdb.actioncores():
+#                 out(w, ac)
+            for frame in node.pracinfer.buildframes(outdb, sidx, sentence): 
+                node_ = FrameNode(node.pracinfer, frame, node, pred, indbs=[outdb])
+                pred = node_
+                yield node_
+            else: 
+                logger.error('no actioncore recognized in %s' % node)
 
 
     def extract_multiple_action_cores(self, prac, db, wordnet_module, known_concepts):
