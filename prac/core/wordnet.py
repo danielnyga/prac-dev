@@ -607,13 +607,11 @@ class WordNet(object):
         similarity, which adds a penalizing factor for inferring
         another synset from adjectives.
         '''
-
         posdiff = 0.
-
-        if type(synset1) is str:
-            synset1 = self.synset(synset1)
-        if type(synset2) is str:
-            synset2 = self.synset(synset2)
+        if isinstance(synset1, basestring):
+            synset1 = self.synset(str(synset1))
+        if isinstance(synset2, basestring):
+            synset2 = self.synset(str(synset2))
         if synset1 is None or synset2 is None:
             return 0.
         if synset1 == synset2:
@@ -770,10 +768,10 @@ class WordNet(object):
         :param synset2: the second synset to compare
         :return:        the custom similarity
         '''
-        if type(synset1) is str:
-            synset1 = self.synset(synset1)
-        if type(synset2) is str:
-            synset2 = self.synset(synset2)
+        if isinstance(synset1, basestring):
+            synset1 = self.synset(str(synset1))
+        if isinstance(synset2, basestring):
+            synset2 = self.synset(str(synset2))
         if synset1 is None or synset2 is None:
             return 0.
         if synset1 == synset2:
