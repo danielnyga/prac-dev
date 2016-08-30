@@ -29,20 +29,10 @@ from prac.db.ies.models import Object, Frame, Word
 from collections import defaultdict
 from pracmln.mln.util import out, stop
 import sys
+from prac.pracutils.utils import splitd
 
 
-def __dividedict(d, dnew):
-    if not d: 
-        yield dnew
-        return
-    key, values = d.popitem()
-    for v in values:
-        dnew_ = dict(dnew)
-        dnew_[key] = v
-        for d_ in __dividedict(dict(d), dnew_): yield d_
 
-def ddivide(d):
-    return __dividedict(d, {})
 
 
 class PRACInferenceStep(object):
@@ -81,7 +71,6 @@ class PRACInferenceNode(object):
         self.previous_module = None
         if parent:
             parent.children.append(self)
-            self.infchain.append(parent.laststep)
             self.previous_module = parent.previous_module
         self.pred = pred
         self.children = []
@@ -118,20 +107,11 @@ class PRACInferenceNode(object):
         '''
         q = list(reversed(list(self.parentspath()))) + [self] 
         parents = list(q)
-#         out('parentspath of', self, list(map(str, self.parentspath())))
-#         out('preds of', self, list(map(str, self.iterpreds())))
-#         for n in list(self.parentspath()):
-#             q.extend(n.children[:node.idx()])
-#             node = n
-        
         processed = set()
-        out(q)
         while q:
             n = q.pop()
             if n in processed: continue
             processed.add(n)
-#             out(n, list(n.iterpreds()))
-#             out(n.children[:n.idx()])
             if goaltest(n) and n not in parents:
                 yield n
                 if not all: return
@@ -154,15 +134,9 @@ class PRACInferenceNode(object):
                 return par
     
     
-#     @property
-#     def indbs(self):
-#         if self.parent: return self.parent.outdbs
-#         return []
-    
-    
     @property
     def outdbs(self):
-        if not self.infchain: return []
+        if not self.infchain: return self.indbs
         return self.infchain[-1].outdbs
     
     
@@ -191,15 +165,15 @@ class PRACInferenceNode(object):
         if previous_module == 'nl_parsing':
             return 'ac_recognition'
         elif previous_module == 'ac_recognition':
-            return 'prop_extraction'
-        elif previous_module == 'prop_extraction':
+#             return 'prop_extraction'
+#         elif previous_module == 'prop_extraction':
             return 'senses_and_roles'
         elif previous_module == 'senses_and_roles':
             return 'coref_resolution'
         elif previous_module == 'coref_resolution':
             for outdb in self.infchain[-1].outdbs:
                 
-                if self.is_task_missing_roles(outdb):
+                if self.frame.missingroles:
                     return 'role_look_up'
                 
                 for r in outdb.query('action_core(?w, ?a)'):
@@ -306,16 +280,13 @@ class PRACInference(object):
             if modname:
                 self._logger.debug('running %s' % modname)
                 module = self.prac.module(modname)
-                out(node.indbs)
                 nodes = list(module(node))
+                node.previous_module = modname
                 for n in nodes:
                     n.previous_module = module.name
-    
-                out(node.outdbs)
-                if nodes:
-                    nodes = list(nodes)
-                    self.fringe.extend(nodes)
-                node.previous_module = modname
+                self.fringe.extend(nodes)
+                out('in:', node.laststep.indbs)
+                out('out:', node.outdbs)
 
 
     def buildframes(self, db, sidx, sentence):
@@ -326,7 +297,7 @@ class PRACInference(object):
                 props = db.properties(word)
                 obj = Object(self.prac, id_=word, type_=sense, props=props, syntax=self.buildword(db, word))
                 roles[role].append(obj)
-            frames = ddivide(roles)    
+            frames = splitd(roles)    
             for frame in frames:
                 yield Frame(self.prac, sidx, sentence, syntax=list(db.syntax()), words=self.buildwords(db), actioncore=actioncore, actionroles=frame)
     

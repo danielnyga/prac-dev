@@ -73,8 +73,9 @@ class ActionCoreIdentification(PRACModule):
         wnmod = self.prac.module('wn_senses')
 
         pngs = {}
-        sentence = node.nlinstr()
-        sidx = sentence.idx()
+        nlinstr = node.nlinstr()
+        sidx = nlinstr.idx()
+        sentence = nlinstr.instr
         
         for db_ in dbs:
             # ==================================================================
@@ -111,9 +112,9 @@ class ActionCoreIdentification(PRACModule):
             out('in ac rec:')
             for w, ac in outdb.actioncores():
                 out(w, ac)
+#             out(list(outdb.syntax()))
             for frame in node.pracinfer.buildframes(outdb, sidx, sentence): break
             node_ = FrameNode(node.pracinfer, frame, node, pred, indbs=[outdb])
-#             node_.infchain.append(infstep)
             pred = node_
             yield node_
 

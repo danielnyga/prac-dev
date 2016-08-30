@@ -68,6 +68,9 @@ class PropExtraction(PRACModule):
 
         
         dbs = node.outdbs
+        out(dbs)
+        out(node)
+        out(node.infchain)
         infstep = PRACInferenceStep(node, self)
         
 

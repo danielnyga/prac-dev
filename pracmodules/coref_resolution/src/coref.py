@@ -32,9 +32,10 @@ from pracmln.mln.base import parse_mln
 from pracmln.mln.util import colorize, mergedom, out, stop
 from pracmln.utils.project import MLNProject
 from pracmln.utils.visualization import get_cond_prob_png
+from pprint import pprint
 
 
-logger = praclog.logger(__name__, praclog.INFO)
+logger = praclog.logger(__name__, praclog.DEBUG)
 
 
 class CorefResolution(PRACModule):
@@ -55,15 +56,20 @@ class CorefResolution(PRACModule):
         if self.prac.verbose > 0:
             print prac_heading('Resolving Coreferences')
         
-        preds = list(node.rdfs(goaltest=(lambda n: isinstance(n, FrameNode)), all=True))[:3]
-        if not preds: return []
-        laststep = node.laststep
+#         for p in list(node.rdfs(goaltest=lambda n: isinstance(n, FrameNode), all=True)):
+#             out(p.frame.sidx)
+        
+        preds = list(node.rdfs(goaltest=lambda n: isinstance(n, FrameNode) and not n.children, all=True))[:3]
+#         laststep = node.laststep
+        dbs = node.outdbs
+        for db in dbs:
+            out(list(db.syntax()))
         infstep = PRACInferenceStep(node, self)
         projectpath = self.module_path
-        sentences = []
         ac = None
         pngs = {}
 
+#         if not preds: return []
         # ======================================================================
         # Preprocessing
         # ======================================================================
@@ -73,146 +79,142 @@ class CorefResolution(PRACModule):
         if not preds:
             # no coreferencing required - forward dbs and settings
             # from previous module
-            infstep.outdbs = [db.copy(self.prac.mln) for db in infstep.indbs]
-            infstep.png = laststep.png
-            infstep.applied_settings = laststep.applied_settings
-            logger.debug('Got single database. Nothing to do here. Passing db...')
+            infstep.indbs = [db.copy() for db in dbs]
+            infstep.outdbs = [db.copy() for db in infstep.indbs]
+#             infstep.png = laststep.png
+#             infstep.applied_settings = laststep.applied_settings
+            logger.debug('%s has no predecessors. Nothing to do here. Passing db...' % node)
             return [node]
     
         # retrieve all words from the dbs to calculate distances.
         # Do not use pracinference.instructions as they are not
         # annotated by the Stanford parser.
+        sentences = [db.words() for pred in preds for db in pred.indbs]
+        infstep.indbs = [db.copy() for db in dbs]
+#         infstep.outdbs = [db.copy() for db in infstep.indbs]
+        # query action core to load corresponding project
+        actioncore = node.frame.actioncore
+        logger.debug('loading Project: {}'.format(colorize(actioncore, (None, 'cyan', True), True)))
+        project = MLNProject.open(os.path.join(projectpath, '{}.pracmln'.format(actioncore)))
+        # clear corefdb and unify current db with the two preceding ones
+        corefdb = PRACDatabase(self.prac)
+#         for s in range(max(0, i - 2), i+1):
+#             corefdb = corefdb.union(dbs[s], self.prac.mln)
         for pred in preds:
-            print pred
-            for db in pred.outdbs:
-                for w, ac in db.actioncores():
-                    print w, ac
-#             for db in pred.outdbs:
-#                 db.write()
-        words = [db.words() for pred in preds for db in pred.outdbs]
-        out(words)
-#             sen = [x['?w'] for x in .query('has_pos(?w,?pos)'))]
-#             sentences.append(sen)
-        return []
-        for i, db in enumerate(pred.outdbs):
-            if i == 0:
-                # no coreference resolution required for first database
-                infstep.output_dbs.append(dbs[i])
-            else:
-                # query action core to load corresponding project
-                for _, actioncore in dbs[i].actioncores(): break
-                try:
-                    logger.debug('Loading Project: {}'.format(colorize(ac, (None, 'cyan', True), True)))
-                    project = MLNProject.open(os.path.join(projectpath, '{}.pracmln'.format(actioncore)))
+            logger.debug('unifying with %s' % pred)
+            for db in pred.indbs:
+                corefdb = corefdb.union(db, self.prac.mln)
+        # remove all senses from the databases' domain that are not
+        # assigned to any word.
+        for q in corefdb.query('!(EXIST ?w (has_sense(?w,?sense)))'):
+            corefdb.rmval('sense', q['?sense'])
+        try:
+            # preprocessing: adding distance information for each
+            # word in the instructions
+#             s = words[max(0, i - 2):i+1]
+#             snts = list(enumerate(s))
+#             idx = len(snts) - 1  # idx of current sentence
+#             for s in snts[:-1]:
+#                 idx2 = s[0]
+#                 for w in s[1]:
+#                     corefdb << 'distance({},DIST{})'.format(w, idx - idx2)
+            for sidx, s in enumerate(sentences):
+                for w in s:
+                    corefdb << 'distance({},DIST{})'.format(w, sidx+1)
+            
+            mlntext = project.mlns.get(project.queryconf['mln'], None)
+            mln = parse_mln(mlntext, searchpaths=[self.module_path],
+                            projectpath=projectpath,
+                            logic=project.queryconf.get('logic', 'FuzzyLogic'),
+                            grammar=project.queryconf.get('grammar', 'PRACGrammar'))
+        except MLNParsingError:
+            logger.warning('Could not use MLN in project {} for coreference resolution'.format(colorize(actioncore, (None, 'cyan', True), True)))
+            infstep.outdbs = [db.copy(self.prac.mln) for db in dbs]
+            infstep.png = node.parent.laststep.png
+            infstep.applied_settings = node.parent.laststep.applied_settings
+            return [node]
+        except Exception:
+            infstep.outdbs = [db.copy(self.prac.mln) for db in dbs]
+            infstep.png = node.parent.laststep.png
+            infstep.applied_settings = node.parent.laststep.applied_settings
+            logger.warning('Could not load project "{}". Passing dbs to next module...'.format(ac))
+            return [node]
 
-                    # clear corefdb and unify current db with the two preceding ones
-                    corefdb = PRACDatabase(self.prac)
-                    for s in range(max(0, i - 2), i+1):
-                        corefdb = corefdb.union(dbs[s], self.prac.mln)
+        # adding similarities
+        wnmod = self.prac.module('wn_senses')
+        newdatabase = wnmod.add_sims(corefdb, mln)
 
-                    # remove all senses from the databases' domain, that are not
-                    # assigned to any word.
-                    for q in corefdb.query('!(EXIST ?w (has_sense(?w,?sense)))'):
-                        corefdb.rmval('sense', q['?sense'])
+        # update queries depending on missing roles
+        acroles = filter(lambda role: role != 'action_verb', self.prac.actioncores[actioncore].roles)
+        missingroles = [ar for ar in acroles if len(list(newdatabase.query('{}(?w,Adding)'.format(ar)))) == 0]
+        conf = project.queryconf
+        conf.update({'queries': ','.join(missingroles)})
+        print colorize('querying for {}'.format(conf['queries']), (None, 'green', True), True)
 
-                    # preprocessing: adding distance information for each
-                    # word in the instructions
-                    s = sentences[max(0, i - 2):i+1]
-                    snts = list(enumerate(s))
-                    idx = len(snts) - 1  # idx of current sentence
-                    for s in snts[:-1]:
-                        idx2 = s[0]
-                        for w in s[1]:
-                            corefdb << 'distance({},DIST{})'.format(w, idx - idx2)
+        # asserting impossible role-ac combinations, leaving previously
+        # inferred roles untouched
+        fulldom = mergedom(mln.domains, newdatabase.domains)
+        ac_domains = [dom for dom in fulldom if '_ac' in dom]
+        acs = list(set([v for a in ac_domains for v in fulldom[a]]))
+        acs = filter(lambda ac_: ac_ != actioncore, acs)
 
-                    mlntext = project.mlns.get(project.queryconf['mln'], None)
-                    mln = parse_mln(mlntext, searchpaths=[self.module_path],
-                                    projectpath=projectpath,
-                                    logic=project.queryconf.get('logic', 'FuzzyLogic'),
-                                    grammar=project.queryconf.get('grammar', 'PRACGrammar'))
-                except MLNParsingError:
-                    logger.warning('Could not use MLN in project {} for coreference resolution'.format(colorize(ac, (None, 'cyan', True), True)))
-                    infstep.output_dbs = [db.copy(self.prac.mln) for db in dbs]
-                    infstep.png = pred.laststep.png
-                    infstep.applied_settings = pred.laststep.applied_settings
-                    return infstep
-                except Exception:
-                    infstep.output_dbs = [db.copy(self.prac.mln) for db in dbs]
-                    infstep.png = pred.laststep.png
-                    infstep.applied_settings = pred.laststep.applied_settings
-                    logger.warning('Could not load project "{}". Passing dbs to next module...'.format(ac))
-                    return infstep
+        for ac1 in acs:
+            for r in missingroles:
+                for w in newdatabase.domains['word']:
+                    # words with no sense are asserted false
+                    if list(corefdb.query('!(EXIST ?sense (has_sense({},?sense)))'.format(w))):
+                        newdatabase << '!{}({},{})'.format(r, w, actioncore)
+                    # leave previously inferred information roles
+                    # untouched
+                    if list(newdatabase.query('{}({},{})'.format(r, w, ac1))):
+                        continue
+                    else:
+                        newdatabase << '!{}({},{})'.format(r, w, ac1)
+        try:
+            # ==========================================================
+            # Inference
+            # ==========================================================
+            infer = self.mlnquery(config=conf,
+                                  verbose=self.prac.verbose > 2,
+                                  db=newdatabase, mln=mln)
+            if self.prac.verbose == 2:
+                print
+                print prac_heading('INFERENCE RESULTS')
+                infer.write()
+            # ==========================================================
+            # Postprocessing
+            # ==========================================================
+            # merge initial db with results
+            for db in infstep.indbs:
+                resultdb = db.copy()
+                for res in infer.results.keys():
+                    if infer.results[res] != 1.0:
+                        continue
+                    resultdb << str(res)
+                    _, _, args = self.prac.mln.logic.parse_literal(res)
+                    w = args[0]
+                    for q in newdatabase.query('has_sense({0},?s) ^ has_pos({0},?pos)'.format(w)):
+                        resultdb << 'has_sense({},{})'.format(w, q['?s'])
+                        resultdb << 'is_a({0},{0})'.format(q['?s'])
+                        resultdb << 'has_pos({},{})'.format(w, q['?pos'])
+                resultdb = wnmod.add_sims(resultdb, mln)
+                # enhance the frame data
+                for mrole in missingroles:
+                    for q in resultdb.query('{role}(?w, {actioncore}) ^ has_sense(?w, ?s)'.format(role=mrole, actioncore=actioncore)):
+                        for p in preds:
+                            if p.frame.object(q['?w']) is not None:
+                                node.frame.actionroles[mrole] = p.frame.object(q['?w']) 
+                                break
+                infstep.outdbs.append(resultdb)
+            pprint(node.frame.tojson())
+        except NoConstraintsError:
+            logger.debug('No coreferences found. Passing db...')
+            infstep.outdbs.append(db)
+        except Exception:
+            logger.error('Something went wrong')
+            traceback.print_exc()
 
-                # adding similarities
-                wordnet_module = self.prac.module('wn_senses')
-                newdatabase = wordnet_module.add_sims(corefdb, mln)
-
-                # update queries depending on missing roles
-                acroles = filter(lambda role: role != 'action_verb', self.prac.actioncores[ac].roles)
-                missingroles = [ar for ar in acroles if len(list(newdatabase.query('{}(?w,Adding)'.format(ar)))) == 0]
-                conf = project.queryconf
-                conf.update({'queries': ','.join(missingroles)})
-                print colorize('querying for {}'.format(conf['queries']), (None, 'green', True), True)
-
-                # asserting impossible role-ac combinations, leaving previously
-                # inferred roles untouched
-                fulldom = mergedom(mln.domains, newdatabase.domains)
-                ac_domains = [dom for dom in fulldom if '_ac' in dom]
-                acs = list(set([v for a in ac_domains for v in fulldom[a]]))
-                acs = filter(lambda ac_: ac_ != ac, acs)
-
-                for ac1 in acs:
-                    for r in missingroles:
-                        for w in newdatabase.domains['word']:
-                            # words with no sense are asserted false
-                            if list(corefdb.query('!(EXIST ?sense (has_sense({},?sense)))'.format(w))):
-                                newdatabase << '!{}({},{})'.format(r, w, ac)
-                            # leave previously inferred information roles
-                            # untouched
-                            if list(newdatabase.query('{}({},{})'.format(r, w, ac1))):
-                                continue
-                            else:
-                                newdatabase << '!{}({},{})'.format(r, w, ac1)
-
-                try:
-                    # ==========================================================
-                    # Inference
-                    # ==========================================================
-
-                    infer = self.mlnquery(config=conf,
-                                          verbose=self.prac.verbose > 2,
-                                          db=newdatabase, mln=mln)
-
-                    if self.prac.verbose == 2:
-                        print
-                        print prac_heading('INFERENCE RESULTS')
-                        infer.write()
-
-                    # ==========================================================
-                    # Postprocessing
-                    # ==========================================================
-
-                    # merge initial db with results
-                    for res in infer.results.keys():
-                        if infer.results[res] != 1.0:
-                            continue
-                        db << '{}'.format(res)
-                        w = res.split('(')[1].split(',')[0]
-                        for q in newdatabase.query('has_sense({0},?s) ^ has_pos({0},?pos)'.format(w)):
-                            db << 'has_sense({},{})'.format(w, q['?s'])
-                            db << 'is_a({0},{0})'.format(q['?s'])
-                            db << 'has_pos({},{})'.format(w, q['?pos'])
-
-                    newdb = wordnet_module.add_sims(db, mln)
-                    inf_step.output_dbs.append(newdb)
-                except NoConstraintsError:
-                    logger.debug('No coreferences found. Passing db...')
-                    inf_step.output_dbs.append(db)
-                except Exception:
-                    logger.error('Something went wrong')
-                    traceback.print_exc()
-
-                pngs['Coref - ' + str(i)] = get_cond_prob_png(project.queryconf.get('queries', ''), dbs, filename=self.name)
-                inf_step.png = pngs
-                inf_step.applied_settings = project.queryconf.config
-        return inf_step
+        pngs['Coref - ' + str(node)] = get_cond_prob_png(project.queryconf.get('queries', ''), dbs, filename=self.name)
+        infstep.png = pngs
+        infstep.applied_settings = project.queryconf.config
+        return [node]

@@ -22,18 +22,19 @@
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 import os
 from prac.core.base import PRACModule, PRACPIPE, PRACDatabase
-from prac.core.inference import PRACInferenceStep
+from prac.core.inference import PRACInferenceStep, FrameNode
 from prac.core.wordnet import WordNet
 from prac.pracutils.pracgraphviz import render_gv
-from prac.pracutils.utils import prac_heading
+from prac.pracutils.utils import prac_heading, splitd
 from prac.sense_distribution import add_all_wordnet_similarities, get_prob_color
 from pracmln.mln.base import parse_mln
-from pracmln.mln.util import colorize, stop
+from pracmln.mln.util import colorize, stop, out
 from pracmln import praclog
 from pracmln.utils.project import MLNProject
 from pracmln.utils.visualization import get_cond_prob_png
-from prac.db.ies.models import Object
+from prac.db.ies.models import Object, Frame
 from collections import defaultdict
+from pprint import pprint
 
 logger = praclog.logger(__name__, praclog.DEBUG)
 
@@ -58,7 +59,7 @@ class SensesAndRoles(PRACModule):
         infstep = PRACInferenceStep(node, self)
         queries = ''
         wnmod = self.prac.module('wn_senses')
-
+        actionroles = defaultdict(list)
         pngs = {}
         for n, olddb in enumerate(dbs):
             db_copy = olddb.copy(mln=self.prac.mln)
@@ -124,13 +125,13 @@ class SensesAndRoles(PRACModule):
             # get query roles for given actioncore and add inference results
             # for them to final output db. ignore 0-truth results.
             unified_db = new_tmp_union_db.union(resultdb, mln=self.prac.mln)
-            node.frame.actionroles = defaultdict(list)
+#             node.frame.actionroles = defaultdict(list)
             for role, word in unified_db.rolesw(actioncore):
                 print role, word
                 sense = unified_db.sense(word)
                 props = unified_db.properties(word)
                 obj = Object(self.prac, id_=word, type_=sense, props=props, syntax=node.pracinfer.buildword(unified_db, word))
-                node.frame.actionroles[role].append(obj)
+                actionroles[role].append(obj)
 
             # argdoms = kb.query_mln.predicate(role).argdoms
             roles = self.prac.actioncores[actioncore].roles
@@ -162,7 +163,19 @@ class SensesAndRoles(PRACModule):
                 raise Exception('no actioncore in database: %s' % olddb)
             
             infstep.applied_settings = project.queryconf.config
-        return [node]
+        pprint(actionroles)
+        newframes = splitd(actionroles)
+        pred = None
+        for newframe in newframes:
+            pprint(newframe)
+            f = Frame(self.prac, node.frame.sidx, node.frame.sentence, syntax=list(olddb.syntax()), 
+                      words=node.frame.words, actioncore=node.frame.actioncore, actionroles=newframe)
+            logger.debug('created new frame %s' % f)
+            for db in infstep.outdbs:
+                out(db.syntax())
+            pred = FrameNode(node.pracinfer, f, node, pred, indbs=infstep.outdbs)
+            yield pred
+#         return [node]
 
 
     def role_distributions(self, step):

@@ -7,6 +7,23 @@ from pracmln.utils.visualization import DECLARATIONS
 from pracmln.utils.latexmath2png import math2png
 
 
+def __splitdict(d, dnew):
+    '''
+    
+    '''
+    if not d: 
+        yield dnew
+        return
+    key, values = d.popitem()
+    for v in values:
+        dnew_ = dict(dnew)
+        dnew_[key] = v
+        for d_ in __splitdict(dict(d), dnew_): yield d_
+
+def splitd(d):
+    return __splitdict(d, {})
+
+
 def partition(l, s):
     '''
     Partitions the list ``l`` into sublists of size ``s`` and returns a generator
@@ -97,5 +114,6 @@ def get_query_png(queries, dbs, filename='cond_prob', filedir='/tmp', skolemword
 #===============================================================================
 
 if __name__ == '__main__':
-    print list(partition(range(2), 3))
+#     print list(partition(range(2), 3))
+    print splitd({1:[2,3,4], 2:[5,7], 3:[8]})
     

@@ -89,6 +89,16 @@ class Frame(object):
         return stats.hmean(sims)
     
     
+    def word(self, wid):
+        for w in self.words:
+            if w.wid == wid: return w
+            
+    def object(self, oid):
+        for r, o in self.actionroles.iteritems():
+            if o.id == oid: return o
+        
+        
+    
     def tojson(self):
         return {constants.JSON_FRAME_SENTENCE: self.sentence,
                 constants.JSON_FRAME_ACTIONCORE: self.actioncore,
@@ -104,6 +114,9 @@ class Frame(object):
                      syntax=data.get(constants.JSON_FRAME_SYNTAX),
                      actioncore=data.get(constants.JSON_FRAME_ACTIONCORE),
                      actionroles=data.get(constants.JSON_FRAME_ACTIONCORE_ROLES))
+        
+    def missingroles(self):
+        return [r for r in self.prac.actioncores[self.actioncore].roles if r not in self.actionroles]
         
 
 
@@ -199,7 +212,7 @@ class Object(object):
     
     
     def __str__(self):
-        return '%s: %s' % (self.id, self.type)
+        return repr(self)#'%s: %s' % (self.id, self.type)
     
         
 
