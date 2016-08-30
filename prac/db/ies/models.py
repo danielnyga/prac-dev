@@ -145,6 +145,14 @@ class Howto(Frame):
                      steps=[Frame.fromjson(s) for s in data.get(JSON_HOWTO_STEPS)],
                      import_date=data.get(JSON_HOWTO_IMPORT_DATE))
 
+    def shortstr(self):
+        s = 'Howto: %s\nSteps:\n' % Frame.__str__(self)
+#         print self.steps
+#         print [str(f) for f in self.steps]
+#         for f in self.steps:
+#             s += '  - %s\n' % f
+        s += '\n'.join([('  - %s' % f) for f in self.steps])
+        return s
 
 class PropertyStore(object):
     '''Store for property values of objects'''

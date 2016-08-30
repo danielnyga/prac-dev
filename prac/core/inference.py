@@ -117,7 +117,7 @@ class PRACInferenceNode(object):
                 if not all: return
             q.extend(reversed(list(n.iterpreds())))
             if n not in parents:
-                q.extend(reversed(list(n.children)))
+                q.extend(list(n.children))
     
     
     def parentspath(self):
@@ -269,14 +269,18 @@ class PRACInference(object):
         for i in instr_:
             self.fringe.append(NLInstruction(self, i, pred=pred))
             pred = self.fringe[-1]
-        for n in self.fringe:
-            print n, n.pred
+        self.root = list(self.fringe)
+#         for n in self.fringe:
+#             print n, n.pred
     
     
-    def run(self):
+    def run(self, stopat=None):
+        if type(stopat) not in (tuple, list):
+            stopat = [stopat]
         while self.fringe:
             node = self.fringe.pop(0)
             modname = node.next_module()
+            if modname in stopat: break
             if modname:
                 self._logger.debug('running %s' % modname)
                 module = self.prac.module(modname)
@@ -287,6 +291,16 @@ class PRACInference(object):
                 self.fringe.extend(nodes)
                 out('in:', node.laststep.indbs)
                 out('out:', node.outdbs)
+        return self
+
+
+    def steps(self):
+        q = list(self.root)
+        while q:
+            n = q.pop(0)
+            if isinstance(n, FrameNode) and not n.children:
+                yield n
+            q.extend(n.children)
 
 
     def buildframes(self, db, sidx, sentence):

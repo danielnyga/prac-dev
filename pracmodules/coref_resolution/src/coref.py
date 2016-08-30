@@ -59,7 +59,7 @@ class CorefResolution(PRACModule):
 #         for p in list(node.rdfs(goaltest=lambda n: isinstance(n, FrameNode), all=True)):
 #             out(p.frame.sidx)
         
-        preds = list(node.rdfs(goaltest=lambda n: isinstance(n, FrameNode) and not n.children, all=True))[:3]
+        preds = list(node.rdfs(goaltest=lambda n: isinstance(n, FrameNode) and not n.children, all=True))[:2]
 #         laststep = node.laststep
         dbs = node.outdbs
         for db in dbs:
@@ -94,8 +94,6 @@ class CorefResolution(PRACModule):
 #         infstep.outdbs = [db.copy() for db in infstep.indbs]
         # query action core to load corresponding project
         actioncore = node.frame.actioncore
-        logger.debug('loading Project: {}'.format(colorize(actioncore, (None, 'cyan', True), True)))
-        project = MLNProject.open(os.path.join(projectpath, '{}.pracmln'.format(actioncore)))
         # clear corefdb and unify current db with the two preceding ones
         corefdb = PRACDatabase(self.prac)
 #         for s in range(max(0, i - 2), i+1):
@@ -120,8 +118,16 @@ class CorefResolution(PRACModule):
 #                     corefdb << 'distance({},DIST{})'.format(w, idx - idx2)
             for sidx, s in enumerate(sentences):
                 for w in s:
-                    corefdb << 'distance({},DIST{})'.format(w, sidx+1)
+                    cont = True
+                    for q in corefdb.query('distance({}, ?w)'.format(w)):
+                        cont = False 
+                        break
+                    if not cont: continue
+                    corefdb << 'distance({},DIST{})'.format(w, sidx)
+                    print 'distance({},DIST{})'.format(w, sidx) 
             
+            logger.debug('loading Project: {}'.format(colorize(actioncore, (None, 'cyan', True), True)))
+            project = MLNProject.open(os.path.join(projectpath, '{}.pracmln'.format(actioncore)))
             mlntext = project.mlns.get(project.queryconf['mln'], None)
             mln = parse_mln(mlntext, searchpaths=[self.module_path],
                             projectpath=projectpath,

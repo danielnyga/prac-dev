@@ -51,8 +51,8 @@ class HowtoImport(object):
         howto = self.buildhowto(instr, steps)
         if howto is not None:
             pprint(howto.tojson())
-            for step in howto.steps:
-                print step.sentence, '~', howto.sentence, step.sim(howto)
+            self.prac.mongodb.prac.howtos.insert_one(howto.tojson())
+        print howto.shortstr()
     
     
     def buildframes(self, db, sidx, sentence):
@@ -92,14 +92,17 @@ class HowtoImport(object):
         constructs a json representation of the instruction ``instr`` 
         '''
         stopmodules = ('role_look_up', 'achieved_by', 'complex_achieved')
-        mainresult = self.prac.query(instr, stopat=stopmodules).inference_steps[-1].output_dbs
-        stepresults = self.prac.query(steps, stopat=stopmodules).inference_steps[-1]
-        mainframe = self.buildframes(mainresult[0], 0, instr)
+        infer = PRACInference(self.prac, instr).run(stopmodules)
+        mainresult = [db for step in infer.steps() for db in step.outdbs] #self.prac.query(instr, stopat=stopmodules).inf_steps[-1].output_dbs
+        for step in infer.steps(): 
+            mainframe = step.frame
+        infer = PRACInference(self.prac, steps).run(stopmodules)
+        stepresults = [db for step in infer.steps() for db in step.outdbs]#self.prac.query(steps, stopat=stopmodules).inference_steps[-1]
+#         mainframe = self.buildframes(mainresult[0], 0, instr)
         frames = [] 
-        for i, step in enumerate(stepresults.output_dbs):
-            frames.extend(self.buildframes(step, i, steps[i]))
-        for instr in mainframe: break
-        return Howto(self.prac, instr=instr, steps=frames)
+        for step in infer.steps():
+            frames.append(step.frame)
+        return Howto(self.prac, instr=mainframe, steps=frames)
     
     
     def store_frames_into_database(self, howto, frames):
