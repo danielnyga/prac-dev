@@ -690,7 +690,7 @@ class PRACDatabase(Database):
         :param word:    a word
         :return:        a generator yielding (property, value) pairs
         '''
-        for prop in [p.name for p in self.prac.module('property_extraction').mln.predicates]:
+        for prop in [p.name for p in self.prac.module('prop_extraction').mln.predicates]:
             for q in self.query('{prop}({word}, ?value) ^ has_sense(?value, ?sense)'.format(prop=prop, word=word)):
                 yield prop, q['?sense']
 
