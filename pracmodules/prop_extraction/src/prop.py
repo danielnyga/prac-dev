@@ -27,7 +27,7 @@ from prac.core.base import PRACModule, PRACPIPE
 from prac.core.inference import PRACInferenceStep
 from prac.pracutils.utils import prac_heading
 from pracmln.mln import NoConstraintsError
-from pracmln.mln.base import parse_mln
+from pracmln.mln.base import parse_mln, MLN
 from pracmln import praclog
 from pracmln.utils.project import MLNProject
 from pracmln.utils.visualization import get_cond_prob_png
@@ -44,8 +44,10 @@ class PropExtraction(PRACModule):
     properties and objects.
     '''
 
+    def initialize(self):
+        self.mln = MLN.load(os.path.join(self.module_path, 'mln', 'predicates.mln'))
 
-#     @PRACPIPE
+
     def __call__(self, node, **params):
 
         # ======================================================================
@@ -68,9 +70,6 @@ class PropExtraction(PRACModule):
 
         
         dbs = node.outdbs
-        out(dbs)
-        out(node)
-        out(node.infchain)
         infstep = PRACInferenceStep(node, self)
         
 

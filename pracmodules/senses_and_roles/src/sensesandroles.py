@@ -127,9 +127,8 @@ class SensesAndRoles(PRACModule):
             unified_db = new_tmp_union_db.union(resultdb, mln=self.prac.mln)
 #             node.frame.actionroles = defaultdict(list)
             for role, word in unified_db.rolesw(actioncore):
-                print role, word
                 sense = unified_db.sense(word)
-                props = unified_db.properties(word)
+                props = dict(unified_db.properties(word))
                 obj = Object(self.prac, id_=word, type_=sense, props=props, syntax=node.pracinfer.buildword(unified_db, word))
                 actionroles[role].append(obj)
 
