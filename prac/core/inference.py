@@ -204,14 +204,16 @@ class PRACInferenceNode(object):
                         return 'roles_transformation'
             return 'plan_generation'
         elif previous_module == 'roles_transformation':
-            for outdb in self.outdbs:
-                for r in outdb.query('achieved_by(?w,?a)'):
-                    actioncore = r['?a']
-                    mod = self.pracinfer.prac.module('roles_transformation')
-                    plans = mod.getPlanList()
-                    if actioncore not in plans:
-                        return 'achieved_by'
-            return 'plan_generation'
+            if hasattr(self, 'achieved_by'):
+                return 'plan_generation'
+#             for outdb in self.outdbs:
+#                 for r in outdb.query('achieved_by(?w,?a)'):
+#                     actioncore = r['?a']
+#                     mod = self.pracinfer.prac.module('roles_transformation')
+#                     plans = mod.getPlanList()
+#                     if actioncore not in plans:
+#                         return 'achieved_by'
+#             return 'plan_generation'
         elif previous_module == 'complex_achieved_by':
             return 'achieved_by'
         elif previous_module == 'plan_generation':
@@ -278,21 +280,33 @@ class PRACInference(object):
         if type(stopat) not in (tuple, list):
             stopat = [stopat]
         while self.fringe:
-            node = self.fringe.pop(0)
-            modname = node.next_module()
+            modname = self.next_module()
             if modname in stopat: break
-            if modname:
-                self._logger.debug('running %s' % modname)
-                module = self.prac.module(modname)
-                nodes = list(module(node))
-                node.previous_module = modname
-                for n in nodes:
-                    n.previous_module = module.name
-                self.fringe.extend(nodes)
-#                 out('in:', node.laststep.indbs)
-#                 out('out:', node.outdbs)
+            self.runstep()
         return self
 
+    
+    def next_module(self):
+        if not self.fringe:
+            return None
+        return self.fringe[0].next_module()
+    
+    
+    def runstep(self):
+        if not self.fringe: return
+        node = self.fringe.pop(0)
+        modname = node.next_module()
+        if modname:
+            self._logger.debug('running %s' % modname)
+            module = self.prac.module(modname)
+            nodes = list(module(node))
+            node.previous_module = modname
+            for n in nodes:
+                n.previous_module = module.name
+            self.fringe.extend(nodes)
+        return node
+
+        
 
     def steps(self):
         q = list(self.root)
