@@ -272,8 +272,7 @@ class PRACInference(object):
             self.fringe.append(NLInstruction(self, i, pred=pred))
             pred = self.fringe[-1]
         self.root = list(self.fringe)
-#         for n in self.fringe:
-#             print n, n.pred
+        self.lastnode = None
     
     
     def run(self, stopat=None):
@@ -304,8 +303,8 @@ class PRACInference(object):
             for n in nodes:
                 n.previous_module = module.name
             self.fringe.extend(nodes)
+        self.lastnode = node
         return node
-
         
 
     def steps(self):
