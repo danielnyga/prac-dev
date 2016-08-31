@@ -28,11 +28,12 @@ from prac.core.base import PRACModule, PRACPIPE, PRACDatabase
 from prac.core.inference import PRACInferenceStep
 from prac.pracutils.utils import prac_heading
 from pracmln.mln.base import parse_mln
-from pracmln.mln.util import colorize
+from pracmln.mln.util import colorize, out
 from pracmln import praclog
 from pracmln.utils.project import MLNProject
 from pracmln.utils.visualization import get_cond_prob_png
 from pracmln.mln.errors import NoConstraintsError
+from prac.db.ies.models import Object
 
 
 logger = praclog.logger(__name__, praclog.DEBUG)
@@ -71,97 +72,103 @@ class RolesTransformation(PRACModule):
 
         dbs = node.outdbs
         infstep = PRACInferenceStep(node, self)
-        planlist = self.getPlanList()
+#         planlist = self.getPlanList()
 
         pngs = {}
-        for i, db in enumerate(dbs):
-
+        for i, db_ in enumerate(dbs):
+#             db = db_.copy()
+#             db = PRACDatabase(self.prac)
             # ==================================================================
             # Preprocessing
             # ==================================================================
-
-            skip_db = False
-            for _, actioncore in db.actioncores(): 
-                if actioncore in planlist:
-                    skip_db = True
-
-            infstep.indbs.append(db)
+            actioncore = node.frame.actioncore
+            logger.debug('Action core: {}'.format(actioncore))
+            if params.get('project', None) is None:
+                logger.debug('Loading Project: {}.pracmln'.format(colorize(actioncore, (None, 'cyan', True), True)))
+                projectpath = os.path.join(self.module_path, '{}Transformation.pracmln'.format(actioncore))
+                project = MLNProject.open(projectpath)
+            else:
+                logger.debug(colorize('Loading Project from params', (None, 'cyan', True), True))
+                projectpath = os.path.join(params.get('projectpath', None) or self.module_path,
+                                           params.get('project').name)
+                project = params.get('project')
+    
+            mlntext = project.mlns.get(project.queryconf['mln'], None)
+            mln = parse_mln(mlntext, searchpaths=[self.module_path],
+                            projectpath=projectpath,
+                            logic=project.queryconf.get('logic', 'FirstOrderLogic'),
+                            grammar=project.queryconf.get('grammar', 'PRACGrammar'))
+            result_db = None
             
-            if skip_db:
-                infstep.outdbs.append(db)
-                continue
-
-            for _, actioncore in db.achieved_by():
-                logger.debug('Action core: {}'.format(actioncore))
-                if params.get('project', None) is None:
-                    logger.debug('Loading Project: {}.pracmln'.format(colorize(actioncore, (None, 'cyan', True), True)))
-                    projectpath = os.path.join(self.module_path, '{}Transformation.pracmln'.format(actioncore))
-                    project = MLNProject.open(projectpath)
-                else:
-                    logger.debug(colorize('Loading Project from params', (None, 'cyan', True), True))
-                    projectpath = os.path.join(params.get('projectpath', None) or self.module_path,
-                                               params.get('project').name)
-                    project = params.get('project')
-
-                mlntext = project.mlns.get(project.queryconf['mln'], None)
-                mln = parse_mln(mlntext, searchpaths=[self.module_path],
-                                projectpath=projectpath,
-                                logic=project.queryconf.get('logic', 'FirstOrderLogic'),
-                                grammar=project.queryconf.get('grammar', 'PRACGrammar'))
-
-                result_db = None
-
-                try:
-
-                    # ==========================================================
-                    # Inference
-                    # ==========================================================
-                    db.write()
-                    infer = self.mlnquery(config=project.queryconf, db=db,
-                                          verbose=self.prac.verbose > 2,
-                                          mln=mln)
-                    result_db = infer.resultdb
-
-                    if self.prac.verbose == 2:
-                        print
-                        print prac_heading('INFERENCE RESULTS')
-                        print
-                        infer.write()
-
-                except NoConstraintsError:
-                    result_db = db
-
-                # ==============================================================
-                # Postprocessing
-                # ==============================================================
-
-                r_db = PRACDatabase(self.prac)
-                roles = self.prac.actioncores[actioncore].roles
-                for atom, truth in sorted(result_db.evidence.iteritems()):
-                    if any(r in atom for r in roles):
-                        (_, predname, args) = self.prac.mln.logic.parse_literal(atom)
-                        if args[-1] == actioncore:
-                            r_db << (atom, truth)
-
-                unified_db = db.union(r_db, mln=self.prac.mln)
-
-                if actioncore not in planlist:
-                    r_db_ = PRACDatabase(self.prac)
-                    actionverb = ''
-
-                    # It will be assumed that there is only one true action_
-                    # core predicate per database
-                    for actionverb, actioncore in unified_db.actioncores(): break
-
-                    for atom, truth in sorted(unified_db.evidence.iteritems()):
-                        if 'action_core' in atom: continue
-                        r_db_ << (atom, truth)
-                    r_db_ << ('action_core({},{})'.format(actionverb, actioncore))
-                    infstep.outdbs.append(r_db_)
-                else:
-                    self.isLastActionCoreAPlan = True
-                    infstep.outdbs.append(unified_db)
-
+            for pdb in node.parent.outdbs:
+                db = pdb.copy()             
+                db = db.union(db_)
+                infstep.indbs.append(db)
+                ac = node.parent.frame.actioncore
+#                 db << 'achieved_by(%s, %s)' % (ac, actioncore)
+#             for role, w in pdb.rolesw(ac):
+#                 out(role, w)
+#                 db << '%s(%s, %s)' % (role, w, ac)
+            
+            try:
+                # ==========================================================
+                # Inference
+                # ==========================================================
+                db.write()
+                infer = self.mlnquery(config=project.queryconf, db=db,
+                                      verbose=self.prac.verbose > 2,
+                                      mln=mln)
+                result_db = infer.resultdb
+    
+                if self.prac.verbose == 2:
+                    print
+                    print prac_heading('INFERENCE RESULTS')
+                    print
+                    infer.write()
+    
+            except NoConstraintsError:
+                result_db = db
+    
+            # ==============================================================
+            # Postprocessing
+            # ==============================================================
+    
+            r_db = PRACDatabase(self.prac)
+            roles = self.prac.actioncores[actioncore].roles
+            for atom, truth in sorted(result_db.evidence.iteritems()):
+                if any(r in atom for r in roles):
+                    _, predname, args = self.prac.mln.logic.parse_literal(atom)
+                    word, ac = args
+                    if ac == actioncore:
+                        r_db << (atom, truth)
+                        if truth:
+                            sense = pdb.sense(word)
+                            props = pdb.properties(word)
+                            obj = Object(self.prac, id_=word, type_=sense, props=props, syntax=node.pracinfer.buildword(pdb, word))
+                            node.frame.actionroles[predname] = obj
+            
+            unified_db = db.union(r_db, mln=self.prac.mln)
+    
+    #         if actioncore not in planlist:
+            r_db_ = PRACDatabase(self.prac)
+#             actionverb = ''
+    
+            # It will be assumed that there is only one true action_
+            # core predicate per database
+            for actionverb, actioncore in unified_db.actioncores(): break
+    
+            for atom, truth in sorted(unified_db.evidence.iteritems()):
+#                 out(atom, truth)
+                if 'action_core' in atom: continue
+                r_db_ << (atom, truth)
+            acatom = ('action_core({},{})'.format(actionverb, actioncore))
+#             print acatom
+            r_db_ << acatom
+            infstep.outdbs.append(r_db_)
+    #     else:
+    #         self.isLastActionCoreAPlan = True
+    #         infstep.outdbs.append(unified_db)
+    
             pngs['RolesTransformation - ' + str(i)] = get_cond_prob_png(project.queryconf.get('queries', ''), dbs,
                                                                         filename=self.name)
             infstep.png = pngs

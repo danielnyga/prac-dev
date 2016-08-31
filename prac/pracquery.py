@@ -134,7 +134,10 @@ if __name__ == '__main__':
     frames = []
     for step in infer.steps():
         print step.frame
-    
+    print prac_heading('cram plans', color='blue')
+    for step in infer.steps():
+        if hasattr(step, 'plan'):
+            print step.plan
     exit(0)
     is_inference_process_aborted = False
     

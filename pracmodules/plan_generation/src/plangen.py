@@ -39,7 +39,7 @@ class PlanGenerator(PRACModule):
     by previous modules.
     '''
 
-    def __call__(self, pracinference, **params):
+    def __call__(self, node, **params):
 
         # ======================================================================
         # Initialization
@@ -50,9 +50,8 @@ class PlanGenerator(PRACModule):
         if self.prac.verbose > 0:
             print prac_heading('Generating CRAM Plan(s)')
 
-        infstep = PRACInferenceStep(pracinference, self)
-        dbs = pracinference.inference_steps[-1].output_dbs
-        infstep.output_dbs = dbs
+        dbs = node.outdbs
+        infstep = PRACInferenceStep(node, self)
         infstep.inferred_roles = {}
         infstep.executable_plans = []
         properties = [p.name for p in MLN.load(os.path.join(self.module_path, '..',
@@ -127,9 +126,9 @@ class PlanGenerator(PRACModule):
 
                     for assignment in role_assignments:
                         infstep.inferred_roles[ac.name] = assignment
-                        infstep.executable_plans.append(ac.parameterize_plan(**assignment))
+                        node.plan = ac.parameterize_plan(**assignment)
 
-                    if self.prac.verbose > 1:
+                    if self.prac.verbose:
                         print
                         print prac_heading('PLAN GENERATION RESULTS')
                         print colorize('actioncore:', (None, 'white', True), True), colorize(ac.name, (None, 'cyan', True), True)
@@ -138,4 +137,4 @@ class PlanGenerator(PRACModule):
                             for x in assignment:
                                 print '\t{}: {}'.format(colorize(x, (None, 'white', True), True), colorize(assignment[x], (None, 'cyan', True), True))
                     break
-        return infstep
+        return []

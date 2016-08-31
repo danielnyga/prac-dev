@@ -165,8 +165,8 @@ class PRACInferenceNode(object):
         if previous_module == 'nl_parsing':
             return 'ac_recognition'
         elif previous_module == 'ac_recognition':
-#             return 'prop_extraction'
-#         elif previous_module == 'prop_extraction':
+            return 'prop_extraction'
+        elif previous_module == 'prop_extraction':
             return 'senses_and_roles'
         elif previous_module == 'senses_and_roles':
             return 'coref_resolution'
@@ -206,6 +206,7 @@ class PRACInferenceNode(object):
         elif previous_module == 'roles_transformation':
             if hasattr(self, 'achieved_by'):
                 return 'plan_generation'
+            else: return 'achieved_by'
 #             for outdb in self.outdbs:
 #                 for r in outdb.query('achieved_by(?w,?a)'):
 #                     actioncore = r['?a']
