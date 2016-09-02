@@ -25,6 +25,9 @@ action_core: Adding
 action_roles: ['theme','goal','action_verb','unit','amount']
 required_action_roles: ['theme','goal','action_verb']
 ---
+action_core: Arranging
+action_roles: ['obj_to_be_arranged','action_verb']
+---
 action_core: Baking
 action_roles: ['theme','action_verb']
 ---
