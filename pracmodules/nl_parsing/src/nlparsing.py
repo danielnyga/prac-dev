@@ -245,7 +245,8 @@ class NLParsing(PRACModule):
                 for x in itertools.product('_-', repeat=2):
                     tmpword = '{}{}{}{}{}'.format(instr[i], x[0], instr[min(len(instr)-1, i+1)],
                                                   x[1], instr[min(len(instr)-1, i+2)])
-                    if len(wn.synsets(tmpword)) > 0:
+                    # this is hack for the concept on_the_table
+                    if len(wn.synsets(tmpword)) > 0 and tmpword != 'on_the_table':  
                         newinstr.append(tmpword+stop)
                         found = True
                         i += 3
@@ -316,6 +317,16 @@ class NLParsing(PRACModule):
         if self.prac.verbose > 0:
             print colorize('Parsing instruction: "%s"', (None, 'white', True), True) % instr
         dbs =  self.parse([instr])
+        #-----------------------------------------------------------------------
+        # here come some dirty hacks to catch some very frequent and 
+        # annoying parsing errors:
+        
+        # 1. "season" is consequently tagged as a noun. We retag it as a verb
+        for db in dbs:
+            for q in db.query('has_pos(?w,NN)'):
+                if q['?w'].lower().startswith('season'):
+                    db['has_pos(%s,NN)' % q['?w']] = 0
+                    db['has_pos(%s,VB)' % q['?w']] = 1
         pngs = {}
         for i, db in enumerate(dbs):
             infstep.outdbs.append(db)
