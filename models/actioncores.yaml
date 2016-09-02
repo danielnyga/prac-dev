@@ -25,6 +25,9 @@ action_core: Adding
 action_roles: ['theme','goal','action_verb','unit','amount']
 required_action_roles: ['theme','goal','action_verb']
 ---
+action_core: Arranging
+action_roles: ['action_verb','obj_to_be_arranged']
+---
 action_core: Baking
 action_roles: ['theme','action_verb']
 ---
@@ -107,6 +110,10 @@ action_core: Removing
 action_roles: ['action_verb','location','obj_to_be_removed']
 cram_plan: "(remove-object (an object (type {obj_to_be_removed}){obj_to_be_removed_props}) from (a location (type {location}){location_props})"
 ---
+action_core: Rolling
+action_roles: ['theme','action_verb']
+cram_plan: "(roll-out (an object (type {theme}){theme_props})"
+---
 action_core: Serving
 action_roles: ['theme','action_verb']
 ---
@@ -135,6 +142,7 @@ action_roles: ['obj_to_be_stored','action_verb','location']
 action_core: Taking
 required_action_roles: ['obj_to_be_taken','action_verb']
 action_roles: ['action_verb','obj_to_be_taken','location']
+cram_plan: "(take-object (an object (type {obj_to_be_taken}){obj_to_be_taken_props}) from (a location (type {location}){location_props})"
 ---
 action_core: Turning
 action_roles: ['obj_to_be_turned','action_verb']
