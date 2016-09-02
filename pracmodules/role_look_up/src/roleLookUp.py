@@ -123,8 +123,9 @@ class RoleLookUp(PRACModule):
                 frames = [Frame.fromjson(self.prac, d) for d in cursor]
                 c = howtodb.find({constants.JSON_HOWTO_ACTIONCORE: str(actioncore)})
                 frames.extend([Frame.fromjson(self.prac, d) for d in c])
+                frames.sort(key=lambda f: f.specifity(), reverse=True)
                 frames.sort(key=lambda f: node.frame.sim(f), reverse=True)
-                if self.prac.verbose >= 2:
+                if self.prac.verbose >= 2 or logger.level == praclog.DEBUG:
                     print 'found similar frames in the db:'
                     for f in frames:
                         print '%.2f: %s' % (node.frame.sim(f), f)
