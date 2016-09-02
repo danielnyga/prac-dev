@@ -82,21 +82,13 @@ class RoleLookUp(PRACModule):
         :param db:
         :return:
         '''
-        howtos = self.prac.mongodb.prac.howtos
+        howtodb = self.prac.mongodb.prac.howtos
         db_ = db.copy()
         # Assuming there is only one action core
         for word, actioncore in db.actioncores():
             # ==================================================================
             # Preprocessing & Lookup
             # ==================================================================
-            #Represent the inferred roles from the instruction as a dictionary 
-#             givenroles = dict(db.roles(actioncore))
-            
-#             allroles = self.prac.actioncores[actioncore].required_roles
-#             if not allroles:
-#                 allroles = self.prac.actioncores[actioncore].roles
-            # Determine missing roles: All_Action_Roles\Inferred_Roles
-#             out(node.frame)
             missingroles = node.frame.missingroles()#set(allroles).difference(givenroles)
             # Build query: Query should return only frames which have the same actioncore as the instruction 
             # and all required action roles
@@ -120,7 +112,7 @@ class RoleLookUp(PRACModule):
                 if self.prac.verbose > 2:
                     print "Sending query to MONGO DB ..."
 
-                cursor_agg = howtos.aggregate([stage_1, stage_2])
+                cursor_agg = howtodb.aggregate([stage_1, stage_2])
                 
                 # After once iterating through the query result 
                 #it is not possible to iterate again through the result.
@@ -129,6 +121,8 @@ class RoleLookUp(PRACModule):
                 for document in cursor_agg:
                     cursor.append(document[constants.JSON_HOWTO_STEPS])
                 frames = [Frame.fromjson(self.prac, d) for d in cursor]
+                c = howtodb.find({constants.JSON_HOWTO_ACTIONCORE: str(actioncore)})
+                frames.extend([Frame.fromjson(self.prac, d) for d in c])
                 frames.sort(key=lambda f: node.frame.sim(f), reverse=True)
                 if self.prac.verbose >= 2:
                     print 'found similar frames in the db:'
