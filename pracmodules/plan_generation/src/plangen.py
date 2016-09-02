@@ -45,7 +45,11 @@ class PlanGenerator(PRACModule):
         # ======================================================================
         # Initialization
         # ======================================================================
-
+        dbs = node.outdbs
+        infstep = PRACInferenceStep(node, self)
+        infstep.indbs = [db.copy() for db in dbs]
+        infstep.outdbs = [db.copy() for db in dbs]
+        
         logger.debug('Running {}'.format(self.name))
 
         if self.prac.verbose > 0:
