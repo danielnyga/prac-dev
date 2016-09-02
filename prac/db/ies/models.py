@@ -25,9 +25,10 @@ from prac.db.ies import constants
 import datetime
 from prac.db.ies.constants import JSON_HOWTO_IMPORT_DATE, JSON_HOWTO_STEPS,\
     JSON_OBJECT_SYNTAX
-from pracmln.mln.util import edict, out
+from pracmln.mln.util import edict, out, avg
 from pprint import pprint
 from scipy.stats import stats
+import math
 
 
 
@@ -86,7 +87,7 @@ class Frame(object):
                 #we define the the similarity between the instruction and the frame as zero
                 #------------------------------------------------------------------------------ 
                 if sims[-1] == 0: return 0
-        return stats.hmean(sims)
+        return avg(*sims)
     
     
     def specifity(self):
