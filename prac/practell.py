@@ -52,16 +52,17 @@ if __name__ == '__main__':
                 for loc, dirs, files in os.walk(path):
                     for filename in files:
                         with open(os.path.join(loc, filename)) as f:
-                            howtos.append({' '.join(filename.split('-')): f.read().splitlines()})
+                            howtos.append({' '.join(filename.split('-')): filter(None, (line.strip() for line in f))})
             else:
                 for filename in os.listdir(path):
                     if os.path.isdir(filename): continue
                     with open(os.path.join(path, filename)) as f:
-                        howtos.append({' '.join(filename.split('-')): f.read().splitlines()})
+                        howtos.append({' '.join(filename.split('-')): filter(None, (line.strip() for line in f))})
     else:
         for filename in args:
             with open(filename) as f:
-                howtos.append({' '.join(filename.split('-')): f.read().splitlines()})
+                howtos.append({' '.join(filename.split('-')): filter(None, (line.strip() for line in f))})
+
     #===========================================================================
     # start the import 
     #===========================================================================
