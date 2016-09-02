@@ -67,6 +67,8 @@ class CorefResolution(PRACModule):
         ac = None
         pngs = {}
 
+
+
 #         if not preds: return []
         # ======================================================================
         # Preprocessing
@@ -91,15 +93,18 @@ class CorefResolution(PRACModule):
         infstep.indbs = [db.copy() for db in dbs]
 #         infstep.outdbs = [db.copy() for db in infstep.indbs]
         # query action core to load corresponding project
+
         actioncore = node.frame.actioncore
         # clear corefdb and unify current db with the two preceding ones
         corefdb = PRACDatabase(self.prac)
+        corefdb = corefdb.union(dbs, self.prac.mln)
 #         for s in range(max(0, i - 2), i+1):
 #             corefdb = corefdb.union(dbs[s], self.prac.mln)
         for pred in preds:
             logger.debug('unifying with %s' % pred)
             for db in pred.indbs:
                 corefdb = corefdb.union(db, self.prac.mln)
+
         # remove all senses from the databases' domain that are not
         # assigned to any word.
         for q in corefdb.query('!(EXIST ?w (has_sense(?w,?sense)))'):
@@ -150,10 +155,10 @@ class CorefResolution(PRACModule):
 
         # update queries depending on missing roles
         acroles = filter(lambda role: role != 'action_verb', self.prac.actioncores[actioncore].roles)
-        missingroles = [ar for ar in acroles if len(list(newdatabase.query('{}(?w,Adding)'.format(ar)))) == 0]
+        missingroles = [ar for ar in acroles if len(list(newdatabase.query('{}(?w,{})'.format(ar, actioncore)))) == 0]
         conf = project.queryconf
         conf.update({'queries': ','.join(missingroles)})
-        print colorize('querying for {}'.format(conf['queries']), (None, 'green', True), True)
+        print colorize('querying for missing roles {}'.format(conf['queries']), (None, 'green', True), True)
 
         # asserting impossible role-ac combinations, leaving previously
         # inferred roles untouched
