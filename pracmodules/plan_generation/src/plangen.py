@@ -27,7 +27,8 @@ from prac.core.inference import PRACInferenceStep
 from prac.pracutils.utils import prac_heading
 from pracmln import MLN
 from pracmln import praclog
-from pracmln.mln.util import colorize
+from pracmln.mln.util import colorize, out
+from prac.core.errors import ActionKnowledgeError
 
 
 logger = praclog.logger(__name__, praclog.INFO)
@@ -50,9 +51,10 @@ class PlanGenerator(PRACModule):
         if self.prac.verbose > 0:
             print prac_heading('Generating CRAM Plan(s)')
 
-
-        ac = node.pracinfer.prac.actioncores[node.frame.actioncore]
-
+        if not hasattr(self.prac.actioncores[node.frame.actioncore], 'plan'):
+            raise ActionKnowledgeError('I don\'t know how to %s' % node.frame.sentence)
+            yield
+        ac = self.prac.actioncores[node.frame.actioncore]
         # fill dictionary with all inferred roles...
         acdict = dict([(k, v.type) for k, v in node.frame.actionroles.items()])
 
@@ -61,7 +63,7 @@ class PlanGenerator(PRACModule):
 
         # update dictionary with missing roles and roles properties
         for role in ac.roles:
-            if role not in acdict.keys():
+            if acdict.get(role) is None:
                 acdict[role] = 'Unknown'
                 acdict['{}_props'.format(role)] = ''
 
@@ -75,5 +77,3 @@ class PlanGenerator(PRACModule):
             print colorize('assignments:', (None, 'white', True), True)
             for x in acdict:
                 print '\t{}: {}'.format(colorize(x, (None, 'white', True), True), colorize(acdict[x], (None, 'cyan', True), True))
-
-        return []

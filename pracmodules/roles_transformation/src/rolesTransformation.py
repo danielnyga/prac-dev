@@ -28,7 +28,7 @@ from prac.core.base import PRACModule, PRACPIPE, PRACDatabase
 from prac.core.inference import PRACInferenceStep
 from prac.pracutils.utils import prac_heading
 from pracmln.mln.base import parse_mln
-from pracmln.mln.util import colorize, out
+from pracmln.mln.util import colorize, out, stop
 from pracmln import praclog
 from pracmln.utils.project import MLNProject
 from pracmln.utils.visualization import get_cond_prob_png
@@ -73,7 +73,7 @@ class RolesTransformation(PRACModule):
         dbs = node.outdbs
         infstep = PRACInferenceStep(node, self)
 #         planlist = self.getPlanList()
-
+#         out(node.parent.frame, '->', node.frame)
         pngs = {}
         for i, db_ in enumerate(dbs):
 #             db = db_.copy()
@@ -99,22 +99,23 @@ class RolesTransformation(PRACModule):
                             logic=project.queryconf.get('logic', 'FirstOrderLogic'),
                             grammar=project.queryconf.get('grammar', 'PRACGrammar'))
             result_db = None
-            
+                
             for pdb in node.parent.outdbs:
-                db = pdb.copy()             
+                db = pdb.copy()
                 db = db.union(db_)
+                objs = {o.id for o in node.parent.frame.actionroles.values()}
+                for w in set(db.domains['word']):
+                    if w not in objs:
+                        db.rmval('word', w)
                 infstep.indbs.append(db)
                 ac = node.parent.frame.actioncore
-#                 db << 'achieved_by(%s, %s)' % (ac, actioncore)
-#             for role, w in pdb.rolesw(ac):
-#                 out(role, w)
-#                 db << '%s(%s, %s)' % (role, w, ac)
-            
+                db << 'achieved_by(%s, %s)' % (ac, actioncore)
+                for role, object_ in node.parent.frame.actionroles.iteritems():
+                    db << '%s(%s, %s)' % (role, object_.id, ac)
             try:
                 # ==========================================================
                 # Inference
                 # ==========================================================
-                db.write()
                 infer = self.mlnquery(config=project.queryconf, db=db,
                                       verbose=self.prac.verbose > 2,
                                       mln=mln)
@@ -125,14 +126,13 @@ class RolesTransformation(PRACModule):
                     print prac_heading('INFERENCE RESULTS')
                     print
                     infer.write()
-    
             except NoConstraintsError:
+                logger.error('no constraints in role transformation: %s -> %s' % (node.parent.frame, node.frame))
                 result_db = db
-    
+            
             # ==============================================================
             # Postprocessing
             # ==============================================================
-    
             r_db = PRACDatabase(self.prac)
             roles = self.prac.actioncores[actioncore].roles
             for atom, truth in sorted(result_db.evidence.iteritems()):
@@ -146,28 +146,18 @@ class RolesTransformation(PRACModule):
                             props = pdb.properties(word)
                             obj = Object(self.prac, id_=word, type_=sense, props=props, syntax=node.pracinfer.buildword(pdb, word))
                             node.frame.actionroles[predname] = obj
-            
+#             out('->', node.frame)
             unified_db = db.union(r_db, mln=self.prac.mln)
-    
-    #         if actioncore not in planlist:
             r_db_ = PRACDatabase(self.prac)
-#             actionverb = ''
     
             # It will be assumed that there is only one true action_
-            # core predicate per database
-            for actionverb, actioncore in unified_db.actioncores(): break
+            # c1ore predicate per database
+#             for actionverb, actioncore in unified_db.actioncores(): break
     
             for atom, truth in sorted(unified_db.evidence.iteritems()):
-#                 out(atom, truth)
                 if 'action_core' in atom: continue
                 r_db_ << (atom, truth)
-            acatom = ('action_core({},{})'.format(actionverb, actioncore))
-#             print acatom
-            r_db_ << acatom
             infstep.outdbs.append(r_db_)
-    #     else:
-    #         self.isLastActionCoreAPlan = True
-    #         infstep.outdbs.append(unified_db)
     
             pngs['RolesTransformation - ' + str(i)] = get_cond_prob_png(project.queryconf.get('queries', ''), dbs,
                                                                         filename=self.name)

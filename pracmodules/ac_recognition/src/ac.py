@@ -60,8 +60,6 @@ class ActionCoreIdentification(PRACModule):
             projectpath = os.path.join(params.get('projectpath', None) or self.module_path, params.get('project').name)
             ac_project = params.get('project')
 
-        
-        
         dbs = node.outdbs
 
         mlntext = ac_project.mlns.get(ac_project.queryconf['mln'], None)
@@ -113,7 +111,7 @@ class ActionCoreIdentification(PRACModule):
 #             for w, ac in outdb.actioncores():
 #                 out(w, ac)
             for frame in node.pracinfer.buildframes(outdb, sidx, sentence): 
-                node_ = FrameNode(node.pracinfer, frame, node, pred, indbs=[outdb])
+                node_ = FrameNode(node.pracinfer, frame, node, pred, indbs=[outdb], prevmod=self.name)
                 pred = node_
                 yield node_
                 break

@@ -33,7 +33,7 @@ from prac.pracutils.utils import splitd
 
 
 
-
+logger = praclog.logger(__name__, level=praclog.INFO)
 
 class PRACInferenceStep(object):
     '''
@@ -64,14 +64,14 @@ class PRACInferenceNode(object):
     Abstract node in the inference tree spanned by the PRAC
     reasoning pipeline.
     '''
-    def __init__(self, pracinfer, parent, pred, indbs):
+    def __init__(self, pracinfer, parent, pred, indbs, prevmod=None):
         self.pracinfer = pracinfer
         self.parent = parent
         self.infchain = []
         self.previous_module = None
         if parent:
             parent.children.append(self)
-            self.previous_module = parent.previous_module
+        self.previous_module = prevmod
         self.pred = pred
         self.children = []
         self.indbs = indbs
@@ -136,7 +136,8 @@ class PRACInferenceNode(object):
     
     @property
     def outdbs(self):
-        if not self.infchain: return self.indbs
+        if not self.infchain: 
+            return self.indbs
         return self.infchain[-1].outdbs
     
     
@@ -155,13 +156,12 @@ class PRACInferenceNode(object):
         :return:    the next module to be executed according to the search
                     algorithm as a string
         '''
-#         if not self.infchain:
-#             return 'nl_parsing'
-#         previous_module = self.infchain[-1].module.name
         previous_module = self.previous_module
+#         out(previous_module)
+#         if isinstance(self, FrameNode):
+#             out(self.frame)
         if previous_module is None:
             return 'nl_parsing'
-
         if previous_module == 'nl_parsing':
             return 'ac_recognition'
         elif previous_module == 'ac_recognition':
@@ -171,64 +171,32 @@ class PRACInferenceNode(object):
         elif previous_module == 'senses_and_roles':
             return 'coref_resolution'
         elif previous_module == 'coref_resolution':
-            for outdb in self.outdbs:
-                
-                if self.frame.missingroles:
-                    return 'role_look_up'
-                
-                for r in outdb.query('action_core(?w, ?a)'):
-                    actioncore = r['?a']
-                    mod = self.prac.module('roles_transformation')
-                    plans = mod.getPlanList()
-                    if actioncore not in plans: return 'achieved_by'
-
-            return 'plan_generation'
-        elif previous_module == 'role_look_up':
-            for outdb in self.outdbs:
-                for r in outdb.query('action_core(?w, ?a)'):
-                    actioncore = r['?a']
-                    mod = self.pracinfer.prac.module('roles_transformation')
-                    plans = mod.getPlanList()
-                    if actioncore not in plans: return 'achieved_by'
-
+            if self.frame.missingroles():
+                return 'role_look_up'
+            elif hasattr(self.pracinfer.prac.actioncores[self.frame.actioncore], 'plan'): 
                 return 'plan_generation'
-
-        elif previous_module == 'achieved_by':
-            # TODO ADD complex achieved by support
-            for outdb in self.outdbs:
-                for r in outdb.query('achieved_by(?w, ?a)'):
-                    actioncore = r['?a']
-                    if actioncore == 'Complex':
-                        return 'complex_achieved_by'
-                    else:
-                        return 'roles_transformation'
-            return 'plan_generation'
-        elif previous_module == 'roles_transformation':
-            if hasattr(self, 'achieved_by'):
+            else:
+                return 'achieved_by'
+        elif previous_module == 'role_look_up':
+            if hasattr(self.pracinfer.prac.actioncores[self.frame.actioncore], 'plan'):
                 return 'plan_generation'
             else: return 'achieved_by'
-#             for outdb in self.outdbs:
-#                 for r in outdb.query('achieved_by(?w,?a)'):
-#                     actioncore = r['?a']
-#                     mod = self.pracinfer.prac.module('roles_transformation')
-#                     plans = mod.getPlanList()
-#                     if actioncore not in plans:
-#                         return 'achieved_by'
-#             return 'plan_generation'
-        elif previous_module == 'complex_achieved_by':
-            return 'achieved_by'
+        elif previous_module == 'achieved_by':
+            return 'roles_transformation'
+        elif previous_module == 'roles_transformation':
+            if hasattr(self.pracinfer.prac.actioncores[self.frame.actioncore], 'plan'):
+                return 'plan_generation'
+            else:
+                return 'achieved_by'
         elif previous_module == 'plan_generation':
             return None
 
-        return None
-
-        
         
 class NLInstruction(PRACInferenceNode):
     '''Node in the PRAC inference tree that represents an unprocessed
     natural-language instruction.'''
-    def __init__(self, pracinfer, instr, pred=None):
-        PRACInferenceNode.__init__(self, pracinfer=pracinfer, parent=None, pred=pred, indbs=None)
+    def __init__(self, pracinfer, instr, pred=None, prevmod=None):
+        PRACInferenceNode.__init__(self, pracinfer=pracinfer, parent=None, pred=pred, indbs=None, prevmod=prevmod)
         self.instr = instr
     
     
@@ -239,11 +207,10 @@ class NLInstruction(PRACInferenceNode):
 class FrameNode(PRACInferenceNode):
     '''Node representing a Frame.'''
     
-    def __init__(self, pracinfer, frame, parent=None, pred=None, indbs=None):
-        PRACInferenceNode.__init__(self, pracinfer=pracinfer, parent=parent, pred=pred, indbs=indbs)
+    def __init__(self, pracinfer, frame, parent=None, pred=None, indbs=None, prevmod=None):
+        PRACInferenceNode.__init__(self, pracinfer=pracinfer, parent=parent, pred=pred, indbs=indbs, prevmod=prevmod)
         self.frame = frame
         
-
     def __str__(self):
         return str(self.frame)
         
@@ -301,10 +268,11 @@ class PRACInference(object):
             module = self.prac.module(modname)
             nodes = list(module(node))
             node.previous_module = modname
-            for n in nodes:
-                n.previous_module = module.name
             self.fringe.extend(nodes)
         self.lastnode = node
+#         if type(node) == FrameNode:
+#             out('indbs:', list(node.indbs))
+#             out('outdbs:', list(node.outdbs))
         return node
         
 
@@ -314,7 +282,15 @@ class PRACInference(object):
             n = q.pop(0)
             if isinstance(n, FrameNode) and not n.children:
                 yield n
-            q.extend(n.children)
+            q = n.children + q
+
+    def write(self):
+        q = list(self.root)
+        while q:
+            n = q.pop(0)
+            print ' ' * len(list(n.parentspath())), n
+            q = n.children + q
+
 
 
     def buildframes(self, db, sidx, sentence):

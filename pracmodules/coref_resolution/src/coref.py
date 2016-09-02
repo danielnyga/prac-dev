@@ -62,8 +62,6 @@ class CorefResolution(PRACModule):
         preds = list(node.rdfs(goaltest=lambda n: isinstance(n, FrameNode) and not n.children, all=True))[:2]
 #         laststep = node.laststep
         dbs = node.outdbs
-        for db in dbs:
-            out(list(db.syntax()))
         infstep = PRACInferenceStep(node, self)
         projectpath = self.module_path
         ac = None
@@ -124,7 +122,7 @@ class CorefResolution(PRACModule):
                         break
                     if not cont: continue
                     corefdb << 'distance({},DIST{})'.format(w, sidx)
-                    print 'distance({},DIST{})'.format(w, sidx) 
+#                     print 'distance({},DIST{})'.format(w, sidx) 
             
             logger.debug('loading Project: {}'.format(colorize(actioncore, (None, 'cyan', True), True)))
             project = MLNProject.open(os.path.join(projectpath, '{}.pracmln'.format(actioncore)))
