@@ -59,8 +59,12 @@ class Frame(object):
     
     def __str__(self):
         return '%s [%s]' % (self.actioncore, ', '.join(['%s: %s' % (k, v) for k, v in self.actionroles.items()]))
-        
-    
+
+
+    def repstr(self):
+        return '{} [{}]'.format(self.actioncore, ', '.join(['{}: {}'.format(k, v.repstr()) for k, v in self.actionroles.items()]))
+
+
     def sim(self, f):
         '''
         Determines the frame similarity of this frame and another frame f.
@@ -283,8 +287,12 @@ class Object(object):
     
     def __repr__(self):
         return '<Object id=%s type=%s at 0x%x>' % (self.id, self.type, hash(self))
-    
-    
+
+
+    def repstr(self):
+        return '<{}: {}>'.format(self.id, self.type)
+
+
     def __str__(self):
         return repr(self)#'%s: %s' % (self.id, self.type)
     

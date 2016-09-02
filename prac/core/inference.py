@@ -213,7 +213,11 @@ class FrameNode(PRACInferenceNode):
         
     def __str__(self):
         return str(self.frame)
-        
+
+
+    def repstr(self):
+        return self.frame.repstr()
+
 
 class PRACInference(object):
     '''
