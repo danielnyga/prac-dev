@@ -366,7 +366,8 @@ class ActionCore(object):
             if requiredroles:
                 for rc in requiredroles:
                     action_core.required_roles.append(rc)
-            action_core.plan = content.get(ActionCore.PLAN)
+            if content.get(ActionCore.PLAN):
+                action_core.plan = content.get(ActionCore.PLAN)
             actioncores[action_core.name] = action_core
         return actioncores
 

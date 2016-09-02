@@ -952,10 +952,8 @@ class WordNet(object):
 
 if __name__ == '__main__':
     wn = WordNet()
-    for synset in  wn.get_all_synsets():
-        print synset
-    
-    
+    print wn.similarity('mixer.n.04', 'oven.n.01', simtype='wup')
+    exit(0)
     s1 = wn.synsets('150', 'c')[0]
     s2 = wn.synsets('155.6', 'c')[0]
 

@@ -25,7 +25,7 @@ from prac.db.ies import constants
 import datetime
 from prac.db.ies.constants import JSON_HOWTO_IMPORT_DATE, JSON_HOWTO_STEPS,\
     JSON_OBJECT_SYNTAX
-from pracmln.mln.util import edict
+from pracmln.mln.util import edict, out
 from pprint import pprint
 from scipy.stats import stats
 
@@ -74,7 +74,7 @@ class Frame(object):
         :return:      The frame similarity of this frame and ``f``.
         '''
         verbsim = self.prac.wordnet.similarity(str(self.actionroles['action_verb'].type),
-                                        str(f.actionroles['action_verb'].type))
+                                        str(f.actionroles['action_verb'].type), simtype='wup')
         #------------------------------------------------------------------------------ 
         # This is a sanity check to revoke false inferred 
         # frames during the information extraction process.
@@ -83,7 +83,7 @@ class Frame(object):
         sims = []
         for rolename, rolevalue in self.actionroles.items():
             if rolename in f.actionroles:
-                sims.append(self.prac.wordnet.similarity(f.actionroles[rolename].type, rolevalue.type))
+                sims.append(self.prac.wordnet.similarity(f.actionroles[rolename].type, rolevalue.type, simtype='wup'))
                 #------------------------------------------------------------------------------ 
                 #Sometimes Stanford Parser parses some objects as adjectives
                 #due to the fact that nouns and adjectives cannot be compared
@@ -91,6 +91,19 @@ class Frame(object):
                 #------------------------------------------------------------------------------ 
                 if sims[-1] == 0: return 0
         return stats.hmean(sims)
+    
+    
+    def specifity(self):
+        '''
+        Computes how 'specific' this howto is.
+        
+        Specifity is defined in terms of the number of roles being assigned 
+        in the steps relatively to the total number of roles. A howto with
+        all roles assigned in all steps will thus have a specifity of 1,
+        whereas one with all roles unknown has specifity of 0.
+        '''
+        rolecount = [1 - float(len(s.missingroles()))/len(self.prac.actioncores[s.actioncore].roles) for s in self.steps]
+        return stats.hmean(rolecount)
     
     
     def word(self, wid):
@@ -102,13 +115,16 @@ class Frame(object):
             if o.id == oid: return o
         
         
+    def copy(self):
+        return Frame.fromjson(self.prac, self.tojson())
+    
     
     def tojson(self):
-        return {constants.JSON_FRAME_SENTENCE: self.sentence,
+        return tojson({constants.JSON_FRAME_SENTENCE: self.sentence,
                 constants.JSON_FRAME_ACTIONCORE: self.actioncore,
                 constants.JSON_FRAME_SYNTAX: self.syntax,
                 constants.JSON_FRAME_WORDS: [w.tojson() for w in self.words],
-                constants.JSON_FRAME_ACTIONCORE_ROLES: self.actionroles}
+                constants.JSON_FRAME_ACTIONCORE_ROLES: self.actionroles})
 
 
     @staticmethod
@@ -124,6 +140,39 @@ class Frame(object):
     def missingroles(self):
         return [r for r in self.prac.actioncores[self.actioncore].roles if r not in self.actionroles]
         
+
+    
+    def itersyntax(self):
+        for predname, tuples in self.syntax:
+            for w1, w2 in tuples:
+                yield '%s(%s,%s)' % (predname, w1, w2) 
+        
+    
+    def todb(self):
+        for a in self.itersyntax(): yield a
+        if 'action_verb' in self.actionroles:
+            yield 'action_core(%s,%s)' % (self.actionroles['action_verb'].id, self.actioncore)
+        for role, obj in self.actionroles.iteritems():
+            yield '%s(%s,%s)' %(role, obj.id, self.actioncore)
+            yield 'has_sense(%s,%s)' % (obj.id, obj.type)
+            yield 'is_a(%s,%s)' % (obj.type, obj.type)
+            yield 'has_pos(%s,%s)' % (obj.id, obj.syntax.pos)
+            
+            
+    def __eq__(self, other):
+        if other is None: return False
+        if self.actioncore != other.actioncore: return False
+        for role, obj in self.actionroles.items():
+            if other.actionroles.get(role) != obj: return False
+        for role, obj in other.actionroles.items():
+            if self.actionroles.get(role) != obj: return False
+        return True
+    
+    
+    def __ne__(self, other):
+        return not self == other
+                
+            
 
 class Howto(Frame):
     '''
@@ -147,18 +196,16 @@ class Howto(Frame):
     @staticmethod
     def fromjson(prac, data):
         return Howto(prac,
-                     instr=Frame.fromjson(data), 
-                     steps=[Frame.fromjson(s) for s in data.get(JSON_HOWTO_STEPS)],
+                     instr=Frame.fromjson(prac, data), 
+                     steps=[Frame.fromjson(prac, s) for s in data.get(JSON_HOWTO_STEPS)],
                      import_date=data.get(JSON_HOWTO_IMPORT_DATE))
 
     def shortstr(self):
         s = 'Howto: %s\nSteps:\n' % Frame.__str__(self)
-#         print self.steps
-#         print [str(f) for f in self.steps]
-#         for f in self.steps:
-#             s += '  - %s\n' % f
         s += '\n'.join([('  - %s' % f) for f in self.steps])
         return s
+
+
 
 class PropertyStore(object):
     '''Store for property values of objects'''
@@ -187,6 +234,13 @@ class PropertyStore(object):
         s = PropertyStore(prac)
         for k, v in data.items(): setattr(s, k, v)
         return s
+    
+    def __eq__(self, other):
+        return self.tojson() == other.tojson()
+    
+    
+    def __ne__(self, other):
+        return not self == other
     
         
 class Object(object):
@@ -219,8 +273,16 @@ class Object(object):
                       type_=data.get(constants.JSON_OBJECT_TYPE),
                       id_=data.get(constants.JSON_OBJECT_ID),
                       props={k: Object.fromjson(v) for k, v in data.get(constants.JSON_OBJECT_PROPERTIES, {}).iteritems()},
-                      syntax=data.get(JSON_OBJECT_SYNTAX))
-        
+                      syntax=Word.fromjson(prac, data.get(JSON_OBJECT_SYNTAX)))
+    
+    def __eq__(self, other):
+        if other is None: return False
+        if self.props != other.props: return False
+        return self.type == other.type
+    
+    
+    def __ne__(self, other):
+        return not self == other    
     
     def __repr__(self):
         return '<Object id=%s type=%s at 0x%x>' % (self.id, self.type, hash(self))

@@ -138,6 +138,7 @@ if __name__ == '__main__':
     for step in infer.steps():
         if hasattr(step, 'plan'):
             print step.plan
+#     infer.write()
     exit(0)
     is_inference_process_aborted = False
     

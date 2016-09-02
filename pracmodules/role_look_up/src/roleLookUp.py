@@ -96,6 +96,7 @@ class RoleLookUp(PRACModule):
 #             if not allroles:
 #                 allroles = self.prac.actioncores[actioncore].roles
             # Determine missing roles: All_Action_Roles\Inferred_Roles
+#             out(node.frame)
             missingroles = node.frame.missingroles()#set(allroles).difference(givenroles)
             # Build query: Query should return only frames which have the same actioncore as the instruction 
             # and all required action roles
@@ -146,7 +147,7 @@ class RoleLookUp(PRACModule):
                             node.frame.actionroles[role] = newobj
                             atom_role = "{}({}, {})".format(role, newword, actioncore)
                             atom_sense = "has_sense({}, {})".format(newword, obj.type)
-                            atom_has_pos = "has_pos({}, {})".format(newword, obj.syntax.get('pos'))
+                            atom_has_pos = "has_pos({}, {})".format(newword, obj.syntax.pos)
                             db_ << (atom_role, 1.0)
                             db_ << (atom_sense, 1.0)
                             db_ << (atom_has_pos, 1.0)
@@ -224,7 +225,6 @@ class RoleLookUp(PRACModule):
         dbs = node.outdbs
         infstep = PRACInferenceStep(node, self)
         infstep.executable_plans = []
-
         pngs = {}
         for i, db in enumerate(dbs):
             # ==================================================================
@@ -236,7 +236,8 @@ class RoleLookUp(PRACModule):
                 print
                 print prac_heading('ROLE COMPLETION RESULTS')
                 for m in missingroles:
-                    print m
+                    r = node.frame.actionroles.get(m)
+                    if r: print m, r.type 
             # ==================================================================
             # Postprocessing
             # ==================================================================

@@ -162,19 +162,18 @@ class SensesAndRoles(PRACModule):
                 raise Exception('no actioncore in database: %s' % olddb)
             
             infstep.applied_settings = project.queryconf.config
-        pprint(actionroles)
+#         pprint(actionroles)
         newframes = splitd(actionroles)
         pred = None
         for newframe in newframes:
-            pprint(newframe)
+#             pprint(newframe)
             f = Frame(self.prac, node.frame.sidx, node.frame.sentence, syntax=list(olddb.syntax()), 
                       words=node.frame.words, actioncore=node.frame.actioncore, actionroles=newframe)
             logger.debug('created new frame %s' % f)
-            for db in infstep.outdbs:
-                out(db.syntax())
-            pred = FrameNode(node.pracinfer, f, node, pred, indbs=infstep.outdbs)
+#             for db in infstep.outdbs:
+#                 out(db.syntax())
+            pred = FrameNode(node.pracinfer, f, node, pred, indbs=infstep.outdbs, prevmod=self.name)
             yield pred
-#         return [node]
 
 
     def role_distributions(self, step):
