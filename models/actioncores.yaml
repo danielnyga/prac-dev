@@ -125,6 +125,10 @@ action_core: Spooning
 action_roles: ['substance','goal','action_verb']
 cram_plan: "(use-spoon (from (an object (type container.n.01)(contains (some stuff (type {substance}){substance_props})))(to (an object (type {goal}){goal_props}))))"
 ---
+action_core: Spreading
+action_roles: ['substance','goal','action_verb']
+cram_plan: "(spread (some stuff (type {substance}){substance_props})(on (an object (type {goal}){goal_props})))"
+---
 action_core: Sprinkling
 action_roles: ['substance','goal','action_verb']
 cram_plan: "(sprinkle (from (an object (type container.n.01)(contains (some stuff (type {substance}){substance_props})))(to (an object (type {goal}){goal_props}))))"
