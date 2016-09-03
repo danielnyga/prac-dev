@@ -96,16 +96,9 @@ class Frame(object):
     
     def specifity(self):
         '''
-        Computes how 'specific' this howto is.
-        
-        Specifity is defined in terms of the number of roles being assigned 
-        in the steps relatively to the total number of roles. A howto with
-        all roles assigned in all steps will thus have a specifity of 1,
-        whereas one with all roles unknown has specifity of 0.
         '''
-        rolecount = [1 - float(len(s.missingroles()))/len(self.prac.actioncores[s.actioncore].roles) for s in self.steps]
-        return stats.hmean(rolecount)
-    
+        return 1.0 - float(len(self.missingroles()))/len(self.prac.actioncores[self.actioncore].roles)
+
     
     def word(self, wid):
         for w in self.words:
@@ -201,11 +194,25 @@ class Howto(Frame):
                      steps=[Frame.fromjson(prac, s) for s in data.get(JSON_HOWTO_STEPS)],
                      import_date=data.get(JSON_HOWTO_IMPORT_DATE))
 
+
     def shortstr(self):
         s = 'Howto: %s\nSteps:\n' % Frame.__str__(self)
         s += '\n'.join([('  - %s' % f) for f in self.steps])
         return s
 
+
+    def specifity(self):
+        '''
+        Computes how 'specific' this howto is.
+        
+        Specifity is defined in terms of the number of roles being assigned 
+        in the steps relatively to the total number of roles. A howto with
+        all roles assigned in all steps will thus have a specifity of 1,
+        whereas one with all roles unknown has specifity of 0.
+        '''
+        specs = [s.specifity() for s in self.steps]
+        specs.append(Frame.specifity(self))
+        return stats.hmean(specs)
 
 
 class PropertyStore(object):
