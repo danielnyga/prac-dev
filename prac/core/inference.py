@@ -21,16 +21,15 @@
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-from prac.pracutils import StopWatch
-from graphviz.dot import Digraph
-from prac.pracutils.pracgraphviz import render_gv
-from pracmln import Database, praclog
-from prac.db.ies.models import Object, Frame, Word
 from collections import defaultdict
-from pracmln.mln.util import out, stop
-import sys
-from prac.pracutils.utils import splitd
 
+from graphviz.dot import Digraph
+
+from prac.db.ies.models import Object, Frame, Word
+from prac.pracutils import StopWatch
+from prac.pracutils.pracgraphviz import render_gv
+from prac.pracutils.utils import splitd
+from pracmln import Database, praclog
 
 
 logger = praclog.logger(__name__, level=praclog.INFO)
