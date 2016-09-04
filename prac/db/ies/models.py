@@ -62,7 +62,7 @@ class Frame(object):
 
 
     def repstr(self):
-        return '{} [{}]'.format(self.actioncore, ', '.join(['{}: {}'.format(k, v.repstr()) for k, v in self.actionroles.items()]))
+        return '{} [{}]'.format(self.actioncore, ', '.join(['{}: {}'.format(k, v.repstr()) for k, v in self.actionroles.items() if k != 'action_verb' ]))
 
 
     def sim(self, f):
@@ -297,7 +297,7 @@ class Object(object):
 
 
     def repstr(self):
-        return '<{}: {}>'.format(self.id, self.type)
+        return '{}'.format(self.type)
 
 
     def __str__(self):
