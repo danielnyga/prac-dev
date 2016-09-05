@@ -338,6 +338,6 @@ class NLParsing(PRACModule):
                 print
 
             pngs['NL Parsing - ' + str(i)] = get_cond_prob_png(','.join([x.name for x in self.mln.predicates[:10]]) + ',...',
-                                                               str(','.join(node.instr)), filename=self.name)
+                                                               str(node.instr), filename=self.name)
             infstep.png = pngs
         yield node
