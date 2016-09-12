@@ -92,16 +92,22 @@ class HowtoImport(object):
         constructs a json representation of the instruction ``instr`` 
         '''
         stopmodules = ('role_look_up', 'achieved_by', 'complex_achieved')
-        infer = PRACInference(self.prac, instr).run(stopmodules)
-        mainresult = [db for step in infer.steps() for db in step.outdbs] #self.prac.query(instr, stopat=stopmodules).inf_steps[-1].output_dbs
-        for step in infer.steps(): 
-            mainframe = step.frame
-        infer = PRACInference(self.prac, steps).run(stopmodules)
-        stepresults = [db for step in infer.steps() for db in step.outdbs]#self.prac.query(steps, stopat=stopmodules).inference_steps[-1]
-#         mainframe = self.buildframes(mainresult[0], 0, instr)
-        frames = [] 
-        for step in infer.steps():
-            frames.append(step.frame)
+        
+        try:
+            infer = PRACInference(self.prac, instr).run(stopmodules)
+            mainresult = [db for step in infer.steps() for db in step.outdbs] #self.prac.query(instr, stopat=stopmodules).inf_steps[-1].output_dbs
+            for step in infer.steps(): 
+                mainframe = step.frame
+        except:
+            mainresult = Frame(self.prac,0,"",[],[],"",{})
+        try:
+            infer = PRACInference(self.prac, steps).run(stopmodules)
+            stepresults = [db for step in infer.steps() for db in step.outdbs]#self.prac.query(steps, stopat=stopmodules).inference_steps[-1]
+            frames = [] 
+            for step in infer.steps():
+                frames.append(step.frame)
+        except:
+            frames = []
         return Howto(self.prac, instr=mainframe, steps=frames)
     
     

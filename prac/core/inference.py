@@ -252,7 +252,11 @@ class PRACInference(object):
         while self.fringe:
             modname = self.next_module()
             if modname in stopat: break
-            self.runstep()
+            try:
+                self.runstep()
+            except:
+                print
+                
         return self
 
     
