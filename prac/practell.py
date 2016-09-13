@@ -73,12 +73,14 @@ if __name__ == '__main__':
             prac.verbose = verbose
             for howto, steps in howto_steps.iteritems():
                 prac.tell(howto=howto, steps=steps)
-        except KeyboardInterrupt: return
+        except:  return
+        
+            
     try:
         cpu_count =  multiprocessing.cpu_count() if options.multicore else 1
         pool = multicore.NonDaemonicPool(cpu_count)
         pool.map(multicore.with_tracing(import_howto), itertools.izip(howtos, itertools.repeat(options.verbose)))
-    except KeyboardInterrupt:
+    except:
         traceback.print_exc()
         pool.terminate()
     else:
