@@ -832,6 +832,67 @@ def are_requirements_set_to_load_module(module_name):
         
     return True
 
+
+def prac2cramcstestbranch(db):
+    
+    print
+    
+def prac2cramcstest(dbs):
+    
+    db_map = {}
+    cs_relations = []
+    
+    for db in dbs:
+        
+        
+        cs_names = sorted(db.domains.get('cs_name', []))
+        if cs_names:
+            #Merge conditions and events together
+            cs_name = cs_names[-1]
+            if cs_name in db_map.keys():
+                db_map[cs_name].append(db.copy())
+            else:
+                db_map[cs_name] = [db.copy()]
+            
+            #Define Else-iF relations
+            if len(cs_names) > 1:
+                cs_names = set(cs_names)
+                added_to_set = False
+                for cs_relation in cs_relations:
+                    if cs_relation.intersection(cs_names):
+                        cs_relation.update(cs_names)
+                        added_to_set = True
+                
+                if not added_to_set:
+                    cs_relations.append(cs_names)
+                
+    
+    print cs_relations
+    print db_map
+    
+    result = []
+    handled_cs_id_list = []
+    
+    #Merge Else-iF relations
+    for cs_id in sorted(db_map.keys()):
+        if cs_id in handled_cs_id_list: continue
+        handled_cs_id_list.append(cs_id)
+        is_cs_id_in_cs_relations = False
+        for cs_relation in cs_relations:
+            if cs_id in cs_relation:
+                is_cs_id_in_cs_relations = True
+                sub_result = []
+                for cs_relation_cs_id in sorted(cs_relation):
+                    handled_cs_id_list.append(cs_relation_cs_id)
+                    sub_result.append(db_map[cs_relation_cs_id])
+                result.append(sub_result)
+                    
+        
+        if not is_cs_id_in_cs_relations:
+            result.append([db_map[cs_id]])
+    print result
+    raw_input("prompt")
+    
 if __name__ == '__main__':
 
     from optparse import OptionParser
@@ -874,12 +935,17 @@ if __name__ == '__main__':
     else: # regular PRAC pipeline
         
         is_inference_process_aborted = False
-        
+        prac2cram_result ={}
         while inference.next_module() != None and not is_inference_process_aborted:
             modulename = inference.next_module()
             
             if are_requirements_set_to_load_module(modulename):
                 module = prac.getModuleByName(modulename)
+                
+                if modulename == 'cs_merger':
+                    print "Performing transform prac2cram message"
+                    prac2cramcstest(inference.inference_steps[-1].output_dbs)
+                
                 prac.run(inference, module)
             else:
                 print 'Cannot infer executable plan.'
@@ -899,6 +965,7 @@ if __name__ == '__main__':
             
             wordnet_module = prac.getModuleByName('wn_senses')
             for db in step.output_dbs:
+                
                 for a in sorted(db.evidence.keys()):
                     v = db.evidence[a]
                     if v > 0.001 and (a.startswith('action_core') or a.startswith(
