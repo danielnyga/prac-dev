@@ -41,6 +41,7 @@ from pracmln.mln.util import ifNone, colorize, out, headline
 from pracmln.utils.config import global_config_filename
 from pracmln.utils.project import MLNProject, PRACMLNConfig
 from pracmln.utils.widgets import FileEditBar
+
 try:
     from pymongo import MongoClient
 except ImportError:
@@ -832,10 +833,35 @@ def are_requirements_set_to_load_module(module_name):
         
     return True
 
+def dummy_action_core_list_generator(db):
+    return [db]
 
-def prac2cramcstestbranch(db):
+def prac2cramcstestbranch(result):
+    global_result = []
     
-    print
+    for if_ac in result:
+        if_ac_dict = {'action_core_name': 'if', 'action_roles': [{'role_name': 'branches', 'role_value': []}]}
+        for branch in if_ac:
+            branch_spec_dict = {}
+            body_list = []
+            condition_list = []
+            for db in branch:
+                is_db_if_event = False
+                for _ in db.query('if_event(?c,?a)'):
+                    is_db_if_event = True
+                
+                if is_db_if_event:
+                    is_db_if_event = False
+                    body_list.append(db)
+                else:
+                    condition_list.append(db)
+            
+            branch_spec_dict['body'] = map(dummy_action_core_list_generator,body_list)
+            branch_spec_dict['condition'] = map(dummy_action_core_list_generator,condition_list)
+            
+        if_ac_dict['action_roles'][0]['role_value'].append(branch_spec_dict)
+        global_result.append(if_ac_dict)    
+    return global_result
     
 def prac2cramcstest(dbs):
     
@@ -890,7 +916,8 @@ def prac2cramcstest(dbs):
         
         if not is_cs_id_in_cs_relations:
             result.append([db_map[cs_id]])
-    print result
+    print prac2cramcstestbranch(result)
+    
     raw_input("prompt")
     
 if __name__ == '__main__':
