@@ -291,8 +291,8 @@ class NLParsing(PRACModule):
 
         logger.debug('Calling Stanford Parser: '.format(cmd))
         envs = os.environ
-        envs.update({"PYTHONPATH": locations.code_base})
-        subprocess.call(cmd, env=envs,)
+        envs.update({"PYTHONPATH": ':'.join(sys.path)})
+        subprocess.call(cmd, env=envs, )
         with open(filepath, 'r') as f:
             c = f.read()
             return parse_db(self.mln, c)
